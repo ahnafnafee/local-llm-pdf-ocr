@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PDF LLM OCR</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="/static/style.css" />
+    </head>
+    <body>
+        <div class="theme-toggle">
+            <button
+                id="theme-btn"
+                class="btn"
+                style="
+                    padding: 0.5rem;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    color: var(--text-main);
+                "
+            >
+                <svg
+                    id="moon-icon"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    ></path>
+                </svg>
+                <svg
+                    id="sun-icon"
+                    class="hidden"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                    ></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="container">
+            <div class="brand">
+                <h1>PDF LLM OCR</h1>
+                <p>Enhance your documents with local LLM vision.</p>
+            </div>
+
+            <!-- Upload View -->
+            <div id="upload-view">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-content">
+                        <svg
+                            class="icon-upload"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                            ></path>
+                        </svg>
+                        <div>
+                            <span
+                                style="
+                                    font-weight: 600;
+                                    color: var(--text-main);
+                                "
+                                >Click to upload</span
+                            >
+                            <span style="color: var(--text-muted)"
+                                >or drag PDF here</span
+                            >
+                        </div>
+                    </div>
+                    <input
+                        type="file"
+                        id="file-input"
+                        accept="application/pdf"
+                        hidden
+                    />
+                </div>
+            </div>
+
+            <!-- Processing View -->
+            <div id="process-view" class="hidden">
+                <div class="processing-state">
+                    <!-- <div class="spinner"></div> -->
+                    <div
+                        class="progress-container"
+                        style="
+                            width: 100%;
+                            height: 8px;
+                            background: #e2e8f0;
+                            border-radius: 4px;
+                            overflow: hidden;
+                            margin-bottom: 1rem;
+                        "
+                    >
+                        <div
+                            id="progress-bar"
+                            style="
+                                width: 0%;
+                                height: 100%;
+                                background: var(--primary);
+                                transition: width 0.3s ease;
+                            "
+                        ></div>
+                    </div>
+                    <h3 id="status-text">Starting...</h3>
+                    <p
+                        id="sub-status"
+                        style="color: var(--text-muted); font-size: 0.9rem"
+                    >
+                        0% Complete
+                    </p>
+                </div>
+            </div>
+
+            <!-- Result View -->
+            <div id="result-view" class="hidden">
+                <div class="result-card">
+                    <h3 style="margin-top: 0">Success!</h3>
+                    <p>Your document has been processed.</p>
+                    <div
+                        style="
+                            display: flex;
+                            gap: 0.5rem;
+                            justify-content: center;
+                            margin-top: 1rem;
+                        "
+                    >
+                        <button id="download-btn" class="btn">
+                            <svg
+                                width="20"
+                                height="20"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                ></path>
+                            </svg>
+                            Download PDF
+                        </button>
+                        <button
+                            id="view-text-btn"
+                            class="btn"
+                            style="
+                                background: var(--surface);
+                                color: var(--text-main);
+                                border: 1px solid var(--border);
+                            "
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                ></path>
+                            </svg>
+                            View Text
+                        </button>
+                    </div>
+                </div>
+
+                <button
+                    id="reset-btn"
+                    class="btn"
+                    style="
+                        background: transparent;
+                        color: var(--text-muted);
+                        margin-top: 1rem;
+                    "
+                >
+                    Process Another
+                </button>
+            </div>
+        </div>
+
+        <!-- Text Preview Modal -->
+        <div
+            id="text-preview"
+            class="hidden"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: flex-end;
+                z-index: 1000;
+                backdrop-filter: blur(2px);
+            "
+        >
+            <div
+                style="
+                    width: 90%;
+                    max-width: 500px;
+                    height: 100%;
+                    background: var(--surface);
+                    border-left: 1px solid var(--border);
+                    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+                    display: flex;
+                    flex-direction: column;
+                    animation: slideIn 0.3s ease-out;
+                "
+            >
+                <!-- Header -->
+                <div
+                    style="
+                        padding: 1.5rem;
+                        border-bottom: 1px solid var(--border);
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    "
+                >
+                    <h3 style="margin: 0; font-weight: 600">Document Text</h3>
+                    <div style="display: flex; gap: 0.5rem">
+                        <button
+                            id="copy-text-btn"
+                            class="btn active"
+                            style="
+                                padding: 0.4rem 0.8rem;
+                                font-size: 0.85rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.4rem;
+                            "
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <rect
+                                    x="9"
+                                    y="9"
+                                    width="13"
+                                    height="13"
+                                    rx="2"
+                                    ry="2"
+                                ></rect>
+                                <path
+                                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                                ></path>
+                            </svg>
+                            Copy
+                        </button>
+                        <button
+                            id="close-preview"
+                            style="
+                                background: transparent;
+                                border: none;
+                                cursor: pointer;
+                                color: var(--text-muted);
+                                padding: 0.4rem;
+                            "
+                        >
+                            <svg
+                                width="24"
+                                height="24"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div
+                    id="text-content"
+                    style="
+                        flex: 1;
+                        padding: 1.5rem;
+                        overflow-y: auto;
+                        white-space: pre-wrap;
+                        line-height: 1.6;
+                        font-family: monospace;
+                        font-size: 0.9rem;
+                        color: var(--text-main);
+                    "
+                ></div>
+            </div>
+        </div>
+
+        <script src="/static/script.js"></script>
+    </body>
+</html>
