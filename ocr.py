@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai import AsyncOpenAI
 import os
 import sys
 from dotenv import load_dotenv
@@ -11,26 +11,26 @@ class OCRProcessor:
         base_url = os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
         model = os.getenv("LLM_MODEL", "allenai/olmocr-2-7b")
         
-        self.client = OpenAI(base_url=base_url, api_key="lm-studio")
+        self.client = AsyncOpenAI(base_url=base_url, api_key="lm-studio")
         self.model = model
 
-    def perform_ocr(self, image_base64):
+    async def perform_ocr(self, image_base64):
         """
         Sends the image to the local LLM for OCR.
         Returns a list of strings (lines) representing the text.
         """
         # logging.debug(f"  - Transcribing with {self.model}...")
 
-        text = self._transcribe(image_base64)
+        text = await self._transcribe(image_base64)
         if not text:
             return []
         
         # Split into lines
         return [line.strip() for line in text.split('\n') if line.strip()]
 
-    def _transcribe(self, image_base64):
+    async def _transcribe(self, image_base64):
         try:
-            response = self.client.chat.completions.create(
+            response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {

@@ -94,58 +94,76 @@ async def process_pdf(
         page_nums = sorted(images_dict.keys())
         total_pages = len(page_nums)
         
-        await manager.send_progress(client_id, f"Converted {total_pages} pages. Starting OCR...", 20)
+        await manager.send_progress(client_id, f"Converted {total_pages} pages. Starting Layout Detection...", 20)
         
-        
-        # 4. Perform Hybrid OCR
+        # 4. Perform Hybrid OCR (Batch Optimized)
         hybrid_aligner = HybridAligner()
+        OCR_CONCURRENCY = int(os.getenv("OCR_CONCURRENCY", 3))
         
         pages_text_for_preview = {} # Clean LLM text
         pages_structured_for_pdf = {} # SuryaOCR boxes
         
-        for idx, page_num in enumerate(page_nums):
-            image_base64 = images_dict[page_num]
-            # Decode for SuryaOCR which needs bytes
-            image_bytes = base64.b64decode(image_base64)
+        # --- Phase A: Batch Layout Detection ---
+        # Collect all image bytes for batch processing
+        all_image_bytes = []
+        for page_num in page_nums:
+            all_image_bytes.append(base64.b64decode(images_dict[page_num]))
             
-            # Progress update per page
-            current_percent = 20 + int((idx / total_pages) * 70) 
+        # Run detection in batch (much faster)
+        await manager.send_progress(client_id, f"Detecting layout for {total_pages} pages...", 25)
+        batch_boxes = await asyncio.to_thread(hybrid_aligner.get_detected_boxes_batch, all_image_bytes)
+        
+        # Initialize structured data with empty text
+        for idx, page_num in enumerate(page_nums):
+             # Create compatibility structure (boxes, "")
+            pages_structured_for_pdf[page_num] = [(box, "") for box in batch_boxes[idx]]
+            
+        # --- Phase B: Async LLM Processing ---
+        semaphore = asyncio.Semaphore(OCR_CONCURRENCY)
+        
+        async def process_page(p_num, p_img_b64, p_boxes):
+            """Worker function to process a single page with semaphore"""
+            async with semaphore:
+                # 1. Async LLM Call
+                llm_lines = await ocr_processor.perform_ocr(p_img_b64)
+                
+                # 2. CPU Alignment (Fast enough to run in loop or thread)
+                if llm_lines:
+                     aligned = await asyncio.to_thread(hybrid_aligner.align_text, p_boxes, llm_lines)
+                     return p_num, llm_lines, aligned
+                else:
+                     return p_num, [], p_boxes
+
+        # Create tasks
+        tasks = []
+        for page_num in page_nums:
+            task = process_page(
+                page_num, 
+                images_dict[page_num], 
+                pages_structured_for_pdf[page_num]
+            )
+            tasks.append(task)
+            
+        # Process as they complete
+        completed_count = 0
+        total_tasks = len(tasks)
+        
+        for coro in asyncio.as_completed(tasks):
+            p_num, text_lines, aligned_data = await coro
+            
+            # Store results
+            pages_text_for_preview[p_num] = text_lines
+            pages_structured_for_pdf[p_num] = aligned_data
+            
+            completed_count += 1
+            # Progress map: 30% -> 90%
+            percent = 30 + int((completed_count / total_tasks) * 60)
             await manager.send_progress(
                 client_id, 
-                f"Processing Page {page_num + 1}/{total_pages} (OCR + Layout)...", 
-                current_percent
+                f"Processing Page {completed_count}/{total_tasks} (OCR)...", 
+                percent
             )
-            
-            # Parallel-ish: Run LLM for meaning, run SuryaOCR for layout
-            # 1. LLM OCR (for preview)
-            # Perform OCR (LLM + Hybrid)
-            # We'll use the Hybrid/SuryaOCR text for the preview as well, 
-            # because it's faster and cleaner than waiting for the LLM if the user just wants to see what's there.
-            
-            structured_data = await asyncio.to_thread(hybrid_aligner.get_structured_text, image_bytes)
-            pages_structured_for_pdf[page_num] = structured_data
-            
-            # Extract plain text from structured data for the preview
-            # structured_data is list of ([coords], text)
-            page_text_lines = [item[1] for item in structured_data]
-            pages_text_for_preview[page_num] = page_text_lines
-            
-            # 2. LLM OCR (Content)
-            # Crucial for Hybrid Alignment
-            llm_lines = await asyncio.to_thread(ocr_processor.perform_ocr, image_base64)
-            
-            if llm_lines:
-                 # Update preview with better text
-                 pages_text_for_preview[page_num] = llm_lines
-            
-            # --- Perform Alignment ---
-            # Try to improve the SuryaOCR text (which might be garbled) using the LLM text
-            if llm_lines:
-                aligned_structure = await asyncio.to_thread(hybrid_aligner.align_text, structured_data, llm_lines)
-                pages_structured_for_pdf[page_num] = aligned_structure
-            else:
-                pages_structured_for_pdf[page_num] = structured_data
-            
+
         await manager.send_progress(client_id, "Embedding text into PDF...", 90)
 
         # 5. Embed Text (Structured)
