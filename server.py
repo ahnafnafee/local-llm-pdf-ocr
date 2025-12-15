@@ -101,11 +101,11 @@ async def process_pdf(
         hybrid_aligner = HybridAligner()
         
         pages_text_for_preview = {} # Clean LLM text
-        pages_structured_for_pdf = {} # EasyOCR boxes
+        pages_structured_for_pdf = {} # SuryaOCR boxes
         
         for idx, page_num in enumerate(page_nums):
             image_base64 = images_dict[page_num]
-            # Decode for EasyOCR which needs bytes
+            # Decode for SuryaOCR which needs bytes
             image_bytes = base64.b64decode(image_base64)
             
             # Progress update per page
@@ -116,10 +116,10 @@ async def process_pdf(
                 current_percent
             )
             
-            # Parallel-ish: Run LLM for meaning, run EasyOCR for layout
+            # Parallel-ish: Run LLM for meaning, run SuryaOCR for layout
             # 1. LLM OCR (for preview)
             # Perform OCR (LLM + Hybrid)
-            # We'll use the Hybrid/EasyOCR text for the preview as well, 
+            # We'll use the Hybrid/SuryaOCR text for the preview as well, 
             # because it's faster and cleaner than waiting for the LLM if the user just wants to see what's there.
             
             structured_data = await asyncio.to_thread(hybrid_aligner.get_structured_text, image_bytes)
@@ -139,7 +139,7 @@ async def process_pdf(
                  pages_text_for_preview[page_num] = llm_lines
             
             # --- Perform Alignment ---
-            # Try to improve the EasyOCR text (which might be garbled) using the LLM text
+            # Try to improve the SuryaOCR text (which might be garbled) using the LLM text
             if llm_lines:
                 aligned_structure = await asyncio.to_thread(hybrid_aligner.align_text, structured_data, llm_lines)
                 pages_structured_for_pdf[page_num] = aligned_structure
@@ -149,7 +149,7 @@ async def process_pdf(
         await manager.send_progress(client_id, "Embedding text into PDF...", 90)
 
         # 5. Embed Text (Structured)
-        # We use the aligned data if available, otherwise raw EasyOCR
+        # We use the aligned data if available, otherwise raw SuryaOCR
         pdf_handler.embed_structured_text(input_path, output_path, pages_structured_for_pdf)
         
         # Save text for preview (Clean LLM text)

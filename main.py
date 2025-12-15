@@ -1,3 +1,7 @@
+import os
+# Disable TQDM for Surya to prevent collision with Rich
+os.environ["TQDM_DISABLE"] = "1"
+
 import sys
 import base64
 from pathlib import Path
@@ -76,32 +80,44 @@ def main():
     )
 
     with progress:
-        task_id = progress.add_task(f"[cyan]Hybrid OCR Processing ({total_pages} pages)...", total=total_pages)
+        # ===== PHASE 1: Batch Layout Detection (Surya) =====
+        task_layout = progress.add_task("[cyan]Detecting layouts (batch)...", total=1)
         
+        # Collect all image bytes for batch processing
+        all_image_bytes = []
         for page_num in page_nums:
             image_base64 = images_dict[page_num]
             image_bytes = base64.b64decode(image_base64)
+            all_image_bytes.append(image_bytes)
+        
+        # Run batch detection (one Surya call for all pages)
+        all_boxes = hybrid_aligner.get_detected_boxes_batch(all_image_bytes)
+        progress.update(task_layout, completed=1)
+        
+        # ===== PHASE 2: LLM OCR + Alignment (per page) =====
+        task_ocr = progress.add_task(f"[cyan]LLM OCR Processing ({total_pages} pages)...", total=total_pages)
+        
+        for idx, page_num in enumerate(page_nums):
+            progress.update(task_ocr, description=f"[cyan]LLM OCR Page {page_num + 1}/{total_pages}...")
             
-            # Update description to show current page
-            progress.update(task_id, description=f"[cyan]Processing Page {page_num + 1}/{total_pages} (EasyOCR Layout)...")
+            image_base64 = images_dict[page_num]
+            boxes = all_boxes[idx]
             
-            # --- OCR Step (EasyOCR) ---
+            # Convert boxes to structured_data format
+            structured_data = [(box, "") for box in boxes]
             
-            # 1. EasyOCR (Layout)
-            structured_data = hybrid_aligner.get_structured_text(image_bytes)
-            
-            # 2. LLM OCR (Content) - Enabled for better accuracy (handwriting fix)
+            # LLM OCR (Content)
             llm_lines = ocr_processor.perform_ocr(image_base64)
-            logging.debug(f"DEBUG: LLM OCR retrieved {len(llm_lines)} lines")
+            logging.debug(f"DEBUG: LLM OCR retrieved {len(llm_lines)} lines for page {page_num}")
             
-            # 3. Align
+            # Align
             if llm_lines:
                 aligned_data = hybrid_aligner.align_text(structured_data, llm_lines)
                 pages_structured_data[page_num] = aligned_data
             else:
                 pages_structured_data[page_num] = structured_data
             
-            progress.advance(task_id)
+            progress.advance(task_ocr)
 
     console.print("[green]✓[/green] OCR & Layout Analysis Complete.")
 

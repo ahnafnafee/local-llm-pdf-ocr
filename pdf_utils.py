@@ -146,44 +146,70 @@ class PDFHandler:
                     # If text is multi-line (fallback block)
                     if '\n' in text:
                          # Fallback Mode: Full page text.
-                         # Don't apply vertical shift.
-                         # Use small font to ensure it fits. 6pt is legible-ish but mostly for search.
                          dynamic_fontsize = 6
-                         
-                         # hard-coded margin of 10pts
                          pdf_rect = fitz.Rect(10, 10, width - 10, height - 10)
-                    else:
-                        # Single line: Trust the box.
-                        # Use a tailored fit: height * 0.75 is a good balance
-                        dynamic_fontsize = max(4, box_height * 0.75) 
-                    
-                    # Try inserting textbox first (better for alignment if it fits)
-                    # align=0 is Left alignment (0=Left, 1=Center, 2=Right)
-                    # This ensures fallback text starts at Top-Left as requested.
-                    res = new_page.insert_textbox(
-                        pdf_rect, 
-                        text, 
-                        fontsize=dynamic_fontsize, 
-                        fontname="helv",
-                        render_mode=3, # Invisible
-                        color=(0, 0, 0),
-                        align=0
-                    )
-                    
-                    # If text didn't fit (res < 0), usage insert_text which ignores width constraints
-                    if res < 0:
-                        # Position at bottom-left (approximate baseline) with a small vertical shift up
-                        # Since we shifted pdf_rect down, we might need to adjust this heuristic too.
-                        # Baseline near y1.
-                        text_pos = fitz.Point(pdf_rect.x0, pdf_rect.y1 - (box_height * 0.2))
-                        new_page.insert_text(
-                            text_pos,
-                            text,
+                         
+                         new_page.insert_textbox(
+                            pdf_rect, 
+                            text, 
                             fontsize=dynamic_fontsize, 
                             fontname="helv",
-                            render_mode=3, # Invisible
-                            color=(0, 0, 0)
+                            render_mode=3,
+                            color=(0, 0, 0),
+                            align=0
+                         )
+                    else:
+                        # Single line: Size to fill box width, constrained by height
+                        font = fitz.Font("helv")
+                        box_width = pdf_rect.width
+                        
+                        # Strategy: Start with a reference size and calculate what we need
+                        # to fill the box width, then constrain by height
+                        
+                        # Calculate font size needed to fill box width
+                        # Use reference size of 12pt to measure text width ratio
+                        ref_size = 12.0
+                        ref_width = font.text_length(text, fontsize=ref_size)
+                        
+                        if ref_width > 0:
+                            # Scale to fill box width (with small margin)
+                            width_based_size = (box_width * 0.98) / ref_width * ref_size
+                        else:
+                            width_based_size = box_height * 0.8
+                        
+                        # Constrain by box height (font shouldn't exceed box height)
+                        # Typical font ascender is ~0.8 of font size
+                        height_based_size = box_height * 0.85
+                        
+                        # Use the smaller of the two to ensure it fits both dimensions
+                        target_fontsize = min(width_based_size, height_based_size)
+                        
+                        # Enforce min/max constraints
+                        dynamic_fontsize = max(3, min(target_fontsize, 72))
+                        
+                        # Use insert_textbox for proper text placement
+                        res = new_page.insert_textbox(
+                            pdf_rect, 
+                            text, 
+                            fontsize=dynamic_fontsize, 
+                            fontname="helv",
+                            render_mode=3,  # Invisible
+                            color=(0, 0, 0),
+                            align=0  # Left align
                         )
+                        
+                        if res < 0:
+                            # If insert_textbox fails, use insert_text directly
+                            # Position at baseline (bottom of box with slight offset)
+                            text_pos = fitz.Point(pdf_rect.x0, pdf_rect.y1 - (box_height * 0.15))
+                            new_page.insert_text(
+                                text_pos,
+                                text,
+                                fontsize=dynamic_fontsize, 
+                                fontname="helv",
+                                render_mode=3, 
+                                color=(0, 0, 0)
+                            )
 
         new_doc.save(output_pdf_path)
         new_doc.close()

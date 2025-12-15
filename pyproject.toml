@@ -1,22 +1,23 @@
 [project]
 name = "pdf-ocr-llm"
 version = "0.1.0"
-description = "Add your description here"
+description = "Transform scanned and written documents into fully searchable, selectable PDFs using the power of Local LLM Vision"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = [
-    "easyocr>=1.7.2",
     "fastapi>=0.124.4",
     "openai>=2.11.0",
-    "pillow>=12.0.0",
+    "pillow>=10.2.0,<11.0.0",
     "pymupdf>=1.26.7",
     "python-dotenv>=1.2.1",
     "python-multipart>=0.0.20",
-    "rapidfuzz>=3.14.3",
     "rich>=14.2.0",
     "tqdm>=4.67.1",
     "uvicorn>=0.38.0",
     "websockets>=15.0.1",
+    "surya-ocr>=0.17.0",
     "torch>=2.0.0",
     "torchvision>=0.15.0",
 ]
+
+
