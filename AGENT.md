@@ -55,7 +55,7 @@ from src.pdf_ocr.core.aligner import HybridAligner
 
 ## Entry Points
 
--   **CLI**: `uv run python main.py input.pdf [output.pdf] [--dpi N] [--pages 1-3,5]`
+-   **CLI**: `uv run main.py input.pdf [output.pdf] [--dpi N] [--pages 1-3,5]`
 -   **Web**: `uv run uvicorn server:app --port 8000`
 
 ## Configuration
