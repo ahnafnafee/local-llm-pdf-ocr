@@ -114,6 +114,12 @@ class OCRPipeline:
         if self.grounded_backend is not None:
             return await self._run_grounded(input_path, output_path, dpi=dpi, progress=progress)
 
+        if self.aligner is None or self.ocr_processor is None:
+            raise ValueError(
+                "Hybrid pipeline requires both `aligner` and `ocr_processor`. "
+                "Pass a `grounded_backend=...` instead to use the grounded path."
+            )
+
         await _notify(progress, "convert", 0, 1, "Converting PDF to images...")
         images_dict = await asyncio.to_thread(
             self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim
@@ -192,12 +198,12 @@ class OCRPipeline:
 
         Emits the `"ocr"` progress stage (not a separate `"grounded"` stage)
         so downstream progress adapters — e.g. `server._STAGE_WEIGHTS` —
-        map cleanly without a dedicated weight entry.
+        map cleanly without a dedicated weight entry. The backend is
+        responsible for per-page tick emission; we forward the callback
+        directly so the user sees granular progress instead of a 0 → 100
+        jump during multi-page grounded runs.
         """
-        await _notify(progress, "ocr", 0, 1, "Calling grounded OCR backend...")
-        response = await self.grounded_backend.ocr_document(input_path)
-        await _notify(progress, "ocr", 1, 1,
-                      f"Grounded OCR done: {len(response.blocks)} blocks.")
+        response = await self.grounded_backend.ocr_document(input_path, progress=progress)
 
         pages_data: dict[int, list] = defaultdict(list)
         pages_text: dict[int, list[str]] = defaultdict(list)

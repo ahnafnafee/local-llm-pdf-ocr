@@ -31,7 +31,10 @@ import json
 import logging
 import re
 from dataclasses import dataclass, field
-from typing import Any, Protocol
+from typing import Any, Awaitable, Callable, Optional, Protocol
+
+
+ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 
 
 @dataclass
@@ -49,9 +52,19 @@ class GroundedResponse:
 
 
 class GroundedOCRBackend(Protocol):
-    """Backends that return text WITH layout in one shot (no Surya needed)."""
+    """Backends that return text WITH layout in one shot (no Surya needed).
 
-    async def ocr_document(self, pdf_path: str) -> GroundedResponse: ...
+    `progress` is optional; callers that don't care about per-page updates
+    can omit it. Backends SHOULD emit the `"ocr"` stage with (current,
+    total) set to pages-completed / total-pages so the pipeline's progress
+    adapter stays aligned with the documented stage set.
+    """
+
+    async def ocr_document(
+        self,
+        pdf_path: str,
+        progress: Optional[ProgressCallback] = None,
+    ) -> GroundedResponse: ...
 
 
 # Labels we treat as *non-content* — structural regions that aren't meant
@@ -225,7 +238,11 @@ class ZAIHostedOCR:
         self.poll_interval_s = poll_interval_s
         self.timeout_s = timeout_s
 
-    async def ocr_document(self, pdf_path: str) -> GroundedResponse:
+    async def ocr_document(
+        self,
+        pdf_path: str,
+        progress: Optional[ProgressCallback] = None,
+    ) -> GroundedResponse:
         import asyncio
         import httpx
 
@@ -319,7 +336,11 @@ class PromptedGroundedOCR:
         self.max_tokens = max_tokens
         self.concurrency = concurrency
 
-    async def ocr_document(self, pdf_path: str) -> GroundedResponse:
+    async def ocr_document(
+        self,
+        pdf_path: str,
+        progress: Optional[ProgressCallback] = None,
+    ) -> GroundedResponse:
         import fitz
         from PIL import Image, ImageSequence
         from openai import AsyncOpenAI
@@ -353,33 +374,58 @@ class PromptedGroundedOCR:
             finally:
                 doc.close()
 
-        # 2. Call the VLM per page under a concurrency limit.
+        # 2. Call the VLM per page, streaming progress and isolating failures
+        # so one bad page doesn't tank a multi-page document.
         client = AsyncOpenAI(base_url=self.api_base, api_key=self.api_key, timeout=self.timeout_s)
         sem = asyncio.Semaphore(max(1, self.concurrency))
+        total_pages = len(page_imgs)
 
-        async def run_one(page_idx: int) -> list[GroundedBlock]:
+        async def run_one(page_idx: int) -> tuple[int, list[GroundedBlock]]:
             b64, w, h = page_imgs[page_idx]
             async with sem:
-                resp = await client.chat.completions.create(
-                    model=self.model, temperature=0.0, max_tokens=self.max_tokens,
-                    messages=[{
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": self.prompt},
-                            {"type": "image_url", "image_url": {
-                                "url": f"data:image/jpeg;base64,{b64}",
-                            }},
-                        ],
-                    }],
-                )
-            text = (resp.choices[0].message.content or "").strip()
-            return _parse_grounded_json(text, page_idx, w, h)
+                try:
+                    resp = await client.chat.completions.create(
+                        model=self.model, temperature=0.0, max_tokens=self.max_tokens,
+                        messages=[{
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": self.prompt},
+                                {"type": "image_url", "image_url": {
+                                    "url": f"data:image/jpeg;base64,{b64}",
+                                }},
+                            ],
+                        }],
+                    )
+                    text = (resp.choices[0].message.content or "").strip()
+                    return page_idx, _parse_grounded_json(text, page_idx, w, h)
+                except Exception as e:
+                    # Per-page isolation: log the failure and return zero blocks
+                    # for this page so surviving pages still land in the output.
+                    logging.warning(
+                        f"grounded OCR failed for page {page_idx}: "
+                        f"{type(e).__name__}: {e}"
+                    )
+                    return page_idx, []
 
-        tasks = [run_one(i) for i in range(len(page_imgs))]
-        all_blocks_per_page = await asyncio.gather(*tasks)
-        flat_blocks: list[GroundedBlock] = [
-            b for page_blocks in all_blocks_per_page for b in page_blocks
-        ]
+        tasks = [asyncio.create_task(run_one(i)) for i in range(total_pages)]
+        blocks_by_page: dict[int, list[GroundedBlock]] = {}
+        completed = 0
+        if progress is not None:
+            await progress("ocr", 0, total_pages, f"Grounded OCR (0/{total_pages})...")
+        for fut in asyncio.as_completed(tasks):
+            page_idx, blocks = await fut
+            blocks_by_page[page_idx] = blocks
+            completed += 1
+            if progress is not None:
+                await progress(
+                    "ocr", completed, total_pages,
+                    f"Grounded OCR ({completed}/{total_pages})",
+                )
+
+        # Flatten in page order for a stable, deterministic output.
+        flat_blocks: list[GroundedBlock] = []
+        for page_idx in range(total_pages):
+            flat_blocks.extend(blocks_by_page.get(page_idx, []))
         return GroundedResponse(
             blocks=flat_blocks,
             page_sizes=[(w, h) for (_, w, h) in page_imgs],
