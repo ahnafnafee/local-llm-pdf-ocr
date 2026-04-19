@@ -142,8 +142,8 @@ uv run main.py input.pdf output_ocr.pdf
 
 | Option                    | Description                                                           |
 | ------------------------- | --------------------------------------------------------------------- |
-| `input_pdf`               | Path to input PDF (required)                                          |
-| `output_pdf`              | Path to output PDF (optional, defaults to `<input>_ocr.pdf`)          |
+| `input`                   | Path to a PDF **or** image file (`.jpg`/`.jpeg`/`.png`/`.bmp`/`.webp`/`.tif`/`.tiff`). Required. Multi-frame TIFFs expand to multiple output pages. |
+| `output`                  | Path to output PDF (optional, defaults to `<input_stem>_ocr.pdf`; always a PDF, even for image inputs). |
 | `-v`, `--verbose`         | Enable debug logging (alignment details, box counts)                  |
 | `-q`, `--quiet`           | Suppress all output except errors                                     |
 | `--dpi <int>`             | DPI for image rendering (default: 200)                                |

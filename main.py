@@ -25,19 +25,31 @@ from rich.progress import (
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="PDF OCR with Local LLM - Transform scanned PDFs into searchable documents",
+        description="OCR with Local LLM - turn scanned PDFs or raw images into searchable PDFs.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   %(prog)s input.pdf output_ocr.pdf
+  %(prog)s scan.png                       # Image input - auto-generates scan_ocr.pdf
+  %(prog)s pages.tiff                     # Multi-frame TIFF - one output page per frame
   %(prog)s input.pdf                      # Auto-generates input_ocr.pdf
   %(prog)s input.pdf output.pdf --verbose
   %(prog)s input.pdf output.pdf --pages 1-3,5
   %(prog)s input.pdf output.pdf --dpi 300 --api-base http://localhost:1234/v1
         """,
     )
-    parser.add_argument("input_pdf", help="Path to input PDF")
-    parser.add_argument("output_pdf", nargs="?", help="Path to output PDF (default: <input>_ocr.pdf)")
+    parser.add_argument(
+        "input_pdf",  # kwarg name kept for internal stability; accepts PDFs *and* images.
+        metavar="input",
+        help="Path to a PDF or image file (JPEG/PNG/TIFF/BMP/WebP). "
+             "Multi-frame TIFFs expand to multiple output pages.",
+    )
+    parser.add_argument(
+        "output_pdf", nargs="?",
+        metavar="output",
+        help="Path to output PDF (always a PDF, even for image inputs; "
+             "defaults to <input_stem>_ocr.pdf).",
+    )
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose debug logging")
     parser.add_argument("--quiet", "-q", action="store_true", help="Suppress all output except errors")
     parser.add_argument("--dpi", type=int, default=200, help="DPI for image rendering (default: 200)")
