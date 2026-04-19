@@ -1,197 +1,123 @@
-from fastapi import FastAPI, UploadFile, File, WebSocket, WebSocketDisconnect, Form
+"""
+FastAPI web server: thin wrapper around OCRPipeline with WebSocket progress.
+"""
+
+import json
+import os
+import shutil
+import tempfile
+import uuid
+
+from fastapi import FastAPI, File, Form, UploadFile, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.background import BackgroundTask
-import shutil
-import os
-import uuid
-import json
-import asyncio
-from pathlib import Path
-from src.pdf_ocr.core.pdf import PDFHandler
-from src.pdf_ocr.core.ocr import OCRProcessor
-from src.pdf_ocr.core.aligner import HybridAligner
-import tempfile
-import base64
+
+from src.pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler
 
 app = FastAPI()
-
-# Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# --- WebSocket Manager ---
+
+# High-level progress shape sent to the browser. We translate the pipeline's
+# fine-grained (stage, current, total) tuples into a single 0-100 percent.
+_STAGE_WEIGHTS = {
+    "convert": (0, 15),    # 0-15% => PDF rasterization
+    "detect": (15, 25),    # 15-25% => Surya batch detection
+    "ocr": (25, 75),       # 25-75% => per-page LLM OCR + DP alignment
+    "refine": (75, 90),    # 75-90% => per-box crop re-OCR (if any)
+    "embed": (90, 100),    # 90-100% => PDF assembly
+}
+
+
+def stage_to_percent(stage: str, current: int, total: int) -> int:
+    lo, hi = _STAGE_WEIGHTS.get(stage, (0, 100))
+    if total <= 0:
+        return lo
+    return lo + int((current / total) * (hi - lo))
+
+
 class ConnectionManager:
     def __init__(self):
-        self.active_connections: dict[str, WebSocket] = {}
+        self.active: dict[str, WebSocket] = {}
 
     async def connect(self, websocket: WebSocket, client_id: str):
         await websocket.accept()
-        self.active_connections[client_id] = websocket
+        self.active[client_id] = websocket
 
     def disconnect(self, client_id: str):
-        if client_id in self.active_connections:
-            del self.active_connections[client_id]
+        self.active.pop(client_id, None)
 
     async def send_progress(self, client_id: str, message: str, percent: int):
-        if client_id in self.active_connections:
-            try:
-                await self.active_connections[client_id].send_json({
-                    "status": message,
-                    "percent": percent
-                })
-            except:
-                self.disconnect(client_id)
+        ws = self.active.get(client_id)
+        if ws is None:
+            return
+        try:
+            await ws.send_json({"status": message, "percent": percent})
+        except Exception:
+            self.disconnect(client_id)
+
 
 manager = ConnectionManager()
 
-# Serve index at root
+
 @app.get("/")
 async def read_index():
     return FileResponse("static/index.html")
+
 
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
     await manager.connect(websocket, client_id)
     try:
         while True:
-            await websocket.receive_text() # Keep connection alive
+            await websocket.receive_text()  # keepalive
     except WebSocketDisconnect:
         manager.disconnect(client_id)
 
+
 @app.post("/process")
-async def process_pdf(
-    file: UploadFile = File(...), 
-    client_id: str = Form(...)
-):
-    # 1. Save uploaded file
-    # Create temp file in system temp dir
-    
-    # Input file
+async def process_pdf(file: UploadFile = File(...), client_id: str = Form(...)):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_input:
         shutil.copyfileobj(file.file, tmp_input)
         input_path = tmp_input.name
-        
-    # Output file path (just a name, we'll create it later)
-    # We use mkstemp to reserve a name, or just derive it. 
-    # Let's derive it to keep it simple but safe.
     output_path = os.path.join(tempfile.gettempdir(), f"output_{uuid.uuid4()}.pdf")
 
-        
     try:
         await manager.send_progress(client_id, "Initializing...", 5)
 
-        # 2. Initialize orchestration
-        pdf_handler = PDFHandler()
-        ocr_processor = OCRProcessor()
-        
-        await manager.send_progress(client_id, "Converting PDF to images...", 10)
+        pipeline = OCRPipeline(
+            aligner=HybridAligner(),
+            ocr_processor=OCRProcessor(),
+            pdf_handler=PDFHandler(),
+        )
+        concurrency = int(os.getenv("OCR_CONCURRENCY", 3))
 
-        # 3. Convert to Images
-        # This might block event loop if large, but for local tool it's okay-ish. 
-        # Ideally run in threadpool but PDFHandler is blocking.
-        images_dict = pdf_handler.convert_to_images(input_path)
-        
-        page_nums = sorted(images_dict.keys())
-        total_pages = len(page_nums)
-        
-        await manager.send_progress(client_id, f"Converted {total_pages} pages. Starting Layout Detection...", 20)
-        
-        # 4. Perform Hybrid OCR (Batch Optimized)
-        hybrid_aligner = HybridAligner()
-        OCR_CONCURRENCY = int(os.getenv("OCR_CONCURRENCY", 3))
-        
-        pages_text_for_preview = {} # Clean LLM text
-        pages_structured_for_pdf = {} # SuryaOCR boxes
-        
-        # --- Phase A: Batch Layout Detection ---
-        # Collect all image bytes for batch processing
-        all_image_bytes = []
-        for page_num in page_nums:
-            all_image_bytes.append(base64.b64decode(images_dict[page_num]))
-            
-        # Run detection in batch (much faster)
-        await manager.send_progress(client_id, f"Detecting layout for {total_pages} pages...", 25)
-        batch_boxes = await asyncio.to_thread(hybrid_aligner.get_detected_boxes_batch, all_image_bytes)
-        
-        # Initialize structured data with empty text
-        for idx, page_num in enumerate(page_nums):
-             # Create compatibility structure (boxes, "")
-            pages_structured_for_pdf[page_num] = [(box, "") for box in batch_boxes[idx]]
-            
-        # --- Phase B: Async LLM Processing ---
-        semaphore = asyncio.Semaphore(OCR_CONCURRENCY)
-        
-        async def process_page(p_num, p_img_b64, p_boxes):
-            """Worker function to process a single page with semaphore"""
-            async with semaphore:
-                # 1. Async LLM Call
-                llm_lines = await ocr_processor.perform_ocr(p_img_b64)
-                
-                # 2. CPU Alignment (Fast enough to run in loop or thread)
-                if llm_lines:
-                     aligned = await asyncio.to_thread(hybrid_aligner.align_text, p_boxes, llm_lines)
-                     return p_num, llm_lines, aligned
-                else:
-                     return p_num, [], p_boxes
+        async def on_progress(stage, current, total, message):
+            await manager.send_progress(client_id, message, stage_to_percent(stage, current, total))
 
-        # Create tasks
-        tasks = []
-        for page_num in page_nums:
-            task = process_page(
-                page_num, 
-                images_dict[page_num], 
-                pages_structured_for_pdf[page_num]
-            )
-            tasks.append(task)
-            
-        # Process as they complete
-        completed_count = 0
-        total_tasks = len(tasks)
-        
-        for coro in asyncio.as_completed(tasks):
-            p_num, text_lines, aligned_data = await coro
-            
-            # Store results
-            pages_text_for_preview[p_num] = text_lines
-            pages_structured_for_pdf[p_num] = aligned_data
-            
-            completed_count += 1
-            # Progress map: 30% -> 90%
-            percent = 30 + int((completed_count / total_tasks) * 60)
-            await manager.send_progress(
-                client_id, 
-                f"Processing Page {completed_count}/{total_tasks} (OCR)...", 
-                percent
-            )
+        pages_text = await pipeline.run(
+            input_path, output_path,
+            concurrency=concurrency, progress=on_progress,
+        )
 
-        await manager.send_progress(client_id, "Embedding text into PDF...", 90)
-
-        # 5. Embed Text (Structured)
-        # We use the aligned data if available, otherwise raw SuryaOCR
-        pdf_handler.embed_structured_text(input_path, output_path, pages_structured_for_pdf)
-        
-        # Save text for preview (Clean LLM text)
+        # Save per-page raw LLM text so the UI's "View Text" preview can fetch it.
         text_path = os.path.join(tempfile.gettempdir(), f"text_{client_id}.json")
         with open(text_path, "w", encoding="utf-8") as f:
-            json.dump(pages_text_for_preview, f)
-        
+            json.dump({str(k): v for k, v in pages_text.items()}, f)
+
         await manager.send_progress(client_id, "Done! Preparing download...", 100)
-        
-        # 6. Return Result
         return FileResponse(
-            output_path, 
-            media_type="application/pdf", 
+            output_path,
+            media_type="application/pdf",
             filename=f"ocr_{file.filename}",
-            # We don't auto-clean output/text immediately so user can fetch text/download again if we added that. 
-            # But here we clean input. Output/Text clean via cron or just OS temp clean. 
-            # Actually, let's keep it simple.
-            background=BackgroundTask(cleanup, input_path) 
+            background=BackgroundTask(_cleanup, input_path),
         )
-        
     except Exception as e:
-        await manager.send_progress(client_id, f"Error: {str(e)}", 0)
-        cleanup(input_path)
+        await manager.send_progress(client_id, f"Error: {e}", 0)
+        _cleanup(input_path)
         return JSONResponse(status_code=500, content={"error": str(e)})
+
 
 @app.get("/text/{job_id}")
 async def get_text(job_id: str):
@@ -200,12 +126,11 @@ async def get_text(job_id: str):
         return FileResponse(text_path, media_type="application/json")
     return JSONResponse(status_code=404, content={"error": "Text not found"})
 
-def cleanup(*paths):
+
+def _cleanup(*paths):
     for path in paths:
-        if os.path.exists(path):
-            try:
+        try:
+            if os.path.exists(path):
                 os.remove(path)
-            except:
-                pass
-
-
+        except Exception:
+            pass

@@ -134,31 +134,65 @@ uv run main.py input.pdf output_ocr.pdf
 
 **Options**:
 
-| Option             | Description                                                  |
-| ------------------ | ------------------------------------------------------------ |
-| `input_pdf`        | Path to input PDF (required)                                 |
-| `output_pdf`       | Path to output PDF (optional, defaults to `<input>_ocr.pdf`) |
-| `-v`, `--verbose`  | Enable debug logging (alignment details, box counts)         |
-| `-q`, `--quiet`    | Suppress all output except errors                            |
-| `--dpi <int>`      | DPI for image rendering (default: 200)                       |
-| `--pages <range>`  | Page range to process, e.g., `1-3,5` (default: all)          |
-| `--api-base <url>` | Override LLM API base URL                                    |
-| `--model <name>`   | Override LLM model name                                      |
+| Option                    | Description                                                           |
+| ------------------------- | --------------------------------------------------------------------- |
+| `input_pdf`               | Path to input PDF (required)                                          |
+| `output_pdf`              | Path to output PDF (optional, defaults to `<input>_ocr.pdf`)          |
+| `-v`, `--verbose`         | Enable debug logging (alignment details, box counts)                  |
+| `-q`, `--quiet`           | Suppress all output except errors                                     |
+| `--dpi <int>`             | DPI for image rendering (default: 200)                                |
+| `--pages <range>`         | Page range to process, e.g., `1-3,5` (default: all)                   |
+| `--concurrency <int>`     | Parallel LLM requests (default: 1)                                    |
+| `--no-refine`             | Skip per-box crop re-OCR (faster, less robust on tables/multi-column) |
+| `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
+| `--api-base <url>`        | Override LLM API base URL                                             |
+| `--model <name>`          | Override LLM model name                                               |
 
 **Examples**:
 
 ```bash
-# Basic usage (auto-generates input_ocr.pdf)
+# Basic usage (auto-generates input_ocr.pdf, uses LM Studio + OlmOCR)
 uv run main.py scan.pdf
 
-# Process specific pages with higher quality
+# Specific pages with higher rendering DPI
 uv run main.py document.pdf output.pdf --pages 1-5 --dpi 300
 
-# Use a different model with verbose output
-uv run main.py report.pdf --model "custom-model" --verbose
+# Parallel LLM calls on a multi-page doc
+uv run main.py long.pdf --concurrency 3
+
+# Use Ollama + GLM-OCR instead of LM Studio
+uv run main.py scan.pdf \
+    --api-base http://localhost:11434/v1 \
+    --model glm-ocr:latest \
+    --max-image-dim 640
+
+# Grounded path: bbox-native VLM (Qwen2.5-VL / Qwen3-VL) — skips Surya, DP, refine
+uv run main.py scan.pdf --grounded \
+    --api-base http://localhost:1234/v1 \
+    --model qwen/qwen3-vl-8b
+
+# Raw image input — no PDF required. Accepts JPEG/PNG/BMP/WebP, and
+# multi-page TIFFs (each frame becomes one page in the output PDF).
+uv run main.py scan.png scan_ocr.pdf
+uv run main.py archive.tiff archive_ocr.pdf
 ```
 
-_You'll see beautiful animated progress bars showing batch detection and per-page LLM processing._
+### Two pipeline paths
+
+| Path | Flag | Detection | Text | Alignment | Refine | When to use |
+|------|------|-----------|------|-----------|--------|-------------|
+| **Hybrid** (default) | _none_ | Surya | LLM full-page | DP | Per-box crop | Text-only VLMs (OlmOCR, GLM-OCR); max coverage |
+| **Grounded** | `--grounded` | — | Bbox-native VLM returns both | — | — | Qwen2.5/3-VL, MinerU, etc.; simpler, fewer moving parts |
+
+The hybrid path is the safe default: it works with *any* OCR-capable VLM, including models that can only return plain text. The grounded path is faster and eliminates the DP-alignment class of bugs entirely, but requires a VLM that emits `{"bbox_2d": [...], "content": "..."}` JSON when asked (Qwen2.5-VL / Qwen3-VL confirmed working; others untested).
+
+> **Note on `--max-image-dim`**: small local VLMs have tight context windows.
+> OlmOCR-2-7B (Qwen2.5-VL base) is happy with the 1024 default.
+> **GLM-OCR:1.1B via Ollama crashes its runner above ~640 px**, so drop the
+> cap when you use it. If Ollama dies mid-run, restart it with `ollama serve`
+> and lower `--max-image-dim`.
+
+_You'll see animated progress bars showing detection, LLM OCR, refinement, and embedding._
 
 ---
 

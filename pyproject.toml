@@ -18,6 +18,20 @@ dependencies = [
     "surya-ocr>=0.17.0",
     "torch>=2.0.0",
     "torchvision>=0.15.0",
+    "opencv-python-headless>=4.8.0",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
 
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: loads Surya models (~5s first run) — skip with '-m \"not slow\"'",
+    "live_llm: hits a real LLM endpoint — skip unless LM Studio is running",
+]

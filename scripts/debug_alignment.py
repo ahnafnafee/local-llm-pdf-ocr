@@ -47,9 +47,10 @@ def debug_alignment(pdf_path):
     width, height = img.size
     print(f"Image Size: {width}x{height}")
     
-    # 3. Surya Layout
+    # 3. Surya Layout (batch API with a single-element list)
     print("Running Surya Layout...")
-    structured_data = hybrid_aligner.get_structured_text(image_bytes)
+    boxes = hybrid_aligner.get_detected_boxes_batch([image_bytes])[0]
+    structured_data = [(box, "") for box in boxes]
     print(f"Surya found {len(structured_data)} boxes.")
     
     # 4. LLM OCR

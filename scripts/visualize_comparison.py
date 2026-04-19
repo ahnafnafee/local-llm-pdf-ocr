@@ -46,10 +46,11 @@ async def generate_comparison(pdf_path, output_path):
     jpeg_bytes = buffer.getvalue()
     print(f"Compressed Image Size: {len(jpeg_bytes)/1024:.2f} KB")
     
-    # 2. Run Surya (Layout)
+    # 2. Run Surya (Layout) via batch API with a single-element list
     aligner = HybridAligner()
     print("Running Surya Detection...")
-    structured_data = await asyncio.to_thread(aligner.get_structured_text, img_data)
+    batch = await asyncio.to_thread(aligner.get_detected_boxes_batch, [img_data])
+    structured_data = [(box, "") for box in batch[0]]
     
     # 3. Run LLM OCR
     processor = OCRProcessor()

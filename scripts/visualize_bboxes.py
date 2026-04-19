@@ -38,11 +38,11 @@ def visualize_boxes(pdf_filename):
     draw = ImageDraw.Draw(img)
     width, height = img.size
     
-    # Get boxes
-    structured_data = aligner.get_structured_text(img_bytes)
-    print(f"  Found {len(structured_data)} text blocks.")
-    
-    for (rect, text) in structured_data:
+    # Get boxes (batch API with a single-element list)
+    boxes = aligner.get_detected_boxes_batch([img_bytes])[0]
+    print(f"  Found {len(boxes)} text blocks.")
+
+    for rect in boxes:
         # rect is normalized [nx0, ny0, nx1, ny1]
         nx0, ny0, nx1, ny1 = rect
         
