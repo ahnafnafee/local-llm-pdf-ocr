@@ -96,7 +96,10 @@ class OCRPipeline:
 
         If a `grounded_backend` is configured, runs the grounded path:
             backend.ocr_document(pdf) → embed (bbox, text) tuples directly.
-            `dpi`/`concurrency`/`refine`/`max_image_dim` are ignored.
+            `concurrency`/`refine`/`max_image_dim` are ignored; `dpi` is
+            still forwarded to `output_writer` (used by the default
+            `PDFHandler.embed_structured_text` to rasterize the page
+            background at the requested resolution).
         Otherwise runs the hybrid path (Surya + LLM + DP + optional refine).
 
         Args:
@@ -186,10 +189,14 @@ class OCRPipeline:
         """
         Grounded path: the backend returns (bbox, text) pairs directly.
         No Surya, no DP, no refine — the model already knows where the text is.
+
+        Emits the `"ocr"` progress stage (not a separate `"grounded"` stage)
+        so downstream progress adapters — e.g. `server._STAGE_WEIGHTS` —
+        map cleanly without a dedicated weight entry.
         """
-        await _notify(progress, "grounded", 0, 1, "Calling grounded OCR backend...")
+        await _notify(progress, "ocr", 0, 1, "Calling grounded OCR backend...")
         response = await self.grounded_backend.ocr_document(input_path)
-        await _notify(progress, "grounded", 1, 1,
+        await _notify(progress, "ocr", 1, 1,
                       f"Grounded OCR done: {len(response.blocks)} blocks.")
 
         pages_data: dict[int, list] = defaultdict(list)

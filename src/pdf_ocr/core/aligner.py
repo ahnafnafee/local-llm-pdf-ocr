@@ -143,7 +143,7 @@ def _estimated_capacities(boxes: list[BBox]) -> list[float]:
     return areas
 
 
-def _match_cost(line_chars: int, expected_chars: float, total_chars: int) -> float:
+def _match_cost(line_chars: int, expected_chars: float) -> float:
     """
     Relative char-count mismatch cost, clipped to [0, 2].
 
@@ -192,7 +192,7 @@ def _dp_align(lines: list[str], boxes: list[BBox]) -> dict[int, list[str]]:
     for i in range(1, N + 1):
         li = lines[i - 1]
         for j in range(1, M + 1):
-            m_cost = dp[i - 1][j - 1] + _match_cost(len(li), expected[j - 1], total_chars)
+            m_cost = dp[i - 1][j - 1] + _match_cost(len(li), expected[j - 1])
             sl_cost = dp[i - 1][j] + _SKIP_LINE_COST
             sb_cost = dp[i][j - 1] + _SKIP_BOX_COST
 
