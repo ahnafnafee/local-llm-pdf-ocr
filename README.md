@@ -14,52 +14,57 @@
 ## ✨ Features
 
 -   **🧠 AI-Powered Vision**: Uses advanced VLMs to transcribe text with high accuracy, even on complex layouts or noisy scans.
--   **🤝 Hybrid Alignment Strategy**: Combines **Surya OCR Detection** for precise bounding boxes with **Local LLM** for perfect text content via position-based alignment.
--   **⚡ 10-21x Faster Detection**: Uses detection-only mode (skips slow recognition) and batch processing for maximum speed.
--   **🔒 100% Local & Private**: No cloud APIs, no subscription fees. Run it entirely offline using [LM Studio](https://lmstudio.ai).
--   **🔍 Searchable Outputs**: Embeds an invisible text layer directly into your PDF, making it compatible with valid PDF readers for searching (Ctrl+F) and selecting.
+-   **🤝 DP-Based Text↔Box Alignment**: **Surya OCR** detects layout boxes; a **Local LLM** transcribes the whole page; a Needleman-Wunsch dynamic-programming aligner binds LLM lines to the correct boxes in reading order, with a per-box crop re-OCR fallback for boxes the DP cannot confidently populate.
+-   **🛰️ Grounded Path (opt-in)**: Point the tool at a bbox-native VLM (Qwen2.5-VL, Qwen3-VL, MinerU, Florence-2, …) with `--grounded` and it skips Surya/DP/refine entirely — the model returns text + coordinates in a single call.
+-   **🖼️ PDF or Raw Image Input**: Accepts **`.pdf`, `.jpg`, `.jpeg`, `.png`, `.bmp`, `.webp`, `.tif`/`.tiff`**. Multi-frame TIFFs become multi-page output PDFs — no manual PDF-wrap step.
+-   **⚡ Fast Detection**: Surya runs in detection-only mode (no recognition) and batches across pages.
+-   **🔒 100% Local & Private**: No cloud APIs, no subscription fees. Run it entirely offline using [LM Studio](https://lmstudio.ai) or [Ollama](https://ollama.com).
+-   **🔍 Searchable Outputs**: Embeds an invisible text layer into a sandwich PDF. Glyph bboxes are horizontally scaled so selection in a PDF viewer covers the full width of each text region.
 -   **🖥️ Dual Interfaces**:
-    -   **Web UI**: An interface with Drag & Drop, Dark Mode, and Real-time progress tracking.
-    -   **CLI**: A robust command-line tool for power users and batch automation, featuring a "lively" terminal UI.
--   **⚡ Real-time Feedback**: Watch your document process page-by-page with live web sockets or animated terminal bars.
+    -   **Web UI**: Drag & drop, Dark Mode, real-time per-page progress.
+    -   **CLI**: Documented flags for power users and batch automation, Rich progress bars.
+-   **🧪 Tested**: 145-test suite covering DP invariants, embedding geometry, grounded JSON parsing, and end-to-end runs against the example PDFs.
 
 ---
 
 ## 🏗️ Architecture
 
+The tool has two execution paths behind a single `OCRPipeline` seam (`src/pdf_ocr/pipeline.py`). The default **hybrid path** works with any OCR-capable VLM; the opt-in **grounded path** collapses the whole flow into one call for VLMs that emit text+bbox natively.
+
 ```mermaid
 graph TD
-    A[Input PDF] --> B[PDF to Image Conversion]
-    B --> C[Batch Processing]
+    A[Input: PDF / JPEG / PNG / TIFF] --> B[Rasterize to images]
+    B -->|--grounded| Z[Grounded VLM: text+bbox in one call]
+    Z --> EMB
 
-    subgraph "Phase 1: Layout Detection (Surya)"
-        C --> D[Surya DetectionPredictor]
-        D --> E[Bounding Boxes]
-        E --> F[Sorted by Reading Order]
-    end
-
-    subgraph "Phase 2: Text Extraction (Local LLM)"
-        C --> G[OlmOCR Vision Model]
-        G --> H[Pure Text Content]
-    end
-
-    F --> I[Position-Based Aligner]
-    H --> I
-
-    I -->|Distribute by Box Width| J[Aligned Text Blocks]
-    J --> K[Sandwich PDF Generator]
-    K --> L[Searchable PDF Output]
+    B -->|default| C[Surya DetectionPredictor<br/>batch, detection-only]
+    B --> D[LLM full-page OCR<br/>OlmOCR / GLM-OCR / etc.]
+    C --> E[Layout boxes in reading order]
+    D --> F[Plain text with line breaks]
+    E --> G[Needleman-Wunsch DP aligner<br/>line ↔ box monotonic match]
+    F --> G
+    G --> H{Boxes the DP<br/>left empty?}
+    H -->|yes| R[Per-box crop re-OCR<br/>refine stage]
+    H -->|no| EMB[Sandwich PDF writer]
+    R --> EMB
+    EMB --> L[Searchable PDF output]
 ```
 
 ### How It Works
 
-1. **Batch Layout Detection**: Surya's `DetectionPredictor` processes all pages at once, extracting bounding boxes without slow text recognition (~1s total vs ~20s per page with recognition).
+1. **Input**: PDFs *or* raw images. Multi-frame TIFFs expand to one page per frame. Images skip the PDF round-trip and feed straight into the pipeline.
 
-2. **LLM Text Extraction**: A local vision model (OlmOCR) reads each page with human-like understanding, handling handwriting and complex layouts perfectly.
+2. **Batch Layout Detection** *(hybrid path)*: Surya's `DetectionPredictor` processes all pages in one call, ~10-21× faster than running full recognition.
 
-3. **Position-Based Alignment**: The aligner distributes LLM text across detected boxes proportionally by box width in reading order—no fuzzy matching needed.
+3. **LLM Text Extraction** *(hybrid path)*: A local vision model (OlmOCR by default via LM Studio) transcribes each page's full content with human-like understanding.
 
-4. **Sandwich PDF**: The original page is rendered as an image with invisible, searchable text overlaid using PyMuPDF.
+4. **Needleman-Wunsch Alignment** *(hybrid path)*: The DP aligner binds each LLM line to its Surya box using character-count fit + reading-order monotonicity. Cheap `skip_box` ops (many detected boxes are rules/decorations), expensive `skip_line` ops — but unmatched lines are attached to the nearest matched box so no LLM text is lost.
+
+5. **Refine Fallback** *(hybrid path, optional)*: Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. Catches tables/multi-column/figure captions without paying N× latency on clean prose. Disable with `--no-refine`.
+
+6. **Grounded Path** *(opt-in alternative)*: With `--grounded` pointed at a bbox-native VLM (Qwen2.5-VL, Qwen3-VL, MinerU, …), the model returns `{bbox, text}` tuples in a single call — Surya, DP, and refine are all skipped.
+
+7. **Sandwich PDF**: The page is rasterized as a background image and invisible text is overlaid with horizontal-scale matrices so glyph bboxes span the full width of each source box — selection in a PDF viewer correctly covers the whole region.
 
 ---
 
@@ -68,9 +73,10 @@ graph TD
 ### Prerequisites
 
 1.  **Python 3.10+**
-2.  **LM Studio**: Download and install [LM Studio](https://lmstudio.ai).
-    -   Load a Vision Model (highly recommended: `allenai/olmocr-2-7b`).
-    -   Start the Local Server at default port `1234`.
+2.  **A local OpenAI-compatible LLM server**. Any of:
+    -   **[LM Studio](https://lmstudio.ai)** — recommended default. Load `allenai/olmocr-2-7b` (hybrid path) or `qwen/qwen3-vl-8b` / `qwen/qwen2.5-vl-7b` (grounded path). Start the local server (default port `1234`).
+    -   **[Ollama](https://ollama.com)** — pull `glm-ocr:latest` (requires `--max-image-dim 640`) or any vision model. Served at `http://localhost:11434/v1`.
+    -   **vLLM / SGLang / any OpenAI-compatible endpoint**.
 
 ### Configuration
 
@@ -200,18 +206,28 @@ _You'll see animated progress bars showing detection, LLM OCR, refinement, and e
 
 ```
 local-llm-pdf-ocr/
-├── src/pdf_ocr/           # Core package
-│   ├── core/              # OCR processing modules
-│   │   ├── aligner.py     # Hybrid text alignment
-│   │   ├── ocr.py         # LLM OCR processor
-│   │   └── pdf.py         # PDF handling utilities
-│   └── utils/             # Utility modules
-│       └── tqdm_patch.py  # Progress bar silencer
-├── scripts/               # Debug and visualization tools
-├── static/                # Web UI assets
-├── examples/              # Sample PDFs
-├── main.py                # CLI entry point
-└── server.py              # Web server
+├── src/pdf_ocr/
+│   ├── pipeline.py            # OCRPipeline orchestration seam (hybrid + grounded)
+│   ├── core/
+│   │   ├── aligner.py         # HybridAligner: Surya detect + Needleman-Wunsch DP
+│   │   ├── ocr.py             # OCRProcessor: OpenAI-compat LLM client + crop OCR
+│   │   ├── pdf.py             # PDFHandler: PDF/image I/O + sandwich-PDF embedding
+│   │   └── grounded.py        # Grounded backends (PromptedGroundedOCR, ZAIHostedOCR) + parsers
+│   ├── evaluation.py          # Confidence comparator (IoU + text similarity)
+│   └── utils/
+│       ├── image.py           # Crop utility for the refine stage
+│       └── tqdm_patch.py      # Silences Surya's internal progress bars
+├── tests/                     # 145-test suite (fast tier + Surya-integration tier)
+│   └── fixtures/              # Ground-truth JSON for confidence evaluation
+├── scripts/
+│   ├── confidence_eval.py     # Score either path against ground-truth fixtures
+│   ├── debug_alignment.py     # Visualize alignment for a single PDF
+│   ├── visualize_bboxes.py    # Render Surya's detected boxes
+│   └── ...                    # Other debug tools
+├── static/                    # Web UI assets
+├── examples/                  # Sample PDFs (digital, hybrid, handwritten)
+├── main.py                    # CLI entry point
+└── server.py                  # FastAPI web server
 ```
 
 ---
@@ -229,13 +245,38 @@ local-llm-pdf-ocr/
 
 ## ⚡ Performance
 
-| Document Type | Detection Time | Speedup vs Recognition |
-| ------------- | -------------- | ---------------------- |
-| Digital PDF   | ~1s            | **21x faster**         |
-| Handwritten   | ~1s            | **10x faster**         |
-| Hybrid Form   | ~1s            | **11x faster**         |
+Detection is no longer the bottleneck — full-page LLM OCR is. Rough per-page timings on a warm run (Surya loaded, LM Studio serving OlmOCR-2-7B on a single GPU):
 
-_Detection uses batch processing—all pages in one call._
+| Phase | Time / page | Notes |
+|---|---|---|
+| Rasterize PDF → image | ~0.3 s | Linear in pages |
+| Surya batch detection | ~0.5 s | Amortized across all pages in one call |
+| **LLM full-page OCR** | **~2–4 s** | **Dominant cost.** Set `--concurrency 3` to parallelize on multi-page docs |
+| Per-box refine (if needed) | ~0.5–1 s × empty boxes | Typically 0–2 s; `--no-refine` to skip |
+| PDF assembly | ~0.2 s | Linear in pages |
+| Cold-start Surya load | +5–10 s (once) | Paid even on `--grounded` runs |
+
+On our three example PDFs (hybrid path, `allenai/olmocr-2-7b`, warm): digital ≈ 14 s, hybrid ≈ 5 s, handwritten ≈ 4 s.
+
+---
+
+## 🧪 Testing
+
+```bash
+uv run pytest                      # full suite (~75s, loads Surya once)
+uv run pytest -m "not slow"        # fast tier (~15s, no model loads)
+uv run pytest tests/test_aligner.py -v
+```
+
+Confidence evaluation (needs a live LLM endpoint):
+
+```bash
+uv run scripts/confidence_eval.py --path both \
+    --grounded-model qwen/qwen3-vl-8b \
+    --hybrid-model allenai/olmocr-2-7b
+```
+
+Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json` — block recall at IoU≥0.3, average IoU of matched pairs, average text similarity.
 
 ---
 
