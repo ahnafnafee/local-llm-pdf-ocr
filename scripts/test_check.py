@@ -29,7 +29,8 @@ def check_file(filename):
         pix = page.get_pixmap()
         image_bytes = pix.tobytes("png") 
         
-        structured_data = aligner.get_structured_text(image_bytes)
+        boxes = aligner.get_detected_boxes_batch([image_bytes])[0]
+        structured_data = [(box, "") for box in boxes]
         print(f"  Items found: {len(structured_data)}")
         if structured_data:
             print(f"  First item: {structured_data[0]}")

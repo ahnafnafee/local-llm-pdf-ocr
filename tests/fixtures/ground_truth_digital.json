@@ -1,0 +1,26 @@
+{
+  "data": {
+    "file_name": "digital.pdf",
+    "file_type": "pdf",
+    "layout": [
+      {"block_content": "Department of Computer Science\nCollege of Engineering and Computing\n4400 University Drive, MS 4A5, Fairfax, Virginia 22030\nPhone: 703-993-1530; Fax: 703-993-1710\nwww: http://www.cs.gmu.edu/", "bbox": [20, 833, 160, 1371], "block_id": 0, "page_index": 0, "block_label": "header", "score": 0.99},
+      {"block_content": "CS 701 - Research Experience in Computer Science – Spring'26", "bbox": [179, 364, 218, 1360], "block_id": 1, "page_index": 0, "block_label": "title", "score": 0.99},
+      {"block_content": "Student Name (Last, First): ___________________________________", "bbox": [273, 161, 306, 1235], "block_id": 2, "page_index": 0, "block_label": "form_field", "score": 0.99},
+      {"block_content": "Student e-mail address: ___________________________________", "bbox": [354, 161, 388, 1235], "block_id": 3, "page_index": 0, "block_label": "form_field", "score": 0.99},
+      {"block_content": "Student G#: ___________________________________", "bbox": [436, 161, 470, 1234], "block_id": 4, "page_index": 0, "block_label": "form_field", "score": 0.99},
+      {"block_content": "Name of the CS faculty member\nto supervise the student in CS 701: ___________________________________", "bbox": [518, 161, 592, 1235], "block_id": 5, "page_index": 0, "block_label": "form_field", "score": 0.99},
+      {"block_content": "Description of the research activity (clarify the hands-on component explicitly in your description):", "bbox": [640, 161, 673, 1495], "block_id": 6, "page_index": 0, "block_label": "form_field", "score": 0.99},
+      {"block_content": "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):", "bbox": [884, 161, 917, 1516], "block_id": 7, "page_index": 0, "block_label": "form_field", "score": 0.99},
+      {"block_content": "Signatures", "bbox": [1087, 161, 1120, 306], "block_id": 8, "page_index": 0, "block_label": "section_header", "score": 0.99},
+      {"block_content": "Student: CS Faculty Supervisor: PhD CS Program Director:", "bbox": [1128, 161, 1161, 1426], "block_id": 9, "page_index": 0, "block_label": "text", "score": 0.99},
+      {"block_content": "_______________________ _____________________ ____________________", "bbox": [1168, 161, 1202, 1404], "block_id": 10, "page_index": 0, "block_label": "signature_line", "score": 0.99},
+      {"block_content": "Notes", "bbox": [1290, 161, 1324, 241], "block_id": 11, "page_index": 0, "block_label": "section_header", "score": 0.99},
+      {"block_content": "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.", "bbox": [1331, 211, 1364, 1440], "block_id": 12, "page_index": 0, "block_label": "list_item", "score": 0.99},
+      {"block_content": "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the\nCS 701 research activity should include a hands-on component (such as software development,\nperforming and analyzing experiments with existing techniques) beyond the literature review.\nSpecify the hands-on activity within the \u201cdescription of the research activity\u201d field above.\nIf necessary, you can attach an additional sheet to elaborate further on the description of the\nresearch activity.", "bbox": [1372, 211, 1609, 1556], "block_id": 13, "page_index": 0, "block_label": "list_item", "score": 0.99},
+      {"block_content": "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the\nend of the semester. In addition, all CS 701 students are required to give a short talk to the\npublic about their research at the end of the semester. Logistics of that meeting will be\nannounced by the CS department.", "bbox": [1616, 211, 1772, 1541], "block_id": 14, "page_index": 0, "block_label": "list_item", "score": 0.99},
+      {"block_content": "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be\nindicated next to the \u201cCS faculty member name\u201d field above, and they should co-sign the form.\nAt the registrar level, the CS 701 registration will be made only under CS faculty names.", "bbox": [1779, 211, 1894, 1546], "block_id": 15, "page_index": 0, "block_label": "list_item", "score": 0.99},
+      {"block_content": "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put\n\u201c[CS701 form]\u201d in the subject line) by November 21, 2025 .", "bbox": [1901, 211, 1975, 1466], "block_id": 16, "page_index": 0, "block_label": "list_item", "score": 0.99}
+    ],
+    "data_info": {"pages": [{"width": 1700, "height": 2200}], "num_pages": 1}
+  }
+}

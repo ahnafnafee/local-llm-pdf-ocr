@@ -1,0 +1,24 @@
+{
+  "data": {
+    "file_name": "handwritten.pdf",
+    "file_type": "pdf",
+    "layout": [
+      {"block_content": "Algorithms,", "bbox": [60, 95, 195, 445], "block_id": 0, "page_index": 0, "block_label": "title", "score": 0.85},
+      {"block_content": "- computational procedure", "bbox": [240, 130, 325, 720], "block_id": 1, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "- processes are finite, but the data does not\n  have an upper bound.", "bbox": [330, 100, 500, 1410], "block_id": 2, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "input <\u2014mapped\u2014> output", "bbox": [520, 380, 650, 960], "block_id": 3, "page_index": 0, "block_label": "diagram", "score": 0.85},
+      {"block_content": "- the input data needs to properly formatted", "bbox": [685, 100, 770, 1480], "block_id": 4, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "  - ensures a CORRECT ALGORITHM", "bbox": [770, 240, 870, 1480], "block_id": 5, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "- post condition is a logical predicate for\n  the input and output", "bbox": [895, 100, 1075, 1470], "block_id": 6, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "- Halting: the algo needs to finish in finite\n  time", "bbox": [1095, 100, 1280, 1470], "block_id": 7, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "  - look into induction proofs", "bbox": [1315, 295, 1410, 1020], "block_id": 8, "page_index": 0, "block_label": "list_item", "score": 0.85},
+      {"block_content": "-", "bbox": [1480, 60, 1540, 120], "block_id": 9, "page_index": 0, "block_label": "list_marker", "score": 0.85},
+      {"block_content": "Correctness", "bbox": [1425, 705, 1500, 960], "block_id": 10, "page_index": 0, "block_label": "diagram_node", "score": 0.85},
+      {"block_content": "Validity", "bbox": [1585, 435, 1690, 675], "block_id": 11, "page_index": 0, "block_label": "diagram_node", "score": 0.85},
+      {"block_content": "Halting", "bbox": [1580, 1005, 1710, 1260], "block_id": 12, "page_index": 0, "block_label": "diagram_node", "score": 0.85},
+      {"block_content": "(Conjunction of both)", "bbox": [1710, 555, 1810, 1175], "block_id": 13, "page_index": 0, "block_label": "diagram_caption", "score": 0.85},
+      {"block_content": "- if the algo has a strong post condition\n  it makes it more useful", "bbox": [1835, 100, 2015, 1475], "block_id": 14, "page_index": 0, "block_label": "list_item", "score": 0.85}
+    ],
+    "data_info": {"pages": [{"width": 1654, "height": 2170}], "num_pages": 1}
+  }
+}
