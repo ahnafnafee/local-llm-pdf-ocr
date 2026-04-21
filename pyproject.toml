@@ -35,3 +35,6 @@ markers = [
     "slow: loads Surya models (~5s first run) — skip with '-m \"not slow\"'",
     "live_llm: hits a real LLM endpoint — skip unless LM Studio is running",
 ]
+filterwarnings = [
+    "ignore::pydantic.PydanticDeprecatedSince20:surya.*",
+]
