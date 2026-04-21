@@ -6,13 +6,21 @@ endpoint works, including GLM OCR via Ollama — set LLM_API_BASE/LLM_MODEL or
 pass --api-base/--model).
 """
 
-import logging
 import os
 
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 
 load_dotenv()
+
+
+class LLMCallError(RuntimeError):
+    """Raised when a call to the local LLM OCR endpoint fails.
+
+    Wraps the underlying exception (connection refused, model not loaded,
+    timeout, auth, ...) with a message that names the api-base and model
+    so the user can diagnose without digging through a stack trace.
+    """
 
 
 # Canonical OlmOCR-2 prompt (the model was RL-trained on this exact string).
@@ -43,10 +51,9 @@ class OCRProcessor:
     """LLM-based OCR processor over an OpenAI-compatible async client."""
 
     def __init__(self, api_base: str | None = None, model: str | None = None):
-        base_url = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
-        model_name = model or os.getenv("LLM_MODEL", "allenai/olmocr-2-7b")
-        self.client = AsyncOpenAI(base_url=base_url, api_key="lm-studio")
-        self.model = model_name
+        self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+        self.model = model or os.getenv("LLM_MODEL", "allenai/olmocr-2-7b")
+        self.client = AsyncOpenAI(base_url=self.api_base, api_key="lm-studio")
 
     async def perform_ocr(self, image_base64: str) -> list[str]:
         """
@@ -94,8 +101,15 @@ class OCRProcessor:
             )
             return (response.choices[0].message.content or "").strip()
         except Exception as e:
-            logging.debug(f"DEBUG: LLM call failed: {e}")
-            return ""
+            raise LLMCallError(
+                f"LLM OCR call failed against {self.api_base} "
+                f"(model={self.model!r}): {type(e).__name__}: {e}\n"
+                f"  - Is your local LLM server (LM Studio / Ollama / vLLM) running at "
+                f"{self.api_base}?\n"
+                f"  - Is model {self.model!r} loaded and serving vision inputs?\n"
+                f"  - Override with LLM_API_BASE / LLM_MODEL in .env, "
+                f"or pass --api-base / --model."
+            ) from e
 
 
 def _strip_yaml_front_matter(text: str) -> str:
