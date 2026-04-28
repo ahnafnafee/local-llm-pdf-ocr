@@ -114,7 +114,7 @@ async def progress(stage: str, current: int, total: int, message: str) -> None
 
 ### Coordinate and text conventions
 - Bounding boxes are normalized `[nx0, ny0, nx1, ny1]` in `0..1` and only scaled to PDF points inside `embed_structured_text`. Don't scale them anywhere else.
-- Boxes are sorted top-to-bottom, left-to-right before alignment — the aligner relies on this reading order.
+- Boxes are emitted in **column-major reading order** (`_reading_order_sort` in `aligner.py`): when a clear column gap is detected, each column is sorted top-to-bottom and the columns are concatenated left-to-right. Single-column pages fall back to plain row-major. The DP relies on this order to match LLM lines (which OlmOCR / VLMs emit column-by-column on multi-column pages).
 - If `align_text` receives zero detected boxes, it falls back to a single full-page box containing all LLM text so search still works.
 - In `embed_structured_text`, multi-line text in a box is treated as a full-page fallback block; single-line text is placed with `insert_text(point, render_mode=3)` (PyMuPDF maintainer-recommended for invisible OCR layers — `insert_textbox` mis-sizes single-line glyphs).
 

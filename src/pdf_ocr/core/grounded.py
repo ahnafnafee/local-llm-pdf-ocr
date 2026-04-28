@@ -29,9 +29,14 @@ import base64
 import io
 import json
 import logging
+import os
 import re
 from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Optional, Protocol
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
@@ -283,12 +288,22 @@ class ZAIHostedOCR:
 
 DEFAULT_GROUNDING_PROMPT = (
     "You are an exhaustive OCR engine. Output a JSON array covering EVERY "
-    "text region on this page: headers, form labels, field names, body "
-    "paragraphs, numbered items, signatures, footnotes — all of it. "
+    "VISUAL LINE of text on this page: headers, form labels, field names, "
+    "body paragraphs, numbered items, signatures, footnotes — all of it.\n"
+    "\n"
+    "CRITICAL — line segmentation: emit ONE element PER VISUAL LINE. If a "
+    "phrase wraps onto two lines on the page, that is TWO elements, not "
+    "one — even if the lines belong to the same sentence, paragraph, or "
+    "phrase. Never join lines together. Never collapse a line break into "
+    "a space. Hand-written notes especially have line breaks that printed "
+    "text wouldn't — preserve every one of them. Each bbox must tightly "
+    "enclose a SINGLE line.\n"
+    "\n"
     "Each element must have this exact shape: "
-    "{\"bbox_2d\": [x1, y1, x2, y2], \"content\": \"<text>\"} "
-    "where bbox_2d is pixel coordinates in the image (x1<x2, y1<y2). "
-    "Do not skip small labels. Do not summarize. Do not merge distant lines. "
+    "{\"bbox_2d\": [x1, y1, x2, y2], \"content\": \"<text of that one line>\"} "
+    "where bbox_2d is pixel coordinates in the image (x1<x2, y1<y2).\n"
+    "\n"
+    "Do not skip small labels. Do not summarize. Do not paraphrase. "
     "No markdown fences, no prose — only the raw JSON array."
 )
 
@@ -316,8 +331,8 @@ class PromptedGroundedOCR:
 
     def __init__(
         self,
-        api_base: str = "http://localhost:1234/v1",
-        model: str = "qwen/qwen3-vl-8b",
+        api_base: str | None = None,
+        model: str | None = None,
         api_key: str = "lm-studio",
         max_image_dim: int = 1024,
         dpi: int = 150,
@@ -326,8 +341,11 @@ class PromptedGroundedOCR:
         max_tokens: int = 8192,
         concurrency: int = 1,
     ):
-        self.api_base = api_base
-        self.model = model
+        # Honor .env / environment overrides the same way OCRProcessor does,
+        # so a user with `LLM_API_BASE` set in .env doesn't have to also pass
+        # `--api-base` when switching to --grounded.
+        self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+        self.model = model or os.getenv("LLM_MODEL", "qwen/qwen3-vl-8b")
         self.api_key = api_key
         self.max_image_dim = max_image_dim
         self.dpi = dpi

@@ -61,8 +61,7 @@ class HybridAligner:
                     _clamp(x1 / img_w),
                     _clamp(y1 / img_h),
                 ])
-            boxes.sort(key=lambda b: (b[1], b[0]))
-            all_boxes.append(boxes)
+            all_boxes.append(_reading_order_sort(boxes))
         return all_boxes
 
     def align_text(
@@ -107,6 +106,63 @@ class HybridAligner:
 
 def _clamp(v: float) -> float:
     return max(0.0, min(1.0, v))
+
+
+# Threshold (in normalized x-center space) above which a gap between
+# consecutive boxes is treated as a column break. 2-column page gutters
+# tend to push x-center distance well past 0.2 (typical column-center
+# separation is ~0.3-0.5). Lower values risk treating a single marginal
+# box (page number, sidebar note) as its own column and re-ordering it
+# ahead of body text.
+_COLUMN_GAP_THRESHOLD = 0.2
+
+
+def _reading_order_sort(boxes: list[BBox]) -> list[BBox]:
+    """
+    Sort boxes in column-major reading order.
+
+    Vision LLMs (OlmOCR-2, Qwen-VL, etc.) typically emit text column by
+    column on multi-column pages — the entire left column first, then the
+    next column. Surya's natural row-major output interleaves rows across
+    columns, which mis-aligns LLM lines to boxes in the DP. This function
+    detects column structure via a gap-based split on box x-centers and
+    re-orders each column independently so the resulting sequence matches
+    what the LLM produced.
+
+    Heuristic: split at the largest x-center gap if it exceeds
+    ``_COLUMN_GAP_THRESHOLD`` AND both sides hold ≥2 boxes. The size
+    constraint prevents a lone marginal box (e.g. a page number) from
+    creating a fake column that swaps reading order. Recurses to handle
+    3+ column layouts; falls back to plain row-major for single-column
+    pages and very short sequences.
+    """
+    if len(boxes) < 4:
+        return sorted(boxes, key=lambda b: (b[1], b[0]))
+
+    indexed = sorted(
+        enumerate(boxes), key=lambda ib: (ib[1][0] + ib[1][2]) / 2
+    )
+    centers_sorted = [(b[0] + b[2]) / 2 for _, b in indexed]
+
+    biggest_gap = 0.0
+    biggest_gap_idx = -1
+    for i in range(1, len(centers_sorted)):
+        gap = centers_sorted[i] - centers_sorted[i - 1]
+        if gap > biggest_gap:
+            biggest_gap = gap
+            biggest_gap_idx = i
+
+    # Need both groups ≥2 boxes to call it a real column split.
+    if (
+        biggest_gap < _COLUMN_GAP_THRESHOLD
+        or biggest_gap_idx < 2
+        or biggest_gap_idx > len(centers_sorted) - 2
+    ):
+        return sorted(boxes, key=lambda b: (b[1], b[0]))
+
+    left_boxes = [b for _, b in indexed[:biggest_gap_idx]]
+    right_boxes = [b for _, b in indexed[biggest_gap_idx:]]
+    return _reading_order_sort(left_boxes) + _reading_order_sort(right_boxes)
 
 
 def _normalize_lines(llm_text) -> list[str]:
