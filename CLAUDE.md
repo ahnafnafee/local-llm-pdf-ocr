@@ -17,7 +17,7 @@ uv run main.py input.pdf --dense-mode always --concurrency 5  # force per-box OC
 uv run main.py input.pdf --dense-threshold 40                 # auto-mode kicks in earlier (default 60 boxes/page)
 uv run main.py input.pdf --api-base http://localhost:11434/v1 --model glm-ocr:latest --max-image-dim 640   # Ollama + GLM-OCR
 uv run main.py input.pdf --grounded --model qwen/qwen3-vl-8b  # grounded path: bbox-native VLM, no Surya
-uv run main.py photo.avif                                     # AVIF input (pillow-avif-plugin registered eagerly)
+uv run main.py photo.avif                                     # AVIF input (native via Pillow ≥11.3)
 uv run main.py input.pdf -v                                   # verbose debug logging
 uv run uvicorn server:app --reload --port 8000                # web UI at http://localhost:8000
 ```
@@ -126,7 +126,7 @@ The `"ocr"` stage label is suffixed with a dense/sparse split when both kinds of
 
 | Class           | File        | Role                                                                          |
 |-----------------|-------------|-------------------------------------------------------------------------------|
-| `PDFHandler`    | `pdf.py`    | PDF↔image conversion; builds a fresh `new_doc` and overlays invisible text with `render_mode=3`. `_draw_invisible_text` auto-sizes font per box. Eagerly imports `pillow_avif` to register `.avif` decoding with PIL — `IMAGE_EXTENSIONS` includes `.avif` alongside JPEG/PNG/TIFF/BMP/WebP. |
+| `PDFHandler`    | `pdf.py`    | PDF↔image conversion; builds a fresh `new_doc` and overlays invisible text with `render_mode=3`. `_draw_invisible_text` auto-sizes font per box. `IMAGE_EXTENSIONS` includes `.avif` alongside JPEG/PNG/TIFF/BMP/WebP — AVIF decoding is native to Pillow ≥11.3 (the pyproject.toml floor). |
 | `OCRProcessor`  | `ocr.py`    | `AsyncOpenAI` client against the local LLM; `perform_ocr` returns a list of lines. Per-call `max_tokens` + `timeout` caps prevent runaway generation. Output runs through `_strip_runaway_repetition` (caps any single line at 20 occurrences) and crop responses through the pangram filter. |
 | `HybridAligner` | `aligner.py`| Wraps Surya's `DetectionPredictor`; `get_detected_boxes_batch` returns boxes in row-major order; `align_text` runs the DP twice (row-major + column-major from `_reading_order_indices`) and picks the lower-cost result, so the same code path matches whichever order the LLM emits. |
 

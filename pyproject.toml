@@ -7,8 +7,7 @@ requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.124.4",
     "openai>=2.11.0",
-    "pillow>=10.2.0,<11.0.0",
-    "pillow-avif-plugin>=1.4.6",
+    "pillow>=11.3",
     "pymupdf>=1.26.7",
     "python-dotenv>=1.2.1",
     "python-multipart>=0.0.20",
@@ -26,6 +25,16 @@ dependencies = [
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+]
+
+[tool.uv]
+# surya-ocr 0.17.x pins pillow <11, but we want Pillow ≥11.3 for native
+# AVIF decoding (drops the pillow-avif-plugin runtime dep entirely). The
+# Pillow 10→11 changes surya might hit are deprecated-API removals and
+# Python 3.8 drop; both already aligned with our requires-python ≥3.10
+# floor, so the override is safe in practice.
+override-dependencies = [
+    "pillow>=11.3",
 ]
 
 [tool.pytest.ini_options]

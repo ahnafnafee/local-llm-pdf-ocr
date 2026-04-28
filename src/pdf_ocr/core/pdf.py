@@ -4,8 +4,8 @@ PDFHandler - PDF processing utilities.
 Handles PDF to image conversion and text embedding for creating searchable
 PDFs. Also accepts raw image inputs (JPEG/PNG/TIFF/BMP/WebP/AVIF) —
 including multi-page TIFF — so single-scan-per-file workflows don't need
-a PDF wrap step first. AVIF support requires `pillow-avif-plugin`, which
-is imported eagerly to register the decoder with PIL.
+a PDF wrap step first. AVIF support is provided natively by Pillow ≥
+11.3 (the `pyproject.toml` constraint enforces that floor).
 """
 
 import base64
@@ -13,7 +13,6 @@ import io
 from pathlib import Path
 
 import fitz  # PyMuPDF
-import pillow_avif  # noqa: F401  (registers AVIF decoder with PIL.Image.open)
 from PIL import Image, ImageSequence
 
 
