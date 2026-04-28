@@ -48,6 +48,16 @@ JOBS = [
     ("digital.pdf", "ground_truth_digital.json"),
     ("hybrid.pdf", "ground_truth_hybrid.json"),
     ("handwritten.pdf", "ground_truth_handwritten.json"),
+    # Dense and notes fixtures were bootstrapped from the hybrid pipeline's
+    # own output_*.pdf via scripts/fixture_from_output.py — too dense to
+    # hand-build, and the grounded VLM hits "context size exceeded" on
+    # them so build_fixture.py couldn't be used either. Useful for
+    # *regression* testing: if a future change degrades the hybrid output
+    # against this baseline, recall drops will flag it. Less useful for
+    # absolute hybrid-vs-grounded comparison since the bar is set by the
+    # hybrid path itself.
+    ("dense.pdf", "ground_truth_dense.json"),
+    ("notes.pdf", "ground_truth_notes.json"),
 ]
 
 

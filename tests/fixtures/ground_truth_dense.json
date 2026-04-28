@@ -1,0 +1,4770 @@
+{
+  "data": {
+    "file_name": "dense.pdf",
+    "file_type": "pdf",
+    "layout": [
+      {
+        "block_content": "SQL in Application Code",
+        "bbox": [
+          4,
+          9,
+          14,
+          104
+        ],
+        "block_id": 0,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Trichone Winding problem",
+        "bbox": [
+          6,
+          213,
+          19,
+          335
+        ],
+        "block_id": 1,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- to hold my energy, I need to believe",
+        "bbox": [
+          6,
+          419,
+          17,
+          582
+        ],
+        "block_id": 2,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Test main integration of flows",
+        "bbox": [
+          15,
+          19,
+          28,
+          138
+        ],
+        "block_id": 3,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "D with cursor",
+        "bbox": [
+          17,
+          423,
+          27,
+          501
+        ],
+        "block_id": 4,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "not routine",
+        "bbox": [
+          19,
+          361,
+          44,
+          404
+        ],
+        "block_id": 5,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- speed with cursor",
+        "bbox": [
+          22,
+          227,
+          32,
+          309
+        ],
+        "block_id": 6,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- main integration of modules - (SU) statement level interface - embedded SQL - embedded SQL",
+        "bbox": [
+          23,
+          24,
+          53,
+          189
+        ],
+        "block_id": 7,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\"edicated so screwed in visions",
+        "bbox": [
+          38,
+          419,
+          52,
+          579
+        ],
+        "block_id": 8,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "OPEN: when Sal Vincent is excited",
+        "bbox": [
+          48,
+          258,
+          58,
+          386
+        ],
+        "block_id": 9,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "that require high performance without",
+        "bbox": [
+          53,
+          423,
+          65,
+          581
+        ],
+        "block_id": 10,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- (coh. rev.) - & Haue · SDBC",
+        "bbox": [
+          56,
+          36,
+          67,
+          148
+        ],
+        "block_id": 11,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Let us who in wars to be not now",
+        "bbox": [
+          60,
+          245,
+          73,
+          393
+        ],
+        "block_id": 12,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- (oh - even) - make · 366C (su) - special AP1 to · 006C",
+        "bbox": [
+          63,
+          9,
+          79,
+          145
+        ],
+        "block_id": 13,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "50% overhead",
+        "bbox": [
+          67,
+          422,
+          78,
+          492
+        ],
+        "block_id": 14,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "See commands",
+        "bbox": [
+          77,
+          53,
+          88,
+          107
+        ],
+        "block_id": 15,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Inseminative Lungs cannot make charges to",
+        "bbox": [
+          79,
+          233,
+          90,
+          393
+        ],
+        "block_id": 16,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "So columns Personal | Scan Info | engine Info | machine Doc | driving | - info - info | - info | - info | - info | - info | - info",
+        "bbox": [
+          85,
+          31,
+          101,
+          194
+        ],
+        "block_id": 17,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- for dynamic S3k, we cannot read, shu",
+        "bbox": [
+          88,
+          419,
+          98,
+          576
+        ],
+        "block_id": 18,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "New York, Lewis, and Pine",
+        "bbox": [
+          89,
+          253,
+          100,
+          375
+        ],
+        "block_id": 19,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "For dynamic jobs, we need to prepare",
+        "bbox": [
+          96,
+          426,
+          110,
+          510
+        ],
+        "block_id": 20,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·",
+        "bbox": [
+          98,
+          36,
+          111,
+          42
+        ],
+        "block_id": 21,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "1/2",
+        "bbox": [
+          100,
+          74,
+          111,
+          102
+        ],
+        "block_id": 22,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "It isn't a joke, it's",
+        "bbox": [
+          103,
+          231,
+          115,
+          351
+        ],
+        "block_id": 23,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "sugar james",
+        "bbox": [
+          104,
+          158,
+          114,
+          180
+        ],
+        "block_id": 24,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "when outside, sensitive, cool",
+        "bbox": [
+          116,
+          232,
+          127,
+          348
+        ],
+        "block_id": 25,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\frac{\\partial \\mathcal{L}}{\\partial \\dot{\\mathbf{q}}}\\)",
+        "bbox": [
+          116,
+          415,
+          125,
+          474
+        ],
+        "block_id": 26,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Squash",
+        "bbox": [
+          126,
+          178,
+          145,
+          197
+        ],
+        "block_id": 27,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "This does not require training. No info at",
+        "bbox": [
+          129,
+          422,
+          144,
+          588
+        ],
+        "block_id": 28,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "gives me with checking set of triples",
+        "bbox": [
+          135,
+          236,
+          154,
+          399
+        ],
+        "block_id": 29,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Schema of DB will be known",
+        "bbox": [
+          145,
+          18,
+          154,
+          126
+        ],
+        "block_id": 30,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "stung",
+        "bbox": [
+          146,
+          426,
+          156,
+          450
+        ],
+        "block_id": 31,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Schema of DB will be known at the program is written for embedded SQL",
+        "bbox": [
+          149,
+          18,
+          169,
+          181
+        ],
+        "block_id": 32,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- can connect to multiple DBS with multiple",
+        "bbox": [
+          156,
+          421,
+          176,
+          594
+        ],
+        "block_id": 33,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "lose clawing over",
+        "bbox": [
+          158,
+          246,
+          171,
+          345
+        ],
+        "block_id": 34,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "on air info or written instead of complete info",
+        "bbox": [
+          166,
+          26,
+          195,
+          126
+        ],
+        "block_id": 35,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Close can and cover Can be reused when in use",
+        "bbox": [
+          169,
+          233,
+          183,
+          388
+        ],
+        "block_id": 36,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "sepunk divers",
+        "bbox": [
+          174,
+          429,
+          185,
+          489
+        ],
+        "block_id": 37,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "separate drivers - all interaction with the DB performed via a compatibility object",
+        "bbox": [
+          179,
+          421,
+          200,
+          579
+        ],
+        "block_id": 38,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3. Let it flow",
+        "bbox": [
+          179,
+          259,
+          189,
+          283
+        ],
+        "block_id": 39,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a connection object",
+        "bbox": [
+          194,
+          426,
+          208,
+          505
+        ],
+        "block_id": 40,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- SQLSTATE - common error we might see",
+        "bbox": [
+          200,
+          5,
+          217,
+          171
+        ],
+        "block_id": 41,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "We are all in",
+        "bbox": [
+          202,
+          224,
+          215,
+          288
+        ],
+        "block_id": 42,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Prepared statement is more efficient to use you as made to reuse & it is precompiled",
+        "bbox": [
+          211,
+          424,
+          241,
+          596
+        ],
+        "block_id": 43,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "The world is a book and those who do not travel read only one page.",
+        "bbox": [
+          213,
+          234,
+          224,
+          267
+        ],
+        "block_id": 44,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "FREE JAL SELECT SINGAPORE SAGE",
+        "bbox": [
+          214,
+          33,
+          227,
+          146
+        ],
+        "block_id": 45,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "exec spal select s.idno, s.age into t-view c-obj from stuas s where s.id = t-sid",
+        "bbox": [
+          220,
+          33,
+          247,
+          170
+        ],
+        "block_id": 46,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "FROM sales WHERE ssd = (c - sgd) -> in parens",
+        "bbox": [
+          239,
+          29,
+          263,
+          155
+        ],
+        "block_id": 47,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- ? are globules",
+        "bbox": [
+          241,
+          420,
+          254,
+          496
+        ],
+        "block_id": 48,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- create Update",
+        "bbox": [
+          266,
+          216,
+          279,
+          278
+        ],
+        "block_id": 49,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Vagueness · Redundancy",
+        "bbox": [
+          267,
+          413,
+          282,
+          502
+        ],
+        "block_id": 50,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- for db, set index from 1",
+        "bbox": [
+          268,
+          9,
+          279,
+          142
+        ],
+        "block_id": 51,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "make update() only returns number of runs (skipped)",
+        "bbox": [
+          270,
+          228,
+          294,
+          375
+        ],
+        "block_id": 52,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- keyword - CD: most important kind of constraint in the relational model",
+        "bbox": [
+          277,
+          415,
+          301,
+          572
+        ],
+        "block_id": 53,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- see the confusion table for",
+        "bbox": [
+          289,
+          211,
+          311,
+          332
+        ],
+        "block_id": 54,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Project 2",
+        "bbox": [
+          290,
+          12,
+          302,
+          50
+        ],
+        "block_id": 55,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "by me",
+        "bbox": [
+          292,
+          340,
+          301,
+          385
+        ],
+        "block_id": 56,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "most important and at (on) mood",
+        "bbox": [
+          292,
+          449,
+          305,
+          551
+        ],
+        "block_id": 57,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Project 2 - we to use LIKE for partial matching",
+        "bbox": [
+          295,
+          11,
+          316,
+          174
+        ],
+        "block_id": 58,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "in the abnormal mood, associated with the swarm, not",
+        "bbox": [
+          302,
+          440,
+          319,
+          592
+        ],
+        "block_id": 59,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "executively",
+        "bbox": [
+          305,
+          345,
+          316,
+          393
+        ],
+        "block_id": 60,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "instead",
+        "bbox": [
+          314,
+          357,
+          326,
+          381
+        ],
+        "block_id": 61,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- associated w the instance",
+        "bbox": [
+          316,
+          435,
+          329,
+          505
+        ],
+        "block_id": 62,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- JOSCE vs SALVS",
+        "bbox": [
+          319,
+          214,
+          333,
+          308
+        ],
+        "block_id": 63,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Chose one?",
+        "bbox": [
+          320,
+          14,
+          331,
+          73
+        ],
+        "block_id": 64,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Can I update the constraint laws for?",
+        "bbox": [
+          329,
+          429,
+          348,
+          603
+        ],
+        "block_id": 65,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- plagiar should NOT wish",
+        "bbox": [
+          332,
+          15,
+          350,
+          157
+        ],
+        "block_id": 66,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "win ap",
+        "bbox": [
+          337,
+          308,
+          346,
+          334
+        ],
+        "block_id": 67,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Let's manage",
+        "bbox": [
+          339,
+          234,
+          349,
+          280
+        ],
+        "block_id": 68,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Can we choose?",
+        "bbox": [
+          343,
+          306,
+          357,
+          362
+        ],
+        "block_id": 69,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "complexity",
+        "bbox": [
+          350,
+          245,
+          360,
+          280
+        ],
+        "block_id": 70,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- use grade for simplicity",
+        "bbox": [
+          354,
+          16,
+          374,
+          123
+        ],
+        "block_id": 71,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "x · y",
+        "bbox": [
+          356,
+          435,
+          367,
+          484
+        ],
+        "block_id": 72,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "explain better",
+        "bbox": [
+          358,
+          246,
+          371,
+          272
+        ],
+        "block_id": 73,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Use Steve as a synonym (what he's what I was lost)",
+        "bbox": [
+          368,
+          23,
+          382,
+          147
+        ],
+        "block_id": 74,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "functionally determines",
+        "bbox": [
+          375,
+          433,
+          388,
+          535
+        ],
+        "block_id": 75,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Lib: functional Dependencies",
+        "bbox": [
+          379,
+          213,
+          393,
+          311
+        ],
+        "block_id": 76,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3: functional Attributes Dependencies Closure",
+        "bbox": [
+          387,
+          224,
+          405,
+          309
+        ],
+        "block_id": 77,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "often chintzy,",
+        "bbox": [
+          393,
+          438,
+          405,
+          482
+        ],
+        "block_id": 78,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "L14: Normal fare",
+        "bbox": [
+          406,
+          213,
+          422,
+          282
+        ],
+        "block_id": 79,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "y = dependent on x",
+        "bbox": [
+          406,
+          461,
+          418,
+          550
+        ],
+        "block_id": 80,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Aber ist normal",
+        "bbox": [
+          418,
+          235,
+          430,
+          270
+        ],
+        "block_id": 81,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Normalise L15: Properties of Decomposition labelled J0n + D0",
+        "bbox": [
+          425,
+          212,
+          449,
+          328
+        ],
+        "block_id": 82,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Phone Book",
+        "bbox": [
+          434,
+          441,
+          444,
+          477
+        ],
+        "block_id": 83,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Properties of Damping Lossless J001 + DD",
+        "bbox": [
+          437,
+          234,
+          459,
+          309
+        ],
+        "block_id": 84,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Phone Home # | New | (PG) 3055950101 | Ave | forbox 3055950101 | Ave | Coles",
+        "bbox": [
+          444,
+          440,
+          480,
+          549
+        ],
+        "block_id": 85,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Minimal cover",
+        "bbox": [
+          452,
+          228,
+          471,
+          309
+        ],
+        "block_id": 86,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for the soul",
+        "bbox": [
+          459,
+          528,
+          471,
+          551
+        ],
+        "block_id": 87,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Minimal Cost Lib: Decomposability Algorithms",
+        "bbox": [
+          463,
+          212,
+          490,
+          322
+        ],
+        "block_id": 88,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "If I won some money,",
+        "bbox": [
+          479,
+          439,
+          490,
+          586
+        ],
+        "block_id": 89,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "I won sometimes but I never sign on her name",
+        "bbox": [
+          487,
+          439,
+          500,
+          581
+        ],
+        "block_id": 90,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Phone #   ->   Name",
+        "bbox": [
+          500,
+          460,
+          513,
+          541
+        ],
+        "block_id": 91,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-x \\rightarrow \\gamma_2 \\quad \\sum_{x \\rightarrow \\gamma} \\varphi",
+        "bbox": [
+          528,
+          415,
+          558,
+          513
+        ],
+        "block_id": 92,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- look out for advantages in data",
+        "bbox": [
+          531,
+          31,
+          545,
+          161
+        ],
+        "block_id": 93,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "my nephew is pedantic",
+        "bbox": [
+          534,
+          217,
+          547,
+          339
+        ],
+        "block_id": 94,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Cont de mps",
+        "bbox": [
+          534,
+          531,
+          544,
+          596
+        ],
+        "block_id": 95,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Bold - DN - instances",
+        "bbox": [
+          544,
+          32,
+          554,
+          72
+        ],
+        "block_id": 96,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "LHS",
+        "bbox": [
+          546,
+          532,
+          555,
+          561
+        ],
+        "block_id": 97,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "upside and malay",
+        "bbox": [
+          549,
+          238,
+          560,
+          300
+        ],
+        "block_id": 98,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ C_{k}^{n} = C_{n}^{k} \\implies C_{x}^{y} = C_{y}^{x} \\]",
+        "bbox": [
+          558,
+          29,
+          573,
+          185
+        ],
+        "block_id": 99,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- insertion anomaly",
+        "bbox": [
+          561,
+          240,
+          571,
+          319
+        ],
+        "block_id": 100,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "the SM",
+        "bbox": [
+          561,
+          427,
+          572,
+          482
+        ],
+        "block_id": 101,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "······",
+        "bbox": [
+          563,
+          533,
+          580,
+          549
+        ],
+        "block_id": 102,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is this the decision?",
+        "bbox": [
+          565,
+          436,
+          584,
+          511
+        ],
+        "block_id": 103,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-deletion  onceonly",
+        "bbox": [
+          573,
+          239,
+          584,
+          309
+        ],
+        "block_id": 104,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "I, and it's · Any two cars in your local",
+        "bbox": [
+          576,
+          24,
+          593,
+          170
+        ],
+        "block_id": 105,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(100% Organic)",
+        "bbox": [
+          582,
+          350,
+          602,
+          389
+        ],
+        "block_id": 106,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "d_1 and d_2 · Any two out of your choice d_1[x] · You or it × whom of now!",
+        "bbox": [
+          587,
+          21,
+          610,
+          177
+        ],
+        "block_id": 107,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "click",
+        "bbox": [
+          592,
+          313,
+          606,
+          347
+        ],
+        "block_id": 108,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-Closure of Authorities-",
+        "bbox": [
+          594,
+          417,
+          606,
+          511
+        ],
+        "block_id": 109,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "She is going to get a new car.",
+        "bbox": [
+          597,
+          219,
+          608,
+          274
+        ],
+        "block_id": 110,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f_1(x) \\rightarrow \\text{low order} \\quad \\text{for smal values of x} \\\\ f_1(x) = h(x) \\rightarrow \\text{low order for large values of x}",
+        "bbox": [
+          603,
+          20,
+          625,
+          193
+        ],
+        "block_id": 111,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- find all attributes dependent on entity",
+        "bbox": [
+          605,
+          442,
+          624,
+          606
+        ],
+        "block_id": 112,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "so sorry, sorry for you for me",
+        "bbox": [
+          606,
+          221,
+          618,
+          277
+        ],
+        "block_id": 113,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "the ocean",
+        "bbox": [
+          619,
+          221,
+          627,
+          261
+        ],
+        "block_id": 114,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-see expansion in appx",
+        "bbox": [
+          620,
+          265,
+          642,
+          367
+        ],
+        "block_id": 115,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- find all solutions - if I know value of sin x, what",
+        "bbox": [
+          620,
+          439,
+          642,
+          579
+        ],
+        "block_id": 116,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·   ·   504",
+        "bbox": [
+          628,
+          25,
+          640,
+          80
+        ],
+        "block_id": 117,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "If I know what all sins & evil are I figure out",
+        "bbox": [
+          635,
+          443,
+          654,
+          555
+        ],
+        "block_id": 118,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f(-y) = f(y) \\Rightarrow \\text{even 1 or even 2 must also be even.}",
+        "bbox": [
+          640,
+          19,
+          657,
+          191
+        ],
+        "block_id": 119,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- \\( k = \\{ A_1, A_2, \\ldots, A_r \\} \\) is a codimension",
+        "bbox": [
+          650,
+          224,
+          670,
+          397
+        ],
+        "block_id": 120,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- i.e. closure of x",
+        "bbox": [
+          650,
+          444,
+          668,
+          531
+        ],
+        "block_id": 121,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "4 years",
+        "bbox": [
+          655,
+          110,
+          664,
+          149
+        ],
+        "block_id": 122,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Van zond",
+        "bbox": [
+          656,
+          84,
+          664,
+          106
+        ],
+        "block_id": 123,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\mu_A = \\frac{1}{n} \\sum_{i=1}^n X_i \\]",
+        "bbox": [
+          664,
+          468,
+          678,
+          515
+        ],
+        "block_id": 124,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "65 relation & 4",
+        "bbox": [
+          668,
+          236,
+          679,
+          316
+        ],
+        "block_id": 125,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "F0  Lefevre  von Lutz  d'Hauteville",
+        "bbox": [
+          676,
+          15,
+          693,
+          164
+        ],
+        "block_id": 126,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "relates R K \\Rightarrow M our attributes of R",
+        "bbox": [
+          678,
+          252,
+          696,
+          380
+        ],
+        "block_id": 127,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "frame yourself as a desirable entity in one circle, ie",
+        "bbox": [
+          679,
+          439,
+          698,
+          550
+        ],
+        "block_id": 128,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "you get as a dreamer start with one circle, let it lead to more circles",
+        "bbox": [
+          682,
+          463,
+          713,
+          586
+        ],
+        "block_id": 129,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "PO between reality and dreams is a red flag with the idea of being rejected",
+        "bbox": [
+          686,
+          15,
+          708,
+          185
+        ],
+        "block_id": 130,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "AND",
+        "bbox": [
+          698,
+          275,
+          709,
+          302
+        ],
+        "block_id": 131,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "AND No SW in text of k · all over occupancy of R",
+        "bbox": [
+          702,
+          252,
+          734,
+          390
+        ],
+        "block_id": 132,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "smilessonly",
+        "bbox": [
+          705,
+          16,
+          718,
+          63
+        ],
+        "block_id": 133,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "No sir",
+        "bbox": [
+          708,
+          251,
+          722,
+          279
+        ],
+        "block_id": 134,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- FO means one ATM's value is completely",
+        "bbox": [
+          718,
+          17,
+          742,
+          181
+        ],
+        "block_id": 135,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "so means one of its value is completely controled by another controling one appears in multiple rows, its dependent value gets copied · ie redundancy",
+        "bbox": [
+          732,
+          32,
+          776,
+          180
+        ],
+        "block_id": 136,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "go means one continued by",
+        "bbox": [
+          736,
+          28,
+          749,
+          79
+        ],
+        "block_id": 137,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "dependent · ie. relationship",
+        "bbox": [
+          763,
+          69,
+          781,
+          142
+        ],
+        "block_id": 138,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "pachad",
+        "bbox": [
+          768,
+          34,
+          780,
+          60
+        ],
+        "block_id": 139,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for example",
+        "bbox": [
+          2,
+          15,
+          12,
+          59
+        ],
+        "block_id": 140,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "what about \\( \\Sigma C, D_3^+ \\)",
+        "bbox": [
+          2,
+          216,
+          18,
+          330
+        ],
+        "block_id": 141,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Navigation",
+        "bbox": [
+          4,
+          415,
+          18,
+          466
+        ],
+        "block_id": 142,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "example R = (A, B, C, D, \\pi, \\theta)",
+        "bbox": [
+          8,
+          29,
+          25,
+          111
+        ],
+        "block_id": 143,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Normalization - INF: disallowed attributes, empty cells, and no",
+        "bbox": [
+          12,
+          418,
+          32,
+          572
+        ],
+        "block_id": 144,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R = (A, B, C, D, E, G) fD3: AB \\rightarrow C, BC \\rightarrow AD, D \\rightarrow E, CE \\rightarrow B",
+        "bbox": [
+          15,
+          17,
+          38,
+          178
+        ],
+        "block_id": 145,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\xi \\in \\Omega^+ \\Rightarrow \\xi \\in \\Omega \\)",
+        "bbox": [
+          18,
+          225,
+          37,
+          314
+        ],
+        "block_id": 146,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "tradition, mathematics, and composition.",
+        "bbox": [
+          26,
+          451,
+          39,
+          557
+        ],
+        "block_id": 147,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f_0 : A \\to \\mathbb{C} \\\\ \\{A, \\theta_5\\} ?",
+        "bbox": [
+          33,
+          22,
+          56,
+          88
+        ],
+        "block_id": 148,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "comics",
+        "bbox": [
+          36,
+          449,
+          47,
+          504
+        ],
+        "block_id": 149,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "D \\rightarrow E \\implies \\xi \\in (0, \\xi_0)",
+        "bbox": [
+          39,
+          254,
+          63,
+          335
+        ],
+        "block_id": 150,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Prime vs. Nonprime Prime",
+        "bbox": [
+          55,
+          415,
+          70,
+          523
+        ],
+        "block_id": 151,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "& 3rdworld!",
+        "bbox": [
+          56,
+          53,
+          73,
+          108
+        ],
+        "block_id": 152,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "bold",
+        "bbox": [
+          62,
+          19,
+          73,
+          45
+        ],
+        "block_id": 153,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\Rightarrow \\sum \\theta, c, d, \\beta\\)",
+        "bbox": [
+          65,
+          249,
+          86,
+          345
+        ],
+        "block_id": 154,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "not a pine tree. Got a memory of any guy",
+        "bbox": [
+          65,
+          487,
+          94,
+          575
+        ],
+        "block_id": 155,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Snowball",
+        "bbox": [
+          69,
+          125,
+          77,
+          157
+        ],
+        "block_id": 156,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "number of",
+        "bbox": [
+          71,
+          429,
+          84,
+          471
+        ],
+        "block_id": 157,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "number of any cardlike key",
+        "bbox": [
+          73,
+          439,
+          109,
+          495
+        ],
+        "block_id": 158,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "not a pin or not a memory or only a cup",
+        "bbox": [
+          75,
+          515,
+          102,
+          571
+        ],
+        "block_id": 159,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p and b",
+        "bbox": [
+          82,
+          57,
+          93,
+          92
+        ],
+        "block_id": 160,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "5A 25",
+        "bbox": [
+          84,
+          135,
+          94,
+          165
+        ],
+        "block_id": 161,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "BC·A",
+        "bbox": [
+          90,
+          241,
+          101,
+          269
+        ],
+        "block_id": 162,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\Rightarrow \\{A, B, C, D, E\\}\\)",
+        "bbox": [
+          91,
+          261,
+          111,
+          353
+        ],
+        "block_id": 163,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "AB·C",
+        "bbox": [
+          94,
+          56,
+          104,
+          77
+        ],
+        "block_id": 164,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "q1, q2, q3",
+        "bbox": [
+          95,
+          133,
+          106,
+          176
+        ],
+        "block_id": 165,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "fol · AD",
+        "bbox": [
+          105,
+          56,
+          118,
+          84
+        ],
+        "block_id": 166,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "q_{A,B,C,D}",
+        "bbox": [
+          106,
+          133,
+          120,
+          185
+        ],
+        "block_id": 167,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "G SAI NING",
+        "bbox": [
+          114,
+          255,
+          127,
+          340
+        ],
+        "block_id": 168,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "disjoint",
+        "bbox": [
+          116,
+          472,
+          128,
+          504
+        ],
+        "block_id": 169,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "D · E",
+        "bbox": [
+          119,
+          58,
+          128,
+          80
+        ],
+        "block_id": 170,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S, A, B, C, E, F, y",
+        "bbox": [
+          122,
+          132,
+          132,
+          184
+        ],
+        "block_id": 171,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "G (small)  NOT  contable lay",
+        "bbox": [
+          122,
+          240,
+          142,
+          401
+        ],
+        "block_id": 172,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- fun CD vs.",
+        "bbox": [
+          135,
+          423,
+          145,
+          489
+        ],
+        "block_id": 173,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "x",
+        "bbox": [
+          135,
+          56,
+          146,
+          80
+        ],
+        "block_id": 174,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Partial FD",
+        "bbox": [
+          135,
+          507,
+          145,
+          560
+        ],
+        "block_id": 175,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Done",
+        "bbox": [
+          138,
+          132,
+          148,
+          174
+        ],
+        "block_id": 176,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\Rightarrow \\xi_{(B,43)} = \\xi_{A,B, C,D,E,43} \\]",
+        "bbox": [
+          144,
+          216,
+          163,
+          373
+        ],
+        "block_id": 177,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "By removing a single letter",
+        "bbox": [
+          148,
+          435,
+          167,
+          483
+        ],
+        "block_id": 178,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Do (no very good nic and op",
+        "bbox": [
+          149,
+          518,
+          169,
+          584
+        ],
+        "block_id": 179,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\mathcal{A}_1, \\mathcal{B}_2^+ = \\mathcal{A}_1, \\mathcal{B}_2, \\mathcal{C}_1, \\mathcal{D}_1, \\mathcal{E}_1\\)",
+        "bbox": [
+          157,
+          43,
+          177,
+          169
+        ],
+        "block_id": 180,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "D (no cry) & still holds",
+        "bbox": [
+          158,
+          530,
+          180,
+          573
+        ],
+        "block_id": 181,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is a survey since it covers",
+        "bbox": [
+          161,
+          248,
+          176,
+          395
+        ],
+        "block_id": 182,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "unveil the lessons he",
+        "bbox": [
+          166,
+          438,
+          175,
+          481
+        ],
+        "block_id": 183,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is a surjective function on chow's in R",
+        "bbox": [
+          173,
+          258,
+          186,
+          354
+        ],
+        "block_id": 184,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "means for degrading",
+        "bbox": [
+          174,
+          435,
+          186,
+          475
+        ],
+        "block_id": 185,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Gone's red, green.",
+        "bbox": [
+          176,
+          63,
+          185,
+          152
+        ],
+        "block_id": 186,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "object eg. EMP-PROJSSN, PrinS, Hous, God",
+        "bbox": [
+          183,
+          435,
+          203,
+          585
+        ],
+        "block_id": 187,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "LJ is a candidate they told me",
+        "bbox": [
+          186,
+          249,
+          198,
+          394
+        ],
+        "block_id": 188,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is minimal - removing 6 bonds",
+        "bbox": [
+          197,
+          259,
+          210,
+          398
+        ],
+        "block_id": 189,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "e.g. EMI-PRO-3, MNO, MNO - ESSM, PROX/3 -> WAS : full PD (need both to",
+        "bbox": [
+          200,
+          434,
+          222,
+          575
+        ],
+        "block_id": 190,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is minimal · (unknown) for s,u, proper",
+        "bbox": [
+          207,
+          255,
+          221,
+          337
+        ],
+        "block_id": 191,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "but I had (was) both to own -",
+        "bbox": [
+          213,
+          532,
+          225,
+          607
+        ],
+        "block_id": 192,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "some copies for:",
+        "bbox": [
+          221,
+          225,
+          235,
+          296
+        ],
+        "block_id": 193,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "was now",
+        "bbox": [
+          222,
+          543,
+          231,
+          597
+        ],
+        "block_id": 194,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· a, b, c, d",
+        "bbox": [
+          234,
+          244,
+          250,
+          292
+        ],
+        "block_id": 195,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\mathbb{E}_{\\mathbb{N}}, \\mathbb{P}_{\\mathbb{N}} \\rightarrow \\mathbb{E}_{\\mathbb{N}} \\quad \\text{periodic} \\quad f \\Omega\\)",
+        "bbox": [
+          235,
+          429,
+          247,
+          568
+        ],
+        "block_id": 196,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "periods + B (see more detailed form)",
+        "bbox": [
+          244,
+          521,
+          254,
+          594
+        ],
+        "block_id": 197,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "EN a Eme",
+        "bbox": [
+          252,
+          528,
+          262,
+          550
+        ],
+        "block_id": 198,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\forall x \\in S \\quad \\exists y \\in F \\implies x \\in B \\implies \\text{some}\\)",
+        "bbox": [
+          266,
+          224,
+          283,
+          356
+        ],
+        "block_id": 199,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- 2NF (Second Normal Form)",
+        "bbox": [
+          273,
+          10,
+          283,
+          137
+        ],
+        "block_id": 200,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "ex. exp-dept (emp, SSN, OAK, ABL, Dovler, Doc, Dov-25)",
+        "bbox": [
+          273,
+          427,
+          293,
+          608
+        ],
+        "block_id": 201,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "EP1 (SSN, Primes, Vars) - for dcp",
+        "bbox": [
+          280,
+          225,
+          302,
+          387
+        ],
+        "block_id": 202,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\rightarrow\\) already in INF",
+        "bbox": [
+          287,
+          38,
+          299,
+          124
+        ],
+        "block_id": 203,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "FD chain: \\( \\mathbb{SN} \\to \\mathbb{D}_{\\text{numbers}} \\)",
+        "bbox": [
+          291,
+          427,
+          308,
+          532
+        ],
+        "block_id": 204,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "every nonprime odd is fully AD",
+        "bbox": [
+          299,
+          39,
+          319,
+          192
+        ],
+        "block_id": 205,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "E02 (SSN, Ename) - employee detail",
+        "bbox": [
+          300,
+          223,
+          315,
+          403
+        ],
+        "block_id": 206,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SSN · Dummied Dummied · Dummie, Dummie-SSN",
+        "bbox": [
+          302,
+          471,
+          316,
+          580
+        ],
+        "block_id": 207,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "on primary key",
+        "bbox": [
+          316,
+          53,
+          328,
+          132
+        ],
+        "block_id": 208,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "EP3 (Prunus, Prae, Plurion) - project detail",
+        "bbox": [
+          316,
+          223,
+          335,
+          381
+        ],
+        "block_id": 209,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(0005 T.D)",
+        "bbox": [
+          317,
+          448,
+          331,
+          522
+        ],
+        "block_id": 210,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "projekt elektrik",
+        "bbox": [
+          328,
+          363,
+          339,
+          389
+        ],
+        "block_id": 211,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "EDI (Final, SSN, DOB, address, Contact)",
+        "bbox": [
+          334,
+          453,
+          351,
+          600
+        ],
+        "block_id": 212,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\vdash_{\\text{Gödel}} 1\\text{NF} \\rightarrow 2\\text{NF}\\)",
+        "bbox": [
+          336,
+          18,
+          349,
+          103
+        ],
+        "block_id": 213,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "INF \\rightarrow 2NT - find every partial order on S",
+        "bbox": [
+          343,
+          42,
+          364,
+          165
+        ],
+        "block_id": 214,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- 3NF (Third normal form)",
+        "bbox": [
+          344,
+          218,
+          357,
+          346
+        ],
+        "block_id": 215,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "ED1 (Phases, OAR, NAR, NAR, NAR) ED2 (Dumbel, Door, Dog-SSN)",
+        "bbox": [
+          348,
+          451,
+          367,
+          581
+        ],
+        "block_id": 216,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-find every partial repeating -move over and press left -",
+        "bbox": [
+          355,
+          46,
+          376,
+          170
+        ],
+        "block_id": 217,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- seasonal dependency",
+        "bbox": [
+          357,
+          231,
+          371,
+          322
+        ],
+        "block_id": 218,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- move over and press to new, sep one relation",
+        "bbox": [
+          367,
+          49,
+          387,
+          154
+        ],
+        "block_id": 219,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·, ·, ·, ·, ·, ·",
+        "bbox": [
+          374,
+          245,
+          385,
+          316
+        ],
+        "block_id": 220,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a \\rightarrow b, \\quad b \\rightarrow c c \\text{ is transitively dependent on } a \\text{ via } b",
+        "bbox": [
+          380,
+          261,
+          401,
+          393
+        ],
+        "block_id": 221,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "as part of precedence due tendencies",
+        "bbox": [
+          381,
+          26,
+          403,
+          183
+        ],
+        "block_id": 222,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "as part of precedence (see below) eg. EMP-PROS(SSN, Phn#, name, email, phone, Practitioner) Maxs (full)",
+        "bbox": [
+          395,
+          12,
+          420,
+          197
+        ],
+        "block_id": 223,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "c is on A vs C",
+        "bbox": [
+          395,
+          278,
+          409,
+          350
+        ],
+        "block_id": 224,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "cas of FD",
+        "bbox": [
+          404,
+          515,
+          429,
+          582
+        ],
+        "block_id": 225,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "eg. EMP.PROC(SSN, Phone, Name, Email, Home) FD1: SSN, Phone3· Name (ful) FD2: SSN, Phone· Name (partial)",
+        "bbox": [
+          408,
+          15,
+          438,
+          165
+        ],
+        "block_id": 226,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- already 2NF",
+        "bbox": [
+          408,
+          234,
+          424,
+          297
+        ],
+        "block_id": 227,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "already not - no nonprime odd > 1 exist",
+        "bbox": [
+          416,
+          242,
+          436,
+          391
+        ],
+        "block_id": 228,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for: SSN, name for: SSN -> name (partial) - engine",
+        "bbox": [
+          428,
+          15,
+          450,
+          156
+        ],
+        "block_id": 229,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "no nonprime on p.v",
+        "bbox": [
+          431,
+          247,
+          446,
+          344
+        ],
+        "block_id": 230,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- seminot: look at fD set",
+        "bbox": [
+          438,
+          412,
+          459,
+          536
+        ],
+        "block_id": 231,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- error depends",
+        "bbox": [
+          439,
+          135,
+          451,
+          189
+        ],
+        "block_id": 232,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "For 2NF · 3NF",
+        "bbox": [
+          448,
+          242,
+          470,
+          333
+        ],
+        "block_id": 233,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "mass & gnu",
+        "bbox": [
+          449,
+          135,
+          459,
+          187
+        ],
+        "block_id": 234,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- \\(\\frac{\\partial \\mathcal{L}{\\partial \\dot{q}_i} = \\frac{\\partial \\mathcal{L}{\\partial q_i}\\) - \\(\\dot{q}_i = \\frac{\\partial \\mathcal{L}{\\partial \\dot{q}_i}\\)",
+        "bbox": [
+          455,
+          405,
+          472,
+          471
+        ],
+        "block_id": 235,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "if LNS is survey",
+        "bbox": [
+          455,
+          471,
+          468,
+          567
+        ],
+        "block_id": 236,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(03): P_{mov} \\rightarrow \\text{Some, Boston} (partial)",
+        "bbox": [
+          457,
+          17,
+          476,
+          178
+        ],
+        "block_id": 237,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2NF · 3NF - find transitive dep",
+        "bbox": [
+          459,
+          265,
+          481,
+          361
+        ],
+        "block_id": 238,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- compose - contribute",
+        "bbox": [
+          466,
+          445,
+          481,
+          541
+        ],
+        "block_id": 239,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "closely",
+        "bbox": [
+          468,
+          550,
+          475,
+          583
+        ],
+        "block_id": 240,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "they depend on",
+        "bbox": [
+          469,
+          137,
+          483,
+          201
+        ],
+        "block_id": 241,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- find furniture - move to this to new (location) - work with some of it",
+        "bbox": [
+          473,
+          269,
+          494,
+          400
+        ],
+        "block_id": 242,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "on prompt",
+        "bbox": [
+          481,
+          143,
+          492,
+          190
+        ],
+        "block_id": 243,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "move to this along with copy of invoice",
+        "bbox": [
+          488,
+          275,
+          504,
+          396
+        ],
+        "block_id": 244,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "determined",
+        "bbox": [
+          500,
+          272,
+          512,
+          343
+        ],
+        "block_id": 245,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- BCNF (Boyce-Codd Normal form)",
+        "bbox": [
+          532,
+          8,
+          544,
+          162
+        ],
+        "block_id": 246,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- 2NF · 3NF",
+        "bbox": [
+          533,
+          436,
+          546,
+          509
+        ],
+        "block_id": 247,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "E4 = 1",
+        "bbox": [
+          538,
+          216,
+          546,
+          237
+        ],
+        "block_id": 248,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\frac{1}{2} \\sin \\theta \\rightarrow \\sin \\theta \\] \\[ = \\text{area} \\quad , \\quad \\text{side} \\quad \\text{of} \\quad \\text{NP} \\]",
+        "bbox": [
+          544,
+          456,
+          561,
+          549
+        ],
+        "block_id": 249,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Article version of the",
+        "bbox": [
+          546,
+          21,
+          558,
+          132
+        ],
+        "block_id": 250,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Non prime pms",
+        "bbox": [
+          547,
+          327,
+          560,
+          391
+        ],
+        "block_id": 251,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· \\( p_{MN} = \\frac{p_{MNS}}{p_{MM}} \\)",
+        "bbox": [
+          551,
+          216,
+          563,
+          275
+        ],
+        "block_id": 252,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Photo's Property",
+        "bbox": [
+          558,
+          249,
+          572,
+          293
+        ],
+        "block_id": 253,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- pila",
+        "bbox": [
+          562,
+          331,
+          571,
+          361
+        ],
+        "block_id": 254,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3 AREA, Price",
+        "bbox": [
+          565,
+          450,
+          579,
+          528
+        ],
+        "block_id": 255,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "infor 2019/2020 to BNF 2020/2021",
+        "bbox": [
+          568,
+          60,
+          581,
+          163
+        ],
+        "block_id": 256,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Pope - County - none",
+        "bbox": [
+          569,
+          241,
+          584,
+          308
+        ],
+        "block_id": 257,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- price - price",
+        "bbox": [
+          571,
+          328,
+          580,
+          367
+        ],
+        "block_id": 258,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· AREA, Price · PID#, Comty, one, Lot#, Area",
+        "bbox": [
+          572,
+          460,
+          597,
+          597
+        ],
+        "block_id": 259,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "does it work",
+        "bbox": [
+          581,
+          63,
+          591,
+          123
+        ],
+        "block_id": 260,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "go up normalize",
+        "bbox": [
+          581,
+          135,
+          589,
+          169
+        ],
+        "block_id": 261,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "= p112 = Tan -1 9/4e",
+        "bbox": [
+          581,
+          334,
+          593,
+          387
+        ],
+        "block_id": 262,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "= (50+2)",
+        "bbox": [
+          584,
+          232,
+          596,
+          283
+        ],
+        "block_id": 263,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·····",
+        "bbox": [
+          592,
+          63,
+          605,
+          96
+        ],
+        "block_id": 264,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- writing BCNF",
+        "bbox": [
+          596,
+          435,
+          618,
+          538
+        ],
+        "block_id": 265,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- directly INF",
+        "bbox": [
+          603,
+          230,
+          619,
+          291
+        ],
+        "block_id": 266,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "if you're interested",
+        "bbox": [
+          611,
+          28,
+          623,
+          141
+        ],
+        "block_id": 267,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- for INF · 2NF",
+        "bbox": [
+          616,
+          228,
+          636,
+          310
+        ],
+        "block_id": 268,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "e.g.  65  ×  ·  y",
+        "bbox": [
+          630,
+          28,
+          649,
+          129
+        ],
+        "block_id": 269,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\frac{E_{t+2}}{} : \\quad \\rho_{t+1}, \\ell_t, \\ell_t, \\rho_0, \\ell_0, s_{t+2}, s_n, \\ell \\]",
+        "bbox": [
+          630,
+          416,
+          649,
+          572
+        ],
+        "block_id": 270,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f02. D1D \\rightarrow m \\circ \\sigma \\circ \\sigma \\circ \\sigma",
+        "bbox": [
+          633,
+          221,
+          653,
+          344
+        ],
+        "block_id": 271,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f02  D1D ·  m  D0.  D1K f03  Comty-mpc ·  Tax-10K",
+        "bbox": [
+          646,
+          223,
+          667,
+          351
+        ],
+        "block_id": 272,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "x^3 + x^2 + x + 1",
+        "bbox": [
+          647,
+          54,
+          663,
+          136
+        ],
+        "block_id": 273,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "non pire",
+        "bbox": [
+          647,
+          477,
+          660,
+          513
+        ],
+        "block_id": 274,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Picard",
+        "bbox": [
+          653,
+          419,
+          661,
+          438
+        ],
+        "block_id": 275,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3 required for INF",
+        "bbox": [
+          655,
+          528,
+          688,
+          583
+        ],
+        "block_id": 276,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Like being sorry for",
+        "bbox": [
+          659,
+          98,
+          674,
+          188
+        ],
+        "block_id": 277,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- \\( \\rho_C \\)",
+        "bbox": [
+          661,
+          477,
+          672,
+          499
+        ],
+        "block_id": 278,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f_03: \\mathcal{C} \\to \\mathcal{A} f_{04}: \\rho_{03} \\to \\rho_{12}",
+        "bbox": [
+          663,
+          223,
+          681,
+          327
+        ],
+        "block_id": 279,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "= p * b",
+        "bbox": [
+          663,
+          421,
+          674,
+          444
+        ],
+        "block_id": 280,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "= \\frac{p_2}{c_0}",
+        "bbox": [
+          671,
+          480,
+          681,
+          500
+        ],
+        "block_id": 281,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\"deaths\"",
+        "bbox": [
+          674,
+          110,
+          685,
+          155
+        ],
+        "block_id": 282,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- 10",
+        "bbox": [
+          675,
+          422,
+          686,
+          443
+        ],
+        "block_id": 283,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\"deforming\" - to every \\( x \\to y \\) in \\( \\beta \\), \\( x \\) must",
+        "bbox": [
+          682,
+          34,
+          699,
+          179
+        ],
+        "block_id": 284,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\frac{\\partial}{\\partial t} - \\mathcal{S} \\mathcal{H}\\)",
+        "bbox": [
+          682,
+          480,
+          691,
+          503
+        ],
+        "block_id": 285,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-20 -1t",
+        "bbox": [
+          685,
+          423,
+          698,
+          446
+        ],
+        "block_id": 286,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2nf",
+        "bbox": [
+          687,
+          234,
+          701,
+          277
+        ],
+        "block_id": 287,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-5",
+        "bbox": [
+          693,
+          481,
+          702,
+          501
+        ],
+        "block_id": 288,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·  P10#, CN, Lot#, Area, Price",
+        "bbox": [
+          695,
+          231,
+          718,
+          379
+        ],
+        "block_id": 289,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "be super easy (using identity",
+        "bbox": [
+          696,
+          43,
+          711,
+          169
+        ],
+        "block_id": 290,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- (R",
+        "bbox": [
+          700,
+          424,
+          710,
+          449
+        ],
+        "block_id": 291,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "On the edge of the world",
+        "bbox": [
+          708,
+          42,
+          719,
+          84
+        ],
+        "block_id": 292,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "NF",
+        "bbox": [
+          708,
+          468,
+          722,
+          486
+        ],
+        "block_id": 293,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "···· ······",
+        "bbox": [
+          711,
+          352,
+          723,
+          369
+        ],
+        "block_id": 294,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· CN, CN, CN · CN, TOX, CN",
+        "bbox": [
+          713,
+          237,
+          733,
+          337
+        ],
+        "block_id": 295,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "dineoby",
+        "bbox": [
+          715,
+          426,
+          724,
+          459
+        ],
+        "block_id": 296,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Locksmith on Pif",
+        "bbox": [
+          722,
+          357,
+          742,
+          399
+        ],
+        "block_id": 297,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "vs. BNF",
+        "bbox": [
+          725,
+          26,
+          736,
+          68
+        ],
+        "block_id": 298,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "BNF - BNF says non-expanding determinant is okay as long as it",
+        "bbox": [
+          729,
+          39,
+          753,
+          189
+        ],
+        "block_id": 299,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "non-exposure",
+        "bbox": [
+          741,
+          93,
+          760,
+          174
+        ],
+        "block_id": 300,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SNF L4 is away",
+        "bbox": [
+          747,
+          52,
+          756,
+          91
+        ],
+        "block_id": 301,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is only as long as the sum in detemn (4) is part of",
+        "bbox": [
+          753,
+          50,
+          772,
+          175
+        ],
+        "block_id": 302,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "4. delete (y) is to som (u) (ie. pine (u))",
+        "bbox": [
+          766,
+          53,
+          782,
+          171
+        ],
+        "block_id": 303,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· \\( \\xi \\in \\mathbb{T}_d, \\mathbb{Z}^d, (\\mathbb{R}^*)^d \\)",
+        "bbox": [
+          0,
+          241,
+          28,
+          339
+        ],
+        "block_id": 304,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- for 1NF · 2NF",
+        "bbox": [
+          2,
+          22,
+          18,
+          99
+        ],
+        "block_id": 305,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "fD2 : \\( p_{\\#} \\to p_{\\#} \\)",
+        "bbox": [
+          17,
+          27,
+          29,
+          101
+        ],
+        "block_id": 306,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p# · pA position up · 2NF solution (creat the ful 5 Oct table?)",
+        "bbox": [
+          19,
+          67,
+          56,
+          187
+        ],
+        "block_id": 307,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· 3, p#, Sd, J+, (0, S#)",
+        "bbox": [
+          22,
+          241,
+          48,
+          359
+        ],
+        "block_id": 308,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for: to in p.l.",
+        "bbox": [
+          27,
+          7,
+          59,
+          56
+        ],
+        "block_id": 309,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(Not all will get, look?)",
+        "bbox": [
+          49,
+          68,
+          65,
+          133
+        ],
+        "block_id": 310,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "bcnf",
+        "bbox": [
+          53,
+          370,
+          63,
+          397
+        ],
+        "block_id": 311,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "e nek",
+        "bbox": [
+          54,
+          327,
+          64,
+          348
+        ],
+        "block_id": 312,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "FOB: S# 35n · 7L",
+        "bbox": [
+          63,
+          33,
+          86,
+          126
+        ],
+        "block_id": 313,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "fD  A · B",
+        "bbox": [
+          65,
+          213,
+          77,
+          260
+        ],
+        "block_id": 314,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "A \\rightarrow B \\int B \\text{ is prime} \\text{with a word}",
+        "bbox": [
+          70,
+          233,
+          90,
+          293
+        ],
+        "block_id": 315,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "flowed",
+        "bbox": [
+          77,
+          326,
+          87,
+          358
+        ],
+        "block_id": 316,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Vibration",
+        "bbox": [
+          77,
+          368,
+          86,
+          401
+        ],
+        "block_id": 317,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\mu_3 : S^1 \\to S^1 \\\\ \\mathrm{cod}_u : \\{1, d, s, \\#3\\} \\to \\mathbb{C}R \\]",
+        "bbox": [
+          81,
+          28,
+          101,
+          145
+        ],
+        "block_id": 318,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Be not a snob",
+        "bbox": [
+          87,
+          238,
+          99,
+          308
+        ],
+        "block_id": 319,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· ·····",
+        "bbox": [
+          108,
+          19,
+          127,
+          44
+        ],
+        "block_id": 320,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "fD: fA·fB",
+        "bbox": [
+          111,
+          213,
+          126,
+          262
+        ],
+        "block_id": 321,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R · {A, B, C, D, E, Z}",
+        "bbox": [
+          114,
+          439,
+          131,
+          520
+        ],
+        "block_id": 322,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· ····· · ··p#·T#·t#·c#·s#·s#·s#·c#",
+        "bbox": [
+          121,
+          29,
+          143,
+          103
+        ],
+        "block_id": 323,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·",
+        "bbox": [
+          122,
+          371,
+          134,
+          391
+        ],
+        "block_id": 324,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "If B is negative it is not asymptotic",
+        "bbox": [
+          123,
+          234,
+          149,
+          310
+        ],
+        "block_id": 325,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "VieYak.com",
+        "bbox": [
+          125,
+          326,
+          135,
+          358
+        ],
+        "block_id": 326,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f_{D1} : A \\longrightarrow B",
+        "bbox": [
+          133,
+          432,
+          146,
+          497
+        ],
+        "block_id": 327,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- \\( \\forall x \\) \\( 2NF \\rightarrow 3NF \\)",
+        "bbox": [
+          142,
+          19,
+          163,
+          111
+        ],
+        "block_id": 328,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "fD2   BC · G",
+        "bbox": [
+          147,
+          433,
+          161,
+          491
+        ],
+        "block_id": 329,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· ···3n^3",
+        "bbox": [
+          161,
+          29,
+          176,
+          64
+        ],
+        "block_id": 330,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f_{03} : \\mathbb{E} \\rightarrow \\mathbb{A}",
+        "bbox": [
+          161,
+          434,
+          176,
+          502
+        ],
+        "block_id": 331,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· 5#, 5n3 · 5, p#, I, 14, C#, 5#, CRS",
+        "bbox": [
+          170,
+          27,
+          193,
+          153
+        ],
+        "block_id": 332,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": ") Chique Ahi Cosele",
+        "bbox": [
+          174,
+          437,
+          196,
+          537
+        ],
+        "block_id": 333,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p q",
+        "bbox": [
+          175,
+          245,
+          184,
+          265
+        ],
+        "block_id": 334,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "RIP ND",
+        "bbox": [
+          175,
+          265,
+          185,
+          291
+        ],
+        "block_id": 335,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2nf ·",
+        "bbox": [
+          177,
+          316,
+          189,
+          348
+        ],
+        "block_id": 336,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2NF · (removes partial/true functional dependency)",
+        "bbox": [
+          185,
+          320,
+          202,
+          394
+        ],
+        "block_id": 337,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "KP KP C D A",
+        "bbox": [
+          186,
+          271,
+          194,
+          290
+        ],
+        "block_id": 338,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p m",
+        "bbox": [
+          188,
+          242,
+          196,
+          262
+        ],
+        "block_id": 339,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- for 3NF · BCNF",
+        "bbox": [
+          192,
+          25,
+          213,
+          113
+        ],
+        "block_id": 340,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Creating a new work of art",
+        "bbox": [
+          196,
+          321,
+          208,
+          394
+        ],
+        "block_id": 341,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\rightarrow \\mathbb{R}^n: \\xi, \\alpha, \\beta, \\varepsilon \\in \\mathbb{S}\\)",
+        "bbox": [
+          198,
+          457,
+          212,
+          539
+        ],
+        "block_id": 342,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for 3NF · BCNF i.e. , S#3 · not a superkey 3NF violation",
+        "bbox": [
+          201,
+          36,
+          227,
+          160
+        ],
+        "block_id": 343,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "6 (without a)",
+        "bbox": [
+          205,
+          327,
+          217,
+          379
+        ],
+        "block_id": 344,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- as invited",
+        "bbox": [
+          212,
+          477,
+          225,
+          532
+        ],
+        "block_id": 345,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": ", S#3 · not a type BNF union",
+        "bbox": [
+          217,
+          66,
+          235,
+          144
+        ],
+        "block_id": 346,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "x",
+        "bbox": [
+          217,
+          319,
+          228,
+          357
+        ],
+        "block_id": 347,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "benf uioeetn L> she ras ri p pokas NP otus",
+        "bbox": [
+          223,
+          80,
+          249,
+          168
+        ],
+        "block_id": 348,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\sum \\in \\{ \\mathbb{D} \\}^*\\)",
+        "bbox": [
+          224,
+          511,
+          236,
+          548
+        ],
+        "block_id": 349,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "BnF and NP other",
+        "bbox": [
+          241,
+          38,
+          256,
+          147
+        ],
+        "block_id": 350,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "needs to be included for us",
+        "bbox": [
+          262,
+          64,
+          281,
+          174
+        ],
+        "block_id": 351,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\xi_{A,\\ell,B}^3 \\Rightarrow \\eta_{A,\\ell,\\psi}\\)",
+        "bbox": [
+          284,
+          32,
+          303,
+          137
+        ],
+        "block_id": 352,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· {A, ·, c, 0, E3}",
+        "bbox": [
+          304,
+          69,
+          316,
+          148
+        ],
+        "block_id": 353,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\{ \\hat{\\xi}_B, \\hat{\\epsilon}_D \\} \\Rightarrow \\hat{\\xi}_B, \\hat{\\epsilon}_D, \\hat{\\xi}_B",
+        "bbox": [
+          323,
+          26,
+          341,
+          149
+        ],
+        "block_id": 354,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·  \\( \\exists A, B, C, D, E \\)",
+        "bbox": [
+          343,
+          76,
+          354,
+          158
+        ],
+        "block_id": 355,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\int_{z \\in C, D, E} \\)",
+        "bbox": [
+          377,
+          28,
+          389,
+          87
+        ],
+        "block_id": 356,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "io el ours quel pain",
+        "bbox": [
+          399,
+          26,
+          409,
+          127
+        ],
+        "block_id": 357,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "has not been : already in BNF",
+        "bbox": [
+          407,
+          47,
+          425,
+          134
+        ],
+        "block_id": 358,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "c) No",
+        "bbox": [
+          429,
+          31,
+          442,
+          73
+        ],
+        "block_id": 359,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p -> b",
+        "bbox": [
+          441,
+          59,
+          452,
+          93
+        ],
+        "block_id": 360,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "is not a superior",
+        "bbox": [
+          453,
+          61,
+          464,
+          126
+        ],
+        "block_id": 361,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\partial_0 \\mathcal{C} \\rightarrow \\mathcal{C} \\]",
+        "bbox": [
+          466,
+          62,
+          477,
+          95
+        ],
+        "block_id": 362,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "··",
+        "bbox": [
+          480,
+          67,
+          490,
+          88
+        ],
+        "block_id": 363,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "ED · A",
+        "bbox": [
+          490,
+          67,
+          500,
+          93
+        ],
+        "block_id": 364,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      }
+    ],
+    "data_info": {
+      "pages": [
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        }
+      ],
+      "num_pages": 3
+    }
+  }
+}

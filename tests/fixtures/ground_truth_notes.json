@@ -1,0 +1,6298 @@
+{
+  "data": {
+    "file_name": "notes.pdf",
+    "file_type": "pdf",
+    "layout": [
+      {
+        "block_content": "- PK can have null value",
+        "bbox": [
+          18,
+          16,
+          42,
+          268
+        ],
+        "block_id": 0,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- I could modify my existing implementation of Project (1)",
+        "bbox": [
+          43,
+          26,
+          84,
+          566
+        ],
+        "block_id": 1,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Mapping Binary 1:1 Relationship Sets",
+        "bbox": [
+          112,
+          26,
+          146,
+          365
+        ],
+        "block_id": 2,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- F.U approach",
+        "bbox": [
+          152,
+          43,
+          176,
+          186
+        ],
+        "block_id": 3,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Merged relation approach",
+        "bbox": [
+          183,
+          54,
+          211,
+          279
+        ],
+        "block_id": 4,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(if both participations are total, merge 2 entity sets and relationship set into a single table)",
+        "bbox": [
+          202,
+          116,
+          270,
+          550
+        ],
+        "block_id": 5,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "table",
+        "bbox": [
+          271,
+          119,
+          296,
+          192
+        ],
+        "block_id": 6,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(1) F.U approach",
+        "bbox": [
+          308,
+          19,
+          340,
+          232
+        ],
+        "block_id": 7,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "[Diagram]",
+        "bbox": [
+          308,
+          429,
+          335,
+          559
+        ],
+        "block_id": 8,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S 1",
+        "bbox": [
+          333,
+          429,
+          362,
+          564
+        ],
+        "block_id": 9,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|",
+        "bbox": [
+          339,
+          171,
+          432,
+          248
+        ],
+        "block_id": 10,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|--- R",
+        "bbox": [
+          362,
+          409,
+          418,
+          589
+        ],
+        "block_id": 11,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|     |",
+        "bbox": [
+          401,
+          169,
+          429,
+          198
+        ],
+        "block_id": 12,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|     a_1 ... a_n",
+        "bbox": [
+          409,
+          413,
+          441,
+          570
+        ],
+        "block_id": 13,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|     |",
+        "bbox": [
+          431,
+          456,
+          455,
+          582
+        ],
+        "block_id": 14,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|--- T",
+        "bbox": [
+          466,
+          339,
+          496,
+          551
+        ],
+        "block_id": 15,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Cross Ref also applies here",
+        "bbox": [
+          469,
+          182,
+          500,
+          319
+        ],
+        "block_id": 16,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "merge-ru can work here with F.U from both participations - not desired",
+        "bbox": [
+          520,
+          19,
+          616,
+          345
+        ],
+        "block_id": 17,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S | PK(S) | .. | PK(T) | a_1 | .. | a_n",
+        "bbox": [
+          599,
+          86,
+          639,
+          130
+        ],
+        "block_id": 18,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "T | PK(S) | ... | T |",
+        "bbox": [
+          604,
+          154,
+          637,
+          224
+        ],
+        "block_id": 19,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(2) Merge-relation",
+        "bbox": [
+          618,
+          427,
+          657,
+          542
+        ],
+        "block_id": 20,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "[Diagram]",
+        "bbox": [
+          629,
+          337,
+          650,
+          387
+        ],
+        "block_id": 21,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S 1",
+        "bbox": [
+          632,
+          387,
+          651,
+          413
+        ],
+        "block_id": 22,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "| |--- R",
+        "bbox": [
+          656,
+          152,
+          673,
+          171
+        ],
+        "block_id": 23,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|     |",
+        "bbox": [
+          665,
+          37,
+          695,
+          128
+        ],
+        "block_id": 24,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|     a_1 ... a_n",
+        "bbox": [
+          678,
+          37,
+          722,
+          150
+        ],
+        "block_id": 25,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|     |",
+        "bbox": [
+          707,
+          50,
+          742,
+          126
+        ],
+        "block_id": 26,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|--- T",
+        "bbox": [
+          711,
+          215,
+          738,
+          545
+        ],
+        "block_id": 27,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "PK can be either one S T | PK(S) | PK(T) | ... | a_1 | ... | a_n",
+        "bbox": [
+          725,
+          32,
+          766,
+          170
+        ],
+        "block_id": 28,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(since it's 1:1) fu applies to second case as well",
+        "bbox": [
+          749,
+          231,
+          774,
+          374
+        ],
+        "block_id": 29,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Cross Ref can also apply here",
+        "bbox": [
+          750,
+          53,
+          788,
+          138
+        ],
+        "block_id": 30,
+        "page_index": 0,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "When none is total (cross-reference)",
+        "bbox": [
+          9,
+          19,
+          61,
+          389
+        ],
+        "block_id": 31,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for approach can",
+        "bbox": [
+          60,
+          400,
+          87,
+          540
+        ],
+        "block_id": 32,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "also apply here",
+        "bbox": [
+          87,
+          405,
+          108,
+          548
+        ],
+        "block_id": 33,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\frac{1}{R}\\)",
+        "bbox": [
+          100,
+          183,
+          132,
+          224
+        ],
+        "block_id": 34,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( a_n \\)",
+        "bbox": [
+          153,
+          229,
+          179,
+          268
+        ],
+        "block_id": 35,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a",
+        "bbox": [
+          159,
+          155,
+          184,
+          179
+        ],
+        "block_id": 36,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "can't have",
+        "bbox": [
+          163,
+          419,
+          190,
+          520
+        ],
+        "block_id": 37,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "f/n approach can also apply here",
+        "bbox": [
+          171,
+          446,
+          217,
+          580
+        ],
+        "block_id": 38,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "can't have merge-relation here, could have nul values from either S or T",
+        "bbox": [
+          200,
+          446,
+          238,
+          594
+        ],
+        "block_id": 39,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\frac{S}{\\operatorname{Pv}(S)} \\)",
+        "bbox": [
+          226,
+          191,
+          258,
+          274
+        ],
+        "block_id": 40,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "null values",
+        "bbox": [
+          230,
+          446,
+          262,
+          544
+        ],
+        "block_id": 41,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "either one can be unique.",
+        "bbox": [
+          249,
+          450,
+          287,
+          593
+        ],
+        "block_id": 42,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\frac{\\rho_{K}(T)}{1} \\]",
+        "bbox": [
+          278,
+          219,
+          305,
+          278
+        ],
+        "block_id": 43,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "if combo is unique, eNV is unique",
+        "bbox": [
+          329,
+          189,
+          360,
+          408
+        ],
+        "block_id": 44,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\int a_n\\)",
+        "bbox": [
+          333,
+          412,
+          357,
+          447
+        ],
+        "block_id": 45,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "@ilks",
+        "bbox": [
+          338,
+          61,
+          359,
+          107
+        ],
+        "block_id": 46,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "one can",
+        "bbox": [
+          364,
+          49,
+          381,
+          109
+        ],
+        "block_id": 47,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "be unique",
+        "bbox": [
+          384,
+          47,
+          405,
+          125
+        ],
+        "block_id": 48,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "if combo is unique,",
+        "bbox": [
+          410,
+          51,
+          438,
+          208
+        ],
+        "block_id": 49,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Since 1:1",
+        "bbox": [
+          432,
+          63,
+          459,
+          195
+        ],
+        "block_id": 50,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sinul Lin",
+        "bbox": [
+          462,
+          84,
+          480,
+          165
+        ],
+        "block_id": 51,
+        "page_index": 1,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Mapping of Binary 1:N Relationship Sets",
+        "bbox": [
+          5,
+          116,
+          49,
+          355
+        ],
+        "block_id": 52,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sett",
+        "bbox": [
+          17,
+          375,
+          32,
+          413
+        ],
+        "block_id": 53,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Account #  Bname  City",
+        "bbox": [
+          26,
+          30,
+          51,
+          97
+        ],
+        "block_id": 54,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Brave",
+        "bbox": [
+          58,
+          298,
+          80,
+          352
+        ],
+        "block_id": 55,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Acct #",
+        "bbox": [
+          72,
+          79,
+          94,
+          141
+        ],
+        "block_id": 56,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "cit",
+        "bbox": [
+          77,
+          385,
+          91,
+          408
+        ],
+        "block_id": 57,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Branch",
+        "bbox": [
+          111,
+          306,
+          128,
+          356
+        ],
+        "block_id": 58,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "suqes",
+        "bbox": [
+          121,
+          221,
+          135,
+          243
+        ],
+        "block_id": 59,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Act",
+        "bbox": [
+          125,
+          121,
+          149,
+          170
+        ],
+        "block_id": 60,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Bqian e",
+        "bbox": [
+          179,
+          117,
+          209,
+          169
+        ],
+        "block_id": 61,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Account    Branch",
+        "bbox": [
+          213,
+          371,
+          243,
+          503
+        ],
+        "block_id": 62,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Branch",
+        "bbox": [
+          219,
+          305,
+          246,
+          365
+        ],
+        "block_id": 63,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Account  [Account#  Bname]  Bname",
+        "bbox": [
+          231,
+          251,
+          254,
+          295
+        ],
+        "block_id": 64,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "sinc",
+        "bbox": [
+          265,
+          88,
+          285,
+          125
+        ],
+        "block_id": 65,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Branch   [Bname  City  Asset]",
+        "bbox": [
+          309,
+          241,
+          345,
+          460
+        ],
+        "block_id": 66,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Mapping Binary M:N relationship sets",
+        "bbox": [
+          371,
+          56,
+          402,
+          445
+        ],
+        "block_id": 67,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- always create separate table for relationship set if M:N",
+        "bbox": [
+          397,
+          105,
+          445,
+          559
+        ],
+        "block_id": 68,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "set if min",
+        "bbox": [
+          442,
+          124,
+          468,
+          285
+        ],
+        "block_id": 69,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- relationship attr can't be shifted",
+        "bbox": [
+          462,
+          313,
+          497,
+          497
+        ],
+        "block_id": 70,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- relationships after",
+        "bbox": [
+          476,
+          113,
+          506,
+          309
+        ],
+        "block_id": 71,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\int \\sqrt{p_{\\mathcal{R}}(cs)} \\, ds \\]",
+        "bbox": [
+          515,
+          340,
+          544,
+          428
+        ],
+        "block_id": 72,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S  [PK(S)]",
+        "bbox": [
+          569,
+          366,
+          595,
+          469
+        ],
+        "block_id": 73,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\theta_n\\)",
+        "bbox": [
+          609,
+          207,
+          630,
+          229
+        ],
+        "block_id": 74,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "q_1",
+        "bbox": [
+          610,
+          126,
+          633,
+          147
+        ],
+        "block_id": 75,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\begin{array}{|c|c|c|} \\hline p_{K}(S) & p_{K}(T) & a_1 \\\\ \\hline \\end{array} \\]",
+        "bbox": [
+          626,
+          357,
+          654,
+          505
+        ],
+        "block_id": 76,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R",
+        "bbox": [
+          631,
+          327,
+          654,
+          352
+        ],
+        "block_id": 77,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\alpha_n \\)",
+        "bbox": [
+          636,
+          553,
+          650,
+          574
+        ],
+        "block_id": 78,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "T  [PK(T)]",
+        "bbox": [
+          667,
+          156,
+          693,
+          259
+        ],
+        "block_id": 79,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R  [PK(S)  PK(T)  a_1 ... a_n]",
+        "bbox": [
+          695,
+          152,
+          725,
+          366
+        ],
+        "block_id": 80,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Can't apply FK approach here since it could create circular dependency",
+        "bbox": [
+          704,
+          151,
+          756,
+          507
+        ],
+        "block_id": 81,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "# Mapping of Multivalued Attributes",
+        "bbox": [
+          13,
+          144,
+          45,
+          377
+        ],
+        "block_id": 82,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Employee",
+        "bbox": [
+          22,
+          50,
+          51,
+          127
+        ],
+        "block_id": 83,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SSN",
+        "bbox": [
+          72,
+          75,
+          92,
+          108
+        ],
+        "block_id": 84,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·",
+        "bbox": [
+          90,
+          297,
+          121,
+          350
+        ],
+        "block_id": 85,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "y",
+        "bbox": [
+          90,
+          436,
+          113,
+          464
+        ],
+        "block_id": 86,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "dependent",
+        "bbox": [
+          115,
+          108,
+          140,
+          188
+        ],
+        "block_id": 87,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Dependent  ESSN  Dependent name",
+        "bbox": [
+          146,
+          287,
+          183,
+          571
+        ],
+        "block_id": 88,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Employee",
+        "bbox": [
+          176,
+          108,
+          202,
+          195
+        ],
+        "block_id": 89,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Combination",
+        "bbox": [
+          202,
+          508,
+          223,
+          577
+        ],
+        "block_id": 90,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "to form",
+        "bbox": [
+          224,
+          503,
+          247,
+          564
+        ],
+        "block_id": 91,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SSN | · | y",
+        "bbox": [
+          229,
+          253,
+          254,
+          336
+        ],
+        "block_id": 92,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p.vc",
+        "bbox": [
+          247,
+          515,
+          262,
+          550
+        ],
+        "block_id": 93,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "E - D",
+        "bbox": [
+          275,
+          193,
+          298,
+          224
+        ],
+        "block_id": 94,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[\\int \\frac{ss}{n}\\]",
+        "bbox": [
+          278,
+          234,
+          304,
+          290
+        ],
+        "block_id": 95,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Dependent",
+        "bbox": [
+          274,
+          290,
+          312,
+          364
+        ],
+        "block_id": 96,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "ESSN | Dependent Name",
+        "bbox": [
+          280,
+          364,
+          316,
+          517
+        ],
+        "block_id": 97,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Combination to form P.K",
+        "bbox": [
+          316,
+          288,
+          342,
+          406
+        ],
+        "block_id": 98,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "E-D",
+        "bbox": [
+          322,
+          408,
+          343,
+          467
+        ],
+        "block_id": 99,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SSN | · | y | Dependent Name X",
+        "bbox": [
+          336,
+          294,
+          380,
+          474
+        ],
+        "block_id": 100,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "required to repeat · and y for each dependent, not ideal",
+        "bbox": [
+          366,
+          268,
+          397,
+          479
+        ],
+        "block_id": 101,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "# Mapping of N-ary relationship sets",
+        "bbox": [
+          426,
+          217,
+          459,
+          443
+        ],
+        "block_id": 102,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Supplier",
+        "bbox": [
+          430,
+          83,
+          456,
+          137
+        ],
+        "block_id": 103,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "m",
+        "bbox": [
+          535,
+          67,
+          562,
+          131
+        ],
+        "block_id": 104,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "supply m",
+        "bbox": [
+          535,
+          236,
+          565,
+          294
+        ],
+        "block_id": 105,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "m",
+        "bbox": [
+          541,
+          400,
+          569,
+          447
+        ],
+        "block_id": 106,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "m",
+        "bbox": [
+          585,
+          304,
+          608,
+          327
+        ],
+        "block_id": 107,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Part Project",
+        "bbox": [
+          635,
+          266,
+          661,
+          312
+        ],
+        "block_id": 108,
+        "page_index": 3,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Mapping Aggregation",
+        "bbox": [
+          12,
+          20,
+          48,
+          254
+        ],
+        "block_id": 109,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- must have tables for each strong entity sets",
+        "bbox": [
+          53,
+          112,
+          84,
+          473
+        ],
+        "block_id": 110,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- primarily creating the relationship set to a separate table",
+        "bbox": [
+          87,
+          119,
+          109,
+          260
+        ],
+        "block_id": 111,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "![Entity-Relationship diagram showing relationships between EMPLOYEE, DEPARTMENT, PROJECT, DEPENDENT, and SUPERVISION](page_320_624_704_480.png)",
+        "bbox": [
+          98,
+          115,
+          192,
+          546
+        ],
+        "block_id": 112,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Fruitmo",
+        "bbox": [
+          347,
+          101,
+          354,
+          122
+        ],
+        "block_id": 113,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Hunter",
+        "bbox": [
+          347,
+          407,
+          355,
+          429
+        ],
+        "block_id": 114,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Locations",
+        "bbox": [
+          360,
+          421,
+          372,
+          456
+        ],
+        "block_id": 115,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Address",
+        "bbox": [
+          364,
+          181,
+          373,
+          204
+        ],
+        "block_id": 116,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "WORKS FOR",
+        "bbox": [
+          364,
+          307,
+          374,
+          346
+        ],
+        "block_id": 117,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Home",
+        "bbox": [
+          367,
+          385,
+          376,
+          407
+        ],
+        "block_id": 118,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sex",
+        "bbox": [
+          377,
+          160,
+          389,
+          182
+        ],
+        "block_id": 119,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DEPARTMENT",
+        "bbox": [
+          389,
+          421,
+          398,
+          461
+        ],
+        "block_id": 120,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "NumberOfEmployees",
+        "bbox": [
+          391,
+          330,
+          400,
+          383
+        ],
+        "block_id": 121,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "StarDate",
+        "bbox": [
+          395,
+          278,
+          405,
+          301
+        ],
+        "block_id": 122,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "EMPLOYEE",
+        "bbox": [
+          404,
+          162,
+          413,
+          196
+        ],
+        "block_id": 123,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "MANAGES",
+        "bbox": [
+          419,
+          313,
+          428,
+          341
+        ],
+        "block_id": 124,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "CONTROLS",
+        "bbox": [
+          428,
+          421,
+          437,
+          457
+        ],
+        "block_id": 125,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Haus",
+        "bbox": [
+          459,
+          295,
+          468,
+          318
+        ],
+        "block_id": 126,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "WORKS_ON",
+        "bbox": [
+          483,
+          309,
+          493,
+          344
+        ],
+        "block_id": 127,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "PROJECT",
+        "bbox": [
+          483,
+          429,
+          492,
+          457
+        ],
+        "block_id": 128,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SUPERVISION",
+        "bbox": [
+          497,
+          159,
+          508,
+          200
+        ],
+        "block_id": 129,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Location",
+        "bbox": [
+          510,
+          433,
+          518,
+          453
+        ],
+        "block_id": 130,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DEPENDENTS OF",
+        "bbox": [
+          525,
+          269,
+          535,
+          319
+        ],
+        "block_id": 131,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DEPENDENT",
+        "bbox": [
+          610,
+          280,
+          620,
+          317
+        ],
+        "block_id": 132,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Relationship",
+        "bbox": [
+          646,
+          344,
+          654,
+          371
+        ],
+        "block_id": 133,
+        "page_index": 4,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "EMPLOYEE FNAME  MINIT  LNAME  SSN  BOATE  ADDRESS  SEX  SALARY  SUPERSSN  DNO",
+        "bbox": [
+          80,
+          99,
+          87,
+          138
+        ],
+        "block_id": 134,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DEPARTMENT",
+        "bbox": [
+          95,
+          108,
+          104,
+          130
+        ],
+        "block_id": 135,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DNAME DNUMBER MGRSSN MGRSTARTDATE",
+        "bbox": [
+          95,
+          148,
+          104,
+          165
+        ],
+        "block_id": 136,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DEPT_LOCATIONS",
+        "bbox": [
+          95,
+          181,
+          104,
+          204
+        ],
+        "block_id": 137,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DNUMBER  DLOCATION",
+        "bbox": [
+          95,
+          252,
+          104,
+          275
+        ],
+        "block_id": 138,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "PROJECT",
+        "bbox": [
+          95,
+          291,
+          104,
+          320
+        ],
+        "block_id": 139,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "PNAME PNUMBER PLOCATION DNUM",
+        "bbox": [
+          95,
+          335,
+          104,
+          349
+        ],
+        "block_id": 140,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "WORKS_ON ESSN  PNO  HOURS",
+        "bbox": [
+          95,
+          361,
+          104,
+          387
+        ],
+        "block_id": 141,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "DEPENDENT ESSN  DEPENDENT_NAME  SEX  BOATE  RELATIONSHIP",
+        "bbox": [
+          95,
+          402,
+          104,
+          437
+        ],
+        "block_id": 142,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Customer",
+        "bbox": [
+          95,
+          450,
+          104,
+          468
+        ],
+        "block_id": 143,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<table>",
+        "bbox": [
+          96,
+          221,
+          104,
+          235
+        ],
+        "block_id": 144,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          125,
+          207,
+          134,
+          254
+        ],
+        "block_id": 145,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>SSN</th>",
+        "bbox": [
+          138,
+          255,
+          148,
+          288
+        ],
+        "block_id": 146,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Name</th>",
+        "bbox": [
+          139,
+          212,
+          148,
+          236
+        ],
+        "block_id": 147,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr>",
+        "bbox": [
+          139,
+          303,
+          148,
+          332
+        ],
+        "block_id": 148,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</table>",
+        "bbox": [
+          140,
+          354,
+          149,
+          405
+        ],
+        "block_id": 149,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Loan",
+        "bbox": [
+          174,
+          209,
+          183,
+          270
+        ],
+        "block_id": 150,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<table>",
+        "bbox": [
+          188,
+          217,
+          197,
+          250
+        ],
+        "block_id": 151,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          188,
+          275,
+          197,
+          313
+        ],
+        "block_id": 152,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Loan#</th>",
+        "bbox": [
+          219,
+          183,
+          227,
+          216
+        ],
+        "block_id": 153,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Amount</th>",
+        "bbox": [
+          232,
+          240,
+          243,
+          273
+        ],
+        "block_id": 154,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr>",
+        "bbox": [
+          233,
+          194,
+          241,
+          218
+        ],
+        "block_id": 155,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</table>",
+        "bbox": [
+          233,
+          300,
+          241,
+          337
+        ],
+        "block_id": 156,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Borrows",
+        "bbox": [
+          233,
+          364,
+          241,
+          384
+        ],
+        "block_id": 157,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<table>",
+        "bbox": [
+          261,
+          238,
+          270,
+          282
+        ],
+        "block_id": 158,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          277,
+          302,
+          285,
+          327
+        ],
+        "block_id": 159,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>PK(C)</th>",
+        "bbox": [
+          278,
+          238,
+          285,
+          255
+        ],
+        "block_id": 160,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>PK(L)</th>",
+        "bbox": [
+          278,
+          270,
+          285,
+          285
+        ],
+        "block_id": 161,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr>",
+        "bbox": [
+          302,
+          192,
+          312,
+          236
+        ],
+        "block_id": 162,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</table>",
+        "bbox": [
+          319,
+          231,
+          327,
+          290
+        ],
+        "block_id": 163,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Loan Office",
+        "bbox": [
+          319,
+          321,
+          326,
+          337
+        ],
+        "block_id": 164,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<table>",
+        "bbox": [
+          319,
+          353,
+          327,
+          376
+        ],
+        "block_id": 165,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          319,
+          406,
+          326,
+          450
+        ],
+        "block_id": 166,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>PK(E)</th>",
+        "bbox": [
+          319,
+          186,
+          326,
+          204
+        ],
+        "block_id": 167,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>PK(D)</th>",
+        "bbox": [
+          406,
+          51,
+          439,
+          172
+        ],
+        "block_id": 168,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr>",
+        "bbox": [
+          406,
+          221,
+          421,
+          264
+        ],
+        "block_id": 169,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</table>",
+        "bbox": [
+          466,
+          210,
+          488,
+          264
+        ],
+        "block_id": 170,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Employee",
+        "bbox": [
+          474,
+          151,
+          487,
+          186
+        ],
+        "block_id": 171,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Law Ofice [PK(E) | PK(A)] If joint participation between borowers and law ofices, then can remove borowers for redundancy",
+        "bbox": [
+          671,
+          368,
+          770,
+          588
+        ],
+        "block_id": 172,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<table>",
+        "bbox": [
+          476,
+          71,
+          489,
+          105
+        ],
+        "block_id": 173,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          535,
+          211,
+          557,
+          240
+        ],
+        "block_id": 174,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>ESSN</th>",
+        "bbox": [
+          536,
+          152,
+          558,
+          193
+        ],
+        "block_id": 175,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Name</th>",
+        "bbox": [
+          539,
+          61,
+          562,
+          115
+        ],
+        "block_id": 176,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Addr</th>",
+        "bbox": [
+          607,
+          59,
+          637,
+          120
+        ],
+        "block_id": 177,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr>",
+        "bbox": [
+          616,
+          159,
+          630,
+          195
+        ],
+        "block_id": 178,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</table>",
+        "bbox": [
+          617,
+          217,
+          636,
+          259
+        ],
+        "block_id": 179,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "F dual participation between borows and loan ofice, then can remove borows for redundancy",
+        "bbox": [
+          618,
+          274,
+          632,
+          306
+        ],
+        "block_id": 180,
+        "page_index": 5,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Mapping of Specialization / Generalization",
+        "bbox": [
+          33,
+          272,
+          69,
+          388
+        ],
+        "block_id": 181,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S",
+        "bbox": [
+          38,
+          19,
+          76,
+          123
+        ],
+        "block_id": 182,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "/   \\",
+        "bbox": [
+          38,
+          123,
+          75,
+          233
+        ],
+        "block_id": 183,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "C_1   C_m",
+        "bbox": [
+          227,
+          184,
+          265,
+          214
+        ],
+        "block_id": 184,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Option 1",
+        "bbox": [
+          231,
+          315,
+          259,
+          349
+        ],
+        "block_id": 185,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S | (x) a_1 | ... | a_m |",
+        "bbox": [
+          325,
+          184,
+          347,
+          205
+        ],
+        "block_id": 186,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": ". . .",
+        "bbox": [
+          332,
+          221,
+          346,
+          240
+        ],
+        "block_id": 187,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|                |",
+        "bbox": [
+          341,
+          391,
+          379,
+          460
+        ],
+        "block_id": 188,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·",
+        "bbox": [
+          358,
+          143,
+          381,
+          156
+        ],
+        "block_id": 189,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "C_1 | x | x",
+        "bbox": [
+          376,
+          145,
+          402,
+          174
+        ],
+        "block_id": 190,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "|                |",
+        "bbox": [
+          378,
+          200,
+          404,
+          217
+        ],
+        "block_id": 191,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "z",
+        "bbox": [
+          482,
+          219,
+          506,
+          237
+        ],
+        "block_id": 192,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "C_m | x | z",
+        "bbox": [
+          573,
+          349,
+          599,
+          367
+        ],
+        "block_id": 193,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Redundancy with option 2",
+        "bbox": [
+          577,
+          100,
+          609,
+          183
+        ],
+        "block_id": 194,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "+3",
+        "bbox": [
+          579,
+          241,
+          603,
+          266
+        ],
+        "block_id": 195,
+        "page_index": 6,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "with disjoint",
+        "bbox": [
+          12,
+          283,
+          43,
+          426
+        ],
+        "block_id": 196,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Option 3: works only with disjoint",
+        "bbox": [
+          19,
+          32,
+          61,
+          246
+        ],
+        "block_id": 197,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- single relation with one type attribute",
+        "bbox": [
+          40,
+          280,
+          87,
+          504
+        ],
+        "block_id": 198,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "single relation",
+        "bbox": [
+          46,
+          86,
+          91,
+          278
+        ],
+        "block_id": 199,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Review these slides --",
+        "bbox": [
+          87,
+          29,
+          165,
+          597
+        ],
+        "block_id": 200,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "last concentration ----",
+        "bbox": [
+          120,
+          12,
+          219,
+          598
+        ],
+        "block_id": 201,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "ie total participation and disjoint,",
+        "bbox": [
+          214,
+          55,
+          312,
+          601
+        ],
+        "block_id": 202,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "all options apply --",
+        "bbox": [
+          307,
+          14,
+          340,
+          599
+        ],
+        "block_id": 203,
+        "page_index": 7,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "vehicle (VIN, Price, Model, Engine size, Type)",
+        "bbox": [
+          20,
+          17,
+          60,
+          423
+        ],
+        "block_id": 204,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "5th about",
+        "bbox": [
+          51,
+          450,
+          80,
+          522
+        ],
+        "block_id": 205,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SalesPerson (Sid, None)",
+        "bbox": [
+          65,
+          27,
+          104,
+          238
+        ],
+        "block_id": 206,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "option 2?",
+        "bbox": [
+          77,
+          452,
+          103,
+          528
+        ],
+        "block_id": 207,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Customer (SSN, None, Street, City, State)",
+        "bbox": [
+          108,
+          26,
+          159,
+          372
+        ],
+        "block_id": 208,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sale (VIN, Sid, SSN)",
+        "bbox": [
+          166,
+          35,
+          195,
+          258
+        ],
+        "block_id": 209,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "p.k reduced to minimal set",
+        "bbox": [
+          200,
+          128,
+          232,
+          410
+        ],
+        "block_id": 210,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "since it's not a ternary relationship",
+        "bbox": [
+          216,
+          158,
+          263,
+          459
+        ],
+        "block_id": 211,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "alternatively using option 2,",
+        "bbox": [
+          269,
+          70,
+          297,
+          286
+        ],
+        "block_id": 212,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Car (VIN, Price, Model, Engine size)",
+        "bbox": [
+          288,
+          50,
+          343,
+          445
+        ],
+        "block_id": 213,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "CAR",
+        "bbox": [
+          386,
+          312,
+          396,
+          335
+        ],
+        "block_id": 214,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Engine_size",
+        "bbox": [
+          386,
+          364,
+          397,
+          416
+        ],
+        "block_id": 215,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Price",
+        "bbox": [
+          394,
+          221,
+          407,
+          255
+        ],
+        "block_id": 216,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Vin",
+        "bbox": [
+          394,
+          192,
+          408,
+          212
+        ],
+        "block_id": 217,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "VEHICLE d",
+        "bbox": [
+          422,
+          196,
+          436,
+          272
+        ],
+        "block_id": 218,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "TRUCK",
+        "bbox": [
+          425,
+          310,
+          436,
+          346
+        ],
+        "block_id": 219,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Tonnage",
+        "bbox": [
+          426,
+          371,
+          436,
+          406
+        ],
+        "block_id": 220,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Model N",
+        "bbox": [
+          446,
+          165,
+          462,
+          219
+        ],
+        "block_id": 221,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Date",
+        "bbox": [
+          465,
+          236,
+          476,
+          265
+        ],
+        "block_id": 222,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SUV",
+        "bbox": [
+          465,
+          311,
+          476,
+          336
+        ],
+        "block_id": 223,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "No seats",
+        "bbox": [
+          466,
+          368,
+          476,
+          408
+        ],
+        "block_id": 224,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SALE",
+        "bbox": [
+          494,
+          204,
+          506,
+          231
+        ],
+        "block_id": 225,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SALESPERSON",
+        "bbox": [
+          544,
+          182,
+          558,
+          258
+        ],
+        "block_id": 226,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "CUSTOMER",
+        "bbox": [
+          544,
+          296,
+          558,
+          355
+        ],
+        "block_id": 227,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Address",
+        "bbox": [
+          545,
+          390,
+          558,
+          427
+        ],
+        "block_id": 228,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "City",
+        "bbox": [
+          545,
+          453,
+          559,
+          474
+        ],
+        "block_id": 229,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Street",
+        "bbox": [
+          575,
+          443,
+          585,
+          469
+        ],
+        "block_id": 230,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Name",
+        "bbox": [
+          580,
+          234,
+          590,
+          259
+        ],
+        "block_id": 231,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Name",
+        "bbox": [
+          580,
+          338,
+          591,
+          363
+        ],
+        "block_id": 232,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "State",
+        "bbox": [
+          581,
+          397,
+          592,
+          420
+        ],
+        "block_id": 233,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "we can convert it",
+        "bbox": [
+          622,
+          106,
+          643,
+          233
+        ],
+        "block_id": 234,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "ne",
+        "bbox": [
+          628,
+          58,
+          641,
+          97
+        ],
+        "block_id": 235,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "to a binary relation. We can merge Vehicle and Sale since they share the same p.k",
+        "bbox": [
+          639,
+          60,
+          675,
+          508
+        ],
+        "block_id": 236,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "and Sole",
+        "bbox": [
+          671,
+          67,
+          700,
+          180
+        ],
+        "block_id": 237,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "![Entity-Relationship diagram showing Vehicle, Sale, SalesPerson, and Customer entities with relationships](page_320_624_704_384.png)",
+        "bbox": [
+          671,
+          180,
+          700,
+          517
+        ],
+        "block_id": 238,
+        "page_index": 8,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Lecture 6",
+        "bbox": [
+          22,
+          25,
+          48,
+          120
+        ],
+        "block_id": 239,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Relational Algebra",
+        "bbox": [
+          70,
+          23,
+          95,
+          187
+        ],
+        "block_id": 240,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- \\( \\sigma \\) used to select tuples",
+        "bbox": [
+          109,
+          65,
+          137,
+          371
+        ],
+        "block_id": 241,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Selecting tuples from relation \\( R \\) that satisfy selection condition \\( C \\)",
+        "bbox": [
+          144,
+          105,
+          208,
+          490
+        ],
+        "block_id": 242,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\sigma_C(R) \\)",
+        "bbox": [
+          220,
+          188,
+          253,
+          277
+        ],
+        "block_id": 243,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "String constant written in single quotes",
+        "bbox": [
+          271,
+          39,
+          303,
+          390
+        ],
+        "block_id": 244,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "e.g.",
+        "bbox": [
+          321,
+          47,
+          343,
+          90
+        ],
+        "block_id": 245,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(EMPLOYEE)",
+        "bbox": [
+          326,
+          453,
+          361,
+          556
+        ],
+        "block_id": 246,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\sigma \\) (Dno='u' AND salary>25000) OR (Dno='s' AND salary>30000) (EMPLOYEE)",
+        "bbox": [
+          336,
+          91,
+          384,
+          447
+        ],
+        "block_id": 247,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- NOT > AND > OR - precedence",
+        "bbox": [
+          394,
+          144,
+          422,
+          255
+        ],
+        "block_id": 248,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- NOT >",
+        "bbox": [
+          395,
+          40,
+          421,
+          129
+        ],
+        "block_id": 249,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Precedence",
+        "bbox": [
+          398,
+          305,
+          418,
+          397
+        ],
+        "block_id": 250,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- \\( \\sigma \\) is commutative",
+        "bbox": [
+          442,
+          34,
+          473,
+          219
+        ],
+        "block_id": 251,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Project used to select attributes",
+        "bbox": [
+          507,
+          29,
+          544,
+          414
+        ],
+        "block_id": 252,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_L(R) \\)",
+        "bbox": [
+          545,
+          99,
+          594,
+          236
+        ],
+        "block_id": 253,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(list of attributes)",
+        "bbox": [
+          591,
+          156,
+          630,
+          379
+        ],
+        "block_id": 254,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_{Rid, Height}(Clerks) \\)",
+        "bbox": [
+          640,
+          41,
+          681,
+          243
+        ],
+        "block_id": 255,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(basically filtering by columns)",
+        "bbox": [
+          673,
+          155,
+          728,
+          450
+        ],
+        "block_id": 256,
+        "page_index": 9,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- in \"pure\" relational algebra, selections should be sets, so no duplicates",
+        "bbox": [
+          9,
+          33,
+          50,
+          553
+        ],
+        "block_id": 257,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "sets, so no duplicates",
+        "bbox": [
+          42,
+          51,
+          87,
+          341
+        ],
+        "block_id": 258,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- But in SQL, it's a multiset",
+        "bbox": [
+          82,
+          72,
+          131,
+          455
+        ],
+        "block_id": 259,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- it is unary, not commutative",
+        "bbox": [
+          128,
+          15,
+          189,
+          403
+        ],
+        "block_id": 260,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Throne, age (6 Age > 30 (Climbers))",
+        "bbox": [
+          195,
+          91,
+          263,
+          424
+        ],
+        "block_id": 261,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "SELECT name, age from CLIMBERS",
+        "bbox": [
+          252,
+          50,
+          351,
+          308
+        ],
+        "block_id": 262,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "WHERE Age > 30",
+        "bbox": [
+          265,
+          322,
+          303,
+          488
+        ],
+        "block_id": 263,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- ideally we apply the filter first and then project attributes",
+        "bbox": [
+          355,
+          72,
+          446,
+          536
+        ],
+        "block_id": 264,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Do we need to check union compatibility for cartesian product?",
+        "bbox": [
+          451,
+          16,
+          512,
+          515
+        ],
+        "block_id": 265,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Cartesian product",
+        "bbox": [
+          497,
+          19,
+          531,
+          235
+        ],
+        "block_id": 266,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- No, since it already returns a list of combinations uniquely",
+        "bbox": [
+          511,
+          39,
+          574,
+          566
+        ],
+        "block_id": 267,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "uniquely",
+        "bbox": [
+          568,
+          49,
+          593,
+          139
+        ],
+        "block_id": 268,
+        "page_index": 10,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Customer: C_Name, C_Street, C_City",
+        "bbox": [
+          99,
+          109,
+          114,
+          278
+        ],
+        "block_id": 269,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Depositor: C_Name, Account",
+        "bbox": [
+          114,
+          108,
+          135,
+          246
+        ],
+        "block_id": 270,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Loan_B_Name, Loan_N, Amount",
+        "bbox": [
+          142,
+          108,
+          155,
+          254
+        ],
+        "block_id": 271,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Borrower: C_Name, LoanII.",
+        "bbox": [
+          165,
+          108,
+          176,
+          233
+        ],
+        "block_id": 272,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Loan: B_Name, Loan_ID, Amount",
+        "bbox": [
+          186,
+          138,
+          201,
+          402
+        ],
+        "block_id": 273,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Borrower: C_Name, Loan_ID",
+        "bbox": [
+          206,
+          222,
+          223,
+          324
+        ],
+        "block_id": 274,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Select tuples of the loan relation where the branch name is \"GMU\"",
+        "bbox": [
+          227,
+          137,
+          247,
+          424
+        ],
+        "block_id": 275,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "6_{\\text{per unit}} > 1.080 \\quad (10^{10})",
+        "bbox": [
+          248,
+          168,
+          265,
+          269
+        ],
+        "block_id": 276,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find all tuples in which the amount of loan is more than $12000.",
+        "bbox": [
+          273,
+          135,
+          292,
+          502
+        ],
+        "block_id": 277,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·_{·, \\alpha+1} > 1000 \\text{ and } \\delta_{\\alpha+1, \\alpha} = (a_{\\alpha+1})^i \\quad (\\text{Luv})",
+        "bbox": [
+          295,
+          166,
+          312,
+          355
+        ],
+        "block_id": 278,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "····",
+        "bbox": [
+          295,
+          398,
+          309,
+          414
+        ],
+        "block_id": 279,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "List all loan numbers and the amount of loan.",
+        "bbox": [
+          317,
+          135,
+          334,
+          341
+        ],
+        "block_id": 280,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\(\\pi_{\\text{low},\\text{pmod}}\\)",
+        "bbox": [
+          338,
+          168,
+          353,
+          241
+        ],
+        "block_id": 281,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "León",
+        "bbox": [
+          339,
+          263,
+          348,
+          287
+        ],
+        "block_id": 282,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of all customers who live in \"airfax\".",
+        "bbox": [
+          362,
+          134,
+          377,
+          372
+        ],
+        "block_id": 283,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find those tuples pertaining to loans of more than $12000 made by \"GMU\" branch.",
+        "bbox": [
+          379,
+          176,
+          403,
+          358
+        ],
+        "block_id": 284,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "List all loan numbers and the amount of loan.",
+        "bbox": [
+          408,
+          134,
+          422,
+          504
+        ],
+        "block_id": 285,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of all customers who live in \"airfax\".",
+        "bbox": [
+          422,
+          169,
+          444,
+          402
+        ],
+        "block_id": 286,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of all bank customers who have either an account or a loan or both.",
+        "bbox": [
+          453,
+          133,
+          465,
+          492
+        ],
+        "block_id": 287,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·_{\\text{cave}} (\\text{Exposition})",
+        "bbox": [
+          471,
+          178,
+          490,
+          268
+        ],
+        "block_id": 288,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- 71 Erone (Barnet)",
+        "bbox": [
+          471,
+          282,
+          490,
+          394
+        ],
+        "block_id": 289,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of all customers of the bank who have an account but not a loan.",
+        "bbox": [
+          497,
+          132,
+          510,
+          450
+        ],
+        "block_id": 290,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(Duflord)",
+        "bbox": [
+          510,
+          356,
+          529,
+          414
+        ],
+        "block_id": 291,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of all customers who have both a loan and an account.",
+        "bbox": [
+          514,
+          181,
+          542,
+          340
+        ],
+        "block_id": 292,
+        "page_index": 11,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Customer: C_Name, C_Street, C_City",
+        "bbox": [
+          111,
+          89,
+          126,
+          270
+        ],
+        "block_id": 293,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Depositor: C_Name, Account#",
+        "bbox": [
+          127,
+          89,
+          148,
+          236
+        ],
+        "block_id": 294,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Loan: B_Name, Loan_, Amount",
+        "bbox": [
+          155,
+          88,
+          171,
+          244
+        ],
+        "block_id": 295,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Borrower: C_Name, Loan#",
+        "bbox": [
+          180,
+          89,
+          193,
+          218
+        ],
+        "block_id": 296,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Select tuples of the loan relation where the branch name is \"GMU\".",
+        "bbox": [
+          202,
+          115,
+          221,
+          437
+        ],
+        "block_id": 297,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\sigma_{\\text{name} = 'GMU'} (Loan) \\)",
+        "bbox": [
+          225,
+          210,
+          240,
+          320
+        ],
+        "block_id": 298,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find all tuples in which the amount of loan is more than $12000.",
+        "bbox": [
+          251,
+          120,
+          268,
+          425
+        ],
+        "block_id": 299,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\sigma_{\\text{amount} > 12000} (Loan) \\)",
+        "bbox": [
+          270,
+          153,
+          287,
+          260
+        ],
+        "block_id": 300,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find those tuples pertaining to loans of more than $12000 made by \"GMU\" branch.",
+        "bbox": [
+          299,
+          118,
+          326,
+          510
+        ],
+        "block_id": 301,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\sigma_{\\text{amount} > 12000 \\text{ and } \\text{name} = 'GMU'} (Loan) \\)",
+        "bbox": [
+          316,
+          151,
+          336,
+          356
+        ],
+        "block_id": 302,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R_1 \\cap R_2",
+        "bbox": [
+          322,
+          401,
+          335,
+          458
+        ],
+        "block_id": 303,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· List all loan numbers and the amount of loan.",
+        "bbox": [
+          345,
+          118,
+          360,
+          337
+        ],
+        "block_id": 304,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Lizzy, Amanda",
+        "bbox": [
+          367,
+          154,
+          381,
+          236
+        ],
+        "block_id": 305,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Loon",
+        "bbox": [
+          367,
+          247,
+          377,
+          281
+        ],
+        "block_id": 306,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_{\\text{Loan}, \\text{amount}} (Loan) \\)",
+        "bbox": [
+          394,
+          118,
+          405,
+          370
+        ],
+        "block_id": 307,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of all customers who live in \"Fairfax\".",
+        "bbox": [
+          410,
+          160,
+          435,
+          356
+        ],
+        "block_id": 308,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_{\\text{name}} (\\sigma_{\\text{city} = 'Fairfax'} (Customers)) \\)",
+        "bbox": [
+          442,
+          116,
+          456,
+          513
+        ],
+        "block_id": 309,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of all bank customers who have either an account or a loan or both.",
+        "bbox": [
+          456,
+          156,
+          477,
+          401
+        ],
+        "block_id": 310,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) \\cup \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+        "bbox": [
+          491,
+          116,
+          502,
+          500
+        ],
+        "block_id": 311,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of all customers of the bank who have an account but not a loan.",
+        "bbox": [
+          508,
+          162,
+          528,
+          390
+        ],
+        "block_id": 312,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) - \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+        "bbox": [
+          538,
+          115,
+          550,
+          454
+        ],
+        "block_id": 313,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(Dollars)",
+        "bbox": [
+          551,
+          355,
+          567,
+          415
+        ],
+        "block_id": 314,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of all customers who have both a loan and an account.",
+        "bbox": [
+          557,
+          166,
+          578,
+          334
+        ],
+        "block_id": 315,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) \\cap \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+        "bbox": [
+          749,
+          193,
+          760,
+          489
+        ],
+        "block_id": 316,
+        "page_index": 12,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Cartesian Product",
+        "bbox": [
+          23,
+          22,
+          48,
+          164
+        ],
+        "block_id": 317,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Cartesian Product",
+        "bbox": [
+          65,
+          64,
+          101,
+          391
+        ],
+        "block_id": 318,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\sigma_{C_{1.1} = C_{1.2}} (Climbs \\times Climbers) \\)",
+        "bbox": [
+          108,
+          52,
+          145,
+          294
+        ],
+        "block_id": 319,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "In general, very expensive...",
+        "bbox": [
+          159,
+          32,
+          190,
+          268
+        ],
+        "block_id": 320,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- [THETA] Jorn",
+        "bbox": [
+          204,
+          29,
+          234,
+          233
+        ],
+        "block_id": 321,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Join of two relations",
+        "bbox": [
+          248,
+          76,
+          279,
+          276
+        ],
+        "block_id": 322,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Use Join instead",
+        "bbox": [
+          288,
+          145,
+          328,
+          390
+        ],
+        "block_id": 323,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- (THETA) JOIN",
+        "bbox": [
+          329,
+          159,
+          367,
+          354
+        ],
+        "block_id": 324,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Join condition",
+        "bbox": [
+          331,
+          412,
+          357,
+          541
+        ],
+        "block_id": 325,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "you only",
+        "bbox": [
+          363,
+          420,
+          387,
+          542
+        ],
+        "block_id": 326,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· usually using ju",
+        "bbox": [
+          367,
+          192,
+          394,
+          333
+        ],
+        "block_id": 327,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Join of two relations",
+        "bbox": [
+          390,
+          180,
+          446,
+          348
+        ],
+        "block_id": 328,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "have attributed",
+        "bbox": [
+          391,
+          436,
+          415,
+          579
+        ],
+        "block_id": 329,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "this is different",
+        "bbox": [
+          428,
+          416,
+          453,
+          561
+        ],
+        "block_id": 330,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "from SELECTION",
+        "bbox": [
+          459,
+          385,
+          480,
+          545
+        ],
+        "block_id": 331,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "unconditioned",
+        "bbox": [
+          486,
+          411,
+          510,
+          522
+        ],
+        "block_id": 332,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( R \\bowtie_C S = \\sigma_C (R \\times S) \\)",
+        "bbox": [
+          504,
+          121,
+          560,
+          475
+        ],
+        "block_id": 333,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\bowtie_C \\) is called a Join condition",
+        "bbox": [
+          542,
+          34,
+          603,
+          519
+        ],
+        "block_id": 334,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( \\bowtie_C \\) can only take attribute name",
+        "bbox": [
+          580,
+          73,
+          635,
+          522
+        ],
+        "block_id": 335,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "This is different from SELECTION condition",
+        "bbox": [
+          637,
+          173,
+          662,
+          590
+        ],
+        "block_id": 336,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Climbs \\( \\bowtie_C \\) Climbers",
+        "bbox": [
+          672,
+          32,
+          698,
+          588
+        ],
+        "block_id": 337,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( (C_{1.1} = C_{1.2}) \\)",
+        "bbox": [
+          708,
+          28,
+          732,
+          588
+        ],
+        "block_id": 338,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- there should be fewer tuples in Join compared to PRODUCT",
+        "bbox": [
+          744,
+          26,
+          768,
+          590
+        ],
+        "block_id": 339,
+        "page_index": 13,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- Natural JOIN",
+        "bbox": [
+          26,
+          45,
+          49,
+          187
+        ],
+        "block_id": 340,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- where the condition is implied",
+        "bbox": [
+          49,
+          77,
+          78,
+          400
+        ],
+        "block_id": 341,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- not encouraged to use",
+        "bbox": [
+          86,
+          77,
+          111,
+          315
+        ],
+        "block_id": 342,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "1. Sailors x Reserves (Cockson, 6 tuples)",
+        "bbox": [
+          134,
+          96,
+          152,
+          365
+        ],
+        "block_id": 343,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2. Sailors · Reserves (Theta Join)",
+        "bbox": [
+          177,
+          32,
+          227,
+          446
+        ],
+        "block_id": 344,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sailor.S.Sid < Reserve.S.Sid <table> <tr>",
+        "bbox": [
+          223,
+          19,
+          289,
+          482
+        ],
+        "block_id": 345,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>S.Sid</th> <th>...</th>",
+        "bbox": [
+          297,
+          113,
+          334,
+          327
+        ],
+        "block_id": 346,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>R.Sid</th> <th>..</th> </tr> <tr> <td>22</td> <td></td> <td>58</td> <td></td> </tr> <tr> <td>31</td> <td></td> <td>58</td> <td></td> </tr> </table>",
+        "bbox": [
+          299,
+          347,
+          336,
+          454
+        ],
+        "block_id": 347,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3. Sailors & S.Sid = R.Sid Reserves (Equijoin) (7 columns) <table>",
+        "bbox": [
+          330,
+          101,
+          374,
+          337
+        ],
+        "block_id": 348,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          350,
+          443,
+          367,
+          492
+        ],
+        "block_id": 349,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>S.Sid</th> <th>...</th>",
+        "bbox": [
+          388,
+          26,
+          431,
+          482
+        ],
+        "block_id": 350,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>R.Sid</th>",
+        "bbox": [
+          426,
+          432,
+          457,
+          569
+        ],
+        "block_id": 351,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>..</th> </tr> <tr> <td>22</td> <td></td> <td>22</td> <td></td> </tr> <tr> <td>58</td> <td></td>",
+        "bbox": [
+          432,
+          101,
+          527,
+          413
+        ],
+        "block_id": 352,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<td>58</td> <td></td> </tr> </table>",
+        "bbox": [
+          535,
+          37,
+          592,
+          556
+        ],
+        "block_id": 353,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "4. Sailors · Reserves (Natural JOIN) (6 columns) <table> <tr> <th>Sid</th> <th>...</th> </tr> <tr> <td>22</td> <td></td>",
+        "bbox": [
+          597,
+          104,
+          621,
+          508
+        ],
+        "block_id": 354,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr> </table>",
+        "bbox": [
+          676,
+          337,
+          690,
+          431
+        ],
+        "block_id": 355,
+        "page_index": 14,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·_{S,snow} / S_{r,bb} = 0.2 (Silos & SSID: 1.50 Reserves)",
+        "bbox": [
+          17,
+          42,
+          64,
+          521
+        ],
+        "block_id": 356,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Exercise",
+        "bbox": [
+          165,
+          289,
+          176,
+          345
+        ],
+        "block_id": 357,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Boats",
+        "bbox": [
+          187,
+          331,
+          196,
+          355
+        ],
+        "block_id": 358,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sailors",
+        "bbox": [
+          188,
+          213,
+          196,
+          242
+        ],
+        "block_id": 359,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "snamo",
+        "bbox": [
+          201,
+          244,
+          210,
+          263
+        ],
+        "block_id": 360,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "bname",
+        "bbox": [
+          201,
+          361,
+          210,
+          381
+        ],
+        "block_id": 361,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Criminology Interlake",
+        "bbox": [
+          211,
+          360,
+          218,
+          381
+        ],
+        "block_id": 362,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Lubber",
+        "bbox": [
+          224,
+          243,
+          233,
+          261
+        ],
+        "block_id": 363,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Choper",
+        "bbox": [
+          233,
+          361,
+          241,
+          380
+        ],
+        "block_id": 364,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Reserves",
+        "bbox": [
+          254,
+          213,
+          262,
+          252
+        ],
+        "block_id": 365,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "10/10/96",
+        "bbox": [
+          280,
+          271,
+          288,
+          291
+        ],
+        "block_id": 366,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "11/12/96",
+        "bbox": [
+          292,
+          270,
+          299,
+          291
+        ],
+        "block_id": 367,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Exercise (Cont.)",
+        "bbox": [
+          343,
+          265,
+          358,
+          368
+        ],
+        "block_id": 368,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of sailors who have reserved boat 103.",
+        "bbox": [
+          367,
+          215,
+          376,
+          412
+        ],
+        "block_id": 369,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of sailors who have reserved boat 103. · Find the names of sailors who have reserved a red boat.",
+        "bbox": [
+          377,
+          215,
+          387,
+          417
+        ],
+        "block_id": 370,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of sailors who have reserved. · Find the colors of boats reserved by Dustin.",
+        "bbox": [
+          388,
+          215,
+          398,
+          374
+        ],
+        "block_id": 371,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of sailors who have reserved at least",
+        "bbox": [
+          401,
+          215,
+          409,
+          405
+        ],
+        "block_id": 372,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "one boat.",
+        "bbox": [
+          411,
+          224,
+          418,
+          258
+        ],
+        "block_id": 373,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of sailors who have reserved a red or a",
+        "bbox": [
+          421,
+          215,
+          432,
+          414
+        ],
+        "block_id": 374,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the tiny green boat.",
+        "bbox": [
+          431,
+          224,
+          439,
+          265
+        ],
+        "block_id": 375,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of sailors who have reserved a red and",
+        "bbox": [
+          442,
+          215,
+          451,
+          413
+        ],
+        "block_id": 376,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "I will be sailing a green boat.",
+        "bbox": [
+          452,
+          224,
+          460,
+          271
+        ],
+        "block_id": 377,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Find the names of sailors with age over 20 who have",
+        "bbox": [
+          463,
+          215,
+          472,
+          405
+        ],
+        "block_id": 378,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Rosenes",
+        "bbox": [
+          483,
+          392,
+          514,
+          493
+        ],
+        "block_id": 379,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "(648 - 108)",
+        "bbox": [
+          486,
+          265,
+          514,
+          366
+        ],
+        "block_id": 380,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "[Sailors]",
+        "bbox": [
+          488,
+          128,
+          516,
+          241
+        ],
+        "block_id": 381,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Tigane",
+        "bbox": [
+          490,
+          48,
+          516,
+          99
+        ],
+        "block_id": 382,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Boats & Reserves",
+        "bbox": [
+          521,
+          373,
+          560,
+          564
+        ],
+        "block_id": 383,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[ \\int_{0}^{\\infty} e^{-\\alpha x} \\cos(\\omega x) dx \\]",
+        "bbox": [
+          524,
+          156,
+          570,
+          328
+        ],
+        "block_id": 384,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Tisnor",
+        "bbox": [
+          531,
+          67,
+          565,
+          133
+        ],
+        "block_id": 385,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "·",
+        "bbox": [
+          582,
+          372,
+          604,
+          387
+        ],
+        "block_id": 386,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "A. Levenus",
+        "bbox": [
+          584,
+          246,
+          613,
+          357
+        ],
+        "block_id": 387,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Boats",
+        "bbox": [
+          585,
+          421,
+          609,
+          463
+        ],
+        "block_id": 388,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sailors",
+        "bbox": [
+          591,
+          159,
+          613,
+          227
+        ],
+        "block_id": 389,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Russell",
+        "bbox": [
+          637,
+          230,
+          661,
+          339
+        ],
+        "block_id": 390,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a sane (Sailors",
+        "bbox": [
+          639,
+          68,
+          664,
+          226
+        ],
+        "block_id": 391,
+        "page_index": 15,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "5 \\( \\Pi_{\\text{snare}} ((\\delta_{\\text{color}} = 'red') \\text{ OR } \\text{color} = 'green' \\text{ Boots}) \\approx (\\delta_{\\text{AB}}) \\)",
+        "bbox": [
+          13,
+          158,
+          97,
+          571
+        ],
+        "block_id": 392,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· · snare",
+        "bbox": [
+          22,
+          27,
+          77,
+          112
+        ],
+        "block_id": 393,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "6  Red \\( \\rightarrow \\Pi_{S_{\\text{B, snare}}} (S \\approx R \\approx (\\delta_{\\text{color}} = 'red', B)) \\approx S \\)",
+        "bbox": [
+          179,
+          156,
+          224,
+          501
+        ],
+        "block_id": 394,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "1. Name: Orbis 108 (Sailors) - Red Reserve 2. Name:",
+        "bbox": [
+          217,
+          157,
+          245,
+          382
+        ],
+        "block_id": 395,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2. TT's name (Sailor 2000) (2000-2002) (2 years) 3. TT's name (Boat 1000)",
+        "bbox": [
+          238,
+          156,
+          275,
+          378
+        ],
+        "block_id": 396,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3 The color Boots and leggings (Rservable, please (to earn the 30000)) 4 The name / Satisf",
+        "bbox": [
+          262,
+          160,
+          299,
+          397
+        ],
+        "block_id": 397,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Message (Sailors and other Reserves)",
+        "bbox": [
+          287,
+          158,
+          324,
+          309
+        ],
+        "block_id": 398,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Green \\( \\rightarrow \\Pi_{S_{\\text{W, snare}}} (S \\approx R \\approx (\\delta_{\\text{color}} = 'green', B)) \\approx S \\)",
+        "bbox": [
+          419,
+          11,
+          517,
+          563
+        ],
+        "block_id": 399,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( R \\cap G \\in \\Pi_{\\text{snare}} (\\text{Red} \\cap \\text{Green}) \\)",
+        "bbox": [
+          540,
+          63,
+          595,
+          591
+        ],
+        "block_id": 400,
+        "page_index": 16,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R1 · · Sid (6ege > 20 sailors)",
+        "bbox": [
+          21,
+          61,
+          55,
+          138
+        ],
+        "block_id": 401,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R2 · · Sid (R & (6 case = 'red')) R · · name [(R1 - R2) · Sailors] - Division in SQL query Climbs <table>",
+        "bbox": [
+          21,
+          221,
+          70,
+          469
+        ],
+        "block_id": 402,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr>",
+        "bbox": [
+          25,
+          15,
+          50,
+          59
+        ],
+        "block_id": 403,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Cid</th>",
+        "bbox": [
+          76,
+          207,
+          118,
+          507
+        ],
+        "block_id": 404,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Rid</th> </tr> <tr> <td>1</td> <td>A</td> </tr> <tr>",
+        "bbox": [
+          79,
+          63,
+          118,
+          199
+        ],
+        "block_id": 405,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<td>1</td>",
+        "bbox": [
+          135,
+          77,
+          186,
+          490
+        ],
+        "block_id": 406,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<td>B</td> </tr>",
+        "bbox": [
+          235,
+          22,
+          273,
+          245
+        ],
+        "block_id": 407,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr> <td>2</td> <td>A</td>",
+        "bbox": [
+          306,
+          231,
+          329,
+          287
+        ],
+        "block_id": 408,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "</tr>",
+        "bbox": [
+          311,
+          76,
+          333,
+          146
+        ],
+        "block_id": 409,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<tr> <td>2</td>",
+        "bbox": [
+          311,
+          289,
+          333,
+          352
+        ],
+        "block_id": 410,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<td>B</td> </tr> </table> C × R <table> <tr>",
+        "bbox": [
+          335,
+          236,
+          425,
+          418
+        ],
+        "block_id": 411,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Cid</th>",
+        "bbox": [
+          345,
+          65,
+          428,
+          172
+        ],
+        "block_id": 412,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "<th>Rid</th> </tr> <tr> <td>1</td> <td>A</td> </tr> <tr> <td>1</td> <td>B</td> </tr> <tr> <td>2</td> <td>A</td> </tr> <tr> <td>2</td> <td>B</td> </tr> </table>",
+        "bbox": [
+          415,
+          255,
+          484,
+          452
+        ],
+        "block_id": 413,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "C × R - · Cid, Rid (Climbs)",
+        "bbox": [
+          499,
+          87,
+          541,
+          391
+        ],
+        "block_id": 414,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "or,",
+        "bbox": [
+          539,
+          69,
+          562,
+          99
+        ],
+        "block_id": 415,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Cid, Rid Climbs ÷ (· Rid Routes)",
+        "bbox": [
+          562,
+          88,
+          625,
+          466
+        ],
+        "block_id": 416,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Climbers who have climbed all routes",
+        "bbox": [
+          623,
+          111,
+          672,
+          491
+        ],
+        "block_id": 417,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "What about \"Routes that have been climbed by all climbers\"?",
+        "bbox": [
+          681,
+          50,
+          739,
+          534
+        ],
+        "block_id": 418,
+        "page_index": 17,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Confused on division...",
+        "bbox": [
+          21,
+          50,
+          44,
+          304
+        ],
+        "block_id": 419,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-division keyword: ALL",
+        "bbox": [
+          63,
+          79,
+          103,
+          332
+        ],
+        "block_id": 420,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "1. Find rows of sailors who have reserved all boots",
+        "bbox": [
+          130,
+          86,
+          208,
+          369
+        ],
+        "block_id": 421,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "denominator",
+        "bbox": [
+          137,
+          371,
+          156,
+          504
+        ],
+        "block_id": 422,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( R_1 \\gets \\pi_{sid, bid} (reserves) / \\pi_{sid} (Boots) \\)",
+        "bbox": [
+          208,
+          120,
+          234,
+          262
+        ],
+        "block_id": 423,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\( R \\gets \\pi_{sname} (R_1 \\bowtie Sailors) \\)",
+        "bbox": [
+          282,
+          111,
+          328,
+          523
+        ],
+        "block_id": 424,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2. \\( R_1 \\gets (\\pi_{sid, bid} reserves) \\div \\pi_{bid} (b = '...') \\)",
+        "bbox": [
+          352,
+          110,
+          398,
+          428
+        ],
+        "block_id": 425,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Recap of Relational Algebra Operations",
+        "bbox": [
+          444,
+          77,
+          495,
+          568
+        ],
+        "block_id": 426,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Select \\(\\sigma<selection\\ condition> R\\)",
+        "bbox": [
+          532,
+          169,
+          553,
+          414
+        ],
+        "block_id": 427,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Project \\(\\pi<attribute\\ list> R\\)",
+        "bbox": [
+          557,
+          244,
+          575,
+          343
+        ],
+        "block_id": 428,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Union \\(R \\cup S\\)",
+        "bbox": [
+          596,
+          264,
+          607,
+          423
+        ],
+        "block_id": 429,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Select",
+        "bbox": [
+          596,
+          152,
+          607,
+          207
+        ],
+        "block_id": 430,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Intersection \\(R \\cap S\\)",
+        "bbox": [
+          613,
+          152,
+          625,
+          211
+        ],
+        "block_id": 431,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Difference \\(R - S\\)",
+        "bbox": [
+          613,
+          264,
+          625,
+          386
+        ],
+        "block_id": 432,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Union",
+        "bbox": [
+          629,
+          152,
+          641,
+          203
+        ],
+        "block_id": 433,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "RUS",
+        "bbox": [
+          630,
+          265,
+          641,
+          298
+        ],
+        "block_id": 434,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Cross product \\(R \\times S\\)",
+        "bbox": [
+          647,
+          152,
+          657,
+          238
+        ],
+        "block_id": 435,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R \\cap S",
+        "bbox": [
+          647,
+          265,
+          658,
+          298
+        ],
+        "block_id": 436,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Join \\(R \\bowtie<join\\ condition> S\\)",
+        "bbox": [
+          664,
+          152,
+          674,
+          229
+        ],
+        "block_id": 437,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R - S",
+        "bbox": [
+          664,
+          264,
+          675,
+          298
+        ],
+        "block_id": 438,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Natural join \\(R \\bowtie S\\)",
+        "bbox": [
+          679,
+          152,
+          692,
+          296
+        ],
+        "block_id": 439,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Division \\(R \\div S\\)",
+        "bbox": [
+          695,
+          264,
+          711,
+          406
+        ],
+        "block_id": 440,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Join",
+        "bbox": [
+          697,
+          152,
+          709,
+          193
+        ],
+        "block_id": 441,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Natural join",
+        "bbox": [
+          715,
+          164,
+          726,
+          238
+        ],
+        "block_id": 442,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R \\otimes S",
+        "bbox": [
+          715,
+          265,
+          725,
+          300
+        ],
+        "block_id": 443,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Division",
+        "bbox": [
+          731,
+          164,
+          742,
+          218
+        ],
+        "block_id": 444,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R ÷ S",
+        "bbox": [
+          731,
+          265,
+          742,
+          299
+        ],
+        "block_id": 445,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Rename \\(\\rho<new\\ schema> R\\)",
+        "bbox": [
+          747,
+          262,
+          760,
+          379
+        ],
+        "block_id": 446,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Rename",
+        "bbox": [
+          748,
+          164,
+          760,
+          220
+        ],
+        "block_id": 447,
+        "page_index": 18,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Sailors (sid, sname, rating, age)",
+        "bbox": [
+          80,
+          142,
+          93,
+          255
+        ],
+        "block_id": 448,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Boats (bid, bname, color)",
+        "bbox": [
+          98,
+          142,
+          111,
+          233
+        ],
+        "block_id": 449,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Reserves (sid, bid, day)",
+        "bbox": [
+          118,
+          142,
+          128,
+          225
+        ],
+        "block_id": 450,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of sailors who have reserved all boats. \\[",
+        "bbox": [
+          136,
+          154,
+          151,
+          357
+        ],
+        "block_id": 451,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\pi_{(R1, \\forall bid (Reserves \\div \\forall bid Boats))} (R1 \\bowtie Sailors) \\]",
+        "bbox": [
+          159,
+          149,
+          189,
+          425
+        ],
+        "block_id": 452,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of sailors who have reserved all boats called Interlake.",
+        "bbox": [
+          188,
+          191,
+          207,
+          330
+        ],
+        "block_id": 453,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of sailors who have reserved at least two different boats.",
+        "bbox": [
+          212,
+          150,
+          227,
+          413
+        ],
+        "block_id": 454,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[",
+        "bbox": [
+          291,
+          487,
+          314,
+          580
+        ],
+        "block_id": 455,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R_1 \\bowtie R_2 \\text{Reserve} \\]",
+        "bbox": [
+          292,
+          160,
+          305,
+          420
+        ],
+        "block_id": 456,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[",
+        "bbox": [
+          312,
+          185,
+          329,
+          308
+        ],
+        "block_id": 457,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R_1.\\text{Sid} = \\text{Reserve}.\\text{Sid} \\text{ AND }",
+        "bbox": [
+          320,
+          231,
+          352,
+          465
+        ],
+        "block_id": 458,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R_1.\\text{Bid} \\neq R_2.\\text{Bid}",
+        "bbox": [
+          350,
+          237,
+          374,
+          410
+        ],
+        "block_id": 459,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\]",
+        "bbox": [
+          371,
+          158,
+          381,
+          247
+        ],
+        "block_id": 460,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "· Find the names of sailors who have reserved the same boat at least twice.",
+        "bbox": [
+          369,
+          247,
+          385,
+          427
+        ],
+        "block_id": 461,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[",
+        "bbox": [
+          384,
+          164,
+          403,
+          223
+        ],
+        "block_id": 462,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\pi_{(R1, Reserves)} \\text{ TIE } \\tau_{\\text{Sid}} (R1 \\bowtie Reserves) \\] \\[",
+        "bbox": [
+          402,
+          135,
+          431,
+          359
+        ],
+        "block_id": 463,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R1.\\text{Sid} = \\text{Reserves}.\\text{Sid} \\text{ AND }",
+        "bbox": [
+          425,
+          238,
+          451,
+          431
+        ],
+        "block_id": 464,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R1.\\text{Bid} = \\text{Reserves}.\\text{Bid} \\text{ AND }",
+        "bbox": [
+          452,
+          238,
+          478,
+          435
+        ],
+        "block_id": 465,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R1.\\text{Day} \\neq \\text{Reserves}.\\text{Day}",
+        "bbox": [
+          490,
+          207,
+          516,
+          310
+        ],
+        "block_id": 466,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\]",
+        "bbox": [
+          490,
+          310,
+          516,
+          436
+        ],
+        "block_id": 467,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\[",
+        "bbox": [
+          522,
+          159,
+          564,
+          409
+        ],
+        "block_id": 468,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "R \\in \\tau_{\\text{Sid}} (T, \\bowtie Sailors)",
+        "bbox": [
+          582,
+          261,
+          623,
+          522
+        ],
+        "block_id": 469,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "~essentially~",
+        "bbox": [
+          599,
+          43,
+          620,
+          131
+        ],
+        "block_id": 470,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "\\]",
+        "bbox": [
+          599,
+          166,
+          622,
+          218
+        ],
+        "block_id": 471,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-essentially meeting multiple renames / aliases & needed",
+        "bbox": [
+          633,
+          51,
+          654,
+          134
+        ],
+        "block_id": 472,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "-PREP for QUIZ",
+        "bbox": [
+          681,
+          250,
+          703,
+          317
+        ],
+        "block_id": 473,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "for",
+        "bbox": [
+          683,
+          188,
+          705,
+          218
+        ],
+        "block_id": 474,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "- PREP",
+        "bbox": [
+          688,
+          73,
+          715,
+          156
+        ],
+        "block_id": 475,
+        "page_index": 19,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "Project 1-3",
+        "bbox": [
+          17,
+          11,
+          53,
+          198
+        ],
+        "block_id": 476,
+        "page_index": 20,
+        "block_label": "text",
+        "score": 1.0
+      }
+    ],
+    "data_info": {
+      "pages": [
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        },
+        {
+          "width": 612,
+          "height": 792
+        }
+      ],
+      "num_pages": 21
+    }
+  }
+}
