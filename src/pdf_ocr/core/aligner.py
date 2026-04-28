@@ -114,22 +114,56 @@ class HybridAligner:
         best_cost = float("inf")
         best_perm: list[int] = candidates[0]
         best_mapping: dict[int, list[str]] = {}
+        best_match_count = 0
         for perm in candidates:
             ordered_boxes = [boxes[i] for i in perm]
-            cost, mapping = _dp_align(lines, ordered_boxes)
+            cost, mapping, match_count = _dp_align(lines, ordered_boxes)
             if cost < best_cost:
                 best_cost = cost
                 best_perm = perm
                 best_mapping = mapping
+                best_match_count = match_count
+
+        # Degenerate-alignment safety net. Two failure modes pack all the
+        # LLM text into one box and leave the rest empty (which users see
+        # as "all text packed in the top-left corner"):
+        #
+        #   1. Zero real matches — every line was skip_line'd and attached
+        #      to box 0 by the fallback. Unlikely with default cost
+        #      constants but cheap to check.
+        #   2. The LLM emitted ONE giant line but Surya found many boxes
+        #      (e.g. an OlmOCR variant that doesn't break lines on
+        #      handwritten content). The DP can only match that single
+        #      line to one box; every other box stays empty. Output is
+        #      effectively a single block in whichever box won the match.
+        #
+        # In both cases, embedding the LLM text in a single full-page bbox
+        # keeps the output searchable across the whole page instead of
+        # corralled into one corner. We only consider case 2 when there
+        # are several boxes — a 1-line / 1-box page is the normal trivial
+        # case and should keep the existing placement.
+        is_zero_match = best_match_count == 0 and len(lines) > 1
+        is_single_line_many_boxes = len(lines) == 1 and len(boxes) >= 5
+        if is_zero_match or is_single_line_many_boxes:
+            reason = "no line→box matches" if is_zero_match else (
+                "LLM emitted a single line for many boxes — likely a model "
+                "variant that doesn't break visual lines"
+            )
+            logging.warning(
+                "Degenerate hybrid alignment: %s (lines=%d, boxes=%d). "
+                "Falling back to a full-page text layer so output stays "
+                "searchable. Try --grounded or a different --model.",
+                reason, len(lines), len(boxes),
+            )
+            return [([0.0, 0.0, 1.0, 1.0], "\n".join(lines))]
 
         # Translate the per-perm-index mapping back to per-input-index text.
         text_per_input: list[str] = ["" for _ in boxes]
         for perm_idx, texts in best_mapping.items():
             text_per_input[best_perm[perm_idx]] = " ".join(texts).strip()
 
-        matched = sum(1 for t in text_per_input if t)
         logging.debug(
-            f"DEBUG: DP aligned {len(lines)} lines → {matched}/{len(boxes)} "
+            f"DEBUG: DP aligned {len(lines)} lines → {best_match_count}/{len(boxes)} "
             f"boxes (cost={best_cost:.3f})"
         )
         return [(box, text) for box, text in zip(boxes, text_per_input)]
@@ -257,15 +291,18 @@ def _match_cost(line_chars: int, expected_chars: float) -> float:
 
 def _dp_align(
     lines: list[str], boxes: list[BBox]
-) -> tuple[float, dict[int, list[str]]]:
+) -> tuple[float, dict[int, list[str]], int]:
     """
     Monotonic Needleman-Wunsch alignment of lines → boxes.
 
-    Returns: ``(total_cost, mapping)`` where ``mapping`` is
-    ``{box_index: [line_text, ...]}`` and ``total_cost`` is the DP's
-    minimum alignment cost. The cost lets callers compare the same
-    alignment under different box orderings (row-major vs column-major)
-    and pick the order that better matches the LLM's emission.
+    Returns: ``(total_cost, mapping, match_count)`` where ``mapping`` is
+    ``{box_index: [line_text, ...]}``, ``total_cost`` is the DP's
+    minimum alignment cost, and ``match_count`` is the number of
+    ``op=match`` operations the DP made (i.e. real line→box pairings,
+    excluding lines attached via the skip-line fallback). The cost
+    lets callers compare the same alignment under different box
+    orderings; ``match_count`` lets callers detect a degenerate
+    alignment where every line was skipped and dumped onto box 0.
 
     Unmatched lines are attached to the nearest preceding matched box
     (or the first box if no prior match exists) so no LLM text is lost.
@@ -273,7 +310,7 @@ def _dp_align(
     N = len(lines)
     M = len(boxes)
     if N == 0 or M == 0:
-        return 0.0, {}
+        return 0.0, {}, 0
     total_chars = max(1, sum(len(l) for l in lines))
 
     # Distribute total chars across boxes by area.
@@ -336,14 +373,16 @@ def _dp_align(
     # Replay ops in reading order. Track the most recent matched box so that
     # skip_line ops can attach their text to it (no lost LLM text).
     last_matched_box: int | None = None
+    match_count = 0
     for op, li, bj in ops:
         if op == 0:
             mapping.setdefault(bj, []).append(lines[li])
             last_matched_box = bj
+            match_count += 1
         elif op == 1 and li >= 0:
             # Unmatched line: attach to last matched box, or to first box
             # if we haven't matched anything yet.
             target = last_matched_box if last_matched_box is not None else 0
             mapping.setdefault(target, []).append(lines[li])
         # op == 2 (skip_box): nothing to add for this box
-    return dp[N][M], mapping
+    return dp[N][M], mapping, match_count

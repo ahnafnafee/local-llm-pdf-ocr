@@ -45,7 +45,7 @@ class TestDPAlign:
     def test_one_to_one_equal_sized(self):
         lines = ["alpha line", "beta line", "gamma line"]
         boxes = [[0.0, 0.0, 1.0, 0.3], [0.0, 0.3, 1.0, 0.6], [0.0, 0.6, 1.0, 0.9]]
-        _, mapping = _dp_align(lines, boxes)
+        _, mapping, _ = _dp_align(lines, boxes)
         assert mapping == {0: ["alpha line"], 1: ["beta line"], 2: ["gamma line"]}
 
     def test_respects_box_sizes(self):
@@ -56,7 +56,7 @@ class TestDPAlign:
             [0.0, 0.15, 1.0, 0.85],   # huge
             [0.4, 0.9, 0.55, 0.93],   # tiny
         ]
-        _, mapping = _dp_align(lines, boxes)
+        _, mapping, _ = _dp_align(lines, boxes)
         assert mapping[0] == ["Title"]
         assert mapping[1] == ["x" * 200]
         assert mapping[2] == ["Fin"]
@@ -64,14 +64,14 @@ class TestDPAlign:
     def test_more_lines_than_boxes_conserves_text(self):
         lines = ["A", "B", "C", "D", "E"]
         boxes = [[0.0, 0.0, 1.0, 0.5], [0.0, 0.5, 1.0, 1.0]]
-        _, mapping = _dp_align(lines, boxes)
+        _, mapping, _ = _dp_align(lines, boxes)
         all_placed = [t for vs in mapping.values() for t in vs]
         assert set(all_placed) == set(lines), "every line must be placed"
 
     def test_more_boxes_than_lines_leaves_empties(self):
         lines = ["one", "two"]
         boxes = [[0.0, 0.0, 0.3, 0.1]] * 5
-        _, mapping = _dp_align(lines, boxes)
+        _, mapping, _ = _dp_align(lines, boxes)
         assert sum(len(v) for v in mapping.values()) == 2
 
     def test_two_column_layout(self):
@@ -89,7 +89,7 @@ class TestDPAlign:
             [0.55, 0.10, 0.95, 0.12],   # R short title
             [0.55, 0.15, 0.95, 0.35],   # R body
         ]
-        _, mapping = _dp_align(lines, boxes)
+        _, mapping, _ = _dp_align(lines, boxes)
         assert len(mapping) == 4
         # Each box got text in increasing box-index order (monotonic).
         for i in range(4):
@@ -106,17 +106,17 @@ class TestDPAlign:
             [0.4, 0.85, 0.55, 0.90],   # tiny
         ]
         boxes_shuffled = [boxes_aligned[i] for i in (1, 0, 3, 2)]
-        cost_aligned, _ = _dp_align(lines, boxes_aligned)
-        cost_shuffled, _ = _dp_align(lines, boxes_shuffled)
+        cost_aligned, _, _ = _dp_align(lines, boxes_aligned)
+        cost_shuffled, _, _ = _dp_align(lines, boxes_shuffled)
         assert cost_shuffled > cost_aligned, (
             f"shuffled cost {cost_shuffled} must exceed aligned {cost_aligned}"
         )
 
     def test_empty_boxes_yields_empty_mapping(self):
-        assert _dp_align(["some text"], []) == (0.0, {})
+        assert _dp_align(["some text"], []) == (0.0, {}, 0)
 
     def test_empty_lines_yields_empty_mapping(self):
-        assert _dp_align([], [[0.0, 0.0, 1.0, 1.0]]) == (0.0, {})
+        assert _dp_align([], [[0.0, 0.0, 1.0, 1.0]]) == (0.0, {}, 0)
 
 
 class TestAlignTextPublicAPI:
@@ -150,6 +150,37 @@ class TestAlignTextPublicAPI:
         out_str = _aligner().align_text(structured, "one\ntwo")
         out_lst = _aligner().align_text(structured, ["one", "two"])
         assert out_str == out_lst
+
+    def test_degenerate_single_line_many_boxes_falls_back_to_full_page(self):
+        # Symptom users report as "all text packed in the top-left
+        # corner": an LLM variant that doesn't break visual lines emits
+        # ONE giant line for the whole page. The DP matches that line to
+        # one box and every other box stays empty. align_text now
+        # detects this and embeds the text in a single full-page bbox so
+        # search works across the whole page instead of one corner.
+        boxes = [[0.05, i * 0.05, 0.45, i * 0.05 + 0.04] for i in range(20)]
+        structured = [(b, "") for b in boxes]
+        single_line = (
+            "all the page text emitted as one big string with no line breaks"
+        )
+        out = _aligner().align_text(structured, [single_line])
+        assert len(out) == 1, (
+            f"expected full-page fallback, got {len(out)} boxes"
+        )
+        bbox, text = out[0]
+        assert bbox == [0.0, 0.0, 1.0, 1.0]
+        assert text == single_line
+
+    def test_single_line_single_box_does_not_trigger_fallback(self):
+        # A 1-line / 1-box page is the normal trivial case — the line
+        # should land in its real box, not the full-page fallback.
+        boxes = [[0.1, 0.1, 0.9, 0.2]]
+        structured = [(b, "") for b in boxes]
+        out = _aligner().align_text(structured, ["the one line"])
+        assert len(out) == 1
+        bbox, text = out[0]
+        assert bbox == boxes[0]
+        assert text == "the one line"
 
     @pytest.mark.parametrize("n_lines,n_boxes", [(1, 1), (5, 3), (3, 5), (10, 10)])
     def test_conserves_all_lines_across_shapes(self, n_lines, n_boxes):
