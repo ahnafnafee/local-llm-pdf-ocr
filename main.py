@@ -65,6 +65,19 @@ Examples:
              "Drop to ~640 for small local VLMs like GLM-OCR:1.1B that crash on larger inputs.",
     )
     parser.add_argument(
+        "--dense-threshold", type=int, default=60,
+        help="In --dense-mode auto, pages with more than this many detected boxes "
+             "use per-box OCR instead of full-page (default: 60). Per-box is more "
+             "accurate on dense handwritten content where the LLM otherwise loops "
+             "or hallucinates.",
+    )
+    parser.add_argument(
+        "--dense-mode", choices=("auto", "always", "never"), default="auto",
+        help="auto (default): per-box OCR for pages above --dense-threshold. "
+             "always: per-box for every page (slow but most accurate). "
+             "never: original full-page OCR everywhere.",
+    )
+    parser.add_argument(
         "--grounded", action="store_true",
         help="Use a bbox-native VLM (Qwen2.5-VL / Qwen3-VL / etc.) that returns text WITH "
              "bounding boxes in one call. Skips Surya + DP + refine. Requires --model to be "
@@ -148,6 +161,8 @@ async def run(args: argparse.Namespace, console: Console) -> None:
                 concurrency=args.concurrency,
                 refine=args.refine,
                 max_image_dim=args.max_image_dim,
+                dense_threshold=args.dense_threshold,
+                dense_mode=args.dense_mode,
                 progress=on_progress,
             )
         except Exception as e:

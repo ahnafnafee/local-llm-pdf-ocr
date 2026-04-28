@@ -139,6 +139,73 @@ class TestOCRPipeline:
         await pipe.run("in.pdf", "out.pdf", refine=False)
         assert ocr.crop_calls == 0
 
+    async def test_dense_mode_always_uses_per_box_ocr(self, make_stub_ocr):
+        # dense_mode="always" should bypass full-page OCR entirely and OCR
+        # every detected box individually via perform_ocr_on_crop.
+        ocr = make_stub_ocr(page_lines=["fullpage line"], crop_text="per-box")
+        aligner = _StubAligner()  # 3 boxes per page
+        pdf = _StubPDF(n_pages=2)
+        pipe = OCRPipeline(aligner, ocr, pdf)
+
+        await pipe.run(
+            "in.pdf", "out.pdf",
+            concurrency=3, refine=False, dense_mode="always",
+        )
+
+        # 3 boxes × 2 pages = 6 per-box OCR calls. No full-page calls.
+        assert ocr.page_calls == 0
+        assert ocr.crop_calls == 6
+        # Every box got the per-box text, not the (unused) full-page line.
+        for page_boxes in pdf.last_pages.values():
+            assert all(t == "per-box" for _, t in page_boxes)
+
+    async def test_dense_mode_never_keeps_full_page(self, make_stub_ocr):
+        ocr = make_stub_ocr(page_lines=["fullpage line"], crop_text="per-box")
+        aligner = _StubAligner()
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(aligner, ocr, pdf)
+
+        await pipe.run(
+            "in.pdf", "out.pdf", refine=False, dense_mode="never",
+        )
+        assert ocr.page_calls == 1
+        assert ocr.crop_calls == 0
+
+    async def test_dense_mode_auto_picks_per_box_for_dense_pages(self, make_stub_ocr):
+        ocr = make_stub_ocr(page_lines=["fullpage line"], crop_text="per-box")
+        # Make a page exceeding dense_threshold so auto picks per-box.
+        many_boxes = [[i / 70, 0.0, (i + 1) / 70, 0.05] for i in range(70)]
+        aligner = _StubAligner(boxes_per_page=many_boxes)
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(aligner, ocr, pdf)
+
+        await pipe.run(
+            "in.pdf", "out.pdf",
+            concurrency=5, refine=False,
+            dense_mode="auto", dense_threshold=60,
+        )
+        # 70 boxes > 60 threshold → per-box; full-page OCR was NOT called.
+        assert ocr.page_calls == 0
+        assert ocr.crop_calls == 70
+
+    async def test_dense_mode_auto_keeps_full_page_for_sparse_pages(self, make_stub_ocr):
+        ocr = make_stub_ocr(page_lines=["fullpage line"], crop_text="per-box")
+        aligner = _StubAligner()  # 3 boxes per page (sparse)
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(aligner, ocr, pdf)
+
+        await pipe.run(
+            "in.pdf", "out.pdf", refine=False,
+            dense_mode="auto", dense_threshold=60,
+        )
+        assert ocr.page_calls == 1
+        assert ocr.crop_calls == 0
+
+    async def test_dense_mode_invalid_raises(self, stub_ocr):
+        pipe = OCRPipeline(_StubAligner(), stub_ocr, _StubPDF(n_pages=1))
+        with pytest.raises(ValueError, match="dense_mode"):
+            await pipe.run("in.pdf", "out.pdf", dense_mode="invalid")
+
     async def test_progress_stages_all_fire(self, stub_ocr):
         aligner = _StubAligner(alignment=lambda s, l: [(b, "") for b, _ in s])
         pipe = OCRPipeline(aligner, stub_ocr, _StubPDF(n_pages=1))

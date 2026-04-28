@@ -89,6 +89,8 @@ class OCRPipeline:
         concurrency: int = 1,
         refine: bool = True,
         max_image_dim: int = 1024,
+        dense_threshold: int = 60,
+        dense_mode: str = "auto",
         progress: Optional[ProgressCallback] = None,
     ) -> dict[int, list[str]]:
         """
@@ -110,7 +112,21 @@ class OCRPipeline:
             max_image_dim: longest-edge cap (px) for page images sent to the
                 LLM. Drop to ~640 for small local VLMs (e.g. GLM-OCR:1.1B)
                 that crash on larger inputs.
+            dense_threshold: in `dense_mode="auto"`, pages with more than
+                this many detected Surya boxes use per-box OCR instead of
+                full-page OCR. Full-page OCR fails on dense handwritten
+                pages because the LLM hallucinates / loops; per-box bypasses
+                the issue at the cost of N more LLM calls per page.
+            dense_mode: ``"auto"`` (default) picks per-box OCR when a page
+                exceeds ``dense_threshold`` boxes; ``"always"`` forces
+                per-box for every page; ``"never"`` keeps the original
+                full-page path even on dense content.
         """
+        if dense_mode not in ("auto", "always", "never"):
+            raise ValueError(
+                f"dense_mode must be one of 'auto', 'always', 'never'; got {dense_mode!r}"
+            )
+
         if self.grounded_backend is not None:
             return await self._run_grounded(input_path, output_path, dpi=dpi, progress=progress)
 
@@ -143,12 +159,29 @@ class OCRPipeline:
         }
         await _notify(progress, "detect", 1, 1, "Layout detection complete.")
 
-        # --- Phase 2: concurrent full-page LLM OCR + DP alignment ---
+        # Decide per-box vs full-page OCR per page. Per-box is more
+        # accurate on dense content but costs N times the LLM calls.
+        per_box_pages: set[int] = set()
+        for p_num in page_nums:
+            n_boxes = len(pages_structured[p_num])
+            if dense_mode == "always" or (
+                dense_mode == "auto" and n_boxes > dense_threshold
+            ):
+                per_box_pages.add(p_num)
+
+        # --- Phase 2: concurrent OCR (per-page strategy) ---
         pages_text: dict[int, list[str]] = {}
         semaphore = asyncio.Semaphore(max(1, concurrency))
         total = len(page_nums)
 
         async def process_page(p_num: int):
+            if p_num in per_box_pages:
+                aligned = await self._ocr_per_box(
+                    images_dict[p_num], pages_structured[p_num], semaphore
+                )
+                # No "raw lines" in per-box mode — each box's text IS the answer.
+                llm_lines = [t for _, t in aligned if t]
+                return p_num, llm_lines, aligned
             async with semaphore:
                 llm_lines = await self.ocr_processor.perform_ocr(images_dict[p_num])
                 if llm_lines:
@@ -160,21 +193,32 @@ class OCRPipeline:
                 return p_num, llm_lines, aligned
 
         completed = 0
-        await _notify(progress, "ocr", 0, total, f"LLM OCR (0/{total})...")
+        ocr_label = (
+            "OCR" if not per_box_pages
+            else f"OCR ({len(per_box_pages)} dense / "
+                 f"{total - len(per_box_pages)} sparse)"
+        )
+        await _notify(progress, "ocr", 0, total, f"{ocr_label} (0/{total})...")
         for coro in asyncio.as_completed([process_page(p) for p in page_nums]):
             p_num, llm_lines, aligned = await coro
             pages_text[p_num] = llm_lines
             pages_structured[p_num] = aligned
             completed += 1
             await _notify(
-                progress, "ocr", completed, total, f"LLM OCR ({completed}/{total})"
+                progress, "ocr", completed, total, f"{ocr_label} ({completed}/{total})"
             )
 
         # --- Phase 3: per-box crop re-OCR for low-confidence boxes ---
+        # Skip refine for pages that already went through per-box OCR —
+        # every box on those pages was already individually OCR'd.
         if refine:
-            await self._refine_uncertain(
-                pages_structured, images_dict, semaphore, progress
-            )
+            sparse_structured = {
+                p: pages_structured[p] for p in page_nums if p not in per_box_pages
+            }
+            if sparse_structured:
+                await self._refine_uncertain(
+                    sparse_structured, images_dict, semaphore, progress
+                )
 
         # --- Phase 4: write output ---
         await _notify(progress, "embed", 0, 1, "Writing output...")
@@ -217,6 +261,44 @@ class OCRPipeline:
         )
         await _notify(progress, "embed", 1, 1, "Done.")
         return dict(pages_text)
+
+    async def _ocr_per_box(
+        self,
+        image_b64: str,
+        structured: list[tuple[list[float], str]],
+        semaphore: asyncio.Semaphore,
+    ) -> list[tuple[list[float], str]]:
+        """
+        OCR every detected box on a page individually.
+
+        Used in dense-mode for pages where full-page OCR is unreliable
+        (the LLM loops, hallucinates, or just gets confused by the volume
+        of content). Each box becomes a small focused crop the model can
+        transcribe accurately. Blank-region check + hallucination filter
+        from the refine stage apply here too.
+
+        Returns ``[(bbox, text), ...]`` in the same order as ``structured``.
+        Boxes that come back blank or filtered get an empty string.
+        """
+        async def ocr_one(idx: int, bbox: list[float]):
+            async with semaphore:
+                if await asyncio.to_thread(is_blank_crop, image_b64, bbox):
+                    return idx, ""
+                crop_b64 = await asyncio.to_thread(
+                    crop_box_to_base64, image_b64, bbox
+                )
+                text = await self.ocr_processor.perform_ocr_on_crop(crop_b64)
+                return idx, text
+
+        tasks = [
+            asyncio.create_task(ocr_one(i, bbox))
+            for i, (bbox, _) in enumerate(structured)
+        ]
+        results: dict[int, str] = {}
+        for fut in asyncio.as_completed(tasks):
+            idx, text = await fut
+            results[idx] = text.strip()
+        return [(bbox, results.get(i, "")) for i, (bbox, _) in enumerate(structured)]
 
     async def _refine_uncertain(
         self,
