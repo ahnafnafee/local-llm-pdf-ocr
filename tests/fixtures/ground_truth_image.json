@@ -1,0 +1,32 @@
+{
+  "data": {
+    "file_name": "image.avif",
+    "file_type": "image",
+    "layout": [
+      {"block_content": "Fr 10.4.2026", "bbox": [110, 190, 210, 1380], "block_id": 0, "page_index": 0, "block_label": "title", "score": 1.0},
+      {"block_content": "1000", "bbox": [70, 2435, 165, 2480], "block_id": 1, "page_index": 0, "block_label": "title", "score": 1.0},
+      {"block_content": "Neurotiker", "bbox": [445, 190, 545, 905], "block_id": 2, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Psychotiker", "bbox": [445, 1995, 545, 2470], "block_id": 3, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Typen 23", "bbox": [650, 190, 750, 895], "block_id": 4, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Typen 14", "bbox": [650, 1995, 750, 2470], "block_id": 5, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "schwache Grenzen", "bbox": [935, 190, 1035, 1200], "block_id": 6, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "im Kopf", "bbox": [1060, 480, 1160, 1100], "block_id": 7, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "starke Grenzen", "bbox": [935, 1770, 1035, 2465], "block_id": 8, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "im Kopf", "bbox": [1060, 2220, 1160, 2475], "block_id": 9, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Linke", "bbox": [1250, 320, 1350, 810], "block_id": 10, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "weiblich", "bbox": [1380, 290, 1480, 1000], "block_id": 11, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Rechte", "bbox": [1250, 2080, 1350, 2470], "block_id": 12, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "männlich", "bbox": [1380, 2040, 1480, 2470], "block_id": 13, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "verwechseln viel", "bbox": [1675, 190, 1775, 1280], "block_id": 14, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "verwechseln wenig", "bbox": [1675, 1825, 1775, 2465], "block_id": 15, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "\"Alles ist eins\"", "bbox": [1935, 190, 2030, 1290], "block_id": 16, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "denken verschwommen", "bbox": [2200, 190, 2300, 1500], "block_id": 17, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "denken scharf", "bbox": [2155, 1825, 2255, 2465], "block_id": 18, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Schwammkopf", "bbox": [2425, 190, 2525, 1095], "block_id": 19, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Schwachkopf", "bbox": [2555, 190, 2655, 1160], "block_id": 20, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Mystiker", "bbox": [2750, 190, 2850, 1060], "block_id": 21, "page_index": 0, "block_label": "text", "score": 1.0},
+      {"block_content": "Gnostiker", "bbox": [2750, 1820, 2850, 2470], "block_id": 22, "page_index": 0, "block_label": "text", "score": 1.0}
+    ],
+    "data_info": {"pages": [{"width": 2480, "height": 3342}], "num_pages": 1}
+  }
+}
