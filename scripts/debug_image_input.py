@@ -29,8 +29,18 @@ async def main(image_path: str, output_pdf: str) -> None:
     print("\n=== LLM lines per page ===")
     for p, lines in pages_text.items():
         print(f"page {p}: {len(lines)} lines")
-        for i, l in enumerate(lines):
+        # Detect repetition: count consecutive duplicates
+        from collections import Counter
+        counts = Counter(lines)
+        repeats = [(k, v) for k, v in counts.items() if v > 3]
+        if repeats:
+            print(f"  REPETITION DETECTED: {repeats[:5]}")
+        for i, l in enumerate(lines[:30]):
             print(f"  [{i}] {l!r}")
+        if len(lines) > 30:
+            print(f"  ... [{len(lines) - 30} more lines]")
+            for i, l in enumerate(lines[-5:]):
+                print(f"  [{len(lines) - 5 + i}] {l!r}")
 
     # Visualize Surya boxes on the source image
     img = Image.open(image_path).convert("RGB")
