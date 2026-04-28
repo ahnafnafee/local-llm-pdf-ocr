@@ -30,7 +30,7 @@ from collections import defaultdict
 from typing import Awaitable, Callable, Optional
 
 from src.pdf_ocr.core.grounded import GroundedOCRBackend
-from src.pdf_ocr.utils.image import crop_box_to_base64
+from src.pdf_ocr.utils.image import crop_box_to_base64, is_blank_crop
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 OutputWriter = Callable[[str, str, dict, int], None]
@@ -250,6 +250,13 @@ class OCRPipeline:
 
         async def refine_one(p_num: int, idx: int, bbox: list[float]):
             async with semaphore:
+                # Cheap blank-region check before paying for an LLM call.
+                # OlmOCR-2 hallucinates canned content (the "quick brown
+                # fox" pangram) on near-uniform crops, so we skip them.
+                if await asyncio.to_thread(
+                    is_blank_crop, images_dict[p_num], bbox
+                ):
+                    return p_num, idx, ""
                 crop_b64 = await asyncio.to_thread(
                     crop_box_to_base64, images_dict[p_num], bbox
                 )

@@ -48,6 +48,15 @@ CROP_PROMPT = (
 )
 
 
+# Phrases the model emits as a fallback when it can't read the crop —
+# usually because the crop is blank, decorative, or otherwise non-text.
+# We strip them so they don't pollute the searchable text layer.
+_HALLUCINATION_PATTERNS = (
+    "the quick brown fox jumps over the lazy dog",  # OlmOCR-2 pangram fallback
+    "lorem ipsum",
+)
+
+
 class OCRProcessor:
     """LLM-based OCR processor over an OpenAI-compatible async client.
 
@@ -101,6 +110,7 @@ class OCRProcessor:
         """
         OCR a single cropped box region. Returns a single whitespace-joined
         string (the crop is small, so we don't try to preserve line structure).
+        Empty-string for blank/uncertain crops (filtered hallucination).
         """
         text = await self._chat(
             CROP_PROMPT, image_base64,
@@ -110,7 +120,11 @@ class OCRProcessor:
         if not text:
             return ""
         body = _strip_yaml_front_matter(text)
-        return " ".join(line.strip() for line in body.split("\n") if line.strip())
+        result = " ".join(line.strip() for line in body.split("\n") if line.strip())
+        lowered = result.lower()
+        if any(p in lowered for p in _HALLUCINATION_PATTERNS):
+            return ""
+        return result
 
     async def _chat(
         self,

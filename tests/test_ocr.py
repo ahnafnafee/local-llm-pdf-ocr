@@ -80,6 +80,42 @@ class TestStripRunawayRepetition:
         assert _strip_runaway_repetition([]) == []
 
 
+class TestHallucinationFilter:
+    def test_pangram_response_treated_as_blank(self):
+        """OlmOCR-2 falls back to 'The quick brown fox...' on blank/unreadable
+        crops. perform_ocr_on_crop must drop those instead of placing them
+        in the searchable text layer."""
+        import asyncio
+        from src.pdf_ocr.core.ocr import OCRProcessor
+
+        ocr = OCRProcessor.__new__(OCRProcessor)  # skip real init
+        ocr.client = None  # never used; we override _chat below
+
+        async def _fake_pangram(*a, **kw):
+            return "The quick brown fox jumps over the lazy dog."
+
+        ocr._chat = _fake_pangram
+        ocr.CROP_TIMEOUT_S = 60.0
+        ocr.CROP_MAX_TOKENS = 256
+        result = asyncio.run(ocr.perform_ocr_on_crop("ignored"))
+        assert result == ""
+
+    def test_normal_crop_response_passes_through(self):
+        import asyncio
+        from src.pdf_ocr.core.ocr import OCRProcessor
+
+        ocr = OCRProcessor.__new__(OCRProcessor)
+        ocr.client = None
+
+        async def _fake(*a, **kw):
+            return "real handwritten content"
+
+        ocr._chat = _fake
+        ocr.CROP_TIMEOUT_S = 60.0
+        ocr.CROP_MAX_TOKENS = 256
+        assert asyncio.run(ocr.perform_ocr_on_crop("ignored")) == "real handwritten content"
+
+
 class TestPromptConstants:
     def test_olmocr_prompt_is_canonical(self):
         # Guard against accidental prompt drift — this string was lifted

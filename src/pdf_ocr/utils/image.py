@@ -3,7 +3,39 @@
 import base64
 import io
 
-from PIL import Image
+from PIL import Image, ImageStat
+
+
+def is_blank_crop(
+    image_base64: str,
+    bbox: list[float],
+    *,
+    std_threshold: float = 12.0,
+) -> bool:
+    """
+    Heuristic: True if the bbox region of the image is mostly uniform.
+
+    Local VLMs hallucinate canned content (OlmOCR-2 falls back to the
+    "The quick brown fox..." pangram) when shown a blank or near-blank
+    crop. The refine stage feeds many such crops to the LLM whenever
+    Surya detected a region that turned out not to contain text — empty
+    notebook grid cells, blank margins between sections, etc. We short-
+    circuit the OCR call for low-variance crops to keep their hallucinated
+    output from polluting the final text layer.
+
+    Threshold tuned for notebook backgrounds with light dot grids:
+    a dot-only region has stddev ~7-8, a region with even a single
+    handwritten character has stddev ≥20.
+    """
+    img = Image.open(io.BytesIO(base64.b64decode(image_base64))).convert("L")
+    w, h = img.size
+    nx0, ny0, nx1, ny1 = bbox
+    crop = img.crop(
+        (int(nx0 * w), int(ny0 * h), int(nx1 * w), int(ny1 * h))
+    )
+    if crop.size[0] == 0 or crop.size[1] == 0:
+        return True
+    return ImageStat.Stat(crop).stddev[0] < std_threshold
 
 
 def crop_box_to_base64(

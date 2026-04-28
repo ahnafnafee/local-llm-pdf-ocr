@@ -17,8 +17,16 @@ from src.pdf_ocr.pipeline import OCRPipeline, _is_refinable, parse_page_range
 
 
 def _make_tiny_b64_image() -> str:
+    # Paint dark stripes so any cropped sub-region has enough pixel variance
+    # to pass the refine-stage blank-crop guard. A pure-white image trips
+    # is_blank_crop and short-circuits the refine path under test.
+    from PIL import ImageDraw
+    img = Image.new("RGB", (300, 300), "white")
+    draw = ImageDraw.Draw(img)
+    for y in range(0, 300, 20):
+        draw.rectangle([0, y, 300, y + 5], fill="black")
     buf = io.BytesIO()
-    Image.new("RGB", (300, 300), "white").save(buf, format="PNG")
+    img.save(buf, format="PNG")
     return base64.b64encode(buf.getvalue()).decode()
 
 
