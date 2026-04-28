@@ -41,7 +41,7 @@ Examples:
     parser.add_argument(
         "input_pdf",  # kwarg name kept for internal stability; accepts PDFs *and* images.
         metavar="input",
-        help="Path to a PDF or image file (JPEG/PNG/TIFF/BMP/WebP). "
+        help="Path to a PDF or image file (JPEG/PNG/TIFF/BMP/WebP/AVIF). "
              "Multi-frame TIFFs expand to multiple output pages.",
     )
     parser.add_argument(

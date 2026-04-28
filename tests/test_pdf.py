@@ -187,6 +187,29 @@ def test_image_extension_detection():
     assert _is_image_path("pages.tiff")
     assert _is_image_path("page.png")
     assert _is_image_path("photo.webp")
+    assert _is_image_path("photo.avif")
+    assert _is_image_path("PHOTO.AVIF")
     assert not _is_image_path("doc.pdf")
     assert not _is_image_path("doc.PDF")
     assert not _is_image_path("notes.txt")
+
+
+def test_avif_input_round_trip(pdf_handler: PDFHandler, tmp_path: Path):
+    """AVIF input must decode and embed end-to-end (pillow-avif-plugin)."""
+    from PIL import Image, ImageDraw
+    img = Image.new("RGB", (800, 1000), "white")
+    ImageDraw.Draw(img).rectangle([100, 200, 700, 300], fill="lightgray")
+    src = tmp_path / "scan.avif"
+    img.save(src, format="AVIF", quality=80)
+
+    images = pdf_handler.convert_to_images(str(src))
+    assert list(images.keys()) == [0]
+
+    output_pdf = str(tmp_path / "out.pdf")
+    marker = "AVIFMARKERZZ"
+    pdf_handler.embed_structured_text(
+        str(src), output_pdf, {0: [([0.15, 0.35, 0.55, 0.40], marker)]}
+    )
+    with fitz.open(output_pdf) as doc:
+        assert len(doc) == 1
+        assert marker in doc[0].get_text("text")

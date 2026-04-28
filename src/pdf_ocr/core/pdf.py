@@ -2,9 +2,10 @@
 PDFHandler - PDF processing utilities.
 
 Handles PDF to image conversion and text embedding for creating searchable
-PDFs. Also accepts raw image inputs (JPEG/PNG/TIFF/BMP) — including
-multi-page TIFF — so single-scan-per-file workflows don't need a PDF wrap
-step first.
+PDFs. Also accepts raw image inputs (JPEG/PNG/TIFF/BMP/WebP/AVIF) —
+including multi-page TIFF — so single-scan-per-file workflows don't need
+a PDF wrap step first. AVIF support requires `pillow-avif-plugin`, which
+is imported eagerly to register the decoder with PIL.
 """
 
 import base64
@@ -12,11 +13,12 @@ import io
 from pathlib import Path
 
 import fitz  # PyMuPDF
+import pillow_avif  # noqa: F401  (registers AVIF decoder with PIL.Image.open)
 from PIL import Image, ImageSequence
 
 
 IMAGE_EXTENSIONS = frozenset({
-    ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp",
+    ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp", ".avif",
 })
 
 
@@ -44,10 +46,10 @@ class PDFHandler:
         Render every page to a base64-encoded JPEG, capped at `max_image_dim`
         pixels on the longest edge so the image fits the VLM's context window.
 
-        Accepts either a PDF or a raw image file (JPEG/PNG/TIFF/BMP/WebP).
-        Multi-page TIFFs are expanded to one page per frame. For images the
-        `dpi` argument is ignored — the file is used at its native resolution,
-        capped by `max_image_dim`.
+        Accepts either a PDF or a raw image file
+        (JPEG/PNG/TIFF/BMP/WebP/AVIF). Multi-page TIFFs are expanded to one
+        page per frame. For images the `dpi` argument is ignored — the file
+        is used at its native resolution, capped by `max_image_dim`.
 
         Smaller caps are required by some local VLMs:
           - OlmOCR-2 (Qwen2.5-VL base): 1024 is fine (default)
@@ -98,9 +100,9 @@ class PDFHandler:
         Build a searchable "sandwich" PDF: rasterize each page as a background
         image and overlay invisible text positioned to match the source layout.
 
-        Accepts either a PDF or a raw image (JPEG/PNG/TIFF/BMP/WebP) as input.
-        Image inputs are converted to a 1-page-per-frame PDF — no
-        rasterization-to-PDF-to-rasterization round trip required.
+        Accepts either a PDF or a raw image (JPEG/PNG/TIFF/BMP/WebP/AVIF)
+        as input. Image inputs are converted to a 1-page-per-frame PDF —
+        no rasterization-to-PDF-to-rasterization round trip required.
 
         Args:
             input_pdf_path: Path to the source PDF or image file.
