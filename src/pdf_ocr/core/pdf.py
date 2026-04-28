@@ -200,16 +200,20 @@ class PDFHandler:
             return  # empty box — nothing to embed
 
         nx0, ny0, nx1, ny1 = rect_coords
-        pdf_rect = fitz.Rect(
-            nx0 * page_width,
-            ny0 * page_height,
-            nx1 * page_width,
-            ny1 * page_height,
-        )
 
-        # Multi-line means this block holds the whole-page fallback text
-        # (used when the aligner saw zero detected boxes).
-        if "\n" in text:
+        # Detect the aligner's full-page fallback by bbox (covers the
+        # whole normalized page, [0,0,1,1]) rather than by the presence
+        # of "\n" in text. A grounded VLM that emits multi-line content
+        # for a real bbox must NOT be redirected to the full-page
+        # fallback rect — that would shift the text to the page top and
+        # clobber other bboxes' search positions, surfacing as
+        # "following lines moved up" in the rendered output.
+        is_full_page_fallback = (
+            nx0 <= 0.001 and ny0 <= 0.001
+            and nx1 >= 0.999 and ny1 >= 0.999
+            and "\n" in text
+        )
+        if is_full_page_fallback:
             fallback_rect = fitz.Rect(10, 10, page_width - 10, page_height - 10)
             page.insert_textbox(
                 fallback_rect, text,
@@ -217,6 +221,31 @@ class PDFHandler:
                 render_mode=3, color=(0, 0, 0), align=0,
             )
             return
+
+        # A real bbox with multi-line content: split by line and recurse
+        # to place each line at its own vertical sub-slice of the bbox.
+        # Handles grounded-VLM outputs that joined visual lines into one
+        # element with an embedded "\n" — search/selection still land at
+        # the right y position instead of being shifted off-page.
+        if "\n" in text:
+            lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+            if len(lines) > 1:
+                slice_h = (ny1 - ny0) / len(lines)
+                for i, line in enumerate(lines):
+                    PDFHandler._draw_invisible_text(
+                        page,
+                        [nx0, ny0 + i * slice_h, nx1, ny0 + (i + 1) * slice_h],
+                        line, page_width, page_height,
+                    )
+                return
+            text = lines[0] if lines else text  # only one non-empty line
+
+        pdf_rect = fitz.Rect(
+            nx0 * page_width,
+            ny0 * page_height,
+            nx1 * page_width,
+            ny1 * page_height,
+        )
 
         box_width = pdf_rect.width
         box_height = pdf_rect.height

@@ -288,6 +288,72 @@ class TestFullBboxCoverage:
                 f"glyph bottom {wr.y1:.2f} overshoots box bottom {box_rect.y1:.2f}"
             )
 
+    def test_multiline_real_bbox_splits_per_line_not_full_page(
+        self, pdf_handler, example_pdfs: dict[str, Path], tmp_path: Path
+    ):
+        """A grounded VLM that joined two visual lines into one element
+        with embedded "\\n" must NOT be redirected to the full-page
+        fallback rect (which would shift the text to the page top and
+        clobber following lines). Each line should land at its own
+        vertical sub-slice of the original bbox."""
+        input_pdf = str(example_pdfs["digital.pdf"])
+        output_pdf = str(tmp_path / "multiline_real.pdf")
+
+        # Real (non-full-page) bbox in the middle of the page.
+        bbox_norm = [0.20, 0.40, 0.60, 0.50]   # 10% page-height slice
+        joined_text = "FIRSTLINE\nSECONDLINE"
+        pdf_handler.embed_structured_text(
+            input_pdf, output_pdf, {0: [(bbox_norm, joined_text)]}, dpi=150,
+        )
+
+        with fitz.open(output_pdf) as doc:
+            page = doc[0]
+            pw, ph = page.rect.width, page.rect.height
+            box_rect = fitz.Rect(bbox_norm[0] * pw, bbox_norm[1] * ph,
+                                 bbox_norm[2] * pw, bbox_norm[3] * ph)
+            full_text = page.get_text("text")
+            words = page.get_text("words")
+
+        assert "FIRSTLINE" in full_text and "SECONDLINE" in full_text
+        # Every embedded word must sit INSIDE the original bbox — not at
+        # the page top (where the full-page fallback would have placed it).
+        tol = 1.0
+        for x0, y0, x1, y1, w, *_ in words:
+            assert box_rect.y0 - tol <= y0 and y1 <= box_rect.y1 + tol, (
+                f"word {w!r} at y=({y0:.1f},{y1:.1f}) escaped box "
+                f"y=({box_rect.y0:.1f},{box_rect.y1:.1f}) — likely shunted to "
+                f"the full-page fallback"
+            )
+
+        # And the two lines should land at distinct y-bands within the bbox
+        # (top half / bottom half), not stacked on top of each other.
+        firstline_ys = [y0 for x0, y0, x1, y1, w, *_ in words if w == "FIRSTLINE"]
+        secondline_ys = [y0 for x0, y0, x1, y1, w, *_ in words if w == "SECONDLINE"]
+        assert firstline_ys and secondline_ys
+        assert min(secondline_ys) > max(firstline_ys), (
+            "SECONDLINE should appear below FIRSTLINE in the output"
+        )
+
+    def test_full_page_fallback_still_uses_full_page_rect(
+        self, pdf_handler, example_pdfs: dict[str, Path], tmp_path: Path
+    ):
+        """When the aligner sees zero detected boxes it emits a full-page
+        bbox [0,0,1,1] with newline-joined text — that path must still
+        flow into the textbox-style fallback so all the LLM text stays
+        searchable somewhere on the page."""
+        input_pdf = str(example_pdfs["digital.pdf"])
+        output_pdf = str(tmp_path / "fullpage_fallback.pdf")
+
+        joined = "AAA\nBBB\nCCC"
+        pdf_handler.embed_structured_text(
+            input_pdf, output_pdf, {0: [([0.0, 0.0, 1.0, 1.0], joined)]}, dpi=150,
+        )
+
+        with fitz.open(output_pdf) as doc:
+            full_text = doc[0].get_text("text")
+        for marker in ("AAA", "BBB", "CCC"):
+            assert marker in full_text, f"fallback dropped marker {marker!r}"
+
     def test_long_text_in_narrow_box_compresses(
         self, pdf_handler, example_pdfs: dict[str, Path], tmp_path: Path
     ):
