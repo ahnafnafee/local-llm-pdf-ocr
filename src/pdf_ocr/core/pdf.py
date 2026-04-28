@@ -264,6 +264,43 @@ class PDFHandler:
         extent_em = max(0.01, ascender - descender)  # descender is negative
         fontsize = max(3.0, min(72.0, box_height / extent_em))
 
+        # Multi-line bbox detection: Surya occasionally groups visually
+        # adjacent handwritten lines into one detection (e.g. "schwache
+        # Grenzen / im Kopf"). The DP then matches the LLM's joined
+        # string to that one tall bbox, and the embed would render the
+        # whole phrase at one y (the bottom of the bbox), leaving the
+        # upper visual line empty in the searchable text layer.
+        #
+        # Heuristic: distinguish a multi-line region from a single tall-
+        # but-still-one-line bbox. Aspect alone confuses handwritten
+        # "Typen 23" (one line, aspect ≈ 0.28 due to padding around the
+        # glyphs) with a real two-line region (aspect ≈ 0.27-0.35).
+        # Combine signals — the bbox must be tall in the absolute sense
+        # (norm height > 7% of page) AND have multi-line aspect ratio.
+        # Single visual lines on Letter-size pages take ~4-6% of page
+        # height even with generous padding, so the combined gate
+        # catches the 2-line case without over-splitting padded single
+        # lines.
+        words = text.split()
+        norm_height = ny1 - ny0
+        aspect = box_height / max(0.01, box_width)
+        if norm_height > 0.07 and aspect > 0.20 and len(words) >= 2:
+            n_lines = 3 if norm_height > 0.13 else 2
+            n_lines = min(n_lines, len(words))
+            slice_h = (ny1 - ny0) / n_lines
+            for i in range(n_lines):
+                start = round(i * len(words) / n_lines)
+                end = round((i + 1) * len(words) / n_lines)
+                line_text = " ".join(words[start:end])
+                if not line_text:
+                    continue
+                PDFHandler._draw_invisible_text(
+                    page,
+                    [nx0, ny0 + i * slice_h, nx1, ny0 + (i + 1) * slice_h],
+                    line_text, page_width, page_height,
+                )
+            return
+
         natural_width = font.text_length(text, fontsize=fontsize)
         if natural_width <= 0:
             return  # nothing measurable to draw (e.g. all-whitespace)

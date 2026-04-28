@@ -334,6 +334,83 @@ class TestFullBboxCoverage:
             "SECONDLINE should appear below FIRSTLINE in the output"
         )
 
+    def test_padded_single_line_bbox_does_not_split(
+        self, pdf_handler, example_pdfs: dict[str, Path], tmp_path: Path
+    ):
+        """Surya's bboxes around handwritten single lines often have
+        generous vertical padding (e.g. "Typen 23" comes back as a
+        ~150pt-tall × 550pt-wide box — aspect ≈ 0.27). A naive aspect-
+        only multi-line split would over-trigger here and slice the
+        line into two halves stacked vertically. The combined gate
+        (norm height > 0.07 AND aspect > 0.20) should keep this single
+        line intact at one y position."""
+        input_pdf = str(example_pdfs["digital.pdf"])
+        output_pdf = str(tmp_path / "padded_single.pdf")
+
+        # 2 words, aspect ≈ 0.27 (handwriting-like padding), but the
+        # bbox is short enough that norm_height < 0.07 — single line.
+        bbox_norm = [0.10, 0.20, 0.40, 0.247]
+        text = "Typen 23"
+        pdf_handler.embed_structured_text(
+            input_pdf, output_pdf, {0: [(bbox_norm, text)]}, dpi=150,
+        )
+
+        with fitz.open(output_pdf) as doc:
+            words = doc[0].get_text("words")
+
+        # Both words must land at the SAME y band — i.e. one visual line.
+        ys = sorted({round(y0) for x0, y0, x1, y1, w, *_ in words if w in ("Typen", "23")})
+        assert len(ys) == 1, (
+            f"expected single y band for 'Typen 23'; got {len(ys)} bands at {ys}"
+        )
+
+    def test_tall_bbox_with_joined_phrase_splits_per_line(
+        self, pdf_handler, example_pdfs: dict[str, Path], tmp_path: Path
+    ):
+        """Surya occasionally groups two handwritten visual lines into
+        one tall bbox (e.g. "schwache Grenzen / im Kopf"). The DP matches
+        OlmOCR's joined output 'schwache Grenzen im Kopf' to that one
+        bbox. Without the split, the joined text renders at the bottom
+        of the bbox — making the upper visual line empty in the search
+        layer. With the split, words distribute across N sub-rects so
+        selecting either visual line returns the right substring."""
+        input_pdf = str(example_pdfs["digital.pdf"])
+        output_pdf = str(tmp_path / "tall_split.pdf")
+
+        # Tall bbox spanning ~10% of page height with no embedded \n —
+        # mimics what the hybrid pipeline produces when Surya groups
+        # two visual lines and OlmOCR returns the joined phrase.
+        bbox_norm = [0.10, 0.40, 0.50, 0.50]   # ~80pt tall in 792pt page
+        joined_text = "FIRSTLINE SECONDLINE"
+        pdf_handler.embed_structured_text(
+            input_pdf, output_pdf, {0: [(bbox_norm, joined_text)]}, dpi=150,
+        )
+
+        with fitz.open(output_pdf) as doc:
+            page = doc[0]
+            pw, ph = page.rect.width, page.rect.height
+            box_rect = fitz.Rect(bbox_norm[0] * pw, bbox_norm[1] * ph,
+                                 bbox_norm[2] * pw, bbox_norm[3] * ph)
+            words = page.get_text("words")
+
+        assert words, "expected SOME embedded words"
+        # Every word must sit inside the original bbox.
+        tol = 1.0
+        for x0, y0, x1, y1, w, *_ in words:
+            assert box_rect.y0 - tol <= y0 and y1 <= box_rect.y1 + tol, (
+                f"word {w!r} y=({y0:.1f},{y1:.1f}) escaped box "
+                f"({box_rect.y0:.1f},{box_rect.y1:.1f})"
+            )
+        # The two logical line tokens should land at distinct y bands —
+        # SECONDLINE strictly below FIRSTLINE — so selecting either
+        # visual line in a viewer returns the right substring.
+        first_ys = [y0 for x0, y0, x1, y1, w, *_ in words if w == "FIRSTLINE"]
+        second_ys = [y0 for x0, y0, x1, y1, w, *_ in words if w == "SECONDLINE"]
+        assert first_ys and second_ys
+        assert min(second_ys) > max(first_ys), (
+            "SECONDLINE should sit below FIRSTLINE after the split"
+        )
+
     def test_full_page_fallback_still_uses_full_page_rect(
         self, pdf_handler, example_pdfs: dict[str, Path], tmp_path: Path
     ):
