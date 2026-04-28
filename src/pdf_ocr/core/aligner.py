@@ -61,7 +61,11 @@ class HybridAligner:
                     _clamp(x1 / img_w),
                     _clamp(y1 / img_h),
                 ])
-            all_boxes.append(_reading_order_sort(boxes))
+            # Stable row-major default. The actual reading-order choice for
+            # the DP happens inside align_text, which tries both row-major
+            # and column-major orderings and picks the lower-cost result.
+            boxes.sort(key=lambda b: (b[1], b[0]))
+            all_boxes.append(boxes)
         return all_boxes
 
     def align_text(
@@ -71,6 +75,16 @@ class HybridAligner:
     ) -> list[tuple[BBox, str]]:
         """
         Bind LLM text to detected boxes via Needleman-Wunsch line-to-box DP.
+
+        VLMs disagree on reading order: OlmOCR-2 emits column-major on
+        multi-column pages (entire left column, then right), while other
+        VLMs may emit row-major (top-to-bottom across the whole page).
+        We can't normalize this via prompt because OlmOCR's prompt is
+        RL-locked. Instead, the DP is run twice — once with boxes in
+        row-major order and once in column-major — and whichever gives
+        the lower total cost wins. The DP cost itself is a robust signal
+        for which ordering matches the LLM's emission, so the same code
+        path works for any model without per-model branching.
 
         Always returns one (box, text) tuple per input box, in input order.
         `text` is "" for boxes the algorithm could not confidently match —
@@ -88,17 +102,37 @@ class HybridAligner:
         if not lines:
             return [(box, "") for box in boxes]
 
-        mapping = _dp_align(lines, boxes)
-        result: list[tuple[BBox, str]] = []
-        for i, box in enumerate(boxes):
-            texts = mapping.get(i, [])
-            result.append((box, " ".join(texts).strip()))
+        # Permutations to try: row-major (y, x) and column-major
+        # (column groups, then y within column). For single-column pages
+        # both collapse to the same order — we still run both, but the DP
+        # is O(N*M) which is negligible at typical page sizes (~30 boxes).
+        candidates = [
+            sorted(range(len(boxes)), key=lambda i: (boxes[i][1], boxes[i][0])),
+            _reading_order_indices(boxes),
+        ]
 
-        matched = sum(1 for _, t in result if t)
+        best_cost = float("inf")
+        best_perm: list[int] = candidates[0]
+        best_mapping: dict[int, list[str]] = {}
+        for perm in candidates:
+            ordered_boxes = [boxes[i] for i in perm]
+            cost, mapping = _dp_align(lines, ordered_boxes)
+            if cost < best_cost:
+                best_cost = cost
+                best_perm = perm
+                best_mapping = mapping
+
+        # Translate the per-perm-index mapping back to per-input-index text.
+        text_per_input: list[str] = ["" for _ in boxes]
+        for perm_idx, texts in best_mapping.items():
+            text_per_input[best_perm[perm_idx]] = " ".join(texts).strip()
+
+        matched = sum(1 for t in text_per_input if t)
         logging.debug(
-            f"DEBUG: DP aligned {len(lines)} lines → {matched}/{len(boxes)} boxes"
+            f"DEBUG: DP aligned {len(lines)} lines → {matched}/{len(boxes)} "
+            f"boxes (cost={best_cost:.3f})"
         )
-        return result
+        return [(box, text) for box, text in zip(boxes, text_per_input)]
 
 
 # --- module-level helpers ---------------------------------------------------
@@ -117,52 +151,61 @@ def _clamp(v: float) -> float:
 _COLUMN_GAP_THRESHOLD = 0.2
 
 
-def _reading_order_sort(boxes: list[BBox]) -> list[BBox]:
+def _reading_order_indices(boxes: list[BBox]) -> list[int]:
     """
-    Sort boxes in column-major reading order.
+    Permutation of ``boxes`` indices in column-major reading order.
 
-    Vision LLMs (OlmOCR-2, Qwen-VL, etc.) typically emit text column by
-    column on multi-column pages — the entire left column first, then the
-    next column. Surya's natural row-major output interleaves rows across
-    columns, which mis-aligns LLM lines to boxes in the DP. This function
-    detects column structure via a gap-based split on box x-centers and
-    re-orders each column independently so the resulting sequence matches
-    what the LLM produced.
-
-    Heuristic: split at the largest x-center gap if it exceeds
+    Multi-column pages: split at the largest x-center gap if it exceeds
     ``_COLUMN_GAP_THRESHOLD`` AND both sides hold ≥2 boxes. The size
     constraint prevents a lone marginal box (e.g. a page number) from
     creating a fake column that swaps reading order. Recurses to handle
     3+ column layouts; falls back to plain row-major for single-column
     pages and very short sequences.
     """
-    if len(boxes) < 4:
-        return sorted(boxes, key=lambda b: (b[1], b[0]))
+    n = len(boxes)
+    if n < 4:
+        return sorted(range(n), key=lambda i: (boxes[i][1], boxes[i][0]))
 
-    indexed = sorted(
-        enumerate(boxes), key=lambda ib: (ib[1][0] + ib[1][2]) / 2
-    )
-    centers_sorted = [(b[0] + b[2]) / 2 for _, b in indexed]
+    sorted_idx = sorted(range(n), key=lambda i: (boxes[i][0] + boxes[i][2]) / 2)
+    centers_sorted = [(boxes[i][0] + boxes[i][2]) / 2 for i in sorted_idx]
 
     biggest_gap = 0.0
-    biggest_gap_idx = -1
-    for i in range(1, len(centers_sorted)):
-        gap = centers_sorted[i] - centers_sorted[i - 1]
+    biggest_gap_pos = -1
+    for k in range(1, len(centers_sorted)):
+        gap = centers_sorted[k] - centers_sorted[k - 1]
         if gap > biggest_gap:
             biggest_gap = gap
-            biggest_gap_idx = i
+            biggest_gap_pos = k
 
-    # Need both groups ≥2 boxes to call it a real column split.
     if (
         biggest_gap < _COLUMN_GAP_THRESHOLD
-        or biggest_gap_idx < 2
-        or biggest_gap_idx > len(centers_sorted) - 2
+        or biggest_gap_pos < 2
+        or biggest_gap_pos > len(centers_sorted) - 2
     ):
-        return sorted(boxes, key=lambda b: (b[1], b[0]))
+        return sorted(range(n), key=lambda i: (boxes[i][1], boxes[i][0]))
 
-    left_boxes = [b for _, b in indexed[:biggest_gap_idx]]
-    right_boxes = [b for _, b in indexed[biggest_gap_idx:]]
-    return _reading_order_sort(left_boxes) + _reading_order_sort(right_boxes)
+    left_indices = sorted_idx[:biggest_gap_pos]
+    right_indices = sorted_idx[biggest_gap_pos:]
+
+    # Recurse on each side, mapping sub-permutations back to global indices.
+    left_subboxes = [boxes[i] for i in left_indices]
+    right_subboxes = [boxes[i] for i in right_indices]
+    left_perm = _reading_order_indices(left_subboxes)
+    right_perm = _reading_order_indices(right_subboxes)
+    return (
+        [left_indices[k] for k in left_perm]
+        + [right_indices[k] for k in right_perm]
+    )
+
+
+def _reading_order_sort(boxes: list[BBox]) -> list[BBox]:
+    """
+    Return ``boxes`` sorted in column-major reading order.
+
+    Thin wrapper around :func:`_reading_order_indices`. Kept as a public-ish
+    helper for tests and diagnostic scripts.
+    """
+    return [boxes[i] for i in _reading_order_indices(boxes)]
 
 
 def _normalize_lines(llm_text) -> list[str]:
@@ -212,18 +255,25 @@ def _match_cost(line_chars: int, expected_chars: float) -> float:
     return min(2.0, abs(actual - expected) / denom)
 
 
-def _dp_align(lines: list[str], boxes: list[BBox]) -> dict[int, list[str]]:
+def _dp_align(
+    lines: list[str], boxes: list[BBox]
+) -> tuple[float, dict[int, list[str]]]:
     """
     Monotonic Needleman-Wunsch alignment of lines → boxes.
 
-    Returns: {box_index: [line_text, ...]} in alignment order.
+    Returns: ``(total_cost, mapping)`` where ``mapping`` is
+    ``{box_index: [line_text, ...]}`` and ``total_cost`` is the DP's
+    minimum alignment cost. The cost lets callers compare the same
+    alignment under different box orderings (row-major vs column-major)
+    and pick the order that better matches the LLM's emission.
+
     Unmatched lines are attached to the nearest preceding matched box
     (or the first box if no prior match exists) so no LLM text is lost.
     """
     N = len(lines)
     M = len(boxes)
     if N == 0 or M == 0:
-        return {}
+        return 0.0, {}
     total_chars = max(1, sum(len(l) for l in lines))
 
     # Distribute total chars across boxes by area.
@@ -296,4 +346,4 @@ def _dp_align(lines: list[str], boxes: list[BBox]) -> dict[int, list[str]]:
             target = last_matched_box if last_matched_box is not None else 0
             mapping.setdefault(target, []).append(lines[li])
         # op == 2 (skip_box): nothing to add for this box
-    return mapping
+    return dp[N][M], mapping

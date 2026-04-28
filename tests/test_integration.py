@@ -58,10 +58,11 @@ def test_surya_detects_boxes_on_examples(
 def test_detected_boxes_are_in_reading_order(
     surya_aligner, example_pdfs: dict[str, Path], name: str
 ):
-    """Aligner output must already be in the canonical column-major
-    reading order the DP expects — re-sorting it must be a no-op."""
-    from src.pdf_ocr.core.aligner import _reading_order_sort
-
+    """get_detected_boxes_batch returns boxes in stable row-major order
+    (top-to-bottom, left-to-right). The DP itself is order-agnostic
+    (auto-detects column-major vs row-major emission), but the public
+    contract of the detection step is row-major as a deterministic
+    default for visualization and downstream tools."""
     pdf_handler = PDFHandler()
     images = pdf_handler.convert_to_images(str(example_pdfs[name]))
     import base64
@@ -69,10 +70,13 @@ def test_detected_boxes_are_in_reading_order(
     batch = surya_aligner.get_detected_boxes_batch(image_bytes)
 
     for page_idx, page_boxes in enumerate(batch):
-        resorted = _reading_order_sort(list(page_boxes))
-        assert resorted == page_boxes, (
-            f"{name} page {page_idx}: boxes not in canonical reading order"
-        )
+        prev_y, prev_x = -1.0, -1.0
+        for bbox in page_boxes:
+            y, x = bbox[1], bbox[0]
+            assert (y > prev_y) or (y == prev_y and x >= prev_x), (
+                f"{name} page {page_idx}: boxes out of row-major order at {bbox}"
+            )
+            prev_y, prev_x = y, x
 
 
 # --- end-to-end against real PDFs (LLM stubbed) ----------------------------

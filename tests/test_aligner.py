@@ -45,7 +45,7 @@ class TestDPAlign:
     def test_one_to_one_equal_sized(self):
         lines = ["alpha line", "beta line", "gamma line"]
         boxes = [[0.0, 0.0, 1.0, 0.3], [0.0, 0.3, 1.0, 0.6], [0.0, 0.6, 1.0, 0.9]]
-        mapping = _dp_align(lines, boxes)
+        _, mapping = _dp_align(lines, boxes)
         assert mapping == {0: ["alpha line"], 1: ["beta line"], 2: ["gamma line"]}
 
     def test_respects_box_sizes(self):
@@ -56,7 +56,7 @@ class TestDPAlign:
             [0.0, 0.15, 1.0, 0.85],   # huge
             [0.4, 0.9, 0.55, 0.93],   # tiny
         ]
-        mapping = _dp_align(lines, boxes)
+        _, mapping = _dp_align(lines, boxes)
         assert mapping[0] == ["Title"]
         assert mapping[1] == ["x" * 200]
         assert mapping[2] == ["Fin"]
@@ -64,20 +64,19 @@ class TestDPAlign:
     def test_more_lines_than_boxes_conserves_text(self):
         lines = ["A", "B", "C", "D", "E"]
         boxes = [[0.0, 0.0, 1.0, 0.5], [0.0, 0.5, 1.0, 1.0]]
-        mapping = _dp_align(lines, boxes)
+        _, mapping = _dp_align(lines, boxes)
         all_placed = [t for vs in mapping.values() for t in vs]
         assert set(all_placed) == set(lines), "every line must be placed"
 
     def test_more_boxes_than_lines_leaves_empties(self):
         lines = ["one", "two"]
         boxes = [[0.0, 0.0, 0.3, 0.1]] * 5
-        mapping = _dp_align(lines, boxes)
+        _, mapping = _dp_align(lines, boxes)
         assert sum(len(v) for v in mapping.values()) == 2
 
     def test_two_column_layout(self):
-        # The aligner emits boxes column-major (entire left column, then
-        # entire right column) so the DP receives them in the same order
-        # the LLM produces text. Verify that order is preserved end-to-end.
+        # When boxes are passed in the same order the LLM emits text
+        # (column-major here), the DP achieves a 1:1 monotonic match.
         lines = [
             "Left column first paragraph text here",
             "Left column second paragraph also has words",
@@ -90,17 +89,34 @@ class TestDPAlign:
             [0.55, 0.10, 0.95, 0.12],   # R short title
             [0.55, 0.15, 0.95, 0.35],   # R body
         ]
-        mapping = _dp_align(lines, boxes)
+        _, mapping = _dp_align(lines, boxes)
         assert len(mapping) == 4
         # Each box got text in increasing box-index order (monotonic).
         for i in range(4):
             assert i in mapping and mapping[i]
 
+    def test_cost_increases_with_order_mismatch(self):
+        # Heterogeneous box sizes + line lengths so that the DP cost
+        # depends on the box ordering. align_text relies on this.
+        lines = ["tiny", "x" * 200, "x" * 200, "tiny"]
+        boxes_aligned = [
+            [0.0, 0.05, 0.10, 0.10],   # tiny
+            [0.0, 0.15, 1.0, 0.45],    # huge
+            [0.0, 0.50, 1.0, 0.80],    # huge
+            [0.4, 0.85, 0.55, 0.90],   # tiny
+        ]
+        boxes_shuffled = [boxes_aligned[i] for i in (1, 0, 3, 2)]
+        cost_aligned, _ = _dp_align(lines, boxes_aligned)
+        cost_shuffled, _ = _dp_align(lines, boxes_shuffled)
+        assert cost_shuffled > cost_aligned, (
+            f"shuffled cost {cost_shuffled} must exceed aligned {cost_aligned}"
+        )
+
     def test_empty_boxes_yields_empty_mapping(self):
-        assert _dp_align(["some text"], []) == {}
+        assert _dp_align(["some text"], []) == (0.0, {})
 
     def test_empty_lines_yields_empty_mapping(self):
-        assert _dp_align([], [[0.0, 0.0, 1.0, 1.0]]) == {}
+        assert _dp_align([], [[0.0, 0.0, 1.0, 1.0]]) == (0.0, {})
 
 
 class TestAlignTextPublicAPI:
@@ -144,6 +160,78 @@ class TestAlignTextPublicAPI:
         placed_text = " ".join(t for _, t in out if t)
         for line in lines:
             assert line in placed_text, f"line {line!r} was dropped"
+
+
+# Two-column fixture for auto-detect tests. Heterogeneous box sizes so that
+# different orderings produce different DP costs (uniform boxes cost-tie
+# and can't discriminate between orderings). Left column tall, right short.
+_AUTODETECT_L_BOXES = [
+    [0.05, 0.05, 0.40, 0.20],
+    [0.05, 0.25, 0.40, 0.40],
+    [0.05, 0.45, 0.40, 0.60],
+    [0.05, 0.65, 0.40, 0.80],
+]
+_AUTODETECT_R_BOXES = [
+    [0.60, 0.05, 0.95, 0.08],
+    [0.60, 0.25, 0.95, 0.28],
+    [0.60, 0.45, 0.95, 0.48],
+    [0.60, 0.65, 0.95, 0.68],
+]
+# Surya-style row-major input: L1, R1, L2, R2, L3, R3, L4, R4.
+_AUTODETECT_BOXES_ROW_MAJOR = [
+    box
+    for pair in zip(_AUTODETECT_L_BOXES, _AUTODETECT_R_BOXES)
+    for box in pair
+]
+
+_AUTODETECT_LEFT_TEXT = [
+    f"L{i + 1} long body line with many words to fill a tall capacity box"
+    for i in range(4)
+]
+_AUTODETECT_RIGHT_TEXT = [f"R{i + 1} short" for i in range(4)]
+
+
+class TestAutoDetectReadingOrder:
+    """align_text must place text in the right boxes regardless of which
+    order the LLM emitted lines in. The DP cost itself is the signal —
+    no per-model branching needed."""
+
+    def test_column_major_emission_aligns_correctly(self):
+        # OlmOCR-style: entire left column emitted first, then right column.
+        lines = _AUTODETECT_LEFT_TEXT + _AUTODETECT_RIGHT_TEXT
+        structured = [(b, "") for b in _AUTODETECT_BOXES_ROW_MAJOR]
+        out = _aligner().align_text(structured, lines)
+        actual = [t for _, t in out]
+        for i in range(4):
+            assert actual[i * 2] == _AUTODETECT_LEFT_TEXT[i]
+            assert actual[i * 2 + 1] == _AUTODETECT_RIGHT_TEXT[i]
+
+    def test_row_major_emission_aligns_correctly(self):
+        # Row-major emission: L1 R1 L2 R2 L3 R3 L4 R4.
+        lines = []
+        for i in range(4):
+            lines.append(_AUTODETECT_LEFT_TEXT[i])
+            lines.append(_AUTODETECT_RIGHT_TEXT[i])
+        structured = [(b, "") for b in _AUTODETECT_BOXES_ROW_MAJOR]
+        out = _aligner().align_text(structured, lines)
+        actual = [t for _, t in out]
+        for i in range(4):
+            assert actual[i * 2] == _AUTODETECT_LEFT_TEXT[i]
+            assert actual[i * 2 + 1] == _AUTODETECT_RIGHT_TEXT[i]
+
+    def test_single_column_unaffected(self):
+        # Single-column page: row-major and column-major collapse to the
+        # same order, so auto-detect is a no-op.
+        boxes = [
+            [0.10, 0.10, 0.90, 0.18],
+            [0.10, 0.25, 0.90, 0.33],
+            [0.10, 0.40, 0.90, 0.48],
+            [0.10, 0.55, 0.90, 0.63],
+        ]
+        lines = ["first", "second", "third", "fourth"]
+        structured = [(b, "") for b in boxes]
+        out = _aligner().align_text(structured, lines)
+        assert [t for _, t in out] == lines
 
 
 class TestReadingOrderSort:
