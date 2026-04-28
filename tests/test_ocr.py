@@ -65,9 +65,8 @@ class TestStripRunawayRepetition:
         out = _strip_runaway_repetition(lines, max_repeat=20)
         assert out.count("LOOP") == 20
         assert out[0] == "unique header"
-        # Lines after the loop are NOT preserved (they appear after the cap)
-        # because we walk the list in order — but the cap is for the LOOP
-        # string only, so non-LOOP lines that come after still pass through.
+        # The repetition cap applies only to the repeated "LOOP" line;
+        # unrelated later lines (the footer) are still preserved.
         assert "unique footer" in out
 
     def test_clips_multiple_runaway_lines_independently(self):
@@ -114,6 +113,54 @@ class TestHallucinationFilter:
         ocr.CROP_TIMEOUT_S = 60.0
         ocr.CROP_MAX_TOKENS = 256
         assert asyncio.run(ocr.perform_ocr_on_crop("ignored")) == "real handwritten content"
+
+    def test_real_text_containing_pangram_is_preserved(self):
+        # A document that legitimately contains the pangram (e.g. a typing
+        # exercise) must NOT be silently dropped. The filter only fires
+        # when the response IS the pangram, not when it merely contains it.
+        import asyncio
+        from src.pdf_ocr.core.ocr import OCRProcessor
+
+        ocr = OCRProcessor.__new__(OCRProcessor)
+        ocr.client = None
+
+        sentence = (
+            "Practice typing: The quick brown fox jumps over the lazy dog. "
+            "Repeat ten times."
+        )
+
+        async def _fake(*a, **kw):
+            return sentence
+
+        ocr._chat = _fake
+        ocr.CROP_TIMEOUT_S = 60.0
+        ocr.CROP_MAX_TOKENS = 256
+        assert asyncio.run(ocr.perform_ocr_on_crop("ignored")) == sentence
+
+    def test_pangram_with_quotes_or_trailing_punct_still_dropped(self):
+        # OlmOCR sometimes wraps the pangram in quotes or appends ! / ? —
+        # normalization must still recognise it as the fallback.
+        import asyncio
+        from src.pdf_ocr.core.ocr import OCRProcessor
+
+        def _make_fake(response: str):
+            async def _fake(*a, **kw):
+                return response
+            return _fake
+
+        for variant in (
+            'The quick brown fox jumps over the lazy dog!',
+            '"The quick brown fox jumps over the lazy dog."',
+            'the quick brown fox jumps over the lazy dog',
+        ):
+            ocr = OCRProcessor.__new__(OCRProcessor)
+            ocr.client = None
+            ocr._chat = _make_fake(variant)
+            ocr.CROP_TIMEOUT_S = 60.0
+            ocr.CROP_MAX_TOKENS = 256
+            assert asyncio.run(ocr.perform_ocr_on_crop("ignored")) == "", (
+                f"variant {variant!r} should be dropped"
+            )
 
 
 class TestPromptConstants:

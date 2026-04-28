@@ -30,7 +30,7 @@ from collections import defaultdict
 from typing import Awaitable, Callable, Optional
 
 from src.pdf_ocr.core.grounded import GroundedOCRBackend
-from src.pdf_ocr.utils.image import crop_box_to_base64, is_blank_crop
+from src.pdf_ocr.utils.image import crop_for_ocr
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 OutputWriter = Callable[[str, str, dict, int], None]
@@ -176,6 +176,10 @@ class OCRPipeline:
 
         async def process_page(p_num: int):
             if p_num in per_box_pages:
+                # _ocr_per_box manages its own concurrency by acquiring
+                # `semaphore` once per box. Wrapping the call in another
+                # `async with semaphore:` here would deadlock when
+                # concurrency=1 (outer holder waits for inner acquire).
                 aligned = await self._ocr_per_box(
                     images_dict[p_num], pages_structured[p_num], semaphore
                 )
@@ -274,19 +278,27 @@ class OCRPipeline:
         Used in dense-mode for pages where full-page OCR is unreliable
         (the LLM loops, hallucinates, or just gets confused by the volume
         of content). Each box becomes a small focused crop the model can
-        transcribe accurately. Blank-region check + hallucination filter
-        from the refine stage apply here too.
+        transcribe accurately.
+
+        Two filters apply *before* the LLM call:
+          - :func:`_is_refinable` rejects thin rules / tiny decorations
+            (same guard the refine stage uses — Surya emits boxes for
+            section dividers etc. on dense handwritten pages, and
+            sending those to the LLM produces hallucinated text).
+          - :func:`crop_for_ocr` decodes the page once, crops the padded
+            region, runs a stddev-based blank check on the *same* padded
+            crop, and returns ``None`` for near-uniform regions.
 
         Returns ``[(bbox, text), ...]`` in the same order as ``structured``.
         Boxes that come back blank or filtered get an empty string.
         """
         async def ocr_one(idx: int, bbox: list[float]):
             async with semaphore:
-                if await asyncio.to_thread(is_blank_crop, image_b64, bbox):
+                if not _is_refinable(bbox):
                     return idx, ""
-                crop_b64 = await asyncio.to_thread(
-                    crop_box_to_base64, image_b64, bbox
-                )
+                crop_b64 = await asyncio.to_thread(crop_for_ocr, image_b64, bbox)
+                if crop_b64 is None:
+                    return idx, ""
                 text = await self.ocr_processor.perform_ocr_on_crop(crop_b64)
                 return idx, text
 
@@ -332,16 +344,16 @@ class OCRPipeline:
 
         async def refine_one(p_num: int, idx: int, bbox: list[float]):
             async with semaphore:
-                # Cheap blank-region check before paying for an LLM call.
-                # OlmOCR-2 hallucinates canned content (the "quick brown
-                # fox" pangram) on near-uniform crops, so we skip them.
-                if await asyncio.to_thread(
-                    is_blank_crop, images_dict[p_num], bbox
-                ):
-                    return p_num, idx, ""
+                # crop_for_ocr decodes once and runs the blank check on
+                # the same padded crop the LLM would receive — returns
+                # None for near-uniform regions (notebook background,
+                # margins) so we skip the LLM call without polluting
+                # the text layer with the model's pangram fallback.
                 crop_b64 = await asyncio.to_thread(
-                    crop_box_to_base64, images_dict[p_num], bbox
+                    crop_for_ocr, images_dict[p_num], bbox
                 )
+                if crop_b64 is None:
+                    return p_num, idx, ""
                 text = await self.ocr_processor.perform_ocr_on_crop(crop_b64)
                 return p_num, idx, text
 

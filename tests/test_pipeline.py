@@ -173,8 +173,14 @@ class TestOCRPipeline:
 
     async def test_dense_mode_auto_picks_per_box_for_dense_pages(self, make_stub_ocr):
         ocr = make_stub_ocr(page_lines=["fullpage line"], crop_text="per-box")
-        # Make a page exceeding dense_threshold so auto picks per-box.
-        many_boxes = [[i / 70, 0.0, (i + 1) / 70, 0.05] for i in range(70)]
+        # 7 rows × 10 cols = 70 boxes, each 0.09 wide × 0.13 tall — well
+        # above _is_refinable's 0.03×0.008 floor so every box reaches the
+        # LLM. The stub page image's horizontal stripes ensure each crop
+        # has enough pixel variance to pass the blank check.
+        many_boxes = [
+            [c * 0.10, r * 0.13, c * 0.10 + 0.09, r * 0.13 + 0.13]
+            for r in range(7) for c in range(10)
+        ]
         aligner = _StubAligner(boxes_per_page=many_boxes)
         pdf = _StubPDF(n_pages=1)
         pipe = OCRPipeline(aligner, ocr, pdf)

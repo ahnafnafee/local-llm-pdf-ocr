@@ -38,6 +38,53 @@ def is_blank_crop(
     return ImageStat.Stat(crop).stddev[0] < std_threshold
 
 
+def crop_for_ocr(
+    image_base64: str,
+    bbox: list[float],
+    *,
+    padding: float = 0.005,
+    min_dim: int = 256,
+    quality: int = 85,
+    std_threshold: float = 12.0,
+) -> str | None:
+    """
+    Decode the page image once, crop the padded bbox region, run the
+    blank-region check on that *same padded crop*, and return the
+    encoded JPEG — or ``None`` if the region is mostly uniform (so the
+    caller can skip the LLM round-trip without polluting the output
+    layer with hallucinated fallback content).
+
+    Combining the two operations matters in dense-mode: a 150-box page
+    that called :func:`is_blank_crop` and :func:`crop_box_to_base64`
+    separately would decode the full-page image 300 times. Here we
+    decode it once per box, and the blank check sees exactly the pixels
+    the LLM would see (including the ``padding`` margin) so it can't
+    short-circuit when the padded region picks up text just outside the
+    raw bbox.
+    """
+    img = Image.open(io.BytesIO(base64.b64decode(image_base64))).convert("RGB")
+    w, h = img.size
+    nx0, ny0, nx1, ny1 = bbox
+    nx0 = max(0.0, nx0 - padding)
+    ny0 = max(0.0, ny0 - padding)
+    nx1 = min(1.0, nx1 + padding)
+    ny1 = min(1.0, ny1 + padding)
+    crop = img.crop((int(nx0 * w), int(ny0 * h), int(nx1 * w), int(ny1 * h)))
+    if crop.size[0] == 0 or crop.size[1] == 0:
+        return None
+    if ImageStat.Stat(crop.convert("L")).stddev[0] < std_threshold:
+        return None
+
+    cw, ch = crop.size
+    if cw < min_dim or ch < min_dim:
+        scale = max(min_dim / max(1, cw), min_dim / max(1, ch))
+        crop = crop.resize((int(cw * scale), int(ch * scale)), Image.LANCZOS)
+
+    buf = io.BytesIO()
+    crop.save(buf, format="JPEG", quality=quality)
+    return base64.b64encode(buf.getvalue()).decode("utf-8")
+
+
 def crop_box_to_base64(
     image_base64: str,
     bbox: list[float],

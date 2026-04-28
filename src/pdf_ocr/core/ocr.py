@@ -57,6 +57,22 @@ _HALLUCINATION_PATTERNS = (
 )
 
 
+def _is_fallback_response(text: str) -> bool:
+    """
+    True if ``text`` is essentially one of the known LLM fallback phrases.
+
+    A substring match would over-trigger: a real document might contain
+    "lorem ipsum" as quoted placeholder text, or the pangram as an
+    example sentence. We require the response to *be* the fallback
+    after light normalization (case-fold, strip whitespace, drop
+    surrounding punctuation/quotes) — i.e. the fallback occupies the
+    entire crop response, not just part of it.
+    """
+    _trim = ".!?\"'`)([]{}<>“”‘’ \t"
+    normalized = text.strip().lower().strip(_trim)
+    return normalized in _HALLUCINATION_PATTERNS
+
+
 class OCRProcessor:
     """LLM-based OCR processor over an OpenAI-compatible async client.
 
@@ -121,8 +137,7 @@ class OCRProcessor:
             return ""
         body = _strip_yaml_front_matter(text)
         result = " ".join(line.strip() for line in body.split("\n") if line.strip())
-        lowered = result.lower()
-        if any(p in lowered for p in _HALLUCINATION_PATTERNS):
+        if _is_fallback_response(result):
             return ""
         return result
 
