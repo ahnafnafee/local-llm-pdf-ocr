@@ -376,7 +376,7 @@ class PromptedGroundedOCR:
         from PIL import Image, ImageSequence
         from openai import AsyncOpenAI
 
-        from src.pdf_ocr.core.pdf import _is_image_path
+        from pdf_ocr.core.pdf import _is_image_path
 
         # 1. Rasterize every page, remembering dimensions.
         # For image inputs (JPEG/PNG/TIFF) skip the PDF round-trip and read

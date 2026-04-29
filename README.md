@@ -93,24 +93,62 @@ LLM_MODEL=allenai/olmocr-2-7b
 
 ### Installation
 
-This project is managed with [`uv`](https://github.com/astral-sh/uv) for lightning-fast dependency management.
+#### Option A — Install directly from GitHub (recommended for end users / coding agents)
+
+CLI only:
+
+```bash
+uv tool install "git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
+# or, with pipx:
+pipx install "git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
+```
+
+CLI + Web server (FastAPI + WebSocket UI):
+
+```bash
+uv tool install "local-llm-pdf-ocr[web] @ git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
+# or, with pipx:
+pipx install "local-llm-pdf-ocr[web] @ git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
+```
+
+Pin to a specific commit or tag for reproducibility:
+
+```bash
+uv tool install "git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git@v0.1.0"
+```
+
+After install you'll have two console scripts on `PATH`:
+
+- `local-llm-pdf-ocr` — the CLI (always available)
+- `local-llm-pdf-ocr-server` — the web UI (only with the `[web]` extra)
+
+> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). The hybrid/grounded LLM is *your* responsibility — bring up LM Studio, Ollama, vLLM, or any other OpenAI-compatible vision endpoint before running OCR.
+
+#### Option B — Develop from source with `uv`
 
 1.  **Install `uv`** (if not installed):
 
     ```bash
+    # macOS / Linux
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    # Windows
+    powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+    # …or, if you already have Python:
     pip install uv
     ```
 
 2.  **Clone the repository**:
 
     ```bash
-    git clone https://github.com/ahnafnafee/pdf-ocr-llm.git
-    cd pdf-ocr-llm
+    git clone https://github.com/ahnafnafee/local-llm-pdf-ocr.git
+    cd local-llm-pdf-ocr
     ```
 
-3.  **Sync Dependencies**:
+3.  **Sync dependencies** (installs the project + dev tools in editable mode):
+
     ```bash
-    uv sync
+    uv sync                       # CLI only
+    uv sync --extra web           # CLI + FastAPI server
     ```
 
 ---
@@ -123,7 +161,9 @@ The easiest way to use the tool. Features a modern dashboard with Dark Mode and 
 
 1.  **Start the Server**:
     ```bash
-    uv run uvicorn server:app --reload --port 8000
+    local-llm-pdf-ocr-server --port 8000          # installed via `uv tool install` from GitHub
+    # — or, in a source checkout —
+    uv run local-llm-pdf-ocr-server --port 8000
     ```
 2.  Open your browser to `http://localhost:8000`.
 3.  **Drag & Drop** your PDF.
@@ -139,7 +179,9 @@ Perfect for developers or integrating into scripts.
 Run the OCR tool on any PDF:
 
 ```bash
-uv run main.py input.pdf output_ocr.pdf
+local-llm-pdf-ocr input.pdf output_ocr.pdf      # installed via uv tool / pipx (from GitHub)
+# — or, in a source checkout —
+uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 ```
 
 **Options**:
@@ -161,40 +203,40 @@ uv run main.py input.pdf output_ocr.pdf
 | `--api-base <url>`        | Override LLM API base URL                                             |
 | `--model <name>`          | Override LLM model name                                               |
 
-**Examples**:
+**Examples** (substitute `uv run local-llm-pdf-ocr` for `local-llm-pdf-ocr` if developing from source):
 
 ```bash
 # Basic usage (auto-generates input_ocr.pdf, uses LM Studio + OlmOCR)
-uv run main.py scan.pdf
+local-llm-pdf-ocr scan.pdf
 
 # Specific pages with higher rendering DPI
-uv run main.py document.pdf output.pdf --pages 1-5 --dpi 300
+local-llm-pdf-ocr document.pdf output.pdf --pages 1-5 --dpi 300
 
 # Parallel LLM calls on a multi-page doc
-uv run main.py long.pdf --concurrency 3
+local-llm-pdf-ocr long.pdf --concurrency 3
 
 # Use Ollama + GLM-OCR instead of LM Studio
-uv run main.py scan.pdf \
+local-llm-pdf-ocr scan.pdf \
     --api-base http://localhost:11434/v1 \
     --model glm-ocr:latest \
     --max-image-dim 640
 
 # Grounded path: bbox-native VLM (Qwen2.5-VL / Qwen3-VL) — skips Surya, DP, refine
-uv run main.py scan.pdf --grounded \
+local-llm-pdf-ocr scan.pdf --grounded \
     --api-base http://localhost:1234/v1 \
     --model qwen/qwen3-vl-8b
 
 # Raw image input — no PDF required. Accepts JPEG/PNG/BMP/WebP/AVIF, and
 # multi-page TIFFs (each frame becomes one page in the output PDF).
-uv run main.py scan.png scan_ocr.pdf
-uv run main.py archive.tiff archive_ocr.pdf
-uv run main.py photo.avif photo_ocr.pdf
+local-llm-pdf-ocr scan.png scan_ocr.pdf
+local-llm-pdf-ocr archive.tiff archive_ocr.pdf
+local-llm-pdf-ocr photo.avif photo_ocr.pdf
 
 # Dense handwritten content: force per-box OCR everywhere with extra concurrency
-uv run main.py notes.pdf --dense-mode always --concurrency 5
+local-llm-pdf-ocr notes.pdf --dense-mode always --concurrency 5
 
 # Custom dense-mode threshold (auto-detect kicks in earlier)
-uv run main.py mixed.pdf --dense-threshold 40
+local-llm-pdf-ocr mixed.pdf --dense-threshold 40
 ```
 
 ### Two pipeline paths
@@ -222,6 +264,8 @@ _You'll see animated progress bars showing detection, LLM OCR, refinement, and e
 ```
 local-llm-pdf-ocr/
 ├── src/pdf_ocr/
+│   ├── cli.py                 # CLI entry point (`local-llm-pdf-ocr`)
+│   ├── server.py              # FastAPI web server (`local-llm-pdf-ocr-server`, requires [web] extra)
 │   ├── pipeline.py            # OCRPipeline orchestration seam (hybrid + grounded)
 │   ├── core/
 │   │   ├── aligner.py         # HybridAligner: Surya detect + Needleman-Wunsch DP
@@ -229,6 +273,7 @@ local-llm-pdf-ocr/
 │   │   ├── pdf.py             # PDFHandler: PDF/image I/O + sandwich-PDF embedding
 │   │   └── grounded.py        # Grounded backends (PromptedGroundedOCR, ZAIHostedOCR) + parsers
 │   ├── evaluation.py          # Confidence comparator (IoU + text similarity)
+│   ├── static/                # Web UI assets bundled into the wheel
 │   └── utils/
 │       ├── image.py           # Crop utility for the refine stage
 │       └── tqdm_patch.py      # Silences Surya's internal progress bars
@@ -239,10 +284,8 @@ local-llm-pdf-ocr/
 │   ├── debug_alignment.py     # Visualize alignment for a single PDF
 │   ├── visualize_bboxes.py    # Render Surya's detected boxes
 │   └── ...                    # Other debug tools
-├── static/                    # Web UI assets
 ├── examples/                  # Sample PDFs (digital, hybrid, handwritten)
-├── main.py                    # CLI entry point
-└── server.py                  # FastAPI web server
+└── pyproject.toml             # PEP 621 metadata, build backend, console scripts
 ```
 
 ---

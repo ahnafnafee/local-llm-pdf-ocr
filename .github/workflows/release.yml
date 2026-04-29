@@ -1,0 +1,105 @@
+name: Release
+
+# Auto-release driven by `version` in pyproject.toml.
+#
+# Flow:
+#   1. PR author bumps `version = "..."` in pyproject.toml as part of their PR.
+#   2. PR is reviewed + merged to main.
+#   3. This workflow fires (push to main with pyproject.toml in the diff).
+#   4. If the version doesn't already have a matching tag, the job:
+#       a. builds the wheel + sdist (so a broken build never produces a tag),
+#       b. updates the @vX.Y.Z pin example in README.md,
+#       c. pushes that README commit to main,
+#       d. tags v<version>,
+#       e. creates a GitHub release with auto-generated notes and the wheel
+#          attached so users can `uv tool install <release-asset-url>` directly.
+#
+# `workflow_dispatch` is kept as a manual override for retries / edge cases
+# (e.g., re-running after a transient network failure during release upload).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - pyproject.toml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Use the default GITHUB_TOKEN; if main is branch-protected,
+          # configure a "bypass" rule for github-actions[bot] OR swap to a
+          # PAT/app token here. See the "Branch protection" note in the README.
+
+      - name: Read version + check tag uniqueness
+        id: ver
+        run: |
+          VER=$(grep -E '^version = ' pyproject.toml | head -1 | sed -E 's/^version = "([^"]+)".*/\1/')
+          if [[ -z "$VER" ]]; then
+            echo "::error::Could not read version from pyproject.toml"
+            exit 1
+          fi
+          if [[ ! "$VER" =~ ^[0-9]+\.[0-9]+\.[0-9]+([a-z0-9.-]*)?$ ]]; then
+            echo "::error::Version '$VER' is not PEP 440 (e.g. 0.2.0 or 1.0.0a1)"
+            exit 1
+          fi
+          if git rev-parse "v$VER" >/dev/null 2>&1; then
+            echo "Tag v$VER already exists - no new release needed."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Releasing v$VER..."
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VER" >> "$GITHUB_OUTPUT"
+
+      - name: Set up uv
+        if: steps.ver.outputs.skip != 'true'
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Build wheel + sdist
+        if: steps.ver.outputs.skip != 'true'
+        run: uv build
+
+      - name: Update README pin example
+        if: steps.ver.outputs.skip != 'true'
+        run: |
+          sed -i -E "s|(local-llm-pdf-ocr\\.git)@v[0-9]+\\.[0-9]+\\.[0-9]+([a-z0-9.-]*)?|\\1@${{ steps.ver.outputs.tag }}|g" README.md
+          grep -nE 'local-llm-pdf-ocr\.git@v' README.md || true
+
+      - name: Commit README (if changed), tag, push
+        if: steps.ver.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # README pin only needs a commit if it actually changed (i.e., the
+          # last release wasn't already pinned to this version somehow).
+          if ! git diff --quiet README.md; then
+            git add README.md
+            git commit -m "docs: pin install example to ${{ steps.ver.outputs.tag }}"
+            git push origin main
+          fi
+
+          git tag -a "${{ steps.ver.outputs.tag }}" -m "Release ${{ steps.ver.outputs.tag }}"
+          git push origin "${{ steps.ver.outputs.tag }}"
+
+      - name: Create GitHub release with built artifacts
+        if: steps.ver.outputs.skip != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: ${{ steps.ver.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            dist/*.whl
+            dist/*.tar.gz

@@ -18,15 +18,15 @@ from pathlib import Path
 import fitz
 import pytest
 
-from src.pdf_ocr.core.grounded import (
+from pdf_ocr.core.grounded import (
     GroundedBlock,
     GroundedResponse,
     _parse_grounded_json,
     parse_glm_layout_details,
     parse_zai_response,
 )
-from src.pdf_ocr.core.pdf import PDFHandler
-from src.pdf_ocr.pipeline import OCRPipeline
+from pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.pipeline import OCRPipeline
 
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -259,7 +259,7 @@ class TestPromptedGroundedResilience:
     async def test_one_failing_page_does_not_lose_others(self, monkeypatch):
         # Build a fake PromptedGroundedOCR that renders 3 fake pages and makes
         # page 1 fail while pages 0 and 2 succeed.
-        from src.pdf_ocr.core.grounded import PromptedGroundedOCR, GroundedBlock
+        from pdf_ocr.core.grounded import PromptedGroundedOCR, GroundedBlock
 
         class _FakeClient:
             def __init__(self, *a, **kw):
@@ -280,7 +280,7 @@ class TestPromptedGroundedResilience:
                 return _Resp
 
         # Monkey-patch AsyncOpenAI inside grounded.py to return our fake.
-        import src.pdf_ocr.core.grounded as gm
+        import pdf_ocr.core.grounded as gm
 
         class _FakeAsyncOpenAI:
             def __init__(self, *a, **kw): pass
@@ -307,7 +307,7 @@ class TestPromptedGroundedResilience:
                 self_ = self
                 from openai import AsyncOpenAI
                 import asyncio as _a
-                import src.pdf_ocr.core.grounded as _g
+                import pdf_ocr.core.grounded as _g
 
                 page_imgs = [(_tiny_b64(), 100, 100)] * 3
                 client = AsyncOpenAI(

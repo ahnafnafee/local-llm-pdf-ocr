@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.pdf_ocr.core.aligner import (
+from pdf_ocr.core.aligner import (
     HybridAligner,
     _dp_align,
     _match_cost,

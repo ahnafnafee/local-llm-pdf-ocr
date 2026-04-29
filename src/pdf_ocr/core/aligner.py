@@ -10,7 +10,7 @@ over (LLM lines, detected boxes). Skipping Surya's recognition step is
 import io
 import logging
 
-from src.pdf_ocr.utils import tqdm_patch
+from pdf_ocr.utils import tqdm_patch
 
 # Silence Surya's progress bars so they don't collide with Rich.
 tqdm_patch.apply()

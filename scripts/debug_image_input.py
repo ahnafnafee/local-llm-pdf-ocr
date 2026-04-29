@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler
+from pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler
 
 
 async def main(image_path: str, output_pdf: str) -> None:

@@ -7,7 +7,7 @@ import io
 
 from PIL import Image
 
-from src.pdf_ocr.utils.image import crop_box_to_base64
+from pdf_ocr.utils.image import crop_box_to_base64
 
 
 def _make_image_b64(size=(800, 1000)) -> str:

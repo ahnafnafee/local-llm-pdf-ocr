@@ -7,16 +7,22 @@ import os
 import shutil
 import tempfile
 import uuid
+from pathlib import Path
 
 from fastapi import FastAPI, File, Form, UploadFile, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.background import BackgroundTask
 
-from src.pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler
+from pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler
+
+# Resolve the bundled static directory relative to this module so the server
+# works regardless of the user's CWD when launched via the installed
+# `local-llm-pdf-ocr-server` entry point.
+_STATIC_DIR = Path(__file__).parent / "static"
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
 
 
 # High-level progress shape sent to the browser. We translate the pipeline's
@@ -63,7 +69,7 @@ manager = ConnectionManager()
 
 @app.get("/")
 async def read_index():
-    return FileResponse("static/index.html")
+    return FileResponse(_STATIC_DIR / "index.html")
 
 
 @app.websocket("/ws/{client_id}")
@@ -134,3 +140,29 @@ def _cleanup(*paths):
                 os.remove(path)
         except Exception:
             pass
+
+
+def main() -> None:
+    """Entry point for the `local-llm-pdf-ocr-server` console script."""
+    import argparse
+
+    import uvicorn
+
+    parser = argparse.ArgumentParser(
+        description="Local LLM PDF OCR web server (FastAPI + WebSocket progress).",
+    )
+    parser.add_argument("--host", default="127.0.0.1", help="Bind host (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=8000, help="Bind port (default: 8000)")
+    parser.add_argument("--reload", action="store_true", help="Enable auto-reload (development)")
+    args = parser.parse_args()
+
+    uvicorn.run(
+        "pdf_ocr.server:app",
+        host=args.host,
+        port=args.port,
+        reload=args.reload,
+    )
+
+
+if __name__ == "__main__":
+    main()
