@@ -93,38 +93,7 @@ LLM_MODEL=allenai/olmocr-2-7b
 
 ### Installation
 
-#### Option A — Install directly from GitHub (recommended for end users / coding agents)
-
-CLI only:
-
-```bash
-uv tool install "git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
-# or, with pipx:
-pipx install "git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
-```
-
-CLI + Web server (FastAPI + WebSocket UI):
-
-```bash
-uv tool install "local-llm-pdf-ocr[web] @ git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
-# or, with pipx:
-pipx install "local-llm-pdf-ocr[web] @ git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git"
-```
-
-Pin to a specific commit or tag for reproducibility:
-
-```bash
-uv tool install "git+https://github.com/ahnafnafee/local-llm-pdf-ocr.git@v0.1.0"
-```
-
-After install you'll have two console scripts on `PATH`:
-
-- `local-llm-pdf-ocr` — the CLI (always available)
-- `local-llm-pdf-ocr-server` — the web UI (only with the `[web]` extra)
-
-> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). The hybrid/grounded LLM is *your* responsibility — bring up LM Studio, Ollama, vLLM, or any other OpenAI-compatible vision endpoint before running OCR.
-
-#### Option B — Develop from source with `uv`
+This project is managed with [`uv`](https://github.com/astral-sh/uv) for lightning-fast dependency management.
 
 1.  **Install `uv`** (if not installed):
 
@@ -144,12 +113,14 @@ After install you'll have two console scripts on `PATH`:
     cd local-llm-pdf-ocr
     ```
 
-3.  **Sync dependencies** (installs the project + dev tools in editable mode):
+3.  **Sync dependencies**:
 
     ```bash
     uv sync                       # CLI only
     uv sync --extra web           # CLI + FastAPI server
     ```
+
+> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). The hybrid/grounded LLM is *your* responsibility — bring up LM Studio, Ollama, vLLM, or any other OpenAI-compatible vision endpoint before running OCR.
 
 ---
 
@@ -161,8 +132,6 @@ The easiest way to use the tool. Features a modern dashboard with Dark Mode and 
 
 1.  **Start the Server**:
     ```bash
-    local-llm-pdf-ocr-server --port 8000          # installed via `uv tool install` from GitHub
-    # — or, in a source checkout —
     uv run local-llm-pdf-ocr-server --port 8000
     ```
 2.  Open your browser to `http://localhost:8000`.
@@ -179,8 +148,6 @@ Perfect for developers or integrating into scripts.
 Run the OCR tool on any PDF:
 
 ```bash
-local-llm-pdf-ocr input.pdf output_ocr.pdf      # installed via uv tool / pipx (from GitHub)
-# — or, in a source checkout —
 uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 ```
 
@@ -203,40 +170,40 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--api-base <url>`        | Override LLM API base URL                                             |
 | `--model <name>`          | Override LLM model name                                               |
 
-**Examples** (substitute `uv run local-llm-pdf-ocr` for `local-llm-pdf-ocr` if developing from source):
+**Examples**:
 
 ```bash
 # Basic usage (auto-generates input_ocr.pdf, uses LM Studio + OlmOCR)
-local-llm-pdf-ocr scan.pdf
+uv run local-llm-pdf-ocr scan.pdf
 
 # Specific pages with higher rendering DPI
-local-llm-pdf-ocr document.pdf output.pdf --pages 1-5 --dpi 300
+uv run local-llm-pdf-ocr document.pdf output.pdf --pages 1-5 --dpi 300
 
 # Parallel LLM calls on a multi-page doc
-local-llm-pdf-ocr long.pdf --concurrency 3
+uv run local-llm-pdf-ocr long.pdf --concurrency 3
 
 # Use Ollama + GLM-OCR instead of LM Studio
-local-llm-pdf-ocr scan.pdf \
+uv run local-llm-pdf-ocr scan.pdf \
     --api-base http://localhost:11434/v1 \
     --model glm-ocr:latest \
     --max-image-dim 640
 
 # Grounded path: bbox-native VLM (Qwen2.5-VL / Qwen3-VL) — skips Surya, DP, refine
-local-llm-pdf-ocr scan.pdf --grounded \
+uv run local-llm-pdf-ocr scan.pdf --grounded \
     --api-base http://localhost:1234/v1 \
     --model qwen/qwen3-vl-8b
 
 # Raw image input — no PDF required. Accepts JPEG/PNG/BMP/WebP/AVIF, and
 # multi-page TIFFs (each frame becomes one page in the output PDF).
-local-llm-pdf-ocr scan.png scan_ocr.pdf
-local-llm-pdf-ocr archive.tiff archive_ocr.pdf
-local-llm-pdf-ocr photo.avif photo_ocr.pdf
+uv run local-llm-pdf-ocr scan.png scan_ocr.pdf
+uv run local-llm-pdf-ocr archive.tiff archive_ocr.pdf
+uv run local-llm-pdf-ocr photo.avif photo_ocr.pdf
 
 # Dense handwritten content: force per-box OCR everywhere with extra concurrency
-local-llm-pdf-ocr notes.pdf --dense-mode always --concurrency 5
+uv run local-llm-pdf-ocr notes.pdf --dense-mode always --concurrency 5
 
 # Custom dense-mode threshold (auto-detect kicks in earlier)
-local-llm-pdf-ocr mixed.pdf --dense-threshold 40
+uv run local-llm-pdf-ocr mixed.pdf --dense-threshold 40
 ```
 
 ### Two pipeline paths
