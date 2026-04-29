@@ -98,13 +98,13 @@ LLM_MODEL=allenai/olmocr-2-7b
 CLI only:
 
 ```bash
-pipx install local-llm-pdf-ocr                  # or: uv tool install local-llm-pdf-ocr
+uv tool install local-llm-pdf-ocr               # or: pipx install local-llm-pdf-ocr
 ```
 
 CLI + Web server (FastAPI + WebSocket UI):
 
 ```bash
-pipx install "local-llm-pdf-ocr[web]"           # or: uv tool install "local-llm-pdf-ocr[web]"
+uv tool install "local-llm-pdf-ocr[web]"        # or: pipx install "local-llm-pdf-ocr[web]"
 ```
 
 After install you'll have two console scripts on `PATH`:
@@ -119,6 +119,11 @@ After install you'll have two console scripts on `PATH`:
 1.  **Install `uv`** (if not installed):
 
     ```bash
+    # macOS / Linux
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    # Windows
+    powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+    # …or, if you already have Python:
     pip install uv
     ```
 
@@ -146,7 +151,7 @@ The easiest way to use the tool. Features a modern dashboard with Dark Mode and 
 
 1.  **Start the Server**:
     ```bash
-    local-llm-pdf-ocr-server --port 8000          # installed via `pipx install local-llm-pdf-ocr[web]`
+    local-llm-pdf-ocr-server --port 8000          # installed via `uv tool install local-llm-pdf-ocr[web]`
     # — or, in a source checkout —
     uv run local-llm-pdf-ocr-server --port 8000
     ```
@@ -164,7 +169,7 @@ Perfect for developers or integrating into scripts.
 Run the OCR tool on any PDF:
 
 ```bash
-local-llm-pdf-ocr input.pdf output_ocr.pdf      # installed via pipx / uv tool install
+local-llm-pdf-ocr input.pdf output_ocr.pdf      # installed via uv tool / pipx install
 # — or, in a source checkout —
 uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 ```
