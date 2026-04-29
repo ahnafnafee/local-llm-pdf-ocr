@@ -14,8 +14,10 @@ import pytest
 from src.pdf_ocr.core.aligner import (
     HybridAligner,
     _dp_align,
+    _match_cost,
     _normalize_lines,
     _reading_order_sort,
+    _SKIP_BOX_COST,
 )
 
 
@@ -39,6 +41,47 @@ class TestNormalizeLines:
         assert _normalize_lines(None) == []
         assert _normalize_lines([]) == []
         assert _normalize_lines(["   ", ""]) == []
+
+
+class TestMatchCost:
+    """The cost is asymmetric: over-fill (long line in small box) costs
+    more than under-fill (short line in big box). This prevents the DP
+    from packing long lines into too-narrow boxes when the symmetric
+    cost would have allowed it, while still keeping mild overfills
+    cheap enough to match (rather than skip)."""
+
+    def test_perfect_fit_is_zero(self):
+        assert _match_cost(50, 50) == pytest.approx(0.0)
+
+    def test_underfill_is_cheap_capped_at_half(self):
+        # Maximally under-filled (line clamped to min 1 char vs 100):
+        # cost is just under 0.5 by the half-the-deficit formula.
+        assert _match_cost(0, 100) < 0.5
+        assert _match_cost(0, 100) == pytest.approx(0.495, abs=0.01)
+        # 50% under-fill: halved relative deficit.
+        assert _match_cost(50, 100) == pytest.approx(0.25)
+
+    def test_overfill_grows_toward_one_at_extreme_ratios(self):
+        # 50% over-fill: cost = 50/150 ≈ 0.333
+        assert _match_cost(150, 100) == pytest.approx(1 / 3)
+        # 100% over-fill: cost = 100/200 = 0.5
+        assert _match_cost(200, 100) == pytest.approx(0.5)
+        # 5x over-fill: cost = 400/500 = 0.8
+        assert _match_cost(500, 100) == pytest.approx(0.8)
+        # All overfill costs are < 1 by construction.
+        assert _match_cost(10**9, 100) < 1.0
+
+    def test_overfill_costs_more_than_equivalent_underfill(self):
+        # The asymmetry: 2x line vs box (overfill) must hurt more than
+        # 2x box vs line (underfill). Without this, the DP packs long
+        # lines into narrow boxes and shifts subsequent matches.
+        assert _match_cost(40, 20) > _match_cost(20, 40)
+
+    def test_mild_overfill_stays_below_double_skip(self):
+        # Mild overfill (line ~2x box capacity) must be cheaper than
+        # ``skip_box + skip_line``, otherwise the DP loses lines instead
+        # of placing them. ``2 * SKIP_BOX_COST`` is the rough budget.
+        assert _match_cost(40, 20) < 2 * _SKIP_BOX_COST + 1.0
 
 
 class TestDPAlign:
@@ -73,6 +116,36 @@ class TestDPAlign:
         boxes = [[0.0, 0.0, 0.3, 0.1]] * 5
         _, mapping, _ = _dp_align(lines, boxes)
         assert sum(len(v) for v in mapping.values()) == 2
+
+    def test_long_line_does_not_displace_short_lines_into_narrow_trap(self):
+        # Regression for the duplication seen on examples/hybrid.pdf.
+        # Reading-order lines: short, long, short. Box 1 is a narrow
+        # trap that the symmetric cost used to allow the long line to
+        # slide into. The wide box (index 2) is the visually-correct
+        # home for the long line; if the DP leaves it empty, refine
+        # crops the same content and produces a duplicate.
+        lines = [
+            "x" * 12,    # short
+            "x" * 40,    # long
+            "x" * 12,    # short
+        ]
+        boxes = [
+            [0.05, 0.05, 0.30, 0.10],   # medium
+            [0.05, 0.15, 0.15, 0.18],   # narrow trap
+            [0.05, 0.25, 0.95, 0.32],   # wide (long-line home)
+            [0.05, 0.40, 0.30, 0.45],   # medium
+        ]
+        out = _aligner().align_text([(b, "") for b in boxes], lines)
+        texts = [t for _, t in out]
+
+        # The long line lands in the wide box (index 2), not displaced.
+        assert texts[2] == "x" * 40, (
+            f"long line should land in the wide box, got texts={texts}"
+        )
+        # The narrow trap (index 1) must not absorb the long line.
+        assert "x" * 40 not in texts[1], (
+            f"long line incorrectly packed into narrow trap: {texts[1]!r}"
+        )
 
     def test_two_column_layout(self):
         # When boxes are passed in the same order the LLM emits text

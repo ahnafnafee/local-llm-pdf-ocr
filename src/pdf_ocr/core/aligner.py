@@ -278,15 +278,42 @@ def _estimated_capacities(boxes: list[BBox]) -> list[float]:
 
 def _match_cost(line_chars: int, expected_chars: float) -> float:
     """
-    Relative char-count mismatch cost, clipped to [0, 2].
+    Asymmetric char-count mismatch cost in [0, 1].
 
-    Normalized by the larger of actual/expected so the cost is symmetric
-    (a 10-char line on a 100-char box is equally "wrong" as vice versa).
+    Over-fill (line longer than the box's area-derived capacity) is
+    penalized harder than equivalent under-fill. Rationale: a box's
+    expected capacity is proportional to area at typical font size, so
+    when a line's character count substantially exceeds that capacity
+    the line cannot fit at the same density — it would force the
+    embedding to compress horizontally and visually misregister against
+    the source layout. Under-fill is benign: a short line in a wide box
+    just leaves slack.
+
+    Symptom this fixes: when Surya splits a wrapped paragraph into N
+    boxes but the LLM joins it into 1 line, the symmetric cost gave
+    near-zero penalty for matching short LLM lines (e.g. ``Date: 9/14/19``)
+    to the wrong narrow box just because the char counts happened to
+    align, displacing every subsequent line by one box. The empty
+    "real" box was then filled by the refine stage, producing a visible
+    duplicate in the OCR text layer.
+
+    Formula notes:
+    - Overfill uses ``(actual-expected)/actual`` so the cost is bounded
+      in [0, 1) and matches the original symmetric-cost shape on the
+      overfill side. Mild overfills stay matchable (cheaper than
+      ``skip_box + skip_line``); only severe overfills approach 1.
+    - Underfill uses ``(expected-actual)/expected * 0.5`` so a short
+      line in a wide box costs at most 0.5, and a perfect-width-but-
+      short line costs ~0. This breaks symmetry: a 2x overfill costs
+      ~0.5 but the same 0.5x under-fill costs only 0.25.
     """
     expected = max(1.0, expected_chars)
     actual = max(1, line_chars)
-    denom = max(actual, expected)
-    return min(2.0, abs(actual - expected) / denom)
+    if actual > expected:
+        # Overfill: bounded in [0, 1).
+        return (actual - expected) / actual
+    # Underfill: halved.
+    return (expected - actual) / expected * 0.5
 
 
 def _dp_align(

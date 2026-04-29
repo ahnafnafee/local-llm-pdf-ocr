@@ -358,20 +358,79 @@ class OCRPipeline:
                 return p_num, idx, text
 
         completed = 0
+        refined_indices: dict[int, set[int]] = defaultdict(set)
         for coro in asyncio.as_completed(
             [refine_one(p, i, b) for p, i, b in targets]
         ):
             p_num, idx, text = await coro
             bbox_cur, _ = pages_structured[p_num][idx]
             pages_structured[p_num][idx] = (bbox_cur, text.strip())
+            refined_indices[p_num].add(idx)
             completed += 1
             await _notify(
                 progress, "refine", completed, total,
                 f"Refining boxes ({completed}/{total})",
             )
 
+        # Post-refine dedup: refine sometimes produces text already present
+        # in a vertically-nearby matched box, e.g. when Surya emits two
+        # overlapping bboxes for the same content, or when the DP misaligned
+        # a line via skip_line attachment and refine then re-OCR'd the
+        # original location. Without dedup the OCR text layer ends up with
+        # the same line twice, which surfaces as duplicated lines on
+        # copy-paste from the output PDF.
+        for p_num, idxs in refined_indices.items():
+            _drop_refined_duplicates(pages_structured[p_num], idxs)
+
 
 # --- helpers ----------------------------------------------------------------
+
+
+def _normalize_for_dedup(text: str) -> str:
+    """Lowercased, whitespace-collapsed form for substring comparison."""
+    return " ".join(text.lower().split())
+
+
+def _drop_refined_duplicates(
+    page_boxes: list[tuple[list[float], str]],
+    refined_indices: set[int],
+    *,
+    radius: int = 4,
+) -> None:
+    """
+    Mutate ``page_boxes`` in place: clear the text of any refined box
+    whose content already appears (as a substring or exact match) in a
+    non-refined matched box within ``radius`` index positions.
+
+    Why refined-only one-way: matched text came from the DP and reflects
+    the LLM's reading-order emission for the page; refined text came
+    from a per-box crop and is more vulnerable to neighbor-content
+    bleed-through (Surya bboxes can overlap, and small crops give the
+    VLM less context). When the two collide, the matched version is the
+    safer keep.
+
+    Comparison is case-insensitive and whitespace-collapsed so trivial
+    formatting differences don't defeat the dedup.
+    """
+    for r_idx in sorted(refined_indices):
+        r_bbox, r_text = page_boxes[r_idx]
+        if not r_text:
+            continue
+        r_norm = _normalize_for_dedup(r_text)
+        if not r_norm:
+            continue
+        lo = max(0, r_idx - radius)
+        hi = min(len(page_boxes), r_idx + radius + 1)
+        for o_idx in range(lo, hi):
+            if o_idx == r_idx or o_idx in refined_indices:
+                continue
+            _, o_text = page_boxes[o_idx]
+            if not o_text:
+                continue
+            o_norm = _normalize_for_dedup(o_text)
+            if r_norm in o_norm:
+                page_boxes[r_idx] = (r_bbox, "")
+                break
 
 
 def _is_refinable(bbox: list[float]) -> bool:

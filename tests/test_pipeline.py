@@ -13,7 +13,12 @@ import io
 import pytest
 from PIL import Image
 
-from src.pdf_ocr.pipeline import OCRPipeline, _is_refinable, parse_page_range
+from src.pdf_ocr.pipeline import (
+    OCRPipeline,
+    _drop_refined_duplicates,
+    _is_refinable,
+    parse_page_range,
+)
 
 
 def _make_tiny_b64_image() -> str:
@@ -79,6 +84,85 @@ class TestParsePageRange:
 
     def test_duplicates_collapsed(self):
         assert parse_page_range("1,1,2-3,3", 5) == [0, 1, 2]
+
+
+class TestDropRefinedDuplicates:
+    """Post-refine dedup pass: refined text that already exists in a
+    nearby matched box gets dropped, so the OCR text layer doesn't
+    contain the same line twice."""
+
+    def _box(self, idx: int) -> list[float]:
+        # Generate a benign distinct bbox for each index so list ops
+        # treat them as separate entries. Coordinates don't matter for
+        # the dedup logic — it's index-based.
+        return [0.1, 0.05 * idx, 0.9, 0.05 * idx + 0.04]
+
+    def test_drops_exact_duplicate_in_adjacent_matched_box(self):
+        # Refined text equals the matched neighbor — drop refined.
+        boxes = [
+            (self._box(0), "HEALTH INTAKE FORM"),       # matched
+            (self._box(1), "HEALTH INTAKE FORM"),       # refined (dup)
+        ]
+        _drop_refined_duplicates(boxes, refined_indices={1})
+        assert boxes[0][1] == "HEALTH INTAKE FORM"      # matched kept
+        assert boxes[1][1] == ""                        # refined dropped
+
+    def test_drops_substring_of_concatenated_neighbor(self):
+        # The DP can attach a skip_line to a matched box, producing a
+        # concatenated string. Refine then re-OCRs the lost line's box
+        # and produces the substring — drop the refined copy.
+        boxes = [
+            (self._box(0), "HEALTH INTAKE FORM Please fill out the form."),
+            (self._box(1), "HEALTH INTAKE FORM"),  # refined (substring)
+        ]
+        _drop_refined_duplicates(boxes, refined_indices={1})
+        assert boxes[1][1] == ""
+
+    def test_keeps_distinct_text_in_adjacent_box(self):
+        # Two real entries that just happen to look similar — keep both.
+        boxes = [
+            (self._box(0), "Vyvanse (25mg) daily for attention"),    # matched
+            (self._box(1), "Vyranse (25mg) daily for attention"),    # refined, real 2nd entry
+        ]
+        _drop_refined_duplicates(boxes, refined_indices={1})
+        assert boxes[1][1] == "Vyranse (25mg) daily for attention"
+
+    def test_case_and_whitespace_normalized(self):
+        boxes = [
+            (self._box(0), "Date: 9/14/19"),                # matched
+            (self._box(1), "  date:    9/14/19  "),         # refined, sloppy
+        ]
+        _drop_refined_duplicates(boxes, refined_indices={1})
+        assert boxes[1][1] == ""
+
+    def test_does_not_compare_two_refined_against_each_other(self):
+        # Both boxes are refined: each could be a real recovery, even if
+        # they happen to OCR identically. Don't drop either — that's the
+        # caller's job at a higher layer if it matters.
+        boxes = [
+            (self._box(0), "same content"),
+            (self._box(1), "same content"),
+        ]
+        _drop_refined_duplicates(boxes, refined_indices={0, 1})
+        assert boxes[0][1] == "same content"
+        assert boxes[1][1] == "same content"
+
+    def test_respects_search_radius(self):
+        # Refined box is far from the matching box — no dedup.
+        boxes = [(self._box(i), "filler") for i in range(20)]
+        boxes[0] = (self._box(0), "the line")
+        boxes[15] = (self._box(15), "the line")
+        _drop_refined_duplicates(boxes, refined_indices={15}, radius=4)
+        assert boxes[15][1] == "the line"  # too far, not deduped
+
+    def test_empty_refined_text_skipped(self):
+        # Refined returned empty (e.g. blank-crop short circuit) — leave it.
+        boxes = [
+            (self._box(0), "real content"),
+            (self._box(1), ""),
+        ]
+        _drop_refined_duplicates(boxes, refined_indices={1})
+        assert boxes[1][1] == ""
 
 
 class TestRefinableGate:
