@@ -15,8 +15,8 @@ import sys
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.pdf_ocr.core.ocr import OCRProcessor
-from src.pdf_ocr.core.aligner import HybridAligner
+from pdf_ocr.core.ocr import OCRProcessor
+from pdf_ocr.core.aligner import HybridAligner
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

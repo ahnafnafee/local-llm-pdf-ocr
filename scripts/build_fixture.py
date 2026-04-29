@@ -31,7 +31,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from src.pdf_ocr import PromptedGroundedOCR  # noqa: E402
+from pdf_ocr import PromptedGroundedOCR  # noqa: E402
 
 
 async def main() -> None:

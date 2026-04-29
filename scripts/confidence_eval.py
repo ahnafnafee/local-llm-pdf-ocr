@@ -29,14 +29,14 @@ sys.path.insert(0, str(ROOT))
 from rich.console import Console  # noqa: E402
 from rich.table import Table  # noqa: E402
 
-from src.pdf_ocr import (  # noqa: E402
+from pdf_ocr import (  # noqa: E402
     HybridAligner,
     OCRPipeline,
     OCRProcessor,
     PDFHandler,
     PromptedGroundedOCR,
 )
-from src.pdf_ocr.evaluation import (  # noqa: E402
+from pdf_ocr.evaluation import (  # noqa: E402
     compute_report,
     load_ground_truth,
 )

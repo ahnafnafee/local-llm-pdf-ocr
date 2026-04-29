@@ -109,7 +109,7 @@ def resolve_output_path(input_pdf: str, output_pdf: str | None) -> str:
 async def run(args: argparse.Namespace, console: Console) -> None:
     # Lazy imports: heavy modules load AFTER argparse so --help stays fast.
     os.environ.setdefault("TQDM_DISABLE", "1")
-    from src.pdf_ocr import (
+    from pdf_ocr import (
         HybridAligner, OCRPipeline, OCRProcessor, PDFHandler,
         PromptedGroundedOCR,
     )

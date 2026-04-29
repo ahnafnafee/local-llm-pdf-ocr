@@ -43,7 +43,7 @@ def example_pdfs(examples_dir: Path) -> dict[str, Path]:
 @pytest.fixture(scope="session")
 def surya_aligner():
     """Load HybridAligner once per session — Surya init is expensive."""
-    from src.pdf_ocr.core.aligner import HybridAligner
+    from pdf_ocr.core.aligner import HybridAligner
     return HybridAligner()
 
 

@@ -29,8 +29,8 @@ import base64
 from collections import defaultdict
 from typing import Awaitable, Callable, Optional
 
-from src.pdf_ocr.core.grounded import GroundedOCRBackend
-from src.pdf_ocr.utils.image import crop_for_ocr
+from pdf_ocr.core.grounded import GroundedOCRBackend
+from pdf_ocr.utils.image import crop_for_ocr
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 OutputWriter = Callable[[str, str, dict, int], None]

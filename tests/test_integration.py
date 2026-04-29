@@ -17,9 +17,9 @@ from pathlib import Path
 import fitz
 import pytest
 
-from src.pdf_ocr.core.ocr import OCRProcessor
-from src.pdf_ocr.core.pdf import PDFHandler
-from src.pdf_ocr.pipeline import OCRPipeline
+from pdf_ocr.core.ocr import OCRProcessor
+from pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.pipeline import OCRPipeline
 
 pytestmark = pytest.mark.slow
 

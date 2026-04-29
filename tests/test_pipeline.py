@@ -13,7 +13,7 @@ import io
 import pytest
 from PIL import Image
 
-from src.pdf_ocr.pipeline import OCRPipeline, _is_refinable, parse_page_range
+from pdf_ocr.pipeline import OCRPipeline, _is_refinable, parse_page_range
 
 
 def _make_tiny_b64_image() -> str:
