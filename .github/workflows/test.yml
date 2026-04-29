@@ -1,0 +1,43 @@
+name: Tests
+
+# Fast-tier validation on every PR + push to main.
+#
+# Scope: runs `pytest -m "not slow"` (~15s, 153+ tests). Skips the `slow`
+# marker because those tests load Surya from HF Hub (~500MB download on
+# first run); not worth the CI minutes for routine validation. Skips
+# `live_llm` markers too — those need a real LLM endpoint we don't have
+# in CI.
+#
+# Matrix: Python 3.10 (the floor in pyproject.toml) and 3.13 (latest)
+# to catch version-specific regressions without quadrupling runtime.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    name: pytest (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python }}
+
+      - name: Sync deps (CLI + web extras)
+        run: uv sync --extra web
+
+      - name: Run fast tests
+        run: uv run pytest -m "not slow" -v
