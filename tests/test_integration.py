@@ -17,9 +17,9 @@ from pathlib import Path
 import fitz
 import pytest
 
-from src.pdf_ocr.core.ocr import OCRProcessor
-from src.pdf_ocr.core.pdf import PDFHandler
-from src.pdf_ocr.pipeline import OCRPipeline
+from pdf_ocr.core.ocr import OCRProcessor
+from pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.pipeline import OCRPipeline
 
 pytestmark = pytest.mark.slow
 
@@ -58,7 +58,11 @@ def test_surya_detects_boxes_on_examples(
 def test_detected_boxes_are_in_reading_order(
     surya_aligner, example_pdfs: dict[str, Path], name: str
 ):
-    """Aligner sorts top→bottom, left→right — DP depends on this invariant."""
+    """get_detected_boxes_batch returns boxes in stable row-major order
+    (top-to-bottom, left-to-right). The DP itself is order-agnostic
+    (auto-detects column-major vs row-major emission), but the public
+    contract of the detection step is row-major as a deterministic
+    default for visualization and downstream tools."""
     pdf_handler = PDFHandler()
     images = pdf_handler.convert_to_images(str(example_pdfs[name]))
     import base64
@@ -69,9 +73,8 @@ def test_detected_boxes_are_in_reading_order(
         prev_y, prev_x = -1.0, -1.0
         for bbox in page_boxes:
             y, x = bbox[1], bbox[0]
-            # Either y strictly greater, or same y and x not-less.
             assert (y > prev_y) or (y == prev_y and x >= prev_x), (
-                f"{name} page {page_idx}: boxes out of reading order at {bbox}"
+                f"{name} page {page_idx}: boxes out of row-major order at {bbox}"
             )
             prev_y, prev_x = y, x
 
@@ -313,6 +316,90 @@ def test_embedded_text_positionally_matches_aligned_boxes(
                 checked += 1
 
         assert checked > 0, f"{name}: no tags landed in any box — DP produced empty alignment"
+
+
+def test_hybrid_form_no_consecutive_duplicate_lines(
+    surya_aligner, example_pdfs: dict[str, Path], tmp_path: Path
+):
+    """
+    Regression for the bug where examples/hybrid.pdf produced an output
+    PDF with two consecutive identical lines ("Name: Sally Walker DOB: ..."
+    appeared twice; "HEALTH INTAKE FORM" appeared twice in another run).
+
+    Root cause was a DP misalignment: the symmetric ``_match_cost`` let
+    a long line slide into a smaller box just because the char counts
+    happened to align, leaving the visually-correct wide box empty. The
+    refine stage then cropped the empty box and re-OCR'd the same
+    handwritten line, producing a second copy in the output text layer.
+
+    The fix combines two changes:
+      1. ``_match_cost`` is now asymmetric — overfill (line longer than
+         box capacity) costs more than equivalent underfill, so the DP
+         skips a too-narrow box rather than packing a long line into it.
+      2. After refine, ``_drop_refined_duplicates`` clears any refined
+         box whose text is a substring of (or equal to) text already in
+         a vertically-nearby matched box.
+
+    This test stubs the LLM with the exact lines OlmOCR-2 produces on
+    examples/hybrid.pdf — including the joined two-line paragraph
+    that triggers the misalignment — and asserts no two consecutive
+    extracted lines are identical.
+    """
+    # The actual sequence OlmOCR-2 emits for examples/hybrid.pdf, with
+    # the paragraph joined into one line (the trigger condition) and
+    # missing both "FakeDoc M.D." (top-left, small) and the second
+    # medication entry (faint handwriting). Refine recovers those.
+    stub_lines = [
+        "HEALTH INTAKE FORM",
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.",
+        "Date: 9/14/19",
+        "Name: Sally Walker DOB: 09/04/1986",
+        "Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082",
+        "Email: sally.walker@cmail.com Phone #: (906) 917-3486",
+        "Gender: F Marital Status: Single Occupation: Software Engineer",
+        "Referred By: NONE",
+        "Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926",
+        "Describe your medical concerns (symptoms, diagnoses, etc):",
+        "Runny nose, mucas in throat, weakness, aches, chills, tired",
+        "Are you currently taking any medication? (If yes, please describe):",
+        "Vyvanse (25mg) daily for attention",
+    ]
+
+    class _Stub(OCRProcessor):
+        def __init__(self):
+            self._refine_counter = 0
+
+        async def perform_ocr(self, image_base64):
+            return list(stub_lines)
+
+        async def perform_ocr_on_crop(self, image_base64):
+            # Each refine call returns a unique token so two refined
+            # boxes can't accidentally produce identical adjacent lines
+            # in the test (which would be a false positive — the bug
+            # under test is matched/refined collisions, not refined/
+            # refined ones).
+            self._refine_counter += 1
+            return f"REFINED_{self._refine_counter:02d}"
+
+    input_pdf = str(example_pdfs["hybrid.pdf"])
+    output_pdf = str(tmp_path / "hybrid_no_dups.pdf")
+
+    pipe = OCRPipeline(surya_aligner, _Stub(), PDFHandler())
+    asyncio.run(pipe.run(input_pdf, output_pdf, concurrency=2, refine=True))
+
+    with fitz.open(output_pdf) as out:
+        text = out[0].get_text("text")
+
+    extracted_lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    consecutive_dups = [
+        (i, line)
+        for i, line in enumerate(extracted_lines[1:], start=1)
+        if line == extracted_lines[i - 1] and len(line) > 5
+    ]
+    assert not consecutive_dups, (
+        f"hybrid.pdf produced consecutive duplicate lines in OCR layer: "
+        f"{consecutive_dups!r}"
+    )
 
 
 @pytest.mark.parametrize("name", EXAMPLE_NAMES)

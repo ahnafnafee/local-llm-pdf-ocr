@@ -6,6 +6,7 @@ endpoint works, including GLM OCR via Ollama — set LLM_API_BASE/LLM_MODEL or
 pass --api-base/--model).
 """
 
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -47,8 +48,53 @@ CROP_PROMPT = (
 )
 
 
+# Phrases the model emits as a fallback when it can't read the crop —
+# usually because the crop is blank, decorative, or otherwise non-text.
+# We strip them so they don't pollute the searchable text layer.
+_HALLUCINATION_PATTERNS = (
+    "the quick brown fox jumps over the lazy dog",  # OlmOCR-2 pangram fallback
+    "lorem ipsum",
+)
+
+
+def _is_fallback_response(text: str) -> bool:
+    """
+    True if ``text`` is essentially one of the known LLM fallback phrases.
+
+    A substring match would over-trigger: a real document might contain
+    "lorem ipsum" as quoted placeholder text, or the pangram as an
+    example sentence. We require the response to *be* the fallback
+    after light normalization (case-fold, strip whitespace, drop
+    surrounding punctuation/quotes) — i.e. the fallback occupies the
+    entire crop response, not just part of it.
+    """
+    _trim = ".!?\"'`)([]{}<>“”‘’ \t"
+    normalized = text.strip().lower().strip(_trim)
+    return normalized in _HALLUCINATION_PATTERNS
+
+
 class OCRProcessor:
-    """LLM-based OCR processor over an OpenAI-compatible async client."""
+    """LLM-based OCR processor over an OpenAI-compatible async client.
+
+    Local VLMs occasionally fall into runaway-generation loops on dense
+    or unusual pages — we bound both the per-call timeout and the
+    response token budget so a single bad page can't hang the pipeline
+    indefinitely. Tuned per-call (full-page vs single-line crop): a page
+    can legitimately take longer than a crop, and warrants a higher token
+    budget for paragraph-level content.
+    """
+
+    # Page-level OCR (full image): up to ~4 minutes, ~6k tokens of output.
+    # Dense handwritten pages with tables can easily produce 2-3k tokens
+    # of markdown, so 6k leaves headroom without enabling endless loops.
+    PAGE_TIMEOUT_S: float = 240.0
+    PAGE_MAX_TOKENS: int = 6144
+
+    # Crop-level OCR (single box): a sentence at most. Capping much
+    # tighter prevents a confused model from emitting a whole-page worth
+    # of hallucinated text into one bbox during the refine stage.
+    CROP_TIMEOUT_S: float = 60.0
+    CROP_MAX_TOKENS: int = 256
 
     def __init__(self, api_base: str | None = None, model: str | None = None):
         self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
@@ -60,30 +106,56 @@ class OCRProcessor:
         OCR a full page image. Returns a list of non-empty lines in reading order.
 
         YAML front matter emitted by OlmOCR (rotation/language/is_table flags)
-        is stripped before returning.
+        is stripped before returning. Runaway repetition (the model getting
+        stuck emitting the same line over and over) is detected and clipped
+        — this happens occasionally on dense handwritten pages even with
+        max_tokens set, and pollutes downstream alignment with junk lines.
         """
-        text = await self._chat(OLMOCR_PAGE_PROMPT, image_base64)
+        text = await self._chat(
+            OLMOCR_PAGE_PROMPT, image_base64,
+            timeout=self.PAGE_TIMEOUT_S,
+            max_tokens=self.PAGE_MAX_TOKENS,
+        )
         if not text:
             return []
         body = _strip_yaml_front_matter(text)
-        return [line.strip() for line in body.split("\n") if line.strip()]
+        lines = [line.strip() for line in body.split("\n") if line.strip()]
+        return _strip_runaway_repetition(lines)
 
     async def perform_ocr_on_crop(self, image_base64: str) -> str:
         """
         OCR a single cropped box region. Returns a single whitespace-joined
         string (the crop is small, so we don't try to preserve line structure).
+        Empty-string for blank/uncertain crops (filtered hallucination).
         """
-        text = await self._chat(CROP_PROMPT, image_base64)
+        text = await self._chat(
+            CROP_PROMPT, image_base64,
+            timeout=self.CROP_TIMEOUT_S,
+            max_tokens=self.CROP_MAX_TOKENS,
+        )
         if not text:
             return ""
         body = _strip_yaml_front_matter(text)
-        return " ".join(line.strip() for line in body.split("\n") if line.strip())
+        result = " ".join(line.strip() for line in body.split("\n") if line.strip())
+        if _is_fallback_response(result):
+            return ""
+        return result
 
-    async def _chat(self, prompt: str, image_base64: str) -> str:
+    async def _chat(
+        self,
+        prompt: str,
+        image_base64: str,
+        *,
+        timeout: float,
+        max_tokens: int,
+    ) -> str:
         try:
-            response = await self.client.chat.completions.create(
+            response = await self.client.with_options(
+                timeout=timeout
+            ).chat.completions.create(
                 model=self.model,
                 temperature=0.1,
+                max_tokens=max_tokens,
                 messages=[
                     {
                         "role": "user",
@@ -107,9 +179,49 @@ class OCRProcessor:
                 f"  - Is your local LLM server (LM Studio / Ollama / vLLM) running at "
                 f"{self.api_base}?\n"
                 f"  - Is model {self.model!r} loaded and serving vision inputs?\n"
-                f"  - Override with LLM_API_BASE / LLM_MODEL in .env, "
+                f"  - Did the model run away on this page? "
+                f"Try reducing --max-image-dim or capping the page complexity.\n"
+                f"  - Override endpoint with LLM_API_BASE / LLM_MODEL in .env, "
                 f"or pass --api-base / --model."
             ) from e
+
+
+def _strip_runaway_repetition(lines: list[str], max_repeat: int = 20) -> list[str]:
+    """
+    Drop pathological repetition from LLM output.
+
+    Local VLMs occasionally fall into an output loop on dense or unusual
+    pages — the same line is emitted dozens or hundreds of times in a row
+    until max_tokens cuts the response off. The repeated junk pollutes
+    every box the DP then tries to assign it to. We cap any single string
+    at ``max_repeat`` total occurrences across the response: large enough
+    to admit legitimate repeated structure (table row tags, separators)
+    but small enough that runaway loops are clipped to a handful of lines
+    and the rest is dropped.
+
+    A warning is emitted if any clipping happened so the user knows the
+    OCR layer for that page may be incomplete.
+    """
+    counts: dict[str, int] = {}
+    out: list[str] = []
+    truncated = 0
+    for line in lines:
+        c = counts.get(line, 0) + 1
+        counts[line] = c
+        if c <= max_repeat:
+            out.append(line)
+        else:
+            truncated += 1
+    if truncated > 0:
+        worst = max(counts.items(), key=lambda kv: kv[1])
+        logging.warning(
+            "LLM OCR output had %d runaway-repetition lines clipped "
+            "(worst offender: %r occurred %d times). The model likely "
+            "got stuck on this page; output may be incomplete. "
+            "Try lowering --max-image-dim or switching --model.",
+            truncated, worst[0][:60], worst[1],
+        )
+    return out
 
 
 def _strip_yaml_front_matter(text: str) -> str:

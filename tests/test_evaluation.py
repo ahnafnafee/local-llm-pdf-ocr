@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from src.pdf_ocr.evaluation import (
+from pdf_ocr.evaluation import (
     GTBlock,
     _detect_bbox_axis_order,
     _swap_axes,

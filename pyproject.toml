@@ -1,30 +1,89 @@
 [project]
-name = "pdf-ocr-llm"
+name = "local-llm-pdf-ocr"
 version = "0.1.0"
 description = "Transform scanned and written documents into fully searchable, selectable PDFs using the power of Local LLM Vision"
 readme = "README.md"
 requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Ahnaf An Nafee", email = "ahnafnafee@gmail.com" },
+]
+keywords = ["ocr", "pdf", "vision", "llm", "olmocr", "surya"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Text Processing",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
-    "fastapi>=0.124.4",
     "openai>=2.11.0",
-    "pillow>=10.2.0,<11.0.0",
+    "pillow>=11.3",
     "pymupdf>=1.26.7",
     "python-dotenv>=1.2.1",
-    "python-multipart>=0.0.20",
     "rich>=14.2.0",
     "tqdm>=4.67.1",
-    "uvicorn>=0.38.0",
-    "websockets>=15.0.1",
     "surya-ocr>=0.17.0",
     "torch>=2.0.0",
     "torchvision>=0.15.0",
     "opencv-python-headless>=4.8.0",
+    # surya 0.17.x imports `requests` in surya/common/s3.py but doesn't
+    # declare it. Newer huggingface-hub (≥1.0) no longer pulls it in
+    # transitively, so a clean `pip install local-llm-pdf-ocr` would crash on
+    # the first Surya import. Listed here until surya fixes it upstream.
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+web = [
+    "fastapi>=0.124.4",
+    "uvicorn>=0.38.0",
+    "websockets>=15.0.1",
+    "python-multipart>=0.0.20",
+]
+
+[project.scripts]
+local-llm-pdf-ocr = "pdf_ocr.cli:main"
+local-llm-pdf-ocr-server = "pdf_ocr.server:main"
+
+[project.urls]
+Homepage = "https://github.com/ahnafnafee/local-llm-pdf-ocr"
+Repository = "https://github.com/ahnafnafee/local-llm-pdf-ocr"
+Issues = "https://github.com/ahnafnafee/local-llm-pdf-ocr/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pdf_ocr"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/pdf_ocr",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
 ]
 
 [dependency-groups]
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+]
+
+[tool.uv]
+# surya-ocr 0.17.x pins pillow <11, but we want Pillow ≥11.3 for native
+# AVIF decoding (drops the pillow-avif-plugin runtime dep entirely). The
+# Pillow 10→11 changes surya might hit are deprecated-API removals and
+# Python 3.8 drop; both already aligned with our requires-python ≥3.10
+# floor, so the override is safe in practice.
+override-dependencies = [
+    "pillow>=11.3",
 ]
 
 [tool.pytest.ini_options]

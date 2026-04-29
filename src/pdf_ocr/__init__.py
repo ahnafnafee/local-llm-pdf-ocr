@@ -7,8 +7,8 @@ for text extraction and Surya for layout detection.
 
 __version__ = "1.0.0"
 
-from src.pdf_ocr.core.aligner import HybridAligner
-from src.pdf_ocr.core.grounded import (
+from pdf_ocr.core.aligner import HybridAligner
+from pdf_ocr.core.grounded import (
     DEFAULT_GROUNDING_PROMPT,
     GroundedBlock,
     GroundedOCRBackend,
@@ -18,9 +18,9 @@ from src.pdf_ocr.core.grounded import (
     parse_glm_layout_details,
     parse_zai_response,
 )
-from src.pdf_ocr.core.ocr import OCRProcessor
-from src.pdf_ocr.core.pdf import PDFHandler
-from src.pdf_ocr.pipeline import OCRPipeline, parse_page_range
+from pdf_ocr.core.ocr import OCRProcessor
+from pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.pipeline import OCRPipeline, parse_page_range
 
 __all__ = [
     "PDFHandler",

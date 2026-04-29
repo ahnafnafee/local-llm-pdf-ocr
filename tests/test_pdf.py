@@ -13,7 +13,7 @@ from pathlib import Path
 import fitz
 import pytest
 
-from src.pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.core.pdf import PDFHandler
 
 
 @pytest.fixture
@@ -181,12 +181,63 @@ def test_embed_multiframe_tiff_produces_multipage_pdf(
 
 
 def test_image_extension_detection():
-    from src.pdf_ocr.core.pdf import _is_image_path
+    from pdf_ocr.core.pdf import _is_image_path
     assert _is_image_path("scan.jpg")
     assert _is_image_path("SCAN.JPEG")
     assert _is_image_path("pages.tiff")
     assert _is_image_path("page.png")
     assert _is_image_path("photo.webp")
+    assert _is_image_path("photo.avif")
+    assert _is_image_path("PHOTO.AVIF")
     assert not _is_image_path("doc.pdf")
     assert not _is_image_path("doc.PDF")
     assert not _is_image_path("notes.txt")
+
+
+def test_is_blank_crop_distinguishes_blank_from_text(tmp_path: Path):
+    """Stddev-based blank detector: blank crops short-circuit refine
+    before paying for an LLM call (OlmOCR hallucinates canned text on
+    blank input)."""
+    from PIL import Image, ImageDraw
+    import base64
+    import io
+    from pdf_ocr.utils.image import is_blank_crop
+
+    # Build a page-like image: top half blank-white, bottom half has text.
+    img = Image.new("RGB", (800, 1000), "white")
+    draw = ImageDraw.Draw(img)
+    # Sprinkle a few light dots like a notebook grid (low variance).
+    for x in range(0, 800, 40):
+        for y in range(0, 500, 40):
+            draw.point((x, y), fill="lightgray")
+    # Bold text in bottom half (high variance vs white background).
+    draw.rectangle([100, 700, 700, 800], fill="black")
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG", quality=85)
+    b64 = base64.b64encode(buf.getvalue()).decode()
+
+    blank_bbox = [0.05, 0.05, 0.95, 0.45]   # top half — dots only
+    text_bbox = [0.10, 0.70, 0.90, 0.85]    # bottom half — solid text
+    assert is_blank_crop(b64, blank_bbox), "dotted background must be blank"
+    assert not is_blank_crop(b64, text_bbox), "solid text region must not be blank"
+
+
+def test_avif_input_round_trip(pdf_handler: PDFHandler, tmp_path: Path):
+    """AVIF input must decode and embed end-to-end (pillow-avif-plugin)."""
+    from PIL import Image, ImageDraw
+    img = Image.new("RGB", (800, 1000), "white")
+    ImageDraw.Draw(img).rectangle([100, 200, 700, 300], fill="lightgray")
+    src = tmp_path / "scan.avif"
+    img.save(src, format="AVIF", quality=80)
+
+    images = pdf_handler.convert_to_images(str(src))
+    assert list(images.keys()) == [0]
+
+    output_pdf = str(tmp_path / "out.pdf")
+    marker = "AVIFMARKERZZ"
+    pdf_handler.embed_structured_text(
+        str(src), output_pdf, {0: [([0.15, 0.35, 0.55, 0.40], marker)]}
+    )
+    with fitz.open(output_pdf) as doc:
+        assert len(doc) == 1
+        assert marker in doc[0].get_text("text")

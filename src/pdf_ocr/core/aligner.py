@@ -10,7 +10,7 @@ over (LLM lines, detected boxes). Skipping Surya's recognition step is
 import io
 import logging
 
-from src.pdf_ocr.utils import tqdm_patch
+from pdf_ocr.utils import tqdm_patch
 
 # Silence Surya's progress bars so they don't collide with Rich.
 tqdm_patch.apply()
@@ -61,6 +61,9 @@ class HybridAligner:
                     _clamp(x1 / img_w),
                     _clamp(y1 / img_h),
                 ])
+            # Stable row-major default. The actual reading-order choice for
+            # the DP happens inside align_text, which tries both row-major
+            # and column-major orderings and picks the lower-cost result.
             boxes.sort(key=lambda b: (b[1], b[0]))
             all_boxes.append(boxes)
         return all_boxes
@@ -72,6 +75,16 @@ class HybridAligner:
     ) -> list[tuple[BBox, str]]:
         """
         Bind LLM text to detected boxes via Needleman-Wunsch line-to-box DP.
+
+        VLMs disagree on reading order: OlmOCR-2 emits column-major on
+        multi-column pages (entire left column, then right), while other
+        VLMs may emit row-major (top-to-bottom across the whole page).
+        We can't normalize this via prompt because OlmOCR's prompt is
+        RL-locked. Instead, the DP is run twice — once with boxes in
+        row-major order and once in column-major — and whichever gives
+        the lower total cost wins. The DP cost itself is a robust signal
+        for which ordering matches the LLM's emission, so the same code
+        path works for any model without per-model branching.
 
         Always returns one (box, text) tuple per input box, in input order.
         `text` is "" for boxes the algorithm could not confidently match —
@@ -89,17 +102,71 @@ class HybridAligner:
         if not lines:
             return [(box, "") for box in boxes]
 
-        mapping = _dp_align(lines, boxes)
-        result: list[tuple[BBox, str]] = []
-        for i, box in enumerate(boxes):
-            texts = mapping.get(i, [])
-            result.append((box, " ".join(texts).strip()))
+        # Permutations to try: row-major (y, x) and column-major
+        # (column groups, then y within column). For single-column pages
+        # both collapse to the same order — we still run both, but the DP
+        # is O(N*M) which is negligible at typical page sizes (~30 boxes).
+        candidates = [
+            sorted(range(len(boxes)), key=lambda i: (boxes[i][1], boxes[i][0])),
+            _reading_order_indices(boxes),
+        ]
 
-        matched = sum(1 for _, t in result if t)
+        best_cost = float("inf")
+        best_perm: list[int] = candidates[0]
+        best_mapping: dict[int, list[str]] = {}
+        best_match_count = 0
+        for perm in candidates:
+            ordered_boxes = [boxes[i] for i in perm]
+            cost, mapping, match_count = _dp_align(lines, ordered_boxes)
+            if cost < best_cost:
+                best_cost = cost
+                best_perm = perm
+                best_mapping = mapping
+                best_match_count = match_count
+
+        # Degenerate-alignment safety net. Two failure modes pack all the
+        # LLM text into one box and leave the rest empty (which users see
+        # as "all text packed in the top-left corner"):
+        #
+        #   1. Zero real matches — every line was skip_line'd and attached
+        #      to box 0 by the fallback. Unlikely with default cost
+        #      constants but cheap to check.
+        #   2. The LLM emitted ONE giant line but Surya found many boxes
+        #      (e.g. an OlmOCR variant that doesn't break lines on
+        #      handwritten content). The DP can only match that single
+        #      line to one box; every other box stays empty. Output is
+        #      effectively a single block in whichever box won the match.
+        #
+        # In both cases, embedding the LLM text in a single full-page bbox
+        # keeps the output searchable across the whole page instead of
+        # corralled into one corner. We only consider case 2 when there
+        # are several boxes — a 1-line / 1-box page is the normal trivial
+        # case and should keep the existing placement.
+        is_zero_match = best_match_count == 0 and len(lines) > 1
+        is_single_line_many_boxes = len(lines) == 1 and len(boxes) >= 5
+        if is_zero_match or is_single_line_many_boxes:
+            reason = "no line→box matches" if is_zero_match else (
+                "LLM emitted a single line for many boxes — likely a model "
+                "variant that doesn't break visual lines"
+            )
+            logging.warning(
+                "Degenerate hybrid alignment: %s (lines=%d, boxes=%d). "
+                "Falling back to a full-page text layer so output stays "
+                "searchable. Try --grounded or a different --model.",
+                reason, len(lines), len(boxes),
+            )
+            return [([0.0, 0.0, 1.0, 1.0], "\n".join(lines))]
+
+        # Translate the per-perm-index mapping back to per-input-index text.
+        text_per_input: list[str] = ["" for _ in boxes]
+        for perm_idx, texts in best_mapping.items():
+            text_per_input[best_perm[perm_idx]] = " ".join(texts).strip()
+
         logging.debug(
-            f"DEBUG: DP aligned {len(lines)} lines → {matched}/{len(boxes)} boxes"
+            f"DEBUG: DP aligned {len(lines)} lines → {best_match_count}/{len(boxes)} "
+            f"boxes (cost={best_cost:.3f})"
         )
-        return result
+        return [(box, text) for box, text in zip(boxes, text_per_input)]
 
 
 # --- module-level helpers ---------------------------------------------------
@@ -107,6 +174,72 @@ class HybridAligner:
 
 def _clamp(v: float) -> float:
     return max(0.0, min(1.0, v))
+
+
+# Threshold (in normalized x-center space) above which a gap between
+# consecutive boxes is treated as a column break. 2-column page gutters
+# tend to push x-center distance well past 0.2 (typical column-center
+# separation is ~0.3-0.5). Lower values risk treating a single marginal
+# box (page number, sidebar note) as its own column and re-ordering it
+# ahead of body text.
+_COLUMN_GAP_THRESHOLD = 0.2
+
+
+def _reading_order_indices(boxes: list[BBox]) -> list[int]:
+    """
+    Permutation of ``boxes`` indices in column-major reading order.
+
+    Multi-column pages: split at the largest x-center gap if it exceeds
+    ``_COLUMN_GAP_THRESHOLD`` AND both sides hold ≥2 boxes. The size
+    constraint prevents a lone marginal box (e.g. a page number) from
+    creating a fake column that swaps reading order. Recurses to handle
+    3+ column layouts; falls back to plain row-major for single-column
+    pages and very short sequences.
+    """
+    n = len(boxes)
+    if n < 4:
+        return sorted(range(n), key=lambda i: (boxes[i][1], boxes[i][0]))
+
+    sorted_idx = sorted(range(n), key=lambda i: (boxes[i][0] + boxes[i][2]) / 2)
+    centers_sorted = [(boxes[i][0] + boxes[i][2]) / 2 for i in sorted_idx]
+
+    biggest_gap = 0.0
+    biggest_gap_pos = -1
+    for k in range(1, len(centers_sorted)):
+        gap = centers_sorted[k] - centers_sorted[k - 1]
+        if gap > biggest_gap:
+            biggest_gap = gap
+            biggest_gap_pos = k
+
+    if (
+        biggest_gap < _COLUMN_GAP_THRESHOLD
+        or biggest_gap_pos < 2
+        or biggest_gap_pos > len(centers_sorted) - 2
+    ):
+        return sorted(range(n), key=lambda i: (boxes[i][1], boxes[i][0]))
+
+    left_indices = sorted_idx[:biggest_gap_pos]
+    right_indices = sorted_idx[biggest_gap_pos:]
+
+    # Recurse on each side, mapping sub-permutations back to global indices.
+    left_subboxes = [boxes[i] for i in left_indices]
+    right_subboxes = [boxes[i] for i in right_indices]
+    left_perm = _reading_order_indices(left_subboxes)
+    right_perm = _reading_order_indices(right_subboxes)
+    return (
+        [left_indices[k] for k in left_perm]
+        + [right_indices[k] for k in right_perm]
+    )
+
+
+def _reading_order_sort(boxes: list[BBox]) -> list[BBox]:
+    """
+    Return ``boxes`` sorted in column-major reading order.
+
+    Thin wrapper around :func:`_reading_order_indices`. Kept as a public-ish
+    helper for tests and diagnostic scripts.
+    """
+    return [boxes[i] for i in _reading_order_indices(boxes)]
 
 
 def _normalize_lines(llm_text) -> list[str]:
@@ -145,29 +278,66 @@ def _estimated_capacities(boxes: list[BBox]) -> list[float]:
 
 def _match_cost(line_chars: int, expected_chars: float) -> float:
     """
-    Relative char-count mismatch cost, clipped to [0, 2].
+    Asymmetric char-count mismatch cost in [0, 1].
 
-    Normalized by the larger of actual/expected so the cost is symmetric
-    (a 10-char line on a 100-char box is equally "wrong" as vice versa).
+    Over-fill (line longer than the box's area-derived capacity) is
+    penalized harder than equivalent under-fill. Rationale: a box's
+    expected capacity is proportional to area at typical font size, so
+    when a line's character count substantially exceeds that capacity
+    the line cannot fit at the same density — it would force the
+    embedding to compress horizontally and visually misregister against
+    the source layout. Under-fill is benign: a short line in a wide box
+    just leaves slack.
+
+    Symptom this fixes: when Surya splits a wrapped paragraph into N
+    boxes but the LLM joins it into 1 line, the symmetric cost gave
+    near-zero penalty for matching short LLM lines (e.g. ``Date: 9/14/19``)
+    to the wrong narrow box just because the char counts happened to
+    align, displacing every subsequent line by one box. The empty
+    "real" box was then filled by the refine stage, producing a visible
+    duplicate in the OCR text layer.
+
+    Formula notes:
+    - Overfill uses ``(actual-expected)/actual`` so the cost is bounded
+      in [0, 1) and matches the original symmetric-cost shape on the
+      overfill side. Mild overfills stay matchable (cheaper than
+      ``skip_box + skip_line``); only severe overfills approach 1.
+    - Underfill uses ``(expected-actual)/expected * 0.5`` so a short
+      line in a wide box costs at most 0.5, and a perfect-width-but-
+      short line costs ~0. This breaks symmetry: a 2x overfill costs
+      ~0.5 but the same 0.5x under-fill costs only 0.25.
     """
     expected = max(1.0, expected_chars)
     actual = max(1, line_chars)
-    denom = max(actual, expected)
-    return min(2.0, abs(actual - expected) / denom)
+    if actual > expected:
+        # Overfill: bounded in [0, 1).
+        return (actual - expected) / actual
+    # Underfill: halved.
+    return (expected - actual) / expected * 0.5
 
 
-def _dp_align(lines: list[str], boxes: list[BBox]) -> dict[int, list[str]]:
+def _dp_align(
+    lines: list[str], boxes: list[BBox]
+) -> tuple[float, dict[int, list[str]], int]:
     """
     Monotonic Needleman-Wunsch alignment of lines → boxes.
 
-    Returns: {box_index: [line_text, ...]} in alignment order.
+    Returns: ``(total_cost, mapping, match_count)`` where ``mapping`` is
+    ``{box_index: [line_text, ...]}``, ``total_cost`` is the DP's
+    minimum alignment cost, and ``match_count`` is the number of
+    ``op=match`` operations the DP made (i.e. real line→box pairings,
+    excluding lines attached via the skip-line fallback). The cost
+    lets callers compare the same alignment under different box
+    orderings; ``match_count`` lets callers detect a degenerate
+    alignment where every line was skipped and dumped onto box 0.
+
     Unmatched lines are attached to the nearest preceding matched box
     (or the first box if no prior match exists) so no LLM text is lost.
     """
     N = len(lines)
     M = len(boxes)
     if N == 0 or M == 0:
-        return {}
+        return 0.0, {}, 0
     total_chars = max(1, sum(len(l) for l in lines))
 
     # Distribute total chars across boxes by area.
@@ -230,14 +400,16 @@ def _dp_align(lines: list[str], boxes: list[BBox]) -> dict[int, list[str]]:
     # Replay ops in reading order. Track the most recent matched box so that
     # skip_line ops can attach their text to it (no lost LLM text).
     last_matched_box: int | None = None
+    match_count = 0
     for op, li, bj in ops:
         if op == 0:
             mapping.setdefault(bj, []).append(lines[li])
             last_matched_box = bj
+            match_count += 1
         elif op == 1 and li >= 0:
             # Unmatched line: attach to last matched box, or to first box
             # if we haven't matched anything yet.
             target = last_matched_box if last_matched_box is not None else 0
             mapping.setdefault(target, []).append(lines[li])
         # op == 2 (skip_box): nothing to add for this box
-    return mapping
+    return dp[N][M], mapping, match_count

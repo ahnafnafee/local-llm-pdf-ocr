@@ -2,9 +2,10 @@
 PDFHandler - PDF processing utilities.
 
 Handles PDF to image conversion and text embedding for creating searchable
-PDFs. Also accepts raw image inputs (JPEG/PNG/TIFF/BMP) — including
-multi-page TIFF — so single-scan-per-file workflows don't need a PDF wrap
-step first.
+PDFs. Also accepts raw image inputs (JPEG/PNG/TIFF/BMP/WebP/AVIF) —
+including multi-page TIFF — so single-scan-per-file workflows don't need
+a PDF wrap step first. AVIF support is provided natively by Pillow ≥
+11.3 (the `pyproject.toml` constraint enforces that floor).
 """
 
 import base64
@@ -16,7 +17,7 @@ from PIL import Image, ImageSequence
 
 
 IMAGE_EXTENSIONS = frozenset({
-    ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp",
+    ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp", ".avif",
 })
 
 
@@ -44,10 +45,10 @@ class PDFHandler:
         Render every page to a base64-encoded JPEG, capped at `max_image_dim`
         pixels on the longest edge so the image fits the VLM's context window.
 
-        Accepts either a PDF or a raw image file (JPEG/PNG/TIFF/BMP/WebP).
-        Multi-page TIFFs are expanded to one page per frame. For images the
-        `dpi` argument is ignored — the file is used at its native resolution,
-        capped by `max_image_dim`.
+        Accepts either a PDF or a raw image file
+        (JPEG/PNG/TIFF/BMP/WebP/AVIF). Multi-page TIFFs are expanded to one
+        page per frame. For images the `dpi` argument is ignored — the file
+        is used at its native resolution, capped by `max_image_dim`.
 
         Smaller caps are required by some local VLMs:
           - OlmOCR-2 (Qwen2.5-VL base): 1024 is fine (default)
@@ -98,9 +99,9 @@ class PDFHandler:
         Build a searchable "sandwich" PDF: rasterize each page as a background
         image and overlay invisible text positioned to match the source layout.
 
-        Accepts either a PDF or a raw image (JPEG/PNG/TIFF/BMP/WebP) as input.
-        Image inputs are converted to a 1-page-per-frame PDF — no
-        rasterization-to-PDF-to-rasterization round trip required.
+        Accepts either a PDF or a raw image (JPEG/PNG/TIFF/BMP/WebP/AVIF)
+        as input. Image inputs are converted to a 1-page-per-frame PDF —
+        no rasterization-to-PDF-to-rasterization round trip required.
 
         Args:
             input_pdf_path: Path to the source PDF or image file.
@@ -198,16 +199,20 @@ class PDFHandler:
             return  # empty box — nothing to embed
 
         nx0, ny0, nx1, ny1 = rect_coords
-        pdf_rect = fitz.Rect(
-            nx0 * page_width,
-            ny0 * page_height,
-            nx1 * page_width,
-            ny1 * page_height,
-        )
 
-        # Multi-line means this block holds the whole-page fallback text
-        # (used when the aligner saw zero detected boxes).
-        if "\n" in text:
+        # Detect the aligner's full-page fallback by bbox (covers the
+        # whole normalized page, [0,0,1,1]) rather than by the presence
+        # of "\n" in text. A grounded VLM that emits multi-line content
+        # for a real bbox must NOT be redirected to the full-page
+        # fallback rect — that would shift the text to the page top and
+        # clobber other bboxes' search positions, surfacing as
+        # "following lines moved up" in the rendered output.
+        is_full_page_fallback = (
+            nx0 <= 0.001 and ny0 <= 0.001
+            and nx1 >= 0.999 and ny1 >= 0.999
+            and "\n" in text
+        )
+        if is_full_page_fallback:
             fallback_rect = fitz.Rect(10, 10, page_width - 10, page_height - 10)
             page.insert_textbox(
                 fallback_rect, text,
@@ -215,6 +220,31 @@ class PDFHandler:
                 render_mode=3, color=(0, 0, 0), align=0,
             )
             return
+
+        # A real bbox with multi-line content: split by line and recurse
+        # to place each line at its own vertical sub-slice of the bbox.
+        # Handles grounded-VLM outputs that joined visual lines into one
+        # element with an embedded "\n" — search/selection still land at
+        # the right y position instead of being shifted off-page.
+        if "\n" in text:
+            lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+            if len(lines) > 1:
+                slice_h = (ny1 - ny0) / len(lines)
+                for i, line in enumerate(lines):
+                    PDFHandler._draw_invisible_text(
+                        page,
+                        [nx0, ny0 + i * slice_h, nx1, ny0 + (i + 1) * slice_h],
+                        line, page_width, page_height,
+                    )
+                return
+            text = lines[0] if lines else text  # only one non-empty line
+
+        pdf_rect = fitz.Rect(
+            nx0 * page_width,
+            ny0 * page_height,
+            nx1 * page_width,
+            ny1 * page_height,
+        )
 
         box_width = pdf_rect.width
         box_height = pdf_rect.height
@@ -232,6 +262,43 @@ class PDFHandler:
         descender = getattr(font, "descender", -0.299)
         extent_em = max(0.01, ascender - descender)  # descender is negative
         fontsize = max(3.0, min(72.0, box_height / extent_em))
+
+        # Multi-line bbox detection: Surya occasionally groups visually
+        # adjacent handwritten lines into one detection (e.g. "schwache
+        # Grenzen / im Kopf"). The DP then matches the LLM's joined
+        # string to that one tall bbox, and the embed would render the
+        # whole phrase at one y (the bottom of the bbox), leaving the
+        # upper visual line empty in the searchable text layer.
+        #
+        # Heuristic: distinguish a multi-line region from a single tall-
+        # but-still-one-line bbox. Aspect alone confuses handwritten
+        # "Typen 23" (one line, aspect ≈ 0.28 due to padding around the
+        # glyphs) with a real two-line region (aspect ≈ 0.27-0.35).
+        # Combine signals — the bbox must be tall in the absolute sense
+        # (norm height > 7% of page) AND have multi-line aspect ratio.
+        # Single visual lines on Letter-size pages take ~4-6% of page
+        # height even with generous padding, so the combined gate
+        # catches the 2-line case without over-splitting padded single
+        # lines.
+        words = text.split()
+        norm_height = ny1 - ny0
+        aspect = box_height / max(0.01, box_width)
+        if norm_height > 0.07 and aspect > 0.20 and len(words) >= 2:
+            n_lines = 3 if norm_height > 0.13 else 2
+            n_lines = min(n_lines, len(words))
+            slice_h = (ny1 - ny0) / n_lines
+            for i in range(n_lines):
+                start = round(i * len(words) / n_lines)
+                end = round((i + 1) * len(words) / n_lines)
+                line_text = " ".join(words[start:end])
+                if not line_text:
+                    continue
+                PDFHandler._draw_invisible_text(
+                    page,
+                    [nx0, ny0 + i * slice_h, nx1, ny0 + (i + 1) * slice_h],
+                    line_text, page_width, page_height,
+                )
+            return
 
         natural_width = font.text_length(text, fontsize=fontsize)
         if natural_width <= 0:

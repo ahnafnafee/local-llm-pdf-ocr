@@ -14,9 +14,9 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PIL import Image, ImageDraw, ImageFont
-from src.pdf_ocr.core.pdf import PDFHandler
-from src.pdf_ocr.core.ocr import OCRProcessor
-from src.pdf_ocr.core.aligner import HybridAligner
+from pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.core.ocr import OCRProcessor
+from pdf_ocr.core.aligner import HybridAligner
 import asyncio
 
 
