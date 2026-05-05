@@ -179,6 +179,7 @@ def main() -> None:
     try:
         asyncio.run(run(args, console))
     except Exception:
+        raise
         sys.exit(1)
 
 
