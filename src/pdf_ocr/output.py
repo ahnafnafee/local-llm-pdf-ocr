@@ -76,6 +76,7 @@ def resolve_output_writer(
     output_path: str,
     *,
     html_mode: str | None = None,
+    html_inline_images: bool = False,
 ) -> OutputWriter:
     """Pick the writer matching `output_path`'s extension.
 
@@ -88,6 +89,13 @@ def resolve_output_writer(
         html_mode: optional sizing-strategy override for the HTML writer
             ("letter-spacing", "full-height", "scaled"). Ignored for
             non-HTML outputs.
+        html_inline_images: when True, the HTML writer inlines page
+            images as base64 ``data:`` URLs (single self-contained
+            file). When False (default), page images are referenced as
+            external files — the input file directly for single-frame
+            browser-native images, or sidecar JPEGs written next to the
+            output for PDFs and other inputs. Ignored for non-HTML
+            outputs.
     """
     # Late imports keep this module light — importing pdf_ocr.output
     # shouldn't pull in fitz or PIL unless the user actually needs a
@@ -95,9 +103,10 @@ def resolve_output_writer(
     fmt = format_from_path(output_path)
     if fmt == "html":
         from pdf_ocr.core.html import HTMLHandler
-        if html_mode is None:
-            return HTMLHandler().embed_structured_text
-        return HTMLHandler(mode=html_mode).embed_structured_text
+        kwargs = {"inline_images": html_inline_images}
+        if html_mode is not None:
+            kwargs["mode"] = html_mode
+        return HTMLHandler(**kwargs).embed_structured_text
     if fmt == "md":
         from pdf_ocr.core.markdown import MarkdownHandler
         return MarkdownHandler().embed_structured_text

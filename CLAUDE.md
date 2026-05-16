@@ -19,7 +19,9 @@ uv run main.py input.pdf --api-base http://localhost:11434/v1 --model glm-ocr:la
 uv run main.py input.pdf --grounded --model qwen/qwen3-vl-8b  # grounded path: bbox-native VLM, no Surya
 uv run main.py photo.avif                                     # AVIF input (native via Pillow ≥11.3)
 uv run main.py input.pdf --no-verify-model                    # skip pre-flight model check (Ollama / non-/v1/models servers)
-uv run main.py input.pdf --format html                        # self-contained HTML output (auto-named input_ocr.html)
+uv run main.py input.pdf --format html                        # HTML output with external sidecar JPEGs (auto-named input_ocr.html + input_ocr_p<N>.jpg)
+uv run main.py input.pdf --format html --html-inline-images   # single self-contained HTML (page images as base64 data: URLs)
+uv run main.py input.pdf --format html --html-mode letter-spacing  # opt back into the original stretched-glyph overlay mode
 uv run main.py input.pdf out.md                               # Markdown output (extension wins over --format)
 uv run main.py input.pdf -v                                   # verbose debug logging
 uv run uvicorn server:app --reload --port 8000                # web UI at http://localhost:8000
@@ -135,7 +137,7 @@ The `"ocr"` stage label is suffixed with a dense/sparse split when both kinds of
 | Class           | File        | Role                                                                          |
 |-----------------|-------------|-------------------------------------------------------------------------------|
 | `PDFHandler`    | `pdf.py`    | PDF↔image conversion; builds a fresh `new_doc` and overlays invisible text with `render_mode=3`. `_draw_invisible_text` auto-sizes font per box. `IMAGE_EXTENSIONS` includes `.avif` alongside JPEG/PNG/TIFF/BMP/WebP — AVIF decoding is native to Pillow ≥11.3 (the pyproject.toml floor). |
-| `HTMLHandler`   | `html.py`   | Self-contained HTML output: page images inlined as base64 JPEG data URLs; OCR text overlaid as absolutely-positioned invisible `<span>`s. Default sizing mode is `letter-spacing` (font sized to bbox height + letter-spacing computed so text width fills the bbox), giving accurate selection extents. Supports both PDF and image inputs. |
+| `HTMLHandler`   | `html.py`   | HTML output with OCR text overlaid as absolutely-positioned invisible `<span>`s. By default page images are referenced as external files (the input file itself for single-frame browser-native images JPEG/PNG/WebP/AVIF/GIF; sidecar JPEGs `<output_stem>_p<N>.jpg` for PDFs and multi-frame inputs). `inline_images=True` (CLI: `--html-inline-images`) inlines page images as base64 data URLs for a single self-contained file. Default sizing mode is `scaled` (font shrinks to fit both bbox dimensions, stays legible at any zoom); `letter-spacing` and `full-height` are still available via `mode=` / `--html-mode`. Supports both PDF and image inputs. |
 | `MarkdownHandler` | `markdown.py` | Plain Markdown export. `# OCR output: <input>` top-level header, `## Page N` per page, one block per non-empty box in reading order. No bbox math, no rasterization. |
 | `OCRProcessor`  | `ocr.py`    | `AsyncOpenAI` client against the local LLM; `perform_ocr` returns a list of lines. Per-call `max_tokens` + `timeout` caps prevent runaway generation. Output runs through `_strip_runaway_repetition` (caps any single line at 20 occurrences) and crop responses through the pangram filter. |
 | `HybridAligner` | `aligner.py`| Wraps Surya's `DetectionPredictor`; `get_detected_boxes_batch` returns boxes in row-major order; `align_text` runs the DP twice (row-major + column-major from `_reading_order_indices`) and picks the lower-cost result, so the same code path matches whichever order the LLM emits. |

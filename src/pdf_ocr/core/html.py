@@ -1,33 +1,10 @@
 """
-HTMLHandler - emit OCR results as a self-contained HTML document.
+HTMLHandler - emit OCR results as an HTML document with invisible-text overlay.
 
-Layout mirrors `PDFHandler`'s sandwich PDF: each page is shown as a
-background image with OCR text overlaid as invisible, absolutely-
-positioned ``<span>``s. Browsers select / Ctrl+F-search / copy the
-text exactly as if it were a real text layer, while still showing the
-original page image untouched.
-
-Design choices
---------------
-* **Self-contained output.** Every page image is inlined as a base64
-  JPEG ``data:`` URL — no sidecar files, no broken links if the user
-  moves the HTML around.
-* **Letter-spacing on monospace by default.** Font is sized to the
-  bbox height; ``letter-spacing`` is computed so the rendered text
-  width fills the bbox horizontally. This keeps the *selection*
-  extents (what a user gets when they click-and-drag in the browser)
-  aligned with the visible text on the underlying image — the
-  practical ceiling for invisible-text alignment without per-glyph
-  positions from the OCR pipeline.
-* **Two alternative modes** are still available via ``mode=``:
-  ``"full-height"`` keeps the font at bbox height and lets the text
-  overflow if too long; ``"scaled"`` shrinks the font so neither
-  dimension overflows (smaller text, but the text region in the DOM
-  matches the rendered glyphs more tightly).
-* **Same edge-case handling as the PDF writer.** The aligner's
-  ``[0,0,1,1]`` full-page fallback bbox and ``"\\n"``-joined
-  multi-line bbox content are routed through the shared helpers in
-  ``core/_layout.py`` so HTML and PDF outputs treat them identically.
+Each page is shown as a background image with OCR text overlaid as
+invisible, absolutely-positioned ``<span>``s. Browsers select /
+Ctrl+F-search / copy the text exactly as if it were a real text layer,
+while still showing the original page image untouched.
 
 Co-authored-by: Milan Hauth <milahu@milahu.duckdns.org>  (PR #8 prototype)
 """
@@ -37,6 +14,8 @@ from __future__ import annotations
 import base64
 import html as _html
 import io
+import os
+import urllib.parse
 from pathlib import Path
 from typing import Iterator
 
@@ -46,25 +25,43 @@ from PIL import Image, ImageSequence
 from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
 from pdf_ocr.core.pdf import _is_image_path
 
-# --- mode names -----------------------------------------------------------
+# Image types every modern browser renders natively. Other extensions
+# (TIFF, BMP) get rasterized to sidecar JPEGs even in external mode.
+_BROWSER_NATIVE_IMAGE_EXTS = frozenset({
+    ".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif",
+})
+
 MODE_LETTER_SPACING = "letter-spacing"
 MODE_FULL_HEIGHT = "full-height"
 MODE_SCALED = "scaled"
 _VALID_MODES = frozenset({MODE_LETTER_SPACING, MODE_FULL_HEIGHT, MODE_SCALED})
+DEFAULT_MODE = MODE_SCALED
 
-# Approximate width/height ratio for browser monospace fonts (Courier-
-# family). Used to convert font-size into character width when computing
-# letter-spacing or scale. Typical browser monospace stacks land near
-# 0.6; the exact value depends on the user agent's default font, which
-# we don't control. Treated as a tunable class-level constant.
+# Browser monospace stacks (Courier-family) sit near 0.6 width:height.
 _MONOSPACE_FONT_ASPECT = 0.6
 
 _JPEG_QUALITY = 80
 
+# No `filter: invert()` on the page div: it interacts with
+# `color: transparent` in Chromium and renders glyph outlines as a faint
+# inverted color. The output preserves the source page's appearance; OS
+# dark theming is a browser-extension concern.
+#
+# `.page` is sized in CSS pixels via `--page-w` so browser zoom
+# (Ctrl++ / Ctrl+-) scales the whole page uniformly. A small inline
+# script after each page rewrites that width once at load if the page
+# is wider than the device-pixel viewport, so the default view fits
+# without horizontal scroll while subsequent zooming still grows or
+# shrinks the page in device pixels. `container-type: inline-size`
+# plus `%` / `cqw` units on the spans keeps overlay selection extents
+# locked to the rasterized image at every zoom level.
 _PAGE_CSS = """\
 body { margin: 0; background: #f5f5f5; }
 div.page {
   position: relative;
+  width: calc(var(--page-w) * 1px);
+  aspect-ratio: var(--page-w) / var(--page-h);
+  container-type: inline-size;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   margin: 0 auto 1em auto;
@@ -76,26 +73,60 @@ span.line {
   white-space: nowrap;
   font-family: monospace;
   line-height: 1;
-  /* Keep invisibility intact even when the browser is in dark mode —
-     a previous draft applied `filter: invert()` to the page div, which
-     interacts badly with `color: transparent` in Chromium and renders
-     the glyph outlines as a faint inverted color. The OCR HTML preserves
-     the source page's appearance regardless of OS theme; users who want
-     dark theming for documents can use a browser extension. */
 }
+"""
+
+# Inline fit-to-viewport script. Runs once at page load. Reads
+# `--page-w` from each `.page` div, computes a one-time scale factor
+# against `window.innerWidth * window.devicePixelRatio` (a zoom-stable
+# device-pixel viewport width), and shrinks the page's CSS width if
+# the native width exceeds that. Subsequent browser zoom multiplies
+# the now-smaller CSS width by the zoom factor as expected, so
+# zooming in produces horizontal scroll and zooming out shrinks the
+# page below the viewport — both relative to the initial fit.
+_FIT_SCRIPT = """\
+<script>
+(function(){
+  var px = window.innerWidth * (window.devicePixelRatio || 1);
+  document.querySelectorAll('div.page').forEach(function(p){
+    var w = parseFloat(p.style.getPropertyValue('--page-w'));
+    if (!isFinite(w) || w <= 0) return;
+    var s = Math.min(1, px / w);
+    if (s < 1) p.style.width = (w * s) + 'px';
+  });
+})();
+</script>
 """
 
 
 class HTMLHandler:
-    """Output writer mirroring ``PDFHandler.embed_structured_text``."""
+    """Output writer mirroring ``PDFHandler.embed_structured_text``.
 
-    def __init__(self, mode: str = MODE_LETTER_SPACING):
+    The HTML overlay references the page image as either an external
+    file (default — keeps the HTML small and reuses the input file when
+    it is browser-renderable) or an inline base64 ``data:`` URL
+    (``inline_images=True`` — produces a single self-contained file at
+    the cost of ~35% size inflation).
+
+    External-mode dispatch:
+
+    * Browser-renderable single-frame inputs (JPEG/PNG/WebP/AVIF/GIF):
+      the input file is referenced directly via a relative URL from the
+      output HTML. No new files are written.
+    * Everything else (PDF, multi-frame TIFF, BMP, multi-frame WebP/GIF):
+      each page is rasterized to a sidecar JPEG named
+      ``<output_stem>_p<N>.jpg`` (1-indexed) next to the output HTML and
+      referenced via a relative URL.
+    """
+
+    def __init__(self, mode: str = DEFAULT_MODE, inline_images: bool = False):
         if mode not in _VALID_MODES:
             raise ValueError(
                 f"unknown HTML mode {mode!r}; "
                 f"expected one of {sorted(_VALID_MODES)}"
             )
         self.mode = mode
+        self.inline_images = inline_images
 
     def embed_structured_text(
         self,
@@ -110,17 +141,64 @@ class HTMLHandler:
         class can drop into ``OCRPipeline(output_writer=...)``.
         """
         title = Path(input_path).stem or "OCR output"
-        pages = list(self._iter_page_images(input_path, dpi))
+        pages = list(self._iter_page_renderings(input_path, output_path, dpi))
         html = self._render_html(title, pages, pages_data)
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(html)
 
-    # --- input dispatch ---------------------------------------------------
+    # --- page-image sourcing ---------------------------------------------
 
-    def _iter_page_images(
+    def _iter_page_renderings(
+        self, input_path: str, output_path: str, dpi: int,
+    ) -> Iterator[tuple[int, str, float, float]]:
+        """Yield (page_index, image_url, width_px, height_px) per page.
+
+        ``image_url`` is suitable for direct embedding in a CSS
+        ``background-image: url(...)`` value: either a ``data:`` URL
+        (inline mode) or a relative URL to a real file (external mode).
+        """
+        if self.inline_images:
+            for page_num, img_bytes, w, h in self._rasterize_pages(input_path, dpi):
+                yield page_num, _data_url_jpeg(img_bytes), w, h
+            return
+
+        out_parent = Path(output_path).resolve().parent
+        out_stem = Path(output_path).stem
+        direct = self._direct_reference_url(input_path, out_parent)
+        if direct is not None:
+            url, width, height = direct
+            yield 0, url, float(width), float(height)
+            return
+
+        for page_num, img_bytes, w, h in self._rasterize_pages(input_path, dpi):
+            sidecar_name = f"{out_stem}_p{page_num + 1}.jpg"
+            (out_parent / sidecar_name).write_bytes(img_bytes)
+            yield page_num, _url_quote_segment(sidecar_name), w, h
+
+    @staticmethod
+    def _direct_reference_url(
+        input_path: str, output_parent: Path,
+    ) -> tuple[str, int, int] | None:
+        """Return (relative_url, width, height) if ``input_path`` is a
+        single-frame browser-native image, else None."""
+        suffix = Path(input_path).suffix.lower()
+        if suffix not in _BROWSER_NATIVE_IMAGE_EXTS:
+            return None
+        try:
+            with Image.open(input_path) as src:
+                if getattr(src, "n_frames", 1) != 1:
+                    return None
+                width, height = src.size
+        except (OSError, ValueError):
+            return None
+        rel = _relative_url(Path(input_path).resolve(), output_parent)
+        return rel, width, height
+
+    def _rasterize_pages(
         self, input_path: str, dpi: int,
     ) -> Iterator[tuple[int, bytes, float, float]]:
-        """Yield (page_index, jpeg_bytes, width_px, height_px) per page."""
+        """Yield (page_index, jpeg_bytes, width_px, height_px) for every
+        page of the input, regardless of source type."""
         if _is_image_path(input_path):
             yield from self._pages_from_image(input_path)
         else:
@@ -136,8 +214,8 @@ class HTMLHandler:
             for page_num, page in enumerate(doc):
                 pix = page.get_pixmap(dpi=dpi)
                 img_bytes = pix.tobytes("jpg", jpg_quality=_JPEG_QUALITY)
-                # Use rendered pixel dimensions so absolute-positioned
-                # spans align with the rasterized background image.
+                # Pixel dimensions so absolute-positioned spans align
+                # with the rasterized background image.
                 yield page_num, img_bytes, float(pix.width), float(pix.height)
         finally:
             doc.close()
@@ -164,21 +242,20 @@ class HTMLHandler:
         out.write("<style>\n")
         out.write(_PAGE_CSS)
         out.write("</style>\n</head>\n<body>\n")
-        for page_num, img_bytes, width, height in pages:
+        for page_num, image_url, width, height in pages:
             self._render_page(
-                out, page_num, img_bytes, width, height,
+                out, page_num, image_url, width, height,
                 pages_data.get(page_num, []),
             )
+        out.write(_FIT_SCRIPT)
         out.write("</body>\n</html>\n")
         return out.getvalue()
 
-    def _render_page(self, out, page_num, img_bytes, width, height, items):
-        b64 = base64.b64encode(img_bytes).decode("ascii")
-        data_url = f"data:image/jpeg;base64,{b64}"
+    def _render_page(self, out, page_num, image_url, width, height, items):
         out.write(
             f'<div class="page" data-page="{page_num + 1}" '
-            f'style="width:{_num(width)}px;height:{_num(height)}px;'
-            f"background-image:url('{data_url}')\">\n"
+            f'style="--page-w:{_num(width)};--page-h:{_num(height)};'
+            f"background-image:url('{image_url}')\">\n"
         )
         for rect_coords, text in items:
             self._render_box(
@@ -219,53 +296,63 @@ class HTMLHandler:
 
     def _emit_span(self, out, rect_coords, text, page_width, page_height):
         nx0, ny0, nx1, ny1 = rect_coords
-        x = nx0 * page_width
-        y = ny0 * page_height
-        w = (nx1 - nx0) * page_width
-        h = (ny1 - ny0) * page_height
-        if w <= 0 or h <= 0 or not text:
+        w_norm = nx1 - nx0
+        h_norm = ny1 - ny0
+        if w_norm <= 0 or h_norm <= 0 or not text:
             return
 
-        sizing = self._span_sizing_style(text, w, h)
+        sizing = self._span_sizing_style(text, w_norm, h_norm, page_width, page_height)
         # Escape the minimum HTML special chars so the text is parsed
         # correctly even though it's rendered transparent.
         safe_text = _html.escape(text, quote=False)
         out.write(
-            f'<span class="line" style="left:{_num(x)}px;top:{_num(y)}px;'
-            f'width:{_num(w)}px;{sizing}">{safe_text}</span>\n'
+            f'<span class="line" style="left:{_num(nx0 * 100)}%;'
+            f'top:{_num(ny0 * 100)}%;'
+            f'width:{_num(w_norm * 100)}%;{sizing}">{safe_text}</span>\n'
         )
 
-    def _span_sizing_style(self, text: str, w: float, h: float) -> str:
-        """Choose font-size + letter-spacing for one span per `self.mode`."""
+    def _span_sizing_style(
+        self, text: str, w_norm: float, h_norm: float,
+        page_width: float, page_height: float,
+    ) -> str:
+        """Choose font-size + letter-spacing for one span per `self.mode`.
+
+        Positions are emitted in `%` and font sizes in `cqw` (1cqw = 1% of
+        the page container's width) so that the entire overlay scales
+        with the page when the viewport is narrower than the rasterized
+        image. The math is the same as the pixel version — we just
+        express every length in container-relative units before writing.
+        """
         n_chars = max(1, len(text))
+        # bbox dimensions expressed in cqw (1cqw = 1% of page width).
+        w_cqw = w_norm * 100
+        h_cqw = h_norm * (page_height / page_width) * 100
+        h_pct = h_norm * 100
 
         if self.mode == MODE_LETTER_SPACING:
             # Font sized to bbox height; spread characters to fill width
             # via letter-spacing. Negative spacing is allowed — characters
             # overlap visually but selection extents still span the box.
-            font_size = h
-            natural_width = n_chars * font_size * _MONOSPACE_FONT_ASPECT
-            letter_spacing = (w - natural_width) / n_chars
+            font_size_cqw = h_cqw
+            natural_width_cqw = n_chars * font_size_cqw * _MONOSPACE_FONT_ASPECT
+            letter_spacing_cqw = (w_cqw - natural_width_cqw) / n_chars
             return (
-                f"font-size:{_num(font_size)}px;"
-                f"letter-spacing:{_num(letter_spacing)}px;"
-                f"height:{_num(h)}px;"
+                f"font-size:{_num(font_size_cqw)}cqw;"
+                f"letter-spacing:{_num(letter_spacing_cqw)}cqw;"
+                f"height:{_num(h_pct)}%;"
             )
 
         if self.mode == MODE_FULL_HEIGHT:
             # Font sized to bbox height regardless of resulting width.
-            return f"font-size:{_num(h)}px;height:{_num(h)}px;"
+            return f"font-size:{_num(h_cqw)}cqw;height:{_num(h_pct)}%;"
 
         # MODE_SCALED: pick the smaller of width-fit and height-fit so
         # neither dimension overflows.
-        char_width_for_height = h * _MONOSPACE_FONT_ASPECT
-        char_width_for_width = w / n_chars
+        char_width_for_height = h_cqw * _MONOSPACE_FONT_ASPECT
+        char_width_for_width = w_cqw / n_chars
         char_width = min(char_width_for_height, char_width_for_width)
-        font_size = char_width / _MONOSPACE_FONT_ASPECT
-        return (
-            f"font-size:{_num(font_size)}px;"
-            f"height:{_num(h)}px;"
-        )
+        font_size_cqw = char_width / _MONOSPACE_FONT_ASPECT
+        return f"font-size:{_num(font_size_cqw)}cqw;height:{_num(h_pct)}%;"
 
 
 def _num(n: float) -> str:
@@ -275,3 +362,32 @@ def _num(n: float) -> str:
     if n == int(n):
         return str(int(n))
     return f"{n:.4f}".rstrip("0").rstrip(".")
+
+
+def _url_quote_segment(name: str) -> str:
+    """Percent-encode a single filename segment for safe use in a URL."""
+    return urllib.parse.quote(name, safe="")
+
+
+def _relative_url(target: Path, base_dir: Path) -> str:
+    """Return a URL-encoded relative path from `base_dir` to `target`.
+
+    Falls back to an absolute file:// URL when the paths are on
+    different drives (Windows) so the HTML still loads.
+    """
+    try:
+        rel = os.path.relpath(target, start=base_dir)
+    except ValueError:
+        return target.as_uri()
+    parts = rel.replace(os.sep, "/").split("/")
+    encoded = [
+        p if p in (".", "..") else urllib.parse.quote(p, safe="")
+        for p in parts
+    ]
+    return "/".join(encoded)
+
+
+def _data_url_jpeg(img_bytes: bytes) -> str:
+    """Build a `data:image/jpeg;base64,...` URL from raw JPEG bytes."""
+    b64 = base64.b64encode(img_bytes).decode("ascii")
+    return f"data:image/jpeg;base64,{b64}"

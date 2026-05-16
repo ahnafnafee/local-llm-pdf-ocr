@@ -113,6 +113,26 @@ class TestResolveOutputWriter:
             import os
             os.unlink(output_path)
 
+    def test_html_writer_default_is_external_images(self):
+        writer = resolve_output_writer("out.html")
+        handler = writer.__self__
+        assert handler.inline_images is False
+
+    def test_html_writer_inline_opt_in_via_kwarg(self):
+        writer = resolve_output_writer("out.html", html_inline_images=True)
+        handler = writer.__self__
+        assert handler.inline_images is True
+
+    def test_html_writer_default_mode_is_scaled(self):
+        writer = resolve_output_writer("out.html")
+        handler = writer.__self__
+        assert handler.mode == "scaled"
+
+    def test_html_writer_mode_override(self):
+        writer = resolve_output_writer("out.html", html_mode="letter-spacing")
+        handler = writer.__self__
+        assert handler.mode == "letter-spacing"
+
 
 class TestSupportedFormats:
     def test_canonical_order(self):

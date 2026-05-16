@@ -125,7 +125,11 @@ async def process_pdf(
             aligner=HybridAligner(),
             ocr_processor=OCRProcessor(),
             pdf_handler=PDFHandler(),
-            output_writer=resolve_output_writer(output_path),
+            # Inline images so the single-file FileResponse below is
+            # self-contained — sidecar JPEGs would not reach the client.
+            output_writer=resolve_output_writer(
+                output_path, html_inline_images=True,
+            ),
         )
         concurrency = int(os.getenv("OCR_CONCURRENCY", 3))
 

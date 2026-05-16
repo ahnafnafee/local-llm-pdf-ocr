@@ -24,7 +24,7 @@ Student G#:
 
 Name of the CS faculty member
 
-to supervise the student in CS 701: ________________
+to supervise the student in CS 701: ____________
 
 Description of the research activity (clarify the hands-on component explicitly in your description):
 

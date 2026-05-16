@@ -67,3 +67,26 @@ class TestParserFormatFlag:
         assert ns.input_pdf == "input.pdf"
         assert ns.output_pdf == "custom.html"
         assert ns.format is None
+
+
+class TestHtmlImageFlags:
+    def _parse(self, *argv: str):
+        return build_parser().parse_args(["input.pdf", *argv])
+
+    def test_html_inline_images_defaults_to_false(self):
+        ns = self._parse()
+        assert ns.html_inline_images is False
+
+    def test_html_inline_images_flag_sets_true(self):
+        ns = self._parse("--html-inline-images")
+        assert ns.html_inline_images is True
+
+    def test_html_mode_default_is_scaled(self):
+        # milahu requested this default — letter-spacing was unreadable
+        # when negative spacing made characters overlap.
+        ns = self._parse()
+        assert ns.html_mode == "scaled"
+
+    def test_html_mode_letter_spacing_still_selectable(self):
+        ns = self._parse("--html-mode", "letter-spacing")
+        assert ns.html_mode == "letter-spacing"

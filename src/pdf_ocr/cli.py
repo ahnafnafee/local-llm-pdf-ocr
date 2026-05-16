@@ -97,16 +97,26 @@ Examples:
     )
     parser.add_argument(
         "--html-mode", dest="html_mode",
-        choices=("letter-spacing", "full-height", "scaled"), default="letter-spacing",
+        choices=("letter-spacing", "full-height", "scaled"), default="scaled",
         help="Span sizing strategy for HTML output (ignored for pdf/md). "
-             "letter-spacing (default): font sized to bbox height, chars "
-             "spread to fill bbox width — best when Surya bboxes match "
-             "visible text width. full-height: font = bbox height, no "
-             "letter-spacing — text uses natural monospace width and may "
-             "overflow the bbox right edge. scaled: shrinks font so text "
-             "fits both bbox dimensions — most compact, but smaller "
-             "selection extents. Try the alternatives if letter-spacing "
-             "produces visible overlay characters past the underlying text.",
+             "scaled (default): font shrinks to fit both bbox dimensions "
+             "— stays legible at any zoom level. letter-spacing: font "
+             "sized to bbox height, chars stretched to fill bbox width "
+             "via letter-spacing (negative spacing can make characters "
+             "overlap and become hard to read). full-height: font = "
+             "bbox height with natural monospace width, may overflow the "
+             "bbox right edge.",
+    )
+    parser.add_argument(
+        "--html-inline-images", dest="html_inline_images",
+        action="store_true",
+        help="Embed page images as base64 data: URLs inside the HTML "
+             "(produces a single self-contained file, +~35% size). "
+             "Default behaviour writes external images: a relative "
+             "reference to the input file for single-frame "
+             "browser-native images (JPEG/PNG/WebP/AVIF/GIF), or "
+             "sidecar JPEGs named <stem>_p<N>.jpg next to the output "
+             "HTML for PDFs and multi-frame inputs.",
     )
     parser.add_argument("--api-base", help="Override LLM API base URL")
     parser.add_argument("--model", help="Override LLM model name")
@@ -166,7 +176,11 @@ async def run(args: argparse.Namespace, console: Console) -> None:
     from pdf_ocr.output import resolve_output_writer
 
     output_path = resolve_output_path(args.input_pdf, args.output_pdf, args.format)
-    output_writer = resolve_output_writer(output_path, html_mode=args.html_mode)
+    output_writer = resolve_output_writer(
+        output_path,
+        html_mode=args.html_mode,
+        html_inline_images=args.html_inline_images,
+    )
 
     pdf_handler = PDFHandler()
     if args.grounded:

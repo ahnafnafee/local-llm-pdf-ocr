@@ -27,6 +27,7 @@ import pytest
 from PIL import Image, ImageDraw
 
 from pdf_ocr.core.html import (
+    DEFAULT_MODE,
     HTMLHandler,
     MODE_FULL_HEIGHT,
     MODE_LETTER_SPACING,
@@ -100,15 +101,53 @@ class TestHtmlStructure:
         for marker in ("p1", "p2", "p3"):
             assert marker in html
 
-    def test_data_url_inlined_per_page(self, tmp_path: Path):
+    def test_data_url_inlined_per_page_when_opted_in(self, tmp_path: Path):
+        # Multi-frame TIFFs need rasterization regardless; with
+        # `inline_images=True` each frame becomes a data: URL.
         src = _make_multiframe_tiff(tmp_path / "scan.tiff", n=2)
         out = tmp_path / "out.html"
-        HTMLHandler().embed_structured_text(str(src), str(out), {})
+        HTMLHandler(inline_images=True).embed_structured_text(
+            str(src), str(out), {},
+        )
         html = out.read_text(encoding="utf-8")
-        # Two distinct data URLs, one per frame, each non-trivially long.
         urls = re.findall(r"data:image/jpeg;base64,([A-Za-z0-9+/=]+)", html)
         assert len(urls) == 2
         assert all(len(u) > 100 for u in urls)
+        # No sidecar files written in inline mode.
+        sidecars = sorted(p.name for p in tmp_path.glob("out_p*.jpg"))
+        assert sidecars == []
+
+    def test_external_default_emits_sidecar_jpegs_for_multipage_input(
+        self, tmp_path: Path,
+    ):
+        # Multi-frame TIFF → one sidecar JPEG per frame, no data: URLs.
+        src = _make_multiframe_tiff(tmp_path / "scan.tiff", n=3)
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(str(src), str(out), {})
+        html = out.read_text(encoding="utf-8")
+        assert "data:image/jpeg;base64" not in html
+        sidecars = sorted(p.name for p in tmp_path.glob("out_p*.jpg"))
+        assert sidecars == ["out_p1.jpg", "out_p2.jpg", "out_p3.jpg"]
+        for name in sidecars:
+            assert f"url('{name}')" in html
+            assert (tmp_path / name).stat().st_size > 0
+
+    def test_external_default_references_browser_native_image_directly(
+        self, tmp_path: Path,
+    ):
+        # Single-frame PNG input: no rasterization, HTML references the
+        # input file directly via a relative URL.
+        src = _make_synth_image(tmp_path / "scan.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [([0.1, 0.1, 0.5, 0.15], "hello")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "data:image/jpeg;base64" not in html
+        assert "url('scan.png')" in html
+        # No sidecars written for direct-reference inputs.
+        assert sorted(tmp_path.glob("out_p*.jpg")) == []
 
     def test_skips_empty_text_boxes(self, tmp_path: Path):
         src = _make_synth_image(tmp_path / "src.png")
@@ -125,6 +164,29 @@ class TestHtmlStructure:
         # Exactly one span emitted (the "kept" one).
         assert html.count('class="line"') == 1
         assert "kept" in html
+
+    def test_page_div_uses_container_relative_sizing(self, tmp_path: Path):
+        # The .page div must declare --page-w / --page-h CSS variables
+        # and use container queries so spans scale with the page at any
+        # zoom level. A small fit-to-viewport script must also be
+        # included so the default view doesn't overflow narrow viewports.
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [([0.1, 0.1, 0.9, 0.15], "hello world")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "container-type: inline-size" in html
+        assert "aspect-ratio: var(--page-w) / var(--page-h)" in html
+        assert "--page-w:" in html and "--page-h:" in html
+        # Spans must use container-relative units, not raw pixels.
+        assert "left:10%" in html
+        assert "cqw" in html
+        # Inline fit-to-viewport script must be present so zoom-in works
+        # symmetrically with zoom-out.
+        assert "devicePixelRatio" in html
+        assert "querySelectorAll('div.page')" in html
 
     def test_html_special_chars_are_escaped(self, tmp_path: Path):
         src = _make_synth_image(tmp_path / "src.png")
@@ -147,11 +209,30 @@ class TestSizingModes:
     def synth(self, tmp_path: Path) -> Path:
         return _make_synth_image(tmp_path / "src.png")
 
-    def test_letter_spacing_default_emits_letter_spacing_style(
+    def test_default_mode_is_scaled(self):
+        # Defends the milahu-requested default: scaled keeps text
+        # legible at any zoom, letter-spacing can render characters as
+        # overlapping smears at small bbox widths.
+        assert DEFAULT_MODE == MODE_SCALED
+        assert HTMLHandler().mode == MODE_SCALED
+
+    def test_default_does_not_emit_letter_spacing(
+        self, synth: Path, tmp_path: Path,
+    ):
+        out = tmp_path / "default.html"
+        HTMLHandler().embed_structured_text(
+            str(synth), str(out),
+            {0: [([0.05, 0.05, 0.95, 0.10], "abcdef")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "letter-spacing:" not in html
+        assert "font-size:" in html
+
+    def test_letter_spacing_opt_in_emits_letter_spacing_style(
         self, synth: Path, tmp_path: Path,
     ):
         out = tmp_path / "ls.html"
-        HTMLHandler().embed_structured_text(
+        HTMLHandler(mode=MODE_LETTER_SPACING).embed_structured_text(
             str(synth), str(out),
             {0: [([0.05, 0.05, 0.95, 0.10], "abcdef")]},
         )
@@ -237,7 +318,7 @@ class TestLayoutEdgeCases:
 
 
 class TestInputDispatch:
-    def test_pdf_input_produces_one_page_div_per_pdf_page(
+    def test_pdf_input_writes_one_sidecar_per_page(
         self, example_pdfs, tmp_path: Path,
     ):
         out = tmp_path / "out.html"
@@ -251,11 +332,29 @@ class TestInputDispatch:
         html = out.read_text(encoding="utf-8")
         assert html.count('class="page"') == 1
         assert "DIGITALMARKER" in html
+        assert "data:image/jpeg;base64," not in html
+        sidecar = tmp_path / "out_p1.jpg"
+        assert sidecar.exists() and sidecar.stat().st_size > 0
+        assert "url('out_p1.jpg')" in html
+
+    def test_pdf_input_inline_mode_emits_data_url(
+        self, example_pdfs, tmp_path: Path,
+    ):
+        out = tmp_path / "out.html"
+        HTMLHandler(inline_images=True).embed_structured_text(
+            str(example_pdfs["digital.pdf"]),
+            str(out),
+            {0: [([0.1, 0.1, 0.6, 0.15], "INLINEMARKER")]},
+            dpi=100,
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "INLINEMARKER" in html
         assert "data:image/jpeg;base64," in html
+        assert sorted(tmp_path.glob("out_p*.jpg")) == []
 
     def test_image_input_handles_avif(self, tmp_path: Path):
-        # AVIF support is exercised by the PDFHandler tests; replicate
-        # the round-trip here so the HTML writer is on the same footing.
+        # AVIF is in the browser-native allowlist, so the HTML
+        # references the input file directly with no rasterization.
         img = Image.new("RGB", (400, 300), "white")
         ImageDraw.Draw(img).rectangle([50, 50, 350, 250], fill="lightgray")
         src = tmp_path / "scan.avif"
@@ -268,7 +367,27 @@ class TestInputDispatch:
         )
         html = out.read_text(encoding="utf-8")
         assert "AVIFMARKER" in html
-        assert "data:image/jpeg;base64," in html
+        assert "data:image/jpeg;base64," not in html
+        assert "url('scan.avif')" in html
+        assert sorted(tmp_path.glob("out_p*.jpg")) == []
+
+    def test_bmp_input_falls_back_to_sidecar(self, tmp_path: Path):
+        # BMP isn't in the browser-native allowlist, so the writer
+        # rasterizes to a sidecar JPEG even though it's a single image.
+        img = Image.new("RGB", (200, 150), "white")
+        ImageDraw.Draw(img).rectangle([20, 20, 180, 130], fill="lightgray")
+        src = tmp_path / "scan.bmp"
+        img.save(src, format="BMP")
+
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [([0.1, 0.1, 0.5, 0.2], "BMPMARKER")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "BMPMARKER" in html
+        assert "url('out_p1.jpg')" in html
+        assert (tmp_path / "out_p1.jpg").exists()
 
 
 # --- end-to-end via fixtures ----------------------------------------------
