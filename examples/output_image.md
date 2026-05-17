@@ -1,18 +1,16 @@
-# OCR output: image.png
+# OCR output: image.avif
 
 ## Page 1
 
 1000
 
-10.4.2026
+Fr 10.4.2026
 
-Fr
-
-Psychotiker
+Psydotiker
 
 Neurotiker
 
-Typer 14
+Typen 14
 
 Typen 23
 
@@ -22,9 +20,7 @@ starke Grenzen im Kopf
 
 Rechte männlich
 
-Linke
-
-weiblich
+Linke weiblich
 
 verwechseln wenig
 
@@ -32,11 +28,11 @@ verwechseln viel
 
 "Alles ist eins"
 
-Jenker Scharf
+denken scharf
 
-denken verschwommener
+denken verschwommen
 
-Schwamkopf
+Schwammkopf
 
 Schwachkopf
 

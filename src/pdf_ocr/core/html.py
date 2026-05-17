@@ -42,11 +42,6 @@ _MONOSPACE_FONT_ASPECT = 0.6
 
 _JPEG_QUALITY = 80
 
-# No `filter: invert()` on the page div: it interacts with
-# `color: transparent` in Chromium and renders glyph outlines as a faint
-# inverted color. The output preserves the source page's appearance; OS
-# dark theming is a browser-extension concern.
-#
 # `.page` is sized in CSS pixels via `--page-w` so browser zoom
 # (Ctrl++ / Ctrl+-) scales the whole page uniformly. A small inline
 # script after each page rewrites that width once at load if the page
@@ -74,6 +69,12 @@ span.line {
   font-family: monospace;
   line-height: 1;
 }
+@media (prefers-color-scheme: dark) {
+  body { background: #1a1a1a; }
+  div.page {
+    outline-color: #404040;
+  }
+}
 """
 
 # Inline fit-to-viewport script. Runs once at page load. Reads
@@ -87,13 +88,12 @@ span.line {
 _FIT_SCRIPT = """\
 <script>
 (function(){
-  var px = window.innerWidth * (window.devicePixelRatio || 1);
-  document.querySelectorAll('div.page').forEach(function(p){
+  var px = document.body.clientWidth - 1;
+  for (const p of document.querySelectorAll('div.page')) {
     var w = parseFloat(p.style.getPropertyValue('--page-w'));
-    if (!isFinite(w) || w <= 0) return;
-    var s = Math.min(1, px / w);
-    if (s < 1) p.style.width = (w * s) + 'px';
-  });
+    if (!isFinite(w) || w <= 0 || w <= px) continue;
+    p.style.width = px + 'px';
+  }
 })();
 </script>
 """
@@ -170,8 +170,12 @@ class HTMLHandler:
             yield 0, url, float(width), float(height)
             return
 
-        for page_num, img_bytes, w, h in self._rasterize_pages(input_path, dpi):
-            sidecar_name = f"{out_stem}_p{page_num + 1}.jpg"
+        rasterized = list(self._rasterize_pages(input_path, dpi))
+        for page_num, img_bytes, w, h in rasterized:
+            if len(rasterized) == 1:
+                sidecar_name = f"{out_stem}.jpg"
+            else:
+                sidecar_name = f"{out_stem}_p{page_num + 1}.jpg"
             (out_parent / sidecar_name).write_bytes(img_bytes)
             yield page_num, _url_quote_segment(sidecar_name), w, h
 

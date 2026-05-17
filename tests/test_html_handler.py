@@ -185,7 +185,7 @@ class TestHtmlStructure:
         assert "cqw" in html
         # Inline fit-to-viewport script must be present so zoom-in works
         # symmetrically with zoom-out.
-        assert "devicePixelRatio" in html
+        assert "document.body.clientWidth" in html
         assert "querySelectorAll('div.page')" in html
 
     def test_html_special_chars_are_escaped(self, tmp_path: Path):
@@ -333,9 +333,9 @@ class TestInputDispatch:
         assert html.count('class="page"') == 1
         assert "DIGITALMARKER" in html
         assert "data:image/jpeg;base64," not in html
-        sidecar = tmp_path / "out_p1.jpg"
+        sidecar = tmp_path / "out.jpg"
         assert sidecar.exists() and sidecar.stat().st_size > 0
-        assert "url('out_p1.jpg')" in html
+        assert "url('out.jpg')" in html
 
     def test_pdf_input_inline_mode_emits_data_url(
         self, example_pdfs, tmp_path: Path,
@@ -386,8 +386,8 @@ class TestInputDispatch:
         )
         html = out.read_text(encoding="utf-8")
         assert "BMPMARKER" in html
-        assert "url('out_p1.jpg')" in html
-        assert (tmp_path / "out_p1.jpg").exists()
+        assert "url('out.jpg')" in html
+        assert (tmp_path / "out.jpg").exists()
 
 
 # --- end-to-end via fixtures ----------------------------------------------

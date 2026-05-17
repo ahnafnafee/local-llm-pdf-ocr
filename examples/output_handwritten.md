@@ -10,7 +10,7 @@ Algorithms
 
 have an upper bound.
 
-input → mapped ← output
+input → mapped → output
 
 -the input data needs to properly formatted
 
@@ -18,7 +18,7 @@ input → mapped ← output
 
 - Post condition is a logical predicate for the input and output
 
-- Hitting: the algo needs to finish is finite
+- Holing: the algo needs to finish is finite
 
 time
 

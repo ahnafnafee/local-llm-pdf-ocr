@@ -22,10 +22,16 @@ span.line {
   font-family: monospace;
   line-height: 1;
 }
+@media (prefers-color-scheme: dark) {
+  body { background: #1a1a1a; }
+  div.page {
+    outline-color: #404040;
+  }
+}
 </style>
 </head>
 <body>
-<div class="page" data-page="1" style="--page-w:1700;--page-h:2200;background-image:url('output_digital_p1.jpg')">
+<div class="page" data-page="1" style="--page-w:1700;--page-h:2200;background-image:url('output_digital_grounded.jpg')">
 <span class="line" style="left:9.1024%;top:1.3672%;width:40.9608%;font-size:2.8445cqw;height:6.1523%;">GEORGE MASON UNIVERSITY®</span>
 <span class="line" style="left:63.2111%;top:0.9766%;width:35.019%;font-size:1.5165cqw;height:1.1719%;">Department of Computer Science</span>
 <span class="line" style="left:63.2111%;top:2.1484%;width:35.019%;font-size:1.5165cqw;height:1.1719%;">College of Engineering and Computing</span>
@@ -64,13 +70,12 @@ span.line {
 </div>
 <script>
 (function(){
-  var px = window.innerWidth * (window.devicePixelRatio || 1);
-  document.querySelectorAll('div.page').forEach(function(p){
+  var px = document.body.clientWidth - 1;
+  for (const p of document.querySelectorAll('div.page')) {
     var w = parseFloat(p.style.getPropertyValue('--page-w'));
-    if (!isFinite(w) || w <= 0) return;
-    var s = Math.min(1, px / w);
-    if (s < 1) p.style.width = (w * s) + 'px';
-  });
+    if (!isFinite(w) || w <= 0 || w <= px) continue;
+    p.style.width = px + 'px';
+  }
 })();
 </script>
 </body>

@@ -22,36 +22,39 @@ span.line {
   font-family: monospace;
   line-height: 1;
 }
+@media (prefers-color-scheme: dark) {
+  body { background: #1a1a1a; }
+  div.page {
+    outline-color: #404040;
+  }
+}
 </style>
 </head>
 <body>
-<div class="page" data-page="1" style="--page-w:1654;--page-h:1962;background-image:url('output_hybrid_p1.jpg')">
+<div class="page" data-page="1" style="--page-w:1654;--page-h:1962;background-image:url('output_hybrid.jpg')">
 <span class="line" style="left:10.6605%;top:1.9531%;width:12.1669%;font-size:1.3901cqw;height:1.1719%;">FakeDoc M.D.</span>
-<span class="line" style="left:35.4577%;top:4.1992%;width:29.2005%;font-size:1.9693cqw;height:1.6602%;">HEALTH INTAKE FORM</span>
-<span class="line" style="left:10.6605%;top:7.1289%;width:75.898%;font-size:1.3041cqw;height:1.3672%;">Please fill out the questionnaire carefully. The information you provide will be used to complete</span>
-<span class="line" style="left:10.6605%;top:9.2773%;width:37.7752%;font-size:1.2592cqw;height:1.4648%;">your health profile and will be kept confidential.</span>
+<span class="line" style="left:10.6605%;top:7.1289%;width:75.898%;font-size:1.6218cqw;height:1.3672%;">HEALTH INTAKE FORM</span>
+<span class="line" style="left:10.6605%;top:9.2773%;width:37.7752%;font-size:0.4254cqw;height:1.4648%;">Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.</span>
 <span class="line" style="left:10.4287%;top:12.6953%;width:23.4067%;font-size:3.0009cqw;height:2.9297%;">Date: 9/14/19</span>
 <span class="line" style="left:10.4287%;top:16.6992%;width:82.387%;font-size:4.0386cqw;height:3.9062%;">Name: Sally Walker DOB: 09/04/1986</span>
 <span class="line" style="left:10.5446%;top:21.3867%;width:80.533%;font-size:2.3548cqw;height:3.5156%;">Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082</span>
-<span class="line" style="left:10.5446%;top:25.9766%;width:79.1425%;font-size:2.4888cqw;height:3.2227%;">Email: Sally.walker@cmail.com Phone #: (906) 917-3486</span>
-<span class="line" style="left:10.5446%;top:30.6641%;width:83.7775%;font-size:2.1817cqw;height:3.3203%;">Gender: F  Marital Status: Single  Occupation: Software Engineer</span>
-<span class="line" style="left:10.5446%;top:35.6445%;width:35.3418%;font-size:2.5485cqw;height:2.1484%;">Referred By: None</span>
+<span class="line" style="left:10.5446%;top:25.9766%;width:79.1425%;font-size:2.4888cqw;height:3.2227%;">Email: sally.walker@cmail.com Phone #: (906) 917-3486</span>
+<span class="line" style="left:10.5446%;top:30.6641%;width:83.7775%;font-size:2.2521cqw;height:3.3203%;">Gender: F Marital Status: Single Occupation: Software Engineer</span>
+<span class="line" style="left:10.5446%;top:35.6445%;width:35.3418%;font-size:2.5485cqw;height:2.1484%;">Referred By: NONE</span>
 <span class="line" style="left:10.5446%;top:39.1602%;width:86.7903%;font-size:2.0964cqw;height:3.7109%;">Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926</span>
 <span class="line" style="left:10.5446%;top:44.7266%;width:62.8042%;font-size:1.8047cqw;height:1.8555%;">Describe your medical concerns (symptoms, diagnoses, etc):</span>
-<span class="line" style="left:10.5446%;top:49.0234%;width:79.0267%;font-size:3.2436cqw;height:2.7344%;">runny nose, mucas in throat, weakness,</span>
-<span class="line" style="left:10.6605%;top:52.7344%;width:79.0267%;font-size:4.1703cqw;height:3.5156%;">aches, chills, tired</span>
-<span class="line" style="left:10.5446%;top:75.9766%;width:68.8297%;font-size:1.7122cqw;height:1.8555%;">Are you currently taking any medication? (If yes, please describe):</span>
-<span class="line" style="left:15.759%;top:79.5898%;width:73.9282%;font-size:3.6239cqw;height:3.5156%;">Vyrance (25mg) daily for attention</span>
+<span class="line" style="left:10.5446%;top:49.0234%;width:79.0267%;font-size:2.2324cqw;height:2.7344%;">runny nose, mucas in throat, weakness, aches, chills, tired</span>
+<span class="line" style="left:10.6605%;top:52.7344%;width:79.0267%;font-size:1.9658cqw;height:3.5156%;">Are you currently taking any medication? (If yes, please describe):</span>
+<span class="line" style="left:10.5446%;top:75.9766%;width:68.8297%;font-size:2.201cqw;height:1.8555%;">Vyvanse (25mg) daily for attention</span>
 </div>
 <script>
 (function(){
-  var px = window.innerWidth * (window.devicePixelRatio || 1);
-  document.querySelectorAll('div.page').forEach(function(p){
+  var px = document.body.clientWidth - 1;
+  for (const p of document.querySelectorAll('div.page')) {
     var w = parseFloat(p.style.getPropertyValue('--page-w'));
-    if (!isFinite(w) || w <= 0) return;
-    var s = Math.min(1, px / w);
-    if (s < 1) p.style.width = (w * s) + 'px';
-  });
+    if (!isFinite(w) || w <= 0 || w <= px) continue;
+    p.style.width = px + 'px';
+  }
 })();
 </script>
 </body>
