@@ -28,10 +28,15 @@ span.line {
     outline-color: #404040;
   }
 }
+@media (prefers-color-scheme: dark) {
+  div.page {
+    filter: invert() hue-rotate(180deg);
+  }
+}
 </style>
 </head>
 <body>
-<div class="page" data-page="1" style="--page-w:1700;--page-h:2200;background-image:url('output_digital.jpg')">
+<div class="page" data-page="1" style="--page-w:1700;--page-h:2200;background-image:url('output_digital_invert_dark.jpg')">
 <span class="line" style="left:48.799%;top:0.9766%;width:22.2503%;font-size:1.2361cqw;height:1.1719%;">Department of Computer Science</span>
 <span class="line" style="left:48.799%;top:2.3438%;width:26.1694%;font-size:0.651cqw;height:1.0742%;">Department of Computer Science College of Engineering and Computing</span>
 <span class="line" style="left:18.4576%;top:2.7344%;width:22.3767%;font-size:1.6215cqw;height:2.9297%;">GEORGE MASON UNIVERSITY</span>

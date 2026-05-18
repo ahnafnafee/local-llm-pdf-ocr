@@ -118,6 +118,16 @@ Examples:
              "sidecar JPEGs named <stem>_p<N>.jpg next to the output "
              "HTML for PDFs and multi-frame inputs.",
     )
+    parser.add_argument(
+        "--html-invert-dark", dest="html_invert_dark",
+        action="store_true",
+        help="Invert page images in dark mode (HTML output only). "
+             "Adds CSS ``filter: invert() hue-rotate(180deg)`` that "
+             "activates when the OS / browser is in dark colour scheme, "
+             "so scanned white-background documents appear dark. "
+             "Without this flag the page image is shown as-is in all "
+             "colour schemes.",
+    )
     parser.add_argument("--api-base", help="Override LLM API base URL")
     parser.add_argument("--model", help="Override LLM model name")
     parser.add_argument(
@@ -180,6 +190,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
         output_path,
         html_mode=args.html_mode,
         html_inline_images=args.html_inline_images,
+        html_invert_dark=args.html_invert_dark,
     )
 
     pdf_handler = PDFHandler()

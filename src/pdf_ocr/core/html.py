@@ -77,6 +77,17 @@ span.line {
 }
 """
 
+# Opt-in: invert page images in dark mode so scanned white-background
+# documents appear dark. hue-rotate(180deg) re-maps colours so dark-blue
+# becomes light-blue instead of yellow.
+_DARK_INVERT_CSS = """\
+@media (prefers-color-scheme: dark) {
+  div.page {
+    filter: invert() hue-rotate(180deg);
+  }
+}
+"""
+
 # Inline fit-to-viewport script. Runs once at page load. Reads
 # `--page-w` from each `.page` div, computes a one-time scale factor
 # against `window.innerWidth * window.devicePixelRatio` (a zoom-stable
@@ -119,7 +130,12 @@ class HTMLHandler:
       referenced via a relative URL.
     """
 
-    def __init__(self, mode: str = DEFAULT_MODE, inline_images: bool = False):
+    def __init__(
+        self,
+        mode: str = DEFAULT_MODE,
+        inline_images: bool = False,
+        invert_dark: bool = False,
+    ):
         if mode not in _VALID_MODES:
             raise ValueError(
                 f"unknown HTML mode {mode!r}; "
@@ -127,6 +143,7 @@ class HTMLHandler:
             )
         self.mode = mode
         self.inline_images = inline_images
+        self.invert_dark = invert_dark
 
     def embed_structured_text(
         self,
@@ -245,6 +262,8 @@ class HTMLHandler:
         out.write(f"<title>{_html.escape(title)}</title>\n")
         out.write("<style>\n")
         out.write(_PAGE_CSS)
+        if self.invert_dark:
+            out.write(_DARK_INVERT_CSS)
         out.write("</style>\n</head>\n<body>\n")
         for page_num, image_url, width, height in pages:
             self._render_page(

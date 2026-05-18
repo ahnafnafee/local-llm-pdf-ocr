@@ -77,6 +77,7 @@ def resolve_output_writer(
     *,
     html_mode: str | None = None,
     html_inline_images: bool = False,
+    html_invert_dark: bool = False,
 ) -> OutputWriter:
     """Pick the writer matching `output_path`'s extension.
 
@@ -96,6 +97,10 @@ def resolve_output_writer(
             browser-native images, or sidecar JPEGs written next to the
             output for PDFs and other inputs. Ignored for non-HTML
             outputs.
+        html_invert_dark: when True, adds CSS that inverts page images
+            in dark mode via ``filter: invert() hue-rotate(180deg)``.
+            Useful for scanned white-background documents viewed at
+            night. Ignored for non-HTML outputs.
     """
     # Late imports keep this module light — importing pdf_ocr.output
     # shouldn't pull in fitz or PIL unless the user actually needs a
@@ -103,7 +108,10 @@ def resolve_output_writer(
     fmt = format_from_path(output_path)
     if fmt == "html":
         from pdf_ocr.core.html import HTMLHandler
-        kwargs = {"inline_images": html_inline_images}
+        kwargs = {
+            "inline_images": html_inline_images,
+            "invert_dark": html_invert_dark,
+        }
         if html_mode is not None:
             kwargs["mode"] = html_mode
         return HTMLHandler(**kwargs).embed_structured_text
