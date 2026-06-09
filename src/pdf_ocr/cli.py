@@ -93,6 +93,16 @@ Examples:
              "never: original full-page OCR everywhere, no retry.",
     )
     parser.add_argument(
+        "--preprocess", choices=("auto", "always", "never"), default="auto",
+        help="Photo rectification before OCR (hybrid path). auto "
+             "(default): pages with a confidently-detected tilted page "
+             "outline are perspective-corrected and illumination-"
+             "flattened for recognition, with all coordinates mapped "
+             "back onto the original photo for output; flat scans pass "
+             "through untouched. always: rectify whenever a page "
+             "outline is found. never: disable.",
+    )
+    parser.add_argument(
         "--grounded", action="store_true",
         help="Use a bbox-native VLM (Qwen2.5-VL / Qwen3-VL / etc.) that returns text WITH "
              "bounding boxes in one call. Skips Surya + DP + refine. Requires --model to be "
@@ -271,6 +281,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
                 max_image_dim=args.max_image_dim,
                 dense_threshold=args.dense_threshold,
                 dense_mode=args.dense_mode,
+                preprocess=args.preprocess,
                 progress=on_progress,
             )
         except Exception as e:

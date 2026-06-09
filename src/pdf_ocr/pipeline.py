@@ -100,6 +100,7 @@ class OCRPipeline:
         max_image_dim: int = 1024,
         dense_threshold: int = 60,
         dense_mode: str = "auto",
+        preprocess: str = "auto",
         progress: Optional[ProgressCallback] = None,
     ) -> dict[int, list[str]]:
         """
@@ -135,6 +136,10 @@ class OCRPipeline:
             raise ValueError(
                 f"dense_mode must be one of 'auto', 'always', 'never'; got {dense_mode!r}"
             )
+        if preprocess not in ("auto", "always", "never"):
+            raise ValueError(
+                f"preprocess must be one of 'auto', 'always', 'never'; got {preprocess!r}"
+            )
 
         if self.grounded_backend is not None:
             return await self._run_grounded(input_path, output_path, dpi=dpi, progress=progress)
@@ -155,6 +160,26 @@ class OCRPipeline:
         if pages:
             selected = set(parse_page_range(pages, total_pages))
             page_nums = [p for p in page_nums if p in selected]
+
+        # Photo preprocessing: pages with a confidently-detected tilted
+        # page outline are perspective-rectified (and illumination-
+        # flattened) for DETECTION and OCR only. Their boxes are mapped
+        # back through the inverse homography before output, so the
+        # writers — which always rasterize the original input — overlay
+        # the photo the user actually has. Flat scans find no page quad
+        # and pass through untouched.
+        rect_maps: dict = {}
+        if preprocess != "never":
+            from pdf_ocr.utils.preprocess import rectify_page_images
+
+            images_dict, rect_maps = await asyncio.to_thread(
+                rectify_page_images, images_dict, page_nums, preprocess,
+            )
+            if rect_maps:
+                await _notify(
+                    progress, "convert", 1, 1,
+                    f"Rectified {len(rect_maps)} photographed page(s).",
+                )
         await _notify(progress, "convert", 1, 1, f"Converted {total_pages} pages.")
 
         # --- Phase 1: batch layout detection ---
@@ -262,6 +287,12 @@ class OCRPipeline:
 
         # --- Phase 4: write output ---
         await _notify(progress, "embed", 0, 1, "Writing output...")
+        if rect_maps:
+            from pdf_ocr.utils.preprocess import map_structured_to_original
+
+            pages_structured = await asyncio.to_thread(
+                map_structured_to_original, pages_structured, rect_maps,
+            )
         await asyncio.to_thread(
             self.output_writer, input_path, output_path, pages_structured, dpi
         )
