@@ -21,6 +21,8 @@ span.line {
   white-space: nowrap;
   font-family: monospace;
   line-height: 1;
+  transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));
+  transform-origin: 0 0;
 }
 @media (prefers-color-scheme: dark) {
   body { background: #1a1a1a; }
@@ -48,7 +50,7 @@ span.line {
 <span class="line" style="left:3.6842%;top:50.6836%;width:35.7895%;font-size:3.7281cqw;height:4.7852%;">verwechseln viel</span>
 <span class="line" style="left:4.3421%;top:58.7891%;width:35.9211%;font-size:3.7418cqw;height:6.0547%;">"Alles ist eins"</span>
 <span class="line" style="left:54.2105%;top:65.625%;width:31.8421%;font-size:4.0823cqw;height:5.5664%;">Jenker Scharf</span>
-<span class="line" style="left:5.3947%;top:67.4805%;width:41.0526%;font-size:3.2581cqw;height:3.9062%;">denken verschwommener</span>
+<span class="line" style="left:5.3947%;top:67.4805%;width:41.0526%;font-size:3.6011cqw;height:3.9062%;">denken verschwommen</span>
 <span class="line" style="left:6.1842%;top:73.7305%;width:32.6316%;font-size:5.4386cqw;height:4.5898%;">Schwamkopf</span>
 <span class="line" style="left:6.3158%;top:79.2969%;width:29.7368%;font-size:4.5056cqw;height:3.8086%;">Schwachkopf</span>
 <span class="line" style="left:55.7895%;top:84.082%;width:29.0789%;font-size:5.385cqw;height:4.7852%;">Gnostiker</span>
@@ -61,6 +63,18 @@ span.line {
     var w = parseFloat(p.style.getPropertyValue('--page-w'));
     if (!isFinite(w) || w <= 0 || w <= px) continue;
     p.style.width = px + 'px';
+  }
+})();
+</script>
+<script>
+(function(){
+  var ctx = document.createElement('canvas').getContext('2d');
+  for (const s of document.querySelectorAll('span.line')) {
+    var cs = getComputedStyle(s);
+    ctx.font = cs.fontSize + ' ' + cs.fontFamily;
+    var m = ctx.measureText(s.textContent);
+    if (!(m.width > 0) || !(s.offsetWidth > 0)) continue;
+    s.style.setProperty('--scale-x', s.offsetWidth / m.width);
   }
 })();
 </script>

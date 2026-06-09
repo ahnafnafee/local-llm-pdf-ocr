@@ -16,6 +16,7 @@ import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
 from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
+from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 
 
 IMAGE_EXTENSIONS = frozenset({
@@ -245,13 +246,52 @@ class PDFHandler:
         font = fitz.Font("helv")
 
         # Size so the full glyph extent (ascender - descender in em-units)
-        # fits exactly inside the box height. For Helvetica this works out
-        # to ~box_height/1.374 ≈ box_height * 0.728 — tighter than the old
-        # 0.85 constant, and eliminates the ascender overshoot we used to
-        # tolerate at the top edge.
+        # fits exactly inside the box height — for Helvetica that is
+        # ~box_height/1.374 ≈ box_height * 0.728. A larger constant would
+        # let ascenders overshoot the box top.
         ascender = getattr(font, "ascender", 1.075)  # Helvetica fallback
         descender = getattr(font, "descender", -0.299)
         extent_em = max(0.01, ascender - descender)  # descender is negative
+
+        # Rotated line (detector supplied a tilted quad): place the text
+        # along the quad's own baseline instead of the axis-aligned
+        # envelope. Geometry comes from the quad's pixel-space edges —
+        # the envelope is inflated for tilted lines and its width/height
+        # no longer mean "text run" and "line height".
+        angle = getattr(rect_coords, "angle", 0.0)
+        quad = getattr(rect_coords, "quad", None)
+        if quad is not None and abs(angle) >= ANGLE_FLATTEN_DEG:
+            pts = [
+                fitz.Point(quad[k] * page_width, quad[k + 1] * page_height)
+                for k in range(0, 8, 2)
+            ]
+            run_len = abs(pts[1] - pts[0])   # top edge: text run direction
+            line_h = abs(pts[3] - pts[0])    # left edge: line height
+            if run_len <= 0 or line_h <= 0:
+                return
+            fontsize = max(3.0, min(72.0, line_h / extent_em))
+            natural_width = font.text_length(text, fontsize=fontsize)
+            if natural_width <= 0:
+                return
+            scale_x = max(1.0, run_len * 0.98) / natural_width
+            # Baseline origin: bottom-left corner raised by the descender
+            # along the quad's own up direction (toward the top-left).
+            up = (pts[0] - pts[3]) / line_h
+            origin = pts[3] + up * (-descender * fontsize)
+            # OrientedBox angle is screen-positive-down (CSS rotate());
+            # a positive PyMuPDF Matrix angle rotates the opposite way in
+            # page space (Matrix(10) extracts as dir=(cos, -sin)), hence
+            # the negation. Scale composes before rotation so the
+            # horizontal stretch happens along the text run.
+            morph = (origin, fitz.Matrix(scale_x, 1.0) * fitz.Matrix(-angle))
+            page.insert_text(
+                origin, text,
+                fontsize=fontsize, fontname="helv",
+                render_mode=3, color=(0, 0, 0),
+                morph=morph,
+            )
+            return
+
         fontsize = max(3.0, min(72.0, box_height / extent_em))
 
         # Multi-line bbox detection: Surya occasionally groups visually

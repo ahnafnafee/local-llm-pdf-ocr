@@ -21,6 +21,8 @@ span.line {
   white-space: nowrap;
   font-family: monospace;
   line-height: 1;
+  transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));
+  transform-origin: 0 0;
 }
 @media (prefers-color-scheme: dark) {
   body { background: #1a1a1a; }
@@ -40,11 +42,11 @@ span.line {
 <span class="line" style="left:4.6095%;top:29.8828%;width:84.7631%;font-size:3.2854cqw;height:7.5195%;">-the input data needs to properly formatted</span>
 <span class="line" style="left:12.548%;top:36.1328%;width:69.1421%;font-size:3.9737cqw;height:5.3711%;">- ensures a correct algorithm</span>
 <span class="line" style="left:4.8656%;top:41.4062%;width:82.5864%;font-size:2.1507cqw;height:10.2539%;">- Post condition is a logical predicate for the input and output</span>
-<span class="line" style="left:2.6889%;top:50.1953%;width:86.1716%;font-size:3.1915cqw;height:6.25%;">- Holting: the algo needs to finish is finite</span>
+<span class="line" style="left:2.6889%;top:50.1953%;width:86.1716%;font-size:3.1915cqw;height:6.25%;">- Hitting: the algo needs to finish is finite</span>
 <span class="line" style="left:7.2983%;top:56.1523%;width:8.9629%;font-size:3.7345cqw;height:3.125%;">time</span>
 <span class="line" style="left:14.3406%;top:58.3984%;width:53.7772%;font-size:3.201cqw;height:6.1523%;">- look into induction proofs</span>
 <span class="line" style="left:38.7964%;top:65.8203%;width:17.9257%;font-size:2.716cqw;height:2.5391%;">Correctness</span>
-<span class="line" style="left:54.9296%;top:74.1211%;width:21.895%;font-size:5.2131cqw;height:6.25%;">Waiting</span>
+<span class="line" style="left:55.1857%;top:74.1211%;width:21.7358%;--rotate:5.4083deg;font-size:5.1752cqw;height:4.6916%;">Waiting</span>
 <span class="line" style="left:25.9923%;top:74.5117%;width:16.0051%;font-size:3.3344cqw;height:4.4922%;">Validity</span>
 <span class="line" style="left:31.4981%;top:79.7852%;width:43.9181%;font-size:3.4856cqw;height:4.7852%;">(Conjunction of both)</span>
 <span class="line" style="left:6.0179%;top:85.2539%;width:90.2689%;font-size:3.6695cqw;height:5.3711%;">- if the algo has a strong post condition</span>
@@ -57,6 +59,18 @@ span.line {
     var w = parseFloat(p.style.getPropertyValue('--page-w'));
     if (!isFinite(w) || w <= 0 || w <= px) continue;
     p.style.width = px + 'px';
+  }
+})();
+</script>
+<script>
+(function(){
+  var ctx = document.createElement('canvas').getContext('2d');
+  for (const s of document.querySelectorAll('span.line')) {
+    var cs = getComputedStyle(s);
+    ctx.font = cs.fontSize + ' ' + cs.fontFamily;
+    var m = ctx.measureText(s.textContent);
+    if (!(m.width > 0) || !(s.offsetWidth > 0)) continue;
+    s.style.setProperty('--scale-x', s.offsetWidth / m.width);
   }
 })();
 </script>
