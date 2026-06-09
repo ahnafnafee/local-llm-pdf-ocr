@@ -24,7 +24,7 @@
     -   **Web UI**: Drag & drop, Dark Mode, real-time per-page progress.
     -   **CLI**: Documented flags for power users and batch automation, Rich progress bars.
 -   **📚 Dense-Page Mode**: Auto-detects densely-laid-out pages (default >60 detected boxes) and switches to per-box OCR — bypasses the failure modes (loops, hallucination, pangram fallback) that full-page OCR exhibits on dense handwritten content. Configurable via `--dense-mode` and `--dense-threshold`.
--   **🧪 Tested**: 293-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), CLI dispatch, server endpoints, and end-to-end runs against the example PDFs.
+-   **🧪 Tested**: 296-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), CLI dispatch, server endpoints, and end-to-end runs against the example PDFs.
 
 ---
 
@@ -159,7 +159,7 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `output`                  | Path to output file (optional). Format is inferred from the extension: `.pdf` (default, searchable PDF), `.html` / `.htm` (HTML overlay, see `--html-inline-images` for the self-contained variant), `.md` / `.markdown` (Markdown text). Defaults to `<input_stem>_ocr.<format>`. |
 | `--format {pdf,html,md}`  | Output format. Used to pick the extension when `output` is omitted, OR to override an unrecognized extension. If `output` has a recognized extension, the extension wins. |
 | `--html-mode {letter-spacing,full-height,scaled}` | Sizing strategy for HTML overlay spans (ignored for pdf/md). `scaled` (default) shrinks the font to fit both bbox dimensions — stays legible at any zoom level. `letter-spacing` stretches glyphs to fill the bbox via letter-spacing; selection extents match the bbox exactly but negative spacing can render characters as an overlapping smear on wide bboxes. `full-height` uses natural monospace width — text may overflow the bbox right edge. |
-| `--html-inline-images`    | Embed page images as base64 `data:` URLs inside the HTML (produces a single self-contained file at ~35% size inflation). Default behaviour writes external images: a relative reference to the input file for single-frame browser-native images (JPEG/PNG/WebP/AVIF/GIF), or sidecar JPEGs named `<output_stem>_p<N>.jpg` next to the output HTML for PDFs and multi-frame inputs. |
+| `--html-inline-images`    | Embed page images as base64 `data:` URLs inside the HTML (produces a single self-contained file at ~35% size inflation). Default behaviour writes external images: a relative reference to the input file for single-frame browser-native images (JPEG/PNG/WebP/AVIF/GIF), or sidecar JPEGs named `<output_stem>_p<N>.jpg` (zero-padded page numbers) next to the output HTML for PDFs and multi-frame inputs. |
 | `--html-invert-dark`      | Invert page images in dark mode (HTML output only). Adds CSS `filter: invert() hue-rotate(180deg)` that activates when the OS / browser is in dark colour scheme, so scanned white-background documents appear dark. Without this flag the page image is shown as-is in all colour schemes. |
 | `-v`, `--verbose`         | Enable debug logging (alignment details, box counts)                  |
 | `-q`, `--quiet`           | Suppress all output except errors                                     |
@@ -225,7 +225,7 @@ uv run local-llm-pdf-ocr scan.pdf --format md
 uv run local-llm-pdf-ocr scan.pdf notes.md
 ```
 
-> **HTML output size:** by default the HTML references each page image as an external file — sidecar JPEGs (`scan_ocr_p1.jpg`, `scan_ocr_p2.jpg`, …) for PDF / multi-frame inputs, or the input image itself for single-frame `.jpg`/`.png`/`.webp`/`.avif`/`.gif`. Use `--html-inline-images` to produce a single self-contained file (base64 data URLs, ~35% size inflation).
+> **HTML output size:** by default the HTML references each page image as an external file — sidecar JPEGs (`scan_ocr_p1.jpg`, `scan_ocr_p2.jpg`, … — zero-padded to the page-count width for 10+ page inputs, plain `scan_ocr.jpg` for single-page inputs) for PDF / multi-frame inputs, or the input image itself for single-frame `.jpg`/`.png`/`.webp`/`.avif`/`.gif`. Use `--html-inline-images` to produce a single self-contained file (base64 data URLs, ~35% size inflation).
 
 > **Best alignment:** for forms or layouts where the LLM might emit text in a non-monotonic reading order (causing the DP aligner to mismatch lines to bboxes), pair `--format html` with `--dense-mode always` for per-box OCR. Each Surya bbox gets its own LLM call, eliminating the DP alignment step entirely. The reference outputs in `examples/output_*.html` were generated this way (`--dense-mode always --concurrency 5`). See `examples/screenshots/*_selected.png` for the result with all spans Ctrl+A-selected so the bbox positions are visible.
 

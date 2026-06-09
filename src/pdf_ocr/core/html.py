@@ -43,13 +43,13 @@ _MONOSPACE_FONT_ASPECT = 0.6
 _JPEG_QUALITY = 80
 
 # `.page` is sized in CSS pixels via `--page-w` so browser zoom
-# (Ctrl++ / Ctrl+-) scales the whole page uniformly. A small inline
-# script after each page rewrites that width once at load if the page
-# is wider than the device-pixel viewport, so the default view fits
-# without horizontal scroll while subsequent zooming still grows or
-# shrinks the page in device pixels. `container-type: inline-size`
-# plus `%` / `cqw` units on the spans keeps overlay selection extents
-# locked to the rasterized image at every zoom level.
+# (Ctrl++ / Ctrl+-) scales the whole page uniformly. An inline script
+# at the end of the body shrinks any page wider than the viewport
+# once at load, so the default view fits without horizontal scroll
+# while subsequent zooming still grows or shrinks the page.
+# `container-type: inline-size` plus `%` / `cqw` units on the spans
+# keeps overlay selection extents locked to the rasterized image at
+# every zoom level.
 _PAGE_CSS = """\
 body { margin: 0; background: #f5f5f5; }
 div.page {
@@ -88,14 +88,16 @@ _DARK_INVERT_CSS = """\
 }
 """
 
-# Inline fit-to-viewport script. Runs once at page load. Reads
-# `--page-w` from each `.page` div, computes a one-time scale factor
-# against `window.innerWidth * window.devicePixelRatio` (a zoom-stable
-# device-pixel viewport width), and shrinks the page's CSS width if
-# the native width exceeds that. Subsequent browser zoom multiplies
-# the now-smaller CSS width by the zoom factor as expected, so
-# zooming in produces horizontal scroll and zooming out shrinks the
-# page below the viewport — both relative to the initial fit.
+# Inline fit-to-viewport script. Runs once at page load: any page
+# whose native `--page-w` exceeds the body's usable width is shrunk
+# to fit. The reference is `document.body.clientWidth` rather than
+# `window.innerWidth` — innerWidth includes the vertical scrollbar,
+# so pages sized to it overflow the usable width and trigger a
+# horizontal scrollbar. The extra 1px subtracted absorbs fractional
+# CSS-pixel rounding when the OS display zoom makes
+# `devicePixelRatio` non-integral. Subsequent browser zoom multiplies
+# the rewritten CSS width as expected: zooming in produces horizontal
+# scroll, zooming out shrinks the page below the viewport.
 _FIT_SCRIPT = """\
 <script>
 (function(){
@@ -126,8 +128,10 @@ class HTMLHandler:
       output HTML. No new files are written.
     * Everything else (PDF, multi-frame TIFF, BMP, multi-frame WebP/GIF):
       each page is rasterized to a sidecar JPEG named
-      ``<output_stem>_p<N>.jpg`` (1-indexed) next to the output HTML and
-      referenced via a relative URL.
+      ``<output_stem>_p<N>.jpg`` (1-indexed, zero-padded to the
+      page-count width so listings sort in page order) next to the
+      output HTML and referenced via a relative URL. Single-page inputs
+      get plain ``<output_stem>.jpg`` with no page suffix.
     """
 
     def __init__(
@@ -175,8 +179,8 @@ class HTMLHandler:
         (inline mode) or a relative URL to a real file (external mode).
         """
         if self.inline_images:
-            for page_num, img_bytes, w, h in self._rasterize_pages(input_path, dpi):
-                yield page_num, _data_url_jpeg(img_bytes), w, h
+            for page_idx, img_bytes, w, h in self._rasterize_pages(input_path, dpi):
+                yield page_idx, _data_url_jpeg(img_bytes), w, h
             return
 
         out_parent = Path(output_path).resolve().parent
@@ -188,13 +192,17 @@ class HTMLHandler:
             return
 
         rasterized = list(self._rasterize_pages(input_path, dpi))
-        for page_num, img_bytes, w, h in rasterized:
+        # Page numbers are zero-padded to the page-count width
+        # (`_p01`..`_p12` for a 12-page input) so lexicographic file
+        # listings sort in page order.
+        pad = len(str(len(rasterized)))
+        for page_idx, img_bytes, w, h in rasterized:
             if len(rasterized) == 1:
                 sidecar_name = f"{out_stem}.jpg"
             else:
-                sidecar_name = f"{out_stem}_p{page_num + 1}.jpg"
+                sidecar_name = f"{out_stem}_p{page_idx + 1:0{pad}d}.jpg"
             (out_parent / sidecar_name).write_bytes(img_bytes)
-            yield page_num, _url_quote_segment(sidecar_name), w, h
+            yield page_idx, _url_quote_segment(sidecar_name), w, h
 
     @staticmethod
     def _direct_reference_url(
@@ -232,12 +240,12 @@ class HTMLHandler:
         """Rasterize each PDF page at `dpi` and emit JPEG bytes + dims."""
         doc = fitz.open(input_path)
         try:
-            for page_num, page in enumerate(doc):
+            for page_idx, page in enumerate(doc):
                 pix = page.get_pixmap(dpi=dpi)
                 img_bytes = pix.tobytes("jpg", jpg_quality=_JPEG_QUALITY)
                 # Pixel dimensions so absolute-positioned spans align
                 # with the rasterized background image.
-                yield page_num, img_bytes, float(pix.width), float(pix.height)
+                yield page_idx, img_bytes, float(pix.width), float(pix.height)
         finally:
             doc.close()
 
@@ -247,11 +255,11 @@ class HTMLHandler:
     ) -> Iterator[tuple[int, bytes, float, float]]:
         """Iterate frames of a single- or multi-frame image (TIFF, etc.)."""
         with Image.open(input_path) as src:
-            for page_num, frame in enumerate(ImageSequence.Iterator(src)):
+            for page_idx, frame in enumerate(ImageSequence.Iterator(src)):
                 img = frame.convert("RGB")
                 buf = io.BytesIO()
                 img.save(buf, format="JPEG", quality=_JPEG_QUALITY)
-                yield page_num, buf.getvalue(), float(img.width), float(img.height)
+                yield page_idx, buf.getvalue(), float(img.width), float(img.height)
 
     # --- HTML rendering ---------------------------------------------------
 
@@ -265,18 +273,18 @@ class HTMLHandler:
         if self.invert_dark:
             out.write(_DARK_INVERT_CSS)
         out.write("</style>\n</head>\n<body>\n")
-        for page_num, image_url, width, height in pages:
+        for page_idx, image_url, width, height in pages:
             self._render_page(
-                out, page_num, image_url, width, height,
-                pages_data.get(page_num, []),
+                out, page_idx, image_url, width, height,
+                pages_data.get(page_idx, []),
             )
         out.write(_FIT_SCRIPT)
         out.write("</body>\n</html>\n")
         return out.getvalue()
 
-    def _render_page(self, out, page_num, image_url, width, height, items):
+    def _render_page(self, out, page_idx, image_url, width, height, items):
         out.write(
-            f'<div class="page" data-page="{page_num + 1}" '
+            f'<div class="page" data-page="{page_idx + 1}" '
             f'style="--page-w:{_num(width)};--page-h:{_num(height)};'
             f"background-image:url('{image_url}')\">\n"
         )

@@ -23,6 +23,7 @@ import tempfile
 from collections import defaultdict
 from pathlib import Path
 
+import fitz  # PyMuPDF
 import pytest
 from PIL import Image, ImageDraw
 
@@ -131,6 +132,54 @@ class TestHtmlStructure:
         for name in sidecars:
             assert f"url('{name}')" in html
             assert (tmp_path / name).stat().st_size > 0
+
+    def test_sidecar_numbers_zero_padded_to_page_count_width(
+        self, tmp_path: Path,
+    ):
+        # 12 pages → two-digit padding (out_p01..out_p12) so a plain
+        # lexicographic file listing sorts in page order.
+        src = _make_multiframe_tiff(tmp_path / "scan.tiff", n=12, size=(120, 160))
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(str(src), str(out), {})
+        html = out.read_text(encoding="utf-8")
+
+        expected = [f"out_p{i:02d}.jpg" for i in range(1, 13)]
+        on_disk = sorted(p.name for p in tmp_path.glob("out_p*.jpg"))
+        assert on_disk == expected
+
+        # The HTML references pages in document order, and that order
+        # must equal the lexicographic order — the point of the padding.
+        in_doc = re.findall(r"url\('(out_p\d+\.jpg)'\)", html)
+        assert in_doc == expected
+
+    def test_multipage_pdf_with_differing_widths_centers_each_page(
+        self, tmp_path: Path,
+    ):
+        # Pages narrower than their siblings must be centered, like a
+        # PDF reader does, instead of hugging the left edge.
+        src = tmp_path / "mixed.pdf"
+        doc = fitz.open()
+        doc.new_page(width=200, height=300)
+        doc.new_page(width=400, height=300)
+        doc.save(str(src))
+        doc.close()
+
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [([0.1, 0.1, 0.8, 0.2], "narrow page")],
+             1: [([0.1, 0.1, 0.8, 0.2], "wide page")]},
+            dpi=100,
+        )
+        html = out.read_text(encoding="utf-8")
+
+        assert html.count('class="page"') == 2
+        widths = [float(w) for w in re.findall(r"--page-w:([\d.]+);", html)]
+        assert len(widths) == 2
+        # Second page is twice as wide as the first (400pt vs 200pt).
+        assert widths[1] == pytest.approx(2 * widths[0], rel=0.02)
+        # Horizontal centering comes from the stylesheet's auto margins.
+        assert "margin: 0 auto" in html
 
     def test_external_default_references_browser_native_image_directly(
         self, tmp_path: Path,
