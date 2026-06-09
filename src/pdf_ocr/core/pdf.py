@@ -15,6 +15,8 @@ from pathlib import Path
 import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
+from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
+
 
 IMAGE_EXTENSIONS = frozenset({
     ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp", ".avif",
@@ -200,19 +202,11 @@ class PDFHandler:
 
         nx0, ny0, nx1, ny1 = rect_coords
 
-        # Detect the aligner's full-page fallback by bbox (covers the
-        # whole normalized page, [0,0,1,1]) rather than by the presence
-        # of "\n" in text. A grounded VLM that emits multi-line content
-        # for a real bbox must NOT be redirected to the full-page
-        # fallback rect — that would shift the text to the page top and
-        # clobber other bboxes' search positions, surfacing as
-        # "following lines moved up" in the rendered output.
-        is_full_page_fallback = (
-            nx0 <= 0.001 and ny0 <= 0.001
-            and nx1 >= 0.999 and ny1 >= 0.999
-            and "\n" in text
-        )
-        if is_full_page_fallback:
+        # Aligner's full-page fallback ([0,0,1,1] + embedded newlines):
+        # render in a small inset rect rather than spanning the page, so
+        # we don't clobber other bboxes' search positions. (See
+        # core/_layout.py for the rationale.)
+        if is_full_page_fallback(rect_coords, text):
             fallback_rect = fitz.Rect(10, 10, page_width - 10, page_height - 10)
             page.insert_textbox(
                 fallback_rect, text,
@@ -221,23 +215,20 @@ class PDFHandler:
             )
             return
 
-        # A real bbox with multi-line content: split by line and recurse
-        # to place each line at its own vertical sub-slice of the bbox.
-        # Handles grounded-VLM outputs that joined visual lines into one
-        # element with an embedded "\n" — search/selection still land at
-        # the right y position instead of being shifted off-page.
+        # A real bbox with multi-line content (grounded-VLM joined visual
+        # lines via '\n'): split by line and recurse so each line lands
+        # at its own y-slice. Single-line case falls through with the
+        # stripped text.
         if "\n" in text:
-            lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
-            if len(lines) > 1:
-                slice_h = (ny1 - ny0) / len(lines)
-                for i, line in enumerate(lines):
+            sub_lines = split_multi_line_bbox(rect_coords, text)
+            if len(sub_lines) > 1:
+                for sub_rect, line in sub_lines:
                     PDFHandler._draw_invisible_text(
-                        page,
-                        [nx0, ny0 + i * slice_h, nx1, ny0 + (i + 1) * slice_h],
-                        line, page_width, page_height,
+                        page, sub_rect, line, page_width, page_height,
                     )
                 return
-            text = lines[0] if lines else text  # only one non-empty line
+            if sub_lines:
+                text = sub_lines[0][1]
 
         pdf_rect = fitz.Rect(
             nx0 * page_width,

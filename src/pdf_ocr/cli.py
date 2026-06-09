@@ -33,6 +33,8 @@ Examples:
   %(prog)s scan.png                       # Image input - auto-generates scan_ocr.pdf
   %(prog)s pages.tiff                     # Multi-frame TIFF - one output page per frame
   %(prog)s input.pdf                      # Auto-generates input_ocr.pdf
+  %(prog)s input.pdf --format html        # Auto-generates input_ocr.html
+  %(prog)s input.pdf out.md               # Markdown output (extension wins)
   %(prog)s input.pdf output.pdf --verbose
   %(prog)s input.pdf output.pdf --pages 1-3,5
   %(prog)s input.pdf output.pdf --dpi 300 --api-base http://localhost:1234/v1
@@ -47,8 +49,10 @@ Examples:
     parser.add_argument(
         "output_pdf", nargs="?",
         metavar="output",
-        help="Path to output PDF (always a PDF, even for image inputs; "
-             "defaults to <input_stem>_ocr.pdf).",
+        help="Path to output file. Format is inferred from the extension "
+             "(.pdf, .html / .htm, or .md / .markdown). Defaults to "
+             "<input_stem>_ocr.<format-suffix>; the format defaults to "
+             "pdf unless --format is given.",
     )
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose debug logging")
     parser.add_argument("--quiet", "-q", action="store_true", help="Suppress all output except errors")
@@ -83,6 +87,47 @@ Examples:
              "bounding boxes in one call. Skips Surya + DP + refine. Requires --model to be "
              "a vision LLM that supports grounded output.",
     )
+    parser.add_argument(
+        "--format", dest="format", choices=("pdf", "html", "md"),
+        help="Output format. Used when no explicit `output` path is given "
+             "(picks the auto-name's extension) AND when the explicit "
+             "`output` extension is unrecognized. If both --format and an "
+             "explicit `output` with a recognized extension are given, "
+             "the extension wins. Default: pdf.",
+    )
+    parser.add_argument(
+        "--html-mode", dest="html_mode",
+        choices=("letter-spacing", "full-height", "scaled"), default="scaled",
+        help="Span sizing strategy for HTML output (ignored for pdf/md). "
+             "scaled (default): font shrinks to fit both bbox dimensions "
+             "— stays legible at any zoom level. letter-spacing: font "
+             "sized to bbox height, chars stretched to fill bbox width "
+             "via letter-spacing (negative spacing can make characters "
+             "overlap and become hard to read). full-height: font = "
+             "bbox height with natural monospace width, may overflow the "
+             "bbox right edge.",
+    )
+    parser.add_argument(
+        "--html-inline-images", dest="html_inline_images",
+        action="store_true",
+        help="Embed page images as base64 data: URLs inside the HTML "
+             "(produces a single self-contained file, +~35% size). "
+             "Default behaviour writes external images: a relative "
+             "reference to the input file for single-frame "
+             "browser-native images (JPEG/PNG/WebP/AVIF/GIF), or "
+             "sidecar JPEGs named <stem>_p<N>.jpg next to the output "
+             "HTML for PDFs and multi-frame inputs.",
+    )
+    parser.add_argument(
+        "--html-invert-dark", dest="html_invert_dark",
+        action="store_true",
+        help="Invert page images in dark mode (HTML output only). "
+             "Adds CSS ``filter: invert() hue-rotate(180deg)`` that "
+             "activates when the OS / browser is in dark colour scheme, "
+             "so scanned white-background documents appear dark. "
+             "Without this flag the page image is shown as-is in all "
+             "colour schemes.",
+    )
     parser.add_argument("--api-base", help="Override LLM API base URL")
     parser.add_argument("--model", help="Override LLM model name")
     parser.add_argument(
@@ -108,11 +153,26 @@ def configure_logging(verbose: bool, quiet: bool) -> None:
     logging.basicConfig(level=level, format="%(message)s", stream=sys.stderr)
 
 
-def resolve_output_path(input_pdf: str, output_pdf: str | None) -> str:
+def resolve_output_path(
+    input_pdf: str,
+    output_pdf: str | None,
+    fmt: str | None = None,
+) -> str:
+    """Pick the output path.
+
+    - If `output_pdf` is given, use it verbatim. The format is inferred
+      from its extension downstream (`.pdf` / `.html` / `.md`); `fmt`
+      is ignored, so the explicit path always wins.
+    - Otherwise auto-generate `<input_stem>_ocr.<suffix>` using `fmt`'s
+      suffix (default: `.pdf`).
+    """
     if output_pdf:
         return output_pdf
+    # Lazy import to keep cli.py's --help fast.
+    from pdf_ocr.output import suffix_for_format
+    suffix = suffix_for_format(fmt) if fmt else ".pdf"
     p = Path(input_pdf)
-    return str(p.parent / f"{p.stem}_ocr.pdf")
+    return str(p.parent / f"{p.stem}_ocr{suffix}")
 
 
 async def run(args: argparse.Namespace, console: Console) -> None:
@@ -121,6 +181,16 @@ async def run(args: argparse.Namespace, console: Console) -> None:
     from pdf_ocr import (
         HybridAligner, OCRPipeline, OCRProcessor, PDFHandler,
         PromptedGroundedOCR,
+    )
+
+    from pdf_ocr.output import resolve_output_writer
+
+    output_path = resolve_output_path(args.input_pdf, args.output_pdf, args.format)
+    output_writer = resolve_output_writer(
+        output_path,
+        html_mode=args.html_mode,
+        html_inline_images=args.html_inline_images,
+        html_invert_dark=args.html_invert_dark,
     )
 
     pdf_handler = PDFHandler()
@@ -134,15 +204,15 @@ async def run(args: argparse.Namespace, console: Console) -> None:
         pipeline = OCRPipeline(
             pdf_handler=pdf_handler,
             grounded_backend=PromptedGroundedOCR(**backend_kwargs),
+            output_writer=output_writer,
         )
     else:
         pipeline = OCRPipeline(
             aligner=HybridAligner(),
             ocr_processor=OCRProcessor(api_base=args.api_base, model=args.model),
             pdf_handler=pdf_handler,
+            output_writer=output_writer,
         )
-
-    output_path = resolve_output_path(args.input_pdf, args.output_pdf)
 
     if args.verify_model:
         # Fail fast on model mismatch BEFORE we pay for PDF rasterization

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>image</title>
+<style>
+body { margin: 0; background: #f5f5f5; }
+div.page {
+  position: relative;
+  width: calc(var(--page-w) * 1px);
+  aspect-ratio: var(--page-w) / var(--page-h);
+  container-type: inline-size;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 0 auto 1em auto;
+  outline: solid 1px #d0d0d0;
+}
+span.line {
+  position: absolute;
+  color: transparent;
+  white-space: nowrap;
+  font-family: monospace;
+  line-height: 1;
+}
+@media (prefers-color-scheme: dark) {
+  body { background: #1a1a1a; }
+  div.page {
+    outline-color: #404040;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page" data-page="1" style="--page-w:2480;--page-h:3342;background-image:url('image.png')">
+<span class="line" style="left:75%;top:2.7344%;width:9.2105%;font-size:2.632cqw;height:1.9531%;">1000</span>
+<span class="line" style="left:16.8421%;top:3.7109%;width:26.3158%;font-size:4.2112cqw;height:3.125%;">10.4.2026</span>
+<span class="line" style="left:5.3947%;top:3.9062%;width:8.4211%;font-size:3.29cqw;height:2.4414%;">Fr</span>
+<span class="line" style="left:60.3947%;top:12.5%;width:28.8158%;font-size:4.366cqw;height:4.4922%;">Psychotiker</span>
+<span class="line" style="left:5.3947%;top:13.5742%;width:22.2368%;font-size:3.7061cqw;height:3.0273%;">Neurotiker</span>
+<span class="line" style="left:59.0789%;top:19.3359%;width:30.3947%;font-size:6.3322cqw;height:5.1758%;">Typer 14</span>
+<span class="line" style="left:5%;top:19.5312%;width:22.2368%;font-size:4.6327cqw;height:4.6875%;">Typen 23</span>
+<span class="line" style="left:4.6053%;top:27.7344%;width:32.2368%;font-size:2.2387cqw;height:8.0078%;">schwache Grenzen im Kopf</span>
+<span class="line" style="left:54.0789%;top:28.2227%;width:39.0789%;font-size:2.9605cqw;height:7.8125%;">starke Grenzen im Kopf</span>
+<span class="line" style="left:58.2895%;top:37.3047%;width:30.1316%;font-size:3.348cqw;height:9.668%;">Rechte männlich</span>
+<span class="line" style="left:6.4474%;top:37.9883%;width:25.7895%;font-size:5.5272cqw;height:4.1016%;">Linke</span>
+<span class="line" style="left:7.3684%;top:41.7969%;width:24.4737%;font-size:5.0987cqw;height:4.7852%;">weiblich</span>
+<span class="line" style="left:55.9211%;top:50.1953%;width:37.2368%;font-size:3.6507cqw;height:4.4922%;">verwechseln wenig</span>
+<span class="line" style="left:3.6842%;top:50.6836%;width:35.7895%;font-size:3.7281cqw;height:4.7852%;">verwechseln viel</span>
+<span class="line" style="left:4.3421%;top:58.7891%;width:35.9211%;font-size:3.7418cqw;height:6.0547%;">"Alles ist eins"</span>
+<span class="line" style="left:54.2105%;top:65.625%;width:31.8421%;font-size:4.0823cqw;height:5.5664%;">Jenker Scharf</span>
+<span class="line" style="left:5.3947%;top:67.4805%;width:41.0526%;font-size:3.2581cqw;height:3.9062%;">denken verschwommener</span>
+<span class="line" style="left:6.1842%;top:73.7305%;width:32.6316%;font-size:5.4386cqw;height:4.5898%;">Schwamkopf</span>
+<span class="line" style="left:6.3158%;top:79.2969%;width:29.7368%;font-size:4.5056cqw;height:3.8086%;">Schwachkopf</span>
+<span class="line" style="left:55.7895%;top:84.082%;width:29.0789%;font-size:5.385cqw;height:4.7852%;">Gnostiker</span>
+<span class="line" style="left:6.4474%;top:84.8633%;width:27.8947%;font-size:5.3956cqw;height:4.0039%;">Mystiker</span>
+</div>
+<script>
+(function(){
+  var px = document.body.clientWidth - 1;
+  for (const p of document.querySelectorAll('div.page')) {
+    var w = parseFloat(p.style.getPropertyValue('--page-w'));
+    if (!isFinite(w) || w <= 0 || w <= px) continue;
+    p.style.width = px + 'px';
+  }
+})();
+</script>
+</body>
+</html>

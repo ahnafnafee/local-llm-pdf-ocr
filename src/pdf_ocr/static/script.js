@@ -113,9 +113,14 @@ async function handleFile(file) {
     processView.classList.remove('hidden');
     updateProgress("Uploading...", 0);
 
+    const formatSelect = document.getElementById('format-select');
+    const format = formatSelect ? formatSelect.value : 'pdf';
+    const formatSuffix = { pdf: '.pdf', html: '.html', md: '.md' }[format] || '.pdf';
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('client_id', clientId); // Send ID so server knows who to push progress to
+    formData.append('format', format);
 
     try {
         const response = await fetch('/process', {
@@ -130,12 +135,16 @@ async function handleFile(file) {
 
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-        
+
+        // Strip the original .pdf so the download is `OCR_<stem>.<format>`
+        // rather than `OCR_<stem>.pdf.html`.
+        const baseName = file.name.replace(/\.[^.]+$/, '');
+
         // Setup Download
         downloadBtn.onclick = () => {
             const a = document.createElement('a');
             a.href = url;
-            a.download = `OCR_${file.name}`;
+            a.download = `OCR_${baseName}${formatSuffix}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

@@ -14,7 +14,16 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.background import BackgroundTask
 
-from pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler
+from pdf_ocr import (
+    HybridAligner,
+    OCRPipeline,
+    OCRProcessor,
+    PDFHandler,
+    SUPPORTED_FORMATS,
+    media_type_for,
+    resolve_output_writer,
+    suffix_for_format,
+)
 
 # Resolve the bundled static directory relative to this module so the server
 # works regardless of the user's CWD when launched via the installed
@@ -83,11 +92,31 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 
 
 @app.post("/process")
-async def process_pdf(file: UploadFile = File(...), client_id: str = Form(...)):
+async def process_pdf(
+    file: UploadFile = File(...),
+    client_id: str = Form(...),
+    format: str = Form("pdf"),
+):
+    """OCR an uploaded file and return the result in `format`.
+
+    `format` is one of `pdf` (default), `html`, `md`. The file is named
+    `ocr_<original-name-with-original-extension>.<format-suffix>` for
+    download, and the response's Content-Type tracks the format.
+    """
+    if format not in SUPPORTED_FORMATS:
+        return JSONResponse(
+            status_code=400,
+            content={"error": f"unsupported format {format!r}; "
+                              f"expected one of {SUPPORTED_FORMATS}"},
+        )
+    output_suffix = suffix_for_format(format)
+
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_input:
         shutil.copyfileobj(file.file, tmp_input)
         input_path = tmp_input.name
-    output_path = os.path.join(tempfile.gettempdir(), f"output_{uuid.uuid4()}.pdf")
+    output_path = os.path.join(
+        tempfile.gettempdir(), f"output_{uuid.uuid4()}{output_suffix}",
+    )
 
     try:
         await manager.send_progress(client_id, "Initializing...", 5)
@@ -96,6 +125,11 @@ async def process_pdf(file: UploadFile = File(...), client_id: str = Form(...)):
             aligner=HybridAligner(),
             ocr_processor=OCRProcessor(),
             pdf_handler=PDFHandler(),
+            # Inline images so the single-file FileResponse below is
+            # self-contained — sidecar JPEGs would not reach the client.
+            output_writer=resolve_output_writer(
+                output_path, html_inline_images=True,
+            ),
         )
         concurrency = int(os.getenv("OCR_CONCURRENCY", 3))
 
@@ -118,10 +152,14 @@ async def process_pdf(file: UploadFile = File(...), client_id: str = Form(...)):
             json.dump({str(k): v for k, v in pages_text.items()}, f)
 
         await manager.send_progress(client_id, "Done! Preparing download...", 100)
+        # Strip the original extension from `file.filename` so the
+        # download is named with the chosen format's suffix instead of
+        # ending up like `ocr_scan.pdf.html`.
+        base_name = Path(file.filename or "ocr_output").stem
         return FileResponse(
             output_path,
-            media_type="application/pdf",
-            filename=f"ocr_{file.filename}",
+            media_type=media_type_for(output_path),
+            filename=f"ocr_{base_name}{output_suffix}",
             background=BackgroundTask(_cleanup, input_path),
         )
     except Exception as e:

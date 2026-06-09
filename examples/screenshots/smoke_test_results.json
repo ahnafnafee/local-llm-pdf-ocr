@@ -1,0 +1,50 @@
+[
+  {
+    "name": "output_digital",
+    "navOk": true,
+    "bodyBg": "rgb(245, 245, 245)",
+    "pageBgColor": "rgba(0, 0, 0, 0)",
+    "spanCount": 30,
+    "spansTransparent": true,
+    "sampleSpanColor": "rgba(0, 0, 0, 0)",
+    "pageFilter": "none",
+    "consoleErrors": [],
+    "screenshotPath": "D:\\GitHub\\pdf-ocr-llm\\examples\\screenshots\\output_digital.png"
+  },
+  {
+    "name": "output_handwritten",
+    "navOk": true,
+    "bodyBg": "rgb(245, 245, 245)",
+    "pageBgColor": "rgba(0, 0, 0, 0)",
+    "spanCount": 15,
+    "spansTransparent": true,
+    "sampleSpanColor": "rgba(0, 0, 0, 0)",
+    "pageFilter": "none",
+    "consoleErrors": [],
+    "screenshotPath": "D:\\GitHub\\pdf-ocr-llm\\examples\\screenshots\\output_handwritten.png"
+  },
+  {
+    "name": "output_hybrid",
+    "navOk": true,
+    "bodyBg": "rgb(245, 245, 245)",
+    "pageBgColor": "rgba(0, 0, 0, 0)",
+    "spanCount": 15,
+    "spansTransparent": true,
+    "sampleSpanColor": "rgba(0, 0, 0, 0)",
+    "pageFilter": "none",
+    "consoleErrors": [],
+    "screenshotPath": "D:\\GitHub\\pdf-ocr-llm\\examples\\screenshots\\output_hybrid.png"
+  },
+  {
+    "name": "output_image",
+    "navOk": true,
+    "bodyBg": "rgb(245, 245, 245)",
+    "pageBgColor": "rgba(0, 0, 0, 0)",
+    "spanCount": 19,
+    "spansTransparent": true,
+    "sampleSpanColor": "rgba(0, 0, 0, 0)",
+    "pageFilter": "none",
+    "consoleErrors": [],
+    "screenshotPath": "D:\\GitHub\\pdf-ocr-llm\\examples\\screenshots\\output_image.png"
+  }
+]
