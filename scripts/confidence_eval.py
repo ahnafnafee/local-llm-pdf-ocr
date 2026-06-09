@@ -55,7 +55,19 @@ HISTORY_CSV = ROOT / "evals" / "history.csv"
 # A metric may drop this much below its committed baseline before the
 # run is declared a regression. Baselines move only via
 # --update-baselines, reviewed like code.
+#
+# Geometry and checks are deterministic (Surya detection + fixed rules),
+# so they get the tight bound. The text axes ride on LLM sampling, which
+# wobbles a few hundredths between identical runs on large handwriting
+# documents (measured: +/-0.03 on the 477-block notebook with an
+# unchanged pipeline) — their tolerance sits just above that noise
+# floor so the gate flags drift, not dice rolls.
 REGRESSION_TOLERANCE = 0.02
+_AXIS_TOLERANCE = {
+    "text_sim": 0.04,
+    "avg_cer": 0.04,
+    "bow_f1": 0.04,
+}
 _LOWER_IS_BETTER = {"avg_cer"}
 
 JOBS = [
@@ -204,13 +216,14 @@ def compare_to_baseline(document: str, path_label: str, metrics: dict) -> list[s
         if key not in metrics:
             continue
         cur = metrics[key]
+        tol = _AXIS_TOLERANCE.get(key, REGRESSION_TOLERANCE)
         if key in _LOWER_IS_BETTER:
-            if cur > base_val + REGRESSION_TOLERANCE:
+            if cur > base_val + tol:
                 regressions.append(
                     f"{document}/{path_label}: {key} {cur:.3f} worse than "
                     f"baseline {base_val:.3f} (+{cur - base_val:.3f})"
                 )
-        elif cur < base_val - REGRESSION_TOLERANCE:
+        elif cur < base_val - tol:
             regressions.append(
                 f"{document}/{path_label}: {key} {cur:.3f} below "
                 f"baseline {base_val:.3f} (-{base_val - cur:.3f})"

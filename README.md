@@ -23,6 +23,11 @@
 -   **🖥️ Dual Interfaces**:
     -   **Web UI**: Drag & drop, Dark Mode, real-time per-page progress.
     -   **CLI**: Documented flags for power users and batch automation, Rich progress bars.
+
+    <p align="center">
+      <img src="examples/screenshots/web_ui_light.png" alt="Web UI, light theme" width="49%" />
+      <img src="examples/screenshots/web_ui_dark.png" alt="Web UI, dark theme" width="49%" />
+    </p>
 -   **📚 Dense-Page Mode**: Auto-detects densely-laid-out pages (default >60 detected boxes) and switches to per-box OCR — bypasses the failure modes (loops, hallucination, pangram fallback) that full-page OCR exhibits on dense handwritten content. Configurable via `--dense-mode` and `--dense-threshold`.
 -   **🧪 Tested**: 388-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry (including rotated-quad overlays), grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), evaluation metrics and doc-checks, CLI dispatch, server endpoints, end-to-end runs against the example PDFs, and detector-geometry regression floors.
 
