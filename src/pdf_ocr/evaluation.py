@@ -13,13 +13,15 @@ aspect ratio across the fixture's boxes and normalizes to `[x0, y0, x1, y1]`
 before comparison.
 
 Metrics per document:
-    - block_recall: fraction of GT blocks matched with IoU >= threshold
+    - block_recall / precision / hmean at the IoU threshold
     - text_similarity: avg difflib ratio over matched (text-normalized) pairs
     - unmatched: GT blocks with no sufficient pipeline counterpart
 
-Blocks are matched greedily by IoU (best available pipeline box per GT box),
-without replacement. Not optimal in the Hungarian sense, but deterministic
-and close enough for a confidence summary.
+Matching is a globally optimal one-to-one assignment on the IoU matrix
+(`scipy.optimize.linear_sum_assignment`), so results do not depend on GT
+ordering. The legacy greedy strategy (best available pipeline box per GT
+box, in GT order) remains available via ``matching="greedy"`` for
+comparison against historical reports.
 """
 
 from __future__ import annotations
@@ -74,11 +76,40 @@ class ConfidenceReport:
 
     @property
     def matched(self) -> list[BlockMatch]:
-        return [m for m in self.matches if m.iou >= self.iou_threshold]
+        # `pipeline_text is not None` distinguishes real assignments from
+        # miss entries, whose `iou` field holds the best-available IoU as
+        # a diagnostic — under optimal matching that diagnostic can exceed
+        # the threshold when the box was assigned to a different GT block.
+        return [
+            m for m in self.matches
+            if m.pipeline_text is not None and m.iou >= self.iou_threshold
+        ]
 
     @property
     def block_recall(self) -> float:
         return len(self.matched) / max(1, self.gt_count)
+
+    @property
+    def precision(self) -> float:
+        return len(self.matched) / max(1, self.pipeline_count)
+
+    @property
+    def hmean(self) -> float:
+        p, r = self.precision, self.block_recall
+        return 0.0 if (p + r) == 0 else 2 * p * r / (p + r)
+
+    def recall_at(self, threshold: float) -> float:
+        """Recall against a stricter IoU bar than the matching threshold.
+
+        Derived from the existing assignment (pairs are fixed; only the
+        acceptance bar moves), so ``recall_at(0.5)`` is comparable across
+        runs without re-matching.
+        """
+        hits = [
+            m for m in self.matches
+            if m.pipeline_text is not None and m.iou >= threshold
+        ]
+        return len(hits) / max(1, self.gt_count)
 
     @property
     def avg_text_similarity(self) -> float:
@@ -101,6 +132,8 @@ class ConfidenceReport:
             f"pipeline={self.pipeline_count:<3} "
             f"matched={len(self.matched):<3} "
             f"recall={self.block_recall:.2f} "
+            f"prec={self.precision:.2f} "
+            f"hmean={self.hmean:.2f} "
             f"iou_avg={self.avg_iou:.2f} "
             f"text_sim_avg={self.avg_text_similarity:.2f}"
         )
@@ -228,41 +261,83 @@ def compute_report(
     ground_truth: list[GTBlock],
     pipeline_output: list[tuple[BBox, str]],
     iou_threshold: float = 0.3,
+    matching: str = "hungarian",
 ) -> ConfidenceReport:
     """
-    Greedy best-IoU matching of GT blocks to pipeline blocks, no re-use.
+    Match GT blocks to pipeline blocks one-to-one and score the pairing.
 
-    Small enough inputs (tens of blocks per page) that O(N×M) is fine.
+    matching:
+        "hungarian" (default): globally optimal assignment maximizing
+            total IoU (`scipy.optimize.linear_sum_assignment`); pairs
+            below `iou_threshold` are discarded after assignment, per
+            the standard detection-eval protocol. Deterministic and
+            independent of GT ordering.
+        "greedy": legacy first-come best-IoU matching in GT order;
+            order-dependent and can under-match, kept only so historical
+            reports remain reproducible.
+
+    Miss entries carry the GT block's best IoU against *any* pipeline
+    box as a diagnostic (`pipeline_text is None` marks them as misses).
+    Small enough inputs (hundreds of blocks) that O(N×M) is fine.
     """
-    used: set[int] = set()
+    n_pipe = len(pipeline_output)
+    iou_rows = [
+        [iou(gt.bbox, pbox) for (pbox, _ptext) in pipeline_output]
+        for gt in ground_truth
+    ]
+
+    assigned: dict[int, int] = {}  # gt index -> pipeline index
+    if matching == "hungarian":
+        if ground_truth and pipeline_output:
+            import numpy as np
+            from scipy.optimize import linear_sum_assignment
+
+            rows, cols = linear_sum_assignment(-np.asarray(iou_rows))
+            assigned = {
+                int(g): int(p)
+                for g, p in zip(rows, cols)
+                if iou_rows[g][p] >= iou_threshold
+            }
+    elif matching == "greedy":
+        used: set[int] = set()
+        for gi in range(len(ground_truth)):
+            best_i, best_iou = -1, 0.0
+            for pi in range(n_pipe):
+                if pi in used:
+                    continue
+                if iou_rows[gi][pi] > best_iou:
+                    best_iou, best_i = iou_rows[gi][pi], pi
+            if best_i >= 0 and best_iou >= iou_threshold:
+                used.add(best_i)
+                assigned[gi] = best_i
+    else:
+        raise ValueError(
+            f"unknown matching strategy {matching!r}; "
+            f"expected 'hungarian' or 'greedy'"
+        )
+
     matches: list[BlockMatch] = []
-    for gt in ground_truth:
-        best_i, best_iou = -1, 0.0
-        for i, (pbox, _ptext) in enumerate(pipeline_output):
-            if i in used:
-                continue
-            score = iou(gt.bbox, pbox)
-            if score > best_iou:
-                best_iou, best_i = score, i
-        if best_i >= 0 and best_iou >= iou_threshold:
-            used.add(best_i)
-            pbox, ptext = pipeline_output[best_i]
+    for gi, gt in enumerate(ground_truth):
+        pi = assigned.get(gi)
+        if pi is not None:
+            pbox, ptext = pipeline_output[pi]
             matches.append(BlockMatch(
                 gt_text=gt.text, gt_bbox=gt.bbox,
                 pipeline_text=ptext, pipeline_bbox=pbox,
-                iou=best_iou,
+                iou=iou_rows[gi][pi],
                 text_similarity=text_similarity(gt.text, ptext),
             ))
         else:
+            best = max(iou_rows[gi], default=0.0)
             matches.append(BlockMatch(
                 gt_text=gt.text, gt_bbox=gt.bbox,
                 pipeline_text=None, pipeline_bbox=None,
-                iou=best_iou, text_similarity=0.0,
+                iou=best, text_similarity=0.0,
             ))
     return ConfidenceReport(
         document=document,
         iou_threshold=iou_threshold,
         gt_count=len(ground_truth),
-        pipeline_count=len(pipeline_output),
+        pipeline_count=n_pipe,
         matches=matches,
     )

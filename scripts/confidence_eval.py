@@ -113,6 +113,9 @@ def render_report(console: Console, reports: list):
     table.add_column("Pipe", justify="right")
     table.add_column("Matched", justify="right")
     table.add_column("Recall", justify="right")
+    table.add_column("R@0.5", justify="right")
+    table.add_column("Prec", justify="right")
+    table.add_column("Hmean", justify="right")
     table.add_column("Avg IoU", justify="right")
     table.add_column("Avg TextSim", justify="right")
 
@@ -124,14 +127,19 @@ def render_report(console: Console, reports: list):
             str(report.pipeline_count),
             str(len(report.matched)),
             f"{report.block_recall:.2f}",
+            f"{report.recall_at(0.5):.2f}",
+            f"{report.precision:.2f}",
+            f"{report.hmean:.2f}",
             f"{report.avg_iou:.2f}",
             f"{report.avg_text_similarity:.2f}",
         )
     console.print(table)
 
-    # Unmatched-blocks detail
+    # Unmatched-blocks detail. Misses are marked by a missing pipeline
+    # pairing — their `iou` field is a best-available diagnostic that can
+    # legitimately exceed the threshold under optimal matching.
     for path, report in reports:
-        unmatched = [m for m in report.matches if m.iou < report.iou_threshold]
+        unmatched = [m for m in report.matches if m.pipeline_text is None]
         if not unmatched:
             continue
         console.print(f"\n[yellow]Unmatched GT blocks in {report.document} ({path}):[/]")
@@ -153,6 +161,12 @@ async def main() -> None:
     parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
     parser.add_argument("--max-image-dim", type=int, default=1024)
     parser.add_argument("--iou-threshold", type=float, default=0.3)
+    parser.add_argument(
+        "--matching", choices=["hungarian", "greedy"], default="hungarian",
+        help="Box-assignment strategy. hungarian (default): globally "
+             "optimal one-to-one matching. greedy: legacy order-dependent "
+             "matching, for comparison against historical reports.",
+    )
     args = parser.parse_args()
 
     console = Console()
@@ -168,7 +182,8 @@ async def main() -> None:
             console.print("   [cyan]grounded[/]...")
             try:
                 out = await run_grounded(pdf, args.api_base, args.grounded_model, args.max_image_dim)
-                report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold)
+                report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
+                                        matching=args.matching)
                 reports.append(("grounded", report))
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
@@ -178,7 +193,8 @@ async def main() -> None:
             console.print("   [cyan]hybrid[/]...")
             try:
                 out = await run_hybrid(pdf, args.api_base, args.hybrid_model, args.max_image_dim)
-                report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold)
+                report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
+                                        matching=args.matching)
                 reports.append(("hybrid", report))
                 console.print(f"   {report.summary_line()}")
             except Exception as e:

@@ -208,6 +208,64 @@ class TestComputeReport:
         assert "recall=1.00" in line
 
 
+class TestMatchingStrategies:
+    # Two GT blocks competing for one pipeline box: optimal assignment
+    # gives the box to the better-fitting GT block; greedy gives it to
+    # whichever GT block comes first.
+    _GT_CONTESTED = [
+        GTBlock(bbox=[0.0, 0.0, 0.5, 0.2], text="alpha"),    # IoU 0.9 w/ box
+        GTBlock(bbox=[0.05, 0.0, 0.5, 0.2], text="beta"),    # IoU 1.0 w/ box
+    ]
+    _PIPE_ONE_BOX = [([0.05, 0.0, 0.5, 0.2], "beta")]
+
+    def test_hungarian_assigns_contested_box_optimally(self):
+        report = compute_report("x", self._GT_CONTESTED, self._PIPE_ONE_BOX)
+        assert len(report.matched) == 1
+        assert report.matched[0].gt_text == "beta"
+        assert report.matched[0].iou == 1.0
+
+    def test_greedy_still_available_and_order_dependent(self):
+        report = compute_report(
+            "x", self._GT_CONTESTED, self._PIPE_ONE_BOX, matching="greedy",
+        )
+        assert len(report.matched) == 1
+        assert report.matched[0].gt_text == "alpha"  # first GT wins
+
+    def test_unmatched_diagnostic_iou_not_counted_as_match(self):
+        # The losing GT block's miss entry carries its best IoU (0.9) as
+        # a diagnostic — above the threshold, but it must not inflate
+        # recall because the box went to the other GT block.
+        report = compute_report("x", self._GT_CONTESTED, self._PIPE_ONE_BOX)
+        assert report.block_recall == 0.5
+        misses = [m for m in report.matches if m.pipeline_text is None]
+        assert len(misses) == 1
+        assert misses[0].iou > report.iou_threshold
+
+    def test_unknown_strategy_raises(self):
+        with pytest.raises(ValueError, match="unknown matching strategy"):
+            compute_report("x", [], [], matching="psychic")
+
+    def test_precision_and_hmean(self):
+        gt = [GTBlock(bbox=[0.0, 0.0, 0.5, 0.5], text="alpha")]
+        pipeline = [
+            ([0.0, 0.0, 0.5, 0.5], "alpha"),
+            ([0.6, 0.6, 0.9, 0.9], "spurious"),
+        ]
+        report = compute_report("x", gt, pipeline)
+        assert report.block_recall == 1.0
+        assert report.precision == 0.5
+        assert report.hmean == pytest.approx(2 * 0.5 * 1.0 / 1.5)
+
+    def test_recall_at_stricter_threshold(self):
+        # Pair matches at IoU ~0.45 (inter 0.05 / union 0.11): counted
+        # at the 0.3 bar, not at 0.5.
+        gt = [GTBlock(bbox=[0.0, 0.0, 0.4, 0.2], text="alpha")]
+        pipeline = [([0.15, 0.0, 0.55, 0.2], "alpha")]
+        report = compute_report("x", gt, pipeline, iou_threshold=0.3)
+        assert report.block_recall == 1.0
+        assert report.recall_at(0.5) == 0.0
+
+
 def test_report_handles_empty_pipeline():
     gt = [GTBlock(bbox=[0.0, 0.0, 0.5, 0.5], text="alpha")]
     report = compute_report("x", gt, [])
