@@ -33,9 +33,9 @@ Debug/inspection tools live in `scripts/` (`visualize_bboxes.py`, `debug_alignme
 ### Tests
 
 ```bash
-uv run pytest                     # full suite (~40s, loads Surya once; 273 fast + 23 slow)
-uv run pytest -m "not slow"       # fast tier only, no model load (~10s; 273 tests)
-uv run pytest -m slow             # integration: real Surya + example PDFs (~30s; 23 tests)
+uv run pytest                     # full suite (~60s, loads Surya once; 346 fast + 29 slow)
+uv run pytest -m "not slow"       # fast tier only (~25s; 346 tests)
+uv run pytest -m slow             # integration: real Surya + example PDFs + geometry floors (~30s; 29 tests)
 uv run pytest tests/test_aligner.py -v   # single file
 ```
 
@@ -43,7 +43,7 @@ Tests live under `tests/`. `pytest-asyncio` is in auto mode so `async def test_.
 
 ### Confidence evaluation
 
-`scripts/confidence_eval.py` scores either pipeline path against the ground-truth fixtures in `tests/fixtures/ground_truth_*.json`. Requires a live LLM; reports per-document block recall, average IoU of matched pairs, and average text similarity against the GT content.
+`scripts/confidence_eval.py` scores either pipeline path against the ground-truth fixtures in `tests/fixtures/ground_truth_*.json`. Requires a live LLM. Metrics are decomposed per axis (`ConfidenceReport.to_metrics_dict()`): geometry — block recall/precision/hmean at the IoU threshold via optimal Hungarian matching (`--matching greedy` reproduces legacy reports), recall@0.5, matched-IoU average; text — per-match CER (jiwer) plus assignment-free bag-of-words F1; structure — split/merge-tolerant pseudo-character coverage (CLEval-style PCC, in-repo); plus binary per-document checks from `evals/checks/<stem>.jsonl` (present/absent/order facts, olmOCR-bench style). Each run appends `evals/history.csv` and compares against committed `evals/baselines/<doc>__<path>.json` (tolerance 0.02; regressions exit 1); `--update-baselines` ratchets them in a reviewed commit. Detector-only geometry floors run offline in `tests/test_eval_regression.py` (slow tier).
 
 ```bash
 uv run scripts/confidence_eval.py --path grounded --grounded-model qwen/qwen3-vl-8b
@@ -60,7 +60,7 @@ LLM endpoint is read from `.env` (or CLI overrides `--api-base` / `--model`). LM
 ```
 LLM_API_BASE=http://localhost:1234/v1
 LLM_MODEL=allenai/olmocr-2-7b
-OCR_CONCURRENCY=3          # server.py — async LLM concurrency
+OCR_CONCURRENCY=2          # server.py — in-flight LLM requests (KV-cache VRAM on parallel-slot servers; queued for free on LM Studio/Ollama defaults)
 OCR_VERIFY_MODEL=0         # server.py — opt out of pre-flight model check (default: on)
 ```
 
@@ -92,7 +92,7 @@ After DP, any empty box passing `_is_refinable` (~40pt × 6pt at 200 DPI) is cro
 
 ### Dense-page detection / per-box OCR
 
-When `dense_mode` is `"auto"` (default) and a page exceeds `dense_threshold` boxes (default 60), `OCRPipeline._ocr_per_box` skips full-page OCR for that page and feeds each Surya box individually through `perform_ocr_on_crop`. Refine is also skipped for those pages — every box was already individually transcribed. `dense_mode="always"` forces this on every page (recommended for handwriting); `"never"` keeps the original full-page path. This bypasses the failure modes that full-page OCR exhibits on dense content (the model loops on `<th>Java</th>`-style runaway, or just fails to track the volume of content). Cost: N times more LLM calls per dense page, mitigated by `--concurrency`.
+When `dense_mode` is `"auto"` (default) and a page exceeds `dense_threshold` boxes (default 60), `OCRPipeline._ocr_per_box` skips full-page OCR for that page and feeds each Surya box individually through `perform_ocr_on_crop`. Refine is also skipped for those pages — every box was already individually transcribed. `dense_mode="always"` forces this on every page (recommended for handwriting); `"never"` keeps the original full-page path. In `"auto"`, a sparse page is also **retried per-box** when the DP's real match count lands under half its boxes (`pipeline.py::_DP_RETRY_*`) — the aligner reports it via `AlignmentResult.match_count`. Forms are the canonical trigger: many label boxes with near-identical DP match costs bind text to the wrong fields, and the retry replaces guessed bindings with per-region transcriptions. This bypasses the failure modes that full-page OCR exhibits on dense content (the model loops on `<th>Java</th>`-style runaway, or just fails to track the volume of content). Cost: N times more LLM calls per dense page, mitigated by `--concurrency`.
 
 ### LLM stability defenses (`OCRProcessor`)
 
@@ -138,10 +138,11 @@ The `"ocr"` stage label is suffixed with a dense/sparse split when both kinds of
 | Class           | File        | Role                                                                          |
 |-----------------|-------------|-------------------------------------------------------------------------------|
 | `PDFHandler`    | `pdf.py`    | PDF↔image conversion; builds a fresh `new_doc` and overlays invisible text with `render_mode=3`. `_draw_invisible_text` auto-sizes font per box. `IMAGE_EXTENSIONS` includes `.avif` alongside JPEG/PNG/TIFF/BMP/WebP — AVIF decoding is native to Pillow ≥11.3 (the pyproject.toml floor). |
-| `HTMLHandler`   | `html.py`   | HTML output with OCR text overlaid as absolutely-positioned invisible `<span>`s. By default page images are referenced as external files (the input file itself for single-frame browser-native images JPEG/PNG/WebP/AVIF/GIF; sidecar JPEGs `<output_stem>_p<N>.jpg` — zero-padded page numbers, plain `<output_stem>.jpg` for single-page inputs — for PDFs and multi-frame inputs). `inline_images=True` (CLI: `--html-inline-images`) inlines page images as base64 data URLs for a single self-contained file. `invert_dark=True` (CLI: `--html-invert-dark`) adds CSS `filter: invert() hue-rotate(180deg)` that activates under `prefers-color-scheme: dark`, inverting scanned white-background pages for night reading. Default sizing mode is `scaled` (font shrinks to fit both bbox dimensions, stays legible at any zoom); `letter-spacing` and `full-height` are still available via `mode=` / `--html-mode`. Supports both PDF and image inputs. |
+| `HTMLHandler`   | `html.py`   | HTML output with OCR text overlaid as absolutely-positioned invisible `<span>`s. By default page images are referenced as external files (the input file itself for single-frame browser-native images JPEG/PNG/WebP/AVIF/GIF; sidecar JPEGs `<output_stem>_p<N>.jpg` — zero-padded page numbers, plain `<output_stem>.jpg` for single-page inputs — for PDFs and multi-frame inputs). `inline_images=True` (CLI: `--html-inline-images`) inlines page images as base64 data URLs for a single self-contained file. `invert_dark=True` (CLI: `--html-invert-dark`) adds CSS `filter: invert() hue-rotate(180deg)` that activates under `prefers-color-scheme: dark`, inverting scanned white-background pages for night reading. Default sizing mode is `scaled` (server-side fit + page-load `canvas.measureText` script setting per-span `--scale-x`, the PDF.js textLayer approach; degrades to the server-side fit without JS); `letter-spacing` and `full-height` are still available via `mode=` / `--html-mode`. Tilted detector quads (`OrientedBox.is_rotated`) anchor spans at the quad's top-left with `--rotate`, swung by the stylesheet's `transform: rotate(var(--rotate)) scaleX(var(--scale-x))`. Supports both PDF and image inputs. |
 | `MarkdownHandler` | `markdown.py` | Plain Markdown export. `# OCR output: <input>` top-level header, `## Page N` per page, one block per non-empty box in reading order. No bbox math, no rasterization. |
 | `OCRProcessor`  | `ocr.py`    | `AsyncOpenAI` client against the local LLM; `perform_ocr` returns a list of lines. Per-call `max_tokens` + `timeout` caps prevent runaway generation. Output runs through `_strip_runaway_repetition` (caps any single line at 20 occurrences) and crop responses through the pangram filter. |
-| `HybridAligner` | `aligner.py`| Wraps Surya's `DetectionPredictor`; `get_detected_boxes_batch` returns boxes in row-major order; `align_text` runs the DP twice (row-major + column-major from `_reading_order_indices`) and picks the lower-cost result, so the same code path matches whichever order the LLM emits. |
+| `HybridAligner` | `aligner.py`| Wraps Surya's `DetectionPredictor`; `get_detected_boxes_batch` returns `OrientedBox`es (list-compatible AABBs carrying Surya's min-area-rect `quad`, pixel-space `angle`, and per-page-normalized `confidence`) in row-major order; `align_text` runs the DP twice (row-major + column-major from `_reading_order_indices`) and picks the lower-cost result, returning an `AlignmentResult` (list + `match_count` diagnostic for the pipeline's per-box retry). |
+| `OrientedBox` etc. | `geometry.py` | Shared oriented-geometry types: `OrientedBox(list)` (AABB + quad/angle/confidence, JSON-serializes as a plain array), `quad_angle_deg` / `quad_edge_lengths` (pixel-space math — normalized space distorts angles/lengths on non-square pages), and `ANGLE_FLATTEN_DEG` (writers treat tilt below it as horizontal; min-area rects wobble 1-3° on straight printed text). |
 | `_layout` helpers | `_layout.py` | Pure helpers shared by every output writer: `is_full_page_fallback` (detect aligner's `[0,0,1,1]+\n` fallback bbox) and `split_multi_line_bbox` (proportional vertical split for `\n`-joined lines in one bbox). PDF and HTML writers call them so edge-case handling stays identical across formats. |
 
 ### Coordinate and text conventions

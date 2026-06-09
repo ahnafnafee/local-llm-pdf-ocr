@@ -41,7 +41,9 @@ Sources: [tesseract pdfrenderer.cpp](https://github.com/tesseract-ocr/tesseract/
 
 ## 3. Ranked roadmap
 
-### P0 — Upgrade the eval before touching the pipeline (prerequisite for "strive toward improvement")
+### P0 — Upgrade the eval before touching the pipeline (prerequisite for "strive toward improvement") — ✅ implemented
+
+*Implementation deviations from the table below, chosen deliberately:* the char-level split/merge-tolerant axis is an **in-repo CLEval-style PCC coverage** (`evaluation.py::char_coverage`) rather than the `cleval` package — same construction, no Polygon3 build dependency on Windows; the CI ratchet lives **inside `scripts/confidence_eval.py`** (committed `evals/baselines/*.json`, tolerance 0.02, exit 1 on regression, `--update-baselines` to ratchet, `evals/history.csv` appended per run) rather than pytest-regressions, because the live-LLM axes can't run in a plain pytest job anyway; detector-only geometry floors run offline in `tests/test_eval_regression.py` (slow tier) exactly as planned.
 
 *Injection point: `src/pdf_ocr/evaluation.py`, `scripts/confidence_eval.py`, CI.*
 
@@ -59,7 +61,9 @@ Sources: [CLEval](https://github.com/clovaai/CLEval) · [jiwer](https://github.c
 
 *Effort: S–M. Expected effect: form-doc scores rise on CLEval/BoW axes immediately (metric truthfulness), giving honest attribution for everything below.*
 
-### P1 — Consume Surya's polygons + confidence (free geometry upgrade)
+### P1 — Consume Surya's polygons + confidence (free geometry upgrade) — ✅ implemented
+
+*Shipped as `core/geometry.py::OrientedBox` — a `list` subclass carrying `quad`/`angle`/`confidence`, so every plain-bbox consumer keeps working unchanged. Angle is measured in pixel space (normalized space distorts it on non-square pages). The `DETECTOR_BOX_Y_EXPAND_MARGIN` tightness experiment remains open.*
 
 *Injection point: `HybridAligner.get_detected_boxes_batch` + `pages_data` tuple shape.*
 
@@ -67,7 +71,9 @@ Stop flattening: carry `(aabb, quad, angle, confidence)` per box — angle via `
 *Expected impact: matched IoU ↑ on all docs (the 5% pad alone inflates every box); enables P2. Proof: mean matched IoU; later baseline-angle error.*
 Source: [heatmap.py](https://github.com/datalab-to/surya/blob/master/surya/detection/heatmap.py) (`DETECTOR_BOX_Y_EXPAND_MARGIN` in [settings.py](https://github.com/datalab-to/surya/blob/master/surya/settings.py)). Note: Surya confidence is per-page max-normalized — a ranking signal, not a probability.
 
-### P2 — Rotated invisible text in both writers (S effort, latent in deps)
+### P2 — Rotated invisible text in both writers (S effort, latent in deps) — ✅ implemented
+
+*Both writers honor `OrientedBox.is_rotated` (flatten threshold 3.0°, calibrated against measured polygon noise: straight printed examples top out at 2.3°, real handwriting slants reach 5–33°). PDF composes `Matrix(scale_x, 1) * Matrix(-angle)` — the sign pinned empirically via extraction `dir`. Verified through PyMuPDF text extraction in `tests/test_rotated_overlay.py`.*
 
 *Injection points: `PDFHandler._draw_invisible_text`, `HTMLHandler._emit_span`.*
 
@@ -76,7 +82,9 @@ Source: [heatmap.py](https://github.com/datalab-to/surya/blob/master/surya/detec
 *Expected impact: rotated/skewed scans (currently embedded as inflated horizontal AABBs) get correctly-angled selection. Proof: new rotated-fixture unit tests + baseline-angle error metric.*
 Sources: [morph example](https://github.com/pymupdf/PyMuPDF/discussions/2722) · [text_layer_builder.css](https://github.com/mozilla/pdf.js/blob/master/web/text_layer_builder.css) · [OCRmyPDF baseline-matrix composition](https://github.com/ocrmypdf/OCRmyPDF/blob/main/src/ocrmypdf/fpdf_renderer/renderer.py)
 
-### P3 — HTML width congruence: measured `scaleX`, retire the 0.6 heuristic
+### P3 — HTML width congruence: measured `scaleX`, retire the 0.6 heuristic — ✅ implemented
+
+*`scaled` mode keeps its server-side fit as the no-JS fallback and adds a page-load measure script (after the fit script — measurement reads post-fit layout) setting per-span `--scale-x`; the stylesheet applies `transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1))` with origin 0 0. `letter-spacing` and `full-height` modes are intentionally not measured — spacing already stretches, natural width is by design.*
 
 *Injection point: `HTMLHandler._span_sizing_style` + the existing inline-script pattern.*
 
@@ -85,7 +93,9 @@ Keep `letter-spacing` mode only as legacy: shipping browsers add a trailing lett
 *Expected impact: right-edge selection drift on proportional text eliminated in HTML (currently ±30%-class error on pathological lines: "ill" vs "WWW"). Proof: rendered-overlay edge-offset check (Playwright measure of selection rects vs box rects) + visual QA screenshots.*
 Sources: [pdf.js measureText/scaleX](https://github.com/mozilla/pdf.js/blob/master/src/display/text_layer.js) · [letter-spacing trailing-gap CSSWG issue](https://github.com/w3c/csswg-drafts/issues/1518) · [MDN letter-spacing](https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing)
 
-### P4 — Per-word placement (PDF first), word-split of line text
+### P4 — Per-word placement (PDF first), word-split of line text — ⏸ blocked on a word-level geometry source
+
+*Status: with only line-level detector boxes, splitting a line's text into per-word draw calls at proportional offsets reproduces exactly the geometry the single scaled draw already produces — there is no measurable win until a detector supplies real per-word boxes (P6 docTR) or per-word widths diverge from proportional allocation. What IS done: both writers are verified granularity-agnostic (`tests/test_rotated_overlay.py::TestWordGranularityReadiness` feeds word-level boxes and checks per-word placement), so a word-level aligner plugs in with zero writer changes.*
 
 *Injection points: `PDFHandler._draw_invisible_text`; later `_emit_span`.*
 
@@ -93,14 +103,18 @@ Sources: [pdf.js measureText/scaleX](https://github.com/mozilla/pdf.js/blob/mast
 *Expected impact: word-level selection/highlight congruence in PDF (the unit users actually select). Proof: PDFium `FPDFText_GetLooseCharBox` extraction vs detector boxes — mean per-word horizontal offset.*
 Sources: [pdfrenderer.cpp Tz math](https://github.com/tesseract-ocr/tesseract/blob/main/src/api/pdfrenderer.cpp) · [OCRmyPDF v17 notes](https://github.com/ocrmypdf/OCRmyPDF/blob/main/docs/releasenotes/version17.md)
 
-### P5 — Smarter dense-mode default (forms fix with zero new deps)
+### P5 — Smarter dense-mode default (forms fix with zero new deps) — ✅ implemented, premise REVISED by measurement
 
-*Injection point: `OCRPipeline` dense heuristic.*
+*Original hypothesis, falsified:* this section first predicted that routing form pages per-box would lift block recall ~0.24→0.9+, and that a narrow-box width signal could identify forms. Detector-only measurement (`scripts/inspect_detection_geometry.py`) refuted both: (a) detection-only recall vs GT is **0.44 (digital) / 0.26 (hybrid)** — identical to the full pipeline's scores, so block recall is **detection-granularity-bounded** and per-box OCR (same boxes) cannot raise it; the dense.pdf 0.99 partly reflected fixture provenance (those fixtures were bootstrapped from pipeline output); (b) the width signal is dead — hybrid's form boxes have *median width 0.76* because Surya merges label+blank into wide boxes.
 
-The eval proves per-box mode is the quality ceiling (0.99/0.92 on dense.pdf) and forms fail on the DP path while sitting *under* the 60-box dense threshold (digital: 30 boxes, hybrid: 15). Box count alone is the wrong trigger. Add a second signal — e.g. median-box-width/page-width (forms = many short label boxes) or label-pattern density — and route form-like pages per-box. Quantify the cost/quality trade (N× LLM calls) on the new eval axes before changing the default; the data says the recall gain is ~0.24→0.9+.
-*Proof: form-doc recall + CLEval E2E before/after; LLM-call count as the cost axis.*
+*What shipped instead:* a **DP-confidence retry** — `align_text` returns `AlignmentResult.match_count`, and in `auto` mode a sparse page whose real-match rate lands under 0.5 (with ≥8 boxes) is redone per-box (`pipeline.py::_DP_RETRY_*`). This targets what per-box routing *can* fix on forms: text-to-box binding (text-sim, CER, binary checks — "is Sally Walker in the Name field"), not GT-block recall.
+*Proof: text_sim / avg_cer / checks pass-rate on digital+hybrid before/after; LLM-call count as the cost axis. Block recall is NOT expected to move — improving it requires a granularity-different detector (P6).*
 
-### P6 — Longer horizon: granularity and backends
+*Measured (live run, seeded into `evals/baselines/`):* the retry fired on digital.pdf p1 (15/35 matched) and three notes.pdf pages. Block recall stayed flat exactly as predicted (digital 0.44, hybrid 0.24 — the detection ceiling), while the axes the retry targets moved hard: digital text-sim 0.70 → **0.96** with CER 0.07, notes recall 0.93 → 0.96, and binary checks pass **13/13 on digital — including the exact phone-number fact (`703-993-1530`) the full-page path habitually misread**. BoW-F1 of 0.92/0.98 on the form docs confirms transcription content was never the problem.
+
+### P6 — Longer horizon: granularity and backends — ⏳ future (out of in-repo scope)
+
+*New model runtimes (docTR/Kraken weights, Florence-2) and externally-licensed datasets are deliberate adoption decisions, not silent dependencies; the injection seams below are ready for them.*
 
 - **docTR** detection (`assume_straight_pages=False`): word-level rotated polygons, torch-native, Apache-2.0, relative 0..1 coords matching this repo's convention — the cleanest external aligner swap if Surya line-granularity becomes the binding constraint. ([mindee/doctr](https://github.com/mindee/doctr))
 - **Kraken** blla segmenter: baseline polylines + boundary polygons — purpose-built for the handwriting/dense-notebook case; torch ~=2.4 pin is the friction. ([kraken](https://github.com/mittagessen/kraken))
@@ -120,7 +134,7 @@ The eval proves per-box mode is the quality ceiling (0.99/0.92 on dense.pdf) and
 
 ## 5. Definition of done for "quantifiable and improving"
 
-1. Every run writes per-doc, per-axis JSON (geometry / text / structure / unit-tests) + a history row.
-2. CI fails on any axis dropping > 0.02 below the committed baseline; baselines ratchet only via reviewed regen commits.
+1. ✅ Every run writes per-doc, per-axis metrics (geometry / text / structure / checks) + a history row (`evals/history.csv`).
+2. ✅ `confidence_eval.py` exits non-zero on any axis dropping > 0.02 below the committed baseline (`evals/baselines/`); baselines ratchet only via reviewed `--update-baselines` commits. Detector-only geometry floors gate offline in the slow test tier.
 3. Each roadmap item above names the single axis it must move; a change that moves no axis is reverted or re-scoped.
-4. External validity: quarterly run against FUNSD/NAF/olmOCR-bench subsets to anchor internal numbers against public ground truth.
+4. ⏳ External validity: quarterly run against FUNSD/NAF/olmOCR-bench subsets to anchor internal numbers against public ground truth (P6 scope — external datasets carry their own licenses and are not fetched by this repo).
