@@ -63,7 +63,9 @@ Sources: [CLEval](https://github.com/clovaai/CLEval) · [jiwer](https://github.c
 
 ### P1 — Consume Surya's polygons + confidence (free geometry upgrade) — ✅ implemented
 
-*Shipped as `core/geometry.py::OrientedBox` — a `list` subclass carrying `quad`/`angle`/`confidence`, so every plain-bbox consumer keeps working unchanged. Angle is measured in pixel space (normalized space distorts it on non-square pages). The `DETECTOR_BOX_Y_EXPAND_MARGIN` tightness experiment remains open.*
+*Shipped as `core/geometry.py::OrientedBox` — a `list` subclass carrying `quad`/`angle`/`confidence`, so every plain-bbox consumer keeps working unchanged. Angle is measured in pixel space (normalized space distorts it on non-square pages).*
+
+*Tightness experiment (`DETECTOR_BOX_Y_EXPAND_MARGIN=0`), measured and closed: matched IoU +0.03/+0.02 on the printed forms, −0.01 on handwriting, recall unchanged everywhere. Not adopted as default for two reasons: the bootstrapped dense/notes fixtures penalize it circularly (their GT was generated with the default margin), and detection-IoU can't see the real downside — tighter boxes feed the per-box crop path, where clipped descenders would hurt recognition. Stays available as Surya's env knob for users who only consume the geometry.*
 
 *Injection point: `HybridAligner.get_detected_boxes_batch` + `pages_data` tuple shape.*
 
@@ -122,6 +124,13 @@ Sources: [pdfrenderer.cpp Tz math](https://github.com/tesseract-ocr/tesseract/bl
 - **External benchmarks** once internal axes are stable: FUNSD test split + NAF (hand-filled historical forms — exactly the weak spot), olmOCR-bench subsets (ODC-BY; pairs with the olmocr model already used), OmniDocBench for attribute-stratified breadth. Skip scene-text sets (IC15/Total-Text/CTW1500) — wrong domain.
 
 ---
+
+### P7 — Photo preprocessing: rectify for parsing, embed on originals — ✅ implemented (v1: perspective)
+
+*Injection point: `utils/preprocess.py` + two pipeline hooks; CLI `--preprocess auto|always|never`.*
+
+Camera captures (a sheet photographed on a desk) are perspective-rectified and illumination-flattened **for detection and OCR only**; every detected box is mapped back through the inverse homography before the writers run, so the text layer overlays the photo the user actually has. Mapped rectangles become arbitrary quads on the original — carried as `OrientedBox` quads, which the rotated writers already place. Engagement is conservative: a convex page outline covering 18–97% of the frame with perspective deviation ≥1.5% of the diagonal; flat scans and rasterized PDF pages find no quad and pass through byte-identical. v1 limits: single homography (no crumple-mesh dewarp — the heavily folded case needs a mesh model, P6-class), hybrid path only (the grounded backend rasterizes internally).
+*Proof: round-trip homography tests + end-to-end pipeline test asserting writer-received boxes land inside the photographed page outline (`tests/test_preprocess.py`).*
 
 ## 4. Dead ends (researched, rejected — don't re-litigate)
 
