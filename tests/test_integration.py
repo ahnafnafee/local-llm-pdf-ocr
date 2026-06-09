@@ -269,7 +269,15 @@ def test_embedded_text_positionally_matches_aligned_boxes(
     output_pdf = str(tmp_path / f"posmatch_{name}")
 
     pipe = OCRPipeline(surya_aligner, _Stub(), pdf_handler)
-    asyncio.run(pipe.run(input_pdf, output_pdf, concurrency=2, refine=False, dpi=DPI))
+    # dense_mode="never": this test verifies DP placement + embedding
+    # geometry specifically. A handful of tagged stub lines against a
+    # full real page is exactly the low-match-rate shape the auto
+    # mode's per-box retry exists to catch, and the retry would replace
+    # every tag with crop text.
+    asyncio.run(pipe.run(
+        input_pdf, output_pdf, concurrency=2, refine=False, dpi=DPI,
+        dense_mode="never",
+    ))
 
     # Inspect the output: for every box that got one of our UNIQUE tags, the
     # tag's word coordinates must fall inside the box.
