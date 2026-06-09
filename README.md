@@ -339,14 +339,6 @@ Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`,
 
 Contributions are welcome! Please feel free to submit a Pull Request — see the [issues](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues) for ideas, or open a new one to discuss.
 
-## 🙌 Contributors
-
-Thanks to everyone who has contributed code, fixes, and ideas to this project.
-
-<a href="https://github.com/ahnafnafee/local-llm-pdf-ocr/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ahnafnafee/local-llm-pdf-ocr" alt="Contributors" />
-</a>
-
 The grid is generated automatically by [contrib.rocks](https://contrib.rocks) from GitHub's contributors API and updates within hours of any merged commit.
 
 **License**: MIT
