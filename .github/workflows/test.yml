@@ -1,20 +1,23 @@
 name: Tests
 
-# Fast-tier validation on every PR + push to main.
+# Fast-tier validation on every PR + push to main; the slow tier
+# (real Surya weights, detector-geometry regression floors) runs on a
+# nightly schedule instead because it downloads the detection model
+# from HF Hub. `live_llm`-marked tests never run here — they need a
+# local LLM endpoint CI doesn't have; the live accuracy ratchet runs
+# via scripts/confidence_eval.py on a developer machine against the
+# committed baselines in evals/.
 #
-# Scope: runs `pytest -m "not slow"` (~15s, 153+ tests). Skips the `slow`
-# marker because those tests load Surya from HF Hub (~500MB download on
-# first run); not worth the CI minutes for routine validation. Skips
-# `live_llm` markers too — those need a real LLM endpoint we don't have
-# in CI.
-#
-# Matrix: Python 3.10 (the floor in pyproject.toml) and 3.13 (latest)
+# Matrix: the Python floor from pyproject.toml and the latest release,
 # to catch version-specific regressions without quadrupling runtime.
 
 on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "17 7 * * *" # nightly geometry-floor run
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,21 +26,91 @@ concurrency:
 jobs:
   fast:
     name: pytest (py${{ matrix.python }})
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python: ["3.10", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: astral-sh/setup-uv@v4
+      - uses: astral-sh/setup-uv@v8
         with:
-          enable-cache: true
+          # NOTE: `enable-cache:` intentionally omitted — its bundled
+          # post-step saves the cache even when the job failed, which
+          # can persist a poisoned cache. Restore/save are split below
+          # and the save is gated on success.
           python-version: ${{ matrix.python }}
+
+      - name: Restore uv cache
+        id: cache-uv
+        uses: actions/cache/restore@v5
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-py${{ matrix.python }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-py${{ matrix.python }}-
 
       - name: Sync deps (CLI + web extras)
         run: uv sync --extra web
 
       - name: Run fast tests
         run: uv run pytest -m "not slow" -v
+
+      - name: Save uv cache (only on green run)
+        if: success() && steps.cache-uv.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ~/.cache/uv
+          key: ${{ steps.cache-uv.outputs.cache-primary-key }}
+
+  geometry-floors:
+    name: nightly slow tier (Surya geometry floors)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v8
+        with:
+          # `enable-cache:` intentionally omitted — see the fast job.
+          python-version: "3.13"
+
+      - name: Restore uv cache
+        id: cache-uv
+        uses: actions/cache/restore@v5
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-py3.13-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-py3.13-
+
+      - name: Restore Surya model cache
+        id: cache-hf
+        uses: actions/cache/restore@v5
+        with:
+          path: ~/.cache/huggingface
+          key: hf-surya-${{ runner.os }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            hf-surya-${{ runner.os }}-
+
+      - name: Sync deps (CLI + web extras)
+        run: uv sync --extra web
+
+      - name: Run slow tier
+        run: uv run pytest -m slow -v
+
+      - name: Save uv cache (only on green run)
+        if: success() && steps.cache-uv.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ~/.cache/uv
+          key: ${{ steps.cache-uv.outputs.cache-primary-key }}
+
+      - name: Save Surya model cache (only on green run)
+        if: success() && steps.cache-hf.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ steps.cache-hf.outputs.cache-primary-key }}
