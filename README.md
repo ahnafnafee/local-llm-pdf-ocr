@@ -24,7 +24,7 @@
     -   **Web UI**: Drag & drop, Dark Mode, real-time per-page progress.
     -   **CLI**: Documented flags for power users and batch automation, Rich progress bars.
 -   **📚 Dense-Page Mode**: Auto-detects densely-laid-out pages (default >60 detected boxes) and switches to per-box OCR — bypasses the failure modes (loops, hallucination, pangram fallback) that full-page OCR exhibits on dense handwritten content. Configurable via `--dense-mode` and `--dense-threshold`.
--   **🧪 Tested**: 375-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry (including rotated-quad overlays), grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), evaluation metrics and doc-checks, CLI dispatch, server endpoints, end-to-end runs against the example PDFs, and detector-geometry regression floors.
+-   **🧪 Tested**: 388-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry (including rotated-quad overlays), grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), evaluation metrics and doc-checks, CLI dispatch, server endpoints, end-to-end runs against the example PDFs, and detector-geometry regression floors.
 
 ---
 
@@ -170,6 +170,7 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
 | `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for pages above `--dense-threshold`, and additionally retries a page per-box when the DP alignment matched under half its boxes (the form-page failure mode); `always` forces per-box for every page (most accurate on handwriting); `never` keeps the original full-page path with no retry. |
 | `--dense-threshold <int>` | In `auto` dense-mode, pages with more than this many detected boxes use per-box OCR (default: 60). |
+| `--preprocess {auto,always,never}` | Photo rectification (hybrid path). `auto` (default): pages with a confidently-detected tilted page outline are perspective-corrected and illumination-flattened for recognition, then every box is mapped back onto the original photo for output — flat scans pass through untouched. `always` rectifies whenever a page outline is found; `never` disables. |
 | `--grounded`              | Use a bbox-native VLM that returns text + coordinates in one call (skips Surya, DP, refine). Requires a grounding-capable model via `--model`. |
 | `--api-base <url>`        | Override LLM API base URL                                             |
 | `--model <name>`          | Override LLM model name                                               |
