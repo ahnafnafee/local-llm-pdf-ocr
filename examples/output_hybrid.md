@@ -32,5 +32,5 @@ aches, chills, tired
 
 Are you currently taking any medication? (If yes, please describe):
 
-Vigrahe (25mg) daily for attention
+Vyrance (25mg) daily for attention
 

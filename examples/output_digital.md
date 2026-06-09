@@ -8,7 +8,7 @@ Department of Computer Science College of Engineering and Computing
 
 GEORGE MASON UNIVERSITY
 
-College of Engineering and Computing 4400 University Drive, MS 4A5, Fairfax, Virginia 22030 Phone: 703-993-4500; Fax: 703-993-4740
+College of Engineering and Computing 4400 University Drive, MS 4A5, Fairfax, Virginia 22030 Phone: 703-993-1500; Fax: 703-993-4740
 
 4400 University Drive, MS 4A9, Fairfax, VA Phone: 703-993-1530; Fax: 703-993-1710
 

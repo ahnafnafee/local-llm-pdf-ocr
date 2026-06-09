@@ -28,7 +28,7 @@ weiblich
 
 verwechseln wenig
 
-verweerseln viel
+verwechseln viel
 
 "Alles ist eins"
 
