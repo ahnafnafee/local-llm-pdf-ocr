@@ -427,6 +427,55 @@ class TestPromptedGroundedParser:
         assert len(blocks) == 1
 
 
+class TestThousandGridDetection:
+    """Qwen3-VL emits bbox_2d on a fixed 0-1000 grid; Qwen2.5-VL emits
+    absolute pixels. The parser must tell them apart per page instead of
+    silently dividing grid coordinates by the pixel dimensions."""
+
+    def test_coords_exceeding_image_width_treated_as_grid(self):
+        # 791px-wide image, x up to 990: impossible as pixels, so the
+        # page is on the 0-1000 grid and divides by 1000.
+        raw = '[{"bbox_2d":[700,100,990,140],"content":"right-edge line"}]'
+        blocks = _parse_grounded_json(raw, page_idx=0, img_w=791, img_h=1024)
+        assert blocks[0].bbox == pytest.approx([0.700, 100 / 1000, 0.990, 0.140])
+
+    def test_grid_detection_is_page_level(self):
+        # One in-frame box plus one frame-exceeding box: the whole page
+        # rescales together — conventions don't vary within a response.
+        raw = (
+            '[{"bbox_2d":[50,50,400,80],"content":"in frame"},'
+            '{"bbox_2d":[700,100,990,140],"content":"beyond width"}]'
+        )
+        blocks = _parse_grounded_json(raw, page_idx=0, img_w=791, img_h=1024)
+        assert blocks[0].bbox == pytest.approx([0.05, 0.05, 0.40, 0.08])
+
+    def test_large_image_with_subgrid_coords_treated_as_grid(self):
+        # 2048x2048 image, every coordinate within 1000 in both axes:
+        # full-page text confined to the top-left corner is implausible.
+        raw = (
+            '[{"bbox_2d":[100,100,900,150],"content":"a"},'
+            '{"bbox_2d":[100,800,950,900],"content":"b"}]'
+        )
+        blocks = _parse_grounded_json(raw, page_idx=0, img_w=2048, img_h=2048)
+        assert blocks[0].bbox == pytest.approx([0.1, 0.1, 0.9, 0.15])
+
+    def test_coords_beyond_1000_always_pixels(self):
+        raw = '[{"bbox_2d":[0,0,1500,800],"content":"wide"}]'
+        blocks = _parse_grounded_json(raw, page_idx=0, img_w=2048, img_h=2048)
+        assert blocks[0].bbox == pytest.approx(
+            [0.0, 0.0, 1500 / 2048, 800 / 2048]
+        )
+
+    def test_small_image_in_frame_coords_stay_pixels(self):
+        # Default thumbnail sizes (<=1024) sit in the ambiguous zone;
+        # coordinates within the frame are taken at face value.
+        raw = '[{"bbox_2d":[0,0,1000,1000],"content":"full page"}]'
+        blocks = _parse_grounded_json(raw, page_idx=0, img_w=1024, img_h=1024)
+        assert blocks[0].bbox == pytest.approx(
+            [0.0, 0.0, 1000 / 1024, 1000 / 1024]
+        )
+
+
 class TestPromptedGroundedEnsureModelLoaded:
     """Pre-flight model verification for the grounded path. Issue #7 was
     actually filed against the grounded path specifically — user had

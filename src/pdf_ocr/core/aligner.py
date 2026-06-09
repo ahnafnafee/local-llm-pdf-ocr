@@ -18,8 +18,26 @@ tqdm_patch.apply()
 from PIL import Image  # noqa: E402
 from surya.detection import DetectionPredictor  # noqa: E402
 
+from pdf_ocr.core.geometry import OrientedBox, quad_angle_deg  # noqa: E402
+
 
 BBox = list[float]  # [nx0, ny0, nx1, ny1], normalized to 0..1
+
+
+class AlignmentResult(list):
+    """``align_text`` output: a plain list of ``(box, text)`` pairs that
+    also carries DP diagnostics.
+
+    Subclasses ``list`` so every existing consumer keeps working; the
+    pipeline reads ``match_count`` to judge whether the line→box binding
+    is trustworthy (real ``op=match`` pairings, excluding lines attached
+    via the skip-line fallback) and can re-route a page to per-box OCR
+    when it is not.
+    """
+
+    def __init__(self, pairs, match_count: int = 0):
+        super().__init__(pairs)
+        self.match_count = match_count
 
 
 class HybridAligner:
@@ -55,12 +73,30 @@ class HybridAligner:
             boxes: list[BBox] = []
             for bbox in (pred.bboxes or []):
                 x0, y0, x1, y1 = bbox.bbox
-                boxes.append([
-                    _clamp(x0 / img_w),
-                    _clamp(y0 / img_h),
-                    _clamp(x1 / img_w),
-                    _clamp(y1 / img_h),
-                ])
+                # Surya's polygon is a min-area rect (clockwise from
+                # top-left) — it carries the line's rotation, which the
+                # axis-aligned envelope discards. Angle is measured in
+                # pixel space; normalizing x and y by different page
+                # dimensions first would distort it.
+                quad = None
+                angle = 0.0
+                polygon = getattr(bbox, "polygon", None)
+                if polygon and len(polygon) == 4:
+                    angle = quad_angle_deg(polygon)
+                    quad = []
+                    for px, py in polygon:
+                        quad.extend((_clamp(px / img_w), _clamp(py / img_h)))
+                boxes.append(OrientedBox(
+                    [
+                        _clamp(x0 / img_w),
+                        _clamp(y0 / img_h),
+                        _clamp(x1 / img_w),
+                        _clamp(y1 / img_h),
+                    ],
+                    quad=quad,
+                    angle=angle,
+                    confidence=getattr(bbox, "confidence", None),
+                ))
             # Stable row-major default. The actual reading-order choice for
             # the DP happens inside align_text, which tries both row-major
             # and column-major orderings and picks the lower-cost result.
@@ -94,13 +130,15 @@ class HybridAligner:
         boxes = [item[0] for item in structured_data]
 
         if not boxes and not lines:
-            return []
+            return AlignmentResult([])
         if not boxes:
             # Degenerate: LLM produced text but Surya found nothing.
             # Embed all text in a full-page box so search still works.
-            return [([0.0, 0.0, 1.0, 1.0], "\n".join(lines))]
+            return AlignmentResult(
+                [([0.0, 0.0, 1.0, 1.0], "\n".join(lines))]
+            )
         if not lines:
-            return [(box, "") for box in boxes]
+            return AlignmentResult([(box, "") for box in boxes])
 
         # Permutations to try: row-major (y, x) and column-major
         # (column groups, then y within column). For single-column pages
@@ -155,7 +193,9 @@ class HybridAligner:
                 "searchable. Try --grounded or a different --model.",
                 reason, len(lines), len(boxes),
             )
-            return [([0.0, 0.0, 1.0, 1.0], "\n".join(lines))]
+            return AlignmentResult(
+                [([0.0, 0.0, 1.0, 1.0], "\n".join(lines))]
+            )
 
         # Translate the per-perm-index mapping back to per-input-index text.
         text_per_input: list[str] = ["" for _ in boxes]
@@ -166,7 +206,10 @@ class HybridAligner:
             f"DEBUG: DP aligned {len(lines)} lines → {best_match_count}/{len(boxes)} "
             f"boxes (cost={best_cost:.3f})"
         )
-        return [(box, text) for box, text in zip(boxes, text_per_input)]
+        return AlignmentResult(
+            [(box, text) for box, text in zip(boxes, text_per_input)],
+            match_count=best_match_count,
+        )
 
 
 # --- module-level helpers ---------------------------------------------------

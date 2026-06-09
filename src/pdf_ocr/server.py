@@ -2,6 +2,7 @@
 FastAPI web server: thin wrapper around OCRPipeline with WebSocket progress.
 """
 
+import asyncio
 import json
 import os
 import shutil
@@ -75,6 +76,24 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+# Process-wide Surya aligner. Constructing HybridAligner loads the
+# detection model (seconds of latency plus GPU/CPU memory), and the
+# predictor is reusable across requests — paying that cost per upload
+# serializes users behind redundant model loads. Built lazily off the
+# event loop on first use; the lock keeps a burst of first requests
+# from loading the model multiple times.
+_aligner_lock = asyncio.Lock()
+_shared_aligner = None
+
+
+async def _get_aligner():
+    global _shared_aligner
+    if _shared_aligner is None:
+        async with _aligner_lock:
+            if _shared_aligner is None:
+                _shared_aligner = await asyncio.to_thread(HybridAligner)
+    return _shared_aligner
+
 
 @app.get("/")
 async def read_index():
@@ -122,7 +141,7 @@ async def process_pdf(
         await manager.send_progress(client_id, "Initializing...", 5)
 
         pipeline = OCRPipeline(
-            aligner=HybridAligner(),
+            aligner=await _get_aligner(),
             ocr_processor=OCRProcessor(),
             pdf_handler=PDFHandler(),
             # Inline images so the single-file FileResponse below is
@@ -131,7 +150,11 @@ async def process_pdf(
                 output_path, html_inline_images=True,
             ),
         )
-        concurrency = int(os.getenv("OCR_CONCURRENCY", 3))
+        # Conservative default: in-flight requests cost KV-cache VRAM on
+        # parallel-slot servers (vLLM, num_parallel>1); queuing servers
+        # (LM Studio / Ollama defaults) hold extras for free. Raise via
+        # OCR_CONCURRENCY when the serving side has headroom.
+        concurrency = int(os.getenv("OCR_CONCURRENCY", 2))
 
         # Fail fast on model mismatch (issue #7). Set OCR_VERIFY_MODEL=0 to
         # skip if your server doesn't expose /v1/models.

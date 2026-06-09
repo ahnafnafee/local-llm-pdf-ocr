@@ -26,11 +26,20 @@ from __future__ import annotations
 
 import asyncio
 import base64
+import logging
 from collections import defaultdict
 from typing import Awaitable, Callable, Optional
 
 from pdf_ocr.core.grounded import GroundedOCRBackend
 from pdf_ocr.utils.image import crop_for_ocr
+
+# DP-confidence retry thresholds (dense_mode="auto" only): a sparse page
+# whose alignment produced real matches for under _DP_RETRY_MATCH_RATE of
+# its boxes is redone per-box. The box floor keeps near-trivial pages
+# (title page with three boxes) on the cheap path, where a low rate is
+# noise rather than evidence of misbinding.
+_DP_RETRY_MIN_BOXES = 8
+_DP_RETRY_MATCH_RATE = 0.5
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 OutputWriter = Callable[[str, str, dict, int], None]
@@ -161,6 +170,8 @@ class OCRPipeline:
 
         # Decide per-box vs full-page OCR per page. Per-box is more
         # accurate on dense content but costs N times the LLM calls.
+        # Sparse pages can still be promoted later by the DP-confidence
+        # retry inside process_page.
         per_box_pages: set[int] = set()
         for p_num in page_nums:
             n_boxes = len(pages_structured[p_num])
@@ -188,13 +199,38 @@ class OCRPipeline:
                 return p_num, llm_lines, aligned
             async with semaphore:
                 llm_lines = await self.ocr_processor.perform_ocr(images_dict[p_num])
-                if llm_lines:
-                    aligned = await asyncio.to_thread(
-                        self.aligner.align_text, pages_structured[p_num], llm_lines
-                    )
-                else:
-                    aligned = pages_structured[p_num]
-                return p_num, llm_lines, aligned
+            if not llm_lines:
+                return p_num, llm_lines, pages_structured[p_num]
+            aligned = await asyncio.to_thread(
+                self.aligner.align_text, pages_structured[p_num], llm_lines
+            )
+            # DP-confidence retry: a low real-match rate means the
+            # line→box binding is mostly guesswork (forms are the
+            # canonical case — many label boxes with near-identical
+            # match costs), so the page is redone per-box, trading one
+            # LLM call per box for per-region ground truth. Pages with
+            # only a handful of boxes skip the retry: the DP is rarely
+            # the bottleneck there and the redo would mostly re-OCR
+            # decorations.
+            n_boxes = len(pages_structured[p_num])
+            match_count = getattr(aligned, "match_count", None)
+            if (
+                dense_mode == "auto"
+                and match_count is not None
+                and n_boxes >= _DP_RETRY_MIN_BOXES
+                and match_count < _DP_RETRY_MATCH_RATE * n_boxes
+            ):
+                logging.warning(
+                    "DP alignment matched only %d of %d boxes on page %d "
+                    "— retrying the page with per-box OCR.",
+                    match_count, n_boxes, p_num + 1,
+                )
+                per_box_pages.add(p_num)  # refine must skip this page too
+                aligned = await self._ocr_per_box(
+                    images_dict[p_num], pages_structured[p_num], semaphore
+                )
+                llm_lines = [t for _, t in aligned if t]
+            return p_num, llm_lines, aligned
 
         completed = 0
         ocr_label = (

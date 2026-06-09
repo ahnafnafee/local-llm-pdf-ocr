@@ -32,5 +32,5 @@ aches, chills, tired
 
 Are you currently taking any medication? (If yes, please describe):
 
-Vyrance (25mg) daily for attention
+Vynase (25mg) daily for attention
 

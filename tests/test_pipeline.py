@@ -344,3 +344,86 @@ class TestOCRPipeline:
         assert captured.get("called") is True
         assert captured["dpi"] == 250
         assert 0 in captured["pages"]
+
+
+class _FakeAlignment(list):
+    """Stands in for aligner.AlignmentResult without importing the
+    aligner module (which would pull Surya into these stub-only tests).
+    The pipeline reads `match_count` via getattr, so any list carrying
+    the attribute exercises the retry path."""
+
+    def __init__(self, pairs, match_count: int):
+        super().__init__(pairs)
+        self.match_count = match_count
+
+
+class TestDpConfidenceRetry:
+    """A sparse page whose DP alignment matched too few boxes gets one
+    per-box retry in auto mode (the form-page failure mode: many label
+    boxes with near-identical match costs)."""
+
+    BOXES = [[0.05, 0.05 + i * 0.1, 0.6, 0.12 + i * 0.1] for i in range(8)]
+
+    @staticmethod
+    def _low_confidence(structured, lines):
+        return _FakeAlignment([(b, "guess") for b, _ in structured], match_count=1)
+
+    @staticmethod
+    def _high_confidence(structured, lines):
+        return _FakeAlignment(
+            [(b, "good") for b, _ in structured],
+            match_count=len(structured),
+        )
+
+    async def test_low_match_rate_triggers_per_box_redo(self, stub_ocr):
+        pdf = _StubPDF(n_pages=1)
+        aligner = _StubAligner(boxes_per_page=self.BOXES, alignment=self._low_confidence)
+        pipe = OCRPipeline(aligner, stub_ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert stub_ocr.page_calls == 1            # full-page attempt happened
+        assert stub_ocr.crop_calls == len(self.BOXES)  # then per-box redo
+        texts = [t for _b, t in pdf.last_pages[0]]
+        assert texts == ["recovered"] * len(self.BOXES)
+
+    async def test_high_match_rate_keeps_dp_result(self, stub_ocr):
+        pdf = _StubPDF(n_pages=1)
+        aligner = _StubAligner(boxes_per_page=self.BOXES, alignment=self._high_confidence)
+        pipe = OCRPipeline(aligner, stub_ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert stub_ocr.crop_calls == 0
+        assert [t for _b, t in pdf.last_pages[0]] == ["good"] * len(self.BOXES)
+
+    async def test_small_pages_never_retry(self, stub_ocr):
+        # Below the box floor a low match rate is noise, not evidence.
+        boxes = self.BOXES[:3]
+
+        def low(structured, lines):
+            return _FakeAlignment([(b, "guess") for b, _ in structured], match_count=0)
+
+        pipe = OCRPipeline(
+            _StubAligner(boxes_per_page=boxes, alignment=low), stub_ocr,
+            _StubPDF(n_pages=1),
+        )
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto", refine=False)
+        assert stub_ocr.crop_calls == 0
+
+    async def test_never_mode_disables_retry(self, stub_ocr):
+        pipe = OCRPipeline(
+            _StubAligner(boxes_per_page=self.BOXES, alignment=self._low_confidence),
+            stub_ocr, _StubPDF(n_pages=1),
+        )
+        await pipe.run("in.pdf", "out.pdf", dense_mode="never", refine=False)
+        assert stub_ocr.crop_calls == 0
+
+    async def test_plain_list_alignment_skips_retry(self, stub_ocr):
+        # Custom aligners that return plain lists (no match_count) keep
+        # the pre-retry behavior.
+        def plain(structured, lines):
+            return [(b, "guess") for b, _ in structured]
+
+        pipe = OCRPipeline(
+            _StubAligner(boxes_per_page=self.BOXES, alignment=plain),
+            stub_ocr, _StubPDF(n_pages=1),
+        )
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto", refine=False)
+        assert stub_ocr.crop_calls == 0

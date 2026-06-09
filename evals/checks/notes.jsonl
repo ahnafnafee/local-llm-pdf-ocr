@@ -1,0 +1,8 @@
+// Binary facts for examples/notes.pdf (database course notebook).
+// Fixture was bootstrapped from pipeline output, so rules stick to
+// clearly-legible headings rather than contested scrawl.
+{"type": "present", "text": "Mapping Binary 1:1 Relationship Sets", "max_diffs": 2}
+{"type": "present", "text": "PK can have null value", "max_diffs": 2}
+{"type": "present", "text": "Merged relation approach", "max_diffs": 2}
+{"type": "absent", "text": "the quick brown fox"}
+{"type": "absent", "text": "lorem ipsum"}

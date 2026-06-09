@@ -23,6 +23,7 @@ import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
 from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
+from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG, quad_edge_lengths
 from pdf_ocr.core.pdf import _is_image_path
 
 # Image types every modern browser renders natively. Other extensions
@@ -68,6 +69,8 @@ span.line {
   white-space: nowrap;
   font-family: monospace;
   line-height: 1;
+  transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));
+  transform-origin: 0 0;
 }
 @media (prefers-color-scheme: dark) {
   body { background: #1a1a1a; }
@@ -106,6 +109,30 @@ _FIT_SCRIPT = """\
     var w = parseFloat(p.style.getPropertyValue('--page-w'));
     if (!isFinite(w) || w <= 0 || w <= px) continue;
     p.style.width = px + 'px';
+  }
+})();
+</script>
+"""
+
+# Measured width congruence (the PDF.js textLayer approach): each span's
+# text is measured in the font it actually renders with, and a scaleX
+# factor stretches its glyph run to exactly the detected box width.
+# `offsetWidth` is the pre-transform layout width, so the rotation in
+# the same transform doesn't feed back into the measurement, and re-runs
+# are idempotent. Without JavaScript the spans keep their server-side
+# fit, which under-fills rather than overflows. Emitted only in `scaled`
+# mode: `letter-spacing` mode already stretches via spacing, and
+# `full-height` mode keeps the natural glyph width by design.
+_MEASURE_SCRIPT = """\
+<script>
+(function(){
+  var ctx = document.createElement('canvas').getContext('2d');
+  for (const s of document.querySelectorAll('span.line')) {
+    var cs = getComputedStyle(s);
+    ctx.font = cs.fontSize + ' ' + cs.fontFamily;
+    var m = ctx.measureText(s.textContent);
+    if (!(m.width > 0) || !(s.offsetWidth > 0)) continue;
+    s.style.setProperty('--scale-x', s.offsetWidth / m.width);
   }
 })();
 </script>
@@ -279,6 +306,10 @@ class HTMLHandler:
                 pages_data.get(page_idx, []),
             )
         out.write(_FIT_SCRIPT)
+        if self.mode == MODE_SCALED:
+            # Must run after the fit script: fitting rewrites page widths,
+            # and the measurement reads post-fit span layout widths.
+            out.write(_MEASURE_SCRIPT)
         out.write("</body>\n</html>\n")
         return out.getvalue()
 
@@ -289,8 +320,11 @@ class HTMLHandler:
             f"background-image:url('{image_url}')\">\n"
         )
         for rect_coords, text in items:
+            # Passed through unchanged — converting to a plain list here
+            # would strip OrientedBox's quad/angle and silently disable
+            # rotated rendering.
             self._render_box(
-                out, list(rect_coords), text or "", width, height,
+                out, rect_coords, text or "", width, height,
             )
         out.write("</div>\n")
 
@@ -326,9 +360,27 @@ class HTMLHandler:
         self._emit_span(out, rect_coords, text, page_width, page_height)
 
     def _emit_span(self, out, rect_coords, text, page_width, page_height):
-        nx0, ny0, nx1, ny1 = rect_coords
-        w_norm = nx1 - nx0
-        h_norm = ny1 - ny0
+        # Tilted detector quads anchor the span at the quad's top-left
+        # corner with the quad's own edge lengths; the stylesheet's
+        # rotate(var(--rotate)) then swings it into place. Axis-aligned
+        # boxes keep the envelope geometry and the variable's 0deg
+        # default. Near-horizontal tilt is flattened — min-area rects
+        # wobble a degree or two on straight text, and rotating the
+        # overlay by that noise hurts selection congruence.
+        angle = getattr(rect_coords, "angle", 0.0)
+        quad = getattr(rect_coords, "quad", None)
+        if quad is not None and abs(angle) >= ANGLE_FLATTEN_DEG:
+            run_px, height_px = quad_edge_lengths(quad, page_width, page_height)
+            left, top = quad[0], quad[1]
+            w_norm = run_px / page_width
+            h_norm = height_px / page_height
+            rotate_css = f"--rotate:{_num(angle)}deg;"
+        else:
+            nx0, ny0, nx1, ny1 = rect_coords
+            left, top = nx0, ny0
+            w_norm = nx1 - nx0
+            h_norm = ny1 - ny0
+            rotate_css = ""
         if w_norm <= 0 or h_norm <= 0 or not text:
             return
 
@@ -337,9 +389,9 @@ class HTMLHandler:
         # correctly even though it's rendered transparent.
         safe_text = _html.escape(text, quote=False)
         out.write(
-            f'<span class="line" style="left:{_num(nx0 * 100)}%;'
-            f'top:{_num(ny0 * 100)}%;'
-            f'width:{_num(w_norm * 100)}%;{sizing}">{safe_text}</span>\n'
+            f'<span class="line" style="left:{_num(left * 100)}%;'
+            f'top:{_num(top * 100)}%;'
+            f'width:{_num(w_norm * 100)}%;{rotate_css}{sizing}">{safe_text}</span>\n'
         )
 
     def _span_sizing_style(

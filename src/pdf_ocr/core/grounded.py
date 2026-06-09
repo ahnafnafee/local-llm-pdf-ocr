@@ -491,6 +491,47 @@ class PromptedGroundedOCR:
 _JSON_FENCE = re.compile(r"```(?:json)?\s*(\[[\s\S]*?\]|\{[\s\S]*?\})\s*```", re.IGNORECASE)
 _BARE_ARRAY = re.compile(r"(\[[\s\S]*\])")
 
+# Grounding VLMs use two bbox coordinate conventions: absolute pixels of
+# the supplied image (Qwen2.5-VL, GLM-OCR) and a fixed 0-1000 grid
+# independent of image size (Qwen3-VL). Dividing grid coordinates by the
+# pixel dimensions silently misplaces every box, so the convention is
+# detected per page before normalizing.
+_GRID_MAX = 1000.0
+
+
+def _bbox_scale_denominators(
+    raw_boxes: list[tuple[float, float, float, float]],
+    img_w: int,
+    img_h: int,
+) -> tuple[float, float, bool]:
+    """Pick the divisors mapping raw bbox coords to 0..1 normalized space.
+
+    Returns ``(den_x, den_y, is_grid)`` where ``is_grid`` says the page's
+    coordinates were judged to be on the 0-1000 grid rather than pixels:
+
+    - any coordinate beyond 1000 must be pixels;
+    - x beyond the image width or y beyond the image height cannot be
+      pixels, so the page is on the grid;
+    - every coordinate within 1000 on an image much larger than the grid
+      in BOTH axes would mean full-page text confined to the top-left
+      1000px corner — implausible, treat as grid.
+
+    Images near the grid size (the default ``max_image_dim=1024``
+    thumbnail) are inherently ambiguous, but there the two readings
+    differ by under 3% so either divisor places boxes acceptably.
+    """
+    if not raw_boxes:
+        return float(img_w), float(img_h), False
+    max_x = max(max(b[0], b[2]) for b in raw_boxes)
+    max_y = max(max(b[1], b[3]) for b in raw_boxes)
+    if max_x > _GRID_MAX + 0.5 or max_y > _GRID_MAX + 0.5:
+        return float(img_w), float(img_h), False
+    if max_x > img_w + 2 or max_y > img_h + 2:
+        return _GRID_MAX, _GRID_MAX, True
+    if img_w >= 1.4 * _GRID_MAX and img_h >= 1.4 * _GRID_MAX:
+        return _GRID_MAX, _GRID_MAX, True
+    return float(img_w), float(img_h), False
+
 
 def _parse_grounded_json(
     text: str, page_idx: int, img_w: int, img_h: int,
@@ -539,7 +580,7 @@ def _parse_grounded_json(
         else:
             data = [data]  # single object → one-element list
 
-    blocks: list[GroundedBlock] = []
+    parsed: list[tuple[tuple[float, float, float, float], str]] = []
     for item in data:
         if not isinstance(item, dict):
             continue
@@ -556,10 +597,27 @@ def _parse_grounded_json(
             continue
         if x1 <= x0 or y1 <= y0:
             continue
-        blocks.append(GroundedBlock(
-            bbox=[_clamp(x0 / img_w), _clamp(y0 / img_h),
-                  _clamp(x1 / img_w), _clamp(y1 / img_h)],
+        parsed.append(((x0, y0, x1, y1), content))
+
+    # Convention detection needs the whole page's boxes, so normalization
+    # happens after the collection pass.
+    den_x, den_y, is_grid = _bbox_scale_denominators(
+        [p[0] for p in parsed], img_w, img_h,
+    )
+    if is_grid:
+        logging.warning(
+            f"grounded parse: page {page_idx} bbox coordinates fit the "
+            f"0-1000 grid but not the {img_w}x{img_h} image — treating "
+            f"bbox_2d as thousandths of the page (Qwen3-VL convention) "
+            f"instead of pixels"
+        )
+
+    return [
+        GroundedBlock(
+            bbox=[_clamp(x0 / den_x), _clamp(y0 / den_y),
+                  _clamp(x1 / den_x), _clamp(y1 / den_y)],
             text=content,
             page_index=page_idx,
-        ))
-    return blocks
+        )
+        for (x0, y0, x1, y1), content in parsed
+    ]

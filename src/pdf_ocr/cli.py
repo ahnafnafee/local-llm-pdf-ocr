@@ -58,7 +58,16 @@ Examples:
     parser.add_argument("--quiet", "-q", action="store_true", help="Suppress all output except errors")
     parser.add_argument("--dpi", type=int, default=200, help="DPI for image rendering (default: 200)")
     parser.add_argument("--pages", help="Page range to process, e.g., '1-3,5' (default: all)")
-    parser.add_argument("--concurrency", type=int, default=1, help="Parallel LLM requests (default: 1)")
+    parser.add_argument(
+        "--concurrency", type=int, default=2,
+        help="Parallel in-flight LLM requests (default: 2). This never "
+             "loads extra model copies — queuing servers (LM Studio, "
+             "Ollama defaults) hold excess requests at zero VRAM cost, "
+             "while parallel-slot servers (vLLM, num_parallel>1) spend "
+             "KV-cache VRAM per active request, so the default stays "
+             "conservative. Raise to 4-5 for per-box dense pages when "
+             "your server has headroom; set 1 to strictly serialize.",
+    )
     parser.add_argument(
         "--no-refine", dest="refine", action="store_false",
         help="Skip per-box crop re-OCR for low-confidence boxes (faster, less accurate on complex layouts)",
@@ -77,9 +86,11 @@ Examples:
     )
     parser.add_argument(
         "--dense-mode", choices=("auto", "always", "never"), default="auto",
-        help="auto (default): per-box OCR for pages above --dense-threshold. "
+        help="auto (default): per-box OCR for pages above --dense-threshold, "
+             "plus an automatic per-box retry for pages whose line-to-box "
+             "alignment matched too few boxes (forms are the typical case). "
              "always: per-box for every page (slow but most accurate). "
-             "never: original full-page OCR everywhere.",
+             "never: original full-page OCR everywhere, no retry.",
     )
     parser.add_argument(
         "--grounded", action="store_true",
@@ -99,8 +110,11 @@ Examples:
         "--html-mode", dest="html_mode",
         choices=("letter-spacing", "full-height", "scaled"), default="scaled",
         help="Span sizing strategy for HTML output (ignored for pdf/md). "
-             "scaled (default): font shrinks to fit both bbox dimensions "
-             "— stays legible at any zoom level. letter-spacing: font "
+             "scaled (default): font fits the box server-side, then a "
+             "page-load script measures each span in its rendered font "
+             "and stretches it to the exact box width via CSS scaleX "
+             "(without JavaScript the server-side fit still applies). "
+             "letter-spacing: font "
              "sized to bbox height, chars stretched to fill bbox width "
              "via letter-spacing (negative spacing can make characters "
              "overlap and become hard to read). full-height: font = "

@@ -71,7 +71,7 @@ connectWS();
 function updateProgress(message, percent) {
     statusText.innerText = message;
     progressBar.style.width = `${percent}%`;
-    subStatus.innerText = `${percent}% Complete`;
+    subStatus.innerText = `${percent}%`;
 }
 
 // Drag & Drop
@@ -96,6 +96,14 @@ dropZone.addEventListener('click', () => {
     fileInput.click();
 });
 
+// The drop zone is a keyboard-reachable button.
+dropZone.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+    }
+});
+
 fileInput.addEventListener('change', (e) => {
     if (e.target.files.length) {
         handleFile(e.target.files[0]);
@@ -116,6 +124,7 @@ async function handleFile(file) {
     const formatSelect = document.getElementById('format-select');
     const format = formatSelect ? formatSelect.value : 'pdf';
     const formatSuffix = { pdf: '.pdf', html: '.html', md: '.md' }[format] || '.pdf';
+    const formatLabel = { pdf: 'PDF', html: 'HTML', md: 'Markdown' }[format] || 'file';
 
     const formData = new FormData();
     formData.append('file', file);
@@ -140,6 +149,11 @@ async function handleFile(file) {
         // rather than `OCR_<stem>.pdf.html`.
         const baseName = file.name.replace(/\.[^.]+$/, '');
 
+        const downloadLabel = document.getElementById('download-label');
+        if (downloadLabel) downloadLabel.innerText = `Download ${formatLabel}`;
+        const resultFile = document.getElementById('result-file');
+        if (resultFile) resultFile.innerText = `OCR_${baseName}${formatSuffix}`;
+
         // Setup Download
         downloadBtn.onclick = () => {
             const a = document.createElement('a');
@@ -157,14 +171,21 @@ async function handleFile(file) {
                 if (!textResp.ok) throw new Error("Could not fetch text");
                 const textMap = await textResp.json();
                 
-                let html = "";
+                textContent.replaceChildren();
                 for (const [page, lines] of Object.entries(textMap)) {
-                    html += `<div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">\n`;
-                    html += `<strong>Page ${parseInt(page) + 1}</strong>\n\n`;
-                    html += lines.join('\n');
-                    html += `</div>\n`;
+                    const block = document.createElement('div');
+                    block.className = 'page-block';
+                    const label = document.createElement('span');
+                    label.className = 'page-label';
+                    label.innerText = `Page ${parseInt(page) + 1}`;
+                    block.appendChild(label);
+                    // textContent assignment keeps OCR output inert —
+                    // recognized text must never parse as markup.
+                    block.appendChild(
+                        document.createTextNode(lines.join('\n'))
+                    );
+                    textContent.appendChild(block);
                 }
-                textContent.innerHTML = html;
                 textPreview.classList.remove('hidden');
             } catch (e) {
                 alert("Text not available yet or error fetching it.");
@@ -181,12 +202,9 @@ async function handleFile(file) {
             const text = textContent.innerText;
             navigator.clipboard.writeText(text).then(() => {
                 const originalContent = copyBtn.innerHTML;
-                copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-                copyBtn.classList.add('bg-green-500/20', 'text-green-500');
-                
+                copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied`;
                 setTimeout(() => {
                     copyBtn.innerHTML = originalContent;
-                    copyBtn.classList.remove('bg-green-500/20', 'text-green-500');
                 }, 2000);
             }).catch(err => {
                 console.error('Failed to copy text: ', err);

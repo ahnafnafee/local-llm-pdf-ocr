@@ -18,7 +18,7 @@ input → mapped → output
 
 - Post condition is a logical predicate for the input and output
 
-- Holting: the algo needs to finish is finite
+- Hitting: the algo needs to finish is finite
 
 time
 
