@@ -25,7 +25,7 @@ uv run local-llm-pdf-ocr input.pdf --format html --html-mode letter-spacing  # o
 uv run local-llm-pdf-ocr input.pdf --format html --html-invert-dark       # HTML with dark-mode page inversion (opt-in)
 uv run local-llm-pdf-ocr input.pdf out.md                               # Markdown output (extension wins over --format)
 uv run local-llm-pdf-ocr input.pdf -v                                   # verbose debug logging
-uv run uvicorn server:app --reload --port 8000                # web UI at http://localhost:8000
+uv run uvicorn pdf_ocr.server:app --reload --port 8000        # web UI at http://localhost:8000
 ```
 
 Debug/inspection tools live in `scripts/` (`visualize_bboxes.py`, `debug_alignment.py`, `verify_output.py`, `inspect_pdf.py`, etc.) and are run with `uv run scripts/<name>.py <args>`.
