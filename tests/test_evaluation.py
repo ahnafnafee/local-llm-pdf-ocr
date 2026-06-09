@@ -10,9 +10,14 @@ from pdf_ocr.evaluation import (
     GTBlock,
     _detect_bbox_axis_order,
     _swap_axes,
+    bag_of_words_f1,
+    char_coverage,
     compute_report,
     iou,
+    load_doc_checks,
     load_ground_truth,
+    run_doc_checks,
+    text_cer,
     text_similarity,
 )
 
@@ -264,6 +269,180 @@ class TestMatchingStrategies:
         report = compute_report("x", gt, pipeline, iou_threshold=0.3)
         assert report.block_recall == 1.0
         assert report.recall_at(0.5) == 0.0
+
+
+class TestTextCer:
+    def test_perfect_is_zero(self):
+        assert text_cer("Hello world", "hello   world") == 0.0  # normalized
+
+    def test_empty_reference_and_hypothesis(self):
+        assert text_cer("", "") == 0.0
+
+    def test_empty_reference_nonempty_hypothesis(self):
+        assert text_cer("", "ghost text") == 1.0
+
+    def test_missing_hypothesis_is_total_error(self):
+        assert text_cer("real text", "") == 1.0
+
+    def test_capped_at_one(self):
+        # A runaway hypothesis can exceed CER 1.0 uncapped; the cap keeps
+        # one bad block from dominating a document average.
+        assert text_cer("ab", "x" * 50) == 1.0
+
+    def test_single_substitution(self):
+        # "1530" -> "1500": one substituted char of four.
+        assert text_cer("1530", "1500") == pytest.approx(0.25)
+
+
+class TestBagOfWordsF1:
+    def test_identical_sets(self):
+        assert bag_of_words_f1(["alpha beta"], ["alpha beta"]) == 1.0
+
+    def test_order_independent(self):
+        # The whole point: reading order must not affect the score.
+        gt = ["left column first", "right column second"]
+        pipe = ["right column second", "left column first"]
+        assert bag_of_words_f1(gt, pipe) == 1.0
+
+    def test_binding_independent(self):
+        # Same tokens distributed across different block boundaries.
+        assert bag_of_words_f1(["a b c", "d"], ["a", "b c d"]) == 1.0
+
+    def test_disjoint_is_zero(self):
+        assert bag_of_words_f1(["alpha"], ["omega"]) == 0.0
+
+    def test_both_empty_is_one(self):
+        assert bag_of_words_f1([], []) == 1.0
+
+    def test_one_side_empty_is_zero(self):
+        assert bag_of_words_f1(["text"], []) == 0.0
+
+
+class TestCharCoverage:
+    def test_perfect_alignment(self):
+        gt = [GTBlock(bbox=[0.0, 0.0, 0.5, 0.1], text="hello")]
+        pipe = [([0.0, 0.0, 0.5, 0.1], "hello")]
+        assert char_coverage(gt, pipe) == (1.0, 1.0)
+
+    def test_split_tolerant(self):
+        # One GT block detected as two half-boxes: an IoU pairing fails
+        # both halves, but every GT character center is still covered.
+        gt = [GTBlock(bbox=[0.0, 0.0, 0.8, 0.1], text="0123456789")]
+        pipe = [
+            ([0.0, 0.0, 0.4, 0.1], "01234"),
+            ([0.4, 0.0, 0.8, 0.1], "56789"),
+        ]
+        recall, precision = char_coverage(gt, pipe)
+        assert recall == 1.0
+        assert precision == 1.0
+
+    def test_merge_tolerant(self):
+        # Two GT label blocks merged into one wide detected box.
+        gt = [
+            GTBlock(bbox=[0.0, 0.0, 0.3, 0.1], text="Name:"),
+            GTBlock(bbox=[0.5, 0.0, 0.9, 0.1], text="Sally"),
+        ]
+        pipe = [([0.0, 0.0, 0.9, 0.1], "Name: Sally")]
+        recall, _precision = char_coverage(gt, pipe)
+        assert recall == 1.0
+
+    def test_uncovered_region_counts_against_recall(self):
+        gt = [GTBlock(bbox=[0.0, 0.0, 1.0, 0.1], text="0123456789")]
+        pipe = [([0.0, 0.0, 0.5, 0.1], "01234")]  # right half undetected
+        recall, _ = char_coverage(gt, pipe)
+        assert recall == pytest.approx(0.5)
+
+    def test_empty_inputs(self):
+        assert char_coverage([], []) == (0.0, 0.0)
+
+
+class TestDocChecks:
+    def test_present_exact(self):
+        passed, total, fails = run_doc_checks(
+            "HEALTH INTAKE FORM\nSally Walker",
+            [{"type": "present", "text": "Sally Walker"}],
+        )
+        assert (passed, total, fails) == (1, 1, [])
+
+    def test_present_case_insensitive_default(self):
+        passed, _, _ = run_doc_checks(
+            "health intake form", [{"type": "present", "text": "HEALTH INTAKE"}],
+        )
+        assert passed == 1
+
+    def test_present_whitespace_collapsed(self):
+        passed, _, _ = run_doc_checks(
+            "Student Name\n(Last, First):",
+            [{"type": "present", "text": "Student Name (Last, First):"}],
+        )
+        assert passed == 1
+
+    def test_present_fuzzy_within_budget(self):
+        passed, _, _ = run_doc_checks(
+            "Vyrance (25mg) daily",
+            [{"type": "present", "text": "Vyvanse (25mg)", "max_diffs": 2}],
+        )
+        assert passed == 1
+
+    def test_present_fuzzy_over_budget_fails(self):
+        passed, total, fails = run_doc_checks(
+            "Vigrahe (25mg) daily",
+            [{"type": "present", "text": "Vyvanse", "max_diffs": 1}],
+        )
+        assert passed == 0
+        assert "missing" in fails[0]
+
+    def test_absent_passes_when_clean(self):
+        passed, _, _ = run_doc_checks(
+            "ordinary content", [{"type": "absent", "text": "lorem ipsum"}],
+        )
+        assert passed == 1
+
+    def test_absent_fails_on_hallucination(self):
+        passed, _, fails = run_doc_checks(
+            "The Quick Brown Fox jumps",
+            [{"type": "absent", "text": "the quick brown fox"}],
+        )
+        assert passed == 0
+        assert "forbidden" in fails[0]
+
+    def test_order_pass_and_fail(self):
+        rules = [{"type": "order", "first": "Signatures", "then": "Notes"}]
+        assert run_doc_checks("Signatures ... Notes", rules)[0] == 1
+        assert run_doc_checks("Notes ... Signatures", rules)[0] == 0
+
+    def test_order_missing_operand_fails_with_reason(self):
+        passed, _, fails = run_doc_checks(
+            "only Notes here", [{"type": "order", "first": "Signatures", "then": "Notes"}],
+        )
+        assert passed == 0
+        assert "missing" in fails[0]
+
+    def test_unknown_rule_type_fails(self):
+        passed, total, fails = run_doc_checks("x", [{"type": "psychic", "text": "x"}])
+        assert (passed, total) == (0, 1)
+
+    def test_jsonl_loader_skips_comments_and_blanks(self, tmp_path: Path):
+        p = tmp_path / "rules.jsonl"
+        p.write_text(
+            '// comment line\n'
+            '\n'
+            '{"type": "present", "text": "alpha"}\n'
+            '{"type": "absent", "text": "beta"}\n',
+            encoding="utf-8",
+        )
+        rules = load_doc_checks(p)
+        assert [r["type"] for r in rules] == ["present", "absent"]
+
+    def test_shipped_check_files_load(self):
+        checks_dir = Path(__file__).parent.parent / "evals" / "checks"
+        files = sorted(checks_dir.glob("*.jsonl"))
+        assert len(files) >= 5
+        for f in files:
+            rules = load_doc_checks(f)
+            assert rules, f"{f.name} has no rules"
+            for r in rules:
+                assert r["type"] in ("present", "absent", "order")
 
 
 def test_report_handles_empty_pipeline():

@@ -1,0 +1,13 @@
+{
+  "recall": 0.989,
+  "recall_at_05": 0.989,
+  "precision": 0.9918,
+  "hmean": 0.9904,
+  "avg_iou": 0.9247,
+  "text_sim": 0.8121,
+  "avg_cer": 0.2545,
+  "bow_f1": 0.6878,
+  "char_recall": 0.9998,
+  "char_precision": 0.9853,
+  "checks_pass_rate": 1.0
+}

@@ -1,0 +1,11 @@
+// Binary facts for examples/handwritten.pdf (algorithms lecture notes).
+{"type": "present", "text": "Algorithms", "max_diffs": 0}
+{"type": "present", "text": "computational procedure", "max_diffs": 1}
+{"type": "present", "text": "CORRECT ALGORITHM", "max_diffs": 1}
+{"type": "present", "text": "Correctness", "max_diffs": 0}
+{"type": "present", "text": "Validity", "max_diffs": 0}
+{"type": "present", "text": "Halting", "max_diffs": 0}
+{"type": "present", "text": "induction proofs", "max_diffs": 1}
+{"type": "absent", "text": "the quick brown fox"}
+{"type": "absent", "text": "lorem ipsum"}
+{"type": "order", "first": "Algorithms", "then": "Correctness"}

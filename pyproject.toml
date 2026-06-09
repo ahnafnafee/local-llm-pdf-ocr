@@ -37,6 +37,7 @@ dependencies = [
     # the first Surya import. Listed here until surya fixes it upstream.
     "requests>=2.31",
     "scipy>=1.15.3",
+    "jiwer>=4.0.0",
 ]
 
 [project.optional-dependencies]

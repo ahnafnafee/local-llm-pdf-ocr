@@ -1,0 +1,18 @@
+// Binary facts for examples/hybrid.pdf (printed health-intake form with
+// handwritten fill-ins). `present` texts verbatim from ground truth.
+{"type": "present", "text": "HEALTH INTAKE FORM", "max_diffs": 0}
+{"type": "present", "text": "Sally Walker", "max_diffs": 0}
+{"type": "present", "text": "09/04/1986", "max_diffs": 1}
+{"type": "present", "text": "24 Barney Lane", "max_diffs": 1}
+{"type": "present", "text": "sally.walker@cmail.com", "max_diffs": 1}
+{"type": "present", "text": "(906) 917-3486", "max_diffs": 1}
+{"type": "present", "text": "Software Engineer", "max_diffs": 1}
+// The handwriting genuinely reads "mucas" — ground truth preserves the
+// writer's misspelling, and so must the overlay (no autocorrect).
+{"type": "present", "text": "mucas in throat", "max_diffs": 0}
+// Hard handwritten token; the model orbits it (2-3 edits off).
+{"type": "present", "text": "Vyvanse (25mg)", "max_diffs": 3}
+{"type": "absent", "text": "the quick brown fox"}
+{"type": "absent", "text": "lorem ipsum"}
+{"type": "order", "first": "HEALTH INTAKE FORM", "then": "Sally Walker"}
+{"type": "order", "first": "Name:", "then": "Emergency Contact:"}
