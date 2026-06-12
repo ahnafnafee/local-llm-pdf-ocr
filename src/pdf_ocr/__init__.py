@@ -5,7 +5,7 @@ Converts scanned PDFs into searchable documents using local vision LLMs
 for text extraction and Surya for layout detection.
 """
 
-__version__ = "1.0.0"
+__version__ = "0.2.0"
 
 from pdf_ocr.core.aligner import HybridAligner
 from pdf_ocr.core.grounded import (
