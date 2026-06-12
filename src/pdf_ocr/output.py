@@ -78,6 +78,7 @@ def resolve_output_writer(
     html_mode: str | None = None,
     html_inline_images: bool = False,
     html_invert_dark: bool = False,
+    html_hover_text: bool = False,
 ) -> OutputWriter:
     """Pick the writer matching `output_path`'s extension.
 
@@ -101,6 +102,10 @@ def resolve_output_writer(
             in dark mode via ``filter: invert() hue-rotate(180deg)``.
             Useful for scanned white-background documents viewed at
             night. Ignored for non-HTML outputs.
+        html_hover_text: when True, adds CSS that reveals a span's
+            otherwise-invisible text on hover/focus (white on a dark
+            backdrop), for inspecting which text is bound to which
+            region. Ignored for non-HTML outputs.
     """
     # Late imports keep this module light — importing pdf_ocr.output
     # shouldn't pull in fitz or PIL unless the user actually needs a
@@ -111,6 +116,7 @@ def resolve_output_writer(
         kwargs = {
             "inline_images": html_inline_images,
             "invert_dark": html_invert_dark,
+            "hover_text": html_hover_text,
         }
         if html_mode is not None:
             kwargs["mode"] = html_mode

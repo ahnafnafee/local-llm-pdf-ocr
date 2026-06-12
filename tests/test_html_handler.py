@@ -317,6 +317,126 @@ class TestSizingModes:
             HTMLHandler(mode="not-a-mode")
 
 
+# --- hover reveal (opt-in) -------------------------------------------------
+
+
+class TestHoverReveal:
+    def test_hover_css_absent_by_default(self, tmp_path: Path):
+        # The text layer must stay invisible unless explicitly opted in.
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out), {0: [([0.1, 0.1, 0.5, 0.15], "hello")]},
+        )
+        assert "span.line:hover" not in out.read_text(encoding="utf-8")
+
+    def test_hover_css_emitted_when_opted_in(self, tmp_path: Path):
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler(hover_text=True).embed_structured_text(
+            str(src), str(out), {0: [([0.1, 0.1, 0.5, 0.15], "hello")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "span.line:hover" in html
+        assert "color: #fff" in html
+
+
+# --- vertical runs ----------------------------------------------------------
+
+
+class TestVerticalRuns:
+    # 160 px wide × 400 px tall on the 800×1000 synth page: aspect 2.5,
+    # above the vertical threshold.
+    TALL = [0.1, 0.1, 0.3, 0.5]
+
+    def test_tall_latin_box_renders_sideways_vertical(self, tmp_path: Path):
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out), {0: [(self.TALL, "SIDEWAYS")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "writing-mode:vertical-rl;" in html
+        assert "text-orientation:sideways;" in html
+        # Stack fit: h_cqw = 0.4 * (1000/800) * 100 = 50; 8 chars ×
+        # 0.6 em advance → font = 50/8/0.6, below the 20 cqw width cap.
+        assert "font-size:10.4167cqw;" in html
+
+    def test_tall_cjk_box_stays_upright(self, tmp_path: Path):
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out), {0: [(self.TALL, "日本語縦書き")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "writing-mode:vertical-rl;" in html
+        assert "text-orientation:sideways;" not in html
+        # Full-width glyphs: 1 em advance → font = 50/6.
+        assert "font-size:8.3333cqw;" in html
+
+    def test_wide_box_stays_horizontal(self, tmp_path: Path):
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out), {0: [([0.1, 0.1, 0.6, 0.15], "normal line")]},
+        )
+        assert "writing-mode" not in out.read_text(encoding="utf-8")
+
+    def test_single_char_box_stays_horizontal(self, tmp_path: Path):
+        # A lone glyph in a tall box renders identically either way;
+        # don't add writing-mode noise for it.
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out), {0: [(self.TALL, "X")]},
+        )
+        assert "writing-mode" not in out.read_text(encoding="utf-8")
+
+    def test_vertical_only_in_scaled_mode(self, tmp_path: Path):
+        # Legacy sizing modes keep their original geometry untouched.
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler(mode=MODE_FULL_HEIGHT).embed_structured_text(
+            str(src), str(out), {0: [(self.TALL, "SIDEWAYS")]},
+        )
+        assert "writing-mode" not in out.read_text(encoding="utf-8")
+
+    def test_measure_script_skips_vertical_spans(self, tmp_path: Path):
+        # measureText returns horizontal advance — a scaleX derived from
+        # it is meaningless for a vertical run, so the script must skip.
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out), {0: [(self.TALL, "SIDEWAYS")]},
+        )
+        assert "writingMode" in out.read_text(encoding="utf-8")
+
+
+# --- detector confidence passthrough ----------------------------------------
+
+
+class TestConfidenceAttr:
+    def test_oriented_box_confidence_lands_in_data_attr(self, tmp_path: Path):
+        from pdf_ocr.core.geometry import OrientedBox
+
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [(OrientedBox([0.1, 0.1, 0.6, 0.15], confidence=0.87), "scored")]},
+        )
+        assert 'data-conf="0.870"' in out.read_text(encoding="utf-8")
+
+    def test_plain_list_has_no_conf_attr(self, tmp_path: Path):
+        src = _make_synth_image(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [([0.1, 0.1, 0.6, 0.15], "unscored")]},
+        )
+        assert "data-conf" not in out.read_text(encoding="utf-8")
+
+
 # --- edge cases routed through layout helpers -----------------------------
 
 

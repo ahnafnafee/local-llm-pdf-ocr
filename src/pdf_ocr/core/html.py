@@ -23,7 +23,12 @@ import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
 from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
-from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG, quad_edge_lengths
+from pdf_ocr.core.geometry import (
+    ANGLE_FLATTEN_DEG,
+    quad_affine_components,
+    quad_edge_lengths,
+    quad_perspective_residual_px,
+)
 from pdf_ocr.core.pdf import _is_image_path
 
 # Image types every modern browser renders natively. Other extensions
@@ -40,6 +45,31 @@ DEFAULT_MODE = MODE_SCALED
 
 # Browser monospace stacks (Courier-family) sit near 0.6 width:height.
 _MONOSPACE_FONT_ASPECT = 0.6
+
+# A quad whose bottom-right corner sits further than this (native page
+# px) from the parallelogram completion of the other three corners is
+# perspective-distorted: the pure-CSS affine matrix can match at most
+# three of its corners, so the span also carries `data-quad` and the
+# matrix3d script refines it. Surya min-area rects are parallelograms
+# (residual ≈ float noise); photo-path quads mapped back through the
+# inverse homography routinely exceed this.
+_PERSPECTIVE_RESIDUAL_PX = 1.5
+
+# Axis-aligned boxes at least this many times taller than wide (pixel
+# terms), holding 2+ characters, render as a vertical run: a horizontal
+# nowrap line would overflow the box's right edge by the same factor.
+_VERTICAL_ASPECT = 2.0
+
+# Scripts whose glyphs stay upright in vertical runs (writing-mode alone
+# suffices; everything else also gets sideways orientation).
+_CJK_RANGES = (
+    (0x3040, 0x30FF),   # hiragana + katakana
+    (0x3400, 0x4DBF),   # CJK extension A
+    (0x4E00, 0x9FFF),   # CJK unified ideographs
+    (0xAC00, 0xD7AF),   # hangul syllables
+    (0xF900, 0xFAFF),   # CJK compatibility ideographs
+    (0xFF00, 0xFF60),   # full-width forms
+)
 
 _JPEG_QUALITY = 80
 
@@ -69,7 +99,7 @@ span.line {
   white-space: nowrap;
   font-family: monospace;
   line-height: 1;
-  transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));
+  transform: matrix(var(--quad, 1, 0, 0, 1, 0, 0)) scaleX(var(--scale-x, 1));
   transform-origin: 0 0;
 }
 @media (prefers-color-scheme: dark) {
@@ -88,6 +118,18 @@ _DARK_INVERT_CSS = """\
   div.page {
     filter: invert() hue-rotate(180deg);
   }
+}
+"""
+
+# Opt-in: reveal the otherwise-invisible text layer on hover/focus so a
+# reader can inspect which text is bound to which region. The dark
+# backdrop keeps the reveal readable on any page background — under the
+# dark-mode inversion filter it flips to dark-on-light but keeps its
+# contrast.
+_HOVER_CSS = """\
+span.line:hover, span.line:focus {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
 }
 """
 
@@ -129,10 +171,56 @@ _MEASURE_SCRIPT = """\
   var ctx = document.createElement('canvas').getContext('2d');
   for (const s of document.querySelectorAll('span.line')) {
     var cs = getComputedStyle(s);
+    if ((cs.writingMode || '').indexOf('vertical') === 0) continue;
     ctx.font = cs.fontSize + ' ' + cs.fontFamily;
     var m = ctx.measureText(s.textContent);
     if (!(m.width > 0) || !(s.offsetWidth > 0)) continue;
     s.style.setProperty('--scale-x', s.offsetWidth / m.width);
+  }
+})();
+</script>
+"""
+
+# Perspective refinement for keystone-distorted quads: the stylesheet's
+# affine matrix can match at most three corners of a non-parallelogram
+# quad, so spans flagged with `data-quad` get an exact CSS matrix3d()
+# homography here instead. A homography's perspective terms are ratios
+# of *rendered* pixel lengths — unlike the affine components they are
+# not scale-invariant, so they can't be precomputed server-side. Pages
+# keep a fixed CSS-pixel width once the fit script has run (browser
+# zoom scales the CSS px unit itself, preserving the mapping), so one
+# pass after it suffices. Runs after the measure script so the
+# composed scaleX is final; without JavaScript the affine
+# approximation from the stylesheet still applies.
+_QUAD3D_SCRIPT = """\
+<script>
+(function(){
+  for (const s of document.querySelectorAll('span.line[data-quad]')) {
+    var page = s.closest('div.page');
+    if (!page) continue;
+    var pw = page.clientWidth, ph = page.clientHeight;
+    var q = s.dataset.quad.split(' ').map(Number);
+    var w = s.offsetWidth, h = s.offsetHeight;
+    if (q.length !== 8 || !(pw > 0) || !(ph > 0) || !(w > 0) || !(h > 0)) continue;
+    var ox = q[0]*pw, oy = q[1]*ph;
+    var x1 = q[2]*pw - ox, y1 = q[3]*ph - oy;
+    var x2 = q[4]*pw - ox, y2 = q[5]*ph - oy;
+    var x3 = q[6]*pw - ox, y3 = q[7]*ph - oy;
+    var dx1 = x1 - x2, dy1 = y1 - y2;
+    var dx2 = x3 - x2, dy2 = y3 - y2;
+    var rx = x2 - x1 - x3, ry = y2 - y1 - y3;
+    var den = dx1*dy2 - dx2*dy1;
+    if (!den) continue;
+    var g = (rx*dy2 - dx2*ry) / den;
+    var k = (dx1*ry - rx*dy1) / den;
+    var m = [
+      (1+g)*x1/w, (1+g)*y1/w, 0, g/w,
+      (1+k)*x3/h, (1+k)*y3/h, 0, k/h,
+      0, 0, 1, 0,
+      0, 0, 0, 1,
+    ];
+    var sx = (getComputedStyle(s).getPropertyValue('--scale-x') || '').trim() || '1';
+    s.style.transform = 'matrix3d(' + m.join(',') + ') scaleX(' + sx + ')';
   }
 })();
 </script>
@@ -166,6 +254,7 @@ class HTMLHandler:
         mode: str = DEFAULT_MODE,
         inline_images: bool = False,
         invert_dark: bool = False,
+        hover_text: bool = False,
     ):
         if mode not in _VALID_MODES:
             raise ValueError(
@@ -175,6 +264,7 @@ class HTMLHandler:
         self.mode = mode
         self.inline_images = inline_images
         self.invert_dark = invert_dark
+        self.hover_text = hover_text
 
     def embed_structured_text(
         self,
@@ -297,23 +387,35 @@ class HTMLHandler:
         out.write(f"<title>{_html.escape(title)}</title>\n")
         out.write("<style>\n")
         out.write(_PAGE_CSS)
+        if self.hover_text:
+            out.write(_HOVER_CSS)
         if self.invert_dark:
             out.write(_DARK_INVERT_CSS)
         out.write("</style>\n</head>\n<body>\n")
+        # Span emission records which optional machinery the document
+        # actually needs, so pages without (e.g.) perspective quads
+        # don't carry the script that serves them.
+        features: set[str] = set()
         for page_idx, image_url, width, height in pages:
             self._render_page(
                 out, page_idx, image_url, width, height,
-                pages_data.get(page_idx, []),
+                pages_data.get(page_idx, []), features,
             )
         out.write(_FIT_SCRIPT)
         if self.mode == MODE_SCALED:
             # Must run after the fit script: fitting rewrites page widths,
             # and the measurement reads post-fit span layout widths.
             out.write(_MEASURE_SCRIPT)
+        if "perspective" in features:
+            # Must run after the measure script: it bakes the final
+            # --scale-x into the composed matrix3d transform.
+            out.write(_QUAD3D_SCRIPT)
         out.write("</body>\n</html>\n")
         return out.getvalue()
 
-    def _render_page(self, out, page_idx, image_url, width, height, items):
+    def _render_page(
+        self, out, page_idx, image_url, width, height, items, features,
+    ):
         out.write(
             f'<div class="page" data-page="{page_idx + 1}" '
             f'style="--page-w:{_num(width)};--page-h:{_num(height)};'
@@ -324,11 +426,11 @@ class HTMLHandler:
             # would strip OrientedBox's quad/angle and silently disable
             # rotated rendering.
             self._render_box(
-                out, rect_coords, text or "", width, height,
+                out, rect_coords, text or "", width, height, features,
             )
         out.write("</div>\n")
 
-    def _render_box(self, out, rect_coords, text, page_width, page_height):
+    def _render_box(self, out, rect_coords, text, page_width, page_height, features):
         text = text.strip()
         if not text:
             return
@@ -343,7 +445,7 @@ class HTMLHandler:
                 (page_height - 10.0) / page_height,
             ]
             for sub_rect, line in split_multi_line_bbox(inset, text):
-                self._emit_span(out, sub_rect, line, page_width, page_height)
+                self._emit_span(out, sub_rect, line, page_width, page_height, features)
             return
 
         # Real bbox with multi-line content (grounded VLM joined lines):
@@ -352,51 +454,95 @@ class HTMLHandler:
             sub = split_multi_line_bbox(rect_coords, text)
             if len(sub) > 1:
                 for sub_rect, line in sub:
-                    self._emit_span(out, sub_rect, line, page_width, page_height)
+                    self._emit_span(out, sub_rect, line, page_width, page_height, features)
                 return
             if sub:
                 text = sub[0][1]
 
-        self._emit_span(out, rect_coords, text, page_width, page_height)
+        self._emit_span(out, rect_coords, text, page_width, page_height, features)
 
-    def _emit_span(self, out, rect_coords, text, page_width, page_height):
+    def _emit_span(self, out, rect_coords, text, page_width, page_height, features):
         # Tilted detector quads anchor the span at the quad's top-left
         # corner with the quad's own edge lengths; the stylesheet's
-        # rotate(var(--rotate)) then swings it into place. Axis-aligned
-        # boxes keep the envelope geometry and the variable's 0deg
-        # default. Near-horizontal tilt is flattened — min-area rects
-        # wobble a degree or two on straight text, and rotating the
-        # overlay by that noise hurts selection congruence.
+        # matrix(var(--quad)) — whose columns are the quad's edge unit
+        # vectors — then rotates/shears it into place exactly. The
+        # affine components are dimensionless, so this stays correct at
+        # any page scale with no script. Axis-aligned boxes keep the
+        # envelope geometry and the variable's identity default.
+        # Near-horizontal tilt is flattened — min-area rects wobble a
+        # degree or two on straight text, and rotating the overlay by
+        # that noise hurts selection congruence.
         angle = getattr(rect_coords, "angle", 0.0)
         quad = getattr(rect_coords, "quad", None)
+        quad_css = ""
+        quad_attr = ""
         if quad is not None and abs(angle) >= ANGLE_FLATTEN_DEG:
             run_px, height_px = quad_edge_lengths(quad, page_width, page_height)
             left, top = quad[0], quad[1]
             w_norm = run_px / page_width
             h_norm = height_px / page_height
-            rotate_css = f"--rotate:{_num(angle)}deg;"
+            a, b, c, d = quad_affine_components(quad, page_width, page_height)
+            quad_css = f"--quad:{_num(a)},{_num(b)},{_num(c)},{_num(d)};"
+            # A keystone-distorted quad (photo path) can't be matched on
+            # all four corners by any affine: ship the corners and let
+            # the matrix3d script compute the exact homography.
+            residual = quad_perspective_residual_px(quad, page_width, page_height)
+            if residual > _PERSPECTIVE_RESIDUAL_PX:
+                quad_attr = ' data-quad="' + " ".join(_num(v) for v in quad) + '"'
+                features.add("perspective")
         else:
             nx0, ny0, nx1, ny1 = rect_coords
             left, top = nx0, ny0
             w_norm = nx1 - nx0
             h_norm = ny1 - ny0
-            rotate_css = ""
         if w_norm <= 0 or h_norm <= 0 or not text:
             return
 
-        sizing = self._span_sizing_style(text, w_norm, h_norm, page_width, page_height)
+        # Tall narrow axis-aligned boxes hold vertical runs (CJK columns,
+        # sideways labels): flow the text down the box instead of
+        # overflowing its right edge. Honored quads never take this
+        # branch — a sideways line arrives as a ±90° quad and the matrix
+        # path renders it exactly.
+        vertical = False
+        if not quad_css and self.mode == MODE_SCALED:
+            w_px = w_norm * page_width
+            h_px = h_norm * page_height
+            vertical = (
+                len(text) >= 2 and w_px > 0
+                and h_px >= _VERTICAL_ASPECT * w_px
+            )
+        vertical_css = ""
+        cjk = False
+        if vertical:
+            cjk = _is_mostly_cjk(text)
+            vertical_css = "writing-mode:vertical-rl;"
+            if not cjk:
+                vertical_css += "text-orientation:sideways;"
+
+        conf = getattr(rect_coords, "confidence", None)
+        conf_attr = (
+            f' data-conf="{float(conf):.3f}"' if conf is not None else ""
+        )
+
+        sizing = self._span_sizing_style(
+            text, w_norm, h_norm, page_width, page_height,
+            vertical=vertical, cjk=cjk,
+        )
         # Escape the minimum HTML special chars so the text is parsed
         # correctly even though it's rendered transparent.
         safe_text = _html.escape(text, quote=False)
         out.write(
-            f'<span class="line" style="left:{_num(left * 100)}%;'
+            f'<span class="line"{conf_attr}{quad_attr} '
+            f'style="left:{_num(left * 100)}%;'
             f'top:{_num(top * 100)}%;'
-            f'width:{_num(w_norm * 100)}%;{rotate_css}{sizing}">{safe_text}</span>\n'
+            f'width:{_num(w_norm * 100)}%;{quad_css}{vertical_css}{sizing}">'
+            f'{safe_text}</span>\n'
         )
 
     def _span_sizing_style(
         self, text: str, w_norm: float, h_norm: float,
         page_width: float, page_height: float,
+        vertical: bool = False, cjk: bool = False,
     ) -> str:
         """Choose font-size + letter-spacing for one span per `self.mode`.
 
@@ -411,6 +557,20 @@ class HTMLHandler:
         w_cqw = w_norm * 100
         h_cqw = h_norm * (page_height / page_width) * 100
         h_pct = h_norm * 100
+
+        if vertical:
+            # Glyphs stack down the box: the per-glyph advance along the
+            # column is ~1 em for upright CJK and ~one monospace advance
+            # for sideways Latin; the cross-axis glyph size is the font
+            # size itself, capped by the box width. The measure script
+            # skips vertical spans (measureText is horizontal-advance
+            # only), so the server-side fit is final.
+            per_char = h_cqw / n_chars
+            if cjk:
+                font_size_cqw = min(w_cqw, per_char)
+            else:
+                font_size_cqw = min(w_cqw, per_char / _MONOSPACE_FONT_ASPECT)
+            return f"font-size:{_num(font_size_cqw)}cqw;height:{_num(h_pct)}%;"
 
         if self.mode == MODE_LETTER_SPACING:
             # Font sized to bbox height; spread characters to fill width
@@ -436,6 +596,19 @@ class HTMLHandler:
         char_width = min(char_width_for_height, char_width_for_width)
         font_size_cqw = char_width / _MONOSPACE_FONT_ASPECT
         return f"font-size:{_num(font_size_cqw)}cqw;height:{_num(h_pct)}%;"
+
+
+def _is_mostly_cjk(text: str) -> bool:
+    """True when at least half the non-space glyphs are CJK — those stay
+    upright in a vertical run, everything else reads better sideways."""
+    glyphs = [ch for ch in text if not ch.isspace()]
+    if not glyphs:
+        return False
+    cjk = sum(
+        1 for ch in glyphs
+        if any(lo <= ord(ch) <= hi for lo, hi in _CJK_RANGES)
+    )
+    return cjk * 2 >= len(glyphs)
 
 
 def _num(n: float) -> str:

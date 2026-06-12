@@ -103,6 +103,17 @@ Examples:
              "outline is found. never: disable.",
     )
     parser.add_argument(
+        "--min-box-confidence", dest="min_box_confidence",
+        type=float, default=None, metavar="FLOAT",
+        help="Drop detected layout boxes below this confidence before "
+             "alignment and per-box OCR (hybrid path only; default: keep "
+             "all). Surya's confidence is normalized per page — the "
+             "strongest box on each page scores 1.0 — so e.g. 0.2 drops "
+             "boxes weaker than 20%% of that page's best box. Cuts junk "
+             "detections (specks, texture) that mislead the line-to-box "
+             "alignment and burn LLM calls in dense mode.",
+    )
+    parser.add_argument(
         "--grounded", action="store_true",
         help="Use a bbox-native VLM (Qwen2.5-VL / Qwen3-VL / etc.) that returns text WITH "
              "bounding boxes in one call. Skips Surya + DP + refine. Requires --model to be "
@@ -151,6 +162,15 @@ Examples:
              "so scanned white-background documents appear dark. "
              "Without this flag the page image is shown as-is in all "
              "colour schemes.",
+    )
+    parser.add_argument(
+        "--html-hover-text", dest="html_hover_text",
+        action="store_true",
+        help="Reveal the invisible OCR text on hover/focus (HTML output "
+             "only): hovering a region shows its bound text white on a "
+             "dark backdrop, for inspecting what the OCR layer contains. "
+             "Selection and search behave the same with or without the "
+             "flag.",
     )
     parser.add_argument("--api-base", help="Override LLM API base URL")
     parser.add_argument("--model", help="Override LLM model name")
@@ -215,6 +235,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
         html_mode=args.html_mode,
         html_inline_images=args.html_inline_images,
         html_invert_dark=args.html_invert_dark,
+        html_hover_text=args.html_hover_text,
     )
 
     pdf_handler = PDFHandler()
@@ -282,6 +303,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
                 dense_threshold=args.dense_threshold,
                 dense_mode=args.dense_mode,
                 preprocess=args.preprocess,
+                min_box_confidence=args.min_box_confidence,
                 progress=on_progress,
             )
         except Exception as e:

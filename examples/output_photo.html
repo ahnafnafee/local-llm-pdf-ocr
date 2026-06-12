@@ -21,7 +21,7 @@ span.line {
   white-space: nowrap;
   font-family: monospace;
   line-height: 1;
-  transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));
+  transform: matrix(var(--quad, 1, 0, 0, 1, 0, 0)) scaleX(var(--scale-x, 1));
   transform-origin: 0 0;
 }
 @media (prefers-color-scheme: dark) {
@@ -34,41 +34,41 @@ span.line {
 </head>
 <body>
 <div class="page" data-page="1" style="--page-w:1100;--page-h:1400;background-image:url('photo.jpg')">
-<span class="line" style="left:52.0026%;top:14.9607%;width:13.1203%;--rotate:5.7714deg;font-size:0.7289cqw;height:0.8159%;">Department of Computer Science</span>
-<span class="line" style="left:34.2949%;top:15.1837%;width:13.0596%;font-size:0.9463cqw;height:2.1222%;">GEORGE MASON UNIVERSITY</span>
-<span class="line" style="left:51.7782%;top:15.9451%;width:15.5178%;--rotate:5.816deg;font-size:0.7184cqw;height:0.7263%;">College of Engineering and Computing</span>
-<span class="line" style="left:51.8067%;top:16.7687%;width:19.0091%;--rotate:5.8526deg;font-size:0.3482cqw;height:0.7274%;">Center for Engineering and Computing 4400 University Drive, MS 445, Fairfax, Virginia 22030</span>
-<span class="line" style="left:51.6014%;top:17.5746%;width:14.8211%;--rotate:5.8893deg;font-size:0.7058cqw;height:0.7283%;">Phone 703-960-1530 Fax 703-960-1710</span>
-<span class="line" style="left:51.5129%;top:18.3911%;width:10.4132%;--rotate:5.926deg;font-size:0.2845cqw;height:0.7293%;">from the sky like the sun in the sky like the sun is gone now</span>
-<span class="line" style="left:35.3687%;top:18.4354%;width:34.8981%;--rotate:5.9873deg;font-size:0.9535cqw;height:0.9046%;">CS 701 - Research Experience in Computer Science – Spring '26</span>
-<span class="line" style="left:28.2595%;top:20.7523%;width:12.7175%;--rotate:6.1184deg;font-size:0.785cqw;height:0.724%;">Student Name (Last, First):</span>
-<span class="line" style="left:27.9605%;top:23.0966%;width:11.3427%;--rotate:6.2255deg;font-size:0.8219cqw;height:0.8177%;">Student e-mail address:</span>
-<span class="line" style="left:27.6488%;top:25.5408%;width:5.7789%;--rotate:6.3371deg;font-size:0.8756cqw;height:0.821%;">Student Gm:</span>
-<span class="line" style="left:27.3243%;top:28.0859%;width:15.0271%;--rotate:6.4533deg;font-size:0.8636cqw;height:0.9161%;">Name of the CS faculty member</span>
-<span class="line" style="left:27.1615%;top:29.3625%;width:16.6928%;--rotate:6.5115deg;font-size:0.7949cqw;height:0.8262%;">to supervise the student in CS 701:</span>
-<span class="line" style="left:26.8466%;top:31.832%;width:46.9477%;--rotate:6.6243deg;font-size:0.7747cqw;height:0.9218%;">Description of the research activity (clarify the hands-on component explicitly in your description):</span>
-<span class="line" style="left:25.8941%;top:39.3013%;width:48.1139%;--rotate:6.9652deg;font-size:0.794cqw;height:0.9331%;">List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):</span>
-<span class="line" style="left:25.0734%;top:45.7366%;width:5.4056%;--rotate:7.2589deg;font-size:0.9009cqw;height:0.8486%;">Signatures</span>
-<span class="line" style="left:24.9178%;top:46.9566%;width:4.3495%;--rotate:7.3145deg;font-size:0.9062cqw;height:0.8503%;">Student:</span>
-<span class="line" style="left:42.4345%;top:48.7242%;width:11.2214%;--rotate:7.3145deg;font-size:0.8501cqw;height:0.9556%;">CS Faculty Supervisor:</span>
-<span class="line" style="left:56.815%;top:50.2724%;width:12.9104%;--rotate:7.3188deg;font-size:0.8966cqw;height:0.8681%;">PhD CS Program Director:</span>
-<span class="line" style="left:24.2562%;top:52.1451%;width:3.1854%;--rotate:7.5512deg;font-size:0.97cqw;height:0.7621%;">Notes</span>
-<span class="line" style="left:25.8533%;top:53.562%;width:44.0553%;--rotate:7.6075deg;font-size:0.7981cqw;height:1.0514%;">1. Successful completion of CS 700 with a grade of 8 or better is a prerequisite for CS 701.</span>
-<span class="line" style="left:25.6854%;top:54.894%;width:48.361%;--rotate:7.6681deg;font-size:0.798cqw;height:0.862%;">2. A thorough literature review is likely to be part of most CS 701 research activities. However, the</span>
-<span class="line" style="left:27.1611%;top:56.4043%;width:46.6316%;--rotate:7.7289deg;font-size:0.8541cqw;height:0.9609%;">CS 701 research activity should include a hands-on component (such as software development,</span>
-<span class="line" style="left:27.006%;top:57.6478%;width:46.1786%;--rotate:7.7855deg;font-size:0.8366cqw;height:0.9629%;">performing and analyzing experiments with existing techniques) beyond the literature review.</span>
-<span class="line" style="left:26.8386%;top:58.9898%;width:43.5937%;--rotate:7.8465deg;font-size:0.7897cqw;height:0.9649%;">Specify the hands-on activity within the "description of the research activity" field above.</span>
-<span class="line" style="left:26.6828%;top:60.2386%;width:45.9034%;--rotate:7.9033deg;font-size:0.8053cqw;height:1.0636%;">If necessary, you can attach an additional sheet to elaborate further on the description of the</span>
-<span class="line" style="left:26.5027%;top:61.6825%;width:8.3844%;--rotate:7.969deg;font-size:0.7763cqw;height:0.8721%;">research activity.</span>
-<span class="line" style="left:24.6944%;top:62.7535%;width:48.3092%;--rotate:8.0261deg;font-size:0.8133cqw;height:0.97%;">3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the</span>
-<span class="line" style="left:26.1774%;top:64.2901%;width:44.6744%;--rotate:8.0876deg;font-size:0.7921cqw;height:0.8758%;">end of the semester. In addition, all CS 701 students are required to give a short talk to the</span>
-<span class="line" style="left:26.0203%;top:65.5495%;width:42.8306%;--rotate:8.1449deg;font-size:0.8021cqw;height:0.9751%;">public about their research at the end of the semester. Logistics of that meeting will be</span>
-<span class="line" style="left:25.8507%;top:66.9086%;width:16.8089%;--rotate:8.2066deg;font-size:0.9037cqw;height:0.9773%;">announced by the CS department.</span>
-<span class="line" style="left:24.0226%;top:68.0812%;width:48.6573%;--rotate:8.2686deg;font-size:0.8029cqw;height:0.8804%;">4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be</span>
-<span class="line" style="left:25.5227%;top:69.538%;width:47.0327%;--rotate:8.3262deg;font-size:0.8429cqw;height:0.9814%;">indicated next to the "CS faculty member name" field above, and they should co-sign the form.</span>
-<span class="line" style="left:25.3521%;top:70.9058%;width:43.2805%;--rotate:8.3883deg;font-size:0.8105cqw;height:0.8851%;">At the registrar level, the CS 701 registration will be made only under CS faculty names.</span>
-<span class="line" style="left:23.5304%;top:71.9844%;width:45.7697%;--rotate:8.4462deg;font-size:0.9191cqw;height:0.9844%;">5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put</span>
-<span class="line" style="left:25.141%;top:73.5661%;width:28.6659%;--rotate:8.5086deg;font-size:0.8382cqw;height:0.9877%;">"{CS701 form}" in the subject line) by November 21, 2025.</span>
+<span class="line" data-conf="0.960" style="left:52.0026%;top:14.9607%;width:13.1203%;--quad:0.9949,0.1006,-0.0848,0.9964;font-size:0.7289cqw;height:0.8159%;">Department of Computer Science</span>
+<span class="line" data-conf="0.731" style="left:34.2949%;top:15.1837%;width:13.0596%;font-size:1.8138cqw;height:2.1222%;">GEORGE MASON</span>
+<span class="line" data-conf="0.940" style="left:51.7782%;top:15.9451%;width:15.5178%;--quad:0.9948,0.1014,-0.0849,0.9964;font-size:0.7184cqw;height:0.7263%;">College of Engineering and Computing</span>
+<span class="line" data-conf="0.950" style="left:51.8067%;top:16.7687%;width:19.0091%;--quad:0.9948,0.102,-0.0848,0.9964;font-size:0.3482cqw;height:0.7274%;">Center for Engineering and Computing 4400 University Drive, MS 445, Fairfax, Virginia 22030</span>
+<span class="line" data-conf="0.953" style="left:51.6014%;top:17.5746%;width:14.8211%;--quad:0.9947,0.1027,-0.0849,0.9964;font-size:0.7058cqw;height:0.7283%;">Phone 703-943-1520 Fax 703-940-1710</span>
+<span class="line" data-conf="0.878" style="left:51.5129%;top:18.3911%;width:10.4132%;--quad:0.9947,0.1033,-0.0849,0.9964;font-size:0.3275cqw;height:0.7293%;">from the sky is the rain in the sea the fish is great</span>
+<span class="line" data-conf="0.995" style="left:35.3687%;top:18.4354%;width:34.8981%;--quad:0.9945,0.1044,-0.0953,0.9954;font-size:0.9535cqw;height:0.9046%;">CS 701 - Research Experience in Computer Science – Spring '26</span>
+<span class="line" data-conf="0.970" style="left:28.2595%;top:20.7523%;width:12.7175%;--quad:0.9943,0.1066,-0.0997,0.995;font-size:0.785cqw;height:0.724%;">Student Name (Last, First):</span>
+<span class="line" data-conf="0.922" style="left:27.9605%;top:23.0966%;width:11.3427%;--quad:0.9941,0.1085,-0.0997,0.995;font-size:0.8219cqw;height:0.8177%;">Student e-mail address:</span>
+<span class="line" data-conf="0.951" style="left:27.6488%;top:25.5408%;width:5.7789%;--quad:0.9939,0.1104,-0.0997,0.995;font-size:0.8756cqw;height:0.821%;">Student Gm:</span>
+<span class="line" data-conf="0.959" style="left:27.3243%;top:28.0859%;width:15.0271%;--quad:0.9937,0.1125,-0.0997,0.995;font-size:0.8636cqw;height:0.9161%;">Name of the CS faculty member</span>
+<span class="line" data-conf="0.939" style="left:27.1615%;top:29.3625%;width:16.6928%;--quad:0.9935,0.1135,-0.0997,0.995;font-size:0.7949cqw;height:0.8262%;">to supervise the student in CS 701:</span>
+<span class="line" data-conf="0.975" style="left:26.8466%;top:31.832%;width:46.9477%;--quad:0.9933,0.1154,-0.0997,0.995;font-size:0.7747cqw;height:0.9218%;">Description of the research activity (clarify the hands-on component explicitly in your description):</span>
+<span class="line" data-conf="1.000" style="left:25.8941%;top:39.3013%;width:48.1139%;--quad:0.9926,0.1213,-0.0997,0.995;font-size:0.794cqw;height:0.9331%;">List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):</span>
+<span class="line" data-conf="0.963" style="left:25.0734%;top:45.7366%;width:5.4056%;--quad:0.992,0.1264,-0.0997,0.995;font-size:0.9009cqw;height:0.8486%;">Signatures</span>
+<span class="line" data-conf="0.930" style="left:24.9178%;top:46.9566%;width:4.3495%;--quad:0.9919,0.1274,-0.0997,0.995;font-size:0.9062cqw;height:0.8503%;">Student:</span>
+<span class="line" data-conf="0.983" style="left:42.4345%;top:48.7242%;width:11.2214%;--quad:0.9919,0.1274,-0.0886,0.9961;font-size:0.8501cqw;height:0.9556%;">CS Faculty Supervisor:</span>
+<span class="line" data-conf="0.954" style="left:56.815%;top:50.2724%;width:12.9104%;--quad:0.9918,0.1275,-0.0794,0.9968;font-size:0.8966cqw;height:0.8681%;">PhD CS Program Director:</span>
+<span class="line" data-conf="0.947" style="left:24.2562%;top:52.1451%;width:3.1854%;--quad:0.9913,0.1315,-0.0997,0.995;font-size:0.97cqw;height:0.7621%;">Notes</span>
+<span class="line" data-conf="0.999" style="left:25.8533%;top:53.562%;width:44.0553%;--quad:0.9912,0.1325,-0.0986,0.9951;font-size:0.7981cqw;height:1.0514%;">1. Successful completion of CS 700 with a grade of 8 or better is a prerequisite for CS 701.</span>
+<span class="line" data-conf="0.989" style="left:25.6854%;top:54.894%;width:48.361%;--quad:0.991,0.1335,-0.0986,0.9951;font-size:0.798cqw;height:0.862%;">2. A thorough literature review is likely to be part of most CS 701 research activities. However, the</span>
+<span class="line" data-conf="0.991" style="left:27.1611%;top:56.4043%;width:46.6316%;--quad:0.9909,0.1346,-0.0975,0.9952;font-size:0.8541cqw;height:0.9609%;">CS 701 research activity should include a hands-on component (such as software development,</span>
+<span class="line" data-conf="0.998" style="left:27.006%;top:57.6478%;width:46.1786%;--quad:0.9908,0.1355,-0.0975,0.9952;font-size:0.8366cqw;height:0.9629%;">performing and analyzing experiments with existing techniques) beyond the literature review.</span>
+<span class="line" data-conf="0.993" style="left:26.8386%;top:58.9898%;width:43.5937%;--quad:0.9906,0.1366,-0.0975,0.9952;font-size:0.7897cqw;height:0.9649%;">Specify the hands-on activity within the "description of the research activity" field above.</span>
+<span class="line" data-conf="0.989" style="left:26.6828%;top:60.2386%;width:45.9034%;--quad:0.9905,0.1376,-0.0975,0.9952;font-size:0.8053cqw;height:1.0636%;">If necessary, you can attach an additional sheet to elaborate further on the description of the</span>
+<span class="line" data-conf="0.951" style="left:26.5027%;top:61.6825%;width:8.3844%;--quad:0.9903,0.1387,-0.0975,0.9952;font-size:0.7763cqw;height:0.8721%;">research activity.</span>
+<span class="line" data-conf="0.995" style="left:24.6944%;top:62.7535%;width:48.3092%;--quad:0.9902,0.1397,-0.0986,0.9951;font-size:0.8133cqw;height:0.97%;">3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the</span>
+<span class="line" data-conf="0.971" style="left:26.1774%;top:64.2901%;width:44.6744%;--quad:0.99,0.1408,-0.0975,0.9952;font-size:0.7921cqw;height:0.8758%;">end of the semester. In addition, all CS 701 students are required to give a short talk to the</span>
+<span class="line" data-conf="0.997" style="left:26.0203%;top:65.5495%;width:42.8306%;--quad:0.9899,0.1418,-0.0975,0.9952;font-size:0.8021cqw;height:0.9751%;">public about their research at the end of the semester. Logistics of that meeting will be</span>
+<span class="line" data-conf="0.962" style="left:25.8507%;top:66.9086%;width:16.8089%;--quad:0.9897,0.1428,-0.0975,0.9952;font-size:0.9037cqw;height:0.9773%;">announced by the CS department.</span>
+<span class="line" data-conf="0.987" style="left:24.0226%;top:68.0812%;width:48.6573%;--quad:0.9896,0.1439,-0.0986,0.9951;font-size:0.8029cqw;height:0.8804%;">4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be</span>
+<span class="line" data-conf="0.995" style="left:25.5227%;top:69.538%;width:47.0327%;--quad:0.9894,0.1449,-0.0975,0.9952;font-size:0.8429cqw;height:0.9814%;">indicated next to the "CS faculty member name" field above, and they should co-sign the form.</span>
+<span class="line" data-conf="0.992" style="left:25.3521%;top:70.9058%;width:43.2805%;--quad:0.9893,0.146,-0.0975,0.9952;font-size:0.8105cqw;height:0.8851%;">At the registrar level, the CS 701 registration will be made only under CS faculty names.</span>
+<span class="line" data-conf="0.983" style="left:23.5304%;top:71.9844%;width:45.7697%;--quad:0.9891,0.147,-0.0986,0.9951;font-size:0.9191cqw;height:0.9844%;">5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put</span>
+<span class="line" data-conf="0.975" style="left:25.141%;top:73.5661%;width:28.6659%;--quad:0.989,0.148,-0.0975,0.9952;font-size:0.8382cqw;height:0.9877%;">"{CS701 form}" in the subject line) by November 21, 2025.</span>
 </div>
 <script>
 (function(){
@@ -85,6 +85,7 @@ span.line {
   var ctx = document.createElement('canvas').getContext('2d');
   for (const s of document.querySelectorAll('span.line')) {
     var cs = getComputedStyle(s);
+    if ((cs.writingMode || '').indexOf('vertical') === 0) continue;
     ctx.font = cs.fontSize + ' ' + cs.fontFamily;
     var m = ctx.measureText(s.textContent);
     if (!(m.width > 0) || !(s.offsetWidth > 0)) continue;

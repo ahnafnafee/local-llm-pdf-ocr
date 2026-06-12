@@ -69,6 +69,56 @@ class _StubPDF:
         self.last_pages = dict(pages)
 
 
+class TestMinBoxConfidence:
+    """Opt-in pre-alignment confidence cut. Off by default; boxes with
+    no confidence attribute (plain lists, custom aligners) always pass."""
+
+    def _boxes(self):
+        from pdf_ocr.core.geometry import OrientedBox
+        return [
+            OrientedBox([0.1, 0.1, 0.9, 0.15], confidence=1.0),
+            OrientedBox([0.1, 0.2, 0.9, 0.25], confidence=0.05),
+            [0.1, 0.3, 0.9, 0.35],
+        ]
+
+    def _recording_aligner(self, seen: list):
+        aligner = _StubAligner(boxes_per_page=self._boxes())
+        inner = aligner.align_text
+
+        def align(structured, lines):
+            seen.append(len(structured))
+            return inner(structured, lines)
+
+        aligner.align_text = align
+        return aligner
+
+    async def test_low_confidence_boxes_dropped_before_alignment(self, stub_ocr):
+        seen: list[int] = []
+        pdf = _StubPDF(n_pages=1)
+        pipeline = OCRPipeline(
+            aligner=self._recording_aligner(seen),
+            ocr_processor=stub_ocr,
+            pdf_handler=pdf,
+        )
+        await pipeline.run(
+            "in.pdf", "out.pdf", refine=False, min_box_confidence=0.2,
+        )
+        assert seen == [2]
+        confs = [getattr(b, "confidence", None) for b, _ in pdf.last_pages[0]]
+        assert confs == [1.0, None]  # 0.05 dropped; confidence-less kept
+
+    async def test_off_by_default_keeps_all_boxes(self, stub_ocr):
+        seen: list[int] = []
+        pdf = _StubPDF(n_pages=1)
+        pipeline = OCRPipeline(
+            aligner=self._recording_aligner(seen),
+            ocr_processor=stub_ocr,
+            pdf_handler=pdf,
+        )
+        await pipeline.run("in.pdf", "out.pdf", refine=False)
+        assert seen == [3]
+
+
 class TestParsePageRange:
     def test_single_page(self):
         assert parse_page_range("3", 10) == [2]

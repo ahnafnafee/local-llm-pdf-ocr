@@ -101,6 +101,7 @@ class OCRPipeline:
         dense_threshold: int = 60,
         dense_mode: str = "auto",
         preprocess: str = "auto",
+        min_box_confidence: Optional[float] = None,
         progress: Optional[ProgressCallback] = None,
     ) -> dict[int, list[str]]:
         """
@@ -131,6 +132,14 @@ class OCRPipeline:
                 exceeds ``dense_threshold`` boxes; ``"always"`` forces
                 per-box for every page; ``"never"`` keeps the original
                 full-page path even on dense content.
+            min_box_confidence: when set, detected boxes below this
+                confidence are dropped before alignment, dense-mode
+                counting, and per-box OCR (hybrid path only; default
+                off). Surya's confidence is normalized per page — the
+                strongest box on each page scores 1.0 — so the cut is
+                relative to each page's best box, not absolute. Boxes
+                without a confidence (plain lists, custom aligners) are
+                always kept.
         """
         if dense_mode not in ("auto", "always", "never"):
             raise ValueError(
@@ -192,6 +201,29 @@ class OCRPipeline:
             p: [(box, "") for box in batch_boxes[i]] for i, p in enumerate(page_nums)
         }
         await _notify(progress, "detect", 1, 1, "Layout detection complete.")
+
+        # Optional pre-alignment confidence cut: junk detections (specks,
+        # texture) inflate the DP's box set and burn per-box LLM calls in
+        # dense mode. Applied before the dense decision so box counts
+        # reflect what will actually be OCR'd.
+        if min_box_confidence is not None:
+            for p_num in page_nums:
+                kept = []
+                dropped = 0
+                for box, txt in pages_structured[p_num]:
+                    conf = getattr(box, "confidence", None)
+                    if conf is not None and conf < min_box_confidence:
+                        dropped += 1
+                    else:
+                        kept.append((box, txt))
+                if dropped:
+                    logging.info(
+                        "Dropped %d of %d detected box(es) below confidence "
+                        "%.2f on page %d.",
+                        dropped, dropped + len(kept),
+                        min_box_confidence, p_num + 1,
+                    )
+                pages_structured[p_num] = kept
 
         # Decide per-box vs full-page OCR per page. Per-box is more
         # accurate on dense content but costs N times the LLM calls.

@@ -29,7 +29,7 @@
       <img src="examples/screenshots/web_ui_dark.png" alt="Web UI, dark theme" width="49%" />
     </p>
 -   **📚 Dense-Page Mode**: Auto-detects densely-laid-out pages (default >60 detected boxes) and switches to per-box OCR — bypasses the failure modes (loops, hallucination, pangram fallback) that full-page OCR exhibits on dense handwritten content. Configurable via `--dense-mode` and `--dense-threshold`.
--   **🧪 Tested**: 388-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry (including rotated-quad overlays), grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), evaluation metrics and doc-checks, CLI dispatch, server endpoints, end-to-end runs against the example PDFs, and detector-geometry regression floors.
+-   **🧪 Tested**: 423-test suite covering DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry (including rotated-quad overlays and perspective-rectified crops), grounded JSON parsing, HTML / Markdown writers (sidecar-image dispatch, sizing modes, edge cases), evaluation metrics and doc-checks, CLI dispatch, server endpoints, end-to-end runs against the example PDFs, and detector-geometry regression floors.
 
 ---
 
@@ -166,6 +166,7 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--html-mode {letter-spacing,full-height,scaled}` | Sizing strategy for HTML overlay spans (ignored for pdf/md). `scaled` (default) fits the font to the box server-side, then a page-load script measures each span in its rendered font and stretches it to the exact box width via CSS `scaleX` (the PDF.js textLayer approach); without JavaScript the server-side fit still applies. `letter-spacing` stretches glyphs to fill the bbox via letter-spacing; selection extents match the bbox exactly but negative spacing can render characters as an overlapping smear on wide bboxes. `full-height` uses natural monospace width — text may overflow the bbox right edge. |
 | `--html-inline-images`    | Embed page images as base64 `data:` URLs inside the HTML (produces a single self-contained file at ~35% size inflation). Default behaviour writes external images: a relative reference to the input file for single-frame browser-native images (JPEG/PNG/WebP/AVIF/GIF), or sidecar JPEGs named `<output_stem>_p<N>.jpg` (zero-padded page numbers) next to the output HTML for PDFs and multi-frame inputs. |
 | `--html-invert-dark`      | Invert page images in dark mode (HTML output only). Adds CSS `filter: invert() hue-rotate(180deg)` that activates when the OS / browser is in dark colour scheme, so scanned white-background documents appear dark. Without this flag the page image is shown as-is in all colour schemes. |
+| `--html-hover-text`       | Reveal the invisible OCR text on hover/focus (HTML output only): hovering a region shows its bound text white on a dark backdrop, for inspecting what the OCR layer contains. Opt-in; selection and search behave the same with or without it. |
 | `-v`, `--verbose`         | Enable debug logging (alignment details, box counts)                  |
 | `-q`, `--quiet`           | Suppress all output except errors                                     |
 | `--dpi <int>`             | DPI for image rendering (default: 200)                                |
@@ -175,6 +176,7 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
 | `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for pages above `--dense-threshold`, and additionally retries a page per-box when the DP alignment matched under half its boxes (the form-page failure mode); `always` forces per-box for every page (most accurate on handwriting); `never` keeps the original full-page path with no retry. |
 | `--dense-threshold <int>` | In `auto` dense-mode, pages with more than this many detected boxes use per-box OCR (default: 60). |
+| `--min-box-confidence <float>` | Drop detected layout boxes below this confidence before alignment and per-box OCR (hybrid path only; default: keep all). Surya's confidence is normalized per page — the strongest box on each page scores 1.0 — so e.g. `0.2` drops boxes weaker than 20% of that page's best. Cuts junk detections that mislead the line-to-box alignment and burn LLM calls in dense mode. |
 | `--preprocess {auto,always,never}` | Photo rectification (hybrid path). `auto` (default): pages with a confidently-detected tilted page outline are perspective-corrected and illumination-flattened for recognition, then every box is mapped back onto the original photo for output — flat scans pass through untouched. `always` rectifies whenever a page outline is found; `never` disables. |
 | `--grounded`              | Use a bbox-native VLM that returns text + coordinates in one call (skips Surya, DP, refine). Requires a grounding-capable model via `--model`. |
 | `--api-base <url>`        | Override LLM API base URL                                             |
@@ -225,6 +227,9 @@ uv run local-llm-pdf-ocr scan.pdf --format html --html-inline-images
 
 # HTML with dark-mode page inversion (scanned white pages appear dark at night)
 uv run local-llm-pdf-ocr scan.pdf --format html --html-invert-dark
+
+# HTML where hovering a region reveals its bound OCR text (inspection aid)
+uv run local-llm-pdf-ocr scan.pdf --format html --html-hover-text
 
 # Markdown output: one block per detected box, page-by-page
 uv run local-llm-pdf-ocr scan.pdf --format md
