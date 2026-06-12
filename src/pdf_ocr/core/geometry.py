@@ -81,6 +81,53 @@ def quad_edge_lengths(quad, page_width: float, page_height: float) -> tuple[floa
     return top, left
 
 
+def quad_affine_components(
+    quad, page_width: float, page_height: float,
+) -> tuple[float, float, float, float]:
+    """CSS ``matrix()`` linear components ``(a, b, c, d)`` mapping a span
+    laid out with the quad's edge lengths onto the quad's orientation.
+
+    The span's layout box is (top-edge length × left-edge length); the
+    returned columns are the pixel-space unit vectors of those two edges,
+    so the transform rotates/shears the box onto the quad without scaling
+    glyphs. For a rotated rectangle this is exactly ``rotate(angle)``;
+    sheared parallelograms come out exact as well. The values are
+    dimensionless ratios of pixel lengths, so they stay correct at any
+    uniform page rendering scale — pure CSS, no script needed.
+    """
+    pts = [(x * page_width, y * page_height) for x, y in _as_points(quad)]
+    top = math.dist(pts[0], pts[1])
+    left = math.dist(pts[0], pts[3])
+    if top <= 0 or left <= 0:
+        return (1.0, 0.0, 0.0, 1.0)
+    return (
+        (pts[1][0] - pts[0][0]) / top,
+        (pts[1][1] - pts[0][1]) / top,
+        (pts[3][0] - pts[0][0]) / left,
+        (pts[3][1] - pts[0][1]) / left,
+    )
+
+
+def quad_perspective_residual_px(
+    quad, page_width: float, page_height: float,
+) -> float:
+    """Distance in pixels between the quad's bottom-right corner and the
+    parallelogram completion of the other three (``TR + BL - TL``).
+
+    Zero for rectangles and parallelograms — Surya min-area rects land
+    here — and grows with keystone distortion, e.g. boxes mapped back
+    through the photo path's inverse homography. Writers use it to decide
+    whether an affine transform reproduces the quad exactly or a full
+    perspective mapping is required.
+    """
+    pts = [(x * page_width, y * page_height) for x, y in _as_points(quad)]
+    completion = (
+        pts[1][0] + pts[3][0] - pts[0][0],
+        pts[1][1] + pts[3][1] - pts[0][1],
+    )
+    return math.dist(pts[2], completion)
+
+
 def _as_points(quad) -> list[tuple[float, float]]:
     if len(quad) == 8:
         return [(quad[i], quad[i + 1]) for i in range(0, 8, 2)]

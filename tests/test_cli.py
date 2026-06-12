@@ -90,3 +90,23 @@ class TestHtmlImageFlags:
     def test_html_mode_letter_spacing_still_selectable(self):
         ns = self._parse("--html-mode", "letter-spacing")
         assert ns.html_mode == "letter-spacing"
+
+
+class TestQuadFidelityFlags:
+    def _parse(self, *argv: str):
+        return build_parser().parse_args(["input.pdf", *argv])
+
+    def test_min_box_confidence_default_is_none(self):
+        # Filtering detector boxes changes recall — it must be opt-in.
+        assert self._parse().min_box_confidence is None
+
+    def test_min_box_confidence_parses_float(self):
+        ns = self._parse("--min-box-confidence", "0.25")
+        assert ns.min_box_confidence == 0.25
+
+    def test_html_hover_text_defaults_off(self):
+        # The text layer stays invisible unless explicitly opted in.
+        assert self._parse().html_hover_text is False
+
+    def test_html_hover_text_opt_in(self):
+        assert self._parse("--html-hover-text").html_hover_text is True

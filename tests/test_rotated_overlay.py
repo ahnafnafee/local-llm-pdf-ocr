@@ -9,6 +9,7 @@ actually runs along the detected baseline angle.
 from __future__ import annotations
 
 import math
+import re
 from pathlib import Path
 
 import fitz
@@ -114,8 +115,19 @@ class TestPdfRotatedText:
         assert line["dir"] == (1.0, 0.0)
 
 
+def _keystone_box(page_w=800.0, page_h=1000.0) -> OrientedBox:
+    """Tilted quad whose bottom-right corner breaks the parallelogram —
+    the shape the photo path produces by mapping detector boxes back
+    through the inverse page homography."""
+    base = _oriented_box(12.0, page_w=page_w, page_h=page_h)
+    quad = list(base.quad)
+    quad[4] += 24.0 / page_w   # BR x: +24 px
+    quad[5] += 18.0 / page_h   # BR y: +18 px → residual 30 px
+    return OrientedBox(list(base), quad=quad, angle=base.angle)
+
+
 class TestHtmlRotatedSpans:
-    def test_rotated_box_emits_rotate_variable(self, tmp_path: Path):
+    def test_rotated_box_emits_affine_matrix_variable(self, tmp_path: Path):
         src = _synth_png(tmp_path / "src.png")
         out = tmp_path / "out.html"
         HTMLHandler().embed_structured_text(
@@ -123,31 +135,90 @@ class TestHtmlRotatedSpans:
             {0: [(_oriented_box(10.0), "tilted line")]},
         )
         html = out.read_text(encoding="utf-8")
-        assert "--rotate:10deg;" in html
+        # The affine columns are the quad's edge unit vectors — for a
+        # rotated rect that is exactly the rotation matrix.
+        ca = math.cos(math.radians(10))
+        sa = math.sin(math.radians(10))
+        assert f"--quad:{ca:.4f},{sa:.4f},{-sa:.4f},{ca:.4f};" in html
         # Anchored at the quad's top-left corner: 100/800 and 200/1000.
         assert "left:12.5%" in html
         assert "top:20%" in html
         # The stylesheet swings the span via the variables.
-        assert "transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));" in html
+        assert "transform: matrix(var(--quad, 1, 0, 0, 1, 0, 0)) scaleX(var(--scale-x, 1));" in html
         assert "transform-origin: 0 0;" in html
 
-    def test_sub_threshold_angle_emits_no_rotate(self, tmp_path: Path):
+    def test_rotated_rect_needs_no_perspective_refinement(self, tmp_path: Path):
+        # A rotated RECT is a parallelogram: the affine matches all four
+        # corners, so neither the data-quad attribute nor the matrix3d
+        # script should be emitted.
+        src = _synth_png(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [(_oriented_box(10.0), "tilted line")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert "data-quad" not in html
+        assert "matrix3d" not in html
+
+    def test_sub_threshold_angle_emits_no_matrix(self, tmp_path: Path):
         src = _synth_png(tmp_path / "src.png")
         out = tmp_path / "out.html"
         HTMLHandler().embed_structured_text(
             str(src), str(out),
             {0: [(_oriented_box(2.0), "straight enough")]},
         )
-        assert "--rotate:" not in out.read_text(encoding="utf-8")
+        assert "--quad:" not in out.read_text(encoding="utf-8")
 
-    def test_plain_list_box_emits_no_rotate(self, tmp_path: Path):
+    def test_plain_list_box_emits_no_matrix(self, tmp_path: Path):
         src = _synth_png(tmp_path / "src.png")
         out = tmp_path / "out.html"
         HTMLHandler().embed_structured_text(
             str(src), str(out),
             {0: [([0.1, 0.2, 0.6, 0.25], "plain box")]},
         )
-        assert "--rotate:" not in out.read_text(encoding="utf-8")
+        assert "--quad:" not in out.read_text(encoding="utf-8")
+
+
+class TestHtmlPerspectiveQuads:
+    def test_keystone_quad_ships_corners_and_matrix3d_script(self, tmp_path: Path):
+        src = _synth_png(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [(_keystone_box(), "photographed line")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        # The raw corners ride along for the script...
+        m = re.search(r'data-quad="([^"]+)"', html)
+        assert m, "keystone quad must emit data-quad"
+        assert len(m.group(1).split(" ")) == 8
+        # ...which upgrades the affine to an exact homography.
+        assert "matrix3d" in html
+        # The affine fallback is still present for no-JS rendering.
+        assert "--quad:" in html
+
+    def test_quad3d_runs_after_fit_and_measure(self, tmp_path: Path):
+        # The fit script rewrites page widths and the measure script
+        # finalizes --scale-x; the homography bakes both in, so emission
+        # order is load-bearing.
+        src = _synth_png(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [(_keystone_box(), "photographed line")]},
+        )
+        html = out.read_text(encoding="utf-8")
+        assert html.index("clientWidth") < html.index("measureText") < html.index("matrix3d")
+
+    def test_no_perspective_spans_no_script_bytes(self, tmp_path: Path):
+        src = _synth_png(tmp_path / "src.png")
+        out = tmp_path / "out.html"
+        HTMLHandler().embed_structured_text(
+            str(src), str(out),
+            {0: [([0.1, 0.2, 0.6, 0.25], "plain box")]},
+        )
+        assert "matrix3d" not in out.read_text(encoding="utf-8")
 
 
 class TestMeasuredScaleX:
