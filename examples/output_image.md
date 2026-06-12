@@ -34,7 +34,7 @@ verwechseln viel
 
 Jenker Scharf
 
-denken verschwommen
+denken verschwommener
 
 Schwamkopf
 

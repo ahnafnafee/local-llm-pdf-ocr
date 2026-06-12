@@ -26,7 +26,7 @@ time
 
 Correctness
 
-Waiting
+nothing
 
 Validity
 
