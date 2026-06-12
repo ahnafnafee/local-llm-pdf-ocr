@@ -14,7 +14,7 @@ Date: 9/14/19
 
 Name: Sally Walker DOB: 09/04/1986
 
-Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082
+Address: 24 Barney Lane  City: Towaco  State: NJ  Zip: 07082
 
 Email: Sally.walker@cmail.com Phone #: (906) 917-3486
 
@@ -32,5 +32,5 @@ aches, chills, tired
 
 Are you currently taking any medication? (If yes, please describe):
 
-Vynase (25mg) daily for attention
+Vyrane (25mg) daily for attention
 

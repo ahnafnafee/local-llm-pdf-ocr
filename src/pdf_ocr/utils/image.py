@@ -14,7 +14,7 @@ import base64
 import io
 import math
 
-from PIL import Image, ImageStat
+from PIL import Image, ImageDraw, ImageStat
 
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 
@@ -22,6 +22,14 @@ from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 # longest edge. A line's quad can never legitimately exceed the page;
 # anything bigger means corrupt detector geometry, and warping it would
 # allocate an absurd image.
+#
+# Crop padding stays page-relative and is NOT capped to the box's own
+# size: handwriting strokes routinely extend well past their detected
+# box, and shrinking the margin measurably degrades transcription
+# (capped crops disagree with stable uncapped reads far beyond LLM
+# sampling noise). Neighbour-content bleed on dense print is handled by
+# ``mask_boxes`` instead, which erases the neighbours without
+# tightening the margin around the target's own ink.
 _MAX_RECTIFIED_DIM_FACTOR = 2
 
 
@@ -65,6 +73,7 @@ def crop_for_ocr(
     min_dim: int = 256,
     quality: int = 85,
     std_threshold: float = 12.0,
+    mask_boxes: list[list[float]] | None = None,
 ) -> str | None:
     """
     Decode the page image once, extract the padded bbox region —
@@ -75,16 +84,28 @@ def crop_for_ocr(
     without polluting the output layer with hallucinated fallback
     content).
 
+    ``mask_boxes`` (axis-aligned crops only): normalized boxes of the
+    page's OTHER detected regions. Any part of them visible inside the
+    crop — but outside the target box itself — is painted paper-white
+    before the blank check. On dense pages adjacent lines sit so close
+    that even a tightly padded crop shows readable slivers of the
+    neighbouring lines, and the VLM transcribes those too, duplicating
+    their content across boxes. The target's own rect is never painted,
+    so overlapping detections can't erase the content they share.
+    Rectified (tilted-quad) crops ignore the masks — the warp follows
+    the line's own quad and the masks' axis-aligned geometry doesn't
+    map into that frame.
+
     Combining the operations matters in dense-mode: a 150-box page that
     called :func:`is_blank_crop` and :func:`crop_box_to_base64`
     separately would decode the full-page image 300 times. Here we
     decode it once per box, and the blank check sees exactly the pixels
-    the LLM would see (including the ``padding`` margin and any
-    rectification) so it can't short-circuit on different content than
-    the model receives.
+    the LLM would see (including the ``padding`` margin, any masking,
+    and any rectification) so it can't short-circuit on different
+    content than the model receives.
     """
     img = Image.open(io.BytesIO(base64.b64decode(image_base64))).convert("RGB")
-    crop = _extract_region(img, bbox, padding)
+    crop = _extract_region(img, bbox, padding, mask_boxes=mask_boxes)
     if crop.size[0] == 0 or crop.size[1] == 0:
         return None
     if ImageStat.Stat(crop.convert("L")).stddev[0] < std_threshold:
@@ -122,10 +143,13 @@ def crop_box_to_base64(
 # --- internals ---------------------------------------------------------------
 
 
-def _extract_region(img: Image.Image, bbox, padding: float) -> Image.Image:
+def _extract_region(
+    img: Image.Image, bbox, padding: float, mask_boxes=None,
+) -> Image.Image:
     """Return the region for `bbox`: a flat perspective-rectified strip
     when the box carries an honored tilted quad, else the padded
-    axis-aligned crop. Degenerate quads fall back to the envelope."""
+    axis-aligned crop (with `mask_boxes` regions painted paper-white).
+    Degenerate quads fall back to the envelope."""
     quad = getattr(bbox, "quad", None)
     angle = getattr(bbox, "angle", 0.0)
     if quad is not None and abs(angle) >= ANGLE_FLATTEN_DEG:
@@ -135,11 +159,58 @@ def _extract_region(img: Image.Image, bbox, padding: float) -> Image.Image:
 
     w, h = img.size
     nx0, ny0, nx1, ny1 = bbox
-    nx0 = max(0.0, nx0 - padding)
-    ny0 = max(0.0, ny0 - padding)
-    nx1 = min(1.0, nx1 + padding)
-    ny1 = min(1.0, ny1 + padding)
-    return img.crop((int(nx0 * w), int(ny0 * h), int(nx1 * w), int(ny1 * h)))
+    window = (
+        int(max(0.0, nx0 - padding) * w),
+        int(max(0.0, ny0 - padding) * h),
+        int(min(1.0, nx1 + padding) * w),
+        int(min(1.0, ny1 + padding) * h),
+    )
+    crop = img.crop(window)
+    if mask_boxes:
+        target_px = (int(nx0 * w), int(ny0 * h), int(nx1 * w), int(ny1 * h))
+        neighbors_px = [
+            (int(m[0] * w), int(m[1] * h), int(m[2] * w), int(m[3] * h))
+            for m in mask_boxes
+        ]
+        _mask_neighbor_boxes(crop, window, target_px, neighbors_px)
+    return crop
+
+
+def _mask_neighbor_boxes(crop, window, target, neighbors) -> None:
+    """Paint paper-white every part of `neighbors` that is visible in
+    the crop `window` but lies outside the `target` rect (all in page
+    pixel coordinates). The target rect itself is never painted, so a
+    neighbour overlapping the target can't erase shared content — at
+    worst some of the neighbour's ink survives inside the target rect,
+    which is the pre-masking status quo."""
+    wx0, wy0, wx1, wy1 = window
+    tx0, ty0, tx1, ty1 = target
+    draw = ImageDraw.Draw(crop)
+    for nx0, ny0, nx1, ny1 in neighbors:
+        ix0, iy0 = max(nx0, wx0), max(ny0, wy0)
+        ix1, iy1 = min(nx1, wx1), min(ny1, wy1)
+        if ix1 <= ix0 or iy1 <= iy0:
+            continue
+        pieces = []
+        if iy0 < ty0:  # strip above the target
+            pieces.append((ix0, iy0, ix1, min(iy1, ty0)))
+        if iy1 > ty1:  # strip below the target
+            pieces.append((ix0, max(iy0, ty1), ix1, iy1))
+        band0, band1 = max(iy0, ty0), min(iy1, ty1)
+        if band0 < band1:  # strips beside the target, within its y-band
+            if ix0 < tx0:
+                pieces.append((ix0, band0, min(ix1, tx0), band1))
+            if ix1 > tx1:
+                pieces.append((max(ix0, tx1), band0, ix1, band1))
+        for px0, py0, px1, py1 in pieces:
+            if px1 > px0 and py1 > py0:
+                # PIL rectangles are corner-inclusive; stop one pixel
+                # short so a piece abutting the target never paints the
+                # target's first row/column.
+                draw.rectangle(
+                    (px0 - wx0, py0 - wy0, px1 - wx0 - 1, py1 - wy0 - 1),
+                    fill=(255, 255, 255),
+                )
 
 
 def _rectified_crop(

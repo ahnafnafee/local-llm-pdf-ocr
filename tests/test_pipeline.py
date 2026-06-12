@@ -15,8 +15,10 @@ from PIL import Image
 
 from pdf_ocr.pipeline import (
     OCRPipeline,
+    _drop_overlap_duplicates,
     _drop_refined_duplicates,
     _is_refinable,
+    _page_is_dense_print,
     parse_page_range,
 )
 
@@ -213,6 +215,313 @@ class TestDropRefinedDuplicates:
         ]
         _drop_refined_duplicates(boxes, refined_indices={1})
         assert boxes[1][1] == ""
+
+
+class TestDropOverlapDuplicates:
+    """Per-box OCR dedup: detectors sometimes emit both a paragraph/row
+    box and its constituent line/cell boxes for the same region. Per-box
+    OCR transcribes each independently, so the same content lands in the
+    text layer twice at the same location — and text extraction then
+    interleaves the copies into muddle. Dedup requires BOTH spatial
+    overlap AND text containment; never fuzzy similarity (dense forms
+    legitimately repeat near-identical labels at different positions)."""
+
+    def test_contained_text_cleared_keeps_superset(self):
+        # Fee-table row: narrow cell box inside a wide row-level box that
+        # read the whole row. The cell's text is a prefix of the row's.
+        boxes = [
+            (
+                [0.12, 0.740, 0.41, 0.750],
+                "For each printed enquiry numbered in the form",
+            ),
+            (
+                [0.12, 0.744, 0.83, 0.762],
+                "For each printed enquiry numbered in the form For any and "
+                "each further enquiry added by solicitors",
+            ),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[0][1] == ""
+        assert boxes[1][1] != ""
+
+    def test_identical_text_keeps_tighter_box(self):
+        # Paragraph box and its first-line box read the same content; the
+        # tighter line box is the more precise carrier — clear the big one.
+        line = [0.05, 0.356, 0.94, 0.368]
+        para = [0.05, 0.362, 0.94, 0.419]
+        boxes = [
+            (line, "Under arrangements made between the Councils"),
+            (para, "Under arrangements made between the Councils"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[0][1] != ""
+        assert boxes[1][1] == ""
+
+    def test_identical_boxes_keep_exactly_one(self):
+        bbox = [0.1, 0.1, 0.9, 0.15]
+        boxes = [
+            (list(bbox), "duplicate detection"),
+            (list(bbox), "duplicate detection"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        kept = [t for _, t in boxes if t]
+        assert kept == ["duplicate detection"]
+
+    def test_distinct_overlapping_texts_kept(self):
+        # Adjacent lines whose boxes overlap but carry different content.
+        boxes = [
+            ([0.05, 0.360, 0.94, 0.370], "alpha beta gamma delta"),
+            ([0.05, 0.365, 0.94, 0.375], "epsilon zeta eta theta"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[0][1] and boxes[1][1]
+
+    def test_identical_text_without_overlap_kept(self):
+        # Repeated form labels at different page positions are real
+        # content, not duplicates.
+        boxes = [
+            ([0.05, 0.17, 0.46, 0.19], "NAME AND ADDRESS (IN BLOCK LETTERS)"),
+            ([0.16, 0.79, 0.49, 0.81], "NAME AND ADDRESS (IN BLOCK LETTERS)"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[0][1] and boxes[1][1]
+
+    def test_below_overlap_threshold_kept(self):
+        # Contained text but only a sliver of spatial overlap: vertically
+        # adjacent boxes brushing each other are not the same region.
+        boxes = [
+            ([0.1, 0.10, 0.9, 0.20], "short text here"),
+            ([0.1, 0.19, 0.9, 0.30], "short text here and much more after"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[0][1] and boxes[1][1]
+
+    def test_short_contained_text_kept(self):
+        # Tiny strings ("£ p" column headers) coincidentally appear inside
+        # any row text — never clear them.
+        boxes = [
+            ([0.40, 0.744, 0.46, 0.754], "£ p"),
+            ([0.12, 0.744, 0.83, 0.762], "fees table £ p row content here"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[0][1] == "£ p"
+
+    def test_empty_text_ignored(self):
+        boxes = [
+            ([0.1, 0.1, 0.9, 0.15], ""),
+            ([0.1, 0.12, 0.9, 0.17], "real content here"),
+        ]
+        _drop_overlap_duplicates(boxes)
+        assert boxes[1][1] == "real content here"
+
+
+class _SeqCropOCR:
+    """Stub whose per-crop responses come from a queue (call order)."""
+
+    def __init__(self, crop_texts: list[str]):
+        self.crop_texts = list(crop_texts)
+        self.page_calls = 0
+        self.crop_calls = 0
+
+    async def perform_ocr(self, image_base64: str) -> list[str]:
+        self.page_calls += 1
+        return ["unused"]
+
+    async def perform_ocr_on_crop(self, image_base64: str) -> str:
+        self.crop_calls += 1
+        return self.crop_texts.pop(0) if self.crop_texts else ""
+
+
+class TestPerBoxOverlapDedupWiring:
+    async def test_dense_path_drops_contained_overlap_duplicate(self):
+        # Two overlapping detections for one table row: a narrow cell box
+        # and a wide row box. Per-box OCR fills both; the dedup must clear
+        # the contained copy before output.
+        narrow = [0.1, 0.70, 0.45, 0.75]
+        wide = [0.1, 0.72, 0.85, 0.80]
+        ocr = _SeqCropOCR([
+            "left cell line",
+            "left cell line plus the right cell content",
+        ])
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(
+            _StubAligner(boxes_per_page=[narrow, wide]), ocr, pdf
+        )
+        result = await pipe.run(
+            "in.pdf", "out.pdf",
+            concurrency=1, refine=False, dense_mode="always",
+        )
+        assert ocr.crop_calls == 2
+        texts = [t for _, t in pdf.last_pages[0]]
+        assert texts == ["", "left cell line plus the right cell content"]
+        # The page's returned lines reflect the dedup too.
+        assert result[0] == ["left cell line plus the right cell content"]
+
+
+class TestPageIsDensePrint:
+    """Masking gate: many short, straight lines = dense machine print."""
+
+    def test_dense_print_page_qualifies(self):
+        boxes = [[0.1, 0.1 + i * 0.012, 0.9, 0.11 + i * 0.012] for i in range(40)]
+        assert _page_is_dense_print(boxes)
+
+    def test_taller_handwriting_lines_rejected(self):
+        # Median height at handwriting scale (~1.6% of the page).
+        boxes = [[0.1, 0.1 + i * 0.02, 0.9, 0.116 + i * 0.02] for i in range(40)]
+        assert not _page_is_dense_print(boxes)
+
+    def test_tilted_lines_rejected(self):
+        from pdf_ocr.core.geometry import OrientedBox
+
+        boxes = [
+            OrientedBox(
+                [0.1, 0.1 + i * 0.012, 0.9, 0.11 + i * 0.012],
+                angle=5.0 if i % 4 == 0 else 0.0,  # 25% tilted
+            )
+            for i in range(40)
+        ]
+        assert not _page_is_dense_print(boxes)
+
+    def test_empty_page_rejected(self):
+        assert not _page_is_dense_print([])
+
+
+# Print-like page: 10 short straight rows (median height 0.01, no tilt)
+# so the masking gate fires. Heights stay above _is_refinable's 0.008
+# floor.
+_PRINT_BOXES = [[0.1, 0.1 + i * 0.05, 0.9, 0.11 + i * 0.05] for i in range(10)]
+
+
+class TestMaskableNeighbors:
+    """Containment-aware mask selection: a paragraph box must still see
+    its own line boxes (and read all its content), while each line box
+    masks the paragraph's remainder and reads only itself — the dedup
+    then collapses the contained copy."""
+
+    PARA = [0.05, 0.36, 0.94, 0.42]
+    LINE = [0.05, 0.356, 0.94, 0.368]   # ~half inside PARA
+    OTHER = [0.05, 0.50, 0.94, 0.51]    # disjoint line elsewhere
+
+    def test_contained_neighbor_left_visible_to_its_parent(self):
+        from pdf_ocr.pipeline import _maskable_neighbors
+
+        boxes = [self.PARA, self.LINE, self.OTHER]
+        masks = _maskable_neighbors(0, boxes)
+        assert self.LINE not in masks      # parent reads its own content
+        assert self.OTHER in masks         # unrelated line still masked
+
+    def test_parent_still_masked_for_the_contained_box(self):
+        from pdf_ocr.pipeline import _maskable_neighbors
+
+        boxes = [self.PARA, self.LINE, self.OTHER]
+        masks = _maskable_neighbors(1, boxes)
+        # Asymmetric: only a sliver of PARA sits inside LINE, so LINE's
+        # crop paints PARA's remainder out and reads only itself.
+        assert self.PARA in masks
+        assert self.OTHER in masks
+
+    def test_adjacent_boxes_mask_each_other(self):
+        from pdf_ocr.pipeline import _maskable_neighbors
+
+        a = [0.1, 0.10, 0.9, 0.11]
+        b = [0.1, 0.112, 0.9, 0.122]
+        assert _maskable_neighbors(0, [a, b]) == [b]
+        assert _maskable_neighbors(1, [a, b]) == [a]
+
+
+class TestNeighborMaskWiring:
+    """On dense-print pages both crop paths must tell crop_for_ocr about
+    the page's other boxes so neighbouring lines can be painted out of
+    each crop; handwriting-like pages must NOT mask (stroke extents
+    exceed the detected boxes, so masking amputates the target's ink)."""
+
+    def _recording(self, monkeypatch):
+        from pdf_ocr import pipeline as pl
+
+        seen: list[dict] = []
+        real = pl.crop_for_ocr
+
+        def recording(image_b64, bbox, **kw):
+            seen.append({
+                "bbox": list(bbox),
+                "masks": [list(m) for m in (kw.get("mask_boxes") or [])],
+            })
+            return real(image_b64, bbox, **kw)
+
+        monkeypatch.setattr(pl, "crop_for_ocr", recording)
+        return seen
+
+    async def test_per_box_path_masks_other_boxes_on_print(
+        self, monkeypatch, make_stub_ocr,
+    ):
+        seen = self._recording(monkeypatch)
+        pipe = OCRPipeline(
+            _StubAligner(boxes_per_page=_PRINT_BOXES),
+            make_stub_ocr(), _StubPDF(n_pages=1),
+        )
+        await pipe.run(
+            "in.pdf", "out.pdf", refine=False, dense_mode="always", concurrency=1,
+        )
+        assert len(seen) == len(_PRINT_BOXES)
+        for call in seen:
+            assert len(call["masks"]) == len(_PRINT_BOXES) - 1
+            assert call["bbox"] not in call["masks"]
+
+    async def test_per_box_path_skips_masks_on_handwriting(
+        self, monkeypatch, make_stub_ocr,
+    ):
+        seen = self._recording(monkeypatch)
+        # Default stub boxes are 0.05 tall — handwriting scale.
+        pipe = OCRPipeline(_StubAligner(), make_stub_ocr(), _StubPDF(n_pages=1))
+        await pipe.run(
+            "in.pdf", "out.pdf", refine=False, dense_mode="always", concurrency=1,
+        )
+        assert len(seen) == 3
+        assert all(call["masks"] == [] for call in seen)
+
+    async def test_refine_path_masks_other_boxes_on_print(
+        self, monkeypatch, make_stub_ocr,
+    ):
+        seen = self._recording(monkeypatch)
+        ocr = make_stub_ocr(page_lines=["only one line"], crop_text="from crop")
+
+        def alignment_with_gap(structured, lines):
+            return [
+                (b, lines[0] if i == 0 else "")
+                for i, (b, _) in enumerate(structured)
+            ]
+
+        pipe = OCRPipeline(
+            _StubAligner(
+                boxes_per_page=_PRINT_BOXES[:3], alignment=alignment_with_gap,
+            ),
+            ocr, _StubPDF(n_pages=1),
+        )
+        await pipe.run("in.pdf", "out.pdf", concurrency=1, refine=True)
+        # Boxes 1 and 2 were refined; each call masks the other two boxes.
+        assert len(seen) == 2
+        for call in seen:
+            assert len(call["masks"]) == 2
+            assert call["bbox"] not in call["masks"]
+
+    async def test_refine_path_skips_masks_on_handwriting(
+        self, monkeypatch, make_stub_ocr,
+    ):
+        seen = self._recording(monkeypatch)
+        ocr = make_stub_ocr(page_lines=["only one line"], crop_text="from crop")
+
+        def alignment_with_gap(structured, lines):
+            return [
+                (b, lines[0] if i == 0 else "")
+                for i, (b, _) in enumerate(structured)
+            ]
+
+        pipe = OCRPipeline(
+            _StubAligner(alignment=alignment_with_gap), ocr, _StubPDF(n_pages=1)
+        )
+        await pipe.run("in.pdf", "out.pdf", concurrency=1, refine=True)
+        assert len(seen) == 2
+        assert all(call["masks"] == [] for call in seen)
 
 
 class TestRefinableGate:
