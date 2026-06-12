@@ -30,6 +30,7 @@ import logging
 from collections import defaultdict
 from typing import Awaitable, Callable, Optional
 
+from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 from pdf_ocr.core.grounded import GroundedOCRBackend
 from pdf_ocr.utils.image import crop_for_ocr
 
@@ -40,6 +41,31 @@ from pdf_ocr.utils.image import crop_for_ocr
 # noise rather than evidence of misbinding.
 _DP_RETRY_MIN_BOXES = 8
 _DP_RETRY_MATCH_RATE = 0.5
+
+# Per-box overlap dedup thresholds: two boxes are "the same region" when
+# their intersection covers at least _OVERLAP_DUP_MIN_RATIO of the
+# smaller box. The char floor keeps tiny strings ("£ p" column headers,
+# enumeration marks) out of containment checks — they coincidentally
+# appear inside almost any row's text.
+_OVERLAP_DUP_MIN_RATIO = 0.3
+_OVERLAP_DUP_MIN_CHARS = 8
+
+# Neighbour masking applies only on pages that look like dense machine
+# print. There it is both needed and safe: tightly stacked small print
+# stays readable in a crop's padding margin, so the VLM transcribes the
+# neighbouring lines into the wrong box — and printed glyphs sit fully
+# inside their detected boxes, so erasing the neighbours' regions
+# can't touch the target's ink. On handwriting both properties flip:
+# strokes routinely wander outside their detected box (masking a
+# neighbour's region amputates parts of the target's own ink), and a
+# clipped sliver of a handwritten neighbour is illegible anyway, so
+# there is no duplication to prevent. Dense print is recognized by its
+# detector signature — many short lines (median box height under ~1.3%
+# of the page, roughly 11pt body text on A4) that are almost all
+# straight. Handwriting pages measure taller and tilt a noticeable
+# fraction of their lines.
+_MASK_PAGE_MAX_MEDIAN_HEIGHT = 0.013
+_MASK_PAGE_MAX_TILT_FRAC = 0.05
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 OutputWriter = Callable[[str, str, dict, int], None]
@@ -237,6 +263,13 @@ class OCRPipeline:
             ):
                 per_box_pages.add(p_num)
 
+        # Pages whose crops mask out the other detected boxes (dense
+        # print only — see _MASK_PAGE_* above).
+        mask_pages: set[int] = {
+            p for p in page_nums
+            if _page_is_dense_print([b for b, _ in pages_structured[p]])
+        }
+
         # --- Phase 2: concurrent OCR (per-page strategy) ---
         pages_text: dict[int, list[str]] = {}
         semaphore = asyncio.Semaphore(max(1, concurrency))
@@ -249,7 +282,8 @@ class OCRPipeline:
                 # `async with semaphore:` here would deadlock when
                 # concurrency=1 (outer holder waits for inner acquire).
                 aligned = await self._ocr_per_box(
-                    images_dict[p_num], pages_structured[p_num], semaphore
+                    images_dict[p_num], pages_structured[p_num], semaphore,
+                    mask_neighbors=p_num in mask_pages,
                 )
                 # No "raw lines" in per-box mode — each box's text IS the answer.
                 llm_lines = [t for _, t in aligned if t]
@@ -284,7 +318,8 @@ class OCRPipeline:
                 )
                 per_box_pages.add(p_num)  # refine must skip this page too
                 aligned = await self._ocr_per_box(
-                    images_dict[p_num], pages_structured[p_num], semaphore
+                    images_dict[p_num], pages_structured[p_num], semaphore,
+                    mask_neighbors=p_num in mask_pages,
                 )
                 llm_lines = [t for _, t in aligned if t]
             return p_num, llm_lines, aligned
@@ -314,7 +349,8 @@ class OCRPipeline:
             }
             if sparse_structured:
                 await self._refine_uncertain(
-                    sparse_structured, images_dict, semaphore, progress
+                    sparse_structured, images_dict, semaphore, progress,
+                    mask_pages=mask_pages,
                 )
 
         # --- Phase 4: write output ---
@@ -370,6 +406,8 @@ class OCRPipeline:
         image_b64: str,
         structured: list[tuple[list[float], str]],
         semaphore: asyncio.Semaphore,
+        *,
+        mask_neighbors: bool = False,
     ) -> list[tuple[list[float], str]]:
         """
         OCR every detected box on a page individually.
@@ -386,16 +424,39 @@ class OCRPipeline:
             sending those to the LLM produces hallucinated text).
           - :func:`crop_for_ocr` decodes the page once, crops the padded
             region, runs a stddev-based blank check on the *same* padded
-            crop, and returns ``None`` for near-uniform regions.
+            crop, and returns ``None`` for near-uniform regions. With
+            ``mask_neighbors`` (dense-print pages only) each crop also
+            paints the page's other boxes paper-white first.
+
+        One filter applies *after* all calls return:
+          - :func:`_drop_overlap_duplicates` clears text duplicated
+            across spatially-overlapping boxes. Surya sometimes emits
+            both a paragraph/row box and its constituent line/cell boxes
+            for the same region; transcribing each independently puts
+            the same content in the text layer twice at the same
+            location, which extraction interleaves into muddle.
 
         Returns ``[(bbox, text), ...]`` in the same order as ``structured``.
-        Boxes that come back blank or filtered get an empty string.
+        Boxes that come back blank, filtered, or deduplicated get an
+        empty string.
         """
+        boxes_only = [bbox for bbox, _ in structured] if mask_neighbors else None
+
         async def ocr_one(idx: int, bbox: list[float]):
             async with semaphore:
                 if not _is_refinable(bbox):
                     return idx, ""
-                crop_b64 = await asyncio.to_thread(crop_for_ocr, image_b64, bbox)
+                # On dense-print pages (`mask_neighbors`), the other
+                # boxes are painted out of the crop: stacked print stays
+                # readable in the padding margin, and the VLM would
+                # transcribe the neighbouring lines too.
+                neighbors = (
+                    _maskable_neighbors(idx, boxes_only)
+                    if boxes_only is not None else None
+                )
+                crop_b64 = await asyncio.to_thread(
+                    crop_for_ocr, image_b64, bbox, mask_boxes=neighbors
+                )
                 if crop_b64 is None:
                     return idx, ""
                 text = await self.ocr_processor.perform_ocr_on_crop(crop_b64)
@@ -409,7 +470,14 @@ class OCRPipeline:
         for fut in asyncio.as_completed(tasks):
             idx, text = await fut
             results[idx] = text.strip()
-        return [(bbox, results.get(i, "")) for i, (bbox, _) in enumerate(structured)]
+        out = [(bbox, results.get(i, "")) for i, (bbox, _) in enumerate(structured)]
+        cleared = _drop_overlap_duplicates(out)
+        if cleared:
+            logging.info(
+                "Cleared %d per-box OCR result(s) whose text was duplicated "
+                "by an overlapping box.", cleared,
+            )
+        return out
 
     async def _refine_uncertain(
         self,
@@ -417,6 +485,8 @@ class OCRPipeline:
         images_dict: dict[int, str],
         semaphore: asyncio.Semaphore,
         progress: Optional[ProgressCallback],
+        *,
+        mask_pages: frozenset[int] | set[int] = frozenset(),
     ) -> None:
         """
         Re-OCR boxes the DP aligner couldn't populate.
@@ -448,8 +518,16 @@ class OCRPipeline:
                 # None for near-uniform regions (notebook background,
                 # margins) so we skip the LLM call without polluting
                 # the text layer with the model's pangram fallback.
+                # On dense-print pages the other boxes are painted out
+                # of the crop so the re-OCR can't transcribe a
+                # neighbouring line and duplicate text the DP already
+                # bound elsewhere.
+                neighbors = None
+                if p_num in mask_pages:
+                    page_boxes = [b for b, _ in pages_structured[p_num]]
+                    neighbors = _maskable_neighbors(idx, page_boxes)
                 crop_b64 = await asyncio.to_thread(
-                    crop_for_ocr, images_dict[p_num], bbox
+                    crop_for_ocr, images_dict[p_num], bbox, mask_boxes=neighbors
                 )
                 if crop_b64 is None:
                     return p_num, idx, ""
@@ -488,6 +566,128 @@ class OCRPipeline:
 def _normalize_for_dedup(text: str) -> str:
     """Lowercased, whitespace-collapsed form for substring comparison."""
     return " ".join(text.lower().split())
+
+
+def _page_is_dense_print(boxes: list) -> bool:
+    """True when a page's detected boxes carry the dense-print
+    signature that makes neighbour masking worthwhile (see the
+    ``_MASK_PAGE_*`` constants for the full rationale): many short
+    lines, almost all straight."""
+    if not boxes:
+        return False
+    heights = sorted(b[3] - b[1] for b in boxes)
+    if heights[len(heights) // 2] >= _MASK_PAGE_MAX_MEDIAN_HEIGHT:
+        return False
+    tilted = sum(
+        1 for b in boxes
+        if abs(getattr(b, "angle", 0.0)) >= ANGLE_FLATTEN_DEG
+    )
+    return tilted / len(boxes) < _MASK_PAGE_MAX_TILT_FRAC
+
+
+# A neighbour mostly inside the target is the target's own content at
+# a finer detection granularity (a paragraph box sees its line boxes, a
+# row box its cell boxes). Fraction of the NEIGHBOUR's area that must
+# fall inside the target for the neighbour to stay visible in the
+# target's crop.
+_MASK_EXCLUDE_CONTAINED_FRAC = 0.45
+
+
+def _maskable_neighbors(idx: int, boxes: list) -> list:
+    """The page boxes worth painting out of box ``idx``'s crop: every
+    other box EXCEPT those mostly contained in the target.
+
+    A contained neighbour is the target's own content at finer
+    granularity — the target must still read it, and leaving it visible
+    keeps the pair's transcriptions in the containment relationship
+    :func:`_drop_overlap_duplicates` needs to collapse them. The
+    exclusion is deliberately asymmetric: the smaller box of such a
+    pair still masks the larger one (everything outside the small box
+    is the LARGE box's responsibility), so each box reads exactly its
+    own region and the dedup keeps the superset."""
+    tx0, ty0, tx1, ty1 = boxes[idx][0], boxes[idx][1], boxes[idx][2], boxes[idx][3]
+    out = []
+    for k, b in enumerate(boxes):
+        if k == idx:
+            continue
+        ix0, iy0 = max(b[0], tx0), max(b[1], ty0)
+        ix1, iy1 = min(b[2], tx1), min(b[3], ty1)
+        inter = max(0.0, ix1 - ix0) * max(0.0, iy1 - iy0)
+        area_n = max(0.0, b[2] - b[0]) * max(0.0, b[3] - b[1])
+        if area_n > 0 and inter / area_n >= _MASK_EXCLUDE_CONTAINED_FRAC:
+            continue
+        out.append(b)
+    return out
+
+
+def _box_overlap_ratio(a: list[float], b: list[float]) -> float:
+    """Intersection area as a fraction of the smaller box's area (0..1)."""
+    ix0, iy0 = max(a[0], b[0]), max(a[1], b[1])
+    ix1, iy1 = min(a[2], b[2]), min(a[3], b[3])
+    if ix1 <= ix0 or iy1 <= iy0:
+        return 0.0
+    smaller = min(
+        max(0.0, a[2] - a[0]) * max(0.0, a[3] - a[1]),
+        max(0.0, b[2] - b[0]) * max(0.0, b[3] - b[1]),
+    )
+    if smaller <= 0:
+        return 0.0
+    return (ix1 - ix0) * (iy1 - iy0) / smaller
+
+
+def _drop_overlap_duplicates(
+    page_boxes: list[tuple[list[float], str]],
+) -> int:
+    """
+    Mutate ``page_boxes`` in place: when two boxes cover the same region
+    (overlap >= ``_OVERLAP_DUP_MIN_RATIO`` of the smaller) and one box's
+    text is contained in the other's, clear the contained copy. Returns
+    the number of boxes cleared.
+
+    Why this exists: detectors emit overlapping boxes for the same
+    content at different granularities — a multi-line paragraph box plus
+    its constituent line boxes, or a table-row box plus its cell boxes.
+    Per-box OCR transcribes each independently, so the region's text
+    lands in the output layer two or more times at the same position,
+    and PDF text extraction interleaves the copies word-by-word.
+
+    Decision rules, in order:
+      - identical text: keep the tighter (smaller-area) box — it carries
+        the same content at the more precise position;
+      - one text contained in the other: keep the superset — it holds
+        content the contained read lacks.
+
+    Containment is checked on normalized text (case-folded, whitespace-
+    collapsed), never fuzzy similarity: dense forms legitimately repeat
+    near-identical labels, and those must survive. The spatial-overlap
+    gate keeps repeated labels at *different* positions safe even when
+    their texts match exactly.
+    """
+    cleared = 0
+    n = len(page_boxes)
+    for i in range(n):
+        for j in range(i + 1, n):
+            bbox_i, text_i = page_boxes[i]
+            bbox_j, text_j = page_boxes[j]
+            ni = _normalize_for_dedup(text_i)
+            nj = _normalize_for_dedup(text_j)
+            if min(len(ni), len(nj)) < _OVERLAP_DUP_MIN_CHARS:
+                continue
+            if _box_overlap_ratio(bbox_i, bbox_j) < _OVERLAP_DUP_MIN_RATIO:
+                continue
+            if ni == nj:
+                area_i = (bbox_i[2] - bbox_i[0]) * (bbox_i[3] - bbox_i[1])
+                area_j = (bbox_j[2] - bbox_j[0]) * (bbox_j[3] - bbox_j[1])
+                drop = i if area_i > area_j else j
+            elif ni in nj:
+                drop = i
+            elif nj in ni:
+                drop = j
+            else:
+                continue
+            page_boxes[drop] = (page_boxes[drop][0], "")
+            cleared += 1
+    return cleared
 
 
 def _drop_refined_duplicates(

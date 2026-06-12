@@ -63,6 +63,112 @@ def test_crop_clamps_out_of_range_bbox():
     assert out.width > 0 and out.height > 0
 
 
+# --- neighbor masking ---------------------------------------------------------
+
+
+def test_padding_is_page_relative():
+    # Padding must stay page-relative — NOT shrink with the box.
+    # Handwriting strokes routinely extend past their detected box, and
+    # a margin capped to the box's own size measurably degrades reads;
+    # dense-print neighbour bleed is handled by mask_boxes instead.
+    page = _make_image_b64(size=(1000, 1000))
+    short = _decode_b64_image(
+        crop_box_to_base64(page, [0.1, 0.5, 0.9, 0.51], min_dim=1)  # 10px tall
+    )
+    roomy = _decode_b64_image(
+        crop_box_to_base64(page, [0.4, 0.4, 0.6, 0.6], min_dim=1)  # 200px tall
+    )
+    # Both get the same ~5px pad per side.
+    assert 18 <= short.height <= 22
+    assert 205 <= roomy.height <= 215
+
+
+def _page_with_bands(bands, size=(1000, 1000)) -> str:
+    """White page with dark horizontal bands at the given normalized
+    (y0, y1) ranges."""
+    img = Image.new("RGB", size, "white")
+    draw = ImageDraw.Draw(img)
+    for y0, y1 in bands:
+        draw.rectangle(
+            (0, int(y0 * size[1]), size[0] - 1, int(y1 * size[1]) - 1),
+            fill=(20, 20, 20),
+        )
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    return base64.b64encode(buf.getvalue()).decode()
+
+
+def test_mask_boxes_hides_neighbor_ink():
+    # Two stacked text lines; the target's padded crop reaches into the
+    # neighbour's band. With the neighbour declared via mask_boxes, its
+    # ink must come back paper-white; without, it stays dark.
+    line_a = [0.1, 0.40, 0.9, 0.45]
+    line_b = [0.1, 0.452, 0.9, 0.50]
+    page = _page_with_bands([(0.40, 0.45), (0.452, 0.50)])
+
+    masked = _decode_b64_image(
+        crop_for_ocr(page, line_a, padding=0.01, min_dim=1, mask_boxes=[line_b])
+    )
+    unmasked = _decode_b64_image(crop_for_ocr(page, line_a, padding=0.01, min_dim=1))
+    assert masked.size == unmasked.size
+    # padding 0.01 -> 10px: crop spans page y [390, 460); the neighbour's
+    # rows start at 452 -> crop row 62.
+    nb_row = 452 - 390 + 2
+    assert unmasked.getpixel((unmasked.width // 2, nb_row))[0] < 100
+    assert masked.getpixel((masked.width // 2, nb_row))[0] > 200
+    # The target's own band is untouched.
+    own_row = 425 - 390
+    assert masked.getpixel((masked.width // 2, own_row))[0] < 100
+
+
+def test_mask_never_covers_target_region():
+    # A neighbour overlapping the target: only the part of the neighbour
+    # OUTSIDE the target rect is masked — the shared band keeps its ink.
+    target = [0.1, 0.40, 0.9, 0.50]
+    overlapping_neighbor = [0.1, 0.48, 0.9, 0.58]
+    page = _page_with_bands([(0.40, 0.58)])
+
+    out = _decode_b64_image(
+        crop_for_ocr(
+            page, target, padding=0.005, min_dim=1,
+            mask_boxes=[overlapping_neighbor],
+        )
+    )
+    # pad = 5px -> crop spans page y [395, 505). Inside the target
+    # (page y 490): dark, even though the neighbour also covers it.
+    assert out.getpixel((out.width // 2, 490 - 395))[0] < 100
+    # Below the target (page y 502): the neighbour's exclusive zone is
+    # masked white.
+    assert out.getpixel((out.width // 2, 502 - 395))[0] > 200
+
+
+def test_mask_boxes_ignored_on_rectified_quads():
+    # The rectified branch warps along the line's own quad; neighbour
+    # masking is an axis-aligned concept and must not break the warp.
+    quad_px = _rot_quad_px(25.0)
+    page = _page_with_bar(quad_px)
+    crop_b64 = crop_for_ocr(
+        page, _oriented_from_quad(quad_px, 25.0),
+        mask_boxes=[[0.0, 0.0, 0.2, 0.1]],
+    )
+    assert crop_b64 is not None
+
+
+def test_blank_check_runs_after_masking():
+    # A target whose padded crop is non-blank ONLY because of neighbour
+    # ink must be treated as blank once the neighbour is masked. The
+    # neighbour box spans the full ink band (the page's bands are drawn
+    # full-width).
+    target = [0.1, 0.40, 0.9, 0.45]          # blank band
+    neighbor = [0.0, 0.452, 1.0, 0.50]       # inked band
+    page = _page_with_bands([(0.452, 0.50)])
+    assert crop_for_ocr(page, target, padding=0.01, min_dim=1) is not None
+    assert (
+        crop_for_ocr(page, target, padding=0.01, min_dim=1, mask_boxes=[neighbor])
+        is None
+    )
+
+
 # --- perspective-rectified quad crops ---------------------------------------
 
 _PAGE_W, _PAGE_H = 800, 600
@@ -186,3 +292,16 @@ def test_crop_box_to_base64_also_rectifies():
         crop_box_to_base64(page, _oriented_from_quad(quad_px, 25.0))
     )
     assert out.width / out.height > 5
+
+
+def test_thin_quad_keeps_page_relative_padding():
+    # A 10px-tall tilted line keeps the page-relative pad (3.5px/side on
+    # this 800x600 page -> ~17px strip): tilted lines are handwriting
+    # territory, where stroke extents exceed the detected quad and a
+    # tighter margin degrades transcription.
+    quad_px = _rot_quad_px(25.0, h=10.0)
+    page = _page_with_bar(quad_px)
+    out = _decode_b64_image(
+        crop_box_to_base64(page, _oriented_from_quad(quad_px, 25.0), min_dim=1)
+    )
+    assert 15 <= out.height <= 19
