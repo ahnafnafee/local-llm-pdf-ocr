@@ -786,3 +786,70 @@ class TestDpConfidenceRetry:
         )
         await pipe.run("in.pdf", "out.pdf", dense_mode="auto", refine=False)
         assert stub_ocr.crop_calls == 0
+
+
+class _BoomAligner:
+    """Aligner that explodes if touched — proves text-only never detects
+    layout or aligns."""
+
+    def get_detected_boxes_batch(self, images):
+        raise AssertionError("text-only must not run layout detection")
+
+    def align_text(self, structured, lines):
+        raise AssertionError("text-only must not run DP alignment")
+
+
+class TestTextOnly:
+    """Fast path: full-page OCR per page, dumped as text. No Surya, no DP,
+    no refine — one LLM call per page, all concurrent."""
+
+    async def test_dumps_full_page_text_per_page(self, make_stub_ocr):
+        ocr = make_stub_ocr(page_lines=["line one", "line two"])
+        pdf = _StubPDF(n_pages=2)
+        # No aligner passed at all — text-only doesn't need one.
+        pipe = OCRPipeline(ocr_processor=ocr, pdf_handler=pdf)
+
+        result = await pipe.run("in.pdf", "out.txt", text_only=True, concurrency=2)
+
+        assert ocr.page_calls == 2     # one full-page call per page
+        assert ocr.crop_calls == 0     # no per-box / refine work
+        assert result[0] == ["line one", "line two"]
+        # Writer got one full-page block per page carrying the joined text.
+        assert set(pdf.last_pages.keys()) == {0, 1}
+        for page in pdf.last_pages.values():
+            assert len(page) == 1
+            bbox, text = page[0]
+            assert list(bbox) == [0.0, 0.0, 1.0, 1.0]
+            assert text == "line one\nline two"
+
+    async def test_never_touches_the_aligner(self, stub_ocr):
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_BoomAligner(), stub_ocr, pdf)
+        # _BoomAligner raises if detection/alignment runs — completing
+        # without error proves text-only skips both.
+        await pipe.run("in.pdf", "out.txt", text_only=True)
+        assert pdf.last_pages is not None
+
+    async def test_respects_page_range(self, make_stub_ocr):
+        ocr = make_stub_ocr(page_lines=["x"])
+        pdf = _StubPDF(n_pages=3)
+        pipe = OCRPipeline(ocr_processor=ocr, pdf_handler=pdf)
+        await pipe.run("in.pdf", "out.txt", text_only=True, pages="1,3")
+        assert ocr.page_calls == 2
+        assert set(pdf.last_pages.keys()) == {0, 2}
+
+    async def test_progress_only_convert_ocr_embed(self, stub_ocr):
+        pipe = OCRPipeline(ocr_processor=stub_ocr, pdf_handler=_StubPDF(n_pages=1))
+        stages: list[str] = []
+
+        async def cb(stage, cur, tot, msg):
+            stages.append(stage)
+
+        await pipe.run("in.pdf", "out.txt", text_only=True, progress=cb)
+        # No detect / refine stages on the text-only path.
+        assert set(stages) == {"convert", "ocr", "embed"}
+
+    async def test_requires_ocr_processor(self):
+        pipe = OCRPipeline(aligner=_StubAligner(), pdf_handler=_StubPDF(n_pages=1))
+        with pytest.raises(ValueError, match="text_only"):
+            await pipe.run("in.pdf", "out.txt", text_only=True)

@@ -10,6 +10,7 @@ import pytest
 from pdf_ocr.core.html import HTMLHandler
 from pdf_ocr.core.markdown import MarkdownHandler
 from pdf_ocr.core.pdf import PDFHandler
+from pdf_ocr.core.text import TextHandler
 from pdf_ocr.output import (
     SUPPORTED_FORMATS,
     format_from_path,
@@ -30,12 +31,14 @@ class TestFormatFromPath:
         ("out.md", "md"),
         ("out.markdown", "md"),
         ("out.MARKDOWN", "md"),
+        ("out.txt", "txt"),
+        ("OUT.TXT", "txt"),
     ])
     def test_known_extensions(self, path, expected):
         assert format_from_path(path) == expected
 
     def test_unknown_extension_defaults_to_pdf(self):
-        assert format_from_path("out.txt") == "pdf"
+        assert format_from_path("out.docx") == "pdf"
         assert format_from_path("noextension") == "pdf"
 
 
@@ -44,6 +47,7 @@ class TestSuffixForFormat:
         ("pdf", ".pdf"),
         ("html", ".html"),
         ("md", ".md"),
+        ("txt", ".txt"),
     ])
     def test_canonical_suffixes(self, fmt, suffix):
         assert suffix_for_format(fmt) == suffix
@@ -60,6 +64,7 @@ class TestMediaTypeFor:
         ("out.htm", "text/html"),
         ("out.md", "text/markdown"),
         ("out.markdown", "text/markdown"),
+        ("out.txt", "text/plain"),
     ])
     def test_known_paths(self, path, mt):
         assert media_type_for(path) == mt
@@ -90,6 +95,10 @@ class TestResolveOutputWriter:
     def test_markdown_extension_returns_markdown_writer(self):
         writer = resolve_output_writer("out.markdown")
         assert getattr(writer, "__self__", None).__class__ is MarkdownHandler
+
+    def test_txt_returns_text_writer(self):
+        writer = resolve_output_writer("out.txt")
+        assert getattr(writer, "__self__", None).__class__ is TextHandler
 
     def test_unknown_extension_defaults_to_pdf_writer(self):
         writer = resolve_output_writer("out.docx")
@@ -138,4 +147,4 @@ class TestSupportedFormats:
     def test_canonical_order(self):
         # The CLI uses this for the --format flag's choices list, so the
         # order matters for the help-text output.
-        assert SUPPORTED_FORMATS == ("pdf", "html", "md")
+        assert SUPPORTED_FORMATS == ("pdf", "html", "md", "txt")

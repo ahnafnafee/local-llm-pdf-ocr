@@ -6,10 +6,11 @@ format string) to the right writer + filename suffix + HTTP media type.
 The CLI and the FastAPI server both consume this so adding a new
 output format requires editing one place.
 
-Three built-in formats:
+Four built-in formats:
     pdf  → searchable sandwich PDF (default)
     html → self-contained HTML with invisible-text overlay
     md   → Markdown text dump
+    txt  → plain-text dump (pairs with the pipeline's text-only mode)
 """
 
 from __future__ import annotations
@@ -24,6 +25,7 @@ OutputWriter = Callable[[str, str, dict, int], None]
 
 _HTML_EXTS = frozenset({".html", ".htm"})
 _MD_EXTS = frozenset({".md", ".markdown"})
+_TXT_EXTS = frozenset({".txt"})
 _PDF_EXTS = frozenset({".pdf"})
 
 
@@ -31,25 +33,29 @@ _FORMAT_TO_SUFFIX = {
     "pdf": ".pdf",
     "html": ".html",
     "md": ".md",
+    "txt": ".txt",
 }
 
 _FORMAT_TO_MEDIA_TYPE = {
     "pdf": "application/pdf",
     "html": "text/html",
     "md": "text/markdown",
+    "txt": "text/plain",
 }
 
 SUPPORTED_FORMATS = tuple(_FORMAT_TO_SUFFIX.keys())
 
 
 def format_from_path(output_path: str) -> str:
-    """Return the format name (`pdf` / `html` / `md`) matching the path's
-    extension. Unknown extensions default to `pdf`."""
+    """Return the format name (`pdf` / `html` / `md` / `txt`) matching the
+    path's extension. Unknown extensions default to `pdf`."""
     ext = Path(output_path).suffix.lower()
     if ext in _HTML_EXTS:
         return "html"
     if ext in _MD_EXTS:
         return "md"
+    if ext in _TXT_EXTS:
+        return "txt"
     return "pdf"
 
 
@@ -124,5 +130,8 @@ def resolve_output_writer(
     if fmt == "md":
         from pdf_ocr.core.markdown import MarkdownHandler
         return MarkdownHandler().embed_structured_text
+    if fmt == "txt":
+        from pdf_ocr.core.text import TextHandler
+        return TextHandler().embed_structured_text
     from pdf_ocr.core.pdf import PDFHandler
     return PDFHandler().embed_structured_text

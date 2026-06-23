@@ -12,7 +12,19 @@ import sys
 
 import pytest
 
-from pdf_ocr.cli import build_parser, resolve_output_path
+from pdf_ocr.cli import build_parser, format_duration, resolve_output_path
+
+
+class TestFormatDuration:
+    def test_sub_minute_shows_seconds(self):
+        assert format_duration(0.0) == "0.0s"
+        assert format_duration(12.34) == "12.3s"
+        assert format_duration(59.9) == "59.9s"
+
+    def test_over_a_minute_shows_minutes_and_seconds(self):
+        assert format_duration(60) == "1m 00s"
+        assert format_duration(83) == "1m 23s"
+        assert format_duration(3661) == "61m 01s"
 
 
 class TestResolveOutputPath:
@@ -24,6 +36,7 @@ class TestResolveOutputPath:
         assert resolve_output_path("/tmp/in.pdf", None, "html").endswith("in_ocr.html")
         assert resolve_output_path("/tmp/in.pdf", None, "md").endswith("in_ocr.md")
         assert resolve_output_path("/tmp/in.pdf", None, "pdf").endswith("in_ocr.pdf")
+        assert resolve_output_path("/tmp/in.pdf", None, "txt").endswith("in_ocr.txt")
 
     def test_explicit_output_wins_over_format(self):
         # User provides an explicit `.md` output but also `--format html`.
@@ -44,8 +57,8 @@ class TestParserFormatFlag:
     def _parse(self, *argv: str):
         return build_parser().parse_args(["input.pdf", *argv])
 
-    def test_format_flag_accepts_pdf_html_md(self):
-        for fmt in ("pdf", "html", "md"):
+    def test_format_flag_accepts_pdf_html_md_txt(self):
+        for fmt in ("pdf", "html", "md", "txt"):
             ns = self._parse("--format", fmt)
             assert ns.format == fmt
 
@@ -67,6 +80,17 @@ class TestParserFormatFlag:
         assert ns.input_pdf == "input.pdf"
         assert ns.output_pdf == "custom.html"
         assert ns.format is None
+
+
+class TestTextOnlyFlag:
+    def _parse(self, *argv: str):
+        return build_parser().parse_args(["input.pdf", *argv])
+
+    def test_text_only_defaults_off(self):
+        assert self._parse().text_only is False
+
+    def test_text_only_flag_sets_true(self):
+        assert self._parse("--text-only").text_only is True
 
 
 class TestHtmlImageFlags:
