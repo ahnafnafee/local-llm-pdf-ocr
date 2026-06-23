@@ -12,7 +12,19 @@ import sys
 
 import pytest
 
-from pdf_ocr.cli import build_parser, resolve_output_path
+from pdf_ocr.cli import build_parser, format_duration, resolve_output_path
+
+
+class TestFormatDuration:
+    def test_sub_minute_shows_seconds(self):
+        assert format_duration(0.0) == "0.0s"
+        assert format_duration(12.34) == "12.3s"
+        assert format_duration(59.9) == "59.9s"
+
+    def test_over_a_minute_shows_minutes_and_seconds(self):
+        assert format_duration(60) == "1m 00s"
+        assert format_duration(83) == "1m 23s"
+        assert format_duration(3661) == "61m 01s"
 
 
 class TestResolveOutputPath:

@@ -22,8 +22,8 @@
 -   **🔒 100% Local & Private**: No cloud APIs, no subscription fees. Run it entirely offline using [LM Studio](https://lmstudio.ai) or [Ollama](https://ollama.com).
 -   **🔍 Searchable Outputs**: Four output formats — searchable sandwich PDF (default; invisible text layer with horizontally-scaled glyph bboxes so selection covers each text region), HTML overlay (background page image + invisible absolutely-positioned `<span>`s; external page-image references by default for small file sizes, opt-in `--html-inline-images` for a single self-contained file), plain Markdown, or plain text (the `--text-only` fast path's default). Pick via `--format` or by giving the desired extension on the output path.
 -   **🖥️ Dual Interfaces**:
-    -   **Web UI**: Drag & drop, Dark Mode, real-time per-page progress.
-    -   **CLI**: Documented flags for power users and batch automation, Rich progress bars.
+    -   **Web UI**: Drag & drop one or many PDFs, click **Run OCR** to start, watch live per-page progress with an elapsed timer, then download each result individually. Dark Mode included.
+    -   **CLI**: Documented flags for power users and batch automation, Rich progress bars, and a total conversion time on completion.
 
     <p align="center">
       <img src="examples/screenshots/web_ui_light.png" alt="Web UI, light theme" width="49%" />

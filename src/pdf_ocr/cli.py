@@ -10,6 +10,7 @@ import asyncio
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 
 from rich.console import Console
@@ -196,6 +197,14 @@ Examples:
     return parser
 
 
+def format_duration(seconds: float) -> str:
+    """Human-readable elapsed time: ``12.3s`` under a minute, ``1m 23s`` over."""
+    if seconds < 60:
+        return f"{seconds:.1f}s"
+    minutes, secs = divmod(int(round(seconds)), 60)
+    return f"{minutes}m {secs:02d}s"
+
+
 def configure_logging(verbose: bool, quiet: bool) -> None:
     if quiet:
         level = logging.ERROR
@@ -307,6 +316,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
         console=console,
     )
 
+    start = time.perf_counter()
     with progress:
         tasks: dict[str, int] = {}
 
@@ -333,7 +343,11 @@ async def run(args: argparse.Namespace, console: Console) -> None:
             console.print(f"[bold red]Error:[/bold red] {e}")
             raise
 
-    console.print(f"[bold green]Done! Saved to '{output_path}'[/bold green]")
+    elapsed = time.perf_counter() - start
+    console.print(
+        f"[bold green]Done! Saved to '{output_path}' "
+        f"in {format_duration(elapsed)}[/bold green]"
+    )
 
 
 def main() -> None:
