@@ -115,13 +115,20 @@ async def process_pdf(
     file: UploadFile = File(...),
     client_id: str = Form(...),
     format: str = Form("pdf"),
+    text_only: bool = Form(False),
 ):
     """OCR an uploaded file and return the result in `format`.
 
-    `format` is one of `pdf` (default), `html`, `md`. The file is named
-    `ocr_<original-name-with-original-extension>.<format-suffix>` for
-    download, and the response's Content-Type tracks the format.
+    `format` is one of `pdf` (default), `html`, `md`, `txt`. The file is
+    named `ocr_<original-name-with-original-extension>.<format-suffix>`
+    for download, and the response's Content-Type tracks the format.
+
+    `text_only` is the fast path: it skips Surya layout detection, DP
+    alignment, and crop re-OCR, OCR'ing each page's full text and dumping
+    it as plain text. It forces `format` to `txt`.
     """
+    if text_only:
+        format = "txt"
     if format not in SUPPORTED_FORMATS:
         return JSONResponse(
             status_code=400,
@@ -140,16 +147,24 @@ async def process_pdf(
     try:
         await manager.send_progress(client_id, "Initializing...", 5)
 
-        pipeline = OCRPipeline(
-            aligner=await _get_aligner(),
-            ocr_processor=OCRProcessor(),
-            pdf_handler=PDFHandler(),
-            # Inline images so the single-file FileResponse below is
-            # self-contained — sidecar JPEGs would not reach the client.
-            output_writer=resolve_output_writer(
-                output_path, html_inline_images=True,
-            ),
-        )
+        if text_only:
+            # Fast path: no Surya — skip the (lazy) aligner load entirely.
+            pipeline = OCRPipeline(
+                ocr_processor=OCRProcessor(),
+                pdf_handler=PDFHandler(),
+                output_writer=resolve_output_writer(output_path),
+            )
+        else:
+            pipeline = OCRPipeline(
+                aligner=await _get_aligner(),
+                ocr_processor=OCRProcessor(),
+                pdf_handler=PDFHandler(),
+                # Inline images so the single-file FileResponse below is
+                # self-contained — sidecar JPEGs would not reach the client.
+                output_writer=resolve_output_writer(
+                    output_path, html_inline_images=True,
+                ),
+            )
         # Conservative default: in-flight requests cost KV-cache VRAM on
         # parallel-slot servers (vLLM, num_parallel>1); queuing servers
         # (LM Studio / Ollama defaults) hold extras for free. Raise via
@@ -166,7 +181,7 @@ async def process_pdf(
 
         pages_text = await pipeline.run(
             input_path, output_path,
-            concurrency=concurrency, progress=on_progress,
+            concurrency=concurrency, text_only=text_only, progress=on_progress,
         )
 
         # Save per-page raw LLM text so the UI's "View Text" preview can fetch it.

@@ -50,9 +50,9 @@ Examples:
         "output_pdf", nargs="?",
         metavar="output",
         help="Path to output file. Format is inferred from the extension "
-             "(.pdf, .html / .htm, or .md / .markdown). Defaults to "
+             "(.pdf, .html / .htm, .md / .markdown, or .txt). Defaults to "
              "<input_stem>_ocr.<format-suffix>; the format defaults to "
-             "pdf unless --format is given.",
+             "pdf unless --format / --text-only is given.",
     )
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose debug logging")
     parser.add_argument("--quiet", "-q", action="store_true", help="Suppress all output except errors")
@@ -120,12 +120,21 @@ Examples:
              "a vision LLM that supports grounded output.",
     )
     parser.add_argument(
-        "--format", dest="format", choices=("pdf", "html", "md"),
+        "--format", dest="format", choices=("pdf", "html", "md", "txt"),
         help="Output format. Used when no explicit `output` path is given "
              "(picks the auto-name's extension) AND when the explicit "
              "`output` extension is unrecognized. If both --format and an "
              "explicit `output` with a recognized extension are given, "
-             "the extension wins. Default: pdf.",
+             "the extension wins. Default: pdf (txt when --text-only).",
+    )
+    parser.add_argument(
+        "--text-only", dest="text_only", action="store_true",
+        help="Fast path: OCR each page's full text and write it as plain "
+             "text, skipping layout detection, line-to-box alignment, and "
+             "crop re-OCR. No searchable-PDF positioning — just the "
+             "extracted text. Much faster (no Surya model load) and "
+             "naturally parallel: raise --concurrency for more in-flight "
+             "pages. Output defaults to <input_stem>_ocr.txt.",
     )
     parser.add_argument(
         "--html-mode", dest="html_mode",
@@ -205,8 +214,8 @@ def resolve_output_path(
     """Pick the output path.
 
     - If `output_pdf` is given, use it verbatim. The format is inferred
-      from its extension downstream (`.pdf` / `.html` / `.md`); `fmt`
-      is ignored, so the explicit path always wins.
+      from its extension downstream (`.pdf` / `.html` / `.md` / `.txt`);
+      `fmt` is ignored, so the explicit path always wins.
     - Otherwise auto-generate `<input_stem>_ocr.<suffix>` using `fmt`'s
       suffix (default: `.pdf`).
     """
@@ -229,7 +238,12 @@ async def run(args: argparse.Namespace, console: Console) -> None:
 
     from pdf_ocr.output import resolve_output_writer
 
-    output_path = resolve_output_path(args.input_pdf, args.output_pdf, args.format)
+    # Text-only mode dumps plain text — default the auto-name to .txt
+    # unless the user picked an explicit format or output path.
+    fmt = args.format
+    if args.text_only and fmt is None:
+        fmt = "txt"
+    output_path = resolve_output_path(args.input_pdf, args.output_pdf, fmt)
     output_writer = resolve_output_writer(
         output_path,
         html_mode=args.html_mode,
@@ -239,7 +253,15 @@ async def run(args: argparse.Namespace, console: Console) -> None:
     )
 
     pdf_handler = PDFHandler()
-    if args.grounded:
+    if args.text_only:
+        # Text-only skips Surya entirely — no aligner constructed, so no
+        # detection-model load. Full-page OCR per page, dumped as text.
+        pipeline = OCRPipeline(
+            ocr_processor=OCRProcessor(api_base=args.api_base, model=args.model),
+            pdf_handler=pdf_handler,
+            output_writer=output_writer,
+        )
+    elif args.grounded:
         # Grounded path: bbox-native VLM returns text + positions in one call.
         backend_kwargs = {"max_image_dim": args.max_image_dim}
         if args.api_base:
@@ -266,7 +288,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
         # Print the error here too — main()'s outer except swallows the
         # message and only exits 1, which would leave the user staring
         # at a silent failure.
-        backend = pipeline.grounded_backend if args.grounded else pipeline.ocr_processor
+        backend = pipeline.grounded_backend or pipeline.ocr_processor
         try:
             await backend.ensure_model_loaded()
         except Exception as e:
@@ -304,6 +326,7 @@ async def run(args: argparse.Namespace, console: Console) -> None:
                 dense_mode=args.dense_mode,
                 preprocess=args.preprocess,
                 min_box_confidence=args.min_box_confidence,
+                text_only=args.text_only,
                 progress=on_progress,
             )
         except Exception as e:

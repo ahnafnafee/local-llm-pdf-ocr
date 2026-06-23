@@ -16,10 +16,11 @@
 -   **🧠 AI-Powered Vision**: Uses advanced VLMs to transcribe text with high accuracy, even on complex layouts or noisy scans.
 -   **🤝 DP-Based Text↔Box Alignment**: **Surya OCR** detects layout boxes; a **Local LLM** transcribes the whole page; a Needleman-Wunsch dynamic-programming aligner binds LLM lines to the correct boxes in reading order, with a per-box crop re-OCR fallback for boxes the DP cannot confidently populate.
 -   **🛰️ Grounded Path (opt-in)**: Point the tool at a bbox-native VLM (Qwen2.5-VL, Qwen3-VL, MinerU, Florence-2, …) with `--grounded` and it skips Surya/DP/refine entirely — the model returns text + coordinates in a single call.
+-   **⚡ Text-Only Fast Path (opt-in)**: `--text-only` (CLI) or the "Text only · fast" toggle (web) OCRs each page's full text and dumps it as plain text — no Surya, no alignment, no refine, no detection-model load. Trades searchable-PDF positioning for raw extracted text at a fraction of the time; raise `--concurrency` to OCR more pages at once.
 -   **🖼️ PDF or Raw Image Input**: Accepts **`.pdf`, `.jpg`, `.jpeg`, `.png`, `.bmp`, `.webp`, `.tif`/`.tiff`, `.avif`**. Multi-frame TIFFs become multi-page output PDFs — no manual PDF-wrap step.
 -   **⚡ Fast Detection**: Surya runs in detection-only mode (no recognition) and batches across pages.
 -   **🔒 100% Local & Private**: No cloud APIs, no subscription fees. Run it entirely offline using [LM Studio](https://lmstudio.ai) or [Ollama](https://ollama.com).
--   **🔍 Searchable Outputs**: Three output formats — searchable sandwich PDF (default; invisible text layer with horizontally-scaled glyph bboxes so selection covers each text region), HTML overlay (background page image + invisible absolutely-positioned `<span>`s; external page-image references by default for small file sizes, opt-in `--html-inline-images` for a single self-contained file), or plain Markdown. Pick via `--format` or by giving the desired extension on the output path.
+-   **🔍 Searchable Outputs**: Four output formats — searchable sandwich PDF (default; invisible text layer with horizontally-scaled glyph bboxes so selection covers each text region), HTML overlay (background page image + invisible absolutely-positioned `<span>`s; external page-image references by default for small file sizes, opt-in `--html-inline-images` for a single self-contained file), plain Markdown, or plain text (the `--text-only` fast path's default). Pick via `--format` or by giving the desired extension on the output path.
 -   **🖥️ Dual Interfaces**:
     -   **Web UI**: Drag & drop, Dark Mode, real-time per-page progress.
     -   **CLI**: Documented flags for power users and batch automation, Rich progress bars.
@@ -161,8 +162,8 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | Option                    | Description                                                           |
 | ------------------------- | --------------------------------------------------------------------- |
 | `input`                   | Path to a PDF **or** image file (`.jpg`/`.jpeg`/`.png`/`.bmp`/`.webp`/`.tif`/`.tiff`/`.avif`). Required. Multi-frame TIFFs expand to multiple output pages. |
-| `output`                  | Path to output file (optional). Format is inferred from the extension: `.pdf` (default, searchable PDF), `.html` / `.htm` (HTML overlay, see `--html-inline-images` for the self-contained variant), `.md` / `.markdown` (Markdown text). Defaults to `<input_stem>_ocr.<format>`. |
-| `--format {pdf,html,md}`  | Output format. Used to pick the extension when `output` is omitted, OR to override an unrecognized extension. If `output` has a recognized extension, the extension wins. |
+| `output`                  | Path to output file (optional). Format is inferred from the extension: `.pdf` (default, searchable PDF), `.html` / `.htm` (HTML overlay, see `--html-inline-images` for the self-contained variant), `.md` / `.markdown` (Markdown text), `.txt` (plain text). Defaults to `<input_stem>_ocr.<format>`. |
+| `--format {pdf,html,md,txt}` | Output format. Used to pick the extension when `output` is omitted, OR to override an unrecognized extension. If `output` has a recognized extension, the extension wins. `--text-only` defaults this to `txt`. |
 | `--html-mode {letter-spacing,full-height,scaled}` | Sizing strategy for HTML overlay spans (ignored for pdf/md). `scaled` (default) fits the font to the box server-side, then a page-load script measures each span in its rendered font and stretches it to the exact box width via CSS `scaleX` (the PDF.js textLayer approach); without JavaScript the server-side fit still applies. `letter-spacing` stretches glyphs to fill the bbox via letter-spacing; selection extents match the bbox exactly but negative spacing can render characters as an overlapping smear on wide bboxes. `full-height` uses natural monospace width — text may overflow the bbox right edge. |
 | `--html-inline-images`    | Embed page images as base64 `data:` URLs inside the HTML (produces a single self-contained file at ~35% size inflation). Default behaviour writes external images: a relative reference to the input file for single-frame browser-native images (JPEG/PNG/WebP/AVIF/GIF), or sidecar JPEGs named `<output_stem>_p<N>.jpg` (zero-padded page numbers) next to the output HTML for PDFs and multi-frame inputs. |
 | `--html-invert-dark`      | Invert page images in dark mode (HTML output only). Adds CSS `filter: invert() hue-rotate(180deg)` that activates when the OS / browser is in dark colour scheme, so scanned white-background documents appear dark. Without this flag the page image is shown as-is in all colour schemes. |
@@ -173,6 +174,7 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--pages <range>`         | Page range to process, e.g., `1-3,5` (default: all)                   |
 | `--concurrency <int>`     | Parallel in-flight LLM requests (default: 2). Never loads extra model copies: queuing servers (LM Studio / Ollama defaults) hold excess requests at zero VRAM cost; parallel-slot servers (vLLM, `num_parallel>1`) spend KV-cache VRAM per active request, hence the conservative default. Raise to 4-5 for `--dense-mode always` when your server has headroom; set 1 to strictly serialize. |
 | `--no-refine`             | Skip per-box crop re-OCR (faster, less robust on tables/multi-column) |
+| `--text-only`             | Fast path: OCR each page's full text and write it as plain text, skipping Surya layout detection, DP alignment, and crop re-OCR entirely (no detection-model load). No searchable-PDF positioning — just the extracted text, naturally parallel (raise `--concurrency`). Output defaults to `<input_stem>_ocr.txt`. |
 | `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
 | `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for pages above `--dense-threshold`, and additionally retries a page per-box when the DP alignment matched under half its boxes (the form-page failure mode); `always` forces per-box for every page (most accurate on handwriting); `never` keeps the original full-page path with no retry. |
 | `--dense-threshold <int>` | In `auto` dense-mode, pages with more than this many detected boxes use per-box OCR (default: 60). |
@@ -234,6 +236,10 @@ uv run local-llm-pdf-ocr scan.pdf --format html --html-hover-text
 # Markdown output: one block per detected box, page-by-page
 uv run local-llm-pdf-ocr scan.pdf --format md
 uv run local-llm-pdf-ocr scan.pdf notes.md
+
+# Text-only fast path: full-page OCR per page, no layout mapping
+uv run local-llm-pdf-ocr scan.pdf --text-only                  # auto-named scan_ocr.txt
+uv run local-llm-pdf-ocr scan.pdf --text-only --concurrency 8  # OCR up to 8 pages at once
 ```
 
 > **HTML output size:** by default the HTML references each page image as an external file — sidecar JPEGs (`scan_ocr_p1.jpg`, `scan_ocr_p2.jpg`, … — zero-padded to the page-count width for 10+ page inputs, plain `scan_ocr.jpg` for single-page inputs) for PDF / multi-frame inputs, or the input image itself for single-frame `.jpg`/`.png`/`.webp`/`.avif`/`.gif`. Use `--html-inline-images` to produce a single self-contained file (base64 data URLs, ~35% size inflation).

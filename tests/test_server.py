@@ -59,6 +59,8 @@ def client(monkeypatch):
                 )
             elif ext in (".md", ".markdown"):
                 Path(output_path).write_text("# stub\n\nbody\n", encoding="utf-8")
+            elif ext == ".txt":
+                Path(output_path).write_text("stub text body\n", encoding="utf-8")
             else:
                 Path(output_path).write_bytes(b"%PDF-1.4\nstub\n%%EOF\n")
             return {0: ["stub line"]}
@@ -72,11 +74,15 @@ def client(monkeypatch):
     return TestClient(server_mod.app)
 
 
-def _post_process(client, *, format: str | None, filename: str = "scan.pdf"):
+def _post_process(
+    client, *, format: str | None, filename: str = "scan.pdf", text_only: bool | None = None,
+):
     files = {"file": (filename, io.BytesIO(b"%PDF-1.4\ntest\n%%EOF\n"), "application/pdf")}
     data = {"client_id": "test-client"}
     if format is not None:
         data["format"] = format
+    if text_only is not None:
+        data["text_only"] = "true" if text_only else "false"
     return client.post("/process", files=files, data=data)
 
 
@@ -109,6 +115,29 @@ class TestProcessFormatDispatch:
         cd = resp.headers.get("content-disposition", "")
         assert ".md" in cd
         assert resp.content.startswith(b"# stub")
+
+    def test_txt_format(self, client):
+        resp = _post_process(client, format="txt")
+        assert resp.status_code == 200, resp.text
+        assert resp.headers["content-type"].startswith("text/plain")
+        cd = resp.headers.get("content-disposition", "")
+        assert ".txt" in cd
+        assert resp.content.startswith(b"stub text")
+
+    def test_text_only_returns_plain_text(self, client):
+        # text_only forces a .txt dump even with the default (pdf) format.
+        resp = _post_process(client, format=None, text_only=True)
+        assert resp.status_code == 200, resp.text
+        assert resp.headers["content-type"].startswith("text/plain")
+        cd = resp.headers.get("content-disposition", "")
+        assert "ocr_scan.txt" in cd
+
+    def test_text_only_overrides_chosen_format(self, client):
+        # Even if the dropdown said html, text_only wins → .txt.
+        resp = _post_process(client, format="html", text_only=True)
+        assert resp.status_code == 200, resp.text
+        assert resp.headers["content-type"].startswith("text/plain")
+        assert ".txt" in resp.headers.get("content-disposition", "")
 
     def test_unknown_format_returns_400(self, client):
         resp = _post_process(client, format="docx")

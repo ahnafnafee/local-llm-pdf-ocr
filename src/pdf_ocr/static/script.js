@@ -74,6 +74,15 @@ function updateProgress(message, percent) {
     subStatus.innerText = `${percent}%`;
 }
 
+// Text-only overrides the output format, so gray out the dropdown when it's on.
+const textOnlyToggleEl = document.getElementById('text-only-toggle');
+const formatSelectEl = document.getElementById('format-select');
+if (textOnlyToggleEl && formatSelectEl) {
+    textOnlyToggleEl.addEventListener('change', () => {
+        formatSelectEl.disabled = textOnlyToggleEl.checked;
+    });
+}
+
 // Drag & Drop
 dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -122,14 +131,18 @@ async function handleFile(file) {
     updateProgress("Uploading...", 0);
 
     const formatSelect = document.getElementById('format-select');
-    const format = formatSelect ? formatSelect.value : 'pdf';
-    const formatSuffix = { pdf: '.pdf', html: '.html', md: '.md' }[format] || '.pdf';
-    const formatLabel = { pdf: 'PDF', html: 'HTML', md: 'Markdown' }[format] || 'file';
+    const textOnlyToggle = document.getElementById('text-only-toggle');
+    const textOnly = textOnlyToggle ? textOnlyToggle.checked : false;
+    // Text-only always produces a plain-text dump regardless of the dropdown.
+    const format = textOnly ? 'txt' : (formatSelect ? formatSelect.value : 'pdf');
+    const formatSuffix = { pdf: '.pdf', html: '.html', md: '.md', txt: '.txt' }[format] || '.pdf';
+    const formatLabel = { pdf: 'PDF', html: 'HTML', md: 'Markdown', txt: 'Text' }[format] || 'file';
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('client_id', clientId); // Send ID so server knows who to push progress to
     formData.append('format', format);
+    formData.append('text_only', textOnly ? 'true' : 'false');
 
     try {
         const response = await fetch('/process', {

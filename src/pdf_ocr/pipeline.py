@@ -128,6 +128,7 @@ class OCRPipeline:
         dense_mode: str = "auto",
         preprocess: str = "auto",
         min_box_confidence: Optional[float] = None,
+        text_only: bool = False,
         progress: Optional[ProgressCallback] = None,
     ) -> dict[int, list[str]]:
         """
@@ -166,7 +167,20 @@ class OCRPipeline:
                 relative to each page's best box, not absolute. Boxes
                 without a confidence (plain lists, custom aligners) are
                 always kept.
+            text_only: fast path — OCR each page's full text and dump it,
+                skipping layout detection, DP alignment, and crop re-OCR
+                (and Surya entirely; no `aligner` needed). Trades the
+                searchable-PDF positioning for raw extracted text at a
+                fraction of the wall-clock and setup cost. `dense_*`,
+                `refine`, `preprocess`, and `min_box_confidence` are
+                ignored; `concurrency` still bounds in-flight page calls.
         """
+        if text_only:
+            return await self._run_text_only(
+                input_path, output_path,
+                dpi=dpi, pages=pages, concurrency=concurrency,
+                max_image_dim=max_image_dim, progress=progress,
+            )
         if dense_mode not in ("auto", "always", "never"):
             raise ValueError(
                 f"dense_mode must be one of 'auto', 'always', 'never'; got {dense_mode!r}"
@@ -361,6 +375,70 @@ class OCRPipeline:
             pages_structured = await asyncio.to_thread(
                 map_structured_to_original, pages_structured, rect_maps,
             )
+        await asyncio.to_thread(
+            self.output_writer, input_path, output_path, pages_structured, dpi
+        )
+        await _notify(progress, "embed", 1, 1, "Done.")
+        return pages_text
+
+    async def _run_text_only(
+        self,
+        input_path: str,
+        output_path: str,
+        *,
+        dpi: int,
+        pages: Optional[str],
+        concurrency: int,
+        max_image_dim: int,
+        progress: Optional[ProgressCallback],
+    ) -> dict[int, list[str]]:
+        """
+        Text-only fast path: full-page OCR every page, dump the text.
+
+        No Surya, no DP alignment, no crop re-OCR — just one LLM call per
+        page, all in flight up to ``concurrency``. Each page's bound box
+        is the full-page sentinel so non-text writers (if one is wired up
+        anyway) treat it as a single fallback block; the text writer
+        ignores boxes entirely. Returns raw LLM text per page like the
+        other paths.
+        """
+        if self.ocr_processor is None:
+            raise ValueError("text_only mode requires an `ocr_processor`.")
+
+        await _notify(progress, "convert", 0, 1, "Converting PDF to images...")
+        images_dict = await asyncio.to_thread(
+            self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim
+        )
+        page_nums = sorted(images_dict.keys())
+        if pages:
+            selected = set(parse_page_range(pages, len(page_nums)))
+            page_nums = [p for p in page_nums if p in selected]
+        await _notify(progress, "convert", 1, 1, f"Converted {len(page_nums)} pages.")
+
+        semaphore = asyncio.Semaphore(max(1, concurrency))
+        total = len(page_nums)
+        pages_text: dict[int, list[str]] = {}
+
+        async def ocr_page(p_num: int):
+            async with semaphore:
+                return p_num, await self.ocr_processor.perform_ocr(images_dict[p_num])
+
+        completed = 0
+        await _notify(progress, "ocr", 0, total, f"OCR text-only (0/{total})...")
+        for coro in asyncio.as_completed([ocr_page(p) for p in page_nums]):
+            p_num, lines = await coro
+            pages_text[p_num] = lines
+            completed += 1
+            await _notify(
+                progress, "ocr", completed, total,
+                f"OCR text-only ({completed}/{total})",
+            )
+
+        await _notify(progress, "embed", 0, 1, "Writing output...")
+        pages_structured = {
+            p: [([0.0, 0.0, 1.0, 1.0], "\n".join(pages_text[p]))]
+            for p in page_nums
+        }
         await asyncio.to_thread(
             self.output_writer, input_path, output_path, pages_structured, dpi
         )
