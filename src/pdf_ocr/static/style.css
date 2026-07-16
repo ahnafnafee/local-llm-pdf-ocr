@@ -194,16 +194,31 @@ body {
 .drop-title { margin: 0; font-weight: 600; font-size: 1rem; }
 .drop-sub { margin: 0.25rem 0 0; color: var(--ink-soft); font-size: 0.85rem; }
 
-/* --- format row ---------------------------------------------------------- */
+/* --- config surface ------------------------------------------------------ */
 
-.format-row {
+.config {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
+    flex-direction: column;
+    gap: 1.15rem;
+    margin-top: 1.2rem;
 }
 
-.format-select {
+.cfg-row { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.cfg-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.cfg-inline .grow { flex: 1 1 260px; min-width: 0; }
+
+/* Shared control styling: mono, hairline, instrument-panel flat. */
+.format-select,
+.config input[type="text"],
+.config input[type="number"],
+.config select {
     font-family: var(--font-mono);
     font-size: 0.82rem;
     color: var(--ink);
@@ -211,21 +226,73 @@ body {
     border: 1px solid var(--hairline);
     border-radius: var(--radius);
     padding: 0.45rem 0.6rem;
-    cursor: pointer;
 }
 
-.format-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.format-select { cursor: pointer; }
 
-.format-select:disabled { opacity: 0.5; cursor: not-allowed; }
+.format-select:focus-visible,
+.config input:focus-visible,
+.config select:focus-visible,
+.segmented button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
 
-.text-only-toggle {
+.format-select:disabled,
+.config input:disabled,
+.config select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.format-note { text-transform: none; letter-spacing: 0; }
+
+/* Segmented engine control: a bank of physical toggles. */
+.segmented {
     display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    width: fit-content;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+}
+
+.segmented button {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.95rem;
+    background: transparent;
+    color: var(--ink-soft);
+    border: none;
+    border-right: 1px solid var(--hairline);
     cursor: pointer;
 }
 
-.text-only-toggle input { accent-color: var(--accent); cursor: pointer; }
+.segmented button:last-child { border-right: none; }
+
+.segmented button[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--accent-contrast);
+}
+
+.engine-desc {
+    margin: 0.15rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    max-width: 60ch;
+}
+
+.status-line { display: inline-flex; align-items: center; gap: 0.45rem; }
+
+.status-line .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ok);
+    flex: none;
+}
+
+.status-line .dot.off { background: var(--hairline-strong); }
 
 .ready-row {
     display: flex;
@@ -237,18 +304,73 @@ body {
 
 #selected-file { word-break: break-all; }
 
-.endpoint-note {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
+/* Advanced drawer: native <details>, no accordion library. */
+details.advanced {
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    background: var(--surface);
 }
 
-.endpoint-note .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--ok);
+details.advanced > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.7rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+}
+
+details.advanced > summary::-webkit-details-marker { display: none; }
+
+.chevron { transition: transform 160ms ease; color: var(--ink-soft); }
+
+details.advanced[open] .chevron { transform: rotate(90deg); }
+
+.advanced-body {
+    padding: 0.2rem 0.9rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border-top: 1px solid var(--hairline);
+}
+
+.opt-group { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.opt-group-title { color: var(--accent); }
+
+.opt-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem 1.1rem;
+}
+
+.opt { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+
+.opt > label { color: var(--ink-soft); }
+
+.opt input, .opt select { width: 100%; }
+
+.opt-wide { max-width: 420px; }
+
+.opt-hint {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ink-soft);
+}
+
+.opt-check { display: flex; flex-direction: row; align-items: center; gap: 0.5rem; }
+
+.opt-check input { accent-color: var(--accent); cursor: pointer; }
+
+.opt-check label {
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
 }
 
 /* --- processing readout --------------------------------------------------- */
@@ -540,5 +662,7 @@ body {
 
 @media (max-width: 540px) {
     .brand h1 { font-size: 1.5rem; }
-    .endpoint-note { display: none; }
+    .opt-grid { grid-template-columns: 1fr; }
+    .segmented { width: 100%; }
+    .segmented button { flex: 1; }
 }
