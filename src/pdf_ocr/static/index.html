@@ -37,7 +37,7 @@
             <!-- Upload View -->
             <section id="upload-view" class="reveal reveal-2">
                 <div class="drop-zone" id="drop-zone" role="button" tabindex="0"
-                     aria-label="Choose a PDF or drop it here">
+                     aria-label="Choose a PDF or image, or drop it here">
                     <span class="mark mark-tl" aria-hidden="true"></span>
                     <span class="mark mark-tr" aria-hidden="true"></span>
                     <span class="mark mark-bl" aria-hidden="true"></span>
@@ -49,32 +49,178 @@
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <p class="drop-title">Drop PDFs on the bed</p>
-                        <p class="drop-sub">or click to browse — one or many</p>
+                        <p class="drop-title">Drop files on the bed</p>
+                        <p class="drop-sub">PDFs or images — JPG · PNG · TIFF · WebP · AVIF · BMP — one or many</p>
                     </div>
-                    <input type="file" id="file-input" accept="application/pdf" multiple hidden />
-                </div>
-
-                <div class="format-row reveal reveal-3">
-                    <label class="micro-label" for="format-select">Output</label>
-                    <select id="format-select" class="format-select">
-                        <option value="pdf">Searchable PDF</option>
-                        <option value="html">HTML overlay</option>
-                        <option value="md">Markdown text</option>
-                    </select>
-                    <label class="text-only-toggle micro-label"
-                           title="Skip layout mapping — OCR each page and dump plain text. Faster.">
-                        <input type="checkbox" id="text-only-toggle" />
-                        Text only · fast
-                    </label>
-                    <span class="endpoint-note micro-label" title="Configured in .env">
-                        <span class="dot" aria-hidden="true"></span>local endpoint
-                    </span>
+                    <input type="file" id="file-input"
+                           accept=".pdf,.jpg,.jpeg,.png,.bmp,.webp,.tif,.tiff,.avif,application/pdf,image/*"
+                           multiple hidden />
                 </div>
 
                 <div id="ready-row" class="ready-row hidden reveal reveal-3">
-                    <span id="selected-file" class="micro-label"></span>
+                    <div id="file-list" class="file-list" aria-label="Selected files"></div>
                     <button id="start-btn" class="btn btn-primary">Run OCR</button>
+                </div>
+
+                <div class="config reveal reveal-3">
+                    <!-- Engine -->
+                    <div class="cfg-row">
+                        <span class="micro-label">Engine</span>
+                        <div class="segmented" role="group" aria-label="OCR engine" id="engine-group">
+                            <button type="button" data-engine="hybrid" aria-pressed="true">Hybrid</button>
+                            <button type="button" data-engine="grounded" aria-pressed="false">Grounded</button>
+                            <button type="button" data-engine="text" aria-pressed="false">Text&nbsp;only</button>
+                        </div>
+                        <p class="engine-desc" id="engine-desc"></p>
+                    </div>
+
+                    <!-- Model -->
+                    <div class="cfg-row">
+                        <span class="micro-label">Model</span>
+                        <div class="cfg-inline">
+                            <input class="grow" type="text" id="model-input" list="model-list"
+                                   placeholder="model name (from .env if blank)" autocomplete="off"
+                                   aria-label="LLM model" />
+                            <datalist id="model-list"></datalist>
+                            <button class="btn btn-secondary btn-compact" type="button" id="refresh-models"
+                                    title="Re-query loaded models from the endpoint">↻ Refresh</button>
+                        </div>
+                        <span class="micro-label status-line">
+                            <span class="dot" id="model-dot" aria-hidden="true"></span>
+                            <span id="model-status">Querying endpoint…</span>
+                        </span>
+                    </div>
+
+                    <!-- Output -->
+                    <div class="cfg-row">
+                        <span class="micro-label">Output format</span>
+                        <div class="cfg-inline">
+                            <select id="format-select" class="format-select">
+                                <option value="pdf">Searchable PDF</option>
+                                <option value="html">HTML overlay</option>
+                                <option value="md">Markdown text</option>
+                                <option value="txt">Plain text</option>
+                            </select>
+                            <span class="micro-label format-note" id="format-note"></span>
+                        </div>
+                    </div>
+
+                    <!-- Advanced -->
+                    <details class="advanced">
+                        <summary>
+                            <span>Advanced options</span>
+                            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="9 6 15 12 9 18" />
+                            </svg>
+                        </summary>
+                        <div class="advanced-body">
+                            <!-- Common -->
+                            <div class="opt-group" data-engine="all">
+                                <span class="micro-label opt-group-title">Common</span>
+                                <div class="opt-grid">
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-dpi">DPI</label>
+                                        <input type="number" id="opt-dpi" value="200" min="72" max="600" />
+                                        <span class="opt-hint">raster resolution · default 200</span>
+                                    </div>
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-pages">Pages</label>
+                                        <input type="text" id="opt-pages" value="" placeholder="all — e.g. 1-3,5" />
+                                        <span class="opt-hint">blank = every page</span>
+                                    </div>
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-concurrency">Concurrency</label>
+                                        <input type="number" id="opt-concurrency" value="2" min="1" max="16" />
+                                        <span class="opt-hint">parallel LLM calls · default 2</span>
+                                    </div>
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-max-dim">Max image dim</label>
+                                        <input type="number" id="opt-max-dim" value="1024" min="256" max="4096" />
+                                        <span class="opt-hint">longest edge px · 640 for tiny VLMs</span>
+                                    </div>
+                                </div>
+                                <div class="opt-check">
+                                    <input type="checkbox" id="opt-verify" checked />
+                                    <label for="opt-verify" title="Some servers (e.g. LM Studio) silently serve whatever model happens to be loaded instead of erroring on a mismatch — producing subtly wrong OCR. This pre-flight check catches that. Untick it for servers without a /v1/models endpoint.">Verify the model is loaded before running</label>
+                                </div>
+                            </div>
+
+                            <!-- Endpoint -->
+                            <div class="opt-group" data-engine="all">
+                                <span class="micro-label opt-group-title">LLM endpoint</span>
+                                <div class="opt opt-wide">
+                                    <label class="micro-label" for="opt-api-base">API base URL</label>
+                                    <input type="text" id="opt-api-base" value="" placeholder="http://localhost:1234/v1" />
+                                    <span class="opt-hint">OpenAI-compatible /v1 base · overrides .env · refreshes models on change</span>
+                                </div>
+                            </div>
+
+                            <!-- Hybrid tuning -->
+                            <div class="opt-group" data-engine="hybrid">
+                                <span class="micro-label opt-group-title">Hybrid tuning</span>
+                                <div class="opt-check">
+                                    <input type="checkbox" id="opt-refine" checked />
+                                    <label for="opt-refine">Crop-refine boxes the aligner left empty</label>
+                                </div>
+                                <div class="opt-grid">
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-dense-mode">Dense mode</label>
+                                        <select id="opt-dense-mode">
+                                            <option value="auto">auto</option>
+                                            <option value="always">always</option>
+                                            <option value="never">never</option>
+                                        </select>
+                                        <span class="opt-hint">per-box OCR on dense pages</span>
+                                    </div>
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-dense-threshold">Dense threshold</label>
+                                        <input type="number" id="opt-dense-threshold" value="60" min="1" />
+                                        <span class="opt-hint">boxes/page to trigger auto</span>
+                                    </div>
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-preprocess">Preprocess</label>
+                                        <select id="opt-preprocess">
+                                            <option value="auto">auto</option>
+                                            <option value="always">always</option>
+                                            <option value="never">never</option>
+                                        </select>
+                                        <span class="opt-hint">photo rectification</span>
+                                    </div>
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-min-conf">Min box confidence</label>
+                                        <input type="text" id="opt-min-conf" value="" placeholder="keep all" />
+                                        <span class="opt-hint">0–1 · drop weak boxes</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- HTML overlay -->
+                            <div class="opt-group" data-format="html">
+                                <span class="micro-label opt-group-title">HTML overlay</span>
+                                <div class="opt-grid">
+                                    <div class="opt">
+                                        <label class="micro-label" for="opt-html-mode">Sizing mode</label>
+                                        <select id="opt-html-mode">
+                                            <option value="scaled">scaled</option>
+                                            <option value="letter-spacing">letter-spacing</option>
+                                            <option value="full-height">full-height</option>
+                                        </select>
+                                        <span class="opt-hint">span fit strategy</span>
+                                    </div>
+                                </div>
+                                <div class="opt-check">
+                                    <input type="checkbox" id="opt-invert-dark" />
+                                    <label for="opt-invert-dark">Invert page images in dark mode</label>
+                                </div>
+                                <div class="opt-check">
+                                    <input type="checkbox" id="opt-hover-text" />
+                                    <label for="opt-hover-text">Reveal OCR text on hover</label>
+                                </div>
+                                <span class="opt-hint">Page images are embedded inline for web downloads (single self-contained file).</span>
+                            </div>
+                        </div>
+                    </details>
                 </div>
             </section>
 

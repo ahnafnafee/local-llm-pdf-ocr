@@ -10,7 +10,7 @@ const closePreview = document.getElementById('close-preview');
 
 const startBtn = document.getElementById('start-btn');
 const readyRow = document.getElementById('ready-row');
-const selectedFileEl = document.getElementById('selected-file');
+const fileListEl = document.getElementById('file-list');
 const elapsedTimeEl = document.getElementById('elapsed-time');
 const resultList = document.getElementById('result-list');
 const resultTitle = document.getElementById('result-title');
@@ -107,14 +107,161 @@ function stopTimer() {
     return (performance.now() - startTime) / 1000;
 }
 
-// Text-only overrides the output format, so gray out the dropdown when it's on.
-const textOnlyToggleEl = document.getElementById('text-only-toggle');
+// ============================================================================
+// Configuration surface: engine, model, output, advanced options.
+// ============================================================================
+
+const ENGINE_DESC = {
+    hybrid: 'Surya layout detection + a full-page vision LLM + DP line-to-box alignment, with per-box crop refine. Works with any OCR-capable VLM.',
+    grounded: 'A bbox-native VLM (Qwen3-VL, Qwen2.5-VL, …) returns text and coordinates in one call. Skips Surya, alignment, and refine — point Model at a grounding-capable VLM.',
+    text: 'OCR each page to plain text — no layout detection, no alignment, no refine, no detection-model load. The fastest path; raise Concurrency to read more pages at once.',
+};
+
+const engineGroup = document.getElementById('engine-group');
+const engineDesc = document.getElementById('engine-desc');
 const formatSelectEl = document.getElementById('format-select');
-if (textOnlyToggleEl && formatSelectEl) {
-    textOnlyToggleEl.addEventListener('change', () => {
-        formatSelectEl.disabled = textOnlyToggleEl.checked;
+const formatNote = document.getElementById('format-note');
+const modelInput = document.getElementById('model-input');
+const modelList = document.getElementById('model-list');
+const modelStatus = document.getElementById('model-status');
+const modelDot = document.getElementById('model-dot');
+const refreshModelsBtn = document.getElementById('refresh-models');
+const apiBaseInput = document.getElementById('opt-api-base');
+
+// Every persisted control, keyed by the localStorage field name.
+const OPT_FIELDS = {
+    engine: null, // handled specially (segmented control)
+    format: formatSelectEl,
+    model: modelInput,
+    // api_base is intentionally NOT persisted: loadModels() re-fills it from
+    // the server's resolved endpoint on every load so it can't go stale when
+    // .env changes. It's still sent from apiBaseInput directly in processOne.
+    dpi: document.getElementById('opt-dpi'),
+    pages: document.getElementById('opt-pages'),
+    concurrency: document.getElementById('opt-concurrency'),
+    max_image_dim: document.getElementById('opt-max-dim'),
+    verify_model: document.getElementById('opt-verify'),
+    refine: document.getElementById('opt-refine'),
+    dense_mode: document.getElementById('opt-dense-mode'),
+    dense_threshold: document.getElementById('opt-dense-threshold'),
+    preprocess: document.getElementById('opt-preprocess'),
+    min_box_confidence: document.getElementById('opt-min-conf'),
+    html_mode: document.getElementById('opt-html-mode'),
+    html_invert_dark: document.getElementById('opt-invert-dark'),
+    html_hover_text: document.getElementById('opt-hover-text'),
+};
+
+let engine = 'hybrid';
+
+function applyVisibility() {
+    document.querySelectorAll('.opt-group[data-engine]').forEach(el => {
+        const forEngine = el.dataset.engine;
+        el.classList.toggle('hidden', forEngine !== 'all' && forEngine !== engine);
+    });
+    document.querySelectorAll('.opt-group[data-format]').forEach(el => {
+        el.classList.toggle('hidden', formatSelectEl.value !== el.dataset.format);
     });
 }
+
+function setEngine(next) {
+    engine = next;
+    engineGroup.querySelectorAll('button').forEach(b =>
+        b.setAttribute('aria-pressed', String(b.dataset.engine === next)));
+    engineDesc.textContent = ENGINE_DESC[next];
+    if (next === 'text') {
+        formatSelectEl.dataset.prev = formatSelectEl.value === 'txt' ? 'pdf' : formatSelectEl.value;
+        formatSelectEl.value = 'txt';
+        formatSelectEl.disabled = true;
+        formatNote.textContent = 'text-only writes plain .txt';
+    } else {
+        formatSelectEl.disabled = false;
+        formatNote.textContent = '';
+        if (formatSelectEl.value === 'txt') formatSelectEl.value = formatSelectEl.dataset.prev || 'pdf';
+    }
+    applyVisibility();
+}
+
+engineGroup.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => setEngine(btn.dataset.engine));
+});
+formatSelectEl.addEventListener('change', applyVisibility);
+
+// The effective output format: text engine always dumps .txt.
+function currentFormat() {
+    return engine === 'text' ? 'txt' : formatSelectEl.value;
+}
+
+// --- model discovery --------------------------------------------------------
+
+function shortEndpoint(url) {
+    try { return new URL(url).host; } catch (e) { return url; }
+}
+
+function setModelStatus(text, ok) {
+    modelStatus.textContent = text;
+    modelDot.classList.toggle('off', !ok);
+}
+
+async function loadModels() {
+    const apiBase = apiBaseInput.value.trim();
+    const url = apiBase ? `/models?api_base=${encodeURIComponent(apiBase)}` : '/models';
+    setModelStatus('Querying endpoint…', true);
+    try {
+        const resp = await fetch(url);
+        const data = await resp.json();
+        modelList.replaceChildren();
+        for (const m of (data.models || [])) {
+            const o = document.createElement('option');
+            o.value = m;
+            modelList.appendChild(o);
+        }
+        if (!modelInput.value) modelInput.value = data.default || '';
+        // Show the actual resolved endpoint as the field's value. It isn't
+        // persisted (see OPT_FIELDS), so it always re-syncs from the server's
+        // .env on load and never goes stale; editing it overrides per session.
+        if (data.endpoint) apiBaseInput.value = data.endpoint;
+        const where = shortEndpoint(data.endpoint || apiBase || '');
+        if (data.models && data.models.length) {
+            setModelStatus(`${data.models.length} model(s) loaded · ${where}`, true);
+        } else {
+            setModelStatus(`No models listed · type a name · ${where}`, false);
+        }
+    } catch (e) {
+        setModelStatus('Endpoint unreachable · type a model name', false);
+    }
+}
+
+if (refreshModelsBtn) refreshModelsBtn.addEventListener('click', loadModels);
+if (apiBaseInput) apiBaseInput.addEventListener('change', loadModels);
+
+// --- persistence ------------------------------------------------------------
+
+const CONFIG_KEY = 'ocr-config';
+
+function saveConfig() {
+    const cfg = { engine };
+    for (const [name, el] of Object.entries(OPT_FIELDS)) {
+        if (!el) continue;
+        cfg[name] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+    try { localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); } catch (e) { /* quota */ }
+}
+
+function restoreConfig() {
+    let cfg;
+    try { cfg = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); } catch (e) { cfg = {}; }
+    for (const [name, el] of Object.entries(OPT_FIELDS)) {
+        if (!el || !(name in cfg)) continue;
+        if (el.type === 'checkbox') el.checked = !!cfg[name];
+        else el.value = cfg[name];
+    }
+    setEngine(cfg.engine || 'hybrid');
+}
+
+// Text-only overrides the output format, so gray out the dropdown when it's on.
+// (Handled inside setEngine — this just wires the initial state.)
+restoreConfig();
+loadModels();
 
 // Drag & Drop
 dropZone.addEventListener('dragover', (e) => {
@@ -152,25 +299,73 @@ fileInput.addEventListener('change', (e) => {
     }
 });
 
+// PDFs and images are both accepted. Type sniffing is unreliable for AVIF /
+// TIFF across browsers, so fall back to the extension.
+const ALLOWED_EXT = /\.(pdf|jpe?g|png|bmp|webp|tiff?|avif)$/i;
+function isAllowedFile(f) {
+    return f.type === 'application/pdf'
+        || (f.type && f.type.startsWith('image/'))
+        || ALLOWED_EXT.test(f.name);
+}
+
+// Drop-zone feedback: swap the prompt for the filename + a check glyph so a
+// dropped file is unmistakable. Default markup is captured so reset restores it.
+const dropGlyphEl = dropZone.querySelector('.drop-glyph');
+const dropTitleEl = dropZone.querySelector('.drop-title');
+const dropSubEl = dropZone.querySelector('.drop-sub');
+const DEFAULT_GLYPH = dropGlyphEl ? dropGlyphEl.innerHTML : '';
+const DEFAULT_TITLE = dropTitleEl ? dropTitleEl.textContent : '';
+const DEFAULT_SUB = dropSubEl ? dropSubEl.textContent : '';
+// Static, code-authored markup (no user content) — safe to assign.
+const CHECK_GLYPH = '<svg width="30" height="30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 13l4 4L19 7" /></svg>';
+
+function markDropLoaded(files) {
+    dropZone.classList.add('loaded');
+    if (dropGlyphEl) dropGlyphEl.innerHTML = CHECK_GLYPH;
+    if (dropTitleEl) dropTitleEl.textContent = files.length === 1 ? files[0].name : `${files.length} files ready`;
+    if (dropSubEl) dropSubEl.textContent = 'Click or drop to replace';
+}
+
+function clearDropLoaded() {
+    dropZone.classList.remove('loaded');
+    if (dropGlyphEl) dropGlyphEl.innerHTML = DEFAULT_GLYPH;
+    if (dropTitleEl) dropTitleEl.textContent = DEFAULT_TITLE;
+    if (dropSubEl) dropSubEl.textContent = DEFAULT_SUB;
+}
+
+// List each selected file by name (2+ files; a single file is already named
+// in the drop zone). textContent keeps filenames inert — never parsed as markup.
+function renderFileList(files) {
+    if (!fileListEl) return;
+    fileListEl.replaceChildren();
+    if (files.length < 2) return;
+    for (const f of files) {
+        const row = document.createElement('div');
+        row.className = 'file-row';
+        row.textContent = f.name;
+        fileListEl.appendChild(row);
+    }
+}
+
 // Selecting files no longer auto-starts — it arms the "Run OCR" button.
 function selectFiles(fileList) {
-    const pdfs = Array.from(fileList).filter(f => f.type === 'application/pdf');
-    if (pdfs.length === 0) {
-        alert('Please choose PDF file(s).');
+    const files = Array.from(fileList).filter(isAllowedFile);
+    if (files.length === 0) {
+        alert('Please choose PDF or image file(s).');
         return;
     }
-    selectedFiles = pdfs;
-    if (selectedFileEl) {
-        selectedFileEl.innerText = pdfs.length === 1
-            ? pdfs[0].name
-            : `${pdfs.length} PDFs selected`;
-    }
+    selectedFiles = files;
+    markDropLoaded(files);
+    renderFileList(files);
     if (readyRow) readyRow.classList.remove('hidden');
 }
 
 if (startBtn) {
     startBtn.addEventListener('click', () => {
-        if (selectedFiles.length) processFiles(selectedFiles);
+        if (selectedFiles.length) {
+            saveConfig();
+            processFiles(selectedFiles);
+        }
     });
 }
 
@@ -198,21 +393,36 @@ async function processFiles(files) {
     resultView.classList.remove('hidden');
 }
 
+const FORMAT_SUFFIX = { pdf: '.pdf', html: '.html', md: '.md', txt: '.txt' };
+
 // Process a single file via /process and return its result descriptor.
 async function processOne(file) {
     updateProgress(`${currentFileLabel}Uploading…`, 0);
     startTimer();
 
-    const textOnly = textOnlyToggleEl ? textOnlyToggleEl.checked : false;
-    // Text-only always produces a plain-text dump regardless of the dropdown.
-    const format = textOnly ? 'txt' : (formatSelectEl ? formatSelectEl.value : 'pdf');
-    const formatSuffix = { pdf: '.pdf', html: '.html', md: '.md', txt: '.txt' }[format] || '.pdf';
+    const format = currentFormat();
+    const formatSuffix = FORMAT_SUFFIX[format] || '.pdf';
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('client_id', clientId);
+    formData.append('engine', engine);
     formData.append('format', format);
-    formData.append('text_only', textOnly ? 'true' : 'false');
+    formData.append('model', modelInput.value.trim());
+    formData.append('api_base', apiBaseInput.value.trim());
+    formData.append('dpi', OPT_FIELDS.dpi.value || '200');
+    formData.append('pages', OPT_FIELDS.pages.value.trim());
+    formData.append('concurrency', OPT_FIELDS.concurrency.value || '0');
+    formData.append('max_image_dim', OPT_FIELDS.max_image_dim.value || '1024');
+    formData.append('refine', OPT_FIELDS.refine.checked ? 'true' : 'false');
+    formData.append('dense_mode', OPT_FIELDS.dense_mode.value);
+    formData.append('dense_threshold', OPT_FIELDS.dense_threshold.value || '60');
+    formData.append('preprocess', OPT_FIELDS.preprocess.value);
+    formData.append('min_box_confidence', OPT_FIELDS.min_box_confidence.value.trim());
+    formData.append('html_mode', OPT_FIELDS.html_mode.value);
+    formData.append('html_invert_dark', OPT_FIELDS.html_invert_dark.checked ? 'true' : 'false');
+    formData.append('html_hover_text', OPT_FIELDS.html_hover_text.checked ? 'true' : 'false');
+    formData.append('verify_model', OPT_FIELDS.verify_model.checked ? 'true' : 'false');
 
     const response = await fetch('/process', { method: 'POST', body: formData });
     if (!response.ok) {
@@ -238,6 +448,32 @@ async function processOne(file) {
     return { name: file.name, outName, url, secs, textMap };
 }
 
+// Combine every successful file's recognized text into one Markdown doc —
+// format-agnostic (uses the text layer we already fetch), so it works whatever
+// output format was chosen.
+function buildMergedMarkdown(results) {
+    const parts = [];
+    for (const r of results) {
+        parts.push(`# ${r.name}\n`);
+        for (const [page, lines] of Object.entries(r.textMap || {})) {
+            parts.push(`## Page ${parseInt(page) + 1}\n`);
+            parts.push((lines || []).join('\n') + '\n');
+        }
+    }
+    return parts.join('\n');
+}
+
+function downloadBlob(blob, name) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+}
+
 function renderResults(results, total) {
     const ok = results.filter(r => !r.error).length;
     if (resultTitle) resultTitle.innerText = total > 1 ? `Done — ${ok}/${total} files` : 'Done';
@@ -248,6 +484,23 @@ function renderResults(results, total) {
     if (!resultList) return;
     resultList.replaceChildren();
     for (const r of results) resultList.appendChild(buildResultRow(r));
+
+    // Offer a single merged download when more than one file has text.
+    const actions = document.querySelector('.result-actions');
+    const existing = document.getElementById('merged-btn');
+    if (existing) existing.remove();
+    const withText = results.filter(r => !r.error && r.textMap && Object.keys(r.textMap).length);
+    if (actions && withText.length >= 2) {
+        const btn = document.createElement('button');
+        btn.id = 'merged-btn';
+        btn.className = 'btn btn-secondary';
+        btn.innerText = `Download all merged (.md)`;
+        btn.onclick = () => downloadBlob(
+            new Blob([buildMergedMarkdown(withText)], { type: 'text/markdown' }),
+            'OCR_merged.md',
+        );
+        actions.insertBefore(btn, actions.firstChild);
+    }
 }
 
 function buildResultRow(r) {
@@ -332,8 +585,9 @@ function resetUI() {
     currentFileLabel = '';
     selectedFiles = [];
     fileInput.value = '';
+    clearDropLoaded();
     if (readyRow) readyRow.classList.add('hidden');
-    if (selectedFileEl) selectedFileEl.innerText = '';
+    if (fileListEl) fileListEl.replaceChildren();
     if (resultList) resultList.replaceChildren();
     if (elapsedTimeEl) elapsedTimeEl.innerText = '0.0s';
     resultView.classList.add('hidden');

@@ -162,3 +162,156 @@ class TestUnchangedRoutes:
     def test_text_endpoint_returns_404_for_unknown_job(self, client):
         resp = client.get("/text/no-such-job")
         assert resp.status_code == 404
+
+
+def _post(client, *, filename: str = "scan.pdf", content_type: str = "application/pdf", body: bytes = b"%PDF-1.4\ntest\n%%EOF\n", **fields):
+    """POST /process with arbitrary option fields (all stringified)."""
+    files = {"file": (filename, io.BytesIO(body), content_type)}
+    data = {"client_id": "test-client"}
+    data.update({k: str(v) for k, v in fields.items()})
+    return client.post("/process", files=files, data=data)
+
+
+class TestModelsEndpoint:
+    def test_lists_loaded_models(self, client, monkeypatch):
+        import pdf_ocr.core.ocr as ocr_mod
+
+        async def fake_list(_client, _base):
+            return ["allenai/olmocr-2-7b", "qwen/qwen3-vl-8b"]
+
+        monkeypatch.setattr(ocr_mod, "_list_loaded_model_ids", fake_list)
+        resp = client.get("/models")
+        assert resp.status_code == 200, resp.text
+        body = resp.json()
+        assert body["models"] == ["allenai/olmocr-2-7b", "qwen/qwen3-vl-8b"]
+        assert "endpoint" in body
+
+    def test_fails_soft_when_endpoint_unreachable(self, client, monkeypatch):
+        import pdf_ocr.core.ocr as ocr_mod
+
+        async def boom(_client, _base):
+            raise RuntimeError("connection refused")
+
+        monkeypatch.setattr(ocr_mod, "_list_loaded_model_ids", boom)
+        resp = client.get("/models?api_base=http://localhost:9/v1")
+        # Fails soft: 200 with empty list + error so the UI degrades to
+        # manual model entry instead of breaking.
+        assert resp.status_code == 200, resp.text
+        body = resp.json()
+        assert body["models"] == []
+        assert "error" in body
+        assert body["endpoint"] == "http://localhost:9/v1"
+
+
+class TestProcessOptions:
+    def test_engine_text_dumps_txt(self, client):
+        resp = _post(client, engine="text")
+        assert resp.status_code == 200, resp.text
+        assert resp.headers["content-type"].startswith("text/plain")
+        assert ".txt" in resp.headers.get("content-disposition", "")
+
+    def test_engine_grounded_returns_pdf(self, client):
+        resp = _post(client, engine="grounded", format="pdf")
+        assert resp.status_code == 200, resp.text
+        assert resp.headers["content-type"].startswith("application/pdf")
+
+    def test_invalid_engine_400(self, client):
+        resp = _post(client, engine="magic")
+        assert resp.status_code == 400
+        assert "engine" in resp.json().get("error", "")
+
+    def test_invalid_dense_mode_400(self, client):
+        resp = _post(client, dense_mode="sometimes")
+        assert resp.status_code == 400
+        assert "dense_mode" in resp.json().get("error", "")
+
+    def test_invalid_html_mode_400(self, client):
+        resp = _post(client, format="html", html_mode="bogus")
+        assert resp.status_code == 400
+        assert "html_mode" in resp.json().get("error", "")
+
+    def test_bad_min_confidence_400(self, client):
+        resp = _post(client, min_box_confidence="high")
+        assert resp.status_code == 400
+        assert "min_box_confidence" in resp.json().get("error", "")
+
+    def test_image_input_accepted(self, client):
+        # A .png upload must not 400 on an unexpected suffix, and the
+        # temp file keeps its extension so PDFHandler routes it as an image.
+        resp = _post(
+            client, engine="text", filename="scan.png",
+            content_type="image/png", body=b"\x89PNG\r\n\x1a\n stub",
+        )
+        assert resp.status_code == 200, resp.text
+        assert ".txt" in resp.headers.get("content-disposition", "")
+
+
+@pytest.fixture
+def recorder(monkeypatch):
+    """A client whose pipeline records the kwargs `/process` forwards."""
+    from fastapi.testclient import TestClient
+
+    calls: dict = {}
+
+    class _Rec:
+        def __init__(self, *_, **kwargs):
+            self.ocr_processor = self  # verify uses this (no grounded_backend attr)
+            calls["init"] = kwargs
+
+        async def ensure_model_loaded(self):
+            return None
+
+        async def run(self, input_path, output_path, **kw):
+            calls["run"] = kw
+            p = Path(output_path)
+            if p.suffix.lower() == ".txt":
+                p.write_text("t", encoding="utf-8")
+            else:
+                p.write_bytes(b"%PDF-1.4\n%%EOF\n")
+            return {0: ["x"]}
+
+    import pdf_ocr.server as server_mod
+
+    monkeypatch.setattr(server_mod, "OCRPipeline", _Rec)
+
+    async def _fake_aligner():
+        return object()
+
+    # Keep the hybrid path from loading Surya in this unit test.
+    monkeypatch.setattr(server_mod, "_get_aligner", _fake_aligner)
+    return TestClient(server_mod.app), calls
+
+
+class TestOptionForwarding:
+    def test_hybrid_forwards_tuning_knobs(self, recorder):
+        client, calls = recorder
+        resp = _post(
+            client, engine="hybrid", model="my-model", dpi=300,
+            refine="false", min_box_confidence="0.3", dense_mode="always",
+            concurrency=5, preprocess="never",
+        )
+        assert resp.status_code == 200, resp.text
+        run = calls["run"]
+        assert run["dpi"] == 300
+        assert run["refine"] is False
+        assert run["min_box_confidence"] == 0.3
+        assert run["dense_mode"] == "always"
+        assert run["preprocess"] == "never"
+        assert run["concurrency"] == 5
+        assert run["text_only"] is False
+        # per-request model override reached the OCRProcessor
+        assert calls["init"]["ocr_processor"].model == "my-model"
+
+    def test_text_engine_sets_text_only(self, recorder):
+        client, calls = recorder
+        resp = _post(client, engine="text", model="foo")
+        assert resp.status_code == 200, resp.text
+        assert calls["run"]["text_only"] is True
+        assert calls["init"]["ocr_processor"].model == "foo"
+
+    def test_dpi_clamped_server_side(self, recorder):
+        client, calls = recorder
+        # 99999 DPI is nonsense; the server clamps to the 600 ceiling.
+        resp = _post(client, engine="hybrid", dpi=99999)
+        assert resp.status_code == 200, resp.text
+        assert calls["run"]["dpi"] == 600

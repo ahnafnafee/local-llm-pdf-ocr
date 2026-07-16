@@ -1,0 +1,22 @@
+{
+  "name": "local-llm-pdf-ocr-promo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remotion promo video for local-llm-pdf-ocr (print-bench aesthetic).",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render Promo out/promo.mp4 --image-format=jpeg",
+    "still": "remotion still Promo out/poster.png --frame=90"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "^5.5.0"
+  }
+}
