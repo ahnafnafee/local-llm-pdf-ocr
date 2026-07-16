@@ -10,7 +10,7 @@ const closePreview = document.getElementById('close-preview');
 
 const startBtn = document.getElementById('start-btn');
 const readyRow = document.getElementById('ready-row');
-const selectedFileEl = document.getElementById('selected-file');
+const fileListEl = document.getElementById('file-list');
 const elapsedTimeEl = document.getElementById('elapsed-time');
 const resultList = document.getElementById('result-list');
 const resultTitle = document.getElementById('result-title');
@@ -133,7 +133,9 @@ const OPT_FIELDS = {
     engine: null, // handled specially (segmented control)
     format: formatSelectEl,
     model: modelInput,
-    api_base: apiBaseInput,
+    // api_base is intentionally NOT persisted: loadModels() re-fills it from
+    // the server's resolved endpoint on every load so it can't go stale when
+    // .env changes. It's still sent from apiBaseInput directly in processOne.
     dpi: document.getElementById('opt-dpi'),
     pages: document.getElementById('opt-pages'),
     concurrency: document.getElementById('opt-concurrency'),
@@ -214,6 +216,10 @@ async function loadModels() {
             modelList.appendChild(o);
         }
         if (!modelInput.value) modelInput.value = data.default || '';
+        // Show the actual resolved endpoint as the field's value. It isn't
+        // persisted (see OPT_FIELDS), so it always re-syncs from the server's
+        // .env on load and never goes stale; editing it overrides per session.
+        if (data.endpoint) apiBaseInput.value = data.endpoint;
         const where = shortEndpoint(data.endpoint || apiBase || '');
         if (data.models && data.models.length) {
             setModelStatus(`${data.models.length} model(s) loaded · ${where}`, true);
@@ -302,6 +308,45 @@ function isAllowedFile(f) {
         || ALLOWED_EXT.test(f.name);
 }
 
+// Drop-zone feedback: swap the prompt for the filename + a check glyph so a
+// dropped file is unmistakable. Default markup is captured so reset restores it.
+const dropGlyphEl = dropZone.querySelector('.drop-glyph');
+const dropTitleEl = dropZone.querySelector('.drop-title');
+const dropSubEl = dropZone.querySelector('.drop-sub');
+const DEFAULT_GLYPH = dropGlyphEl ? dropGlyphEl.innerHTML : '';
+const DEFAULT_TITLE = dropTitleEl ? dropTitleEl.textContent : '';
+const DEFAULT_SUB = dropSubEl ? dropSubEl.textContent : '';
+// Static, code-authored markup (no user content) — safe to assign.
+const CHECK_GLYPH = '<svg width="30" height="30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 13l4 4L19 7" /></svg>';
+
+function markDropLoaded(files) {
+    dropZone.classList.add('loaded');
+    if (dropGlyphEl) dropGlyphEl.innerHTML = CHECK_GLYPH;
+    if (dropTitleEl) dropTitleEl.textContent = files.length === 1 ? files[0].name : `${files.length} files ready`;
+    if (dropSubEl) dropSubEl.textContent = 'Click or drop to replace';
+}
+
+function clearDropLoaded() {
+    dropZone.classList.remove('loaded');
+    if (dropGlyphEl) dropGlyphEl.innerHTML = DEFAULT_GLYPH;
+    if (dropTitleEl) dropTitleEl.textContent = DEFAULT_TITLE;
+    if (dropSubEl) dropSubEl.textContent = DEFAULT_SUB;
+}
+
+// List each selected file by name (2+ files; a single file is already named
+// in the drop zone). textContent keeps filenames inert — never parsed as markup.
+function renderFileList(files) {
+    if (!fileListEl) return;
+    fileListEl.replaceChildren();
+    if (files.length < 2) return;
+    for (const f of files) {
+        const row = document.createElement('div');
+        row.className = 'file-row';
+        row.textContent = f.name;
+        fileListEl.appendChild(row);
+    }
+}
+
 // Selecting files no longer auto-starts — it arms the "Run OCR" button.
 function selectFiles(fileList) {
     const files = Array.from(fileList).filter(isAllowedFile);
@@ -310,11 +355,8 @@ function selectFiles(fileList) {
         return;
     }
     selectedFiles = files;
-    if (selectedFileEl) {
-        selectedFileEl.innerText = files.length === 1
-            ? files[0].name
-            : `${files.length} files selected`;
-    }
+    markDropLoaded(files);
+    renderFileList(files);
     if (readyRow) readyRow.classList.remove('hidden');
 }
 
@@ -406,6 +448,32 @@ async function processOne(file) {
     return { name: file.name, outName, url, secs, textMap };
 }
 
+// Combine every successful file's recognized text into one Markdown doc —
+// format-agnostic (uses the text layer we already fetch), so it works whatever
+// output format was chosen.
+function buildMergedMarkdown(results) {
+    const parts = [];
+    for (const r of results) {
+        parts.push(`# ${r.name}\n`);
+        for (const [page, lines] of Object.entries(r.textMap || {})) {
+            parts.push(`## Page ${parseInt(page) + 1}\n`);
+            parts.push((lines || []).join('\n') + '\n');
+        }
+    }
+    return parts.join('\n');
+}
+
+function downloadBlob(blob, name) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+}
+
 function renderResults(results, total) {
     const ok = results.filter(r => !r.error).length;
     if (resultTitle) resultTitle.innerText = total > 1 ? `Done — ${ok}/${total} files` : 'Done';
@@ -416,6 +484,23 @@ function renderResults(results, total) {
     if (!resultList) return;
     resultList.replaceChildren();
     for (const r of results) resultList.appendChild(buildResultRow(r));
+
+    // Offer a single merged download when more than one file has text.
+    const actions = document.querySelector('.result-actions');
+    const existing = document.getElementById('merged-btn');
+    if (existing) existing.remove();
+    const withText = results.filter(r => !r.error && r.textMap && Object.keys(r.textMap).length);
+    if (actions && withText.length >= 2) {
+        const btn = document.createElement('button');
+        btn.id = 'merged-btn';
+        btn.className = 'btn btn-secondary';
+        btn.innerText = `Download all merged (.md)`;
+        btn.onclick = () => downloadBlob(
+            new Blob([buildMergedMarkdown(withText)], { type: 'text/markdown' }),
+            'OCR_merged.md',
+        );
+        actions.insertBefore(btn, actions.firstChild);
+    }
 }
 
 function buildResultRow(r) {
@@ -500,8 +585,9 @@ function resetUI() {
     currentFileLabel = '';
     selectedFiles = [];
     fileInput.value = '';
+    clearDropLoaded();
     if (readyRow) readyRow.classList.add('hidden');
-    if (selectedFileEl) selectedFileEl.innerText = '';
+    if (fileListEl) fileListEl.replaceChildren();
     if (resultList) resultList.replaceChildren();
     if (elapsedTimeEl) elapsedTimeEl.innerText = '0.0s';
     resultView.classList.add('hidden');

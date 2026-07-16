@@ -57,6 +57,11 @@
                            multiple hidden />
                 </div>
 
+                <div id="ready-row" class="ready-row hidden reveal reveal-3">
+                    <div id="file-list" class="file-list" aria-label="Selected files"></div>
+                    <button id="start-btn" class="btn btn-primary">Run OCR</button>
+                </div>
+
                 <div class="config reveal reveal-3">
                     <!-- Engine -->
                     <div class="cfg-row">
@@ -137,7 +142,7 @@
                                 </div>
                                 <div class="opt-check">
                                     <input type="checkbox" id="opt-verify" checked />
-                                    <label for="opt-verify">Verify model is loaded before running (issue&nbsp;#7)</label>
+                                    <label for="opt-verify" title="Some servers (e.g. LM Studio) silently serve whatever model happens to be loaded instead of erroring on a mismatch — producing subtly wrong OCR. This pre-flight check catches that. Untick it for servers without a /v1/models endpoint.">Verify the model is loaded before running</label>
                                 </div>
                             </div>
 
@@ -216,11 +221,6 @@
                             </div>
                         </div>
                     </details>
-                </div>
-
-                <div id="ready-row" class="ready-row hidden reveal reveal-3">
-                    <span id="selected-file" class="micro-label"></span>
-                    <button id="start-btn" class="btn btn-primary">Run OCR</button>
                 </div>
             </section>
 
