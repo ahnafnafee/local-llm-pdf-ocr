@@ -463,14 +463,38 @@ class OCRPipeline:
         responsible for per-page tick emission; we forward the callback
         directly so the user sees granular progress instead of a 0 → 100
         jump during multi-page grounded runs.
+
+        Reject empty pages before calling any output writer: otherwise a
+        non-grounding model can produce an image-only PDF that looks successful.
         """
         response = await self.grounded_backend.ocr_document(input_path, progress=progress)
 
         pages_data: dict[int, list] = defaultdict(list)
         pages_text: dict[int, list[str]] = defaultdict(list)
         for block in response.blocks:
+            if not block.text.strip():
+                continue
             pages_data[block.page_index].append((block.bbox, block.text))
             pages_text[block.page_index].append(block.text)
+
+        # Check every reported page, including trailing pages absent from
+        # response.blocks. Custom backends may omit page_sizes; an entirely
+        # empty response must still fail in that case.
+        empty_pages = [
+            str(p + 1) for p in range(len(response.page_sizes))
+            if not pages_data.get(p)
+        ]
+        if not pages_data or empty_pages:
+            location = f"page(s) {', '.join(empty_pages)}" if empty_pages else "the document"
+            raise RuntimeError(
+                f"Grounded OCR returned no text blocks for {location}. "
+                "No output was written. Grounded mode requires a model that "
+                "returns text with bounding boxes as JSON; the model may not "
+                "support grounding, or the page may be blank. Use a "
+                "grounding-capable model or switch to hybrid mode "
+                "(omit --grounded in the CLI, select Hybrid in the web UI, "
+                "or set engine=hybrid in /process)."
+            )
 
         await _notify(progress, "embed", 0, 1, "Writing output...")
         await asyncio.to_thread(

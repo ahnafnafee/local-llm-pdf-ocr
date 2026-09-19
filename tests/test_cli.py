@@ -15,6 +15,34 @@ import pytest
 from pdf_ocr.cli import build_parser, format_duration, resolve_output_path
 
 
+def test_grounded_empty_output_exits_with_actionable_error(monkeypatch, capsys, tmp_path):
+    from unittest.mock import AsyncMock
+
+    from pdf_ocr.cli import main
+    from pdf_ocr.core.grounded import GroundedResponse, PromptedGroundedOCR
+
+    monkeypatch.setattr(
+        PromptedGroundedOCR, "ocr_document",
+        AsyncMock(return_value=GroundedResponse(blocks=[], page_sizes=[(100, 100)])),
+    )
+    output = tmp_path / "out.pdf"
+    monkeypatch.setattr(sys, "argv", [
+        "local-llm-pdf-ocr", "in.pdf", str(output),
+        "--grounded", "--no-verify-model",
+    ])
+
+    with pytest.raises(SystemExit) as exc:
+        main()
+
+    assert exc.value.code == 1
+    printed = capsys.readouterr().out
+    assert "Grounded OCR" in printed
+    assert "page(s) 1" in printed
+    assert "hybrid" in printed
+    assert "Done!" not in printed
+    assert not output.exists()
+
+
 class TestFormatDuration:
     def test_sub_minute_shows_seconds(self):
         assert format_duration(0.0) == "0.0s"

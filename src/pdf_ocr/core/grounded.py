@@ -430,8 +430,8 @@ class PromptedGroundedOCR:
             finally:
                 doc.close()
 
-        # 2. Call the VLM per page, streaming progress and isolating failures
-        # so one bad page doesn't tank a multi-page document.
+        # 2. Call the VLM per page, streaming progress and collecting failures
+        # as empty pages. The pipeline validates all pages before writing output.
         client = AsyncOpenAI(base_url=self.api_base, api_key=self.api_key, timeout=self.timeout_s)
         sem = asyncio.Semaphore(max(1, self.concurrency))
         total_pages = len(page_imgs)
@@ -455,8 +455,8 @@ class PromptedGroundedOCR:
                     text = (resp.choices[0].message.content or "").strip()
                     return page_idx, _parse_grounded_json(text, page_idx, w, h)
                 except Exception as e:
-                    # Per-page isolation: log the failure and return zero blocks
-                    # for this page so surviving pages still land in the output.
+                    # Retain successful pages in the response for callers that
+                    # inspect partial results; the pipeline rejects empty pages.
                     logging.warning(
                         f"grounded OCR failed for page {page_idx}: "
                         f"{type(e).__name__}: {e}"
