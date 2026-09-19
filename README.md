@@ -281,6 +281,8 @@ uv run local-llm-pdf-ocr scan.pdf --text-only --concurrency 8
 
 The hybrid path is the safe default: it works with *any* OCR-capable VLM, including models that can only return plain text. The grounded path is faster and eliminates the DP-alignment class of bugs entirely, but requires a VLM that emits `{"bbox_2d": [...], "content": "..."}` JSON when asked (Qwen2.5-VL / Qwen3-VL confirmed working).
 
+If any page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the affected page numbers. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
+
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
 ---

@@ -14,6 +14,7 @@ from __future__ import annotations
 import asyncio
 import json
 from pathlib import Path
+from unittest.mock import AsyncMock, Mock
 
 import fitz
 import pytest
@@ -153,8 +154,9 @@ class _StubGroundedBackend:
         return self.response
 
 
+@pytest.mark.parametrize("page_sizes", [[], [(1000, 1300)]])
 def test_pipeline_routes_to_grounded_when_backend_provided(
-    example_pdfs: dict[str, Path], tmp_path: Path
+    example_pdfs: dict[str, Path], tmp_path: Path, page_sizes,
 ):
     """Grounded path skips Surya entirely — no aligner or ocr_processor needed."""
     marker_blocks = [
@@ -162,7 +164,7 @@ def test_pipeline_routes_to_grounded_when_backend_provided(
         GroundedBlock(bbox=[0.10, 0.30, 0.60, 0.34], text="GROUNDED_BETA",   page_index=0),
         GroundedBlock(bbox=[0.10, 0.60, 0.60, 0.64], text="GROUNDED_GAMMA",  page_index=0),
     ]
-    backend = _StubGroundedBackend(marker_blocks, page_sizes=[(1000, 1300)])
+    backend = _StubGroundedBackend(marker_blocks, page_sizes=page_sizes)
 
     input_pdf = str(example_pdfs["digital.pdf"])
     output_pdf = str(tmp_path / "grounded_out.pdf")
@@ -254,6 +256,90 @@ def test_grounded_path_forwards_progress_callback(
     # and the pipeline should still emit "embed" for the output-writing phase.
     assert "ocr" in stages
     assert "embed" in stages
+
+
+@pytest.mark.parametrize(
+    ("page_sizes", "populated_pages", "empty_pages"),
+    [
+        ([], [], "the document"),
+        ([(100, 100)], [], "page(s) 1"),
+        ([(100, 100)] * 3, [], "page(s) 1, 2, 3"),
+        ([(100, 100)] * 3, [1, 2], "page(s) 1"),
+        ([(100, 100)] * 3, [0, 2], "page(s) 2"),
+        ([(100, 100)] * 3, [0, 1], "page(s) 3"),
+    ],
+)
+async def test_grounded_rejects_empty_pages_before_writing(
+    tmp_path, page_sizes, populated_pages, empty_pages,
+):
+    blocks = [
+        GroundedBlock([0.1, 0.1, 0.5, 0.2], "recognized text", p)
+        for p in populated_pages
+    ]
+    writer = Mock()
+    progress = AsyncMock()
+    pipe = OCRPipeline(
+        pdf_handler=PDFHandler(),
+        grounded_backend=_StubGroundedBackend(blocks, page_sizes),
+        output_writer=writer,
+    )
+    output = tmp_path / "existing.pdf"
+    output.write_bytes(b"existing output")
+
+    with pytest.raises(RuntimeError, match="Grounded OCR") as exc:
+        await pipe.run("in.pdf", str(output), progress=progress)
+
+    message = str(exc.value)
+    assert empty_pages in message
+    assert "hybrid" in message
+    assert "--grounded" in message
+    assert "engine=hybrid" in message
+    writer.assert_not_called()
+    assert output.read_bytes() == b"existing output"
+    assert all(call.args[0] != "embed" for call in progress.await_args_list)
+
+
+async def test_grounded_rejects_whitespace_only_blocks(tmp_path):
+    backend = _StubGroundedBackend(
+        [GroundedBlock([0.1, 0.1, 0.5, 0.2], " \n\t", 0)], [(100, 100)],
+    )
+    writer = Mock()
+    pipe = OCRPipeline(
+        pdf_handler=PDFHandler(), grounded_backend=backend, output_writer=writer,
+    )
+    with pytest.raises(RuntimeError, match="no text blocks"):
+        await pipe.run("in.pdf", str(tmp_path / "out.pdf"))
+    writer.assert_not_called()
+
+
+@pytest.mark.parametrize("raw", [
+    "# A page transcribed as Markdown\n\nReadable text without bounding boxes.",
+    "",
+    "[]",
+    '[{"bbox_2d": [0, 0, 100, 50], "content": "truncated"',
+    '[{"content": "missing bounding box"}]',
+    '[{"bbox_2d": [0, 0, 100, 50], "content": "   "}]',
+])
+async def test_prompted_grounded_rejects_unusable_model_output(
+    monkeypatch, example_pdfs, tmp_path, raw,
+):
+    completion = SimpleNamespace(choices=[SimpleNamespace(
+        message=SimpleNamespace(content=raw),
+    )])
+    create = AsyncMock(return_value=completion)
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+    monkeypatch.setattr("openai.AsyncOpenAI", lambda **kwargs: client)
+    pipe = OCRPipeline(
+        pdf_handler=PDFHandler(),
+        grounded_backend=PromptedGroundedOCR(model="ovisocr2"),
+    )
+    output = tmp_path / "out.pdf"
+
+    with pytest.raises(RuntimeError, match="no text blocks"):
+        await pipe.run(str(example_pdfs["digital.pdf"]), str(output))
+
+    create.assert_awaited_once()
+    assert not output.exists()
 
 
 class TestPromptedGroundedResilience:

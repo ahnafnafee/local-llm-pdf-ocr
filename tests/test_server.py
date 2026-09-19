@@ -246,6 +246,40 @@ class TestProcessOptions:
         assert ".txt" in resp.headers.get("content-disposition", "")
 
 
+def test_grounded_empty_output_returns_error_to_api_and_web(monkeypatch, tmp_path):
+    from unittest.mock import AsyncMock, Mock
+
+    from fastapi.testclient import TestClient
+
+    import pdf_ocr.server as server_mod
+    from pdf_ocr.core.grounded import GroundedResponse
+
+    monkeypatch.setattr(
+        server_mod.PromptedGroundedOCR, "ocr_document",
+        AsyncMock(return_value=GroundedResponse(blocks=[], page_sizes=[(100, 100)])),
+    )
+    writer = Mock()
+    monkeypatch.setattr(server_mod, "resolve_output_writer", lambda *a, **kw: writer)
+    monkeypatch.setattr(server_mod.tempfile, "gettempdir", lambda: str(tmp_path))
+    progress = AsyncMock()
+    monkeypatch.setattr(server_mod.manager, "send_progress", progress)
+
+    with TestClient(server_mod.app) as client:
+        response = _post(client, engine="grounded", verify_model="false")
+
+    assert response.status_code == 500
+    assert response.headers["content-type"].startswith("application/json")
+    assert "content-disposition" not in response.headers
+    error = response.json()["error"]
+    assert "Grounded OCR" in error
+    assert "page(s) 1" in error
+    assert "engine=hybrid" in error
+    assert progress.await_args.args[1:] == (f"Error: {error}", 0)
+    assert all(call.args[2] < 100 for call in progress.await_args_list)
+    writer.assert_not_called()
+    assert not list(tmp_path.iterdir())
+
+
 @pytest.fixture
 def recorder(monkeypatch):
     """A client whose pipeline records the kwargs `/process` forwards."""
