@@ -5,7 +5,7 @@ Shared fixtures.
 - `surya_aligner` — a real HybridAligner instance shared across the session
   (Surya model load is ~5s, so we only want to pay it once).
 - `stub_ocr` — an OCRProcessor replacement that returns canned text without
-  hitting LM Studio, so tests can run offline.
+  hitting an inference server, so tests can run offline.
 """
 
 from __future__ import annotations
@@ -21,6 +21,14 @@ os.environ.setdefault("TQDM_DISABLE", "1")
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+
+
+@pytest.fixture(autouse=True)
+def inference_environment(monkeypatch):
+    """Unit tests must not inherit a developer's live endpoint or credentials."""
+    monkeypatch.setenv("LLM_API_BASE", "http://inference.test/v1")
+    monkeypatch.setenv("LLM_MODEL", "test-vision")
+    monkeypatch.delenv("LLM_API_KEY", raising=False)
 
 
 @pytest.fixture(scope="session")

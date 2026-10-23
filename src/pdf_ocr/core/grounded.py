@@ -29,14 +29,14 @@ import base64
 import io
 import json
 import logging
-import os
 import re
 from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Optional, Protocol
 
-from dotenv import load_dotenv
-
-load_dotenv()
+from pdf_ocr.inference import (
+    LLMConfig, OpenAICompatibleClient, VisionClient, ensure_model_available,
+)
+from pdf_ocr.utils.pages import select_pages
 
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
@@ -54,6 +54,9 @@ class GroundedBlock:
 class GroundedResponse:
     blocks: list[GroundedBlock]
     page_sizes: list[tuple[int, int]] = field(default_factory=list)  # (w, h) per page
+    # Source indices corresponding to page_sizes, including pages with no
+    # recognized blocks. None preserves the legacy contiguous-page contract.
+    page_indices: list[int] | None = None
 
 
 class GroundedOCRBackend(Protocol):
@@ -63,12 +66,16 @@ class GroundedOCRBackend(Protocol):
     can omit it. Backends SHOULD emit the `"ocr"` stage with (current,
     total) set to pages-completed / total-pages so the pipeline's progress
     adapter stays aligned with the documented stage set.
+    `pages` is an optional 1-indexed range; select before rendering/inference
+    and return original source indices in blocks and response.page_indices.
     """
 
     async def ocr_document(
         self,
         pdf_path: str,
         progress: Optional[ProgressCallback] = None,
+        *,
+        pages: str | None = None,
     ) -> GroundedResponse: ...
 
 
@@ -247,9 +254,14 @@ class ZAIHostedOCR:
         self,
         pdf_path: str,
         progress: Optional[ProgressCallback] = None,
+        *,
+        pages: str | None = None,
     ) -> GroundedResponse:
         import asyncio
         import httpx
+
+        if pages:
+            raise NotImplementedError("ZAIHostedOCR does not support page selection.")
 
         headers = {"Authorization": f"Bearer {self.api_key}"}
 
@@ -335,8 +347,8 @@ class PromptedGroundedOCR:
 
     Usage:
         backend = PromptedGroundedOCR(
-            api_base="http://localhost:1234/v1",
-            model="qwen/qwen3-vl-8b",
+            api_base="http://localhost:8000/v1",
+            model="your-vision-model",
         )
         pipe = OCRPipeline(pdf_handler=PDFHandler(), grounded_backend=backend)
         await pipe.run("in.pdf", "out.pdf")
@@ -346,20 +358,26 @@ class PromptedGroundedOCR:
         self,
         api_base: str | None = None,
         model: str | None = None,
-        api_key: str = "lm-studio",
+        api_key: str | None = None,
         max_image_dim: int = 1024,
         dpi: int = 150,
         prompt: str | None = None,
         timeout_s: float = 240.0,
         max_tokens: int = 8192,
         concurrency: int = 1,
+        *,
+        client: VisionClient | None = None,
     ):
-        # Honor .env / environment overrides the same way OCRProcessor does,
-        # so a user with `LLM_API_BASE` set in .env doesn't have to also pass
-        # `--api-base` when switching to --grounded.
-        self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
-        self.model = model or os.getenv("LLM_MODEL", "qwen/qwen3-vl-8b")
-        self.api_key = api_key
+        config = LLMConfig.from_env(
+            api_base=api_base, model=model, api_key=api_key,
+            require_endpoint=client is None,
+        )
+        self.api_base = config.api_base
+        self.model = config.model
+        self._owned_client: OpenAICompatibleClient | None = None
+        if client is None:
+            client = self._owned_client = OpenAICompatibleClient(config)
+        self.client = client
         self.max_image_dim = max_image_dim
         self.dpi = dpi
         self.prompt = prompt or DEFAULT_GROUNDING_PROMPT
@@ -367,72 +385,62 @@ class PromptedGroundedOCR:
         self.max_tokens = max_tokens
         self.concurrency = concurrency
 
+    async def ensure_model_available(self) -> None:
+        """Verify the server advertises the configured model ID."""
+        await ensure_model_available(self.client, self.model)
+
     async def ensure_model_loaded(self) -> None:
-        """Pre-flight check that ``self.model`` is loaded on the server.
+        """Compatibility alias; availability does not imply memory residency."""
+        await self.ensure_model_available()
 
-        Mirrors :meth:`OCRProcessor.ensure_model_loaded` so users on
-        ``--grounded`` get the same fail-fast safety net. The grounded
-        path is in fact the path that originally surfaced this bug
-        (issue #7) — the user had OlmOCR loaded but requested Qwen3-VL,
-        and LM Studio silently served bad OCR from the wrong model.
-        """
-        from openai import AsyncOpenAI
-
-        from pdf_ocr.core.ocr import (
-            ModelNotLoadedError,
-            _format_model_not_loaded,
-            _list_loaded_model_ids,
-            _model_in_loaded,
-        )
-
-        client = AsyncOpenAI(base_url=self.api_base, api_key=self.api_key)
-        loaded = await _list_loaded_model_ids(client, self.api_base)
-        if not _model_in_loaded(self.model, loaded):
-            raise ModelNotLoadedError(
-                _format_model_not_loaded(self.api_base, self.model, loaded)
-            )
+    async def aclose(self) -> None:
+        """Close an internally created adapter; injected clients stay open."""
+        if self._owned_client is not None:
+            await self._owned_client.aclose()
 
     async def ocr_document(
         self,
         pdf_path: str,
         progress: Optional[ProgressCallback] = None,
+        *,
+        pages: str | None = None,
     ) -> GroundedResponse:
         import fitz
-        from PIL import Image, ImageSequence
-        from openai import AsyncOpenAI
+        from PIL import Image
 
         from pdf_ocr.core.pdf import _is_image_path
 
-        # 1. Rasterize every page, remembering dimensions.
+        # 1. Rasterize selected pages, remembering original indices and sizes.
         # For image inputs (JPEG/PNG/TIFF) skip the PDF round-trip and read
         # pixels directly — this both saves work and supports multi-frame TIFF.
-        page_imgs: list[tuple[str, int, int]] = []  # (b64, width, height)
+        page_imgs: dict[int, tuple[str, int, int]] = {}  # source index -> (b64, w, h)
 
-        def _emit(img: Image.Image) -> None:
+        def _emit(page_idx: int, img: Image.Image) -> None:
             img = img.convert("RGB")
             img.thumbnail((self.max_image_dim, self.max_image_dim))
             buf = io.BytesIO()
             img.save(buf, format="JPEG", quality=80)
-            page_imgs.append(
-                (base64.b64encode(buf.getvalue()).decode(), img.width, img.height)
+            page_imgs[page_idx] = (
+                base64.b64encode(buf.getvalue()).decode(), img.width, img.height
             )
 
         if _is_image_path(pdf_path):
             with Image.open(pdf_path) as src:
-                for frame in ImageSequence.Iterator(src):
-                    _emit(frame.copy())
+                for page_idx in select_pages(pages, getattr(src, "n_frames", 1)):
+                    src.seek(page_idx)
+                    _emit(page_idx, src.copy())
         else:
             doc = fitz.open(pdf_path)
             try:
-                for page in doc:
+                for page_idx in select_pages(pages, len(doc)):
+                    page = doc[page_idx]
                     pix = page.get_pixmap(dpi=self.dpi)
-                    _emit(Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=70))))
+                    _emit(page_idx, Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=70))))
             finally:
                 doc.close()
 
         # 2. Call the VLM per page, streaming progress and collecting failures
         # as empty pages. The pipeline validates all pages before writing output.
-        client = AsyncOpenAI(base_url=self.api_base, api_key=self.api_key, timeout=self.timeout_s)
         sem = asyncio.Semaphore(max(1, self.concurrency))
         total_pages = len(page_imgs)
 
@@ -440,19 +448,10 @@ class PromptedGroundedOCR:
             b64, w, h = page_imgs[page_idx]
             async with sem:
                 try:
-                    resp = await client.chat.completions.create(
-                        model=self.model, temperature=0.0, max_tokens=self.max_tokens,
-                        messages=[{
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": self.prompt},
-                                {"type": "image_url", "image_url": {
-                                    "url": f"data:image/jpeg;base64,{b64}",
-                                }},
-                            ],
-                        }],
+                    text = await self.client.complete(
+                        self.prompt, b64, model=self.model, temperature=0.0,
+                        max_tokens=self.max_tokens, timeout=self.timeout_s,
                     )
-                    text = (resp.choices[0].message.content or "").strip()
                     return page_idx, _parse_grounded_json(text, page_idx, w, h)
                 except Exception as e:
                     # Retain successful pages in the response for callers that
@@ -463,7 +462,7 @@ class PromptedGroundedOCR:
                     )
                     return page_idx, []
 
-        tasks = [asyncio.create_task(run_one(i)) for i in range(total_pages)]
+        tasks = [asyncio.create_task(run_one(i)) for i in page_imgs]
         blocks_by_page: dict[int, list[GroundedBlock]] = {}
         completed = 0
         if progress is not None:
@@ -480,11 +479,12 @@ class PromptedGroundedOCR:
 
         # Flatten in page order for a stable, deterministic output.
         flat_blocks: list[GroundedBlock] = []
-        for page_idx in range(total_pages):
+        for page_idx in page_imgs:
             flat_blocks.extend(blocks_by_page.get(page_idx, []))
         return GroundedResponse(
             blocks=flat_blocks,
-            page_sizes=[(w, h) for (_, w, h) in page_imgs],
+            page_sizes=[(w, h) for (_, w, h) in page_imgs.values()],
+            page_indices=list(page_imgs),
         )
 
 

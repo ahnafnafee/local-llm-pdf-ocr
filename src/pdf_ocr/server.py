@@ -146,9 +146,17 @@ async def read_index():
     return FileResponse(_STATIC_DIR / "index.html")
 
 
+def _api_key_for_endpoint(api_base: str | None) -> str | None:
+    """Do not forward a server-side secret to a request-selected endpoint."""
+    configured = os.getenv("LLM_API_BASE", "").strip().rstrip("/")
+    if api_base and api_base.strip().rstrip("/") != configured:
+        return ""
+    return None  # use LLM_API_KEY for the configured endpoint
+
+
 @app.get("/models")
 async def list_models(api_base: str = ""):
-    """Model IDs loaded on the configured (or supplied) LLM endpoint.
+    """Model IDs advertised by the configured (or supplied) LLM endpoint.
 
     Powers the web UI's model picker. **Fails soft**: when the endpoint
     is unreachable or doesn't implement `/v1/models`, returns an empty
@@ -156,16 +164,17 @@ async def list_models(api_base: str = ""):
     model name by hand and see which endpoint it's pointed at. `api_base`
     defaults to `LLM_API_BASE` from the environment.
     """
-    from openai import AsyncOpenAI
+    from pdf_ocr.inference import LLMConfig, OpenAICompatibleClient
 
-    from pdf_ocr.core.ocr import _list_loaded_model_ids
-
-    base = api_base.strip() or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+    base = api_base.strip() or os.getenv("LLM_API_BASE", "")
     default_model = os.getenv("LLM_MODEL", "")
-    client = AsyncOpenAI(base_url=base, api_key="lm-studio")
     try:
-        models = await _list_loaded_model_ids(client, base)
-        return {"endpoint": base, "default": default_model, "models": models}
+        config = LLMConfig.from_env(
+            api_base=base, api_key=_api_key_for_endpoint(base), require_model=False,
+        )
+        async with OpenAICompatibleClient(config) as client:
+            models = await client.list_models()
+        return {"endpoint": config.api_base, "default": default_model, "models": models}
     except Exception as e:
         return {"endpoint": base, "default": default_model, "models": [], "error": str(e)}
 
@@ -259,6 +268,7 @@ async def process_pdf(
 
     model_arg = model.strip() or None
     api_base_arg = api_base.strip() or None
+    api_key_arg = _api_key_for_endpoint(api_base_arg)
     pages_arg = pages.strip() or None
 
     output_suffix = suffix_for_format(format)
@@ -288,40 +298,31 @@ async def process_pdf(
         html_hover_text=html_hover_text,
     )
 
+    backend = None
     try:
         await manager.send_progress(client_id, "Initializing...", 5)
 
-        if is_text:
-            # Fast path: no Surya — skip the (lazy) aligner load entirely.
-            pipeline = OCRPipeline(
-                ocr_processor=OCRProcessor(api_base=api_base_arg, model=model_arg),
-                pdf_handler=PDFHandler(),
-                output_writer=output_writer,
-            )
-        elif is_grounded:
-            # Grounded path: bbox-native VLM returns text + positions in one
-            # call. No Surya, no DP, no refine.
-            pipeline = OCRPipeline(
-                pdf_handler=PDFHandler(),
-                grounded_backend=PromptedGroundedOCR(
-                    api_base=api_base_arg, model=model_arg, max_image_dim=max_image_dim,
-                ),
-                output_writer=output_writer,
+        if is_grounded:
+            backend = PromptedGroundedOCR(
+                api_base=api_base_arg, model=model_arg, max_image_dim=max_image_dim,
+                dpi=dpi, concurrency=concurrency, api_key=api_key_arg,
             )
         else:
-            pipeline = OCRPipeline(
-                aligner=await _get_aligner(),
-                ocr_processor=OCRProcessor(api_base=api_base_arg, model=model_arg),
-                pdf_handler=PDFHandler(),
-                output_writer=output_writer,
-            )
+            backend = OCRProcessor(api_base=api_base_arg, model=model_arg, api_key=api_key_arg)
 
         # Fail fast on model mismatch (issue #7). The client can opt out per
         # request; OCR_VERIFY_MODEL=0 forces it off server-wide (for servers
         # that don't expose /v1/models).
         if verify_model and os.getenv("OCR_VERIFY_MODEL", "1") != "0":
-            backend = getattr(pipeline, "grounded_backend", None) or pipeline.ocr_processor
-            await backend.ensure_model_loaded()
+            await backend.ensure_model_available()
+
+        pipeline = OCRPipeline(
+            aligner=await _get_aligner() if not (is_text or is_grounded) else None,
+            ocr_processor=None if is_grounded else backend,
+            grounded_backend=backend if is_grounded else None,
+            pdf_handler=PDFHandler(),
+            output_writer=output_writer,
+        )
 
         async def on_progress(stage, current, total, message):
             await manager.send_progress(client_id, message, stage_to_percent(stage, current, total))
@@ -361,6 +362,9 @@ async def process_pdf(
         await manager.send_progress(client_id, f"Error: {e}", 0)
         _cleanup(input_path)
         return JSONResponse(status_code=500, content={"error": str(e)})
+    finally:
+        if backend is not None:
+            await backend.aclose()
 
 
 @app.get("/text/{job_id}")

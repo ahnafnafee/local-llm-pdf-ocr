@@ -40,13 +40,13 @@ async def main() -> None:
     parser.add_argument("output", help="Output fixture JSON path")
     parser.add_argument(
         "--api-base", default=None,
-        help="Defaults to LLM_API_BASE env var, then localhost:1234",
+        help="API base URL; defaults to the required LLM_API_BASE setting",
     )
     parser.add_argument("--model", default="qwen/qwen3-vl-4b")
     parser.add_argument("--max-image-dim", type=int, default=1024)
     args = parser.parse_args()
 
-    api_base = args.api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+    api_base = args.api_base or os.getenv("LLM_API_BASE")
     in_path = Path(args.input)
     out_path = Path(args.output)
 

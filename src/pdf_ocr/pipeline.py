@@ -13,7 +13,8 @@ Components are injected so extensions can swap any phase:
       and `align_text(structured, llm_text) -> list[(BBox, str)]`
     - ocr_processor: async `perform_ocr(image_base64) -> list[str]` and
       `perform_ocr_on_crop(image_base64) -> str`
-    - pdf_handler: `convert_to_images(path, dpi) -> dict[int, b64]`
+    - pdf_handler: `convert_to_images(path, dpi, max_image_dim, *, pages=None)`
+      returns `dict[source_page_index, b64]`
     - output_writer: callable(input_path, output_path, pages_data, dpi) -> None
       (defaults to `pdf_handler.embed_structured_text`)
 
@@ -33,6 +34,7 @@ from typing import Awaitable, Callable, Optional
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 from pdf_ocr.core.grounded import GroundedOCRBackend
 from pdf_ocr.utils.image import crop_for_ocr
+from pdf_ocr.utils.pages import parse_page_range  # re-export for existing callers
 
 # DP-confidence retry thresholds (dense_mode="auto" only): a sparse page
 # whose alignment produced real matches for under _DP_RETRY_MATCH_RATE of
@@ -69,26 +71,6 @@ _MASK_PAGE_MAX_TILT_FRAC = 0.05
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
 OutputWriter = Callable[[str, str, dict, int], None]
-
-
-def parse_page_range(page_str: str, total_pages: int) -> list[int]:
-    """Parse a 1-indexed range like '1-3,5,7-9' into sorted 0-indexed pages."""
-    pages: set[int] = set()
-    for part in page_str.split(","):
-        part = part.strip()
-        if not part:
-            continue
-        if "-" in part:
-            start_s, end_s = part.split("-", 1)
-            start, end = int(start_s), int(end_s)
-            for p in range(start, end + 1):
-                if 1 <= p <= total_pages:
-                    pages.add(p - 1)
-        else:
-            p = int(part)
-            if 1 <= p <= total_pages:
-                pages.add(p - 1)
-    return sorted(pages)
 
 
 class OCRPipeline:
@@ -191,7 +173,9 @@ class OCRPipeline:
             )
 
         if self.grounded_backend is not None:
-            return await self._run_grounded(input_path, output_path, dpi=dpi, progress=progress)
+            return await self._run_grounded(
+                input_path, output_path, dpi=dpi, pages=pages, progress=progress,
+            )
 
         if self.aligner is None or self.ocr_processor is None:
             raise ValueError(
@@ -201,14 +185,11 @@ class OCRPipeline:
 
         await _notify(progress, "convert", 0, 1, "Converting PDF to images...")
         images_dict = await asyncio.to_thread(
-            self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim
+            self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim,
+            **({"pages": pages} if pages else {}),
         )
         page_nums = sorted(images_dict.keys())
         total_pages = len(page_nums)
-
-        if pages:
-            selected = set(parse_page_range(pages, total_pages))
-            page_nums = [p for p in page_nums if p in selected]
 
         # Photo preprocessing: pages with a confidently-detected tilted
         # page outline are perspective-rectified (and illumination-
@@ -407,12 +388,10 @@ class OCRPipeline:
 
         await _notify(progress, "convert", 0, 1, "Converting PDF to images...")
         images_dict = await asyncio.to_thread(
-            self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim
+            self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim,
+            **({"pages": pages} if pages else {}),
         )
         page_nums = sorted(images_dict.keys())
-        if pages:
-            selected = set(parse_page_range(pages, len(page_nums)))
-            page_nums = [p for p in page_nums if p in selected]
         await _notify(progress, "convert", 1, 1, f"Converted {len(page_nums)} pages.")
 
         semaphore = asyncio.Semaphore(max(1, concurrency))
@@ -451,6 +430,7 @@ class OCRPipeline:
         output_path: str,
         *,
         dpi: int,
+        pages: Optional[str],
         progress: Optional[ProgressCallback],
     ) -> dict[int, list[str]]:
         """
@@ -467,7 +447,9 @@ class OCRPipeline:
         Reject empty pages before calling any output writer: otherwise a
         non-grounding model can produce an image-only PDF that looks successful.
         """
-        response = await self.grounded_backend.ocr_document(input_path, progress=progress)
+        response = await self.grounded_backend.ocr_document(
+            input_path, progress=progress, **({"pages": pages} if pages else {}),
+        )
 
         pages_data: dict[int, list] = defaultdict(list)
         pages_text: dict[int, list[str]] = defaultdict(list)
@@ -477,11 +459,14 @@ class OCRPipeline:
             pages_data[block.page_index].append((block.bbox, block.text))
             pages_text[block.page_index].append(block.text)
 
-        # Check every reported page, including trailing pages absent from
-        # response.blocks. Custom backends may omit page_sizes; an entirely
-        # empty response must still fail in that case.
+        # Sparse selections retain source indices, including selected pages
+        # with no blocks. Older backends report contiguous page_sizes only.
+        expected_pages = (
+            response.page_indices if response.page_indices is not None
+            else range(len(response.page_sizes))
+        )
         empty_pages = [
-            str(p + 1) for p in range(len(response.page_sizes))
+            str(p + 1) for p in expected_pages
             if not pages_data.get(p)
         ]
         if not pages_data or empty_pages:

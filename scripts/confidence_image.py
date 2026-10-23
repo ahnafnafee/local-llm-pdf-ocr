@@ -88,7 +88,7 @@ async def main() -> None:
     )
     parser.add_argument(
         "--api-base", default=None,
-        help="Defaults to LLM_API_BASE env var, then localhost:1234",
+        help="API base URL; defaults to the required LLM_API_BASE setting",
     )
     parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
     parser.add_argument("--grounded-model", default="qwen/qwen3-vl-4b")
@@ -96,7 +96,7 @@ async def main() -> None:
     parser.add_argument("--iou-threshold", type=float, default=0.3)
     args = parser.parse_args()
 
-    api_base = args.api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+    api_base = args.api_base or os.getenv("LLM_API_BASE")
     image = Path(args.image)
     fixture = Path(args.fixture)
     console = Console()

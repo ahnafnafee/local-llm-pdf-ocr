@@ -14,7 +14,7 @@ No cloud. No API keys. Nothing ever leaves your machine.
 [![Python](https://img.shields.io/badge/python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![License: MIT](https://img.shields.io/badge/license-MIT-A78BFA?style=flat-square)](LICENSE)
-[![100% Local](https://img.shields.io/badge/AI-100%25_local-E0A43C?style=flat-square&logo=ollama&logoColor=white)](https://lmstudio.ai)
+[![100% Local](https://img.shields.io/badge/AI-100%25_local-E0A43C?style=flat-square&logo=ollama&logoColor=white)](#configuration)
 [![Stars](https://img.shields.io/github/stars/ahnafnafee/local-llm-pdf-ocr?style=flat-square&color=E0A43C)](https://github.com/ahnafnafee/local-llm-pdf-ocr/stargazers)
 [![Issues](https://img.shields.io/github/issues/ahnafnafee/local-llm-pdf-ocr?style=flat-square)](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues)
 
@@ -55,7 +55,7 @@ No cloud. No API keys. Nothing ever leaves your machine.
 - **🛰️ Grounded Path (opt-in)** — Point at a bbox-native VLM (Qwen2.5-VL, Qwen3-VL, MinerU, Florence-2, …) and it skips Surya/DP/refine entirely — the model returns text + coordinates in a single call.
 - **⚡ Text-Only Fast Path (opt-in)** — OCRs each page's full text and dumps it as plain text: no Surya, no alignment, no detection-model load. Trades searchable-PDF positioning for raw text at a fraction of the time.
 - **🖼️ PDF or Raw Image Input** — Accepts **`.pdf`, `.jpg`, `.jpeg`, `.png`, `.bmp`, `.webp`, `.tif`/`.tiff`, `.avif`** — in *both* the CLI and the web UI. Multi-frame TIFFs become multi-page output.
-- **🔒 100% Local & Private** — No cloud APIs, no subscription fees. Runs entirely offline via [LM Studio](https://lmstudio.ai), [Ollama](https://ollama.com), vLLM, or any OpenAI-compatible endpoint.
+- **🔒 Local & Private** — Run offline with your own vision model server. [Ollama](https://ollama.com), vLLM, llama.cpp, and other servers can provide the OpenAI-compatible API; no particular application is required.
 - **🔍 Four Output Formats** — Searchable sandwich **PDF** (default), **HTML** overlay, plain **Markdown**, or plain **text**. Pick via `--format`, the output extension, or the web dropdown.
 - **📚 Dense-Page Mode** — Auto-detects densely-laid-out pages (default > 60 boxes) and switches to per-box OCR — bypassing the loops / hallucination that full-page OCR exhibits on dense handwritten content.
 - **🧪 Tested** — A comprehensive suite (455 fast + 29 Surya-integration) covers DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, the HTML / Markdown / text writers, evaluation metrics, CLI dispatch, and the full server option surface.
@@ -84,6 +84,8 @@ The web UI stays clean by default — drop a file, pick an engine, run — with 
 ## 🏗️ Architecture
 
 The tool has two execution paths behind a single `OCRPipeline` seam (`src/pdf_ocr/pipeline.py`). The default **hybrid path** works with any OCR-capable VLM; the opt-in **grounded path** collapses the whole flow into one call for VLMs that emit text+bbox natively.
+
+Both paths use an injectable `VisionClient` for inference. `OpenAICompatibleClient` owns the HTTP/SDK integration, while `OCRProcessor` and `PromptedGroundedOCR` own prompts and response parsing. `LLMConfig` resolves endpoint, model, and authentication consistently for the CLI, web UI, and model discovery. See [inference configuration and extension points](docs/inference.md).
 
 ```mermaid
 graph TD
@@ -132,21 +134,21 @@ graph TD
 ### Prerequisites
 
 1. **Python 3.10+**
-2. **A local OpenAI-compatible LLM server**. Any of:
-   - **[LM Studio](https://lmstudio.ai)** — recommended default. Load `allenai/olmocr-2-7b` (hybrid path) or `qwen/qwen3-vl-8b` / `qwen/qwen2.5-vl-7b` (grounded path). Start the local server (default port `1234`). A pre-flight check confirms the requested model is actually loaded — LM Studio otherwise silently falls back to whatever is loaded, producing subtly wrong OCR ([#7](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues/7)). Use `--no-verify-model` (or untick it in the UI) to skip on servers without `/v1/models`.
-   - **[Ollama](https://ollama.com)** — pull `glm-ocr:latest` (needs `--max-image-dim 640`) or any vision model. Served at `http://localhost:11434/v1`.
-   - **vLLM / SGLang / any OpenAI-compatible endpoint**.
+2. **A vision model served through an OpenAI-compatible API**. Choose your server and configure its endpoint explicitly. Examples include [Ollama](https://docs.ollama.com/api/openai-compatibility), [vLLM](https://docs.vllm.ai/en/latest/serving/online_serving/), and [llama.cpp](https://github.com/ggml-org/llama.cpp/tree/master/tools/server). The model must accept image inputs; grounded mode also requires text and bounding boxes in its response.
 
 ### Configuration
 
-Create a `.env` file in the root directory to configure your Local LLM:
+Copy `.env.example` to `.env` and set the endpoint and exact model ID served by your chosen server. For example, a local Ollama configuration is:
 
 ```env
-LLM_API_BASE=http://localhost:1234/v1
-LLM_MODEL=allenai/olmocr-2-7b
+LLM_API_BASE=http://localhost:11434/v1
+LLM_MODEL=qwen3-vl:8b
+# LLM_API_KEY=your-key-if-required
 ```
 
-These are the **defaults** — the CLI (`--api-base` / `--model`) and the web UI (Model picker + Advanced → Endpoint) override them per run.
+The CLI (`--api-base` / `--model`) and web UI (Model picker + Advanced → Endpoint) override the environment per run. There is no implicit endpoint or model: existing configurations that set `LLM_API_BASE` and `LLM_MODEL` continue to work, while installations that relied on the old defaults must now set both. `LLM_API_KEY` supplies optional bearer authentication without putting secrets in command-line arguments.
+
+The preflight check verifies that the endpoint advertises the model; it does not assume that weights are already in memory. Use `--no-verify-model` or untick verification in the UI when a server does not expose a model catalog.
 
 ### Installation
 
@@ -177,7 +179,7 @@ Managed with [`uv`](https://github.com/astral-sh/uv) for lightning-fast dependen
    uv sync --extra web           # CLI + FastAPI server
    ```
 
-> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). The hybrid/grounded LLM is *your* responsibility — bring up LM Studio, Ollama, vLLM, or any other OpenAI-compatible vision endpoint before running OCR.
+> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). Start your configured vision inference server before running OCR.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -223,8 +225,8 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `-v`, `--verbose`         | Enable debug logging (alignment details, box counts)                  |
 | `-q`, `--quiet`           | Suppress all output except errors                                     |
 | `--dpi <int>`             | DPI for image rendering (default: 200)                                |
-| `--pages <range>`         | Page range to process, e.g., `1-3,5` (default: all)                   |
-| `--concurrency <int>`     | Parallel in-flight LLM requests (default: 2). Never loads extra model copies: queuing servers (LM Studio / Ollama defaults) hold excess requests at zero VRAM cost; parallel-slot servers (vLLM) spend KV-cache VRAM per active request, hence the conservative default. Raise to 4-5 for `--dense-mode always` when your server has headroom. |
+| `--pages <range>`         | Pages or image frames to OCR, e.g., `1-3,5` (default: all). Selection occurs before OCR rendering in hybrid, grounded, and text-only mode. PDF/HTML output retains all source pages; only selected pages receive OCR text. Markdown/text contain selected pages only. |
+| `--concurrency <int>`     | Parallel in-flight LLM requests (default: 2), including grounded mode. Queuing servers hold excess requests; servers that run requests in parallel need more KV-cache memory. Raise cautiously when your server has headroom. |
 | `--no-refine`             | Skip per-box crop re-OCR (faster, less robust on tables/multi-column) |
 | `--text-only`             | Fast path: OCR each page's full text and write it as plain text, skipping Surya layout detection, DP alignment, and crop re-OCR entirely (no detection-model load). Naturally parallel (raise `--concurrency`). Output defaults to `<input_stem>_ocr.txt`. |
 | `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
@@ -235,25 +237,25 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--grounded`              | Use a bbox-native VLM that returns text + coordinates in one call (skips Surya, DP, refine). Requires a grounding-capable model via `--model`. |
 | `--api-base <url>`        | Override LLM API base URL                                             |
 | `--model <name>`          | Override LLM model name                                               |
-| `--no-verify-model`       | Skip the pre-flight check that `--model` is loaded on the server ([#7](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues/7)). Use on Ollama / vLLM (which auto-load), or any server that doesn't implement `/v1/models`. |
+| `--no-verify-model`       | Skip checking the server's advertised model catalog. Use when the server lacks `/models` or does not advertise every usable model. |
 
 **Examples**:
 
 ```bash
-# Basic (auto-generates input_ocr.pdf, uses LM Studio + OlmOCR)
+# Basic (auto-generates scan_ocr.pdf, uses your configured server and model)
 uv run local-llm-pdf-ocr scan.pdf
 
 # Specific pages, higher rendering DPI
 uv run local-llm-pdf-ocr document.pdf output.pdf --pages 1-5 --dpi 300
 
-# Ollama + GLM-OCR instead of LM Studio
+# Explicit endpoint and model: Ollama + GLM-OCR
 uv run local-llm-pdf-ocr scan.pdf \
     --api-base http://localhost:11434/v1 \
     --model glm-ocr:latest --max-image-dim 640
 
 # Grounded path: bbox-native VLM (Qwen2.5-VL / Qwen3-VL)
 uv run local-llm-pdf-ocr scan.pdf --grounded \
-    --api-base http://localhost:1234/v1 --model qwen/qwen3-vl-8b
+    --api-base http://localhost:11434/v1 --model qwen3-vl:8b --pages 1-3
 
 # Raw image input — JPEG/PNG/BMP/WebP/AVIF, and multi-page TIFFs
 uv run local-llm-pdf-ocr scan.png scan_ocr.pdf
@@ -281,7 +283,7 @@ uv run local-llm-pdf-ocr scan.pdf --text-only --concurrency 8
 
 The hybrid path is the safe default: it works with *any* OCR-capable VLM, including models that can only return plain text. The grounded path is faster and eliminates the DP-alignment class of bugs entirely, but requires a VLM that emits `{"bbox_2d": [...], "content": "..."}` JSON when asked (Qwen2.5-VL / Qwen3-VL confirmed working).
 
-If any page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the affected page numbers. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
+If any selected page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the original source page numbers. Ranges that select no valid pages fail before OCR rendering or inference. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 

@@ -222,7 +222,9 @@ async function loadModels() {
         if (data.endpoint) apiBaseInput.value = data.endpoint;
         const where = shortEndpoint(data.endpoint || apiBase || '');
         if (data.models && data.models.length) {
-            setModelStatus(`${data.models.length} model(s) loaded · ${where}`, true);
+            setModelStatus(`${data.models.length} model(s) available · ${where}`, true);
+        } else if (!data.endpoint) {
+            setModelStatus('Set an endpoint in Advanced and choose a vision model', false);
         } else {
             setModelStatus(`No models listed · type a name · ${where}`, false);
         }

@@ -9,7 +9,7 @@ Usage:
     uv run scripts/confidence_eval.py --path hybrid              # just hybrid
     uv run scripts/confidence_eval.py --model allenai/olmocr-2-7b
 
-Assumes LM Studio / Ollama is serving the target model at --api-base.
+Requires a configured OpenAI-compatible endpoint serving the target vision model.
 Prints a per-document summary and flags the worst unmatched GT blocks.
 """
 
@@ -257,7 +257,7 @@ def append_history(rows: list[dict]) -> None:
 async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--path", choices=["both", "grounded", "hybrid"], default="both")
-    parser.add_argument("--api-base", default="http://localhost:1234/v1")
+    parser.add_argument("--api-base", default=None, help="API base URL; otherwise use LLM_API_BASE")
     parser.add_argument("--grounded-model", default="qwen/qwen3-vl-8b")
     parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
     parser.add_argument("--max-image-dim", type=int, default=1024)

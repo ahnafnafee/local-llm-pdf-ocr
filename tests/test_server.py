@@ -35,7 +35,17 @@ pytestmark = pytest.mark.skipif(
 
 
 @pytest.fixture
-def client(monkeypatch):
+def skip_model_verification(monkeypatch):
+    from unittest.mock import AsyncMock
+    from pdf_ocr.core.ocr import OCRProcessor
+    from pdf_ocr.core.grounded import PromptedGroundedOCR
+
+    monkeypatch.setattr(OCRProcessor, "ensure_model_available", AsyncMock())
+    monkeypatch.setattr(PromptedGroundedOCR, "ensure_model_available", AsyncMock())
+
+
+@pytest.fixture
+def client(monkeypatch, skip_model_verification):
     """A TestClient with `OCRPipeline` stubbed to skip Surya / LLM."""
     from fastapi.testclient import TestClient
 
@@ -173,13 +183,48 @@ def _post(client, *, filename: str = "scan.pdf", content_type: str = "applicatio
 
 
 class TestModelsEndpoint:
-    def test_lists_loaded_models(self, client, monkeypatch):
-        import pdf_ocr.core.ocr as ocr_mod
+    def test_unconfigured_endpoint_fails_soft_without_contacting_server(self, client, monkeypatch):
+        from unittest.mock import AsyncMock
+        from pdf_ocr.inference import OpenAICompatibleClient
 
-        async def fake_list(_client, _base):
+        monkeypatch.delenv("LLM_API_BASE")
+        discovery = AsyncMock()
+        monkeypatch.setattr(OpenAICompatibleClient, "list_models", discovery)
+        body = client.get("/models").json()
+        assert body["endpoint"] == "" and body["models"] == []
+        assert "LLM_API_BASE" in body["error"]
+        discovery.assert_not_awaited()
+
+    @pytest.mark.parametrize("override, expected_key", [
+        ("", "configured-secret"),
+        ("http://inference.test/v1/", "configured-secret"),
+        ("https://different.test/v1", "not-required"),
+    ])
+    def test_discovery_credentials_stay_with_configured_endpoint(
+        self, client, monkeypatch, override, expected_key,
+    ):
+        from pdf_ocr.inference import OpenAICompatibleClient
+
+        monkeypatch.setenv("LLM_API_KEY", "configured-secret")
+        seen = []
+
+        async def discovery(self):
+            seen.append(self.config.api_key)
+            return ["vision"]
+
+        monkeypatch.setattr(OpenAICompatibleClient, "list_models", discovery)
+        response = client.get("/models", params={"api_base": override})
+        assert response.json()["models"] == ["vision"]
+        assert seen == [expected_key]
+        assert "configured-secret" not in response.text
+
+    def test_lists_loaded_models(self, client, monkeypatch):
+        from pdf_ocr.inference import OpenAICompatibleClient
+
+        async def fake_list(self):
             return ["allenai/olmocr-2-7b", "qwen/qwen3-vl-8b"]
 
-        monkeypatch.setattr(ocr_mod, "_list_loaded_model_ids", fake_list)
+        monkeypatch.setattr(OpenAICompatibleClient, "list_models", fake_list)
         resp = client.get("/models")
         assert resp.status_code == 200, resp.text
         body = resp.json()
@@ -187,12 +232,12 @@ class TestModelsEndpoint:
         assert "endpoint" in body
 
     def test_fails_soft_when_endpoint_unreachable(self, client, monkeypatch):
-        import pdf_ocr.core.ocr as ocr_mod
+        from pdf_ocr.inference import OpenAICompatibleClient
 
-        async def boom(_client, _base):
+        async def boom(self):
             raise RuntimeError("connection refused")
 
-        monkeypatch.setattr(ocr_mod, "_list_loaded_model_ids", boom)
+        monkeypatch.setattr(OpenAICompatibleClient, "list_models", boom)
         resp = client.get("/models?api_base=http://localhost:9/v1")
         # Fails soft: 200 with empty list + error so the UI degrades to
         # manual model entry instead of breaking.
@@ -281,7 +326,7 @@ def test_grounded_empty_output_returns_error_to_api_and_web(monkeypatch, tmp_pat
 
 
 @pytest.fixture
-def recorder(monkeypatch):
+def recorder(monkeypatch, skip_model_verification):
     """A client whose pipeline records the kwargs `/process` forwards."""
     from fastapi.testclient import TestClient
 
@@ -317,6 +362,21 @@ def recorder(monkeypatch):
 
 
 class TestOptionForwarding:
+    def test_grounded_forwards_pages_dpi_and_concurrency(self, recorder):
+        client, calls = recorder
+        response = _post(client, engine="grounded", pages="2,4", dpi=300, concurrency=3)
+        assert response.status_code == 200, response.text
+        assert calls["run"]["pages"] == "2,4"
+        backend = calls["init"]["grounded_backend"]
+        assert backend.dpi == 300 and backend.concurrency == 3
+
+    def test_endpoint_override_does_not_receive_environment_key(self, recorder, monkeypatch):
+        monkeypatch.setenv("LLM_API_KEY", "configured-secret")
+        client, calls = recorder
+        response = _post(client, engine="grounded", api_base="https://different.test/v1")
+        assert response.status_code == 200, response.text
+        assert calls["init"]["grounded_backend"].client.config.api_key == "not-required"
+
     def test_hybrid_forwards_tuning_knobs(self, recorder):
         client, calls = recorder
         resp = _post(

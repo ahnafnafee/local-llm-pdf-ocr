@@ -1,40 +1,27 @@
 """
 OCRProcessor - LLM-based OCR processing.
 
-Uses a local vision LLM (OlmOCR via LM Studio by default; any OpenAI-compatible
-endpoint works, including GLM OCR via Ollama — set LLM_API_BASE/LLM_MODEL or
-pass --api-base/--model).
+Keeps prompts and OCR response cleanup independent of the inference server.
+Configure LLM_API_BASE/LLM_MODEL or inject a VisionClient.
 """
 
 import logging
-import os
 
-from dotenv import load_dotenv
-from openai import AsyncOpenAI
-
-load_dotenv()
-
-
-class LLMCallError(RuntimeError):
-    """Raised when a call to the local LLM OCR endpoint fails.
-
-    Wraps the underlying exception (connection refused, model not loaded,
-    timeout, auth, ...) with a message that names the api-base and model
-    so the user can diagnose without digging through a stack trace.
-    """
+from pdf_ocr.inference import (
+    LLMCallError,  # compatibility re-export
+    LLMConfig,
+    ModelNotLoadedError,  # compatibility re-export
+    OpenAICompatibleClient,
+    VisionClient,
+    ensure_model_available,
+)
 
 
-class ModelNotLoadedError(LLMCallError):
-    """Raised when the requested model is not loaded on the LLM server.
-
-    LM Studio silently falls back to whatever model is currently loaded
-    when an OpenAI-compat client requests an unavailable model ID — so a
-    typo in --model or a forgotten model swap produces subtly wrong OCR
-    output with no surface error. This exception is raised by
-    :meth:`OCRProcessor.ensure_model_loaded` (and the grounded equivalent)
-    *before* any OCR work starts so the user sees the mismatch immediately
-    instead of debugging strange output later.
-    """
+PAGE_PROMPT = (
+    "Transcribe all text in this document image in reading order. "
+    "Preserve line breaks and use Markdown for headings and tables. "
+    "Return only the transcription, without commentary."
+)
 
 
 # Canonical OlmOCR-2 prompt (the model was RL-trained on this exact string).
@@ -109,29 +96,37 @@ class OCRProcessor:
     CROP_TIMEOUT_S: float = 60.0
     CROP_MAX_TOKENS: int = 256
 
-    def __init__(self, api_base: str | None = None, model: str | None = None):
-        self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
-        self.model = model or os.getenv("LLM_MODEL", "allenai/olmocr-2-7b")
-        self.client = AsyncOpenAI(base_url=self.api_base, api_key="lm-studio")
+    def __init__(
+        self, api_base: str | None = None, model: str | None = None, *,
+        api_key: str | None = None, client: VisionClient | None = None,
+        page_prompt: str | None = None,
+    ):
+        config = LLMConfig.from_env(
+            api_base=api_base, model=model, api_key=api_key,
+            require_endpoint=client is None,
+        )
+        self.api_base = config.api_base
+        self.model = config.model
+        self._owned_client: OpenAICompatibleClient | None = None
+        if client is None:
+            client = self._owned_client = OpenAICompatibleClient(config)
+        self.client = client
+        self.page_prompt = page_prompt or (
+            OLMOCR_PAGE_PROMPT if "olmocr" in self.model.lower() else PAGE_PROMPT
+        )
+
+    async def ensure_model_available(self) -> None:
+        """Verify the server advertises the configured model ID."""
+        await ensure_model_available(self.client, self.model)
 
     async def ensure_model_loaded(self) -> None:
-        """Pre-flight check that ``self.model`` is loaded on the server.
+        """Compatibility alias; availability does not imply memory residency."""
+        await self.ensure_model_available()
 
-        Hits ``GET /v1/models`` via the OpenAI SDK and verifies the
-        configured model ID appears in the loaded list (case-insensitive).
-        Raises :class:`ModelNotLoadedError` on mismatch with a message
-        that names what's loaded and how to fix it. Wraps any underlying
-        transport / auth failure in :class:`LLMCallError`.
-
-        Why we do this: see :class:`ModelNotLoadedError`. Cheap call (one
-        GET, no inference); call once at pipeline startup before paying
-        for image conversion or detection.
-        """
-        loaded = await _list_loaded_model_ids(self.client, self.api_base)
-        if not _model_in_loaded(self.model, loaded):
-            raise ModelNotLoadedError(
-                _format_model_not_loaded(self.api_base, self.model, loaded)
-            )
+    async def aclose(self) -> None:
+        """Close an internally created adapter; injected clients stay open."""
+        if self._owned_client is not None:
+            await self._owned_client.aclose()
 
     async def perform_ocr(self, image_base64: str) -> list[str]:
         """
@@ -144,7 +139,7 @@ class OCRProcessor:
         max_tokens set, and pollutes downstream alignment with junk lines.
         """
         text = await self._chat(
-            OLMOCR_PAGE_PROMPT, image_base64,
+            self.page_prompt, image_base64,
             timeout=self.PAGE_TIMEOUT_S,
             max_tokens=self.PAGE_MAX_TOKENS,
         )
@@ -181,41 +176,10 @@ class OCRProcessor:
         timeout: float,
         max_tokens: int,
     ) -> str:
-        try:
-            response = await self.client.with_options(
-                timeout=timeout
-            ).chat.completions.create(
-                model=self.model,
-                temperature=0.1,
-                max_tokens=max_tokens,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:image/png;base64,{image_base64}"
-                                },
-                            },
-                        ],
-                    }
-                ],
-            )
-            return (response.choices[0].message.content or "").strip()
-        except Exception as e:
-            raise LLMCallError(
-                f"LLM OCR call failed against {self.api_base} "
-                f"(model={self.model!r}): {type(e).__name__}: {e}\n"
-                f"  - Is your local LLM server (LM Studio / Ollama / vLLM) running at "
-                f"{self.api_base}?\n"
-                f"  - Is model {self.model!r} loaded and serving vision inputs?\n"
-                f"  - Did the model run away on this page? "
-                f"Try reducing --max-image-dim or capping the page complexity.\n"
-                f"  - Override endpoint with LLM_API_BASE / LLM_MODEL in .env, "
-                f"or pass --api-base / --model."
-            ) from e
+        return await self.client.complete(
+            prompt, image_base64, model=self.model,
+            timeout=timeout, max_tokens=max_tokens, temperature=0.1,
+        )
 
 
 def _strip_runaway_repetition(lines: list[str], max_repeat: int = 20) -> list[str]:
@@ -254,50 +218,6 @@ def _strip_runaway_repetition(lines: list[str], max_repeat: int = 20) -> list[st
             truncated, worst[0][:60], worst[1],
         )
     return out
-
-
-async def _list_loaded_model_ids(client: AsyncOpenAI, api_base: str) -> list[str]:
-    """Return model IDs loaded on an OpenAI-compatible server.
-
-    Uses the SDK's ``client.models.list()`` (hits ``GET /v1/models``).
-    Wraps any transport / auth / response-shape failure in
-    :class:`LLMCallError` with the same diagnostic format ``_chat`` uses
-    so the caller sees a consistent error message style across the
-    pipeline's LLM-facing surfaces.
-    """
-    try:
-        page = await client.models.list()
-    except Exception as e:
-        raise LLMCallError(
-            f"Could not list models on {api_base}: "
-            f"{type(e).__name__}: {e}\n"
-            f"  - Is your local LLM server (LM Studio / Ollama / vLLM) running at "
-            f"{api_base}?\n"
-            f"  - Does it expose GET /v1/models? (Most do; some custom servers "
-            f"don't — pass --no-verify-model to skip this check.)"
-        ) from e
-    return [m.id for m in page.data]
-
-
-def _model_in_loaded(model: str, loaded: list[str]) -> bool:
-    target = model.lower()
-    return any(m.lower() == target for m in loaded)
-
-
-def _format_model_not_loaded(api_base: str, model: str, loaded: list[str]) -> str:
-    listing = "\n    ".join(loaded) if loaded else "(none)"
-    return (
-        f"Model {model!r} is not loaded on {api_base}.\n"
-        f"  Loaded models:\n    {listing}\n"
-        f"  Fix:\n"
-        f"    - Load {model!r} in LM Studio (Models -> search -> Load), then retry.\n"
-        f"    - Or pass --model with one of the loaded model IDs above.\n"
-        f"    - Or pass --no-verify-model to skip this check "
-        f"(e.g. on Ollama / vLLM, which auto-load on demand).\n"
-        f"  Why this matters: LM Studio silently falls back to whatever model is "
-        f"loaded when the requested one is missing, producing subtly wrong OCR "
-        f"results with no error. (issue #7)"
-    )
 
 
 def _strip_yaml_front_matter(text: str) -> str:

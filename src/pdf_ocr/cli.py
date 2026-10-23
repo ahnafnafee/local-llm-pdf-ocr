@@ -38,7 +38,7 @@ Examples:
   %(prog)s input.pdf out.md               # Markdown output (extension wins)
   %(prog)s input.pdf output.pdf --verbose
   %(prog)s input.pdf output.pdf --pages 1-3,5
-  %(prog)s input.pdf output.pdf --dpi 300 --api-base http://localhost:1234/v1
+  %(prog)s input.pdf output.pdf --dpi 300 --api-base http://localhost:8000/v1 --model vision-model
         """,
     )
     parser.add_argument(
@@ -62,8 +62,8 @@ Examples:
     parser.add_argument(
         "--concurrency", type=int, default=2,
         help="Parallel in-flight LLM requests (default: 2). This never "
-             "loads extra model copies — queuing servers (LM Studio, "
-             "Ollama defaults) hold excess requests at zero VRAM cost, "
+             "loads extra model copies — queuing servers "
+             "hold excess requests at zero VRAM cost, "
              "while parallel-slot servers (vLLM, num_parallel>1) spend "
              "KV-cache VRAM per active request, so the default stays "
              "conservative. Raise to 4-5 for per-box dense pages when "
@@ -182,16 +182,13 @@ Examples:
              "Selection and search behave the same with or without the "
              "flag.",
     )
-    parser.add_argument("--api-base", help="Override LLM API base URL")
-    parser.add_argument("--model", help="Override LLM model name")
+    parser.add_argument("--api-base", help="OpenAI-compatible API base URL (or set LLM_API_BASE)")
+    parser.add_argument("--model", help="Vision model ID served by the endpoint (or set LLM_MODEL)")
     parser.add_argument(
         "--no-verify-model", dest="verify_model", action="store_false",
-        help="Skip the pre-flight check that --model is loaded on the server. "
-             "By default we hit GET /v1/models and fail fast if the requested "
-             "model is missing — LM Studio otherwise silently falls back to "
-             "whatever model is loaded, producing subtly wrong OCR (issue #7). "
-             "Use this if your server doesn't implement /v1/models, or on "
-             "Ollama / vLLM (which auto-load on demand).",
+        help="Skip checking whether the endpoint advertises --model. "
+             "Use this for servers without /models or with incomplete model catalogs. "
+             "The check does not require model weights to be loaded in memory.",
     )
     parser.set_defaults(refine=True, verify_model=True)
     return parser
@@ -261,49 +258,33 @@ async def run(args: argparse.Namespace, console: Console) -> None:
         html_hover_text=args.html_hover_text,
     )
 
-    pdf_handler = PDFHandler()
-    if args.text_only:
-        # Text-only skips Surya entirely — no aligner constructed, so no
-        # detection-model load. Full-page OCR per page, dumped as text.
-        pipeline = OCRPipeline(
-            ocr_processor=OCRProcessor(api_base=args.api_base, model=args.model),
-            pdf_handler=pdf_handler,
-            output_writer=output_writer,
-        )
-    elif args.grounded:
-        # Grounded path: bbox-native VLM returns text + positions in one call.
-        backend_kwargs = {"max_image_dim": args.max_image_dim}
-        if args.api_base:
-            backend_kwargs["api_base"] = args.api_base
-        if args.model:
-            backend_kwargs["model"] = args.model
-        pipeline = OCRPipeline(
-            pdf_handler=pdf_handler,
-            grounded_backend=PromptedGroundedOCR(**backend_kwargs),
-            output_writer=output_writer,
+    is_grounded = args.grounded and not args.text_only
+    if is_grounded:
+        backend = PromptedGroundedOCR(
+            api_base=args.api_base, model=args.model,
+            max_image_dim=args.max_image_dim, dpi=args.dpi,
+            concurrency=args.concurrency,
         )
     else:
+        backend = OCRProcessor(api_base=args.api_base, model=args.model)
+
+    try:
+        # Validate configuration and model availability before loading Surya.
+        if args.verify_model:
+            await backend.ensure_model_available()
         pipeline = OCRPipeline(
-            aligner=HybridAligner(),
-            ocr_processor=OCRProcessor(api_base=args.api_base, model=args.model),
-            pdf_handler=pdf_handler,
+            aligner=HybridAligner() if not (args.text_only or is_grounded) else None,
+            ocr_processor=None if is_grounded else backend,
+            grounded_backend=backend if is_grounded else None,
+            pdf_handler=PDFHandler(),
             output_writer=output_writer,
         )
+        await _run_pipeline(args, console, pipeline, output_path)
+    finally:
+        await backend.aclose()
 
-    if args.verify_model:
-        # Fail fast on model mismatch BEFORE we pay for PDF rasterization
-        # or Surya detection. LM Studio's silent fallback (issue #7) is
-        # otherwise invisible until the user notices wrong OCR output.
-        # Print the error here too — main()'s outer except swallows the
-        # message and only exits 1, which would leave the user staring
-        # at a silent failure.
-        backend = pipeline.grounded_backend or pipeline.ocr_processor
-        try:
-            await backend.ensure_model_loaded()
-        except Exception as e:
-            console.print(f"[bold red]Error:[/bold red] {e}")
-            raise
 
+async def _run_pipeline(args, console, pipeline, output_path) -> None:
     console.print(f"[bold cyan]Processing '{args.input_pdf}'...[/bold cyan]")
 
     progress = Progress(
@@ -325,23 +306,19 @@ async def run(args: argparse.Namespace, console: Console) -> None:
                 tasks[stage] = progress.add_task(f"[cyan]{message}", total=total)
             progress.update(tasks[stage], total=total, completed=current, description=f"[cyan]{message}")
 
-        try:
-            await pipeline.run(
-                args.input_pdf, output_path,
-                dpi=args.dpi, pages=args.pages,
-                concurrency=args.concurrency,
-                refine=args.refine,
-                max_image_dim=args.max_image_dim,
-                dense_threshold=args.dense_threshold,
-                dense_mode=args.dense_mode,
-                preprocess=args.preprocess,
-                min_box_confidence=args.min_box_confidence,
-                text_only=args.text_only,
-                progress=on_progress,
-            )
-        except Exception as e:
-            console.print(f"[bold red]Error:[/bold red] {e}")
-            raise
+        await pipeline.run(
+            args.input_pdf, output_path,
+            dpi=args.dpi, pages=args.pages,
+            concurrency=args.concurrency,
+            refine=args.refine,
+            max_image_dim=args.max_image_dim,
+            dense_threshold=args.dense_threshold,
+            dense_mode=args.dense_mode,
+            preprocess=args.preprocess,
+            min_box_confidence=args.min_box_confidence,
+            text_only=args.text_only,
+            progress=on_progress,
+        )
 
     elapsed = time.perf_counter() - start
     console.print(
@@ -356,7 +333,8 @@ def main() -> None:
     console = Console(quiet=args.quiet)
     try:
         asyncio.run(run(args, console))
-    except Exception:
+    except Exception as exc:
+        Console(stderr=True).print(f"Error: {exc}", markup=False)
         sys.exit(1)
 
 

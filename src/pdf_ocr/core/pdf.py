@@ -17,6 +17,7 @@ from PIL import Image, ImageSequence
 
 from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
+from pdf_ocr.utils.pages import select_pages
 
 
 IMAGE_EXTENSIONS = frozenset({
@@ -43,9 +44,11 @@ class PDFHandler:
         pdf_path,
         dpi: int = 150,
         max_image_dim: int = 1024,
+        *,
+        pages: str | None = None,
     ) -> dict[int, str]:
         """
-        Render every page to a base64-encoded JPEG, capped at `max_image_dim`
+        Render selected pages to base64-encoded JPEGs, capped at `max_image_dim`
         pixels on the longest edge so the image fits the VLM's context window.
 
         Accepts either a PDF or a raw image file
@@ -58,15 +61,19 @@ class PDFHandler:
           - GLM-OCR:1.1B (Ollama): ~640 — larger images crash the runner
           - Florence-2 / MinerU: see their docs
 
-        Returns a dict of {page_num: base64_str}.
+        `pages` is a 1-indexed range (e.g. "1-3,5"); None selects all pages.
+        Returns {source_page_index: base64_str}, keeping original 0-based
+        indices even for noncontiguous selections. Unselected pages are
+        never rasterized for OCR.
         """
         if _is_image_path(pdf_path):
-            return self._images_from_image_file(pdf_path, max_image_dim)
+            return self._images_from_image_file(pdf_path, max_image_dim, pages=pages)
 
         images: dict[int, str] = {}
         doc = fitz.open(pdf_path)
         try:
-            for page_num, page in enumerate(doc):
+            for page_num in select_pages(pages, len(doc)):
+                page = doc[page_num]
                 pix = page.get_pixmap(dpi=dpi)
                 img = Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50)))
                 img.thumbnail((max_image_dim, max_image_dim))
@@ -79,12 +86,15 @@ class PDFHandler:
         return images
 
     @staticmethod
-    def _images_from_image_file(path, max_image_dim: int) -> dict[int, str]:
+    def _images_from_image_file(
+        path, max_image_dim: int, *, pages: str | None = None,
+    ) -> dict[int, str]:
         """Load a JPEG/PNG/TIFF/BMP; multi-frame TIFFs become multiple pages."""
         images: dict[int, str] = {}
         with Image.open(path) as src:
-            for page_num, frame in enumerate(ImageSequence.Iterator(src)):
-                img = frame.convert("RGB").copy()
+            for page_num in select_pages(pages, getattr(src, "n_frames", 1)):
+                src.seek(page_num)
+                img = src.convert("RGB").copy()
                 img.thumbnail((max_image_dim, max_image_dim))
                 buffer = io.BytesIO()
                 img.save(buffer, format="JPEG", quality=80)

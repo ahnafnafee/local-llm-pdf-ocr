@@ -187,14 +187,13 @@ def _fake_models_client(model_ids=None, raise_exc=None):
 
 
 def _make_ocr_with_fake_client(model: str, fake_client) -> OCRProcessor:
-    """Construct an OCRProcessor without going through __init__ (which
-    would create a real AsyncOpenAI client). Same trick as
-    TestHallucinationFilter above."""
-    ocr = OCRProcessor.__new__(OCRProcessor)
-    ocr.api_base = "http://localhost:1234/v1"
-    ocr.model = model
-    ocr.client = fake_client
-    return ocr
+    """Exercise the real adapter over an injected SDK-shaped test client."""
+    from pdf_ocr.inference import LLMConfig, OpenAICompatibleClient
+
+    adapter = OpenAICompatibleClient(
+        LLMConfig("http://inference.test/v1", model), sdk_client=fake_client,
+    )
+    return OCRProcessor(model=model, client=adapter)
 
 
 class TestEnsureModelLoaded:
@@ -272,7 +271,7 @@ class TestEnsureModelLoaded:
             asyncio.run(ocr.ensure_model_loaded())
         # Must point the user at the server (where to look) and at the
         # opt-out flag (how to bypass for non-conforming servers).
-        assert "http://localhost:1234/v1" in str(exc_info.value)
+        assert "http://inference.test/v1" in str(exc_info.value)
         assert "--no-verify-model" in str(exc_info.value)
 
 

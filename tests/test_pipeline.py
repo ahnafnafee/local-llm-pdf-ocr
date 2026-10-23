@@ -64,8 +64,10 @@ class _StubPDF:
         self.n_pages = n_pages
         self.last_pages = None
 
-    def convert_to_images(self, path, dpi=150, max_image_dim=1024):
-        return {i: _make_tiny_b64_image() for i in range(self.n_pages)}
+    def convert_to_images(self, path, dpi=150, max_image_dim=1024, *, pages=None):
+        from pdf_ocr.utils.pages import select_pages
+
+        return {i: _make_tiny_b64_image() for i in select_pages(pages, self.n_pages)}
 
     def embed_structured_text(self, inp, out, pages, dpi):
         self.last_pages = dict(pages)

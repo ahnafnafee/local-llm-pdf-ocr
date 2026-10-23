@@ -35,12 +35,62 @@ def test_grounded_empty_output_exits_with_actionable_error(monkeypatch, capsys, 
         main()
 
     assert exc.value.code == 1
-    printed = capsys.readouterr().out
+    printed = capsys.readouterr().err
     assert "Grounded OCR" in printed
     assert "page(s) 1" in printed
     assert "hybrid" in printed
     assert "Done!" not in printed
     assert not output.exists()
+
+
+def test_missing_endpoint_is_reported_even_in_quiet_mode(monkeypatch, capsys):
+    from pdf_ocr.cli import main
+
+    monkeypatch.delenv("LLM_API_BASE")
+    monkeypatch.setattr(sys, "argv", ["local-llm-pdf-ocr", "in.pdf", "--text-only", "--quiet"])
+    with pytest.raises(SystemExit) as exc:
+        main()
+    assert exc.value.code == 1
+    assert "--api-base" in capsys.readouterr().err
+
+
+def test_grounded_cli_selects_pages_and_forwards_rendering_options(monkeypatch, tmp_path):
+    from unittest.mock import AsyncMock
+    import fitz
+
+    from pdf_ocr.cli import main
+    from pdf_ocr.core.grounded import PromptedGroundedOCR
+    from pdf_ocr.inference import OpenAICompatibleClient
+
+    source = tmp_path / "input.pdf"
+    with fitz.open() as doc:
+        for _ in range(5):
+            doc.new_page(width=72, height=72)
+        doc.save(source)
+    complete = AsyncMock(return_value='[{"bbox_2d":[0,0,100,50],"content":"recognized"}]')
+    monkeypatch.setattr(OpenAICompatibleClient, "complete", complete)
+    close = AsyncMock()
+    monkeypatch.setattr(OpenAICompatibleClient, "aclose", close)
+    observed = []
+    original = PromptedGroundedOCR.ocr_document
+
+    async def record(self, *args, **kwargs):
+        observed.append((self.dpi, self.concurrency, kwargs["pages"]))
+        return await original(self, *args, **kwargs)
+
+    monkeypatch.setattr(PromptedGroundedOCR, "ocr_document", record)
+    output = tmp_path / "out.md"
+    monkeypatch.setattr(sys, "argv", [
+        "local-llm-pdf-ocr", str(source), str(output), "--grounded",
+        "--no-verify-model", "--pages", "2,4", "--dpi", "72", "--concurrency", "3",
+    ])
+    main()
+    assert observed == [(72, 3, "2,4")]
+    assert complete.await_count == 2
+    close.assert_awaited_once()
+    text = output.read_text(encoding="utf-8")
+    assert "## Page 2" in text and "## Page 4" in text
+    assert "## Page 1" not in text and "## Page 3" not in text
 
 
 class TestFormatDuration:
