@@ -99,6 +99,27 @@ class TestTextSimilarity:
 
 
 class TestLoadGroundTruth:
+    def test_utf8_fixture_text_is_preserved_with_ansi_locale(self, tmp_path, monkeypatch):
+        import builtins
+        import json
+
+        expected_text = "\u00b7 caf\u00e9 \u2192"
+        fixture = tmp_path / "unicode.json"
+        fixture.write_text(json.dumps({"data": {
+            "layout": [{"bbox": [0, 0, 100, 10], "block_content": expected_text}],
+            "data_info": {"pages": [{"width": 100, "height": 100}]},
+        }}, ensure_ascii=False), encoding="utf-8")
+        original_open = builtins.open
+
+        def ansi_default_open(file, mode="r", *args, **kwargs):
+            if "b" not in mode and "encoding" not in kwargs:
+                kwargs["encoding"] = "cp1252"
+            return original_open(file, mode, *args, **kwargs)
+
+        monkeypatch.setattr(builtins, "open", ansi_default_open)
+        blocks, _ = load_ground_truth(fixture)
+        assert blocks[0].text == expected_text
+
     def test_handwritten_fixture_loads(self):
         blocks, (fw, fh) = load_ground_truth(FIXTURES / "ground_truth_handwritten.json")
         assert (fw, fh) == (1654, 2170)

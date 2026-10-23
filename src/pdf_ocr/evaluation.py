@@ -235,7 +235,7 @@ def load_ground_truth(fixture_path: Path | str) -> tuple[list[GTBlock], tuple[in
     Blocks are normalized to `[x0, y0, x1, y1]` in 0..1 space. Non-text
     blocks (label == "image") are skipped. Axis order is auto-detected.
     """
-    with open(fixture_path) as f:
+    with open(fixture_path, encoding="utf-8") as f:
         data = json.load(f)
 
     d = data.get("data", data)
