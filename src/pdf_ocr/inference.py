@@ -17,6 +17,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+DEFAULT_API_BASE = "http://localhost:1234/v1"
+DEFAULT_MODEL = "allenai/olmocr-2-7b"
+DEFAULT_GROUNDED_MODEL = "qwen/qwen3-vl-8b"
+
 
 class LLMCallError(RuntimeError):
     """A model discovery or inference request failed."""
@@ -42,14 +46,18 @@ class LLMConfig:
         cls, *, api_base: str | None = None, model: str | None = None,
         api_key: str | None = None, require_model: bool = True,
         require_endpoint: bool = True,
+        default_model: str = DEFAULT_MODEL,
     ) -> LLMConfig:
         """Explicit values override LLM_* environment variables and .env.
 
-        No server address or model ID is guessed. Discovery needs only an
-        endpoint; an injected VisionClient needs only a model.
+        Unset values retain the existing endpoint and per-engine model defaults.
+        Discovery needs only an endpoint; an injected VisionClient needs only
+        a model. Neither the defaults nor the adapter require a particular server.
         """
-        base = (api_base or os.getenv("LLM_API_BASE", "")).strip().rstrip("/")
-        selected_model = (model or os.getenv("LLM_MODEL", "")).strip()
+        base = (api_base or os.getenv("LLM_API_BASE", DEFAULT_API_BASE)).strip().rstrip("/")
+        selected_model = (model or os.getenv(
+            "LLM_MODEL", default_model if require_model else "",
+        )).strip()
         if require_endpoint and not base:
             raise ValueError(
                 "Configure an OpenAI-compatible endpoint with --api-base or LLM_API_BASE "

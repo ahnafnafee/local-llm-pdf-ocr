@@ -43,15 +43,47 @@ def test_grounded_empty_output_exits_with_actionable_error(monkeypatch, capsys, 
     assert not output.exists()
 
 
-def test_missing_endpoint_is_reported_even_in_quiet_mode(monkeypatch, capsys):
+def test_invalid_endpoint_is_reported_even_in_quiet_mode(monkeypatch, capsys):
     from pdf_ocr.cli import main
 
-    monkeypatch.delenv("LLM_API_BASE")
+    monkeypatch.setenv("LLM_API_BASE", "not-a-url")
     monkeypatch.setattr(sys, "argv", ["local-llm-pdf-ocr", "in.pdf", "--text-only", "--quiet"])
     with pytest.raises(SystemExit) as exc:
         main()
     assert exc.value.code == 1
     assert "--api-base" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("mode, expected_model, response", [
+    ("--text-only", "allenai/olmocr-2-7b", "recognized"),
+    ("--grounded", "qwen/qwen3-vl-8b", '[{"bbox_2d":[0,0,100,50],"content":"recognized"}]'),
+])
+def test_cli_uses_existing_defaults_without_configuration(monkeypatch, tmp_path, mode, expected_model, response):
+    import fitz
+
+    from pdf_ocr.cli import main
+    from pdf_ocr.inference import OpenAICompatibleClient
+
+    monkeypatch.delenv("LLM_API_BASE")
+    monkeypatch.delenv("LLM_MODEL")
+    source = tmp_path / "input.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=72, height=72)
+        doc.save(source)
+    requests = []
+
+    async def complete(self, prompt, image_base64, **kwargs):
+        requests.append((self.config.api_base, kwargs["model"]))
+        return response
+
+    monkeypatch.setattr(OpenAICompatibleClient, "complete", complete)
+    output = tmp_path / "out.md"
+    monkeypatch.setattr(sys, "argv", [
+        "local-llm-pdf-ocr", str(source), str(output), mode, "--no-verify-model",
+    ])
+    main()
+    assert requests == [("http://localhost:1234/v1", expected_model)]
+    assert "recognized" in output.read_text(encoding="utf-8")
 
 
 def test_grounded_cli_selects_pages_and_forwards_rendering_options(monkeypatch, tmp_path):

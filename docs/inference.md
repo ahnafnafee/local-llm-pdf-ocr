@@ -1,16 +1,18 @@
 # Configuring and extending inference
 
-The OCR pipeline does not start, load, or manage an inference server. Run a vision model on a server of your choice and provide its OpenAI-compatible API base URL and exact model ID. The adapter uses image chat completions and, when verification is enabled, the model catalog. It does not use server-specific management APIs.
+The OCR pipeline does not start, load, or manage an inference server. Run a vision model on a server of your choice, using the defaults below or configuring its OpenAI-compatible API base URL and exact model ID. The adapter uses image chat completions and, when verification is enabled, the model catalog. It does not use server-specific management APIs.
 
 ## Configuration
 
-Set `LLM_API_BASE` and `LLM_MODEL` in the environment or a local `.env`, or pass `--api-base` and `--model`. Explicit values take precedence. An endpoint includes its API prefix, such as `http://localhost:11434/v1` or `http://localhost:8000/v1`; custom prefixes are supported. The same configuration is used for full-page, crop, and grounded OCR, and for the web model picker.
+The existing defaults remain `http://localhost:1234/v1` for the API endpoint, `allenai/olmocr-2-7b` for hybrid/text-only OCR, and `qwen/qwen3-vl-8b` for grounded OCR. These values do not require a particular server application. `LLMConfig.from_env()` uses the hybrid model default; `PromptedGroundedOCR` supplies its own model fallback.
+
+To override them, set `LLM_API_BASE` and `LLM_MODEL` in the environment or a local `.env`, or pass `--api-base` and `--model`. Explicit values take precedence over environment settings, which take precedence over defaults. `LLM_MODEL`, when set, overrides the model in every mode. An endpoint includes its API prefix, such as `http://localhost:11434/v1` or `http://localhost:8000/v1`; custom prefixes are supported. The same configuration is used for full-page, crop, and grounded OCR, and for the web model picker.
 
 Set `LLM_API_KEY` if the endpoint requires bearer authentication. Otherwise the SDK receives a neutral placeholder, which local servers without authentication can ignore. Keys are excluded from the configuration object's representation. The CLI and web server close their adapter after each run; library callers should close adapters they create.
 
-For web requests, the environment key is used only for the configured `LLM_API_BASE`. Changing the endpoint in the browser does not forward that secret to another server. To use an authenticated endpoint from the web UI, configure its URL and key together in the server environment.
+For web requests, the environment key is used only for the configured `LLM_API_BASE`, or the built-in endpoint when that variable is unset. Changing the endpoint in the browser does not forward that secret to another server. To use an authenticated endpoint from the web UI, configure its URL and key together in the server environment.
 
-There are no implicit endpoint or model defaults. If an older installation used the former defaults, set `LLM_API_BASE` and `LLM_MODEL` explicitly before upgrading. Existing explicit settings and the `ensure_model_loaded()` compatibility method continue to work. That method now delegates to `ensure_model_available()`: the catalog advertises usable models and does not establish whether their weights are resident in memory. Servers with incomplete or absent catalogs can use `--no-verify-model` or the web verification checkbox.
+Existing explicit settings and the `ensure_model_loaded()` compatibility method continue to work. That method now delegates to `ensure_model_available()`: the catalog advertises usable models and does not establish whether their weights are resident in memory. Servers with incomplete or absent catalogs can use `--no-verify-model` or the web verification checkbox.
 
 The adapter targets the vision API documented by [Ollama](https://docs.ollama.com/api/openai-compatibility), [vLLM](https://docs.vllm.ai/en/latest/serving/online_serving/), and [llama.cpp](https://github.com/ggml-org/llama.cpp/tree/master/tools/server), as well as other implementations of the same protocol. Model capabilities and serving configuration still determine OCR quality. Tests exercise requests through the real SDK with an in-memory HTTP transport; they do not certify every server/model combination.
 

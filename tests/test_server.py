@@ -183,17 +183,30 @@ def _post(client, *, filename: str = "scan.pdf", content_type: str = "applicatio
 
 
 class TestModelsEndpoint:
-    def test_unconfigured_endpoint_fails_soft_without_contacting_server(self, client, monkeypatch):
-        from unittest.mock import AsyncMock
+    @pytest.mark.parametrize("override, expected_endpoint, expected_key", [
+        ("", "http://localhost:1234/v1", "configured-secret"),
+        ("http://localhost:1234/v1/", "http://localhost:1234/v1", "configured-secret"),
+        ("https://different.test/v1", "https://different.test/v1", "not-required"),
+    ])
+    def test_discovery_uses_existing_default_and_scopes_credentials(
+        self, client, monkeypatch, override, expected_endpoint, expected_key,
+    ):
         from pdf_ocr.inference import OpenAICompatibleClient
 
         monkeypatch.delenv("LLM_API_BASE")
-        discovery = AsyncMock()
+        monkeypatch.delenv("LLM_MODEL")
+        monkeypatch.setenv("LLM_API_KEY", "configured-secret")
+        seen = []
+
+        async def discovery(self):
+            seen.append((self.config.api_base, self.config.api_key))
+            return ["vision"]
+
         monkeypatch.setattr(OpenAICompatibleClient, "list_models", discovery)
-        body = client.get("/models").json()
-        assert body["endpoint"] == "" and body["models"] == []
-        assert "LLM_API_BASE" in body["error"]
-        discovery.assert_not_awaited()
+        response = client.get("/models", params={"api_base": override})
+        assert response.json() == {"endpoint": expected_endpoint, "models": ["vision"], "default": ""}
+        assert seen == [(expected_endpoint, expected_key)]
+        assert "configured-secret" not in response.text
 
     @pytest.mark.parametrize("override, expected_key", [
         ("", "configured-secret"),

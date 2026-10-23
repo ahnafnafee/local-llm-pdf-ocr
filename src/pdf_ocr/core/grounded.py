@@ -34,7 +34,8 @@ from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Optional, Protocol
 
 from pdf_ocr.inference import (
-    LLMConfig, OpenAICompatibleClient, VisionClient, ensure_model_available,
+    DEFAULT_GROUNDED_MODEL, LLMConfig, OpenAICompatibleClient, VisionClient,
+    ensure_model_available,
 )
 from pdf_ocr.utils.pages import select_pages
 
@@ -371,6 +372,7 @@ class PromptedGroundedOCR:
         config = LLMConfig.from_env(
             api_base=api_base, model=model, api_key=api_key,
             require_endpoint=client is None,
+            default_model=DEFAULT_GROUNDED_MODEL,
         )
         self.api_base = config.api_base
         self.model = config.model

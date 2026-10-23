@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from pdf_ocr import PromptedGroundedOCR  # noqa: E402
+from pdf_ocr.inference import DEFAULT_API_BASE  # noqa: E402
 
 
 async def main() -> None:
@@ -40,13 +41,13 @@ async def main() -> None:
     parser.add_argument("output", help="Output fixture JSON path")
     parser.add_argument(
         "--api-base", default=None,
-        help="API base URL; defaults to the required LLM_API_BASE setting",
+        help=f"API base URL; defaults to LLM_API_BASE or {DEFAULT_API_BASE}",
     )
     parser.add_argument("--model", default="qwen/qwen3-vl-4b")
     parser.add_argument("--max-image-dim", type=int, default=1024)
     args = parser.parse_args()
 
-    api_base = args.api_base or os.getenv("LLM_API_BASE")
+    api_base = args.api_base or os.getenv("LLM_API_BASE", DEFAULT_API_BASE)
     in_path = Path(args.input)
     out_path = Path(args.output)
 

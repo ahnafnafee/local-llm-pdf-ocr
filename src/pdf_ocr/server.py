@@ -32,6 +32,7 @@ from pdf_ocr import (
     suffix_for_format,
 )
 from pdf_ocr.core.pdf import IMAGE_EXTENSIONS
+from pdf_ocr.inference import DEFAULT_API_BASE
 
 # Resolve the bundled static directory relative to this module so the server
 # works regardless of the user's CWD when launched via the installed
@@ -148,7 +149,7 @@ async def read_index():
 
 def _api_key_for_endpoint(api_base: str | None) -> str | None:
     """Do not forward a server-side secret to a request-selected endpoint."""
-    configured = os.getenv("LLM_API_BASE", "").strip().rstrip("/")
+    configured = os.getenv("LLM_API_BASE", DEFAULT_API_BASE).strip().rstrip("/")
     if api_base and api_base.strip().rstrip("/") != configured:
         return ""
     return None  # use LLM_API_KEY for the configured endpoint
@@ -162,11 +163,11 @@ async def list_models(api_base: str = ""):
     is unreachable or doesn't implement `/v1/models`, returns an empty
     list plus the error string, so the UI can still let the user type a
     model name by hand and see which endpoint it's pointed at. `api_base`
-    defaults to `LLM_API_BASE` from the environment.
+    defaults to `LLM_API_BASE` from the environment, then the built-in endpoint.
     """
     from pdf_ocr.inference import LLMConfig, OpenAICompatibleClient
 
-    base = api_base.strip() or os.getenv("LLM_API_BASE", "")
+    base = api_base.strip() or os.getenv("LLM_API_BASE", DEFAULT_API_BASE)
     default_model = os.getenv("LLM_MODEL", "")
     try:
         config = LLMConfig.from_env(

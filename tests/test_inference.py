@@ -42,13 +42,27 @@ def test_configuration_uses_environment_and_explicit_overrides(monkeypatch):
     assert "override-key" not in repr(config)
 
 
-@pytest.mark.parametrize("missing, message", [
-    ("LLM_API_BASE", "--api-base"), ("LLM_MODEL", "--model"),
+@pytest.mark.parametrize("backend_type, expected_model", [
+    (OCRProcessor, "allenai/olmocr-2-7b"),
+    (PromptedGroundedOCR, "qwen/qwen3-vl-8b"),
 ])
-def test_missing_configuration_never_falls_back_to_a_server(monkeypatch, missing, message):
-    monkeypatch.delenv(missing)
-    with pytest.raises(ValueError, match=message):
-        LLMConfig.from_env()
+def test_unconfigured_backends_preserve_existing_defaults(monkeypatch, backend_type, expected_model):
+    monkeypatch.delenv("LLM_API_BASE")
+    monkeypatch.delenv("LLM_MODEL")
+    backend = backend_type()
+    assert backend.api_base == "http://localhost:1234/v1"
+    assert backend.model == expected_model
+    assert backend.client.config.api_base == backend.api_base
+    assert backend.client.config.model == expected_model
+    assert backend.client.config.api_key == "not-required"
+
+
+@pytest.mark.parametrize("backend_type", [OCRProcessor, PromptedGroundedOCR])
+def test_environment_and_explicit_settings_override_backend_defaults(backend_type):
+    backend = backend_type()
+    assert (backend.api_base, backend.model) == ("http://inference.test/v1", "test-vision")
+    backend = backend_type(api_base="http://localhost:11434/v1", model="custom-vision")
+    assert (backend.api_base, backend.model) == ("http://localhost:11434/v1", "custom-vision")
 
 
 def test_model_discovery_does_not_require_model_configuration(monkeypatch):

@@ -43,6 +43,7 @@ from pdf_ocr.evaluation import (  # noqa: E402
     compute_report,
     load_ground_truth,
 )
+from pdf_ocr.inference import DEFAULT_API_BASE  # noqa: E402
 
 
 async def run_grounded(image: Path, api_base: str, model: str, max_dim: int):
@@ -88,7 +89,7 @@ async def main() -> None:
     )
     parser.add_argument(
         "--api-base", default=None,
-        help="API base URL; defaults to the required LLM_API_BASE setting",
+        help=f"API base URL; defaults to LLM_API_BASE or {DEFAULT_API_BASE}",
     )
     parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
     parser.add_argument("--grounded-model", default="qwen/qwen3-vl-4b")
@@ -96,7 +97,7 @@ async def main() -> None:
     parser.add_argument("--iou-threshold", type=float, default=0.3)
     args = parser.parse_args()
 
-    api_base = args.api_base or os.getenv("LLM_API_BASE")
+    api_base = args.api_base or os.getenv("LLM_API_BASE", DEFAULT_API_BASE)
     image = Path(args.image)
     fixture = Path(args.fixture)
     console = Console()

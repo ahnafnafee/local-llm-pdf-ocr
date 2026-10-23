@@ -7,7 +7,7 @@
 <h1>📄 Local LLM PDF OCR</h1>
 
 **Turn scanned PDFs and images into fully searchable, selectable documents — with a local vision LLM.**<br/>
-No cloud. No API keys. Nothing ever leaves your machine.
+Connect any OpenAI-compatible vision server. Run it locally to keep documents on your machine.
 
 <br/>
 
@@ -22,7 +22,7 @@ No cloud. No API keys. Nothing ever leaves your machine.
 
 </div>
 
-> **Local LLM PDF OCR** moves beyond traditional Tesseract-based scanning. By pointing it at an OCR Vision Language Model (VLM) like `olmOCR`, `Qwen3-VL`, or `GLM-OCR` running locally, it *reads* documents with human-like understanding — then writes an invisible, selectable text layer back under the original image. Drive it from a **configurable web UI** or a **fully-flagged CLI**.
+> **Local LLM PDF OCR** uses vision models such as `olmOCR`, `Qwen3-VL`, or `GLM-OCR` to transcribe documents and add a selectable text layer to the original page images. Choose a server that exposes an OpenAI-compatible vision API, then use the **web UI** or **CLI**. Python applications can inject their own inference client.
 
 <br/>
 
@@ -58,7 +58,7 @@ No cloud. No API keys. Nothing ever leaves your machine.
 - **🔒 Local & Private** — Run offline with your own vision model server. [Ollama](https://ollama.com), vLLM, llama.cpp, and other servers can provide the OpenAI-compatible API; no particular application is required.
 - **🔍 Four Output Formats** — Searchable sandwich **PDF** (default), **HTML** overlay, plain **Markdown**, or plain **text**. Pick via `--format`, the output extension, or the web dropdown.
 - **📚 Dense-Page Mode** — Auto-detects densely-laid-out pages (default > 60 boxes) and switches to per-box OCR — bypassing the loops / hallucination that full-page OCR exhibits on dense handwritten content.
-- **🧪 Tested** — A comprehensive suite (455 fast + 29 Surya-integration) covers DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, the HTML / Markdown / text writers, evaluation metrics, CLI dispatch, and the full server option surface.
+- **🧪 Tested** — A comprehensive suite (529 fast + 29 Surya-integration) covers DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, the HTML / Markdown / text writers, evaluation metrics, CLI dispatch, and the full server option surface.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -134,11 +134,19 @@ graph TD
 ### Prerequisites
 
 1. **Python 3.10+**
-2. **A vision model served through an OpenAI-compatible API**. Choose your server and configure its endpoint explicitly. Examples include [Ollama](https://docs.ollama.com/api/openai-compatibility), [vLLM](https://docs.vllm.ai/en/latest/serving/online_serving/), and [llama.cpp](https://github.com/ggml-org/llama.cpp/tree/master/tools/server). The model must accept image inputs; grounded mode also requires text and bounding boxes in its response.
+2. **A vision model served through an OpenAI-compatible API**. Choose your server and use the defaults below or configure its endpoint and model ID. Examples include [Ollama](https://docs.ollama.com/api/openai-compatibility), [vLLM](https://docs.vllm.ai/en/latest/serving/online_serving/), and [llama.cpp](https://github.com/ggml-org/llama.cpp/tree/master/tools/server). The model must accept image inputs; grounded mode also requires text and bounding boxes in its response.
 
 ### Configuration
 
-Copy `.env.example` to `.env` and set the endpoint and exact model ID served by your chosen server. For example, a local Ollama configuration is:
+Existing defaults are preserved; no configuration change is needed when your server already uses these values:
+
+| Setting | Default |
+| --- | --- |
+| API base URL | `http://localhost:1234/v1` |
+| Hybrid and text-only model | `allenai/olmocr-2-7b` |
+| Grounded model | `qwen/qwen3-vl-8b` |
+
+These are configurable connection settings, with no dependency on a particular server application. To use another endpoint or model, copy `.env.example` to `.env` and uncomment the relevant overrides. For example, a local Ollama configuration is:
 
 ```env
 LLM_API_BASE=http://localhost:11434/v1
@@ -146,7 +154,7 @@ LLM_MODEL=qwen3-vl:8b
 # LLM_API_KEY=your-key-if-required
 ```
 
-The CLI (`--api-base` / `--model`) and web UI (Model picker + Advanced → Endpoint) override the environment per run. There is no implicit endpoint or model: existing configurations that set `LLM_API_BASE` and `LLM_MODEL` continue to work, while installations that relied on the old defaults must now set both. `LLM_API_KEY` supplies optional bearer authentication without putting secrets in command-line arguments.
+The CLI (`--api-base` / `--model`) and web UI (Model picker + Advanced → Endpoint) override the environment per run, and environment settings override the built-in defaults. `LLM_MODEL` applies to every OCR mode when set. `LLM_API_KEY` supplies optional bearer authentication without putting secrets in command-line arguments.
 
 The preflight check verifies that the endpoint advertises the model; it does not assume that weights are already in memory. Use `--no-verify-model` or untick verification in the UI when a server does not expose a model catalog.
 

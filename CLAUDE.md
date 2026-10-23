@@ -58,11 +58,11 @@ Fixture axis-order is auto-detected (`src/pdf_ocr/evaluation.py::_detect_bbox_ax
 
 ## Configuration
 
-Endpoint and model are required through `.env`, environment variables, or CLI overrides `--api-base` / `--model`. Any server exposing OpenAI-compatible vision chat completions can be used. `LLMConfig` in `inference.py` is the shared configuration source; `VisionClient` is the injectable transport contract for both OCR paths.
+The endpoint defaults to `http://localhost:1234/v1`; the model defaults to `allenai/olmocr-2-7b` for hybrid/text-only OCR and `qwen/qwen3-vl-8b` for grounded OCR. Override these through `.env`, environment variables, or CLI options `--api-base` / `--model` (explicit options take precedence). A configured `LLM_MODEL` applies to every mode. Any server exposing OpenAI-compatible vision chat completions can be used. `LLMConfig` in `inference.py` is the shared configuration source; `VisionClient` is the injectable transport contract for both OCR paths.
 
 ```
-LLM_API_BASE=http://localhost:8000/v1
-LLM_MODEL=your-served-vision-model
+# LLM_API_BASE=http://localhost:1234/v1  # optional endpoint override
+# LLM_MODEL=your-served-vision-model    # optional override for every mode
 # LLM_API_KEY=your-server-key  # optional bearer authentication
 OCR_CONCURRENCY=2          # server.py — in-flight LLM requests (KV-cache VRAM on parallel-slot servers; queued by servers that serialize inference)
 OCR_VERIFY_MODEL=0         # server.py — opt out of pre-flight model check (default: on)

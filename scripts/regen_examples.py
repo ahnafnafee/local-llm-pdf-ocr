@@ -72,7 +72,8 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--out-dir", default=str(EXAMPLES),
                    help="directory to write outputs into (default: examples/)")
-    p.add_argument("--api-base", default=None, help="API base URL; otherwise use LLM_API_BASE")
+    p.add_argument("--api-base", default=None,
+                   help="API base URL; defaults to LLM_API_BASE or http://localhost:1234/v1")
     p.add_argument("--model", default="allenai/olmocr-2-7b",
                    help="OCR model (explicit default — .env may point at a "
                         "non-OCR chat model)")
@@ -91,7 +92,7 @@ async def amain(args: argparse.Namespace) -> int:
 
     ocr = OCRProcessor(api_base=args.api_base, model=args.model)
     await ocr.ensure_model_loaded()
-    print(f"model {args.model} confirmed at {args.api_base}")
+    print(f"model {ocr.model} confirmed at {ocr.api_base}")
 
     aligner = HybridAligner()  # loads Surya once for all documents
     pdf_handler = PDFHandler()

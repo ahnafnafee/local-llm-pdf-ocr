@@ -257,7 +257,8 @@ def append_history(rows: list[dict]) -> None:
 async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--path", choices=["both", "grounded", "hybrid"], default="both")
-    parser.add_argument("--api-base", default=None, help="API base URL; otherwise use LLM_API_BASE")
+    parser.add_argument("--api-base", default=None,
+                        help="API base URL; defaults to LLM_API_BASE or http://localhost:1234/v1")
     parser.add_argument("--grounded-model", default="qwen/qwen3-vl-8b")
     parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
     parser.add_argument("--max-image-dim", type=int, default=1024)
