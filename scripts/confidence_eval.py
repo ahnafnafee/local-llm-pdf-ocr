@@ -100,7 +100,10 @@ async def run_grounded(pdf: Path, api_base: str, model: str, max_dim: int,
         concurrency=concurrency,
     )
     # Use ocr_document directly — no need to write an output PDF for scoring.
-    response = await backend.ocr_document(str(pdf))
+    try:
+        response = await backend.ocr_document(str(pdf))
+    finally:
+        await backend.aclose()
     return [(b.bbox, b.text) for b in response.blocks]
 
 
@@ -113,16 +116,18 @@ async def run_hybrid(pdf: Path, api_base: str, model: str, max_dim: int,
     def capture_writer(_in, _out, pages_data, _dpi):
         captured["pages_data"] = pages_data
 
-    pipe = OCRPipeline(
-        aligner=HybridAligner(),
-        ocr_processor=OCRProcessor(api_base=api_base, model=model),
-        pdf_handler=PDFHandler(),
-        output_writer=capture_writer,
-    )
-    await pipe.run(
-        str(pdf), str(pdf.with_suffix(".scoring.pdf")),
-        max_image_dim=max_dim, concurrency=concurrency, refine=True,
-    )
+    processor = OCRProcessor(api_base=api_base, model=model)
+    try:
+        pipe = OCRPipeline(
+            aligner=HybridAligner(), ocr_processor=processor,
+            pdf_handler=PDFHandler(), output_writer=capture_writer,
+        )
+        await pipe.run(
+            str(pdf), str(pdf.with_suffix(".scoring.pdf")),
+            max_image_dim=max_dim, concurrency=concurrency, refine=True,
+        )
+    finally:
+        await processor.aclose()
     blocks = []
     for _page_num, page_blocks in captured.get("pages_data", {}).items():
         for bbox, text in page_blocks:
@@ -284,6 +289,7 @@ async def main() -> int:
 
     console = Console()
     reports = []
+    failures: list[str] = []
 
     def doc_checks(pdf_name: str, out) -> tuple[int, int, list[str]] | None:
         rules_path = CHECKS_DIR / f"{Path(pdf_name).stem}.jsonl"
@@ -303,11 +309,14 @@ async def main() -> int:
             try:
                 out = await run_grounded(pdf, args.api_base, args.grounded_model,
                                          args.max_image_dim, args.concurrency)
+                if not out:
+                    failures.append(f"{pdf_name}/grounded: OCR returned no text blocks")
                 report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
                                         matching=args.matching)
                 reports.append(("grounded", report, doc_checks(pdf_name, out)))
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
+                failures.append(f"{pdf_name}/grounded: {type(e).__name__}: {e}")
                 console.print(f"   [red]grounded failed: {type(e).__name__}: {e}[/]")
 
         if args.path in ("both", "hybrid"):
@@ -315,11 +324,14 @@ async def main() -> int:
             try:
                 out = await run_hybrid(pdf, args.api_base, args.hybrid_model,
                                        args.max_image_dim, args.concurrency)
+                if not out:
+                    failures.append(f"{pdf_name}/hybrid: OCR returned no text blocks")
                 report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
                                         matching=args.matching)
                 reports.append(("hybrid", report, doc_checks(pdf_name, out)))
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
+                failures.append(f"{pdf_name}/hybrid: {type(e).__name__}: {e}")
                 console.print(f"   [red]hybrid failed: {type(e).__name__}: {e}[/]")
 
     console.print()
@@ -335,22 +347,28 @@ async def main() -> int:
             {"timestamp": timestamp, "document": report.document,
              "path": path_label, **metrics}
         )
-        if args.update_baselines:
+        if args.update_baselines and not failures:
             bp = write_baseline(report.document, path_label, metrics)
             console.print(f"[green]baseline written:[/] {bp.relative_to(ROOT)}")
-        else:
+        elif not args.update_baselines:
             all_regressions.extend(
                 compare_to_baseline(report.document, path_label, metrics)
             )
     if history_rows:
         append_history(history_rows)
 
+    if failures:
+        console.print("\n[red bold]OCR FAILURES:[/]")
+        for failure in failures:
+            console.print(f"  - {failure}", markup=False)
+        if args.update_baselines:
+            console.print("Baselines were not updated because OCR failed.")
+
     if all_regressions:
         console.print("\n[red bold]REGRESSIONS vs committed baselines:[/]")
         for r in all_regressions:
             console.print(f"  [red]- {r}[/]")
-        return 1
-    return 0
+    return 1 if failures or all_regressions else 0
 
 
 if __name__ == "__main__":
