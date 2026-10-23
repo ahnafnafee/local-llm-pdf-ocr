@@ -24,6 +24,30 @@ from pdf_ocr.evaluation import (
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
+@pytest.mark.parametrize("threshold", [0, 0.3])
+def test_page_aware_matching_cannot_credit_a_different_source_page(threshold):
+    gt = [GTBlock([0, 0, 1, 1], "first page", page_index=0)]
+    report = compute_report(
+        "two.pdf", gt, [([0, 0, 1, 1], "first page")],
+        pipeline_page_indices=[1], iou_threshold=threshold,
+    )
+    assert report.block_recall == 0
+    assert report.char_recall == 0
+    assert report.char_precision == 0
+
+
+def test_page_aware_assignment_preserves_text_and_geometry_on_repeated_layouts():
+    gt = [GTBlock([0, 0, 1, 1], "first", page_index=0),
+          GTBlock([0, 0, 1, 1], "second", page_index=1)]
+    report = compute_report(
+        "two.pdf", gt, [([0, 0, 1, 1], "second"), ([0, 0, 1, 1], "first")],
+        pipeline_page_indices=[1, 0],
+    )
+    assert report.avg_text_similarity == 1
+    assert report.char_recall == 1
+    assert report.char_precision == 1
+
+
 class TestIoU:
     def test_identical_boxes(self):
         assert iou([0, 0, 1, 1], [0, 0, 1, 1]) == 1.0

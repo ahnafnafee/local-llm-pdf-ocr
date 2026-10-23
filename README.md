@@ -121,7 +121,7 @@ graph TD
 
 5. **Refine Fallback** *(hybrid path, optional)* — Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. A pre-OCR blank-crop check (pixel stddev) skips dotted notebook backgrounds to avoid the model's "The quick brown fox..." pangram fallback. Disable with `--no-refine`.
 
-6. **Grounded Path** *(opt-in alternative)* — With a bbox-native VLM, the model returns `{bbox, text}` tuples in a single call — Surya, DP, and refine are all skipped.
+6. **Grounded Path** *(opt-in alternative)* — A bbox-native VLM returns text and boxes without Surya or DP. Malformed or truncated responses are retried on smaller source regions within the page deadline. Supported endpoints use JSON schema constraints; other endpoints retain validated JSON prompting. See [generation limits and recovery](docs/inference.md#generation-limits-and-grounded-recovery).
 
 7. **Sandwich PDF** — The page is rasterized as a background image and invisible text is overlaid with horizontal-scale matrices so glyph bboxes span the full width of each source box — selection in a PDF viewer correctly covers the whole region.
 

@@ -46,6 +46,16 @@ import jiwer
 BBox = list[float]
 
 
+class PageAwareBlocks(list):
+    """Legacy (bbox, text) pairs with their original source page indices."""
+
+    def __init__(self, blocks=(), *, page_indices):
+        super().__init__(blocks)
+        self.page_indices = list(page_indices)
+        if len(self) != len(self.page_indices):
+            raise ValueError("Each output block must have one source page index")
+
+
 # --- data classes ----------------------------------------------------------
 
 
@@ -334,6 +344,8 @@ def bag_of_words_f1(
 def char_coverage(
     ground_truth: list[GTBlock],
     pipeline_output: list[tuple[BBox, str]],
+    *,
+    pipeline_page_indices: list[int] | None = None,
 ) -> tuple[float, float]:
     """Split/merge-tolerant character-level coverage, returns
     ``(char_recall, char_precision)``.
@@ -349,6 +361,22 @@ def char_coverage(
     is the axis that stays fair on forms, where detector granularity
     rarely matches GT block granularity.
     """
+    if pipeline_page_indices is not None:
+        if len(pipeline_page_indices) != len(pipeline_output):
+            raise ValueError("Each output block must have one source page index")
+        pages = {g.page_index for g in ground_truth} | set(pipeline_page_indices)
+        recalled = precise = gt_chars = pipe_chars = 0
+        for page in pages:
+            gt_page = [g for g in ground_truth if g.page_index == page]
+            pipe_page = [b for b, p in zip(pipeline_output, pipeline_page_indices) if p == page]
+            recall, precision = char_coverage(gt_page, pipe_page)
+            n_gt = sum(len(g.text.strip()) for g in gt_page)
+            n_pipe = sum(len(t.strip()) for _, t in pipe_page)
+            recalled += recall * n_gt
+            precise += precision * n_pipe
+            gt_chars += n_gt
+            pipe_chars += n_pipe
+        return recalled / max(1, gt_chars), precise / max(1, pipe_chars)
     gt_boxes = [g.bbox for g in ground_truth]
     pipe_boxes = [b for b, _t in pipeline_output]
     recall = _pcc_covered(
@@ -386,6 +414,8 @@ def compute_report(
     pipeline_output: list[tuple[BBox, str]],
     iou_threshold: float = 0.3,
     matching: str = "hungarian",
+    *,
+    pipeline_page_indices: list[int] | None = None,
 ) -> ConfidenceReport:
     """
     Match GT blocks to pipeline blocks one-to-one and score the pairing.
@@ -403,10 +433,17 @@ def compute_report(
     Miss entries carry the GT block's best IoU against *any* pipeline
     box as a diagnostic (`pipeline_text is None` marks them as misses).
     Small enough inputs (hundreds of blocks) that O(N×M) is fine.
+
+    Supplying pipeline_page_indices restricts both assignment and character
+    coverage to the same source page. Omission retains legacy pooled scoring.
     """
     n_pipe = len(pipeline_output)
+    if pipeline_page_indices is not None and len(pipeline_page_indices) != n_pipe:
+        raise ValueError("Each output block must have one source page index")
     iou_rows = [
-        [iou(gt.bbox, pbox) for (pbox, _ptext) in pipeline_output]
+        [iou(gt.bbox, pbox) if pipeline_page_indices is None
+         or gt.page_index == pipeline_page_indices[pi] else 0.0
+         for pi, (pbox, _ptext) in enumerate(pipeline_output)]
         for gt in ground_truth
     ]
 
@@ -421,6 +458,8 @@ def compute_report(
                 int(g): int(p)
                 for g, p in zip(rows, cols)
                 if iou_rows[g][p] >= iou_threshold
+                and (pipeline_page_indices is None
+                     or ground_truth[g].page_index == pipeline_page_indices[p])
             }
     elif matching == "greedy":
         used: set[int] = set()
@@ -460,7 +499,9 @@ def compute_report(
                 iou=best, text_similarity=0.0,
             ))
 
-    recall_pcc, precision_pcc = char_coverage(ground_truth, pipeline_output)
+    recall_pcc, precision_pcc = char_coverage(
+        ground_truth, pipeline_output, pipeline_page_indices=pipeline_page_indices,
+    )
     return ConfidenceReport(
         document=document,
         iou_threshold=iou_threshold,

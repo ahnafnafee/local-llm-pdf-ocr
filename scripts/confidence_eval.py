@@ -40,6 +40,7 @@ from pdf_ocr import (  # noqa: E402
     PromptedGroundedOCR,
 )
 from pdf_ocr.evaluation import (  # noqa: E402
+    PageAwareBlocks,
     compute_report,
     load_doc_checks,
     load_ground_truth,
@@ -91,12 +92,11 @@ JOBS = [
 
 
 async def run_grounded(pdf: Path, api_base: str, model: str, max_dim: int,
-                       concurrency: int = 4):
+                       concurrency: int = 1):
     backend = PromptedGroundedOCR(
         api_base=api_base,
         model=model,
         max_image_dim=max_dim,
-        max_tokens=16384,
         concurrency=concurrency,
     )
     # Use ocr_document directly — no need to write an output PDF for scoring.
@@ -104,11 +104,23 @@ async def run_grounded(pdf: Path, api_base: str, model: str, max_dim: int,
         response = await backend.ocr_document(str(pdf))
     finally:
         await backend.aclose()
-    return [(b.bbox, b.text) for b in response.blocks]
+    selected = response.page_indices
+    if selected is None:
+        selected = list(range(len(response.page_sizes)))
+    recognized = {b.page_index for b in response.blocks if b.text.strip()}
+    missing = [i + 1 for i in selected if i not in recognized]
+    if missing:
+        errors = getattr(response, "page_errors", {})
+        details = "; ".join(f"page {p}: {errors[p - 1]}" for p in missing if p - 1 in errors)
+        raise RuntimeError(f"Grounded OCR returned no text on source page(s) {missing}. {details}")
+    return PageAwareBlocks(
+        [(b.bbox, b.text) for b in response.blocks],
+        page_indices=[b.page_index for b in response.blocks],
+    )
 
 
 async def run_hybrid(pdf: Path, api_base: str, model: str, max_dim: int,
-                     concurrency: int = 4):
+                     concurrency: int = 1):
     # Run pipeline to a throwaway file; we only need pages_structured data.
     # Smuggle the alignment result out via a custom output_writer.
     captured: dict = {}
@@ -129,11 +141,13 @@ async def run_hybrid(pdf: Path, api_base: str, model: str, max_dim: int,
     finally:
         await processor.aclose()
     blocks = []
-    for _page_num, page_blocks in captured.get("pages_data", {}).items():
+    page_indices = []
+    for page_num, page_blocks in sorted(captured.get("pages_data", {}).items()):
         for bbox, text in page_blocks:
             if text.strip():
                 blocks.append((bbox, text))
-    return blocks
+                page_indices.append(page_num)
+    return PageAwareBlocks(blocks, page_indices=page_indices)
 
 
 # ---------------------------------------------------------------------------
@@ -275,7 +289,7 @@ async def main() -> int:
              "matching, for comparison against historical reports.",
     )
     parser.add_argument(
-        "--concurrency", type=int, default=4,
+        "--concurrency", type=int, default=1,
         help="Parallel LLM requests per document (crop calls dominate "
              "per-box pages; local servers queue excess requests).",
     )
@@ -298,6 +312,13 @@ async def main() -> int:
         text = "\n".join(t for _b, t in out if t.strip())
         return run_doc_checks(text, load_doc_checks(rules_path))
 
+    def add_report(mode, report, out):
+        checks = doc_checks(report.document, out)
+        reports.append((mode, report, checks))
+        if checks and checks[0] != checks[1]:
+            failures.extend(f"{report.document}/{mode}: content check failed: {reason}"
+                            for reason in checks[2])
+
     for pdf_name, fixture_name in JOBS:
         pdf = EXAMPLES / pdf_name
         fixture = FIXTURES / fixture_name
@@ -312,8 +333,9 @@ async def main() -> int:
                 if not out:
                     failures.append(f"{pdf_name}/grounded: OCR returned no text blocks")
                 report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
-                                        matching=args.matching)
-                reports.append(("grounded", report, doc_checks(pdf_name, out)))
+                                        matching=args.matching,
+                                        pipeline_page_indices=getattr(out, "page_indices", None))
+                add_report("grounded", report, out)
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
                 failures.append(f"{pdf_name}/grounded: {type(e).__name__}: {e}")
@@ -327,8 +349,9 @@ async def main() -> int:
                 if not out:
                     failures.append(f"{pdf_name}/hybrid: OCR returned no text blocks")
                 report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
-                                        matching=args.matching)
-                reports.append(("hybrid", report, doc_checks(pdf_name, out)))
+                                        matching=args.matching,
+                                        pipeline_page_indices=getattr(out, "page_indices", None))
+                add_report("hybrid", report, out)
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
                 failures.append(f"{pdf_name}/hybrid: {type(e).__name__}: {e}")

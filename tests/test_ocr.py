@@ -18,6 +18,37 @@ from pdf_ocr.core.ocr import (
 )
 
 
+@pytest.mark.parametrize("field", ["is_table", "is_diagram"])
+async def test_front_matter_flags_non_linear_layout(field):
+    from unittest.mock import AsyncMock
+
+    processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=AsyncMock(
+        return_value=f"---\n{field}: True\n---\nrecognized line",
+    )))
+    lines = await processor.perform_ocr("image")
+    assert lines == ["recognized line"]
+    assert lines.requires_region_ocr
+
+
+async def test_body_text_does_not_set_a_layout_hint():
+    from unittest.mock import AsyncMock
+
+    processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=AsyncMock(
+        return_value="a technical example\nis_table: True",
+    )))
+    assert not (await processor.perform_ocr("image")).requires_region_ocr
+
+
+async def test_crop_retry_discards_repeatedly_truncated_text():
+    from unittest.mock import AsyncMock
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    complete = AsyncMock(side_effect=IncompleteCompletionError("token limit"))
+    processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=complete))
+    assert await processor.perform_ocr_on_crop("image") == ""
+    assert complete.await_count == 2
+
+
 class TestYAMLFrontMatter:
     def test_strips_canonical_olmocr_response(self):
         response = (
@@ -95,8 +126,7 @@ class TestHallucinationFilter:
         import asyncio
         from pdf_ocr.core.ocr import OCRProcessor
 
-        ocr = OCRProcessor.__new__(OCRProcessor)  # skip real init
-        ocr.client = None  # never used; we override _chat below
+        ocr = OCRProcessor(model="vision", client=SimpleNamespace())
 
         async def _fake_pangram(*a, **kw):
             return "The quick brown fox jumps over the lazy dog."
@@ -111,8 +141,7 @@ class TestHallucinationFilter:
         import asyncio
         from pdf_ocr.core.ocr import OCRProcessor
 
-        ocr = OCRProcessor.__new__(OCRProcessor)
-        ocr.client = None
+        ocr = OCRProcessor(model="vision", client=SimpleNamespace())
 
         async def _fake(*a, **kw):
             return "real handwritten content"
@@ -129,8 +158,7 @@ class TestHallucinationFilter:
         import asyncio
         from pdf_ocr.core.ocr import OCRProcessor
 
-        ocr = OCRProcessor.__new__(OCRProcessor)
-        ocr.client = None
+        ocr = OCRProcessor(model="vision", client=SimpleNamespace())
 
         sentence = (
             "Practice typing: The quick brown fox jumps over the lazy dog. "
@@ -161,8 +189,7 @@ class TestHallucinationFilter:
             '"The quick brown fox jumps over the lazy dog."',
             'the quick brown fox jumps over the lazy dog',
         ):
-            ocr = OCRProcessor.__new__(OCRProcessor)
-            ocr.client = None
+            ocr = OCRProcessor(model="vision", client=SimpleNamespace())
             ocr._chat = _make_fake(variant)
             ocr.CROP_TIMEOUT_S = 60.0
             ocr.CROP_MAX_TOKENS = 256

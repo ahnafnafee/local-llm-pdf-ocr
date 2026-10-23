@@ -6,9 +6,11 @@ Configure LLM_API_BASE/LLM_MODEL or inject a VisionClient.
 """
 
 import logging
+import re
 
 from pdf_ocr.inference import (
     LLMCallError,  # compatibility re-export
+    IncompleteCompletionError,
     LLMConfig,
     ModelNotLoadedError,  # compatibility re-export
     OpenAICompatibleClient,
@@ -71,6 +73,14 @@ def _is_fallback_response(text: str) -> bool:
     _trim = ".!?\"'`)([]{}<>“”‘’ \t"
     normalized = text.strip().lower().strip(_trim)
     return normalized in _HALLUCINATION_PATTERNS
+
+
+class OCRLines(list):
+    """Transcribed lines with an optional layout hint for hybrid alignment."""
+
+    def __init__(self, lines, *, requires_region_ocr=False):
+        super().__init__(lines)
+        self.requires_region_ocr = requires_region_ocr
 
 
 class OCRProcessor:
@@ -147,7 +157,14 @@ class OCRProcessor:
             return []
         body = _strip_yaml_front_matter(text)
         lines = [line.strip() for line in body.split("\n") if line.strip()]
-        return _strip_runaway_repetition(lines)
+        # Linear alignment cannot bind table cells or diagram labels reliably.
+        # Read only the front matter, never similarly named text in the body.
+        front_matter = re.match(r"\s*---\s*\n(.*?)\n---(?:\s*\n|$)", text, re.DOTALL)
+        region_layout = bool(front_matter and re.search(
+            r"^\s*is_(?:table|diagram):\s*(?:true|yes)\s*$",
+            front_matter.group(1), re.IGNORECASE | re.MULTILINE,
+        ))
+        return OCRLines(_strip_runaway_repetition(lines), requires_region_ocr=region_layout)
 
     async def perform_ocr_on_crop(self, image_base64: str) -> str:
         """
@@ -155,11 +172,24 @@ class OCRProcessor:
         string (the crop is small, so we don't try to preserve line structure).
         Empty-string for blank/uncertain crops (filtered hallucination).
         """
-        text = await self._chat(
-            CROP_PROMPT, image_base64,
-            timeout=self.CROP_TIMEOUT_S,
-            max_tokens=self.CROP_MAX_TOKENS,
-        )
+        try:
+            text = await self._chat(
+                CROP_PROMPT, image_base64,
+                timeout=self.CROP_TIMEOUT_S, max_tokens=self.CROP_MAX_TOKENS,
+            )
+        except IncompleteCompletionError:
+            # A line crop cannot legitimately contain hundreds of repeated
+            # tokens. Retry using the page-trained prompt, then leave an
+            # unreadable region empty rather than embedding a cut-off loop.
+            logging.warning("Crop transcription hit its token limit; retrying with the page prompt.")
+            try:
+                text = await self._chat(
+                    self.page_prompt, image_base64,
+                    timeout=self.CROP_TIMEOUT_S, max_tokens=self.CROP_MAX_TOKENS,
+                )
+            except IncompleteCompletionError:
+                logging.warning("Crop retry also hit its token limit; region remains unrecognized.")
+                return ""
         if not text:
             return ""
         body = _strip_yaml_front_matter(text)

@@ -33,6 +33,7 @@ from typing import Awaitable, Callable, Optional
 
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 from pdf_ocr.core.grounded import GroundedOCRBackend
+from pdf_ocr.inference import IncompleteCompletionError
 from pdf_ocr.utils.image import crop_for_ocr
 from pdf_ocr.utils.pages import parse_page_range  # re-export for existing callers
 
@@ -269,6 +270,39 @@ class OCRPipeline:
         pages_text: dict[int, list[str]] = {}
         semaphore = asyncio.Semaphore(max(1, concurrency))
         total = len(page_nums)
+        crop_images = {}
+
+        async def crop_page_image(p_num):
+            render = getattr(self.pdf_handler, "render_page_for_crops", None)
+            if render is None or p_num in rect_maps:
+                # Rectified boxes belong to the rectified frame. Keep that
+                # image unless the renderer can apply its exact homography.
+                return images_dict[p_num]
+            if p_num not in crop_images:
+                crop_images[p_num] = await asyncio.to_thread(render, input_path, p_num, dpi)
+            return crop_images[p_num]
+
+        async def process_regions(p_num, page_lines=None):
+            per_box_pages.add(p_num)  # refinement must not OCR these twice
+            preserved = {}
+            structured = pages_structured[p_num]
+            # A complete page pass retains context that tiny crops can lose.
+            # Keep its first line only when geometry identifies one isolated
+            # heading above all other text. Forms with adjacent labels do not
+            # have this unambiguous correspondence.
+            if page_lines and len(page_lines) > 1 and len(structured) > 1:
+                top = min(range(len(structured)), key=lambda i: structured[i][0][1])
+                heading = structured[top][0]
+                next_top = min(b[1] for i, (b, _) in enumerate(structured) if i != top)
+                if (_is_refinable(heading)
+                        and next_top - heading[3] >= 0.5 * (heading[3] - heading[1])):
+                    preserved[top] = page_lines[0]
+            aligned = await self._ocr_per_box(
+                await crop_page_image(p_num), structured, semaphore,
+                mask_neighbors=p_num in mask_pages,
+                preserved=preserved,
+            )
+            return p_num, [t for _, t in aligned if t], aligned
 
         async def process_page(p_num: int):
             if p_num in per_box_pages:
@@ -276,17 +310,24 @@ class OCRPipeline:
                 # `semaphore` once per box. Wrapping the call in another
                 # `async with semaphore:` here would deadlock when
                 # concurrency=1 (outer holder waits for inner acquire).
-                aligned = await self._ocr_per_box(
-                    images_dict[p_num], pages_structured[p_num], semaphore,
-                    mask_neighbors=p_num in mask_pages,
+                return await process_regions(p_num)
+            try:
+                async with semaphore:
+                    llm_lines = await self.ocr_processor.perform_ocr(images_dict[p_num])
+            except IncompleteCompletionError:
+                if dense_mode != "auto":
+                    raise
+                logging.warning(
+                    "Page %d exceeded the page transcription token limit; retrying per-box.",
+                    p_num + 1,
                 )
-                # No "raw lines" in per-box mode — each box's text IS the answer.
-                llm_lines = [t for _, t in aligned if t]
-                return p_num, llm_lines, aligned
-            async with semaphore:
-                llm_lines = await self.ocr_processor.perform_ocr(images_dict[p_num])
+                return await process_regions(p_num)
             if not llm_lines:
                 return p_num, llm_lines, pages_structured[p_num]
+            if (dense_mode == "auto" and pages_structured[p_num]
+                    and getattr(llm_lines, "requires_region_ocr", False)):
+                logging.info("Page %d contains a table or diagram; transcribing regions.", p_num + 1)
+                return await process_regions(p_num, llm_lines)
             aligned = await asyncio.to_thread(
                 self.aligner.align_text, pages_structured[p_num], llm_lines
             )
@@ -311,12 +352,7 @@ class OCRPipeline:
                     "— retrying the page with per-box OCR.",
                     match_count, n_boxes, p_num + 1,
                 )
-                per_box_pages.add(p_num)  # refine must skip this page too
-                aligned = await self._ocr_per_box(
-                    images_dict[p_num], pages_structured[p_num], semaphore,
-                    mask_neighbors=p_num in mask_pages,
-                )
-                llm_lines = [t for _, t in aligned if t]
+                return await process_regions(p_num, llm_lines)
             return p_num, llm_lines, aligned
 
         completed = 0
@@ -326,14 +362,20 @@ class OCRPipeline:
                  f"{total - len(per_box_pages)} sparse)"
         )
         await _notify(progress, "ocr", 0, total, f"{ocr_label} (0/{total})...")
-        for coro in asyncio.as_completed([process_page(p) for p in page_nums]):
-            p_num, llm_lines, aligned = await coro
-            pages_text[p_num] = llm_lines
-            pages_structured[p_num] = aligned
-            completed += 1
-            await _notify(
-                progress, "ocr", completed, total, f"{ocr_label} ({completed}/{total})"
-            )
+        tasks = [asyncio.create_task(process_page(p)) for p in page_nums]
+        try:
+            for coro in asyncio.as_completed(tasks):
+                p_num, llm_lines, aligned = await coro
+                pages_text[p_num] = llm_lines
+                pages_structured[p_num] = aligned
+                completed += 1
+                await _notify(
+                    progress, "ocr", completed, total, f"{ocr_label} ({completed}/{total})"
+                )
+        finally:
+            for task in tasks:
+                task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
 
         # --- Phase 3: per-box crop re-OCR for low-confidence boxes ---
         # Skip refine for pages that already went through per-box OCR —
@@ -343,8 +385,12 @@ class OCRPipeline:
                 p: pages_structured[p] for p in page_nums if p not in per_box_pages
             }
             if sparse_structured:
+                refine_images = dict(images_dict)
+                for p_num, blocks in sparse_structured.items():
+                    if any(not t.strip() and _is_refinable(b) for b, t in blocks):
+                        refine_images[p_num] = await crop_page_image(p_num)
                 await self._refine_uncertain(
-                    sparse_structured, images_dict, semaphore, progress,
+                    sparse_structured, refine_images, semaphore, progress,
                     mask_pages=mask_pages,
                 )
 
@@ -465,14 +511,16 @@ class OCRPipeline:
             response.page_indices if response.page_indices is not None
             else range(len(response.page_sizes))
         )
-        empty_pages = [
-            str(p + 1) for p in expected_pages
-            if not pages_data.get(p)
-        ]
+        missing = [p for p in expected_pages if not pages_data.get(p)]
+        empty_pages = [str(p + 1) for p in missing]
         if not pages_data or empty_pages:
             location = f"page(s) {', '.join(empty_pages)}" if empty_pages else "the document"
+            errors = getattr(response, "page_errors", {})
+            details = "; ".join(f"page {p + 1}: {errors[p]}" for p in missing if p in errors)
+            detail_text = f"{details}. " if details else ""
             raise RuntimeError(
                 f"Grounded OCR returned no text blocks for {location}. "
+                f"{detail_text}"
                 "No output was written. Grounded mode requires a model that "
                 "returns text with bounding boxes as JSON; the model may not "
                 "support grounding, or the page may be blank. Use a "
@@ -495,6 +543,7 @@ class OCRPipeline:
         semaphore: asyncio.Semaphore,
         *,
         mask_neighbors: bool = False,
+        preserved: dict[int, str] | None = None,
     ) -> list[tuple[list[float], str]]:
         """
         OCR every detected box on a page individually.
@@ -530,6 +579,8 @@ class OCRPipeline:
         boxes_only = [bbox for bbox, _ in structured] if mask_neighbors else None
 
         async def ocr_one(idx: int, bbox: list[float]):
+            if preserved and idx in preserved:
+                return idx, preserved[idx]
             async with semaphore:
                 if not _is_refinable(bbox):
                     return idx, ""
@@ -554,9 +605,14 @@ class OCRPipeline:
             for i, (bbox, _) in enumerate(structured)
         ]
         results: dict[int, str] = {}
-        for fut in asyncio.as_completed(tasks):
-            idx, text = await fut
-            results[idx] = text.strip()
+        try:
+            for fut in asyncio.as_completed(tasks):
+                idx, text = await fut
+                results[idx] = text.strip()
+        finally:
+            for task in tasks:
+                task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
         out = [(bbox, results.get(i, "")) for i, (bbox, _) in enumerate(structured)]
         cleared = _drop_overlap_duplicates(out)
         if cleared:

@@ -23,8 +23,8 @@ from pdf_ocr.core.markdown import MarkdownHandler
 from pdf_ocr.core.ocr import OCRProcessor
 from pdf_ocr.core.pdf import PDFHandler
 from pdf_ocr.inference import (
-    LLMCallError, LLMConfig, ModelNotAvailableError, ModelNotLoadedError,
-    OpenAICompatibleClient, VisionClient,
+    IncompleteCompletionError, LLMCallError, LLMConfig, ModelNotAvailableError, ModelNotLoadedError,
+    OpenAICompatibleClient, StructuredVisionClient, VisionClient,
 )
 from pdf_ocr.output import (
     SUPPORTED_FORMATS,
@@ -42,8 +42,10 @@ __all__ = [
     "OCRProcessor",
     "LLMConfig",
     "VisionClient",
+    "StructuredVisionClient",
     "OpenAICompatibleClient",
     "LLMCallError",
+    "IncompleteCompletionError",
     "ModelNotAvailableError",
     "ModelNotLoadedError",
     "HybridAligner",

@@ -46,6 +46,24 @@ async def extract_text(input_path, output_path):
 
 Prompt selection belongs to the OCR component. `OCRProcessor` uses the canonical OlmOCR prompt for model IDs containing `olmocr`, a general transcription prompt for other IDs, and an explicit `page_prompt` when supplied. `PromptedGroundedOCR` retains its separate JSON/bounding-box prompt. Server identity never determines a prompt.
 
+Crop transcription requests literal text rather than page-level figure descriptions or table markup. In automatic hybrid mode, table/diagram flags in page front matter select region OCR because linear alignment cannot reliably place cells or diagram labels. An isolated heading above all other boxes retains its complete page transcription, preserving context that a tiny crop can lose. Crop images are rendered lazily from the selected source page at up to 2048 pixels, independently of the full-page thumbnail. Custom PDF handlers may implement `render_page_for_crops(path, page_index, dpi)`; otherwise the pipeline uses their existing images. Rectified photographs keep their rectified image so crop coordinates remain in the correct frame.
+
+## Generation limits and grounded recovery
+
+Inference calls have a wall-clock deadline and disable automatic SDK retries. A response ending with `finish_reason=length` raises `IncompleteCompletionError`; it is never accepted as a complete transcription. Automatic hybrid mode retries truncated pages per box. A truncated crop is retried once with the page prompt, then left unrecognized with a warning if it still exhausts its budget.
+
+Grounded OCR normally requests one page at a time with a 4096-token limit. Malformed or truncated responses trigger subdivision into overlapping thirds, with at most two subdivision levels. Retries use source pixels, map coordinates back to the original page, and keep only each region's owned centers at seams. The 240-second page deadline includes recovery calls. Cancellation drains outstanding page tasks, and the pipeline rejects missing pages before writing an output. Failures are retained in `GroundedResponse.page_errors`, keyed by source index, and included in pipeline and evaluator errors.
+
+`StructuredVisionClient` adds an optional `complete_json(..., schema=...)` capability to the base interface. The default adapter sends a standard JSON schema response format and falls back to ordinary completions when the endpoint explicitly rejects that format. Ordinary injected clients need only implement `VisionClient`; their responses are parsed and validated. The default grounding prompt explicitly requests a 0–1000 coordinate grid. Custom prompts retain automatic coordinate-convention detection.
+
+For Qwen3-VL IDs, the built-in grounded adapter uses temperature 0.7, top-p 0.8 and presence penalty 1.5, following the model's [published sampling settings](https://github.com/QwenLM/Qwen3-VL#-generation-hyperparameters). An injected adapter controls its own optional sampling settings through `OpenAICompatibleClient(config, generation_options={...})`; the OCR component still supplies its per-request temperature and budgets. These settings depend on the model rather than the server product.
+
+Image preprocessing in the chosen server also affects grounding accuracy. For example, Qwen recommends roughly 1024–2048 image tokens for OCR and grounding; llama.cpp exposes the lower bound as `--image-min-tokens 1024`. See the [model team's guidance](https://github.com/ggml-org/llama.cpp/issues/16842#issuecomment-3476399330). Configure the equivalent vision settings in your server and wait for model readiness before evaluation; advertising a catalog entry during loading does not establish inference readiness.
+
+Run the live confidence evaluator with concurrency matching the endpoint's inference capacity. Its default is one request at a time. Missing pages, empty documents, failed content checks and historical metric regressions return nonzero; failed runs cannot update baselines.
+
+See [evaluation provenance](../evals/README.md) for page-aware scoring, source-verified reference corrections and the limits of comparisons with historical baselines.
+
 ## Page selection contracts
 
 `PDFHandler.convert_to_images(..., pages="2,4")` selects before rasterizing and returns images keyed by original zero-based source indices, here `1` and `3`. TIFF and other multi-frame image inputs use the same selection rule. Custom PDF handlers should accept the optional `pages` keyword and preserve source indices.

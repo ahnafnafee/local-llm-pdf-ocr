@@ -85,6 +85,26 @@ class PDFHandler:
             doc.close()
         return images
 
+    def render_page_for_crops(self, path, page_index: int, dpi: int = 200) -> str:
+        """Retain source detail for region OCR, independently of thumbnails.
+
+        Called lazily for processed pages needing crops. Normalized detection
+        coordinates still map to this image, without enlarging JPEG artifacts
+        from the context-limited full-page image.
+        """
+        if _is_image_path(path):
+            with Image.open(path) as src:
+                src.seek(page_index)
+                image = src.convert("RGB")
+        else:
+            with fitz.open(path) as doc:
+                pix = doc[page_index].get_pixmap(dpi=dpi)
+                image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+        image.thumbnail((2048, 2048))
+        buffer = io.BytesIO()
+        image.save(buffer, format="JPEG", quality=90)
+        return base64.b64encode(buffer.getvalue()).decode()
+
     @staticmethod
     def _images_from_image_file(
         path, max_image_dim: int, *, pages: str | None = None,

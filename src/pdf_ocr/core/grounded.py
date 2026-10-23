@@ -34,7 +34,8 @@ from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Optional, Protocol
 
 from pdf_ocr.inference import (
-    DEFAULT_GROUNDED_MODEL, LLMConfig, OpenAICompatibleClient, VisionClient,
+    DEFAULT_GROUNDED_MODEL, IncompleteCompletionError, LLMCallError, LLMConfig,
+    OpenAICompatibleClient, VisionClient,
     ensure_model_available,
 )
 from pdf_ocr.utils.pages import select_pages
@@ -58,6 +59,7 @@ class GroundedResponse:
     # Source indices corresponding to page_sizes, including pages with no
     # recognized blocks. None preserves the legacy contiguous-page contract.
     page_indices: list[int] | None = None
+    page_errors: dict[int, str] = field(default_factory=dict)
 
 
 class GroundedOCRBackend(Protocol):
@@ -300,38 +302,26 @@ class ZAIHostedOCR:
 
 
 DEFAULT_GROUNDING_PROMPT = (
-    "You are an exhaustive OCR engine. Output a JSON array covering EVERY "
-    "VISUAL LINE of text on this page: headers, form labels, field names, "
-    "body paragraphs, numbered items, signatures, footnotes — all of it.\n"
-    "\n"
-    "CRITICAL — line segmentation: emit ONE element PER VISUAL LINE. If a "
-    "phrase wraps onto two lines on the page, that is TWO elements, not "
-    "one — even if the lines belong to the same sentence, paragraph, or "
-    "phrase. Never join lines together. Never collapse a line break into "
-    "a space. Hand-written notes especially have line breaks that printed "
-    "text wouldn't — preserve every one of them. Each bbox must tightly "
-    "enclose a SINGLE line.\n"
-    "\n"
-    "Worked example — if the page contains the four visual lines:\n"
-    "  schwache Grenzen\n"
-    "  im Kopf\n"
-    "  Linke\n"
-    "  weiblich\n"
-    "emit FOUR elements, one per line. Do NOT emit one element with "
-    "content \"schwache Grenzen im Kopf\" and another with \"Linke "
-    "weiblich\" — joining lines is wrong even when the resulting phrase "
-    "reads naturally.\n"
-    "\n"
-    "Each element must have this exact shape: "
-    "{\"bbox_2d\": [x1, y1, x2, y2], \"content\": \"<text of that one line>\"} "
-    "where bbox_2d is pixel coordinates in the image (x1<x2, y1<y2). The "
-    "bbox height must match a single line of text. If your bbox is tall "
-    "enough to contain two lines, you have joined two lines — split it "
-    "into two elements.\n"
-    "\n"
-    "Do not skip small labels. Do not summarize. Do not paraphrase. "
-    "No markdown fences, no prose — only the raw JSON array."
+    "Read all text in the image, including small labels and handwritten notes. "
+    "Return a compact JSON array with one entry per visual text line: "
+    '{"bbox_2d":[x1,y1,x2,y2],"content":"text"}. '
+    "Use coordinates from 0 to 1000 relative to this image, with each box "
+    "tightly enclosing its line. Preserve separate lines, transcribe faithfully "
+    "in reading order, and output each line once. Do not describe figures or "
+    "invent text in blank regions. Return only JSON."
 )
+
+_GROUNDING_SCHEMA = {
+    "type": "object", "additionalProperties": False, "required": ["blocks"],
+    "properties": {"blocks": {"type": "array", "items": {
+        "type": "object", "additionalProperties": False,
+        "required": ["bbox_2d", "content"], "properties": {
+            "bbox_2d": {"type": "array", "minItems": 4, "maxItems": 4,
+                        "items": {"type": "number"}},
+            "content": {"type": "string"},
+        },
+    }}},
+}
 
 
 class PromptedGroundedOCR:
@@ -342,7 +332,8 @@ class PromptedGroundedOCR:
     confirmed for Qwen2.5-VL (line-level, wrapped in fences) and Qwen3-VL
     (line-level, bare JSON). Should also work for MiniCPM-V, InternVL, etc.
 
-    The backend rasterizes each PDF page itself (one call per page), so it
+    The backend rasterizes each selected PDF page itself and retries
+    truncated or malformed responses on smaller source regions, so it
     doubles as its own PDF handler — the OCRPipeline will use its
     `ocr_document(pdf_path)` method directly.
 
@@ -364,7 +355,7 @@ class PromptedGroundedOCR:
         dpi: int = 150,
         prompt: str | None = None,
         timeout_s: float = 240.0,
-        max_tokens: int = 8192,
+        max_tokens: int = 4096,
         concurrency: int = 1,
         *,
         client: VisionClient | None = None,
@@ -377,12 +368,19 @@ class PromptedGroundedOCR:
         self.api_base = config.api_base
         self.model = config.model
         self._owned_client: OpenAICompatibleClient | None = None
+        # Qwen3-VL's published sampling settings reduce greedy decoding loops.
+        # These are model settings, independent of the serving application.
+        qwen3 = "qwen3" in self.model.lower()
+        self.temperature = 0.7 if qwen3 else 0.0
         if client is None:
-            client = self._owned_client = OpenAICompatibleClient(config)
+            client = self._owned_client = OpenAICompatibleClient(
+                config, generation_options={"presence_penalty": 1.5, "top_p": 0.8} if qwen3 else None,
+            )
         self.client = client
         self.max_image_dim = max_image_dim
         self.dpi = dpi
         self.prompt = prompt or DEFAULT_GROUNDING_PROMPT
+        self.coordinate_space = "auto" if prompt else "normalized_1000"
         self.timeout_s = timeout_s
         self.max_tokens = max_tokens
         self.concurrency = concurrency
@@ -416,9 +414,11 @@ class PromptedGroundedOCR:
         # For image inputs (JPEG/PNG/TIFF) skip the PDF round-trip and read
         # pixels directly — this both saves work and supports multi-frame TIFF.
         page_imgs: dict[int, tuple[str, int, int]] = {}  # source index -> (b64, w, h)
+        source_imgs: dict[int, Image.Image] = {}
 
         def _emit(page_idx: int, img: Image.Image) -> None:
             img = img.convert("RGB")
+            source_imgs[page_idx] = img.copy()
             img.thumbnail((self.max_image_dim, self.max_image_dim))
             buf = io.BytesIO()
             img.save(buf, format="JPEG", quality=80)
@@ -437,7 +437,7 @@ class PromptedGroundedOCR:
                 for page_idx in select_pages(pages, len(doc)):
                     page = doc[page_idx]
                     pix = page.get_pixmap(dpi=self.dpi)
-                    _emit(page_idx, Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=70))))
+                    _emit(page_idx, Image.frombytes("RGB", (pix.width, pix.height), pix.samples))
             finally:
                 doc.close()
 
@@ -445,39 +445,122 @@ class PromptedGroundedOCR:
         # as empty pages. The pipeline validates all pages before writing output.
         sem = asyncio.Semaphore(max(1, self.concurrency))
         total_pages = len(page_imgs)
+        page_errors: dict[int, str] = {}
 
         async def run_one(page_idx: int) -> tuple[int, list[GroundedBlock]]:
             b64, w, h = page_imgs[page_idx]
+
+            async def recognize(image_b64, width, height, *, depth=0):
+                complete_json = getattr(self.client, "complete_json", None)
+                # Optional capability keeps the small injectable client
+                # contract usable on endpoints without constrained decoding.
+                complete = complete_json or self.client.complete
+                text = await complete(
+                    (self.prompt + '\nWrap the array in an object with a "blocks" key.'
+                     if complete_json else self.prompt), image_b64, model=self.model,
+                    timeout=self.timeout_s, max_tokens=min(self.max_tokens, 2048) if depth == 2 else self.max_tokens,
+                    temperature=self.temperature,
+                    **({"schema": _GROUNDING_SCHEMA} if complete_json else {}),
+                )
+                blocks = _parse_grounded_json(
+                    text, page_idx, width, height, coordinate_space=self.coordinate_space, strict=True,
+                )
+                if not blocks and not (depth and _is_empty_grounded_json(text)):
+                    raise LLMCallError("model returned no usable grounded text")
+                return blocks
+
+            source = source_imgs[page_idx]
+
+            async def recognize_region(bounds, depth=0):
+                left, top, right, bottom = bounds
+                if depth == 0:
+                    image_b64, width, height = b64, w, h
+                else:
+                    region = source.crop(bounds)
+                    region.thumbnail((self.max_image_dim, self.max_image_dim))
+                    buf = io.BytesIO()
+                    region.save(buf, format="JPEG", quality=90)
+                    image_b64 = base64.b64encode(buf.getvalue()).decode()
+                    width, height = region.size
+                try:
+                    blocks = await recognize(image_b64, width, height, depth=depth)
+                    for block in blocks:
+                        x0, y0, x1, y1 = block.bbox
+                        block.bbox = [
+                            (left + x0 * (right - left)) / source.width,
+                            (top + y0 * (bottom - top)) / source.height,
+                            (left + x1 * (right - left)) / source.width,
+                            (top + y1 * (bottom - top)) / source.height,
+                        ]
+                    return blocks
+                except (IncompleteCompletionError, ValueError) as exc:
+                    if depth >= 2:
+                        raise
+                    logging.warning(
+                        "Grounded page %d region needs subdivision at depth %d (%s).",
+                        page_idx + 1, depth, exc,
+                    )
+                # Split the longer edge into overlapping thirds, using source
+                # pixels. A second split can isolate dense columns. Accept only
+                # centers owned by each core, avoiding duplicate seam lines.
+                axis = 0 if right - left > bottom - top else 1
+                start, end = bounds[axis], bounds[axis + 2]
+                span = end - start
+                recovered = []
+                for part in range(3):
+                    core_start = start + part * span / 3
+                    core_end = start + (part + 1) * span / 3
+                    child = list(bounds)
+                    child[axis] = max(start, int(core_start - 0.025 * span))
+                    child[axis + 2] = min(end, int(core_end + 0.025 * span))
+                    blocks = await recognize_region(tuple(child), depth + 1)
+                    for block in blocks:
+                        center = (block.bbox[axis] + block.bbox[axis + 2]) / 2
+                        center *= source.size[axis]
+                        if core_start <= center < core_end or (part == 2 and center == end):
+                            recovered.append(block)
+                return recovered
+
+            async def recognize_page():
+                blocks = await recognize_region((0, 0, source.width, source.height))
+                if not blocks:
+                    raise LLMCallError("model returned no usable grounded text")
+                return blocks
+
             async with sem:
                 try:
-                    text = await self.client.complete(
-                        self.prompt, b64, model=self.model, temperature=0.0,
-                        max_tokens=self.max_tokens, timeout=self.timeout_s,
-                    )
-                    return page_idx, _parse_grounded_json(text, page_idx, w, h)
+                    # Bound the whole page, including recovery and clients
+                    # that do not enforce their own request timeout.
+                    return page_idx, await asyncio.wait_for(recognize_page(), self.timeout_s)
                 except Exception as e:
                     # Retain successful pages in the response for callers that
                     # inspect partial results; the pipeline rejects empty pages.
-                    logging.warning(
-                        f"grounded OCR failed for page {page_idx}: "
-                        f"{type(e).__name__}: {e}"
-                    )
+                    reason = (f"Page exceeded its {self.timeout_s:g}s deadline, including recovery."
+                              if isinstance(e, asyncio.TimeoutError)
+                              else f"{type(e).__name__}: {e}")
+                    page_errors[page_idx] = reason
+                    logging.warning("grounded OCR failed for page %d: %s", page_idx + 1, reason)
                     return page_idx, []
 
         tasks = [asyncio.create_task(run_one(i)) for i in page_imgs]
         blocks_by_page: dict[int, list[GroundedBlock]] = {}
         completed = 0
-        if progress is not None:
-            await progress("ocr", 0, total_pages, f"Grounded OCR (0/{total_pages})...")
-        for fut in asyncio.as_completed(tasks):
-            page_idx, blocks = await fut
-            blocks_by_page[page_idx] = blocks
-            completed += 1
+        try:
             if progress is not None:
-                await progress(
-                    "ocr", completed, total_pages,
-                    f"Grounded OCR ({completed}/{total_pages})",
-                )
+                await progress("ocr", 0, total_pages, f"Grounded OCR (0/{total_pages})...")
+            for fut in asyncio.as_completed(tasks):
+                page_idx, blocks = await fut
+                blocks_by_page[page_idx] = blocks
+                completed += 1
+                if progress is not None:
+                    await progress(
+                        "ocr", completed, total_pages,
+                        f"Grounded OCR ({completed}/{total_pages})",
+                    )
+        finally:
+            for task in tasks:
+                task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
 
         # Flatten in page order for a stable, deterministic output.
         flat_blocks: list[GroundedBlock] = []
@@ -487,6 +570,7 @@ class PromptedGroundedOCR:
             blocks=flat_blocks,
             page_sizes=[(w, h) for (_, w, h) in page_imgs.values()],
             page_indices=list(page_imgs),
+            page_errors=page_errors,
         )
 
 
@@ -535,8 +619,22 @@ def _bbox_scale_denominators(
     return float(img_w), float(img_h), False
 
 
+def _is_empty_grounded_json(text: str) -> bool:
+    """Accept explicit empty recovery bands, independently of JSON formatting."""
+    raw = text.strip()
+    fence = _JSON_FENCE.search(raw)
+    if fence:
+        raw = fence.group(1)
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError:
+        return False
+    return payload == [] or payload == {"blocks": []}
+
+
 def _parse_grounded_json(
     text: str, page_idx: int, img_w: int, img_h: int,
+    *, coordinate_space: str = "auto", strict: bool = False,
 ) -> list[GroundedBlock]:
     """
     Extract a JSON array of `{bbox_2d, content}` blocks from a VLM response.
@@ -570,6 +668,8 @@ def _parse_grounded_json(
         try:
             data = json.loads(m2.group(1))
         except json.JSONDecodeError as e:
+            if strict:
+                raise ValueError("model returned malformed grounded JSON") from e
             logging.debug(f"grounded parse failed: {e} — raw={raw[:200]!r}")
             return []
 
@@ -582,6 +682,8 @@ def _parse_grounded_json(
         else:
             data = [data]  # single object → one-element list
 
+    if not isinstance(data, list):
+        return []
     parsed: list[tuple[tuple[float, float, float, float], str]] = []
     for item in data:
         if not isinstance(item, dict):
@@ -603,9 +705,12 @@ def _parse_grounded_json(
 
     # Convention detection needs the whole page's boxes, so normalization
     # happens after the collection pass.
-    den_x, den_y, is_grid = _bbox_scale_denominators(
-        [p[0] for p in parsed], img_w, img_h,
-    )
+    if coordinate_space == "normalized_1000":
+        den_x, den_y, is_grid = _GRID_MAX, _GRID_MAX, False
+    else:
+        den_x, den_y, is_grid = _bbox_scale_denominators(
+            [p[0] for p in parsed], img_w, img_h,
+        )
     if is_grid:
         logging.warning(
             f"grounded parse: page {page_idx} bbox coordinates fit the "

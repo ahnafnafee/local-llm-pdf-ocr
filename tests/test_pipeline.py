@@ -123,6 +123,89 @@ class TestMinBoxConfidence:
         assert seen == [3]
 
 
+@pytest.mark.parametrize("dense_mode", ["auto", "never"])
+async def test_incomplete_page_retries_per_box_only_in_auto_mode(dense_mode):
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    ocr = SimpleNamespace(
+        perform_ocr=AsyncMock(side_effect=IncompleteCompletionError("token limit")),
+        perform_ocr_on_crop=AsyncMock(return_value="recovered line"),
+    )
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=ocr, pdf_handler=pdf)
+    if dense_mode == "never":
+        with pytest.raises(IncompleteCompletionError):
+            await pipe.run("in.pdf", "out.pdf", dense_mode=dense_mode)
+        assert pdf.last_pages is None
+        ocr.perform_ocr_on_crop.assert_not_awaited()
+    else:
+        await pipe.run("in.pdf", "out.pdf", concurrency=1, dense_mode=dense_mode)
+        assert [t for _, t in pdf.last_pages[0]] == ["recovered line"] * 3
+        assert ocr.perform_ocr_on_crop.await_count == 3
+
+
+async def test_native_crop_images_are_lazy_and_only_render_selected_pages(stub_ocr):
+    from unittest.mock import Mock
+
+    pdf = _StubPDF(n_pages=130)
+    pdf.render_page_for_crops = Mock(return_value=_make_tiny_b64_image())
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", pages="2,4", dense_mode="always")
+    assert sorted(call.args for call in pdf.render_page_for_crops.call_args_list) == [
+        ("in.pdf", 1, 200), ("in.pdf", 3, 200),
+    ]
+    assert stub_ocr.crop_calls == 6
+    pdf.render_page_for_crops.reset_mock()
+    await pipe.run("in.pdf", "out.pdf", pages="2,4", dense_mode="never", refine=False)
+    pdf.render_page_for_crops.assert_not_called()
+
+
+async def test_layout_hint_uses_crop_ocr_in_auto_mode(stub_ocr):
+    from pdf_ocr.core.ocr import OCRLines
+    from unittest.mock import AsyncMock
+
+    stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
+        ["a diagram whose label order cannot be inferred"], requires_region_ocr=True,
+    ))
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", concurrency=1)
+    assert stub_ocr.crop_calls == 3
+    assert all(text == "recovered" for _, text in pdf.last_pages[0])
+
+
+async def test_nonlinear_refinement_retains_an_isolated_page_heading(stub_ocr):
+    from pdf_ocr.core.ocr import OCRLines
+    from unittest.mock import AsyncMock
+
+    stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
+        ["Chapter Four", "diagram labels in reading order"], requires_region_ocr=True,
+    ))
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", concurrency=1)
+    assert pdf.last_pages[0][0][1] == "Chapter Four"
+    assert [text for _, text in pdf.last_pages[0][1:]] == ["recovered", "recovered"]
+    assert stub_ocr.crop_calls == 2
+
+
+async def test_nonlinear_refinement_does_not_anchor_an_ambiguous_top_row(stub_ocr):
+    from pdf_ocr.core.ocr import OCRLines
+    from unittest.mock import AsyncMock
+
+    stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
+        ["reading order is ambiguous", "other labels"], requires_region_ocr=True,
+    ))
+    boxes = [[0.1, 0.1, 0.4, 0.15], [0.6, 0.1, 0.9, 0.15], [0.1, 0.2, 0.9, 0.25]]
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(boxes), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", concurrency=1)
+    assert stub_ocr.crop_calls == 3
+    assert [text for _, text in pdf.last_pages[0]] == ["recovered"] * 3
+
+
 class TestParsePageRange:
     def test_single_page(self):
         assert parse_page_range("3", 10) == [2]

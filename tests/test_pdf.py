@@ -38,6 +38,33 @@ def test_convert_to_images_produces_base64_per_page(
         assert len(raw) > 256, f"{name} page {page_num}: suspiciously small ({len(raw)} bytes)"
 
 
+def test_native_crop_rendering_keeps_detail_and_renders_only_its_source_page(tmp_path, monkeypatch):
+    import io
+    from PIL import Image
+
+    source = tmp_path / "pages.pdf"
+    with fitz.open() as doc:
+        for color in [(1, 0, 0), (0, 0, 1), (0, 1, 0)]:
+            page = doc.new_page(width=300, height=900)
+            page.draw_rect(page.rect, color=color, fill=color)
+        doc.save(source)
+    rendered = []
+    original = fitz.Page.get_pixmap
+
+    def trace(page, *args, **kwargs):
+        rendered.append(page.number)
+        return original(page, *args, **kwargs)
+
+    monkeypatch.setattr(fitz.Page, "get_pixmap", trace)
+    image = Image.open(io.BytesIO(base64.b64decode(
+        PDFHandler().render_page_for_crops(source, 1),
+    )))
+    assert rendered == [1]
+    assert max(image.size) == 2048
+    red, green, blue = image.getpixel((image.width // 2, image.height // 2))
+    assert blue > 240 and red < 10 and green < 10
+
+
 def test_embed_structured_text_produces_searchable_pdf(
     pdf_handler: PDFHandler, example_pdfs: dict[str, Path], tmp_path: Path
 ):

@@ -77,6 +77,7 @@ def test_cli_uses_existing_defaults_without_configuration(monkeypatch, tmp_path,
         return response
 
     monkeypatch.setattr(OpenAICompatibleClient, "complete", complete)
+    monkeypatch.setattr(OpenAICompatibleClient, "complete_json", complete)
     output = tmp_path / "out.md"
     monkeypatch.setattr(sys, "argv", [
         "local-llm-pdf-ocr", str(source), str(output), mode, "--no-verify-model",
@@ -101,6 +102,7 @@ def test_grounded_cli_selects_pages_and_forwards_rendering_options(monkeypatch, 
         doc.save(source)
     complete = AsyncMock(return_value='[{"bbox_2d":[0,0,100,50],"content":"recognized"}]')
     monkeypatch.setattr(OpenAICompatibleClient, "complete", complete)
+    monkeypatch.setattr(OpenAICompatibleClient, "complete_json", complete)
     close = AsyncMock()
     monkeypatch.setattr(OpenAICompatibleClient, "aclose", close)
     observed = []

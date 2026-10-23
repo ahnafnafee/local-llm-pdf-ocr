@@ -334,7 +334,7 @@ async def test_prompted_grounded_rejects_unusable_model_output(
     with pytest.raises(RuntimeError, match="no text blocks"):
         await pipe.run(str(example_pdfs["digital.pdf"]), str(output))
 
-    complete.assert_awaited_once()
+    assert complete.await_count == (3 if '"truncated"' in raw else 1)
     assert not output.exists()
 
 
@@ -366,6 +366,112 @@ async def test_one_failing_grounded_page_does_not_lose_others(tmp_path):
 
 
 # --- prompted grounded JSON parser (Qwen2.5-VL / Qwen3-VL response shapes) --
+
+
+async def test_truncated_page_is_retried_in_source_regions(tmp_path):
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    source = tmp_path / "two.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=300, height=900)
+        doc.new_page(width=300, height=900)
+        doc.save(source)
+    line = '[{"bbox_2d":[100,450,900,550],"content":"recognized"}]'
+    complete = AsyncMock(side_effect=[IncompleteCompletionError("token limit"), line, line, line])
+    backend = PromptedGroundedOCR(
+        model="qwen3-vl", client=SimpleNamespace(complete=complete), max_image_dim=300,
+    )
+    response = await backend.ocr_document(str(source), pages="2")
+    assert response.page_indices == [1]
+    assert len(response.blocks) == 3
+    assert all(b.page_index == 1 for b in response.blocks)
+    assert [(b.bbox[1] + b.bbox[3]) / 2 for b in response.blocks] == pytest.approx(
+        [(1 / 3 + 0.025) / 2, 1 / 2, 1 - (1 / 3 + 0.025) / 2], abs=0.002,
+    )
+    assert complete.await_count == 4
+
+
+async def test_grounded_enforces_deadline_for_injected_clients(tmp_path):
+    source = tmp_path / "page.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=72, height=72)
+        doc.save(source)
+    cancelled = asyncio.Event()
+
+    async def stall(*args, **kwargs):
+        try:
+            await asyncio.sleep(1)
+        finally:
+            cancelled.set()
+
+    backend = PromptedGroundedOCR(
+        model="vision", client=SimpleNamespace(complete=stall), timeout_s=0.02,
+    )
+    started = asyncio.get_running_loop().time()
+    response = await backend.ocr_document(str(source))
+    assert not response.blocks
+    assert asyncio.get_running_loop().time() - started < 0.5
+    assert cancelled.is_set()
+    assert "deadline" in response.page_errors[0]
+
+
+@pytest.mark.parametrize("empty_band", ['{\n  "blocks": [ ]\n}', '```json\n[]\n```'])
+async def test_grounded_recovery_accepts_formatted_empty_bands(tmp_path, empty_band):
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    source = tmp_path / "page.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=300, height=900)
+        doc.save(source)
+    line = '[{"bbox_2d":[100,450,900,550],"content":"recognized"}]'
+    complete = AsyncMock(side_effect=[IncompleteCompletionError("limit"), line, empty_band, line])
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=complete))
+    response = await backend.ocr_document(str(source))
+    assert len(response.blocks) == 2
+    assert not response.page_errors
+    assert complete.await_count == 4
+
+
+async def test_grounded_pipeline_reports_failure_cause_on_the_source_page(tmp_path):
+    backend = SimpleNamespace(ocr_document=AsyncMock(return_value=SimpleNamespace(
+        blocks=[], page_sizes=[(100, 100)], page_indices=[2],
+        page_errors={2: "request timed out"},
+    )))
+    writer = Mock()
+    pipe = OCRPipeline(pdf_handler=PDFHandler(), grounded_backend=backend, output_writer=writer)
+    with pytest.raises(RuntimeError, match="page 3: request timed out"):
+        await pipe.run("in.pdf", str(tmp_path / "out.pdf"))
+    writer.assert_not_called()
+
+
+async def test_grounded_cancellation_drains_page_tasks(tmp_path):
+    source = tmp_path / "three.pdf"
+    with fitz.open() as doc:
+        for _ in range(3):
+            doc.new_page(width=72, height=72)
+        doc.save(source)
+    entered = asyncio.Event()
+    exited = asyncio.Event()
+    calls = 0
+
+    async def stall(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        entered.set()
+        try:
+            await asyncio.sleep(10)
+        finally:
+            exited.set()
+
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=stall))
+    task = asyncio.create_task(backend.ocr_document(str(source)))
+    await entered.wait()
+    task.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await task
+    assert exited.is_set()
+    await asyncio.sleep(0)
+    assert calls == 1
 
 
 class TestPromptedGroundedParser:

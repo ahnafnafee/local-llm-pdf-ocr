@@ -8,7 +8,9 @@ by their caller and can implement the same small async interface.
 from __future__ import annotations
 
 import base64
+import asyncio
 import os
+import time
 from dataclasses import dataclass, field
 from typing import Protocol
 from urllib.parse import urlsplit
@@ -24,6 +26,14 @@ DEFAULT_GROUNDED_MODEL = "qwen/qwen3-vl-8b"
 
 class LLMCallError(RuntimeError):
     """A model discovery or inference request failed."""
+
+
+class IncompleteCompletionError(LLMCallError):
+    """Generation exhausted its token budget; the response is incomplete."""
+
+
+class _StructuredOutputUnsupported(LLMCallError):
+    pass
 
 
 class ModelNotAvailableError(LLMCallError):
@@ -89,6 +99,15 @@ class VisionClient(Protocol):
     async def list_models(self) -> list[str]: ...
 
 
+class StructuredVisionClient(VisionClient, Protocol):
+    """Optional capability; ordinary injected VisionClients remain supported."""
+
+    async def complete_json(
+        self, prompt: str, image_base64: str, *, schema: dict,
+        model: str, timeout: float, max_tokens: int, temperature: float,
+    ) -> str: ...
+
+
 async def ensure_model_available(client: VisionClient, model: str) -> None:
     """Check advertised IDs, without assuming how the server loads weights."""
     available = await client.list_models()
@@ -121,10 +140,17 @@ class OpenAICompatibleClient:
     supports custom HTTP transports; it remains owned by the caller.
     """
 
-    def __init__(self, config: LLMConfig, *, sdk_client=None):
+    def __init__(self, config: LLMConfig, *, sdk_client=None, generation_options=None):
         self.config = config
         self._client = sdk_client
         self._owns_client = sdk_client is None
+        self._structured_output_supported = True
+        # Standard, optional sampling settings. Request identity and budgets
+        # remain controlled by complete(), including for injected SDK clients.
+        self.generation_options = dict(generation_options or {})
+        allowed = {"top_p", "presence_penalty", "frequency_penalty", "seed"}
+        if self.generation_options.keys() - allowed:
+            raise ValueError("Unsupported generation option; use standard sampling settings.")
 
     def _get_client(self):
         if self._client is None:
@@ -139,27 +165,80 @@ class OpenAICompatibleClient:
         self, prompt: str, image_base64: str, *, model: str,
         timeout: float, max_tokens: int, temperature: float,
     ) -> str:
+        return await self._complete(
+            prompt, image_base64, model=model, timeout=timeout,
+            max_tokens=max_tokens, temperature=temperature,
+        )
+
+    async def complete_json(
+        self, prompt: str, image_base64: str, *, schema: dict,
+        model: str, timeout: float, max_tokens: int, temperature: float,
+    ) -> str:
+        deadline = time.monotonic() + timeout
+        if self._structured_output_supported:
+            try:
+                return await self._complete(
+                    prompt, image_base64, model=model, timeout=timeout,
+                    max_tokens=max_tokens, temperature=temperature,
+                    response_format={"type": "json_schema", "json_schema": {
+                        "name": "ocr", "strict": True, "schema": schema,
+                    }},
+                )
+            except _StructuredOutputUnsupported:
+                self._structured_output_supported = False
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise LLMCallError("Vision request exceeded its deadline during format negotiation.")
+        return await self._complete(
+            prompt, image_base64, model=model, timeout=remaining,
+            max_tokens=max_tokens, temperature=temperature,
+        )
+
+    async def _complete(
+        self, prompt: str, image_base64: str, *, model: str,
+        timeout: float, max_tokens: int, temperature: float, response_format=None,
+    ) -> str:
         mime_type = _image_mime_type(image_base64)
         try:
-            response = await self._get_client().with_options(timeout=timeout).chat.completions.create(
-                model=model, temperature=temperature, max_tokens=max_tokens,
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {"type": "image_url", "image_url": {
-                            "url": f"data:{mime_type};base64,{image_base64}",
-                        }},
-                    ],
-                }],
+            response = await asyncio.wait_for(
+                self._get_client().with_options(timeout=timeout, max_retries=0).chat.completions.create(
+                    model=model, temperature=temperature, max_tokens=max_tokens,
+                    **self.generation_options,
+                    **({"response_format": response_format} if response_format else {}),
+                    messages=[{
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {"type": "image_url", "image_url": {
+                                "url": f"data:{mime_type};base64,{image_base64}",
+                            }},
+                        ],
+                    }],
+                ), timeout=timeout,
             )
+            if getattr(response.choices[0], "finish_reason", None) == "length":
+                raise IncompleteCompletionError(
+                    f"Vision response reached the {max_tokens} token limit "
+                    f"(model={model!r}); retry with smaller regions."
+                )
             return (response.choices[0].message.content or "").strip()
+        except asyncio.TimeoutError as exc:
+            raise LLMCallError(
+                f"Vision request exceeded its {timeout:g}s deadline (model={model!r})."
+            ) from exc
+        except IncompleteCompletionError:
+            raise
         except Exception as exc:
+            if (response_format and getattr(exc, "status_code", None) in (400, 422)
+                    and any(term in str(exc).lower() for term in (
+                        "response_format", "json_schema", "structured output", "grammar",
+                    ))):
+                raise _StructuredOutputUnsupported(str(exc)) from exc
             raise LLMCallError(
                 f"Vision request failed at {self.config.api_base} (model={model!r}): "
                 f"{type(exc).__name__}: {exc}. Check the endpoint, LLM_API_KEY, "
                 "and the model's vision support. For context or timeout errors, "
-                "try reducing --max-image-dim."
+                "try reducing --concurrency or --max-image-dim."
             ) from exc
 
     async def list_models(self) -> list[str]:

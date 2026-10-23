@@ -1,6 +1,7 @@
 """Exercise server-neutral configuration and the real SDK over local HTTP mocks."""
 
 import base64
+import asyncio
 import io
 import json
 from types import SimpleNamespace
@@ -127,7 +128,7 @@ async def test_all_ocr_paths_share_standard_requests_and_authentication(tmp_path
         assert not sdk.is_closed()  # caller owns the injected client
 
     inference = [request for request in requests if request.method == "POST"]
-    assert [json.loads(r.content)["max_tokens"] for r in inference] == [6144, 256, 8192]
+    assert [json.loads(r.content)["max_tokens"] for r in inference] == [6144, 256, 4096]
     assert [r.extensions["timeout"]["read"] for r in inference] == [240, 60, 240]
     assert [json.loads(r.content)["temperature"] for r in inference] == [0.1, 0.1, 0.0]
 
@@ -199,3 +200,96 @@ def test_prompt_choice_is_independent_of_server():
     assert OCRProcessor(model="vision", client=client).page_prompt == PAGE_PROMPT
     assert OCRProcessor(model="allenai/olmocr-2", client=client).page_prompt == OLMOCR_PAGE_PROMPT
     assert OCRProcessor(model="vision", client=client, page_prompt="custom").page_prompt == "custom"
+
+
+async def test_completion_deadline_includes_sdk_retries():
+    requests = []
+
+    async def stall(request):
+        if request.method == "GET":
+            return httpx.Response(200, json={"data": []})
+        requests.append(request)
+        await asyncio.sleep(1)
+        return httpx.Response(500)
+
+    async with AsyncOpenAI(
+        base_url="http://inference.test/v1", api_key="test-key",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(stall)),
+    ) as sdk:
+        adapter = OpenAICompatibleClient(LLMConfig("http://inference.test/v1"), sdk_client=sdk)
+        await sdk.models.list()  # exclude one-time SDK/platform initialization
+        started = asyncio.get_running_loop().time()
+        with pytest.raises(LLMCallError, match="deadline"):
+            await adapter.complete("read", image_base64(), model="vision",
+                                   timeout=0.02, max_tokens=10, temperature=0)
+        assert asyncio.get_running_loop().time() - started < 0.5
+        assert len(requests) <= 1  # deadline may expire during SDK preparation
+
+
+async def test_token_limit_is_reported_instead_of_accepting_partial_text():
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    def respond(request):
+        return httpx.Response(200, json={"choices": [{
+            "finish_reason": "length",
+            "message": {"role": "assistant", "content": '[{"content":"cut off'},
+        }]})
+
+    async with AsyncOpenAI(
+        base_url="http://inference.test/v1", api_key="test-key",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(respond)),
+    ) as sdk:
+        adapter = OpenAICompatibleClient(LLMConfig("http://inference.test/v1"), sdk_client=sdk)
+        with pytest.raises(IncompleteCompletionError, match="token limit"):
+            await adapter.complete("read", image_base64(), model="vision",
+                                   timeout=1, max_tokens=10, temperature=0)
+
+
+async def test_structured_output_falls_back_only_when_format_is_unsupported():
+    requests = []
+
+    def respond(request):
+        body = json.loads(request.content)
+        requests.append(body)
+        if "response_format" in body:
+            return httpx.Response(400, json={"error": {
+                "message": "response_format json_schema is not supported",
+            }})
+        return httpx.Response(200, json={"choices": [{
+            "message": {"role": "assistant", "content": "[]"}, "finish_reason": "stop",
+        }]})
+
+    async with AsyncOpenAI(
+        base_url="http://inference.test/v1", api_key="test-key",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(respond)),
+    ) as sdk:
+        adapter = OpenAICompatibleClient(LLMConfig("http://inference.test/v1"), sdk_client=sdk)
+        for _ in range(2):
+            assert await adapter.complete_json(
+                "read", image_base64(), schema={"type": "object"}, model="vision",
+                timeout=2, max_tokens=10, temperature=0,
+            ) == "[]"
+    assert len(requests) == 3  # format support is negotiated once per adapter
+    assert requests[0]["response_format"]["json_schema"]["strict"] is True
+    assert "response_format" not in requests[1]
+    assert "response_format" not in requests[2]
+
+
+async def test_structured_output_does_not_retry_model_errors():
+    requests = []
+
+    def respond(request):
+        requests.append(request)
+        return httpx.Response(400, json={"error": {"message": "model has no vision encoder"}})
+
+    async with AsyncOpenAI(
+        base_url="http://inference.test/v1", api_key="test-key",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(respond)),
+    ) as sdk:
+        adapter = OpenAICompatibleClient(LLMConfig("http://inference.test/v1"), sdk_client=sdk)
+        with pytest.raises(LLMCallError, match="vision encoder"):
+            await adapter.complete_json(
+                "read", image_base64(), schema={"type": "object"}, model="vision",
+                timeout=2, max_tokens=10, temperature=0,
+            )
+    assert len(requests) == 1
