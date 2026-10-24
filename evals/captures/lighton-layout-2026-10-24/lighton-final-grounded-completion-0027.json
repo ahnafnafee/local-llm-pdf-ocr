@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.89100000000326,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-8LcK1jqfpm9i04OawcGIlVzkssQtKvnf",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![list](31,25,272,58)\n- Cartesian Product\n\n![formula](102,77,612,124) $\\delta_{C1d.1} = C1d.2 \\ (Climbs \\times Climbers)$\n\n![text](94,133,527,183) *In general, very expensive...*\n\n![text](88,198,417,233) Use JOIN instead\n\n![list](47,253,358,296)\n- (THETA) JOIN\n\n![list](125,309,458,346)\n- Join of two relations\n\n![formula](264,361,628,411) $R \\bowtie_c S = \\delta_c (R \\times S)$\n\n![text](314,414,875,448) $\\rightarrow c$ is called a JOIN condition\n\n![text](314,461,552,529) — usually using full constraint.\n\n![text](684,448,924,544) $\\rightarrow$ can only have attribute name\n\n![text](648,540,890,642) *this is different from SELECTION condition*\n\n![formula](227,629,681,690) $Climbs \\bowtie (C1d.1 = C1d.2) Climbers$\n\n![text](53,694,837,787) — there should be fewer tuples in JOIN compared to PRODUCT",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844165,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 387,
+      "prompt_tokens": 2096,
+      "total_tokens": 2483,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 961.884,
+      "prompt_per_token_ms": 0.45891412213740457,
+      "prompt_per_second": 2179.056934100162,
+      "predicted_n": 387,
+      "predicted_ms": 3785.079,
+      "predicted_per_token_ms": 9.80590414507772,
+      "predicted_per_second": 101.97937744496217
+    }
+  }
+}

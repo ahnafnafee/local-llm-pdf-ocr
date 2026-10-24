@@ -1,0 +1,194 @@
+[
+  {
+    "document": "hybrid",
+    "region": 11,
+    "canvas": null,
+    "seed": 0,
+    "text": "runny nose, mucus in throat, weakness, aches, chills, tired",
+    "seconds": 2.0460000000020955
+  },
+  {
+    "document": "hybrid",
+    "region": 11,
+    "canvas": null,
+    "seed": 1,
+    "text": "runny nose, mucus in throat, weakness, aches, chills, tired",
+    "seconds": 0.23499999998603016
+  },
+  {
+    "document": "hybrid",
+    "region": 11,
+    "canvas": null,
+    "seed": 2,
+    "text": "runny nose, mucus in throat, weakness, aches, chills, tired",
+    "seconds": 0.2340000000258442
+  },
+  {
+    "document": "hybrid",
+    "region": 11,
+    "canvas": 1024,
+    "seed": 0,
+    "text": "runny nose, mucus in throat, weakness, aches, chills, tired",
+    "seconds": 0.7039999999979045
+  },
+  {
+    "document": "hybrid",
+    "region": 11,
+    "canvas": 1024,
+    "seed": 1,
+    "text": "runny nose, mucus in throat, weakness, aches, chills, tired",
+    "seconds": 0.23399999999674037
+  },
+  {
+    "document": "hybrid",
+    "region": 11,
+    "canvas": 1024,
+    "seed": 2,
+    "text": "runny nose, mucus in throat, weakness, aches, chills, tired",
+    "seconds": 0.25
+  },
+  {
+    "document": "notes",
+    "region": 0,
+    "canvas": null,
+    "seed": 0,
+    "text": "- $f(x)$ can have null value - I could modify my existing implementation of Project (1)",
+    "seconds": 0.5
+  },
+  {
+    "document": "notes",
+    "region": 0,
+    "canvas": null,
+    "seed": 1,
+    "text": "- $f_{\\alpha}$ can have null value - I could modify my existing implementation of Project (1)",
+    "seconds": 0.29699999999138527
+  },
+  {
+    "document": "notes",
+    "region": 0,
+    "canvas": null,
+    "seed": 2,
+    "text": "- $f(x)$ can have null value - I could modify my existing implementation of Project (1)",
+    "seconds": 0.26500000001396984
+  },
+  {
+    "document": "notes",
+    "region": 0,
+    "canvas": 1024,
+    "seed": 0,
+    "text": "- $f(x)$ can have null value - I could modify my existing implementation of Project (1)",
+    "seconds": 0.7030000000086147
+  },
+  {
+    "document": "notes",
+    "region": 0,
+    "canvas": 1024,
+    "seed": 1,
+    "text": "- $f_k$ can have null value - I could modify my existing implementation of Project (1)",
+    "seconds": 0.28099999998812564
+  },
+  {
+    "document": "notes",
+    "region": 0,
+    "canvas": 1024,
+    "seed": 2,
+    "text": "- $f_u$ can have null value - I could modify my existing implementation of Project 1.1",
+    "seconds": 0.28200000000651926
+  },
+  {
+    "document": "handwritten",
+    "region": 0,
+    "canvas": null,
+    "seed": 0,
+    "text": "Algorithms",
+    "seconds": 0.20300000000861473
+  },
+  {
+    "document": "handwritten",
+    "region": 0,
+    "canvas": null,
+    "seed": 1,
+    "text": "<figure> ### Figure \u2013 Algorithmes *Type: logo* L'image montre le mot \"Algorithmes\" \u00e9crit en style manuscrit sur un fond noir. Le texte est en blanc et est centr\u00e9 dans l'image. Il n'y a pas d'autres \u00e9l\u00e9ments visibles. </figure>",
+    "seconds": 0.6560000000172295
+  },
+  {
+    "document": "handwritten",
+    "region": 0,
+    "canvas": null,
+    "seed": 2,
+    "text": "Algorithms,",
+    "seconds": 0.0779999999795109
+  },
+  {
+    "document": "handwritten",
+    "region": 0,
+    "canvas": 1024,
+    "seed": 0,
+    "text": "<figure> ### Figure \u2013 Algorithmes *Type: logo* L'image montre un logo avec le mot \"Algorithmes\" \u00e9crit en style calligraphique. Le texte \"Algorithmes\" est \u00e9crit en blanc sur un fond noir, avec une ligne horizontale sous le mot. </figure>",
+    "seconds": 0.75
+  },
+  {
+    "document": "handwritten",
+    "region": 0,
+    "canvas": 1024,
+    "seed": 1,
+    "text": "Algorithms",
+    "seconds": 0.062000000005355105
+  },
+  {
+    "document": "handwritten",
+    "region": 0,
+    "canvas": 1024,
+    "seed": 2,
+    "text": "<figure> ### Figure \u2013 Algorithmes *Type: logo* L'image montre le mot \"Algorithmes\" \u00e9crit en style de police manuscrite sur un fond noir. Le texte est centr\u00e9 et \u00e9crit en blanc, avec une ligne horizontale sous le mot. Le style de la police est fluide et irr\u00e9gulier, donnant un aspect artistique. </figure>",
+    "seconds": 0.7969999999913853
+  },
+  {
+    "document": "handwritten",
+    "region": 16,
+    "canvas": null,
+    "seed": 0,
+    "text": "- look into induction proofs",
+    "seconds": 0.375
+  },
+  {
+    "document": "handwritten",
+    "region": 16,
+    "canvas": null,
+    "seed": 1,
+    "text": "- look into induction proofs",
+    "seconds": 0.09299999999348074
+  },
+  {
+    "document": "handwritten",
+    "region": 16,
+    "canvas": null,
+    "seed": 2,
+    "text": "- look into induction proofs",
+    "seconds": 0.11000000001513399
+  },
+  {
+    "document": "handwritten",
+    "region": 16,
+    "canvas": 1024,
+    "seed": 0,
+    "text": "- look into induction proofs",
+    "seconds": 0.4379999999946449
+  },
+  {
+    "document": "handwritten",
+    "region": 16,
+    "canvas": 1024,
+    "seed": 1,
+    "text": "- look into induction proofs",
+    "seconds": 0.1090000000258442
+  },
+  {
+    "document": "handwritten",
+    "region": 16,
+    "canvas": 1024,
+    "seed": 2,
+    "text": "- look into induction proofs",
+    "seconds": 0.10999999998603016
+  }
+]

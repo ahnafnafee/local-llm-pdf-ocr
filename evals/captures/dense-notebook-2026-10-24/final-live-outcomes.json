@@ -1,0 +1,170 @@
+[
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-grounded-hybrid]",
+    "outcome": "passed",
+    "duration_s": 9.419520700001158,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-grounded-notes]",
+    "outcome": "passed",
+    "duration_s": 28.644145300000673,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-grounded-handwritten]",
+    "outcome": "passed",
+    "duration_s": 6.2957222999830265,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-grounded-dense]",
+    "outcome": "passed",
+    "duration_s": 87.52465109998593,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-grounded-hybrid]",
+    "outcome": "passed",
+    "duration_s": 8.587379900011001,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-grounded-notes]",
+    "outcome": "passed",
+    "duration_s": 24.082469599990873,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-grounded-handwritten]",
+    "outcome": "passed",
+    "duration_s": 15.670244000008097,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-grounded-dense]",
+    "outcome": "passed",
+    "duration_s": 94.46834160000435,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-grounded-hybrid]",
+    "outcome": "passed",
+    "duration_s": 8.679586599988397,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-grounded-notes]",
+    "outcome": "passed",
+    "duration_s": 24.810018699994544,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-grounded-handwritten]",
+    "outcome": "passed",
+    "duration_s": 6.667449899978237,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-grounded-dense]",
+    "outcome": "passed",
+    "duration_s": 89.51211029998376,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_complex_regions_remain_searchable_at_source_positions[dense-2-3-grounded]",
+    "outcome": "passed",
+    "duration_s": 158.72867529999348,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_complex_regions_remain_searchable_at_source_positions[notes-6,13,17,21-grounded]",
+    "outcome": "passed",
+    "duration_s": 88.30397060001269,
+    "run": "live-complete-grounded-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-hybrid-notes]",
+    "outcome": "passed",
+    "duration_s": 17.87822340001003,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-hybrid-hybrid]",
+    "outcome": "passed",
+    "duration_s": 8.651299599994672,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-hybrid-handwritten]",
+    "outcome": "passed",
+    "duration_s": 7.368730499991216,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[0-hybrid-dense]",
+    "outcome": "passed",
+    "duration_s": 83.03966260000016,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-hybrid-notes]",
+    "outcome": "passed",
+    "duration_s": 17.55826010002056,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-hybrid-hybrid]",
+    "outcome": "passed",
+    "duration_s": 8.659104699996533,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-hybrid-handwritten]",
+    "outcome": "passed",
+    "duration_s": 7.291736900020624,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[1-hybrid-dense]",
+    "outcome": "passed",
+    "duration_s": 82.27390739999828,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-hybrid-notes]",
+    "outcome": "passed",
+    "duration_s": 17.50372999999672,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-hybrid-hybrid]",
+    "outcome": "passed",
+    "duration_s": 8.567685999994865,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-hybrid-handwritten]",
+    "outcome": "passed",
+    "duration_s": 7.533000199997332,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_recognition_is_stable[2-hybrid-dense]",
+    "outcome": "passed",
+    "duration_s": 88.3598764000053,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_complex_regions_remain_searchable_at_source_positions[dense-2-3-hybrid]",
+    "outcome": "passed",
+    "duration_s": 163.4045656999806,
+    "run": "live-complete-hybrid-final"
+  },
+  {
+    "test": "tests/test_live_quality.py::test_live_complex_regions_remain_searchable_at_source_positions[notes-6,13,17,21-hybrid]",
+    "outcome": "passed",
+    "duration_s": 69.82656419998966,
+    "run": "live-complete-hybrid-final"
+  }
+]

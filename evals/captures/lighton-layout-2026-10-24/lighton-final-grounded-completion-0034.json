@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 1.3280000000086147,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-FzlWqjIsokIcNnf4kbclwjyhZomCHfOk",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](27,22,237,66) $\\text{Project 1-3}$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844215,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 26,
+      "prompt_tokens": 2096,
+      "total_tokens": 2122,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 955.769,
+      "prompt_per_token_ms": 0.4559966603053435,
+      "prompt_per_second": 2192.9985174241897,
+      "predicted_n": 26,
+      "predicted_ms": 250.823,
+      "predicted_per_token_ms": 10.03292,
+      "predicted_per_second": 99.67188017047877
+    }
+  }
+}

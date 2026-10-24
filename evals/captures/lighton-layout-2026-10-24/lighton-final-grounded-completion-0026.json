@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 9.375,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-AuQt3ZnFPxWUFDD65u1LS3yYuMX2LxdP",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](147,140,446,162) Customer: C_Name, C_Street, C_City\n\n![text](146,168,393,188) Depositor: C_Name, Account#\n\n![text](144,198,405,218) Loan: B_Name, Loan_#, Amount\n\n![text](144,227,362,246) Borrower: C_Name, Loan#\n\n![list](196,257,727,281)\n- Select tuples of the loan relation where the branch name is “GMU”.\n\n![formula](344,283,527,307) $\\sigma_{\\text{branch} = 'GMU'} (\\text{loan})$\n\n![list](193,316,706,339)\n- Find all tuples in which the amount of loan is more than \\$12000.\n\n![formula](252,338,430,364) $\\sigma_{\\text{amount} > 12000} (\\text{loan})$\n\n![list](191,375,846,400)\n- Find those tuples pertaining to loans of more than \\$ 12000 made by “GMU” branch.\n\n![formula](247,401,757,429) $\\sigma_{\\text{amount} > 12000 \\text{ AND } \\text{branch} = 'GMU'} (\\text{loan}) \\quad \\text{or} \\quad R_1 \\cap R_2$\n\n![list](189,435,559,455)\n- List all loan numbers and the amount of loan.\n\n![formula](250,457,462,485) $\\pi_{\\text{loan\\#}, \\text{amount}} \\quad \\text{loan}$\n\n![list](189,495,614,515)\n- Find the names of all customers who live in “Fairfax”.\n\n![formula](264,516,593,546) $\\pi_{\\text{name}} \\left( \\sigma_{\\text{city} = 'Fairfax'} \\right) (\\text{customers})$\n\n![list](188,555,850,575)\n- Find the names of all bank customers who have either an account or a loan or both.\n\n![formula](254,575,670,601) $\\pi_{\\text{name}} (\\text{Depositor}) \\cup \\pi_{\\text{name}} (\\text{Borrower})$\n\n![list](188,616,829,635)\n- Find the names of all customers of the bank who have an account but not a loan.\n\n![formula](264,638,647,668) $\\pi_{\\text{name}} (\\text{Depositor}) - \\pi_{\\text{name}} (\\text{Borrower})$\n\n![list](187,677,753,694)\n- Find the names of all customers who have both a loan and an account.\n\n![formula](274,694,682,731) $\\pi_{\\text{name}} (\\text{Depositor}) \\cap \\pi_{\\text{name}} (\\text{Borrower})$\n\n![image](756,772,808,807) signature",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844160,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 846,
+      "prompt_tokens": 2096,
+      "total_tokens": 2942,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 959.189,
+      "prompt_per_token_ms": 0.4576283396946565,
+      "prompt_per_second": 2185.1793546423073,
+      "predicted_n": 846,
+      "predicted_ms": 8251.26,
+      "predicted_per_token_ms": 9.76480473372781,
+      "predicted_per_second": 102.40860183777993
+    }
+  }
+}

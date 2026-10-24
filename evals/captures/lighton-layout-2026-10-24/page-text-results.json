@@ -1,0 +1,244 @@
+[
+  {
+    "document": "notes",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 0,
+    "temp": 0,
+    "seconds": 5.782000000006519,
+    "text": "- FK can have null value\n- I could modify my existing implementation of Project 1.1\n---\n### Mapping Binary 1:1 Relationship Sets\n- P.U. approach\n- Merged relation approach\n(if both participations are total, merge\n2 entity sets and relationship set into single\ntable)\n#### \u2460 F.U. approach\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081...a\u2099]\n- Cross Ref also applies here\n- merge-n can work here with P.U. from\nother participation\n- not desirable\n<table>\n<tr>\n<th>S</th>\n<th>Pu(S)</th>\n<th>...</th>\n<th>Pu(T)</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n<tr>\n<td>T</td>\n<td colspan=\"7\">[Pu(T) ... ]</td>\n</tr>\n</table>\n#### \u2461 Merge-relation\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081...a\u2099]\n- P.U. can be either one\n- F.U. applies to second case as well\nCross Ref can also apply here\n<table>\n<tr>\n<th>ST</th>\n<th>Pu(S)</th>\n<th>Pu(T)</th>\n<th>...</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n<tr>\n<td colspan=\"8\">Since it's 1:1</td>\n</tr>\n</table>",
+    "checks": [
+      5,
+      5,
+      []
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 0,
+    "temp": 0.2,
+    "seconds": 2.577999999979511,
+    "text": "- FK can have null value\n- I could modify my existing implementation of Project 1.1\n---\n### Mapping Binary 1:1 Relationship Sets\n- P.U. approach\n- Merged relation approach\n(if both participations are total, merge 2 entity sets and relationship set into single table)\n#### \u2460 F.U. approach\nplaintext\nS \u2500\u2500\u2510\n\u2502\nR\n\u2502\n\u2502\nT\n```\n- Cross Ref also applies here\n- merge-n can work here with P.U. from other participation - not desirable\n```plaintext\nS | PK(S) | ... | PK(T) | a\u2081 | ... | a\u2099\nT | PK(T) | ... |\n```\n#### \u2461 Merge-relation\n```plaintext\nS \u2500\u2500\u2510\n\u2502\nR\n\u2502\n\u2502\nT\n```\n- P.U. can be either one\n- F.U. applies to second case as well\n- Cross Ref can also apply here\n```plaintext\nST | PK(S) | PK(T) | ... | a\u2081 | ... | a\u2099\n(since it's 1:1)",
+    "checks": [
+      5,
+      5,
+      []
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 1,
+    "temp": 0.2,
+    "seconds": 3.687000000005355,
+    "text": "- FK can have null value\n- I could modify my existing implementation of Project 1.)\n---\n### Mapping Binary 1:1 Relationship Sets\n- P.U approach\n- Merged relation approach\n(if both participations are total, merge\n2 entity sets and relationship set into single\ntable)\n#### \u2460 F.U approach\n![Diagram: S \u2014 R \u2014 T with annotations]\n- Cross Ref also applies here\n- merge-n can work here with P.U from other participation \u2014 not desirable\n<table>\n<tr>\n<th>S</th>\n<th>Pu(S)</th>\n<th>...</th>\n<th>Pu(T)</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n<tr>\n<td>T</td>\n<td colspan=\"7\">[Pu(T) ... ]</td>\n</tr>\n</table>\n#### \u2461 Merge-relation\n![Diagram: S \u2014 R \u2014 T with annotations]\n- P.U can be either one\n- F.U applies to second case as well\n- Cross Ref can also apply here\n<table>\n<tr>\n<th>ST</th>\n<th>Pu(S)</th>\n<th>Pu(T)</th>\n<th>...</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n<tr>\n<td colspan=\"7\">(since it's 1:1)</td>\n</tr>\n</table>",
+    "checks": [
+      5,
+      5,
+      []
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 2,
+    "temp": 0.2,
+    "seconds": 3.8589999999967404,
+    "text": "- FK can have null value\n- I could modify my existing implementation of Project 1.1\n---\n### Mapping Binary 1:1 Relationship Sets\n- P.U approach\n- Merged relation approach\n(if both participations are total, merge\n2 entity sets and relationship set into single\ntable)\n#### \u2460 F.U approach\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081 to a\u2099]\n- Cross Ref also applies here\n- merge-n can work here with P.U from\nother participation\n- not desirable\n<table>\n<tr>\n<th>S</th>\n<th>Pu(S)</th>\n<th>...</th>\n<th>Pu(T)</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n<tr>\n<td>T</td>\n<td colspan=\"7\">[Pu(T) ... ]</td>\n</tr>\n</table>\n#### \u2461 Merge-relation\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081 to a\u2099]\n- P.U can be either one\n- F.U applies to second case as well\nCross Ref can also apply here\n<table>\n<tr>\n<th>ST</th>\n<th>Pu(S)</th>\n<th>Pu(T)</th>\n<th>...</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n<tr>\n<td colspan=\"7\">(since it's 1:1)</td>\n</tr>\n</table>",
+    "checks": [
+      5,
+      5,
+      []
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 0,
+    "temp": 0,
+    "seconds": 2.7339999999967404,
+    "text": "# HEALTH INTAKE FORM\n*Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.*\n**Date:** 9/14/19\n**Name:** Sally Walker\n**DOB:** 09/04/1986\n**Address:** 24 Barney Lane\n**City:** Towaco\n**State:** NJ\n**Zip:** 07082\n**Email:** Sally.walker@email.com\n**Phone #:** (906) 917-3486\n**Gender:** F\n**Marital Status:** Single\n**Occupation:** Software Engineer\n**Referred By:** None\n**Emergency Contact:** Eva Walker\n**Emergency Contact Phone:** (906) 334-8926\n---\n## Describe your medical concerns (symptoms, diagnoses, etc):\nrunny nose, mucus in throat, weakness,\naches, chills, tired\n---\n## Are you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 0,
+    "temp": 0.2,
+    "seconds": 2.3589999999967404,
+    "text": "# HEALTH INTAKE FORM\n*Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.*\n**Date:** 9/14/19\n**Name:** Sally Walker\n**DOB:** 09/04/1986\n**Address:** 24 Barney Lane\n**City:** Towaco\n**State:** NJ\n**Zip:** 07082\n**Email:** Sally.walker@email.com\n**Phone #:** (906) 917-3486\n**Gender:** F\n**Marital Status:** Single\n**Occupation:** Software Engineer\n**Referred By:** None\n**Emergency Contact:** Eva Walker\n**Emergency Contact Phone:** (906) 334-8926\n---\n**Describe your medical concerns (symptoms, diagnoses, etc):**\nRunny nose, mucus in throat, weakness, aches, chills, tired\n---\n**Are you currently taking any medication? (If yes, please describe):**\nVyvanse (25mg) daily for attention",
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 1,
+    "temp": 0.2,
+    "seconds": 2.202999999979511,
+    "text": "FakeDoc M.D.\n# HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\nDate: 9/14/19\nName: Sally Walker\nDOB: 09/04/1986\nAddress: 24 Barney Lane\nCity: Towaco\nState: NJ\nZip: 07082\nEmail: Sally.walker@email.com\nPhone #: (906) 917-3486\nGender: F\nMarital Status: Single\nOccupation: Software Engineer\nReferred By: None\nEmergency Contact: Eva Walker\nEmergency Contact Phone: (906) 334-8926\n## Describe your medical concerns (symptoms, diagnoses, etc):\nrunny nose, mucus in throat, weakness, aches, chills, tired\n## Are you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 1024,
+    "lossless": false,
+    "seed": 2,
+    "temp": 0.2,
+    "seconds": 2.3440000000118744,
+    "text": "# HEALTH INTAKE FORM\n*Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.*\n**Date:** 9/14/19\n**Name:** Sally Walker\n**DOB:** 09/04/1986\n**Address:** 24 Barney Lane\n**City:** Towaco\n**State:** NJ\n**Zip:** 07082\n**Email:** Sally.walker@email.com\n**Phone #:** (906) 917-3486\n**Gender:** F\n**Marital Status:** Single\n**Occupation:** Software Engineer\n**Referred By:** None\n**Emergency Contact:** Eva Walker\n**Emergency Contact Phone:** (906) 334-8926\n---\n## Describe your medical concerns (symptoms, diagnoses, etc):\nrunny nose, mucus in throat, weakness,\naches, chills, tired\n---\n## Are you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 0,
+    "temp": 0,
+    "seconds": 5.5,
+    "text": "- FK can have null value\n- I could modify my existing implementation of Project (.)\n---\n### Mapping Binary 1:1 Relationship Sets\n- F.U approach\n- Merged relation approach\n(if both participations are total, merge 2 entity sets and relationship set into single table)\n---\n#### \u2460 F.U approach\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099 and \"total\" annotation on R]\nCross Ref also applies here\nmerge-rel can work here with P.U from total participation \u2014 not desirable\n<table>\n<tr>\n<th>S</th>\n<th>PK(S)</th>\n<th>...</th>\n<th>PK(T)</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n</table>\n<table>\n<tr>\n<th>T</th>\n<th>PK(T)</th>\n<th>...</th>\n</tr>\n</table>\n---\n#### \u2461 merge-relation\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099 and \"P.U can be either one\" annotation]\nF.U applies to second case as well\nCross Ref can also apply here\n<table>\n<tr>\n<th>ST</th>\n<th>PK(S)</th>\n<th>PK(T)</th>\n<th>...</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n</table>\n(since it's 1:1)",
+    "checks": [
+      5,
+      5,
+      []
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 0,
+    "temp": 0.2,
+    "seconds": 5.26500000001397,
+    "text": "- F.U can have null value\n- I could modify my existing implementation of Project 1.1\n---\n### Mapping Binary 1:1 Relationship Sets\n- F.U approach\n- Merged relation approach\n(if both participations are total, merge\n2 entity sets and relationship set into single\ntable)\n---\n#### \u2460 F.U approach\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099]\n- **Cross Ref also applies here**\n- **merge-rel can work here with P.U from total participation \u2014 not desirable**\n<table>\n<thead>\n<tr>\n<th>S</th>\n<th>Pk(S)</th>\n<th>...</th>\n<th>Pk(T)</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>T</td>\n<td>Pk(T)</td>\n<td>...</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n</tbody>\n</table>\n---\n#### \u2461 Merge-relation\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099]\n- **F.U applies to second case as well**\n- **Cross Ref can also apply here**\n- **P.U can be either one**\n<table>\n<thead>\n<tr>\n<th>ST</th>\n<th>Pk(S)</th>\n<th>Pk(T)</th>\n<th>...</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n</tbody>\n</table>\n*(since it's 1:1)*",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 1,
+    "temp": 0.2,
+    "seconds": 2.6089999999967404,
+    "text": "- F.U can have null value\n- I could modify my existing implementation of Project (.)\n---\n### Mapping Binary 1:1 Relationship Sets\n- F.U approach\n- Merged relation approach\n(if both participations are total, merge 2 entity sets and relationship set into single table)\n---\n#### \u2460 F.U approach\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099]\n- **Cross Ref also applies here**\n- **merge-rel can work here with P.U from total participation \u2014 not desirable**\n**Table Structure:**\nS | PK(S) | ... | PK(T) | a\u2081 | ... | a\u2099\n```\n---\n#### \u2461 Merge-relation\n![Diagram: S = R \u2014 T with attributes a\u2081, ..., a\u2099]\n- **F.U applies to second case as well**\n- **Cross Ref can also apply here**\n- **P.U can be either one**\n**Table Structure:**\n```\nST | PK(S) | PK(T) | ... | a\u2081 | ... | a\u2099\n```\n*(since it's 1:1)*",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ]
+  },
+  {
+    "document": "notes",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 2,
+    "temp": 0.2,
+    "seconds": 4.0,
+    "text": "- F.U can have null value\n- I could modify my existing implementation of Project (.)\n---\n### Mapping Binary 1:1 Relationship Sets\n- F.U approach\n- Merged relation approach\n(if both participations are total, merge 2 entity sets and relationship set into single table)\n---\n#### \u2460 F.U approach\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099 and \"total\" label on S-R relationship]\nCross Ref also applies here\nmerge-rel can work here with P.U from total participation \u2014 not desirable\n<table>\n<tr>\n<th>S</th>\n<th>Pk(S)</th>\n<th>...</th>\n<th>Pk(T)</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n</table>\n<table>\n<tr>\n<th>T</th>\n<th>Pk(T)</th>\n<th>...</th>\n</tr>\n</table>\n---\n#### \u2461 merge-relation\n![Diagram: S \u2014 R \u2014 T with attributes a\u2081, ..., a\u2099 and \"P.U can be either one\" note]\nF.U applies to second case as well\nCross Ref can also apply here\n<table>\n<tr>\n<th>ST</th>\n<th>Pk(S)</th>\n<th>Pk(T)</th>\n<th>...</th>\n<th>a\u2081</th>\n<th>...</th>\n<th>a\u2099</th>\n</tr>\n</table>\n(since it's 1:1)",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 0,
+    "temp": 0,
+    "seconds": 3.875,
+    "text": "# FakeDoc M.D.\n## HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\nDate: 9/14/19\nName: Sally Walker\nDOB: 09/04/1986\nAddress: 24 Barney Lane\nCity: Towaco\nState: NJ\nZip: 07082\nEmail: Sally.walker@cmail.com\nPhone #: (906) 917-3486\nGender: F\nMarital Status: Single\nOccupation: Software Engineer\nReferred By: None\nEmergency Contact: Eva Walker\nEmergency Contact Phone: (906) 334-8926\nDescribe your medical concerns (symptoms, diagnoses, etc):\nRunny nose, mucas in throat, weakness, aches, chills, tired\nAre you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      13,
+      13,
+      []
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 0,
+    "temp": 0.2,
+    "seconds": 2.2960000000020955,
+    "text": "FakeDoc M.D.\n# HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\nDate: 9/14/19\nName: Sally Walker\nDOB: 09/04/1986\nAddress: 24 Barney Lane\nCity: Towaco\nState: NJ\nZip: 07082\nEmail: Sally.walker@cmail.com\nPhone #: (906) 917-3486\nGender: F\nMarital Status: Single\nOccupation: Software Engineer\nReferred By: None\nEmergency Contact: Eva Walker\nEmergency Contact Phone: (906) 334-8926\nDescribe your medical concerns (symptoms, diagnoses, etc):\nRunny nose, mucus in throat, weakness, aches, chills, tired\nAre you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 1,
+    "temp": 0.2,
+    "seconds": 2.312999999994645,
+    "text": "FakeDoc M.D.\n# HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\nDate: 9/14/19\nName: Sally Walker\nDOB: 09/04/1986\nAddress: 24 Barney Lane\nCity: Towaco\nState: NJ\nZip: 07082\nEmail: Sally.walker@cmail.com\nPhone #: (906) 917-3486\nGender: F\nMarital Status: Single\nOccupation: Software Engineer\nReferred By: None\nEmergency Contact: Eva Walker\nEmergency Contact Phone: (906) 334-8926\nDescribe your medical concerns (symptoms, diagnoses, etc):\nRunny nose, mucus in throat, weakness, aches, chills, tired\nAre you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ]
+  },
+  {
+    "document": "hybrid",
+    "dim": 2048,
+    "lossless": true,
+    "seed": 2,
+    "temp": 0.2,
+    "seconds": 2.562000000005355,
+    "text": "# FakeDoc M.D.\n## HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n---\n**Date:** 9/14/19\n**Name:** Sally Walker\n**DOB:** 09/04/1986\n**Address:** 24 Barney Lane\n**City:** Towaco\n**State:** NJ\n**Zip:** 07082\n**Email:** sally.walker@cmail.com\n**Phone #:** (906) 917-3486\n**Gender:** F\n**Marital Status:** Single\n**Occupation:** Software Engineer\n**Referred By:** None\n**Emergency Contact:** Eva Walker\n**Emergency Contact Phone:** (906) 334-8926\n---\n### Describe your medical concerns (symptoms, diagnoses, etc):\nRunny nose, mucas in throat, weakness, aches, chills, tired\n---\n### Are you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "checks": [
+      13,
+      13,
+      []
+    ]
+  }
+]

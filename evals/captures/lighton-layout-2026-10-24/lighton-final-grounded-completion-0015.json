@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.985000000015134,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-d3K3SCvL8zYqsUUrechTJBbXmU4ladrJ",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](28,18,647,68) ③ When none is total (Cross-reference)\n\n![text](649,74,900,148) F.N approach can also apply here\n\n![text](694,207,974,348) can't have merge-relation here, could have null values from either S or T\n\n![text](78,427,205,511) either one can be unique\n\n![text](99,514,343,574) if combo is unique, either is unique\n\n![text](139,577,272,611) Since 1:1\n\n![image](118,107,547,244) Entity-relationship diagram with entities S, R, T and attributes a₁...aₙ\n\n![image](250,287,752,464) Hand-drawn diagram showing three tables S, T, R with columns PK(S), PK(T), and attributes a₁...aₙ, linked by arrows.\n\n![text](78,494,205,511) $\\text{S} \\left[ \\text{PK(S)} \\right] \\ldots$\n\n![text](100,514,343,574) $\\text{T} \\left[ \\text{PK(T)} \\right] \\ldots$\n\n![text](139,577,272,611) $\\text{R} \\left[ \\text{PK(S)} \\mid \\text{PK(T)} \\mid a_1 \\mid \\ldots \\mid a_n \\right]$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844112,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 398,
+      "prompt_tokens": 2096,
+      "total_tokens": 2494,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 953.962,
+      "prompt_per_token_ms": 0.4551345419847328,
+      "prompt_per_second": 2197.1525071229253,
+      "predicted_n": 398,
+      "predicted_ms": 3877.629,
+      "predicted_per_token_ms": 9.767327455919395,
+      "predicted_per_second": 102.38215156736241
+    }
+  }
+}

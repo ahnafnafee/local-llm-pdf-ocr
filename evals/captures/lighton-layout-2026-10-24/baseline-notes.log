@@ -1,0 +1,116 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______________ test_live_recognition_is_stable[0-grounded-notes] ______________
+
+mode = 'grounded', document = 'notes', seed = 0
+tmp_path = WindowsPath('C:/Users/ahnaf/AppData/Local/Temp/pytest-of-ahnaf/pytest-2169/test_live_recognition_is_stabl0')
+
+    @pytest.mark.parametrize("mode,document", [
+        ("hybrid", "notes"), ("hybrid", "hybrid"), ("hybrid", "handwritten"), ("grounded", "hybrid"),
+        ("grounded", "notes"), ("grounded", "handwritten"),
+    ])
+    @pytest.mark.parametrize("seed", [0, 1, 2])
+    async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
+        endpoint = os.environ.get("OCR_LIVE_API_BASE")
+        if not endpoint or os.environ.get("OCR_LIVE_MODE") != mode:
+            pytest.skip("Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference")
+        model = os.environ.get("OCR_LIVE_MODEL") or (
+            "allenai/olmocr-2-7b" if mode == "hybrid" else "qwen/qwen3-vl-8b"
+        )
+        max_dim = int(os.environ.get("OCR_LIVE_MAX_IMAGE_DIM", "1024"))
+        component = (OCRProcessor if mode == "hybrid" else PromptedGroundedOCR)(
+            api_base=endpoint, model=model, api_key=os.environ.get("OCR_LIVE_API_KEY"),
+            **({"max_image_dim": max_dim} if mode == "grounded" else {}),
+        )
+        component.client.generation_options["seed"] = seed
+        handler = PDFHandler()
+        output = tmp_path / ("recognized.pdf" if document == "hybrid" else "recognized.txt")
+        pipe = OCRPipeline(
+            aligner=HybridAligner() if mode == "hybrid" else None,
+            ocr_processor=component if mode == "hybrid" else None,
+            grounded_backend=component if mode == "grounded" else None,
+            pdf_handler=handler,
+            output_writer=resolve_output_writer(str(output)),
+        )
+        try:
+>           await pipe.run(str(ROOT / f"examples/{document}.pdf"), str(output), pages="1",
+                           concurrency=1, max_image_dim=max_dim)
+
+tests\test_live_quality.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\pdf_ocr\pipeline.py:180: in run
+    return await self._run_grounded(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <pdf_ocr.pipeline.OCRPipeline object at 0x0000024038A4CCE0>
+input_path = 'D:\\GitHub\\local-llm-pdf-ocr\\examples\\notes.pdf'
+output_path = 'C:\\Users\\ahnaf\\AppData\\Local\\Temp\\pytest-of-ahnaf\\pytest-2169\\test_live_recognition_is_stabl0\\recognized.txt'
+
+    async def _run_grounded(
+        self,
+        input_path: str,
+        output_path: str,
+        *,
+        dpi: int,
+        pages: Optional[str],
+        progress: Optional[ProgressCallback],
+    ) -> dict[int, list[str]]:
+        """
+        Grounded path: the backend returns (bbox, text) pairs directly.
+        No Surya, no DP, no refine � the model already knows where the text is.
+    
+        Emits the `"ocr"` progress stage (not a separate `"grounded"` stage)
+        so downstream progress adapters � e.g. `server._STAGE_WEIGHTS` �
+        map cleanly without a dedicated weight entry. The backend is
+        responsible for per-page tick emission; we forward the callback
+        directly so the user sees granular progress instead of a 0 \u2192 100
+        jump during multi-page grounded runs.
+    
+        Reject empty pages before calling any output writer: otherwise a
+        non-grounding model can produce an image-only PDF that looks successful.
+        """
+        response = await self.grounded_backend.ocr_document(
+            input_path, progress=progress, **({"pages": pages} if pages else {}),
+        )
+    
+        pages_data: dict[int, list] = defaultdict(list)
+        pages_text: dict[int, list[str]] = defaultdict(list)
+        for block in response.blocks:
+            if not block.text.strip():
+                continue
+            pages_data[block.page_index].append((block.bbox, block.text))
+            pages_text[block.page_index].append(block.text)
+    
+        # Sparse selections retain source indices, including selected pages
+        # with no blocks. Older backends report contiguous page_sizes only.
+        expected_pages = (
+            response.page_indices if response.page_indices is not None
+            else range(len(response.page_sizes))
+        )
+        missing = [p for p in expected_pages if not pages_data.get(p)]
+        empty_pages = [str(p + 1) for p in missing]
+        if not pages_data or empty_pages:
+            location = f"page(s) {', '.join(empty_pages)}" if empty_pages else "the document"
+            errors = getattr(response, "page_errors", {})
+            details = "; ".join(f"page {p + 1}: {errors[p]}" for p in missing if p in errors)
+            detail_text = f"{details}. " if details else ""
+>           raise RuntimeError(
+                f"Grounded OCR returned no text blocks for {location}. "
+                f"{detail_text}"
+                "No output was written. Grounded mode requires a model that "
+                "returns text with bounding boxes in its configured format; the model may not "
+                "support grounding, or the page may be blank. Use a "
+                "grounding-capable model or switch to hybrid mode "
+                "(omit --grounded in the CLI, select Hybrid in the web UI, "
+                "or set engine=hybrid in /process)."
+            )
+E           RuntimeError: Grounded OCR returned no text blocks for page(s) 1. page 1: ValueError: LightOnOCR returned no native grounding markers. No output was written. Grounded mode requires a model that returns text with bounding boxes in its configured format; the model may not support grounding, or the page may be blank. Use a grounding-capable model or switch to hybrid mode (omit --grounded in the CLI, select Hybrid in the web UI, or set engine=hybrid in /process).
+
+src\pdf_ocr\pipeline.py:515: RuntimeError
+------------------------------ Captured log call ------------------------------
+WARNING  root:grounded.py:626 Grounded page 1 region needs subdivision at depth 0 (LightOnOCR returned no native grounding markers).
+WARNING  root:grounded.py:626 Grounded page 1 region needs subdivision at depth 1 (LightOnOCR returned no native grounding markers).
+WARNING  root:grounded.py:678 grounded OCR failed for page 1: ValueError: LightOnOCR returned no native grounding markers
+=========================== short test summary info ===========================
+FAILED tests/test_live_quality.py::test_live_recognition_is_stable[0-grounded-notes]
+1 failed, 17 deselected in 24.72s

@@ -1,0 +1,130 @@
+
+>> digital.pdf  (GT: 16 blocks, 1700x2200)
+   grounded...
+request 1: 10.02s, finish=stop, tokens=888
+   digital.pdf          gt=16  pipeline=18  matched=13  recall=0.81 prec=0.72 
+hmean=0.76 iou_avg=0.75 text_sim_avg=1.00
+
+>> hybrid.pdf  (GT: 38 blocks, 1654x1962)
+   grounded...
+request 2: 5.50s, finish=stop, tokens=479
+   hybrid.pdf           gt=38  pipeline=14  matched=9   recall=0.24 prec=0.64 
+hmean=0.35 iou_avg=0.54 text_sim_avg=0.85
+
+>> handwritten.pdf  (GT: 14 blocks, 1654x2170)
+   grounded...
+request 3: 3.48s, finish=stop, tokens=257
+   handwritten.pdf      gt=14  pipeline=7   matched=6   recall=0.43 prec=0.86 
+hmean=0.57 iou_avg=0.63 text_sim_avg=0.81
+
+>> dense.pdf  (GT: 365 blocks, 612x792)
+   grounded...
+request 4: 32.16s, finish=stop, tokens=3178
+request 5: 40.03s, finish=stop, tokens=4056
+WARNING:root:Grounded page 1 region needs subdivision at depth 0 (Invalid LightOnOCR bounding box).
+request 6: 12.72s, finish=stop, tokens=1261
+request 7: 12.20s, finish=stop, tokens=1248
+request 8: 13.06s, finish=stop, tokens=1306
+request 9: 10.33s, finish=stop, tokens=1028
+request 10: 41.52s, finish=length, tokens=4096
+request 11: 36.56s, finish=stop, tokens=3690
+request 12: 22.00s, finish=stop, tokens=2124
+   dense.pdf            gt=365 pipeline=286 matched=77  recall=0.21 prec=0.27 
+hmean=0.24 iou_avg=0.41 text_sim_avg=0.35
+
+>> notes.pdf  (GT: 467 blocks, 612x792)
+   grounded...
+request 13: 6.11s, finish=stop, tokens=492
+request 14: 5.03s, finish=stop, tokens=408
+request 15: 4.99s, finish=stop, tokens=398
+request 16: 3.45s, finish=stop, tokens=241
+request 17: 3.89s, finish=stop, tokens=285
+request 18: 2.23s, finish=stop, tokens=120
+request 19: 2.31s, finish=stop, tokens=126
+request 20: 2.97s, finish=stop, tokens=192
+request 21: 1.97s, finish=stop, tokens=91
+request 22: 4.25s, finish=stop, tokens=324
+request 23: 5.34s, finish=stop, tokens=436
+request 24: 3.72s, finish=stop, tokens=268
+request 25: 8.30s, finish=stop, tokens=739
+request 26: 9.38s, finish=stop, tokens=846
+request 27: 4.89s, finish=stop, tokens=387
+request 28: 7.06s, finish=stop, tokens=599
+request 29: 12.23s, finish=stop, tokens=1119
+request 30: 9.19s, finish=stop, tokens=826
+request 31: 7.70s, finish=stop, tokens=679
+request 32: 5.02s, finish=stop, tokens=404
+request 33: 7.08s, finish=stop, tokens=611
+request 34: 1.33s, finish=stop, tokens=26
+   notes.pdf            gt=467 pipeline=190 matched=152 recall=0.33 prec=0.80 
+hmean=0.46 iou_avg=0.64 text_sim_avg=0.76
+
+                             Confidence evaluation                             
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│     │     │     │     │     │     │     │     │     │     │ BoW │     │     │
+│ do… │ pa… │  GT │ Pi… │ Re… │ R@… │ Hm… │ IoU │ Sim │ CER │  F1 │ Ch… │ Ch… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ di… │ gr… │  16 │  18 │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ hy… │ gr… │  38 │  14 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ ha… │ gr… │  14 │   7 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 10… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ de… │ gr… │ 365 │ 286 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 5/5 │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ no… │ gr… │ 467 │ 190 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 5/5 │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Unmatched GT blocks in digital.pdf (grounded):
+  - 'Student e-mail address: ___________________________________'  
+(best_iou=0.25)
+  - 'Student G#: ___________________________________'  (best_iou=0.13)
+  - 'Student: CS Faculty Supervisor: PhD CS Program Director:'  (best_iou=0.22)
+
+Unmatched GT blocks in hybrid.pdf (grounded):
+  - 'Date:'  (best_iou=0.07)
+  - 'Name:'  (best_iou=0.03)
+  - 'Sally Walker'  (best_iou=0.24)
+  - 'DOB:'  (best_iou=0.03)
+  - '09/04/1986'  (best_iou=0.15)
+  - 'Address:'  (best_iou=0.05)
+  ... and 23 more.
+
+Unmatched GT blocks in handwritten.pdf (grounded):
+  - '- computational procedure'  (best_iou=0.13)
+  - '- the input data needs to properly formatted'  (best_iou=0.12)
+  - '- ensures a CORRECT ALGORITHM'  (best_iou=0.12)
+  - '- post condition is a logical predicate for   the input and output'  
+(best_iou=0.24)
+  - '- Halting: the algo needs to finish in finite   time'  (best_iou=0.25)
+  - '- look into induction proofs'  (best_iou=0.04)
+  ... and 2 more.
+
+Unmatched GT blocks in dense.pdf (grounded):
+  - 'SQL in Application Code'  (best_iou=0.25)
+  - '- to make any changes, I need to declare'  (best_iou=0.23)
+  - '- Two main integration approaches'  (best_iou=0.23)
+  - 'at runtime'  (best_iou=0.00)
+  - '- fixed with cursor'  (best_iou=0.27)
+  - '(SU) Statement level interface → embedded SQL - embed SQL →'  
+(best_iou=0.14)
+  ... and 282 more.
+
+Unmatched GT blocks in notes.pdf (grounded):
+  - '- FK can have null value'  (best_iou=0.14)
+  - '- F.K approach'  (best_iou=0.04)
+  - '- Merged relation approach'  (best_iou=0.10)
+  - 'table'  (best_iou=0.02)
+  - 'Cross Ref also'  (best_iou=0.24)
+  - 'applies here'  (best_iou=0.32)
+  ... and 309 more.
+digital.pdf/grounded: no baseline; content checks only, regression comparison 
+not run.
+hybrid.pdf/grounded: no baseline; content checks only, regression comparison 
+not run.
+handwritten.pdf/grounded: no baseline; content checks only, regression 
+comparison not run.
+dense.pdf/grounded: no baseline; content checks only, regression comparison not
+run.
+notes.pdf/grounded: no baseline; content checks only, regression comparison not
+run.

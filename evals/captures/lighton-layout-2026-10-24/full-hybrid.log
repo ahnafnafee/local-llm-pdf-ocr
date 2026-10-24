@@ -1,0 +1,121 @@
+
+>> digital.pdf  (GT: 16 blocks, 1700x2200)
+   hybrid...
+request 1: 10.78s, finish=stop, tokens=890
+   digital.pdf          gt=16  pipeline=18  matched=12  recall=0.75 prec=0.67 
+hmean=0.71 iou_avg=0.79 text_sim_avg=1.00
+
+>> hybrid.pdf  (GT: 38 blocks, 1654x1962)
+   hybrid...
+request 2: 6.47s, finish=stop, tokens=479
+   hybrid.pdf           gt=38  pipeline=14  matched=8   recall=0.21 prec=0.57 
+hmean=0.31 iou_avg=0.63 text_sim_avg=0.89
+
+>> handwritten.pdf  (GT: 14 blocks, 1654x2170)
+   hybrid...
+request 3: 5.23s, finish=stop, tokens=346
+   handwritten.pdf      gt=14  pipeline=14  matched=13  recall=0.93 prec=0.93 
+hmean=0.93 iou_avg=0.59 text_sim_avg=0.89
+
+>> dense.pdf  (GT: 365 blocks, 612x792)
+   hybrid...
+request 4: 35.89s, finish=stop, tokens=3427
+request 5: 37.53s, finish=stop, tokens=3606
+request 6: 24.66s, finish=stop, tokens=2325
+   dense.pdf            gt=365 pipeline=296 matched=63  recall=0.17 prec=0.21 
+hmean=0.19 iou_avg=0.51 text_sim_avg=0.30
+
+>> notes.pdf  (GT: 467 blocks, 612x792)
+   hybrid...
+request 7: 7.11s, finish=stop, tokens=526
+request 8: 4.20s, finish=stop, tokens=258
+request 9: 3.80s, finish=stop, tokens=213
+request 10: 4.61s, finish=stop, tokens=301
+request 11: 2.86s, finish=stop, tokens=120
+request 12: 2.92s, finish=stop, tokens=126
+request 13: 3.00s, finish=stop, tokens=134
+request 14: 2.61s, finish=stop, tokens=94
+request 15: 4.88s, finish=stop, tokens=325
+request 16: 5.64s, finish=stop, tokens=405
+request 17: 4.31s, finish=stop, tokens=268
+request 18: 8.98s, finish=stop, tokens=743
+request 19: 9.52s, finish=stop, tokens=797
+request 20: 5.45s, finish=stop, tokens=386
+request 21: 7.89s, finish=stop, tokens=634
+request 22: 12.42s, finish=stop, tokens=1100
+request 23: 4.38s, finish=stop, tokens=268
+request 24: 8.77s, finish=stop, tokens=725
+request 25: 5.62s, finish=stop, tokens=400
+request 26: 7.72s, finish=stop, tokens=614
+request 27: 1.97s, finish=stop, tokens=26
+   notes.pdf            gt=467 pipeline=225 matched=171 recall=0.37 prec=0.76 
+hmean=0.49 iou_avg=0.69 text_sim_avg=0.76
+
+                             Confidence evaluation                             
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│     │     │     │     │     │     │     │     │     │     │ BoW │     │     │
+│ do… │ pa… │  GT │ Pi… │ Re… │ R@… │ Hm… │ IoU │ Sim │ CER │  F1 │ Ch… │ Ch… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ di… │ hy… │  16 │  18 │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ hy… │ hy… │  38 │  14 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ ha… │ hy… │  14 │  14 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 10… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ de… │ hy… │ 365 │ 296 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 5/5 │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ no… │ hy… │ 467 │ 225 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 4/5 │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Unmatched GT blocks in digital.pdf (hybrid):
+  - 'Student Name (Last, First): ___________________________________'  
+(best_iou=0.29)
+  - 'Student e-mail address: ___________________________________'  
+(best_iou=0.23)
+  - 'Student G#: ___________________________________'  (best_iou=0.12)
+  - 'Student: CS Faculty Supervisor: PhD CS Program Director:'  (best_iou=0.24)
+
+Unmatched GT blocks in hybrid.pdf (hybrid):
+  - 'Date:'  (best_iou=0.10)
+  - 'Name:'  (best_iou=0.03)
+  - 'Sally Walker'  (best_iou=0.24)
+  - 'DOB:'  (best_iou=0.03)
+  - '09/04/1986'  (best_iou=0.15)
+  - 'Address:'  (best_iou=0.06)
+  ... and 24 more.
+
+Unmatched GT blocks in handwritten.pdf (hybrid):
+  - '- computational procedure'  (best_iou=0.27)
+
+Unmatched GT blocks in dense.pdf (hybrid):
+  - 'SQL in Application Code'  (best_iou=0.17)
+  - '- to make any changes, I need to declare'  (best_iou=0.27)
+  - 'a sensitive cursor'  (best_iou=0.09)
+  - 'at runtime'  (best_iou=0.00)
+  - '- fixed with cursor'  (best_iou=0.24)
+  - 'that require high performance without'  (best_iou=0.28)
+  ... and 296 more.
+
+Unmatched GT blocks in notes.pdf (hybrid):
+  - '- F.K approach'  (best_iou=0.06)
+  - '- Merged relation approach'  (best_iou=0.17)
+  - 'table'  (best_iou=0.05)
+  - 'Cross Ref also'  (best_iou=0.33)
+  - 'R; a₁'  (best_iou=0.01)
+  - 'a₁'  (best_iou=0.00)
+  ... and 290 more.
+Failed checks in notes.pdf (hybrid):
+  - missing: 'FK can have null value'
+digital.pdf/hybrid: no baseline; content checks only, regression comparison not
+run.
+hybrid.pdf/hybrid: no baseline; content checks only, regression comparison not 
+run.
+handwritten.pdf/hybrid: no baseline; content checks only, regression comparison
+not run.
+dense.pdf/hybrid: no baseline; content checks only, regression comparison not 
+run.
+notes.pdf/hybrid: no baseline; content checks only, regression comparison not 
+run.
+
+OCR FAILURES:
+  - notes.pdf/hybrid: content check failed: missing: 'FK can have null value'

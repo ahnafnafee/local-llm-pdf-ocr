@@ -1,0 +1,28 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______ test_native_decoding_recovers_invalid_geometry_before_cropping ________
+
+    async def test_native_decoding_recovers_invalid_geometry_before_cropping():
+        import base64
+        import io
+        from PIL import Image
+    
+        buffer = io.BytesIO()
+        Image.new("RGB", (600, 800), "white").save(buffer, format="PNG")
+        client = SimpleNamespace(complete=AsyncMock(side_effect=[
+            "![text](10,10,140,1200)\nMalformed geometry",
+            "![text](100,200,800,300)\nSource words",
+        ]))
+        backend = PromptedGroundedOCR(model="lightonai/LightOnOCR-3-4B", client=client)
+        response = await backend.ocr_image(base64.b64encode(buffer.getvalue()).decode())
+>       assert not response.page_errors
+E       AssertionError: assert not {0: 'LLMCallError: model returned no usable grounded text'}
+E        +  where {0: 'LLMCallError: model returned no usable grounded text'} = GroundedResponse(blocks=[], page_sizes=[(600, 800)], page_indices=[0], page_errors={0: 'LLMCallError: model returned no usable grounded text'}).page_errors
+
+tests\test_model_profiles.py:114: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  root:grounded.py:647 Grounded page 1 region needs subdivision at depth 0 (Invalid LightOnOCR bounding box).
+WARNING  root:grounded.py:699 grounded OCR failed for page 1: LLMCallError: model returned no usable grounded text
+=========================== short test summary info ===========================
+FAILED tests/test_model_profiles.py::test_native_decoding_recovers_invalid_geometry_before_cropping
+1 failed, 16 deselected in 6.37s

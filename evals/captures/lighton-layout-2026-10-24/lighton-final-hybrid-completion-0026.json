@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 5.594000000011874,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-45NlounrmwGj8VDXOU1GE5hYD70rGmFe",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](78,20,482,68) Confused on division...\n\n![text](127,83,550,138) - division keyword: $\\boxed{\\text{ALL}}$\n\n![text](142,172,828,296) ① find names of sailors who have reserved all boats $\\Rightarrow$ denominator\n\n![formula](175,357,872,420) $R_1 \\leftarrow \\pi_{sid, bid} (\\text{Reserves}) / \\pi_{sid} (\\text{Boots})$\n\n![formula](175,438,788,503) $R \\leftarrow \\pi_{name} (R_1 \\bowtie \\text{Sailors})$\n\n![formula](36,551,947,631) ② $R_1 \\leftarrow (\\pi_{sid, bid} \\text{Reserves}) \\div \\pi_{bid} (\\text{Boots})$\n\n![text](275,668,687,729) Recap of Relational Algebra Operations\n\n![list](272,748,696,961)\n- Select $\\sigma_{<selection\\ condition>} R$\n- Project $\\pi_{<attribute\\ list>} R$\n- Union $R \\cup S$\n- Intersection $R \\cap S$\n- Difference $R - S$\n- Cross product $R \\times S$\n- Join $R \\bowtie_{<join\\ condition>} S$\n- Natural join $R \\bowtie S$\n- Division $R \\div S$\n- Rename $\\rho_{<new\\ schema>} R$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844513,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 400,
+      "prompt_tokens": 3152,
+      "total_tokens": 3552,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1556.565,
+      "prompt_per_token_ms": 0.49383407360406095,
+      "prompt_per_second": 2024.971652324188,
+      "predicted_n": 400,
+      "predicted_ms": 3881.354,
+      "predicted_per_token_ms": 9.72770426065163,
+      "predicted_per_second": 102.79917781269114
+    }
+  }
+}

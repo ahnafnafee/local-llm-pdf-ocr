@@ -1,0 +1,1280 @@
+[
+  {
+    "document": "hybrid",
+    "mode": "text",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"106 16 230 32\" data-label=\"Page-Header\"><p>FakeDoc M.D.</p></div><div data-bbox=\"353 39 646 61\" data-label=\"Section-Header\"><h2>HEALTH INTAKE FORM</h2></div><div data-bbox=\"106 67 863 108\" data-label=\"Text\"><p>Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.</p></div><div data-bbox=\"106 120 341 163\" data-label=\"Text\"><p>Date: <u>9/14/19</u></p></div><div data-bbox=\"106 165 930 216\" data-label=\"Text\"><p>Name: <u>Sally Walker</u> DOB: <u>09/04/1986</u></p></div><div data-bbox=\"106 218 913 247\" data-label=\"Text\"><p>Address: <u>24 Bancy Lane</u> City: <u>Towaco</u> State: <u>NJ</u> Zip: <u>07082</u></p></div><div data-bbox=\"106 253 897 291\" data-label=\"Text\"><p>Email: <u>sally.walker@cmail.com</u> Phone #: <u>(906) 917-3486</u></p></div><div data-bbox=\"106 301 946 346\" data-label=\"Text\"><p>Gender: <u>F</u> Marital Status: <u>Single</u> Occupation: <u>Software Engineer</u></p></div><div data-bbox=\"106 353 471 379\" data-label=\"Text\"><p>Referred By: <u>None</u></p></div><div data-bbox=\"106 387 975 423\" data-label=\"Text\"><p>Emergency Contact: <u>Eva Walker</u> Emergency Contact Phone: <u>(906) 334-8926</u></p></div><div data-bbox=\"106 444 730 467\" data-label=\"Text\"><p><b>Describe your medical concerns (symptoms, diagnoses, etc):</b></p></div><div data-bbox=\"106 484 892 567\" data-label=\"Text\"><p><u>runny nose, mucous in throat, weakness,</u><br/><u>aches, chills, tired</u></p></div><div data-bbox=\"106 756 788 778\" data-label=\"Text\"><p><b>Are you currently taking any medication? (If yes, please describe):</b></p></div><div data-bbox=\"106 786 892 837\" data-label=\"Text\"><p><u>Vyvanse (25mg) daily for attention</u></p></div>",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "FakeDoc M.D. HEALTH INTAKE FORM Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential. Date: 9/14/19 Name: Sally Walker DOB: 09/04/1986 Address: 24 Bancy Lane City: Towaco State: NJ Zip: 07082 Email: sally.walker@cmail.com Phone #: (906) 917-3486 Gender: F Marital Status: Single Occupation: Software Engineer Referred By: None Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926 Describe your medical concerns (symptoms, diagnoses, etc): runny nose, mucous in throat, weakness, aches, chills, tired Are you currently taking any medication? (If yes, please describe): Vyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9808,
+      "char_recall": 1.0,
+      "char_precision": 0.7465
+    },
+    "checks": [
+      11,
+      13,
+      [
+        "missing: '24 Barney Lane'",
+        "missing: 'mucas in throat'"
+      ]
+    ],
+    "seconds": 12.516
+  },
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"106 16 230 32\" data-label=\"Page-Header\"><p>FakeDoc M.D.</p></div><div data-bbox=\"353 39 646 61\" data-label=\"Section-Header\"><h2>HEALTH INTAKE FORM</h2></div><div data-bbox=\"106 67 863 108\" data-label=\"Text\"><p>Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.</p></div><div data-bbox=\"106 120 341 163\" data-label=\"Text\"><p>Date: <u>9/14/19</u></p></div><div data-bbox=\"106 165 930 216\" data-label=\"Text\"><p>Name: <u>Sally Walker</u> DOB: <u>09/04/1986</u></p></div><div data-bbox=\"106 219 913 248\" data-label=\"Text\"><p>Address: <u>24 Bancy Lane</u> City: <u>Towaco</u> State: <u>NJ</u> Zip: <u>07082</u></p></div><div data-bbox=\"106 253 897 291\" data-label=\"Text\"><p>Email: <u>sally.walker@cmail.com</u> Phone #: <u>(906) 917-3486</u></p></div><div data-bbox=\"106 302 946 346\" data-label=\"Text\"><p>Gender: <u>F</u> Marital Status: <u>Single</u> Occupation: <u>Software Engineer</u></p></div><div data-bbox=\"106 353 471 379\" data-label=\"Text\"><p>Referred By: <u>None</u></p></div><div data-bbox=\"106 387 975 423\" data-label=\"Text\"><p>Emergency Contact: <u>Eva Walker</u> Emergency Contact Phone: <u>(906) 334-8926</u></p></div><div data-bbox=\"106 444 731 467\" data-label=\"Text\"><p><b>Describe your medical concerns (symptoms, diagnoses, etc):</b></p></div><div data-bbox=\"106 484 892 567\" data-label=\"Text\"><p><u>runny nose, mucous in throat, weakness,</u><br/><u>aches, chills, tired</u></p></div><div data-bbox=\"106 756 789 778\" data-label=\"Text\"><p><b>Are you currently taking any medication? (If yes, please describe):</b></p></div><div data-bbox=\"106 786 892 837\" data-label=\"Text\"><p><u>Vyvanse (25mg) daily for attention</u></p></div>",
+    "blocks": [
+      [
+        [
+          0.106,
+          0.016,
+          0.23,
+          0.032
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.353,
+          0.039,
+          0.646,
+          0.061
+        ],
+        "HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.106,
+          0.067,
+          0.863,
+          0.108
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.106,
+          0.12,
+          0.341,
+          0.163
+        ],
+        "Date: 9/14/19"
+      ],
+      [
+        [
+          0.106,
+          0.165,
+          0.93,
+          0.216
+        ],
+        "Name: Sally Walker DOB: 09/04/1986"
+      ],
+      [
+        [
+          0.106,
+          0.219,
+          0.913,
+          0.248
+        ],
+        "Address: 24 Bancy Lane City: Towaco State: NJ Zip: 07082"
+      ],
+      [
+        [
+          0.106,
+          0.253,
+          0.897,
+          0.291
+        ],
+        "Email: sally.walker@cmail.com Phone #: (906) 917-3486"
+      ],
+      [
+        [
+          0.106,
+          0.302,
+          0.946,
+          0.346
+        ],
+        "Gender: F Marital Status: Single Occupation: Software Engineer"
+      ],
+      [
+        [
+          0.106,
+          0.353,
+          0.471,
+          0.379
+        ],
+        "Referred By: None"
+      ],
+      [
+        [
+          0.106,
+          0.387,
+          0.975,
+          0.423
+        ],
+        "Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926"
+      ],
+      [
+        [
+          0.106,
+          0.444,
+          0.731,
+          0.467
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.106,
+          0.484,
+          0.892,
+          0.567
+        ],
+        "runny nose, mucous in throat, weakness, aches, chills, tired"
+      ],
+      [
+        [
+          0.106,
+          0.756,
+          0.789,
+          0.778
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.106,
+          0.786,
+          0.892,
+          0.837
+        ],
+        "Vyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.1842,
+      "recall_at_05": 0.1316,
+      "precision": 0.5,
+      "hmean": 0.2692,
+      "avg_iou": 0.5908,
+      "text_sim": 0.9571,
+      "avg_cer": 0.1224,
+      "bow_f1": 0.9808,
+      "char_recall": 0.969,
+      "char_precision": 0.7903
+    },
+    "checks": [
+      11,
+      13,
+      [
+        "missing: '24 Barney Lane'",
+        "missing: 'mucas in throat'"
+      ]
+    ],
+    "seconds": 10.047
+  },
+  {
+    "document": "handwritten",
+    "mode": "text",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"44 30 226 84\" data-label=\"Section-Header\"><h1><u>Algorithms</u></h1></div><div data-bbox=\"46 107 906 226\" data-label=\"List-Group\"><ul><li>- computational procedure</li><li>- processes are finite, but the data does not have an upper bound.</li></ul></div><div data-bbox=\"207 234 588 297\" data-label=\"Diagram\"><img alt=\"Diagram showing input and output mapped to each other.\"/><p>A diagram showing 'input' on the left and 'output' on the right. A double-headed arrow connects them, with the word 'mapped' written above the arrow.</p></div><div data-bbox=\"26 301 896 630\" data-label=\"List-Group\"><ul><li>- the input data needs to properly formatted<ul><li>- ensures a CORRECT ALGORITHM</li></ul></li><li>- post condition is a logical predicate for the input and output</li><li>- <b>Halting</b>: the algo needs to finish in finite time<ul><li>- look into induction proofs</li></ul></li></ul></div><div data-bbox=\"263 653 764 837\" data-label=\"Diagram\"><img alt=\"Diagram showing Correctness as the conjunction of Validity and Halting.\"/><p>A diagram showing 'Correctness' at the top. Two arrows point downwards from 'Correctness' to 'Validity' on the left and 'Halting' on the right. Below 'Validity' and 'Halting' is the text '(Conjunction Of both)'.</p></div><div data-bbox=\"61 856 967 933\" data-label=\"List-Group\"><ul><li>- if the algo has a strong post condition it makes it more useful</li></ul></div>",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "Algorithms - computational procedure - processes are finite, but the data does not have an upper bound. A diagram showing 'input' on the left and 'output' on the right. A double-headed arrow connects them, with the word 'mapped' written above the arrow. - the input data needs to properly formatted - ensures a CORRECT ALGORITHM - post condition is a logical predicate for the input and output - Halting : the algo needs to finish in finite time - look into induction proofs A diagram showing 'Correctness' at the top. Two arrows point downwards from 'Correctness' to 'Validity' on the left and 'Halting' on the right. Below 'Validity' and 'Halting' is the text '(Conjunction Of both)'. - if the algo has a strong post condition it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.6462,
+      "char_recall": 1.0,
+      "char_precision": 0.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 6.547
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"52 31 223 85\" data-label=\"Section-Header\"><h1><u>Algorithms</u></h1></div><div data-bbox=\"47 108 907 227\" data-label=\"List-Group\"><ul><li>- computational procedure</li><li>- processes are finite, but the data does not have an upper bound.</li></ul></div><div data-bbox=\"207 235 587 297\" data-label=\"Diagram\"><img alt=\"Diagram showing input and output mapped to each other.\"/><p>A diagram showing 'input' on the left and 'output' on the right. A double-headed arrow connects them, with the word 'mapped' written above the arrow.</p></div><div data-bbox=\"27 301 897 630\" data-label=\"List-Group\"><ul><li>- the input data needs to properly formatted<ul><li>- ensures a CORRECT ALGORITHM</li></ul></li><li>- post condition is a logical predicate for the input and output</li><li>- <b>Halting</b>: the algo needs to finish in finite time<ul><li>- look into induction proofs</li></ul></li></ul></div><div data-bbox=\"263 654 764 838\" data-label=\"Diagram\"><img alt=\"Diagram showing Correctness as the conjunction of Validity and Halting.\"/><p>A diagram showing 'Correctness' at the top. Two arrows point downwards from 'Correctness' to 'Validity' on the left and 'Halting' on the right. Below 'Validity' and 'Halting' is the text '(Conjunction Of both)'.</p></div><div data-bbox=\"62 856 967 933\" data-label=\"List-Group\"><ul><li>- if the algo has a strong post condition it makes it more useful</li></ul></div>",
+    "blocks": [
+      [
+        [
+          0.052,
+          0.031,
+          0.223,
+          0.085
+        ],
+        "Algorithms"
+      ],
+      [
+        [
+          0.047,
+          0.108,
+          0.907,
+          0.227
+        ],
+        "- computational procedure - processes are finite, but the data does not have an upper bound."
+      ],
+      [
+        [
+          0.027,
+          0.301,
+          0.897,
+          0.63
+        ],
+        "- the input data needs to properly formatted - ensures a CORRECT ALGORITHM - post condition is a logical predicate for the input and output - Halting : the algo needs to finish in finite time - look into induction proofs"
+      ],
+      [
+        [
+          0.062,
+          0.856,
+          0.967,
+          0.933
+        ],
+        "- if the algo has a strong post condition it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2143,
+      "recall_at_05": 0.2143,
+      "precision": 0.75,
+      "hmean": 0.3333,
+      "avg_iou": 0.6657,
+      "text_sim": 0.9315,
+      "avg_cer": 0.1553,
+      "bow_f1": 0.9118,
+      "char_recall": 0.8435,
+      "char_precision": 0.9432
+    },
+    "checks": [
+      7,
+      10,
+      [
+        "missing: 'Correctness'",
+        "missing: 'Validity'",
+        "order rule operand missing: 'Algorithms' / 'Correctness'"
+      ]
+    ],
+    "seconds": 6.531
+  },
+  {
+    "document": "notes",
+    "mode": "text",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"32 20 447 52\" data-label=\"Text\"><ul><li>- FK can have null value</li></ul></div><div data-bbox=\"41 57 944 105\" data-label=\"Text\"><ul><li>- I could modify my existing implementation of Project 1.)</li></ul></div><div data-bbox=\"10 145 608 188\" data-label=\"Section-Header\"><h2>Mapping Binary 1:1 Relationship Sets</h2></div><div data-bbox=\"67 193 308 225\" data-label=\"Text\"><ul><li>- FK approach</li></ul></div><div data-bbox=\"86 233 463 268\" data-label=\"Text\"><ul><li>- Merged relation approach</li></ul></div><div data-bbox=\"189 260 911 386\" data-label=\"Text\"><p>(if both participations are total, merge 2 entity sets and relationship set into single table)</p></div><div data-bbox=\"27 388 386 427\" data-label=\"Text\"><p>① FK approach</p></div><div data-bbox=\"152 432 586 556\" data-label=\"Diagram\"><img alt=\"ER diagram for FK approach showing entity sets S and T connected by relationship set R. S has a total participation (double line) and T has a partial participation (single line). R has attributes a1, ..., an. A red arrow points to the double line on S with the label 'total'.\"/><pre>graph LR\n    S[S] --- R{R}\n    R --- T[T]\n    R --- a1((a1))\n    R --- an((an))\n    style S stroke-width:4px\n    style T stroke-width:1px</pre></div><div data-bbox=\"708 388 923 452\" data-label=\"Text\"><p>Cross Ref also applies here</p></div><div data-bbox=\"666 468 967 568\" data-label=\"Text\"><p>merge-rel can work here with FK from total participation - not desirable</p></div><div data-bbox=\"296 580 916 636\" data-label=\"Table\"><table border=\"1\"><tr><td>S</td><td><u>PK(S)</u></td><td>...</td><td><u>PK(T)</u></td><td>a<sub>1</sub></td><td>...</td><td>a<sub>n</sub></td></tr></table></div><div data-bbox=\"294 638 700 726\" data-label=\"Table\"><p>↓</p><table border=\"1\"><tr><td>T</td><td><u>PK(T)</u></td><td>...</td><td>↓</td></tr></table></div><div data-bbox=\"35 708 280 768\" data-label=\"Text\"><p>② merge-relation</p></div><div data-bbox=\"128 750 464 854\" data-label=\"Diagram\"><img alt=\"ER diagram for merge-relation approach showing entity sets S and T connected by relationship set R. Both S and T have total participations (double lines). R has attributes a1, ..., an.\"/><pre>graph LR\n    S[S] --- R{R}\n    R --- T[T]\n    R --- a1((a1))\n    R --- an((an))\n    style S stroke-width:4px\n    style T stroke-width:4px</pre></div><div data-bbox=\"549 786 889 818\" data-label=\"Text\"><p>PK can be either one</p></div><div data-bbox=\"50 838 282 983\" data-label=\"Text\"><p>FK applies to second case as well<br/>Cross Ref can also apply here</p></div><div data-bbox=\"350 886 896 938\" data-label=\"Table\"><table border=\"1\"><tr><td>ST</td><td><u>PK(S)</u></td><td><u>PK(T)</u></td><td>...</td><td>a<sub>1</sub></td><td>...</td><td>a<sub>n</sub></td></tr></table></div><div data-bbox=\"394 938 611 971\" data-label=\"Text\"><p>(since it's 1:1)</p></div>",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "- FK can have null value - I could modify my existing implementation of Project 1.) Mapping Binary 1:1 Relationship Sets - FK approach - Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table) ① FK approach graph LR\n    S[S] --- R{R}\n    R --- T[T]\n    R --- a1((a1))\n    R --- an((an))\n    style S stroke-width:4px\n    style T stroke-width:1px Cross Ref also applies here merge-rel can work here with FK from total participation - not desirable S PK(S) ... PK(T) a 1 ... a n ↓ T PK(T) ... ↓ ② merge-relation graph LR\n    S[S] --- R{R}\n    R --- T[T]\n    R --- a1((a1))\n    R --- an((an))\n    style S stroke-width:4px\n    style T stroke-width:4px PK can be either one FK applies to second case as well Cross Ref can also apply here ST PK(S) PK(T) ... a 1 ... a n (since it's 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.6667,
+      "char_recall": 1.0,
+      "char_precision": 0.4199
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 13.687
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"32 20 447 52\" data-label=\"Text\"><ul><li>- FK can have null value</li></ul></div><div data-bbox=\"41 57 944 105\" data-label=\"Text\"><ul><li>- I could modify my existing implementation of Project 1.)</li></ul></div><div data-bbox=\"10 145 608 188\" data-label=\"Section-Header\"><h2>Mapping Binary 1:1 Relationship Sets</h2></div><div data-bbox=\"67 193 308 225\" data-label=\"Text\"><ul><li>- FK approach</li></ul></div><div data-bbox=\"86 233 463 268\" data-label=\"Text\"><ul><li>- Merged relation approach</li></ul></div><div data-bbox=\"189 260 911 385\" data-label=\"Text\"><p>(if both participations are total, merge 2 entity sets and relationship set into single table)</p></div><div data-bbox=\"27 388 387 427\" data-label=\"Text\"><p>① FK approach</p></div><div data-bbox=\"152 432 586 556\" data-label=\"Diagram\"><img alt=\"ER diagram for FK approach showing entity sets S and T connected by relationship set R. S has a total participation (double line) and T has a partial participation (single line). R has attributes a1, ..., an. A red arrow points to the double line on S with the label 'total'.\"/><pre>graph LR\n    S[S] --- R{R}\n    R --- T[T]\n    R --- a1((a1))\n    R --- an((an))\n    style S stroke-width:4px\n    style T stroke-width:1px</pre></div><div data-bbox=\"708 388 923 452\" data-label=\"Text\"><p>Cross Ref also applies here</p></div><div data-bbox=\"666 468 967 568\" data-label=\"Text\"><p>merge-rel can work here with FK from total participation - not desirable</p></div><div data-bbox=\"296 580 916 635\" data-label=\"Table\"><table border=\"1\"><tr><td>S</td><td><u>PK(S)</u></td><td>...</td><td><u>PK(T)</u></td><td>a<sub>1</sub></td><td>...</td><td>a<sub>n</sub></td></tr></table></div><div data-bbox=\"294 638 700 725\" data-label=\"Table\"><p>↓</p><table border=\"1\"><tr><td>T</td><td><u>PK(T)</u></td><td>...</td><td>T</td></tr></table></div><div data-bbox=\"35 707 280 768\" data-label=\"Text\"><p>② merge-relation</p></div><div data-bbox=\"128 750 464 853\" data-label=\"Diagram\"><img alt=\"ER diagram for merge-relation approach showing entity sets S and T connected by relationship set R. Both S and T have total participations (double lines). R has attributes a1, ..., an.\"/><pre>graph LR\n    S[S] --- R{R}\n    R --- T[T]\n    R --- a1((a1))\n    R --- an((an))\n    style S stroke-width:4px\n    style T stroke-width:4px</pre></div><div data-bbox=\"549 785 889 817\" data-label=\"Text\"><p>PK can be either one</p></div><div data-bbox=\"50 837 282 983\" data-label=\"Text\"><p>FK applies to second case as well<br/>Cross Ref can also apply here</p></div><div data-bbox=\"350 886 896 938\" data-label=\"Table\"><table border=\"1\"><tr><td>ST</td><td><u>PK(S)</u></td><td><u>PK(T)</u></td><td>...</td><td>a<sub>1</sub></td><td>...</td><td>a<sub>n</sub></td></tr></table></div><div data-bbox=\"394 938 611 971\" data-label=\"Text\"><p>(since it's 1:1)</p></div>",
+    "blocks": [
+      [
+        [
+          0.032,
+          0.02,
+          0.447,
+          0.052
+        ],
+        "- FK can have null value"
+      ],
+      [
+        [
+          0.041,
+          0.057,
+          0.944,
+          0.105
+        ],
+        "- I could modify my existing implementation of Project 1.)"
+      ],
+      [
+        [
+          0.01,
+          0.145,
+          0.608,
+          0.188
+        ],
+        "Mapping Binary 1:1 Relationship Sets"
+      ],
+      [
+        [
+          0.067,
+          0.193,
+          0.308,
+          0.225
+        ],
+        "- FK approach"
+      ],
+      [
+        [
+          0.086,
+          0.233,
+          0.463,
+          0.268
+        ],
+        "- Merged relation approach"
+      ],
+      [
+        [
+          0.189,
+          0.26,
+          0.911,
+          0.385
+        ],
+        "(if both participations are total, merge 2 entity sets and relationship set into single table)"
+      ],
+      [
+        [
+          0.027,
+          0.388,
+          0.387,
+          0.427
+        ],
+        "① FK approach"
+      ],
+      [
+        [
+          0.708,
+          0.388,
+          0.923,
+          0.452
+        ],
+        "Cross Ref also applies here"
+      ],
+      [
+        [
+          0.666,
+          0.468,
+          0.967,
+          0.568
+        ],
+        "merge-rel can work here with FK from total participation - not desirable"
+      ],
+      [
+        [
+          0.296,
+          0.58,
+          0.916,
+          0.635
+        ],
+        "S PK(S) ... PK(T) a 1 ... a n"
+      ],
+      [
+        [
+          0.294,
+          0.638,
+          0.7,
+          0.725
+        ],
+        "↓ T PK(T) ... T"
+      ],
+      [
+        [
+          0.035,
+          0.707,
+          0.28,
+          0.768
+        ],
+        "② merge-relation"
+      ],
+      [
+        [
+          0.549,
+          0.785,
+          0.889,
+          0.817
+        ],
+        "PK can be either one"
+      ],
+      [
+        [
+          0.05,
+          0.837,
+          0.282,
+          0.983
+        ],
+        "FK applies to second case as well Cross Ref can also apply here"
+      ],
+      [
+        [
+          0.35,
+          0.886,
+          0.896,
+          0.938
+        ],
+        "ST PK(S) PK(T) ... a 1 ... a n"
+      ],
+      [
+        [
+          0.394,
+          0.938,
+          0.611,
+          0.971
+        ],
+        "(since it's 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.4516,
+      "recall_at_05": 0.3548,
+      "precision": 0.875,
+      "hmean": 0.5957,
+      "avg_iou": 0.6596,
+      "text_sim": 0.8249,
+      "avg_cer": 0.3466,
+      "bow_f1": 0.7568,
+      "char_recall": 0.9805,
+      "char_precision": 0.942
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 13.578
+  },
+  {
+    "document": "digital",
+    "mode": "text",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"74 12 405 76\" data-label=\"Page-Header\"><img alt=\"George Mason University Logo\" data-bbox=\"74 12 175 76\"/><p><b>GEORGE MASON UNIVERSITY®</b></p></div><div data-bbox=\"484 10 808 77\" data-label=\"Page-Header\"><p>Department of Computer Science<br/>College of Engineering and Computing<br/>4400 University Drive, MS 4A5, Fairfax, Virginia 22030<br/>Phone: 703-993-1530; Fax: 703-993-1710<br/>www: <a href=\"http://www.cs.gmu.edu/\">http://www.cs.gmu.edu/</a></p></div><div data-bbox=\"208 82 802 102\" data-label=\"Section-Header\"><p><b><u>CS 701 - Research Experience in Computer Science – Spring’26</u></b></p></div><div data-bbox=\"90 125 720 142\" data-label=\"Text\"><p>Student Name (Last, First): _____</p></div><div data-bbox=\"90 161 720 178\" data-label=\"Text\"><p>Student e-mail address: _____</p></div><div data-bbox=\"90 198 720 215\" data-label=\"Text\"><p>Student G#: _____</p></div><div data-bbox=\"90 234 720 270\" data-label=\"Text\"><p>Name of the CS faculty member<br/>to supervise the student in CS 701: _____</p></div><div data-bbox=\"90 288 884 307\" data-label=\"Text\"><p>Description of the research activity (<u>clarify the <b>hands-on</b> component explicitly in your description</u>):</p></div><div data-bbox=\"90 398 898 416\" data-label=\"Text\"><p>List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):</p></div><div data-bbox=\"90 490 182 507\" data-label=\"Section-Header\"><p><b>Signatures</b></p></div><div data-bbox=\"90 508 840 543\" data-label=\"Text\"><table border=\"0\"><tr><td>Student:</td><td>CS Faculty Supervisor:</td><td>PhD CS Program Director:</td></tr><tr><td>_____</td><td>_____</td><td>_____</td></tr></table></div><div data-bbox=\"90 582 144 598\" data-label=\"Section-Header\"><p><b>Notes</b></p></div><div data-bbox=\"119 599 924 892\" data-label=\"List-Group\"><ol><li>1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.</li><li>2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.</li><li>3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.</li><li>4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.</li><li>5. Submit the completed form to both <a href=\"mailto:csphd@gmu.edu\">csphd@gmu.edu</a> and <a href=\"mailto:aydin@gmu.edu\">aydin@gmu.edu</a> by e-mail (put “[CS701 form]” in the subject line) by <b>November 21, 2025</b>.</li></ol></div>",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "GEORGE MASON UNIVERSITY® Department of Computer Science College of Engineering and Computing 4400 University Drive, MS 4A5, Fairfax, Virginia 22030 Phone: 703-993-1530; Fax: 703-993-1710 www: http://www.cs.gmu.edu/ CS 701 - Research Experience in Computer Science – Spring’26 Student Name (Last, First): _____ Student e-mail address: _____ Student G#: _____ Name of the CS faculty member to supervise the student in CS 701: _____ Description of the research activity ( clarify the hands-on component explicitly in your description ): List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings): Signatures Student: CS Faculty Supervisor: PhD CS Program Director: _____ _____ _____ Notes 1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701. 2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity. 3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department. 4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names. 5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by November 21, 2025 ."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9835,
+      "char_recall": 1.0,
+      "char_precision": 0.0854
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 13.422
+  },
+  {
+    "document": "digital",
+    "mode": "grounded",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"74 12 405 76\" data-label=\"Page-Header\"><img alt=\"George Mason University Logo\" data-bbox=\"74 12 175 76\"/><p><b>GEORGE MASON UNIVERSITY®</b></p></div><div data-bbox=\"484 10 808 77\" data-label=\"Page-Header\"><p>Department of Computer Science<br/>College of Engineering and Computing<br/>4400 University Drive, MS 4A5, Fairfax, Virginia 22030<br/>Phone: 703-993-1530; Fax: 703-993-1710<br/>www: <a href=\"http://www.cs.gmu.edu/\">http://www.cs.gmu.edu/</a></p></div><div data-bbox=\"208 82 802 102\" data-label=\"Section-Header\"><p><b><u>CS 701 - Research Experience in Computer Science – Spring’26</u></b></p></div><div data-bbox=\"90 125 720 142\" data-label=\"Text\"><p>Student Name (Last, First): _____</p></div><div data-bbox=\"90 161 720 178\" data-label=\"Text\"><p>Student e-mail address: _____</p></div><div data-bbox=\"90 198 720 215\" data-label=\"Text\"><p>Student G#: _____</p></div><div data-bbox=\"90 234 720 270\" data-label=\"Text\"><p>Name of the CS faculty member<br/>to supervise the student in CS 701: _____</p></div><div data-bbox=\"90 288 885 307\" data-label=\"Text\"><p>Description of the research activity (<u>clarify the <b>hands-on</b> component explicitly in your description</u>):</p></div><div data-bbox=\"90 398 899 416\" data-label=\"Text\"><p>List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):</p></div><div data-bbox=\"90 490 182 507\" data-label=\"Section-Header\"><p><b>Signatures</b></p></div><div data-bbox=\"90 508 841 543\" data-label=\"Text\"><table border=\"0\"><tr><td>Student: _____</td><td>CS Faculty Supervisor: _____</td><td>PhD CS Program Director: _____</td></tr></table></div><div data-bbox=\"90 582 144 598\" data-label=\"Section-Header\"><p><b>Notes</b></p></div><div data-bbox=\"119 599 925 892\" data-label=\"List-Group\"><ol><li>1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.</li><li>2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.</li><li>3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.</li><li>4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.</li><li>5. Submit the completed form to both <a href=\"mailto:csphd@gmu.edu\">csphd@gmu.edu</a> and <a href=\"mailto:aydin@gmu.edu\">aydin@gmu.edu</a> by e-mail (put “[CS701 form]” in the subject line) by <b>November 21, 2025</b>.</li></ol></div>",
+    "blocks": [
+      [
+        [
+          0.074,
+          0.012,
+          0.405,
+          0.076
+        ],
+        "GEORGE MASON UNIVERSITY®"
+      ],
+      [
+        [
+          0.484,
+          0.01,
+          0.808,
+          0.077
+        ],
+        "Department of Computer Science College of Engineering and Computing 4400 University Drive, MS 4A5, Fairfax, Virginia 22030 Phone: 703-993-1530; Fax: 703-993-1710 www: http://www.cs.gmu.edu/"
+      ],
+      [
+        [
+          0.208,
+          0.082,
+          0.802,
+          0.102
+        ],
+        "CS 701 - Research Experience in Computer Science – Spring’26"
+      ],
+      [
+        [
+          0.09,
+          0.125,
+          0.72,
+          0.142
+        ],
+        "Student Name (Last, First): _____"
+      ],
+      [
+        [
+          0.09,
+          0.161,
+          0.72,
+          0.178
+        ],
+        "Student e-mail address: _____"
+      ],
+      [
+        [
+          0.09,
+          0.198,
+          0.72,
+          0.215
+        ],
+        "Student G#: _____"
+      ],
+      [
+        [
+          0.09,
+          0.234,
+          0.72,
+          0.27
+        ],
+        "Name of the CS faculty member to supervise the student in CS 701: _____"
+      ],
+      [
+        [
+          0.09,
+          0.288,
+          0.885,
+          0.307
+        ],
+        "Description of the research activity ( clarify the hands-on component explicitly in your description ):"
+      ],
+      [
+        [
+          0.09,
+          0.398,
+          0.899,
+          0.416
+        ],
+        "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+      ],
+      [
+        [
+          0.09,
+          0.49,
+          0.182,
+          0.507
+        ],
+        "Signatures"
+      ],
+      [
+        [
+          0.09,
+          0.508,
+          0.841,
+          0.543
+        ],
+        "Student: _____ CS Faculty Supervisor: _____ PhD CS Program Director: _____"
+      ],
+      [
+        [
+          0.09,
+          0.582,
+          0.144,
+          0.598
+        ],
+        "Notes"
+      ],
+      [
+        [
+          0.119,
+          0.599,
+          0.925,
+          0.892
+        ],
+        "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701. 2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity. 3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department. 4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names. 5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by November 21, 2025 ."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.75,
+      "recall_at_05": 0.625,
+      "precision": 0.9231,
+      "hmean": 0.8276,
+      "avg_iou": 0.7213,
+      "text_sim": 0.9511,
+      "avg_cer": 0.0864,
+      "bow_f1": 0.9835,
+      "char_recall": 0.9986,
+      "char_precision": 0.9639
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 13.375
+  },
+  {
+    "document": "dense",
+    "mode": "text",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"10 10 320 180\" data-label=\"Text\">\n<p>SAL in Application Code</p>\n<ul>\n<li>- two main integration approaches\n      <ul>\n<li>(SU) Statement level interface → embedded SQL\n          <ul>\n<li>- embed SQL</li>\n</ul>\n</li>\n<li>(CU) Call-level interface → JDBC\n          <ul>\n<li>- special API to → JDBC</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n<p>SAL commands</p>\n<table border=\"1\">\n<thead>\n<tr>\n<th></th>\n<th>Precompiler</th>\n<th>Schema Info</th>\n<th>database info</th>\n<th>multiple JDBC</th>\n<th>Efficiency</th>\n<th>to system box</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>SU</td>\n<td>Yes</td>\n<td>Yes</td>\n<td>Yes</td>\n<td>No</td>\n<td>higher</td>\n<td>lower</td>\n</tr>\n<tr>\n<td>CU</td>\n<td>No</td>\n<td>No</td>\n<td>No</td>\n<td>Yes</td>\n<td>lower</td>\n<td>higher</td>\n</tr>\n</tbody>\n</table>\n<p>Schema of DB must be known at compile time &amp; written for embedded SQL</p>\n<p>can get info at runtime instead of compile time</p>\n</div>\n<div data-bbox=\"10 180 320 330\" data-label=\"Text\">\n<p>Project 2</p>\n<ul>\n<li>- need to use LIKE for partial matching</li>\n<li>- cross-check?</li>\n<li>- program should NOT crash</li>\n<li>- use grade for simplicity (cur that what I know best)</li>\n</ul>\n<p>EXEC SQL SELECT S-name, S-age<br/>\n  INTO :c-name, :c-age<br/>\n  FROM serials S<br/>\n  WHERE S-sid = :c-sid</p>\n<p>out parameters<br/>\n  in parameter</p>\n</div>\n<div data-bbox=\"10 330 320 480\" data-label=\"Text\">\n<p>- SALSTATE - common error vars defined here</p>\n<p>EXEC SQL SELECT S-name, S-age<br/>\n  INTO :c-name, :c-age<br/>\n  FROM serials S<br/>\n  WHERE S-sid = :c-sid</p>\n<p>out parameters<br/>\n  in parameter</p>\n</div>\n<div data-bbox=\"10 480 320 650\" data-label=\"Text\">\n<p>- look out for redundancies in data instances</p>\n<p><math>t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]</math></p>\n<p><math>t_1</math> and <math>t_2</math> → Any two rows in your table</p>\n<p><math>t_1[X]</math> → look at the X columns of row 1</p>\n<p><math>t_1[X] = t_2[X]</math> → row 1 and row 2 have same X values</p>\n<p><math>\\Rightarrow</math> → forces</p>\n<p><math>t_1[Y] = t_2[Y] \\Rightarrow</math> row 1 and row 2 must also have same Y values</p>\n</div>\n<div data-bbox=\"10 650 320 850\" data-label=\"Text\">\n<p>FD between non-key attributes is a RED FLAK that data is being repeated unnecessarily</p>\n<p>- FD means one attr's value is completely controlled by another</p>\n<p>- when controlling attr appears in multiple rows, its dependent value gets copied</p>\n<p>posed → i.e. redundancy</p>\n</div>\n<div data-bbox=\"340 10 660 250\" data-label=\"Text\">\n<p>- Imperative Mismatch problem</p>\n<ul>\n<li>- fixed with cursor</li>\n</ul>\n<p>OPEN: when SQL statement is executed<br/>\n  FETCH: when it moves to the next row</p>\n<p>INSENSITIVE cursor: cannot make changes to DB with cursor</p>\n<p>If I want to update result then declare sensitive cursor</p>\n<p>Fixes issue with collecting set of tuples</p>\n<p>CLOSE: closes the cursor<br/>\n  cursor can be reopened when in variable is different</p>\n</div>\n<div data-bbox=\"340 250 660 480\" data-label=\"Text\">\n<p>execute Update()</p>\n<p>only returns number of rows (affected)</p>\n<p>- see the comparison table for</p>\n<p>- JDBC vs SAL</p>\n<p>for managing complexity better</p>\n<p>when to choose which?</p>\n</div>\n<div data-bbox=\"340 480 660 650\" data-label=\"List-Group\">\n<ul>\n<li>L13: Functional Dependencies\n      <ul>\n<li>Attribute Closure</li>\n</ul>\n</li>\n<li>L14: Normal Forms\n      <ul>\n<li>Normalize</li>\n</ul>\n</li>\n<li>L15: Properties of Decomposition\n      <ul>\n<li>Lossless Join + DP</li>\n<li>Minimal Cover</li>\n</ul>\n</li>\n<li>L16: Decomposition Algorithms</li>\n</ul>\n</div>\n<div data-bbox=\"340 650 660 950\" data-label=\"Text\">\n<p>- why repetition is problematic</p>\n<ul>\n<li>- update anomaly</li>\n<li>- insertion anomaly</li>\n<li>- deletion anomaly</li>\n</ul>\n<p>she is going away too fast for me to observe...</p>\n<p>don't understand this</p>\n<p>- see explanation in PDX</p>\n<p><math>k = \\{A_1, A_2, \\dots, A_n\\}</math> is a candidate key for relation R if</p>\n<p><math>K \\rightarrow</math> All other attributes of R</p>\n<p>AND</p>\n<p>No other subset of K → all other attributes of R</p>\n</div>\n<div data-bbox=\"680 10 990 150\" data-label=\"Text\">\n<p>- to make any changes, I need to declare a sensitive cursor</p>\n<p>- embedded SQL recommended in systems that require high performance without JDBC overhead</p>\n<p>- for dynamic SQL, we cannot reuse, since we need to prepare</p>\n</div>\n<div data-bbox=\"680 150 990 330\" data-label=\"Text\">\n<p>JDBC/JDBC</p>\n<p>JDBC does not require knowing dbinfo or schema info</p>\n<ul>\n<li>- can connect to multiple DBs with multiple separate drivers</li>\n<li>- all interactions with the DB performed via a Connection object</li>\n</ul>\n<p>Prepared Statement is more efficient to use since its made to reuse as it is precompiled</p>\n<p>? are placeholders</p>\n</div>\n<div data-bbox=\"680 330 990 440\" data-label=\"Text\">\n<p>- Keyword → Redundancy</p>\n<p>- FD: most important kind of constraint in the relational model</p>\n<p>- associated with the schema, not the instance</p>\n<p>- can I represent key constraint with FD?</p>\n</div>\n<div data-bbox=\"690 440 940 540\" data-label=\"Diagram\">\n<p><math>X \\rightarrow Y</math></p>\n<p><math>X</math> functionally determines <math>Y</math></p>\n<p>alternatively,</p>\n<p><math>Y</math> is dependent on <math>X</math></p>\n</div>\n<div data-bbox=\"710 540 980 650\" data-label=\"Table\">\n<p>Phonebook</p>\n<table border=\"1\">\n<thead>\n<tr>\n<th>Phone #</th>\n<th>Name</th>\n<th>City</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>3055550101</td>\n<td>Alice</td>\n<td>Fortox</td>\n</tr>\n<tr>\n<td>3055550101</td>\n<td>Alice</td>\n<td>Fortox</td>\n</tr>\n</tbody>\n</table>\n<p>if I know someone's phone no., can I always figure out their name?</p>\n<p>Phone # → Name</p>\n</div>\n<div data-bbox=\"680 650 990 750\" data-label=\"Text\">\n<p><math>X \\rightarrow Y</math></p>\n<p><math>X \\rightarrow Y</math></p>\n<p><math>X \\rightarrow Z</math></p>\n<p>WTS is the determinant</p>\n<p>cannot decompose WTS</p>\n<p><math>X \\rightarrow Y</math></p>\n<p><math>X \\rightarrow Z</math></p>\n</div>\n<div data-bbox=\"680 750 990 950\" data-label=\"Text\">\n<p>- Closure of Attributes</p>\n<ul>\n<li>- find all attributes dependent on {A, B}</p>\n</ul>\n<p>if I know value of attr X, what else can I figure out?</p>\n<p>i.e. closure of X</p>\n<p>Aux. <math>X^+</math></p>\n<p>- think yourself as a detective</p>\n<p>- start with one clue, let it lead to more clues</p>\n</div>",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "SAL in Application Code - two main integration approaches (SU) Statement level interface → embedded SQL - embed SQL (CU) Call-level interface → JDBC - special API to → JDBC SAL commands Precompiler Schema Info database info multiple JDBC Efficiency to system box SU Yes Yes Yes No higher lower CU No No No Yes lower higher Schema of DB must be known at compile time & written for embedded SQL can get info at runtime instead of compile time Project 2 - need to use LIKE for partial matching - cross-check? - program should NOT crash - use grade for simplicity (cur that what I know best) EXEC SQL SELECT S-name, S-age INTO :c-name, :c-age FROM serials S WHERE S-sid = :c-sid out parameters in parameter - SALSTATE - common error vars defined here EXEC SQL SELECT S-name, S-age INTO :c-name, :c-age FROM serials S WHERE S-sid = :c-sid out parameters in parameter - look out for redundancies in data instances t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y] t_1 and t_2 → Any two rows in your table t_1[X] → look at the X columns of row 1 t_1[X] = t_2[X] → row 1 and row 2 have same X values \\Rightarrow → forces t_1[Y] = t_2[Y] \\Rightarrow row 1 and row 2 must also have same Y values FD between non-key attributes is a RED FLAK that data is being repeated unnecessarily - FD means one attr's value is completely controlled by another - when controlling attr appears in multiple rows, its dependent value gets copied posed → i.e. redundancy - Imperative Mismatch problem - fixed with cursor OPEN: when SQL statement is executed FETCH: when it moves to the next row INSENSITIVE cursor: cannot make changes to DB with cursor If I want to update result then declare sensitive cursor Fixes issue with collecting set of tuples CLOSE: closes the cursor cursor can be reopened when in variable is different execute Update() only returns number of rows (affected) - see the comparison table for - JDBC vs SAL for managing complexity better when to choose which? L13: Functional Dependencies Attribute Closure L14: Normal Forms Normalize L15: Properties of Decomposition Lossless Join + DP Minimal Cover L16: Decomposition Algorithms - why repetition is problematic - update anomaly - insertion anomaly - deletion anomaly she is going away too fast for me to observe... don't understand this - see explanation in PDX k = \\{A_1, A_2, \\dots, A_n\\} is a candidate key for relation R if K \\rightarrow All other attributes of R AND No other subset of K → all other attributes of R - to make any changes, I need to declare a sensitive cursor - embedded SQL recommended in systems that require high performance without JDBC overhead - for dynamic SQL, we cannot reuse, since we need to prepare JDBC/JDBC JDBC does not require knowing dbinfo or schema info - can connect to multiple DBs with multiple separate drivers - all interactions with the DB performed via a Connection object Prepared Statement is more efficient to use since its made to reuse as it is precompiled ? are placeholders - Keyword → Redundancy - FD: most important kind of constraint in the relational model - associated with the schema, not the instance - can I represent key constraint with FD? X \\rightarrow Y X functionally determines Y alternatively, Y is dependent on X Phonebook Phone # Name City 3055550101 Alice Fortox 3055550101 Alice Fortox if I know someone's phone no., can I always figure out their name? Phone # → Name X \\rightarrow Y X \\rightarrow Y X \\rightarrow Z WTS is the determinant cannot decompose WTS X \\rightarrow Y X \\rightarrow Z - Closure of Attributes - find all attributes dependent on {A, B} if I know value of attr X, what else can I figure out? i.e. closure of X Aux. X^+ - think yourself as a detective - start with one clue, let it lead to more clues"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.8109,
+      "char_recall": 1.0,
+      "char_precision": 0.2108
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 27.078
+  },
+  {
+    "document": "dense",
+    "mode": "grounded",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"10 10 320 180\" data-label=\"List-Group\">\n<ul>\n<li>SAL in Application Code</li>\n<li>- two main integration approaches\n      <ul>\n<li>(SU) Statement level interface → embedded SQL\n          <ul>\n<li>→ embedded SQL</li>\n</ul>\n</li>\n<li>(CU) Call-level interface → JDBC\n          <ul>\n<li>→ special API to → ODBC</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</div>\n<div data-bbox=\"10 110 330 190\" data-label=\"Table\">\n<p>db not needed to know schema version</p>\n<table border=\"1\">\n<thead>\n<tr>\n<th></th>\n<th>Precompiler</th>\n<th>Schema Info</th>\n<th>database info</th>\n<th>multiple DBC</th>\n<th>Efficiency</th>\n<th>db system size</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>SU</td>\n<td>Yes</td>\n<td>Yes</td>\n<td>Yes</td>\n<td>No</td>\n<td>higher</td>\n<td>lower</td>\n</tr>\n<tr>\n<td>CU</td>\n<td>No</td>\n<td>No</td>\n<td>No</td>\n<td>Yes</td>\n<td>lower</td>\n<td>higher</td>\n</tr>\n</tbody>\n</table>\n<p>Prepared statement lower</p>\n</div>\n<div data-bbox=\"10 180 300 250\" data-label=\"Text\">\n<p>Schema of DB must be known at compile time &amp; written for embedded SQL</p>\n<p>can get info at runtime instead of compile time</p>\n</div>\n<div data-bbox=\"10 250 300 330\" data-label=\"Code-Block\">\n<p>SALSTATE - common error vars defined here</p>\n<pre>\nEXEC SQL SELECT S-name, S-age\nINTO :c-name, :c-age\nFROM serials S\nWHERE S.sid = :c-sid\n  </pre>\n<p>out parameters</p>\n<p>→ in parameter</p>\n</div>\n<div data-bbox=\"10 330 300 490\" data-label=\"List-Group\">\n<ul>\n<li>- for db, start index from 1</li>\n<li>Project 2</li>\n<li>- need to use LIKE for partial matching</li>\n<li>- cross-check?</li>\n<li>- program should NOT crash</li>\n<li>- use grade for simplicity (cur that what I know best)</li>\n</ul>\n</div>\n<div data-bbox=\"340 10 660 250\" data-label=\"List-Group\">\n<ul>\n<li>Imperative Mismatch problem</li>\n<li>- fixed with <b>Cursor</b></li>\n</ul>\n<p>OPEN: when SQL statement is executed</p>\n<p>FETCH: when it moves to the next row</p>\n<p>INSENSITIVE cursor: cannot make changes to DB with cursor</p>\n<p>If I want to update result then declare sensitive cursor</p>\n<p>Fixes issue with collecting set of tuples</p>\n<p>CLOSE: closes the cursor</p>\n<p>Cursor can be reopened when in variable is different</p>\n</div>\n<div data-bbox=\"360 250 480 300\" data-label=\"Text\">\n<p>Note the poll !!</p>\n<p>question</p>\n</div>\n<div data-bbox=\"340 330 660 470\" data-label=\"List-Group\">\n<ul>\n<li>- execute Update ()\n      <ul>\n<li>only returns number of rows (affected)</li>\n</ul>\n</li>\n<li>- see the comparison table for\n      <ul>\n<li>go use executeQuery() instead</li>\n</ul>\n</li>\n<li>- JDBC vs SALJ\n      <ul>\n<li>for managing complexity better</li>\n<li>when to choose which?</li>\n</ul>\n</li>\n</ul>\n</div>\n<div data-bbox=\"340 470 550 620\" data-label=\"List-Group\">\n<ul>\n<li>L13: Functional Dependencies\n      <ul>\n<li>Attribute Closure</li>\n</ul>\n</li>\n<li>L14: Normal Forms\n      <ul>\n<li>Normalize</li>\n</ul>\n</li>\n<li>L15: Properties of Decomposition\n      <ul>\n<li>Lossless Join + DP</li>\n<li>Minimal Cover</li>\n</ul>\n</li>\n<li>L16: Decomposition Algorithms</li>\n</ul>\n</div>\n<div data-bbox=\"670 10 980 150\" data-label=\"List-Group\">\n<ul>\n<li>- to make any changes, I need to declare a sensitive cursor</li>\n<li>- embedded SQL recommended in systems that require high performance without JDBC overhead</li>\n<li>- for dynamic SQL, we cannot reuse, since we need to prepare</li>\n</ul>\n</div>\n<div data-bbox=\"670 150 980 330\" data-label=\"List-Group\">\n<ul>\n<li>JDBC/JDBC</li>\n<li>JDBC does not require knowing dbinfo or schema info</li>\n<li>- can connect to multiple DBs with multiple separate drivers</li>\n<li>- all interactions with the DB performed via a Connection object</li>\n<li>Prepared Statement is more efficient to use since its made to reuse as it is precompiled</li>\n<li>- ? are placeholders</li>\n</ul>\n</div>\n<div data-bbox=\"670 330 980 420\" data-label=\"List-Group\">\n<ul>\n<li>- Keyword → Redundancy</li>\n<li>- FD: most important kind of constraint in the relational model\n      <ul>\n<li>- associated with the schema, not the instance</li>\n</ul>\n</li>\n</ul>\n</div>\n<div data-bbox=\"670 420 980 445\" data-label=\"Text\">\n<p>can I represent key constraint with FD?</p>\n</div>\n<div data-bbox=\"690 445 940 540\" data-label=\"Diagram\">\n<p>X → Y</p>\n<p>X <u>functionally determines</u> Y</p>\n<p>alternatively,</p>\n<p>Y is dependent on X</p>\n</div>\n<div data-bbox=\"710 545 900 605\" data-label=\"Table\">\n<p>Phonebook</p>\n<table border=\"1\">\n<thead>\n<tr>\n<th>Phone #</th>\n<th>Name</th>\n<th>City</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>3055550101</td>\n<td>Alice</td>\n<td>Fortox</td>\n</tr>\n<tr>\n<td>3055550101</td>\n<td>Alice</td>\n<td>Fortox</td>\n</tr>\n</tbody>\n</table>\n</div>\n<div data-bbox=\"710 605 980 650\" data-label=\"Text\">\n<p>if I know someone's phone no., can I always figure out their name?</p>\n<p>Phone # → Name</p>\n</div>\n<div data-bbox=\"40 660 330 840\" data-label=\"List-Group\">\n<ul>\n<li>- look out for redundancies in data instances</li>\n</ul>\n<p><math>t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]</math></p>\n<p><math>t_1</math> and <math>t_2</math> → Any two rows in your table</p>\n<p><math>t_1[X]</math> → look at the X columns of row 1</p>\n<p><math>t_1[X] = t_2[X]</math> → row 1 and row 2 have same X values</p>\n<p>⇒ → forces</p>\n<p><math>t_1[Y] = t_2[Y]</math> → row 1 and row 2 must also have same Y values</p>\n</div>\n<div data-bbox=\"20 850 320 910\" data-label=\"Text\">\n<p>FD between <u>non-key</u> attributes is a <u>RED FLAK</u> that data is being <u>repeatedly</u> unnecessarily</p>\n</div>\n<div data-bbox=\"20 910 320 985\" data-label=\"List-Group\">\n<ul>\n<li>- FD means one attr's value is completely controlled by another\n      <ul>\n<li>- when controlling attr appears in multiple rows, its dependent value gets copied</li>\n<li>→ i.e. redundancy</li>\n</ul>\n</li>\n</ul>\n</div>\n<div data-bbox=\"340 660 660 810\" data-label=\"List-Group\">\n<ul>\n<li>- why repetition is problematic\n      <ul>\n<li>- update anomaly</li>\n<li>- insertion anomaly</li>\n<li>- deletion anomaly</li>\n</ul>\n</li>\n</ul>\n<p>she is going away too fast for me to observe...</p>\n<p>don't lose this</p>\n<p>see explanation in PDX</p>\n</div>\n<div data-bbox=\"340 810 660 930\" data-label=\"List-Group\">\n<ul>\n<li>- <math>K = \\{A_1, A_2, \\dots, A_n\\}</math> is a candidate key for relation R if\n      <ul>\n<li><math>K \\rightarrow</math> All other attributes of R</li>\n</ul>\n</li>\n<li>AND</li>\n<li>No other subset of K → all other attributes of R</li>\n</ul>\n</div>\n<div data-bbox=\"670 660 980 740\" data-label=\"List-Group\">\n<ul>\n<li>- <math>X \\rightarrow YZ</math>\n<ul>\n<li><math>X \\rightarrow Y</math></li>\n<li><math>X \\rightarrow Z</math></li>\n</ul>\n</li>\n</ul>\n<p>LHS is the determinant</p>\n<p>cannot decompose LHS</p>\n<p><math>XY \\rightarrow YZ</math></p>\n</div>\n<div data-bbox=\"670 740 980 900\" data-label=\"List-Group\">\n<ul>\n<li>- Closure of Attributes\n      <ul>\n<li>- find all attributes dependent on {A, B}</li>\n<li>- if I know value of attr X, what else can I figure out?</li>\n<li>- i.e. closure of X</li>\n<li>Aux. <math>X^+</math></li>\n</ul>\n</li>\n<li>- think yourself as a detective\n      <ul>\n<li>- start with one clue, let it lead to more clues</li>\n</ul>\n</li>\n</ul>\n</div>",
+    "blocks": [
+      [
+        [
+          0.01,
+          0.01,
+          0.32,
+          0.18
+        ],
+        "SAL in Application Code - two main integration approaches (SU) Statement level interface → embedded SQL → embedded SQL (CU) Call-level interface → JDBC → special API to → ODBC"
+      ],
+      [
+        [
+          0.01,
+          0.11,
+          0.33,
+          0.19
+        ],
+        "db not needed to know schema version Precompiler Schema Info database info multiple DBC Efficiency db system size SU Yes Yes Yes No higher lower CU No No No Yes lower higher Prepared statement lower"
+      ],
+      [
+        [
+          0.01,
+          0.18,
+          0.3,
+          0.25
+        ],
+        "Schema of DB must be known at compile time & written for embedded SQL can get info at runtime instead of compile time"
+      ],
+      [
+        [
+          0.01,
+          0.25,
+          0.3,
+          0.33
+        ],
+        "SALSTATE - common error vars defined here EXEC SQL SELECT S-name, S-age\nINTO :c-name, :c-age\nFROM serials S\nWHERE S.sid = :c-sid out parameters → in parameter"
+      ],
+      [
+        [
+          0.01,
+          0.33,
+          0.3,
+          0.49
+        ],
+        "- for db, start index from 1 Project 2 - need to use LIKE for partial matching - cross-check? - program should NOT crash - use grade for simplicity (cur that what I know best)"
+      ],
+      [
+        [
+          0.34,
+          0.01,
+          0.66,
+          0.25
+        ],
+        "Imperative Mismatch problem - fixed with Cursor OPEN: when SQL statement is executed FETCH: when it moves to the next row INSENSITIVE cursor: cannot make changes to DB with cursor If I want to update result then declare sensitive cursor Fixes issue with collecting set of tuples CLOSE: closes the cursor Cursor can be reopened when in variable is different"
+      ],
+      [
+        [
+          0.36,
+          0.25,
+          0.48,
+          0.3
+        ],
+        "Note the poll !! question"
+      ],
+      [
+        [
+          0.34,
+          0.33,
+          0.66,
+          0.47
+        ],
+        "- execute Update () only returns number of rows (affected) - see the comparison table for go use executeQuery() instead - JDBC vs SALJ for managing complexity better when to choose which?"
+      ],
+      [
+        [
+          0.34,
+          0.47,
+          0.55,
+          0.62
+        ],
+        "L13: Functional Dependencies Attribute Closure L14: Normal Forms Normalize L15: Properties of Decomposition Lossless Join + DP Minimal Cover L16: Decomposition Algorithms"
+      ],
+      [
+        [
+          0.67,
+          0.01,
+          0.98,
+          0.15
+        ],
+        "- to make any changes, I need to declare a sensitive cursor - embedded SQL recommended in systems that require high performance without JDBC overhead - for dynamic SQL, we cannot reuse, since we need to prepare"
+      ],
+      [
+        [
+          0.67,
+          0.15,
+          0.98,
+          0.33
+        ],
+        "JDBC/JDBC JDBC does not require knowing dbinfo or schema info - can connect to multiple DBs with multiple separate drivers - all interactions with the DB performed via a Connection object Prepared Statement is more efficient to use since its made to reuse as it is precompiled - ? are placeholders"
+      ],
+      [
+        [
+          0.67,
+          0.33,
+          0.98,
+          0.42
+        ],
+        "- Keyword → Redundancy - FD: most important kind of constraint in the relational model - associated with the schema, not the instance"
+      ],
+      [
+        [
+          0.67,
+          0.42,
+          0.98,
+          0.445
+        ],
+        "can I represent key constraint with FD?"
+      ],
+      [
+        [
+          0.71,
+          0.545,
+          0.9,
+          0.605
+        ],
+        "Phonebook Phone # Name City 3055550101 Alice Fortox 3055550101 Alice Fortox"
+      ],
+      [
+        [
+          0.71,
+          0.605,
+          0.98,
+          0.65
+        ],
+        "if I know someone's phone no., can I always figure out their name? Phone # → Name"
+      ],
+      [
+        [
+          0.04,
+          0.66,
+          0.33,
+          0.84
+        ],
+        "- look out for redundancies in data instances t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y] t_1 and t_2 → Any two rows in your table t_1[X] → look at the X columns of row 1 t_1[X] = t_2[X] → row 1 and row 2 have same X values ⇒ → forces t_1[Y] = t_2[Y] → row 1 and row 2 must also have same Y values"
+      ],
+      [
+        [
+          0.02,
+          0.85,
+          0.32,
+          0.91
+        ],
+        "FD between non-key attributes is a RED FLAK that data is being repeatedly unnecessarily"
+      ],
+      [
+        [
+          0.02,
+          0.91,
+          0.32,
+          0.985
+        ],
+        "- FD means one attr's value is completely controlled by another - when controlling attr appears in multiple rows, its dependent value gets copied → i.e. redundancy"
+      ],
+      [
+        [
+          0.34,
+          0.66,
+          0.66,
+          0.81
+        ],
+        "- why repetition is problematic - update anomaly - insertion anomaly - deletion anomaly she is going away too fast for me to observe... don't lose this see explanation in PDX"
+      ],
+      [
+        [
+          0.34,
+          0.81,
+          0.66,
+          0.93
+        ],
+        "- K = \\{A_1, A_2, \\dots, A_n\\} is a candidate key for relation R if K \\rightarrow All other attributes of R AND No other subset of K → all other attributes of R"
+      ],
+      [
+        [
+          0.67,
+          0.66,
+          0.98,
+          0.74
+        ],
+        "- X \\rightarrow YZ X \\rightarrow Y X \\rightarrow Z LHS is the determinant cannot decompose LHS XY \\rightarrow YZ"
+      ],
+      [
+        [
+          0.67,
+          0.74,
+          0.98,
+          0.9
+        ],
+        "- Closure of Attributes - find all attributes dependent on {A, B} - if I know value of attr X, what else can I figure out? - i.e. closure of X Aux. X^+ - think yourself as a detective - start with one clue, let it lead to more clues"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.05,
+      "recall_at_05": 0.0214,
+      "precision": 0.3182,
+      "hmean": 0.0864,
+      "avg_iou": 0.4675,
+      "text_sim": 0.6986,
+      "avg_cer": 0.6612,
+      "bow_f1": 0.8253,
+      "char_recall": 0.9817,
+      "char_precision": 0.5935
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 31.985
+  },
+  {
+    "document": "image",
+    "mode": "text",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"55 30 435 67\" data-label=\"Text\"><p>Fr 10.4.2026</p></div><div data-bbox=\"743 23 838 47\" data-label=\"Text\"><p>1000</p></div><div data-bbox=\"55 132 281 165\" data-label=\"Text\"><p>Neurotiker</p></div><div data-bbox=\"52 195 276 240\" data-label=\"Text\"><p>Typen 23</p></div><div data-bbox=\"50 281 370 353\" data-label=\"Text\"><p>schwache Grenzen<br/>im Kopf</p></div><div data-bbox=\"78 381 316 459\" data-label=\"Text\"><p>Linke<br/>weiblich</p></div><div data-bbox=\"40 503 396 549\" data-label=\"Text\"><p>verwechseln viel</p></div><div data-bbox=\"48 590 401 633\" data-label=\"Text\"><p>\"Alles ist eins\"</p></div><div data-bbox=\"57 671 467 707\" data-label=\"Text\"><p>denken verschwommen</p></div><div data-bbox=\"66 732 337 785\" data-label=\"Text\"><p>Schwammkopf</p></div><div data-bbox=\"68 786 363 834\" data-label=\"Text\"><p>Schwadkopf</p></div><div data-bbox=\"79 845 328 891\" data-label=\"Text\"><p>Mystiker</p></div><div data-bbox=\"606 120 891 171\" data-label=\"Text\"><p>Psychotiker</p></div><div data-bbox=\"617 197 893 243\" data-label=\"Text\"><p>Typen 14</p></div><div data-bbox=\"540 285 928 359\" data-label=\"Text\"><p>starke Grenzen<br/>im Kopf</p></div><div data-bbox=\"617 372 846 453\" data-label=\"Text\"><p>Rechte<br/>männlich</p></div><div data-bbox=\"557 503 928 550\" data-label=\"Text\"><p>verwechseln wenig</p></div><div data-bbox=\"542 654 856 704\" data-label=\"Text\"><p>denken scharf</p></div><div data-bbox=\"556 842 843 879\" data-label=\"Text\"><p>Gnostiker</p></div>",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "Fr 10.4.2026 1000 Neurotiker Typen 23 schwache Grenzen im Kopf Linke weiblich verwechseln viel \"Alles ist eins\" denken verschwommen Schwammkopf Schwadkopf Mystiker Psychotiker Typen 14 starke Grenzen im Kopf Rechte männlich verwechseln wenig denken scharf Gnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9722,
+      "char_recall": 1.0,
+      "char_precision": 0.7019
+    },
+    "seconds": 9.406
+  },
+  {
+    "document": "image",
+    "mode": "grounded",
+    "model": "datalab-to/chandra-ocr-2",
+    "profile": "chandra",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.1,
+    "temperature": null,
+    "presence_penalty": 0,
+    "raw": "<div data-bbox=\"55 30 435 67\" data-label=\"Text\"><p>Fr 10.4.2026</p></div><div data-bbox=\"743 23 838 47\" data-label=\"Text\"><p>1000</p></div><div data-bbox=\"55 132 281 165\" data-label=\"Text\"><p>Neurotiker</p></div><div data-bbox=\"52 195 276 240\" data-label=\"Text\"><p>Typen 23</p></div><div data-bbox=\"50 281 370 353\" data-label=\"Text\"><p>schwache Grenzen<br/>im Kopf</p></div><div data-bbox=\"78 381 316 459\" data-label=\"Text\"><p>Linke<br/>weiblich</p></div><div data-bbox=\"40 503 396 549\" data-label=\"Text\"><p>verwechseln viel</p></div><div data-bbox=\"48 590 401 633\" data-label=\"Text\"><p>\"Alles ist eins\"</p></div><div data-bbox=\"57 671 467 707\" data-label=\"Text\"><p>denken verschwommen</p></div><div data-bbox=\"66 732 337 785\" data-label=\"Text\"><p>Schwammkopf</p></div><div data-bbox=\"68 786 363 834\" data-label=\"Text\"><p>Schwachkopf</p></div><div data-bbox=\"79 845 328 891\" data-label=\"Text\"><p>Mystiker</p></div><div data-bbox=\"606 120 890 171\" data-label=\"Text\"><p>Psychotiker</p></div><div data-bbox=\"617 197 892 243\" data-label=\"Text\"><p>Typen 14</p></div><div data-bbox=\"540 285 928 359\" data-label=\"Text\"><p>starke Grenzen<br/>im Kopf</p></div><div data-bbox=\"617 372 845 453\" data-label=\"Text\"><p>Rechte<br/>männlich</p></div><div data-bbox=\"557 503 928 550\" data-label=\"Text\"><p>verwechseln wenig</p></div><div data-bbox=\"541 654 856 704\" data-label=\"Text\"><p>denken scharf</p></div><div data-bbox=\"556 842 842 879\" data-label=\"Text\"><p>Gnostiker</p></div>",
+    "blocks": [
+      [
+        [
+          0.055,
+          0.03,
+          0.435,
+          0.067
+        ],
+        "Fr 10.4.2026"
+      ],
+      [
+        [
+          0.743,
+          0.023,
+          0.838,
+          0.047
+        ],
+        "1000"
+      ],
+      [
+        [
+          0.055,
+          0.132,
+          0.281,
+          0.165
+        ],
+        "Neurotiker"
+      ],
+      [
+        [
+          0.052,
+          0.195,
+          0.276,
+          0.24
+        ],
+        "Typen 23"
+      ],
+      [
+        [
+          0.05,
+          0.281,
+          0.37,
+          0.353
+        ],
+        "schwache Grenzen im Kopf"
+      ],
+      [
+        [
+          0.078,
+          0.381,
+          0.316,
+          0.459
+        ],
+        "Linke weiblich"
+      ],
+      [
+        [
+          0.04,
+          0.503,
+          0.396,
+          0.549
+        ],
+        "verwechseln viel"
+      ],
+      [
+        [
+          0.048,
+          0.59,
+          0.401,
+          0.633
+        ],
+        "\"Alles ist eins\""
+      ],
+      [
+        [
+          0.057,
+          0.671,
+          0.467,
+          0.707
+        ],
+        "denken verschwommen"
+      ],
+      [
+        [
+          0.066,
+          0.732,
+          0.337,
+          0.785
+        ],
+        "Schwammkopf"
+      ],
+      [
+        [
+          0.068,
+          0.786,
+          0.363,
+          0.834
+        ],
+        "Schwachkopf"
+      ],
+      [
+        [
+          0.079,
+          0.845,
+          0.328,
+          0.891
+        ],
+        "Mystiker"
+      ],
+      [
+        [
+          0.606,
+          0.12,
+          0.89,
+          0.171
+        ],
+        "Psychotiker"
+      ],
+      [
+        [
+          0.617,
+          0.197,
+          0.892,
+          0.243
+        ],
+        "Typen 14"
+      ],
+      [
+        [
+          0.54,
+          0.285,
+          0.928,
+          0.359
+        ],
+        "starke Grenzen im Kopf"
+      ],
+      [
+        [
+          0.617,
+          0.372,
+          0.845,
+          0.453
+        ],
+        "Rechte männlich"
+      ],
+      [
+        [
+          0.557,
+          0.503,
+          0.928,
+          0.55
+        ],
+        "verwechseln wenig"
+      ],
+      [
+        [
+          0.541,
+          0.654,
+          0.856,
+          0.704
+        ],
+        "denken scharf"
+      ],
+      [
+        [
+          0.556,
+          0.842,
+          0.842,
+          0.879
+        ],
+        "Gnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2609,
+      "recall_at_05": 0.1739,
+      "precision": 0.3158,
+      "hmean": 0.2857,
+      "avg_iou": 0.5448,
+      "text_sim": 0.9242,
+      "avg_cer": 0.1553,
+      "bow_f1": 1.0,
+      "char_recall": 0.4467,
+      "char_precision": 0.3629
+    },
+    "seconds": 9.235
+  }
+]

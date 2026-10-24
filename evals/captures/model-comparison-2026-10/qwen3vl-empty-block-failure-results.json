@@ -1,0 +1,104 @@
+[
+  {
+    "document": "digital.pdf",
+    "mode": "grounded",
+    "gt_count": 16,
+    "pipeline_count": 34,
+    "metrics": {
+      "recall": 0.25,
+      "recall_at_05": 0.125,
+      "precision": 0.1176,
+      "hmean": 0.16,
+      "avg_iou": 0.5233,
+      "text_sim": 0.7138,
+      "avg_cer": 0.3477,
+      "bow_f1": 0.9894,
+      "char_recall": 0.6473,
+      "char_precision": 0.7855,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "hybrid.pdf",
+    "mode": "grounded",
+    "gt_count": 38,
+    "pipeline_count": 24,
+    "metrics": {
+      "recall": 0.6053,
+      "recall_at_05": 0.3684,
+      "precision": 0.9583,
+      "hmean": 0.7419,
+      "avg_iou": 0.5402,
+      "text_sim": 0.7593,
+      "avg_cer": 0.5061,
+      "bow_f1": 0.9417,
+      "char_recall": 0.8759,
+      "char_precision": 0.8665,
+      "checks_pass_rate": 0.9231
+    },
+    "checks": [
+      12,
+      13,
+      [
+        "missing: '24 Barney Lane'"
+      ]
+    ],
+    "regressions": []
+  },
+  {
+    "document": "handwritten.pdf",
+    "mode": "grounded",
+    "gt_count": 14,
+    "pipeline_count": 15,
+    "metrics": {
+      "recall": 0.8571,
+      "recall_at_05": 0.4286,
+      "precision": 0.8,
+      "hmean": 0.8276,
+      "avg_iou": 0.5207,
+      "text_sim": 0.9802,
+      "avg_cer": 0.0347,
+      "bow_f1": 0.9517,
+      "char_recall": 0.7196,
+      "char_precision": 0.929,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "notes.pdf",
+    "mode": "grounded",
+    "gt_count": 467,
+    "pipeline_count": 300,
+    "metrics": {
+      "recall": 0.3019,
+      "recall_at_05": 0.1328,
+      "precision": 0.47,
+      "hmean": 0.3677,
+      "avg_iou": 0.5054,
+      "text_sim": 0.7578,
+      "avg_cer": 0.3648,
+      "bow_f1": 0.7167,
+      "char_recall": 0.5588,
+      "char_precision": 0.6191,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  }
+]

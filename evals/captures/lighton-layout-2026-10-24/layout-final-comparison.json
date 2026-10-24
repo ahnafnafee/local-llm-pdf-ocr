@@ -1,0 +1,174 @@
+[
+  {
+    "document": "hybrid",
+    "source_page": 1,
+    "pp_regions": 14,
+    "variants": {
+      "native_blocks": {
+        "recall": 0.2368,
+        "recall_at_05": 0.1316,
+        "precision": 0.6429,
+        "hmean": 0.3462,
+        "avg_iou": 0.5427,
+        "text_sim": 0.8528,
+        "avg_cer": 0.3175,
+        "bow_f1": 1.0,
+        "char_recall": 0.9572,
+        "char_precision": 0.808
+      },
+      "native_split_lines": {
+        "recall": 0.2368,
+        "recall_at_05": 0.1316,
+        "precision": 0.6429,
+        "hmean": 0.3462,
+        "avg_iou": 0.5427,
+        "text_sim": 0.8528,
+        "avg_cer": 0.3175,
+        "bow_f1": 1.0,
+        "char_recall": 0.9572,
+        "char_precision": 0.808
+      },
+      "pp_anchored_lines": {
+        "recall": 0.1842,
+        "recall_at_05": 0.1316,
+        "precision": 0.5,
+        "hmean": 0.2692,
+        "avg_iou": 0.6043,
+        "text_sim": 0.9571,
+        "avg_cer": 0.1224,
+        "bow_f1": 1.0,
+        "char_recall": 0.9631,
+        "char_precision": 0.7937
+      }
+    }
+  },
+  {
+    "document": "notes",
+    "source_page": 1,
+    "pp_regions": 1,
+    "variants": {
+      "native_blocks": {
+        "recall": 0.2258,
+        "recall_at_05": 0.0968,
+        "precision": 0.5385,
+        "hmean": 0.3182,
+        "avg_iou": 0.5099,
+        "text_sim": 0.7006,
+        "avg_cer": 0.5518,
+        "bow_f1": 0.6667,
+        "char_recall": 0.8106,
+        "char_precision": 0.713
+      },
+      "native_split_lines": {
+        "recall": 0.2258,
+        "recall_at_05": 0.1935,
+        "precision": 0.3684,
+        "hmean": 0.28,
+        "avg_iou": 0.5594,
+        "text_sim": 0.6739,
+        "avg_cer": 0.4738,
+        "bow_f1": 0.6667,
+        "char_recall": 0.8106,
+        "char_precision": 0.6833
+      },
+      "pp_anchored_lines": {
+        "recall": 0.2258,
+        "recall_at_05": 0.1935,
+        "precision": 0.3684,
+        "hmean": 0.28,
+        "avg_iou": 0.5594,
+        "text_sim": 0.6739,
+        "avg_cer": 0.4738,
+        "bow_f1": 0.6667,
+        "char_recall": 0.8106,
+        "char_precision": 0.7014
+      }
+    }
+  },
+  {
+    "document": "handwritten",
+    "source_page": 1,
+    "pp_regions": 10,
+    "variants": {
+      "native_blocks": {
+        "recall": 0.4286,
+        "recall_at_05": 0.3571,
+        "precision": 0.8571,
+        "hmean": 0.5714,
+        "avg_iou": 0.6331,
+        "text_sim": 0.81,
+        "avg_cer": 0.4037,
+        "bow_f1": 0.9324,
+        "char_recall": 0.9935,
+        "char_precision": 0.9183
+      },
+      "native_split_lines": {
+        "recall": 0.7143,
+        "recall_at_05": 0.5714,
+        "precision": 0.7143,
+        "hmean": 0.7143,
+        "avg_iou": 0.6425,
+        "text_sim": 0.9536,
+        "avg_cer": 0.1068,
+        "bow_f1": 0.9324,
+        "char_recall": 0.9935,
+        "char_precision": 0.8277
+      },
+      "pp_anchored_lines": {
+        "recall": 0.7143,
+        "recall_at_05": 0.5714,
+        "precision": 0.7143,
+        "hmean": 0.7143,
+        "avg_iou": 0.6712,
+        "text_sim": 0.9536,
+        "avg_cer": 0.1068,
+        "bow_f1": 0.9324,
+        "char_recall": 0.9957,
+        "char_precision": 0.8238
+      }
+    }
+  },
+  {
+    "document": "dense",
+    "source_page": 1,
+    "pp_regions": 19,
+    "variants": {
+      "native_blocks": {
+        "recall": 0.2214,
+        "recall_at_05": 0.0286,
+        "precision": 0.2897,
+        "hmean": 0.251,
+        "avg_iou": 0.4038,
+        "text_sim": 0.44,
+        "avg_cer": 0.7367,
+        "bow_f1": 0.7266,
+        "char_recall": 0.3853,
+        "char_precision": 0.6327
+      },
+      "native_split_lines": {
+        "recall": 0.2214,
+        "recall_at_05": 0.0286,
+        "precision": 0.2844,
+        "hmean": 0.249,
+        "avg_iou": 0.4038,
+        "text_sim": 0.44,
+        "avg_cer": 0.7367,
+        "bow_f1": 0.7266,
+        "char_recall": 0.3853,
+        "char_precision": 0.634
+      },
+      "pp_anchored_lines": {
+        "recall": 0.2214,
+        "recall_at_05": 0.0286,
+        "precision": 0.2844,
+        "hmean": 0.249,
+        "avg_iou": 0.4038,
+        "text_sim": 0.44,
+        "avg_cer": 0.7367,
+        "bow_f1": 0.7266,
+        "char_recall": 0.3853,
+        "char_precision": 0.634
+      }
+    }
+  }
+]

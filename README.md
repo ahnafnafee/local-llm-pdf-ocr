@@ -7,14 +7,14 @@
 <h1>📄 Local LLM PDF OCR</h1>
 
 **Turn scanned PDFs and images into fully searchable, selectable documents — with a local vision LLM.**<br/>
-No cloud. No API keys. Nothing ever leaves your machine.
+Connect any OpenAI-compatible vision server. Run it locally to keep documents on your machine.
 
 <br/>
 
 [![Python](https://img.shields.io/badge/python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![License: MIT](https://img.shields.io/badge/license-MIT-A78BFA?style=flat-square)](LICENSE)
-[![100% Local](https://img.shields.io/badge/AI-100%25_local-E0A43C?style=flat-square&logo=ollama&logoColor=white)](https://lmstudio.ai)
+[![100% Local](https://img.shields.io/badge/AI-100%25_local-E0A43C?style=flat-square&logo=ollama&logoColor=white)](#configuration)
 [![Stars](https://img.shields.io/github/stars/ahnafnafee/local-llm-pdf-ocr?style=flat-square&color=E0A43C)](https://github.com/ahnafnafee/local-llm-pdf-ocr/stargazers)
 [![Issues](https://img.shields.io/github/issues/ahnafnafee/local-llm-pdf-ocr?style=flat-square)](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues)
 
@@ -22,7 +22,7 @@ No cloud. No API keys. Nothing ever leaves your machine.
 
 </div>
 
-> **Local LLM PDF OCR** moves beyond traditional Tesseract-based scanning. By pointing it at an OCR Vision Language Model (VLM) like `olmOCR`, `Qwen3-VL`, or `GLM-OCR` running locally, it *reads* documents with human-like understanding — then writes an invisible, selectable text layer back under the original image. Drive it from a **configurable web UI** or a **fully-flagged CLI**.
+> **Local LLM PDF OCR** uses vision models such as `olmOCR`, `Qwen3-VL`, or `GLM-OCR` to transcribe documents and add a selectable text layer to the original page images. Choose a server that exposes an OpenAI-compatible vision API, then use the **web UI** or **CLI**. Python applications can inject their own inference client.
 
 <br/>
 
@@ -52,13 +52,13 @@ No cloud. No API keys. Nothing ever leaves your machine.
 - **🧠 AI-Powered Vision** — Advanced VLMs transcribe text with high accuracy, even on complex layouts or noisy scans.
 - **🎛️ Fully Configurable — CLI *and* Web** — Pick the **engine**, choose the **model** (auto-discovered from your running server), point at any **endpoint**, and tune every advanced knob. The web UI now exposes the same surface the CLI does ([#21](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues/21)).
 - **🤝 DP-Based Text↔Box Alignment** — **Surya** detects layout boxes; a **local LLM** transcribes the whole page; a Needleman–Wunsch dynamic-programming aligner binds LLM lines to the correct boxes in reading order, with a per-box crop re-OCR fallback for boxes the DP can't confidently populate.
-- **🛰️ Grounded Path (opt-in)** — Point at a bbox-native VLM (Qwen2.5-VL, Qwen3-VL, MinerU, Florence-2, …) and it skips Surya/DP/refine entirely — the model returns text + coordinates in a single call.
+- **🛰️ Grounded Path (opt-in)** — Use a vision model with a supported grounding format to obtain text and coordinates without Surya or DP alignment. Incomplete or malformed responses receive bounded recovery on smaller source regions.
 - **⚡ Text-Only Fast Path (opt-in)** — OCRs each page's full text and dumps it as plain text: no Surya, no alignment, no detection-model load. Trades searchable-PDF positioning for raw text at a fraction of the time.
 - **🖼️ PDF or Raw Image Input** — Accepts **`.pdf`, `.jpg`, `.jpeg`, `.png`, `.bmp`, `.webp`, `.tif`/`.tiff`, `.avif`** — in *both* the CLI and the web UI. Multi-frame TIFFs become multi-page output.
-- **🔒 100% Local & Private** — No cloud APIs, no subscription fees. Runs entirely offline via [LM Studio](https://lmstudio.ai), [Ollama](https://ollama.com), vLLM, or any OpenAI-compatible endpoint.
+- **🔒 Local & Private** — Run offline with your own vision model server. [Ollama](https://ollama.com), vLLM, llama.cpp, and other servers can provide the OpenAI-compatible API; no particular application is required.
 - **🔍 Four Output Formats** — Searchable sandwich **PDF** (default), **HTML** overlay, plain **Markdown**, or plain **text**. Pick via `--format`, the output extension, or the web dropdown.
 - **📚 Dense-Page Mode** — Auto-detects densely-laid-out pages (default > 60 boxes) and switches to per-box OCR — bypassing the loops / hallucination that full-page OCR exhibits on dense handwritten content.
-- **🧪 Tested** — A comprehensive suite (455 fast + 29 Surya-integration) covers DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, the HTML / Markdown / text writers, evaluation metrics, CLI dispatch, and the full server option surface.
+- **🧪 Tested** — Local unit and Surya integration tests cover alignment, crop handling, embedding geometry, native model formats, evaluation metrics, CLI dispatch, and server options. Opt-in live tests exercise actual recognition; see the [2026 model comparison](evals/model-comparison-2026-10.md).
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -83,16 +83,22 @@ The web UI stays clean by default — drop a file, pick an engine, run — with 
 
 ## 🏗️ Architecture
 
-The tool has two execution paths behind a single `OCRPipeline` seam (`src/pdf_ocr/pipeline.py`). The default **hybrid path** works with any OCR-capable VLM; the opt-in **grounded path** collapses the whole flow into one call for VLMs that emit text+bbox natively.
+The tool has two execution paths behind `OCRPipeline` (`src/pdf_ocr/pipeline.py`). The default **hybrid path** combines layout detection with vision transcription; the opt-in **grounded path** requests text and coordinates together, with bounded region recovery when needed. LightOnOCR-3 shares a source-region recovery layer across both paths: detector-guided crops recover dense handwriting and text inside diagrams, while local coordinates anchor to detected lines. Other model presets retain their existing alignment and recovery strategies.
+
+Both paths use an injectable `VisionClient` for inference. `OpenAICompatibleClient` owns the HTTP/SDK integration, while `OCRProcessor` and `PromptedGroundedOCR` own prompts and response parsing. `LLMConfig` resolves endpoint, model, and authentication consistently for the CLI, web UI, and model discovery. See [inference configuration and extension points](docs/inference.md).
 
 ```mermaid
 graph TD
-    A[Input: PDF / JPEG / PNG / TIFF / AVIF] --> B[Rasterize to images]
-    B -->|--grounded| Z[Grounded VLM: text+bbox in one call]
+    A[Input: PDF / JPEG / PNG / TIFF / AVIF] --> B[Render selected pages]
+    B -->|--grounded| Z[Grounded VLM: text+bbox<br/>bounded region recovery]
     Z --> EMB
 
     B -->|default| C[Surya DetectionPredictor<br/>batch, detection-only]
-    C --> DM{Dense?<br/>boxes/page > threshold}
+    C --> NM{Native model coordinates?}
+    NM -->|yes| NG[Page OCR with coordinates<br/>bounded recovery]
+    NG --> NA[Anchor unambiguous lines<br/>retain text and table cells]
+    NA --> EMB
+    NM -->|no| DM{Dense?<br/>boxes/page > threshold}
     DM -->|sparse| D[LLM full-page OCR<br/>OlmOCR / GLM-OCR / etc.]
     DM -->|dense| P[Per-box OCR<br/>each Surya box → LLM crop]
     D --> F[Plain text with line breaks]
@@ -111,17 +117,17 @@ graph TD
 
 1. **Input** — PDFs *or* raw images. Multi-frame TIFFs expand to one page per frame. Images skip the PDF round-trip and feed straight into the pipeline.
 
-2. **Batch Layout Detection** *(hybrid path)* — Surya's `DetectionPredictor` processes all pages in one call, ~10-21× faster than running full recognition.
+2. **Batch Layout Detection** *(hybrid path)* — Surya's `DetectionPredictor` processes selected page images in one call, ~10-21× faster than running full recognition.
 
-3. **LLM Text Extraction** *(hybrid path)* — A local vision model transcribes each page's full content. **Dense pages (> 60 detected boxes by default) automatically switch to per-box OCR** — the model sees one Surya box at a time, avoiding the loop / hallucination failure modes of full-page OCR on dense handwritten content. On dense *machine-print* pages each crop also masks the page's other detected boxes to paper-white so tightly-stacked neighbouring lines can't leak into the transcription (handwriting pages skip the masks — strokes wander outside their boxes), and overlapping detections are deduplicated afterwards.
+3. **LLM Text Extraction** *(hybrid path)* — LightOnOCR-3 reads the page with native coordinates and bounded recovery, preserving the context around handwriting and form fields. Other presets use full-page transcription, with automatic per-box OCR for dense pages (> 60 detected boxes by default). On dense machine-print pages, crops mask neighboring boxes to prevent duplicated text. Handwriting retains neighboring strokes, and overlapping detections are deduplicated afterwards.
 
-4. **Needleman-Wunsch Alignment** *(hybrid path, full-page mode)* — The DP aligner binds each LLM line to its Surya box using character-count fit + reading-order monotonicity. **Model-agnostic**: it tries both row-major and column-major box orderings and picks the lower-cost result, so it works whether the LLM emits column-by-column (OlmOCR-2) or row-by-row (Qwen-VL). Unmatched lines are attached to the nearest matched box so no LLM text is lost.
+4. **Text Placement** *(hybrid path)* — Native page coordinates anchor to Surya lines when overlap or nearby single-column row order is unambiguous; unmatched content keeps its model coordinates. For recognizers without native coordinates, Needleman-Wunsch alignment compares character-count fit under row-major and column-major orderings. Unmatched lines attach to the nearest matched box, and uncertain alignments can request crop recognition.
 
 5. **Refine Fallback** *(hybrid path, optional)* — Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. A pre-OCR blank-crop check (pixel stddev) skips dotted notebook backgrounds to avoid the model's "The quick brown fox..." pangram fallback. Disable with `--no-refine`.
 
-6. **Grounded Path** *(opt-in alternative)* — With a bbox-native VLM, the model returns `{bbox, text}` tuples in a single call — Surya, DP, and refine are all skipped.
+6. **Grounded Path** *(opt-in alternative)* — A vision model returns text and boxes without DP alignment. LightOnOCR-3 also uses Surya line geometry to select and place recovery regions. Other grounded profiles do not require a detector. Malformed, truncated or severely incomplete responses are retried on smaller source regions within the page deadline. See [generation limits and recovery](docs/inference.md#generation-limits-and-grounded-recovery).
 
-7. **Sandwich PDF** — The page is rasterized as a background image and invisible text is overlaid with horizontal-scale matrices so glyph bboxes span the full width of each source box — selection in a PDF viewer correctly covers the whole region.
+7. **Sandwich PDF** — The page is rasterized as a background image and invisible text is overlaid at the recognized positions. Table cells retain separate columns, and supported LaTeX expressions become searchable Unicode text. Font fallback preserves Greek letters and mathematical operators during PDF extraction.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -132,21 +138,45 @@ graph TD
 ### Prerequisites
 
 1. **Python 3.10+**
-2. **A local OpenAI-compatible LLM server**. Any of:
-   - **[LM Studio](https://lmstudio.ai)** — recommended default. Load `allenai/olmocr-2-7b` (hybrid path) or `qwen/qwen3-vl-8b` / `qwen/qwen2.5-vl-7b` (grounded path). Start the local server (default port `1234`). A pre-flight check confirms the requested model is actually loaded — LM Studio otherwise silently falls back to whatever is loaded, producing subtly wrong OCR ([#7](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues/7)). Use `--no-verify-model` (or untick it in the UI) to skip on servers without `/v1/models`.
-   - **[Ollama](https://ollama.com)** — pull `glm-ocr:latest` (needs `--max-image-dim 640`) or any vision model. Served at `http://localhost:11434/v1`.
-   - **vLLM / SGLang / any OpenAI-compatible endpoint**.
+2. **A vision model served through an OpenAI-compatible API**. Choose your server and use the defaults below or configure its endpoint and model ID. Examples include [Ollama](https://docs.ollama.com/api/openai-compatibility), [vLLM](https://docs.vllm.ai/en/latest/serving/online_serving/), and [llama.cpp](https://github.com/ggml-org/llama.cpp/tree/master/tools/server). The model must accept image inputs; grounded mode also requires text and bounding boxes in its response.
 
 ### Configuration
 
-Create a `.env` file in the root directory to configure your Local LLM:
+LightOnOCR-3 is the default recognition model. The local endpoint remains unchanged:
+
+| Setting | Default |
+| --- | --- |
+| API base URL | `http://localhost:1234/v1` |
+| Hybrid and text-only model | `lightonai/LightOnOCR-3-4B` |
+| Grounded model | `lightonai/LightOnOCR-3-4B` |
+
+The [October 2026 comparison](evals/model-comparison-2026-10.md) includes
+LightOnOCR-3, PaddleOCR-VL-1.6, Unlimited-OCR, Chandra OCR 2 and Qwen3.5-9B.
+Those results preserve the earlier configurations and their recognition errors.
+The [LightOnOCR-3 validation](evals/lighton-layout-2026-10-24.md) records the current
+native-layout pipeline, repeated live tests, and PP-DocLayoutV3 experiments.
+Model defaults can be overridden independently of the server application.
+
+For LightOnOCR-3, serve the [official chat template](https://huggingface.co/lightonai/LightOnOCR-3-4B/blob/main/chat_template.jinja)
+with thinking disabled. The model expects an image followed by either an empty
+transcription prompt or `grounding`; the built-in preset supplies these conventions.
+Some GGUF conversions inherit a thinking template from their base model. With
+llama.cpp, use `--chat-template-file path/to/chat_template.jinja --reasoning off`
+and `--alias lightonai/LightOnOCR-3-4B`. Otherwise OCR may arrive in the server's
+reasoning field with no normal content. A custom served name can select the same
+conventions with `--model-profile lightonocr-3`.
+
+These are configurable connection settings, with no dependency on a particular server application. To use another endpoint or model, copy `.env.example` to `.env` and uncomment the relevant overrides. For example, a local Ollama configuration is:
 
 ```env
-LLM_API_BASE=http://localhost:1234/v1
-LLM_MODEL=allenai/olmocr-2-7b
+LLM_API_BASE=http://localhost:11434/v1
+LLM_MODEL=qwen3-vl:8b
+# LLM_API_KEY=your-key-if-required
 ```
 
-These are the **defaults** — the CLI (`--api-base` / `--model`) and the web UI (Model picker + Advanced → Endpoint) override them per run.
+The CLI (`--api-base` / `--model`) and web UI (Model picker + Advanced → Endpoint) override the environment per run, and environment settings override the built-in defaults. `LLM_MODEL` applies to every OCR mode when set. `LLM_API_KEY` supplies optional bearer authentication without putting secrets in command-line arguments.
+
+The preflight check verifies that the endpoint advertises the model; it does not assume that weights are already in memory. Use `--no-verify-model` or untick verification in the UI when a server does not expose a model catalog.
 
 ### Installation
 
@@ -177,7 +207,7 @@ Managed with [`uv`](https://github.com/astral-sh/uv) for lightning-fast dependen
    uv sync --extra web           # CLI + FastAPI server
    ```
 
-> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). The hybrid/grounded LLM is *your* responsibility — bring up LM Studio, Ollama, vLLM, or any other OpenAI-compatible vision endpoint before running OCR.
+> **Heads up:** Surya downloads its detection model from Hugging Face Hub on first run (~500 MB, cached afterwards). Start your configured vision inference server before running OCR.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -223,37 +253,38 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `-v`, `--verbose`         | Enable debug logging (alignment details, box counts)                  |
 | `-q`, `--quiet`           | Suppress all output except errors                                     |
 | `--dpi <int>`             | DPI for image rendering (default: 200)                                |
-| `--pages <range>`         | Page range to process, e.g., `1-3,5` (default: all)                   |
-| `--concurrency <int>`     | Parallel in-flight LLM requests (default: 2). Never loads extra model copies: queuing servers (LM Studio / Ollama defaults) hold excess requests at zero VRAM cost; parallel-slot servers (vLLM) spend KV-cache VRAM per active request, hence the conservative default. Raise to 4-5 for `--dense-mode always` when your server has headroom. |
+| `--pages <range>`         | Pages or image frames to OCR, e.g., `1-3,5` (default: all). Selection occurs before OCR rendering in hybrid, grounded, and text-only mode. PDF/HTML output retains all source pages; only selected pages receive OCR text. Markdown/text contain selected pages only. |
+| `--concurrency <int>`     | Parallel in-flight LLM requests (default: 2), including grounded mode. Queuing servers hold excess requests; servers that run requests in parallel need more KV-cache memory. Raise cautiously when your server has headroom. |
 | `--no-refine`             | Skip per-box crop re-OCR (faster, less robust on tables/multi-column) |
 | `--text-only`             | Fast path: OCR each page's full text and write it as plain text, skipping Surya layout detection, DP alignment, and crop re-OCR entirely (no detection-model load). Naturally parallel (raise `--concurrency`). Output defaults to `<input_stem>_ocr.txt`. |
-| `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
-| `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for pages above `--dense-threshold`, and retries a page per-box when the DP alignment matched under half its boxes (the form-page failure mode); `always` forces per-box for every page (most accurate on handwriting); `never` keeps the original full-page path. |
+| `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 2048; see note below)   |
+| `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for dense pages, table/diagram layouts, or ambiguous alignment. Single-column pages retry after any alignment gap; column layouts retry below half their boxes matched (both require at least eight boxes). `always` forces per-box OCR; `never` keeps the full-page path. Region OCR costs more requests but avoids shifting text into neighboring form fields. |
 | `--dense-threshold <int>` | In `auto` dense-mode, pages with more than this many detected boxes use per-box OCR (default: 60). |
 | `--min-box-confidence <float>` | Drop detected layout boxes below this confidence before alignment and per-box OCR (hybrid path only; default: keep all). Surya's confidence is normalized per page. Cuts junk detections that mislead alignment and burn LLM calls in dense mode. |
 | `--preprocess {auto,always,never}` | Photo rectification (hybrid path). `auto` (default): pages with a confidently-detected tilted page outline are perspective-corrected and illumination-flattened for recognition, then mapped back onto the original photo for output. `always` rectifies whenever a page outline is found; `never` disables. |
-| `--grounded`              | Use a bbox-native VLM that returns text + coordinates in one call (skips Surya, DP, refine). Requires a grounding-capable model via `--model`. |
+| `--grounded`              | Request text and coordinates together, skipping Surya and DP. Uses bounded source-region recovery when needed. Requires a supported grounding format via `--model`. |
 | `--api-base <url>`        | Override LLM API base URL                                             |
 | `--model <name>`          | Override LLM model name                                               |
-| `--no-verify-model`       | Skip the pre-flight check that `--model` is loaded on the server ([#7](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues/7)). Use on Ollama / vLLM (which auto-load), or any server that doesn't implement `/v1/models`. |
+| `--model-profile <name>`  | Select native prompt/output conventions for a custom server alias: `auto`, `generic`, `olmocr`, `qwen3-vl`, `qwen3.5`, `lightonocr-3`, or `paddleocr-vl`. Also available under Advanced → Model preset. |
+| `--no-verify-model`       | Skip checking the server's advertised model catalog. Use when the server lacks `/models` or does not advertise every usable model. |
 
 **Examples**:
 
 ```bash
-# Basic (auto-generates input_ocr.pdf, uses LM Studio + OlmOCR)
+# Basic (auto-generates scan_ocr.pdf, uses your configured server and model)
 uv run local-llm-pdf-ocr scan.pdf
 
 # Specific pages, higher rendering DPI
 uv run local-llm-pdf-ocr document.pdf output.pdf --pages 1-5 --dpi 300
 
-# Ollama + GLM-OCR instead of LM Studio
+# Explicit endpoint and model: Ollama + GLM-OCR
 uv run local-llm-pdf-ocr scan.pdf \
     --api-base http://localhost:11434/v1 \
     --model glm-ocr:latest --max-image-dim 640
 
 # Grounded path: bbox-native VLM (Qwen2.5-VL / Qwen3-VL)
 uv run local-llm-pdf-ocr scan.pdf --grounded \
-    --api-base http://localhost:1234/v1 --model qwen/qwen3-vl-8b
+    --api-base http://localhost:11434/v1 --model qwen3-vl:8b --pages 1-3
 
 # Raw image input — JPEG/PNG/BMP/WebP/AVIF, and multi-page TIFFs
 uv run local-llm-pdf-ocr scan.png scan_ocr.pdf
@@ -269,19 +300,20 @@ uv run local-llm-pdf-ocr scan.pdf --format html --html-inline-images
 uv run local-llm-pdf-ocr scan.pdf --text-only --concurrency 8
 ```
 
-> **Note on `--max-image-dim`**: small local VLMs have tight context windows. OlmOCR-2-7B is happy with the 1024 default. **GLM-OCR:1.1B via Ollama crashes above ~640 px**, so drop the cap when you use it.
+> **Note on `--max-image-dim`**: the default 2048-pixel cap preserves detail for LightOnOCR-3. Smaller models or servers with limited context may need a lower cap; choose it for the model and server you run.
 
 ### Two pipeline paths
 
 | Path | Flag | Detection | Text | Alignment | Refine | When to use |
 |------|------|-----------|------|-----------|--------|-------------|
-| **Hybrid** (default) | _none_ | Surya | LLM full-page | DP (auto row/column-major) | Per-box crop (with blank-skip) | Text-only VLMs (OlmOCR, GLM-OCR); max coverage |
+| **Hybrid / native** (default) | _none_ | Surya | Page and contextual regions | Native coordinates anchored to detected lines | Shared region recovery | LightOnOCR-3 |
+| **Hybrid / plain text** | `--model …` | Surya | LLM full-page | DP (auto row/column-major) | Per-box crop (with blank-skip) | Plain-text model profiles such as olmOCR and GLM-OCR |
 | **Hybrid + dense** (auto) | `--dense-mode` | Surya | LLM per-box (each Surya box → one crop call) | — | — | Dense handwriting / multi-column where full-page OCR loops or hallucinates |
-| **Grounded** | `--grounded` | — | Bbox-native VLM returns both | — | — | Qwen2.5/3-VL, MinerU, etc.; simpler, fewer moving parts |
+| **Grounded** | `--grounded` | Surya for native region recovery | VLM returns text and coordinates | Native coordinates | Bounded recovery | Supported JSON or native grounding models |
 
-The hybrid path is the safe default: it works with *any* OCR-capable VLM, including models that can only return plain text. The grounded path is faster and eliminates the DP-alignment class of bugs entirely, but requires a VLM that emits `{"bbox_2d": [...], "content": "..."}` JSON when asked (Qwen2.5-VL / Qwen3-VL confirmed working).
+LightOnOCR-3 uses native coordinates and shared source-region recovery in both paths; hybrid mode reuses its existing line detections. Other hybrid profiles accept plain text and use DP alignment. Grounded mode requires a supported grounding format: prompted `{"bbox_2d": [...], "content": "..."}` JSON, LightOnOCR-3 grounding markers, or PaddleOCR-VL spotting tokens. Model profiles select those conventions independently of the serving application. See [inference configuration](docs/inference.md) for server requirements and bounded recovery when a response is truncated or malformed.
 
-If any page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the affected page numbers. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
+If any selected page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the original source page numbers. Ranges that select no valid pages fail before OCR rendering or inference. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -330,17 +362,19 @@ local-llm-pdf-ocr/
 
 ## ⚡ Performance
 
-Detection is no longer the bottleneck — full-page LLM OCR is. Rough per-page timings on a warm run (Surya loaded, LM Studio serving OlmOCR-2-7B on a single GPU):
+Timing depends on the model, page density and server capacity. LightOnOCR-3 reads each page and may make additional region calls for dense text or diagrams. Start with `--concurrency 1` on a server with one inference slot, and increase it only when the endpoint can process requests in parallel. The [current validation report](evals/dense-notebook-2026-10-24.md) records actual runs and their limits.
+
+The table below retains historical measurements with OlmOCR-2-7B on a single GPU and Surya already loaded. Its per-box strategy describes that earlier model profile.
 
 | Phase | Time / page | Notes |
 |---|---|---|
 | Rasterize PDF → image | ~0.3 s | Linear in pages |
 | Surya batch detection | ~0.5 s | Amortized across all pages in one call |
-| **LLM full-page OCR** *(sparse pages)* | **~2–4 s** | **Dominant cost on sparse pages.** Set `--concurrency 3` to parallelize on multi-page docs |
-| **Per-box OCR** *(dense pages, auto-mode)* | **~0.2–0.4 s × box count** | ~30 s for a 150-box page at `--concurrency 5`. Trades latency for accuracy on dense handwriting |
+| **LLM full-page OCR** *(sparse pages)* | **~2–4 s** | Dominant sparse-page cost in that run |
+| **Per-box OCR** *(dense pages, auto-mode)* | **~0.2–0.4 s × box count** | Historical 150-box run: ~30 s at concurrency 5 |
 | Per-box refine (sparse pages, if needed) | ~0.5–1 s × empty boxes | Typically 0–2 s; blank-crop check skips most empties; `--no-refine` to disable |
 | PDF assembly | ~0.2 s | Linear in pages |
-| Cold-start Surya load | +5–10 s (once) | Paid even on `--grounded` runs |
+| Cold-start Surya load | +5–10 s (once) | Hybrid and native LightOn grounding load a detector; other grounded profiles can skip it |
 
 On the three example PDFs (hybrid path, `allenai/olmocr-2-7b`, warm): digital ≈ 14 s, hybrid ≈ 5 s, handwritten ≈ 4 s.
 
@@ -351,8 +385,8 @@ On the three example PDFs (hybrid path, `allenai/olmocr-2-7b`, warm): digital �
 ## 🧪 Testing
 
 ```bash
-uv run pytest                      # full suite (~60s, loads Surya once)
-uv run pytest -m "not slow"        # fast tier (~17s, no model loads)
+uv run pytest -m "not live_llm"               # offline suite, including Surya integration
+uv run pytest -m "not slow and not live_llm"  # fast tier
 uv run pytest tests/test_aligner.py -v
 ```
 
@@ -360,11 +394,12 @@ Confidence evaluation (needs a live LLM endpoint):
 
 ```bash
 uv run scripts/confidence_eval.py --path both \
-    --grounded-model qwen/qwen3-vl-8b \
-    --hybrid-model allenai/olmocr-2-7b
+    --grounded-model lightonai/LightOnOCR-3-4B \
+    --hybrid-model lightonai/LightOnOCR-3-4B \
+    --baseline-dir .cache/lightonocr-3-baselines
 ```
 
-Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis so improvements stay attributable: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document binary checks. Every run appends to `evals/history.csv` and compares against committed per-document baselines.
+Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document content checks. Runs append to `evals/history.csv` and compare compatible per-document baselines where available; missing baselines do not imply a regression pass. Failed content checks and missing pages return nonzero. The [latest live validation](evals/dense-notebook-2026-10-24.md) records the actual LightOnOCR-3 results and their limitations. The existing olmOCR controls are incompatible with this model; select a separate `--baseline-dir` for a content-check run without that cross-model comparison.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 

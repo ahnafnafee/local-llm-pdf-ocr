@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 2.922000000020489,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-xi6YO4E3jebMMiUw0mqCogqOuHGjcQ5O",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![image](147,1,797,425) Entity-relationship diagram showing EMPLOYEE, DEPARTMENT, DEPT_LOCATIONS, PROJECT, WORKS_ON, and DEPENDENT tables with relationships.\n\n![image](87,488,942,942) Hand-drawn database schema with Customer, Loan, Borrows, Employee, and Loan Office tables and relationships.\n\n![text](629,738,950,944) If total participation between borrows and loan office, then can remove borrows for redundancy",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844427,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 126,
+      "prompt_tokens": 3152,
+      "total_tokens": 3278,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1547.665,
+      "prompt_per_token_ms": 0.4910104695431472,
+      "prompt_per_second": 2036.6164512346018,
+      "predicted_n": 126,
+      "predicted_ms": 1212.283,
+      "predicted_per_token_ms": 9.698264,
+      "predicted_per_second": 103.11123722761106
+    }
+  }
+}

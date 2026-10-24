@@ -1,0 +1,130 @@
+[
+  {
+    "document": "notes",
+    "dpi": 400,
+    "dim": 1536,
+    "kind": "rgb",
+    "temp": 0,
+    "seed": 0,
+    "text": "![list](16,14,980,142)\n- $F.U$ can have null value\n- I could modify my existing implementation of Project (1)\n\n![title](12,164,578,220) ### Mapping Binary 1:1 Relationship Sets\n\n![list](12,220,910,414)\n- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n![title](12,414,314,474) #### \u2460 F.U approach\n\n![text](314,424,373,464) total\n\n![text](684,424,967,553) Cross Ref also applies here merge-rel can work here with F.U from total participation - not desirable\n\n![image](127,424,578,588) Entity-relationship diagram with sets S, R, T and attributes a1...an\n\n![formula](284,594,910,651) $$\nS \\mid \\underline{PK(S)} \\mid \\ldots \\mid PK(T) \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![image](284,653,578,720) Entity-relationship diagram showing set T with PK(T) attribute\n\n![title](12,720,278,781) #### \u2461 merge-relation\n\n![text](12,781,373,974) F.U applies to second case as well Cross Ref can also apply here\n\n![image](127,781,578,938) Entity-relationship diagram with sets S, R, T and attributes a1...an\n\n![text](550,781,910,850) P.U can be either one\n\n![formula](284,850,910,920) $$\nST \\mid \\underline{PK(S)} \\mid PK(T) \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![text](420,920,678,964) (since it's 1:1)",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 7.657000000006519
+  },
+  {
+    "document": "hybrid",
+    "dpi": 400,
+    "dim": 1536,
+    "kind": "rgb",
+    "temp": 0,
+    "seed": 0,
+    "text": "![header](105,20,226,38) FakeDoc M.D.\n\n![title](352,44,647,66) # HEALTH INTAKE FORM\n\n![text](105,72,863,111) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](100,122,342,164) Date: 9/14/19\n\n![text](100,166,926,207) Name: Sally Walker DOB: 09/04/1986\n\n![text](103,218,910,248) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](103,259,896,292) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](100,301,943,346) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](103,351,340,381) Referred By: None\n\n![text](103,388,973,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](105,446,730,467) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](147,483,821,562) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](105,755,789,775) Are you currently taking any medication? (If yes, please describe):\n\n![text](152,787,740,831) Vyvanse (25mg) daily for attention",
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 5.578000000008615
+  },
+  {
+    "document": "notes",
+    "dpi": 400,
+    "dim": 2560,
+    "kind": "rgb",
+    "temp": 0,
+    "seed": 0,
+    "text": "![list](42,11,447,44)\n- $f_u$ can have null value\n\n![list](42,48,947,103)\n- I could modify my existing implementation of Project (.)\n\n![title](1,148,612,194) ## Mapping Binary 1:1 Relationship Sets\n\n![list](78,194,310,231)\n- F.U approach\n\n![list](126,231,465,274)\n- Merged relation approach\n\n![text](194,272,907,377) (if both participations are total, merge 2 entity sets and relationship set in a single table)\n\n![title](26,377,326,422) ### \u2460 F.U approach\n\n![text](326,387,382,414) total\n\n![text](707,377,907,464) Cross Ref also applies here\n\n![text](694,464,947,574) merge-rel can work here with P.U from total participation - not desirable\n\n![image](142,420,590,574) Entity-relationship diagram with entities S, T and relationship R, labeled 'total' and 'Cross Ref also applies here'.\n\n![formula](297,574,921,644) $$\nS \\mid \\underline{P_u(S)} \\mid \\ldots \\mid \\underline{P_u(T)} \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![image](297,648,921,724) Table header row with columns labeled P_u(S), ..., P_u(T), and arrows pointing to a merged relation diagram.\n\n![title](100,724,284,770) ### \u2461 merge-relation\n\n![image](100,768,497,872) Entity-relationship diagram with entities S and T connected by relationship R, with attributes a1...an.\n\n![text](56,853,297,994) F.U applies to second case as well! Cross Ref can also apply here\n\n![text](568,824,897,870) P.U can be either one\n\n![formula](347,887,907,942) $$\nST \\mid \\underline{P_u(S)} \\mid \\underline{P_u(T)} \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![text](394,944,602,987) (since it's 1:1)",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 8.73399999999674
+  },
+  {
+    "document": "hybrid",
+    "dpi": 400,
+    "dim": 2560,
+    "kind": "rgb",
+    "temp": 0,
+    "seed": 0,
+    "text": "![header](105,16,226,35) FakeDoc M.D.\n\n![title](353,40,648,62) # HEALTH INTAKE FORM\n\n![text](105,68,863,109) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](100,118,342,162) Date: 9/14/19\n\n![text](100,164,926,205) Name: Sally Walker DOB: 09/04/1986\n\n![text](103,218,910,248) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](103,257,897,292) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](103,303,942,342) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](104,353,340,381) Referred By: None\n\n![text](103,388,973,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](105,446,730,468) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](147,483,821,564) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](105,757,790,779) Are you currently taking any medication? (If yes, please describe):\n\n![text](150,787,742,835) Vyvanse (25mg) daily for attention",
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 6.937999999994645
+  },
+  {
+    "document": "notes",
+    "dpi": 400,
+    "dim": 2048,
+    "kind": "gray",
+    "temp": 0,
+    "seed": 0,
+    "text": "![list](27,18,947,103)\n- $f_u$ can have null value\n- I could modify my existing implementation of Project (.)\n\n![title](1,155,614,207) ## Mapping Binary 1:1 Relationship Sets\n\n![list](100,200,910,377)\n- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n![title](27,377,333,433) ### \u2460 F.U approach total\n\n![text](707,377,963,474) Cross Ref also applies here\n\n![text](670,474,963,620) merge-rel can work here with P.U from total participation - not desirable\n\n![image](136,433,602,574) Entity-Relationship diagram with entities S, T and relationship R, with attributes a1...an\n\n![formula](290,574,923,644) $$\nS \\mid \\underline{P_u(S)} \\mid \\ldots \\mid \\underline{P_u(T)} \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![image](300,648,597,724) T [P_u(T)] ...\n\n![title](27,724,283,781) ### \u2461 merge-relation\n\n![text](55,794,283,957) F.U applies to second case as well Cross Ref can also apply here\n\n![image](100,785,497,901) Entity-Relationship diagram with entities S, T and relationship R, with attributes a1...an\n\n![text](551,794,963,850) P.U can be either one\n\n![formula](340,894,910,957) $$\nST \\mid \\underline{P_u(S)} \\mid \\underline{P_u(T)} \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n(since it's 1:1)",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 6.828000000008615
+  },
+  {
+    "document": "hybrid",
+    "dpi": 400,
+    "dim": 2048,
+    "kind": "gray",
+    "temp": 0,
+    "seed": 0,
+    "text": "![header](106,16,226,34) FakeDoc M.D.\n\n![title](353,38,648,62) # HEALTH INTAKE FORM\n\n![text](106,67,863,107) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](103,118,342,161) Date: 9/14/19\n\n![text](103,162,926,203) Name: Sally Walker DOB: 09/04/1986\n\n![text](105,218,910,246) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](105,257,897,290) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](103,303,942,342) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](105,353,340,379) Referred By: None\n\n![text](105,390,973,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](106,446,730,468) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](147,483,821,562) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](106,757,789,779) Are you currently taking any medication? (If yes, please describe):\n\n![text](152,790,740,835) Vyvanse (25mg) daily for attention",
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 6.48399999999674
+  },
+  {
+    "document": "notes",
+    "dpi": 400,
+    "dim": 2048,
+    "kind": "sharpen",
+    "temp": 0,
+    "seed": 0,
+    "text": "![list](27,18,947,98)\n- $f_u$ can have null value\n- I could modify my existing implementation of Project (.)\n\n![title](1,155,614,200) ## Mapping Binary 1:1 Relationship Sets\n\n![list](100,200,907,396)\n- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n![title](27,387,300,444) ### \u2460 F.U approach\n\n![text](325,396,375,420) total\n\n![text](710,387,927,474) Cross Ref also applies here\n\n![text](670,464,967,581) merge-rel can work here with P.U from total participation - not desirable\n\n![image](136,420,607,581) Entity-Relationship diagram with sets S, R, T and attributes a1...an\n\n![table](300,583,927,653) <table>\n  <tr>\n    <td>S</td>\n    <td>PK(S)</td>\n    <td>...</td>\n    <td>PK(T)</td>\n    <td>a\u2081</td>\n    <td>...</td>\n    <td>a\u2099</td>\n  </tr>\n</table>\n\n![table](300,655,927,724) <table>\n  <tr>\n    <td>T</td>\n    <td>PK(T)</td>\n    <td>...</td>\n  </tr>\n</table>\n\n![title](77,707,285,762) ### \u2461 merge-relation\n\n![text](56,807,300,977) F.U applies to second case as well Cross Ref can also apply here\n\n![text](557,807,800,853) P.U can be either one\n\n![table](340,855,907,977) <table>\n  <tr>\n    <td>ST</td>\n    <td>PK(S)</td>\n    <td>PK(T)</td>\n    <td>...</td>\n    <td>a\u2081</td>\n    <td>...</td>\n    <td>a\u2099</td>\n  </tr>\n</table>\n\n![text](400,931,584,977) (since it's 1:1)",
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 7.89100000000326
+  },
+  {
+    "document": "hybrid",
+    "dpi": 400,
+    "dim": 2048,
+    "kind": "sharpen",
+    "temp": 0,
+    "seed": 0,
+    "text": "![header](106,16,226,34) FakeDoc M.D.\n\n![title](353,38,647,61) # HEALTH INTAKE FORM\n\n![text](106,67,863,107) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](103,118,342,161) Date: 9/14/19\n\n![text](103,164,926,203) Name: Sally Walker DOB: 09/04/1986\n\n![text](105,218,910,246) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](105,257,897,292) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](105,305,942,342) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](105,353,342,381) Referred By: None\n\n![text](105,390,973,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](106,446,730,468) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](147,483,821,562) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](107,757,789,779) Are you currently taking any medication? (If yes, please describe):\n\n![text](152,788,742,835) Vyvanse (25mg) daily for attention",
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 6.51600000000326
+  }
+]

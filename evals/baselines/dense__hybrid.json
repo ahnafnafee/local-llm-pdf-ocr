@@ -1,13 +1,40 @@
 {
-  "recall": 0.989,
-  "recall_at_05": 0.989,
-  "precision": 0.9918,
-  "hmean": 0.9904,
-  "avg_iou": 0.9247,
-  "text_sim": 0.8121,
-  "avg_cer": 0.2545,
-  "bow_f1": 0.6878,
-  "char_recall": 0.9998,
-  "char_precision": 0.9853,
-  "checks_pass_rate": 1.0
+  "context": {
+    "protocol": "page-aware-v2",
+    "document_sha256": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
+    "fixture_sha256": "e04ffd9a20e71e62cbb73ab51037b49fa1972c6276e324b4a5492c786f83fff3",
+    "checks_sha256": "c996935c2629fd99094570df9241fede2aa08cb11bb4029001be768caff603ae",
+    "model": "allenai/olmocr-2-7b",
+    "max_image_dim": 1024,
+    "iou_threshold": 0.3,
+    "matching": "hungarian"
+  },
+  "metrics": {
+    "recall": 0.9239,
+    "recall_at_05": 0.9239,
+    "precision": 0.9915,
+    "hmean": 0.9565,
+    "avg_iou": 0.9243,
+    "text_sim": 0.753,
+    "avg_cer": 0.4194,
+    "bow_f1": 0.6414,
+    "char_recall": 0.8909,
+    "char_precision": 0.9696,
+    "checks_pass_rate": 1.0
+  },
+  "provenance": {
+    "kind": "frozen-control",
+    "source_commit": "1cb795df731986fe93f0a2cc57ba290b302e4ea6",
+    "capture": "evals/captures/before-crop-canvas/dense__hybrid.json",
+    "capture_sha256": "762146b694ffa5e8dec80a8537327e74bcaff973be6fdb1fbb6a22980f6403f7",
+    "runtime": {
+      "weights_sha256": "821ed0a31450d7d265bcc05519a28ebb43eb3cd2738ca543fa11b78f35153e25",
+      "projector_sha256": "fe90b9db826810aa37a17b53bd575ee15a9947e9075d73a8f68e284a38ab5eb4",
+      "server": "llama.cpp 10735 (842b18804), CUDA",
+      "temperature": 0.1,
+      "seed": null,
+      "concurrency": 1
+    },
+    "reference_rescore": "Source reference v3 adds the verified printed panel; original model predictions and checks are unchanged. Prior metrics: evals/baselines/previous-reference-v2/dense__hybrid.json."
+  }
 }

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.25,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-Ld3Kov3UDJtFuYlwj0dSuBQE1UkeDNf6",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](31,22,705,72) Vehicle (VIN, Price, Model, Engine size ..., Type)\n\n![text](47,92,382,137) Sales Person (Sid, Name)\n\n![text](45,144,616,198) Customer (SSN, Name, Street, City, State)\n\n![text](47,203,433,248) Sale (VIN, Sid, SSN)\n\n![text](278,244,758,327) → P.U. reduced to minimal set since it's not a tenary relationship\n\n![text](133,337,462,377) alternatively using option 2,\n\n![text](107,377,738,414) Car (VIN, Price, Model, Engine-size)\n\n![text](84,792,852,877) we can convert it to binary relation. we can merge Vehicle and Sale since they share the same P.U.\n\n![image](238,474,909,781) Entity-relationship diagram showing VEHICLE, SALE, SALES PERSON, CUSTOMER, CAR, TRUCK, SUV with attributes and relationships.\n\n![text](704,66,863,144) *5th about option 2?",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844133,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 324,
+      "prompt_tokens": 2096,
+      "total_tokens": 2420,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 956.906,
+      "prompt_per_token_ms": 0.45653912213740455,
+      "prompt_per_second": 2190.392786752304,
+      "predicted_n": 324,
+      "predicted_ms": 3149.922,
+      "predicted_per_token_ms": 9.752080495356036,
+      "predicted_per_second": 102.54222168040987
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "document": "examples/dense.pdf",
+  "source_sha256": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
+  "page_index": 2,
+  "reason": "The printed exercise panel was absent from the reference despite containing readable text. Transcribed from a 600 dpi rendering of the source panel; no prior reference text was replaced.",
+  "source_crop_normalized": [0.66, 0.0, 1.0, 0.14],
+  "source_render_dpi": 600,
+  "coordinate_frame": "Pixels within the 1734 by 924 source crop, xyxy",
+  "lines": [
+    {"bbox": [350, 190, 1410, 227], "text": "1. Consider a relation R with five attributes ABCDE. You are given the following"},
+    {"bbox": [399, 230, 959, 268], "text": "dependencies: A→B, BC→E, and ED→A."},
+    {"bbox": [399, 269, 820, 303], "text": "a) List all candidate keys for R."},
+    {"bbox": [399, 303, 625, 338], "text": "b) Is R in 3NF?"},
+    {"bbox": [399, 338, 652, 373], "text": "c) Is R in BCNF?"},
+    {"bbox": [348, 405, 1430, 443], "text": "2. Suppose that we have the following three tuples in a legal instance of a relation"},
+    {"bbox": [394, 444, 1450, 481], "text": "schema S with three attributes ABC (listed in order): (1, 2, 3), (4, 2, 3), and (5, 3,"},
+    {"bbox": [394, 483, 435, 515], "text": "3)."},
+    {"bbox": [394, 517, 1470, 554], "text": "a) Which of the following dependencies can you infer does not hold over schema"},
+    {"bbox": [440, 555, 780, 590], "text": "S? A→B, BC→A, B→C"},
+    {"bbox": [392, 590, 1142, 630], "text": "b) Can you identify any dependencies that hold over S?"},
+    {"bbox": [340, 665, 1470, 702], "text": "3. Suppose you are given a relation R with four attributes, ABCD. For the following"},
+    {"bbox": [389, 705, 1475, 742], "text": "sets of FDs: C→D, C→A, B→C, assuming those are the only dependencies that"},
+    {"bbox": [389, 744, 536, 779], "text": "hold for R."},
+    {"bbox": [389, 781, 891, 816], "text": "a) Identify the candidate key(s) for R."},
+    {"bbox": [389, 819, 1409, 855], "text": "b) Identify the best normal form that R satisfies (1NF, 2NF, 3NF, or BCNF)."}
+  ]
+}

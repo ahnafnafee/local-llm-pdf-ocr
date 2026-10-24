@@ -1,0 +1,7854 @@
+{
+  "version": 2,
+  "method": "Visual comparison with original PDF pixels rendered at 288 dpi; no predictions used as reference replacements.",
+  "documents": {
+    "dense": {
+      "source": "examples/dense.pdf",
+      "source_sha256": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
+      "original_fixture_sha256": "0f9b961b1bfe17d03bef2928e7c208f243d550ae69ff938c6238b8fcae8bad49",
+      "corrected_fixture_sha256": "2320f2ae6666dd2b1f4cc5f0edf0dbeaac8d52ba93e7eab45726e247608b414a",
+      "reviewed_layout_blocks": 365,
+      "changes": [
+        {
+          "layout_index": 1,
+          "source_page": 1,
+          "bbox_yxyx": [
+            6,
+            213,
+            19,
+            335
+          ],
+          "before": "- Trichone Winding problem",
+          "after": "- Impedance Mismatch problem"
+        },
+        {
+          "layout_index": 2,
+          "source_page": 1,
+          "bbox_yxyx": [
+            6,
+            419,
+            17,
+            582
+          ],
+          "before": "- to hold my energy, I need to believe",
+          "after": "- to make any changes, I need to declare"
+        },
+        {
+          "layout_index": 3,
+          "source_page": 1,
+          "bbox_yxyx": [
+            15,
+            19,
+            28,
+            138
+          ],
+          "before": "- Test main integration of flows",
+          "after": "- Two main integration approaches"
+        },
+        {
+          "layout_index": 4,
+          "source_page": 1,
+          "bbox_yxyx": [
+            17,
+            423,
+            27,
+            501
+          ],
+          "before": "D with cursor",
+          "after": "a sensitive cursor"
+        },
+        {
+          "layout_index": 5,
+          "source_page": 1,
+          "bbox_yxyx": [
+            19,
+            361,
+            44,
+            404
+          ],
+          "before": "not routine",
+          "after": "at runtime"
+        },
+        {
+          "layout_index": 6,
+          "source_page": 1,
+          "bbox_yxyx": [
+            22,
+            227,
+            32,
+            309
+          ],
+          "before": "- speed with cursor",
+          "after": "- fixed with cursor"
+        },
+        {
+          "layout_index": 7,
+          "source_page": 1,
+          "bbox_yxyx": [
+            23,
+            24,
+            53,
+            189
+          ],
+          "before": "- main integration of modules - (SU) statement level interface - embedded SQL - embedded SQL",
+          "after": "(SU) Statement level interface → embedded SQL\n- embed SQL →"
+        },
+        {
+          "layout_index": 8,
+          "source_page": 1,
+          "bbox_yxyx": [
+            38,
+            419,
+            52,
+            579
+          ],
+          "before": "\"edicated so screwed in visions",
+          "after": "- Embedded SQL recommended in systems"
+        },
+        {
+          "layout_index": 9,
+          "source_page": 1,
+          "bbox_yxyx": [
+            48,
+            258,
+            58,
+            386
+          ],
+          "before": "OPEN: when Sal Vincent is excited",
+          "after": "OPEN: when SQL statement is executed"
+        },
+        {
+          "layout_index": 11,
+          "source_page": 1,
+          "bbox_yxyx": [
+            56,
+            36,
+            67,
+            148
+          ],
+          "before": "- (coh. rev.) - & Haue · SDBC",
+          "after": "- Call-level interface → JDBC"
+        },
+        {
+          "layout_index": 12,
+          "source_page": 1,
+          "bbox_yxyx": [
+            60,
+            245,
+            73,
+            393
+          ],
+          "before": "Let us who in wars to be not now",
+          "after": "FETCH: when it moves to the next row"
+        },
+        {
+          "layout_index": 13,
+          "source_page": 1,
+          "bbox_yxyx": [
+            63,
+            9,
+            79,
+            145
+          ],
+          "before": "- (oh - even) - make · 366C (su) - special AP1 to · 006C",
+          "after": "(CU) - special API to → ODBC"
+        },
+        {
+          "layout_index": 14,
+          "source_page": 1,
+          "bbox_yxyx": [
+            67,
+            422,
+            78,
+            492
+          ],
+          "before": "50% overhead",
+          "after": "JDBC overhead"
+        },
+        {
+          "layout_index": 15,
+          "source_page": 1,
+          "bbox_yxyx": [
+            77,
+            53,
+            88,
+            107
+          ],
+          "before": "See commands",
+          "after": "SQL commands"
+        },
+        {
+          "layout_index": 16,
+          "source_page": 1,
+          "bbox_yxyx": [
+            79,
+            233,
+            90,
+            393
+          ],
+          "before": "Inseminative Lungs cannot make charges to",
+          "after": "INSENSITIVE cursor: cannot make changes to"
+        },
+        {
+          "layout_index": 17,
+          "source_page": 1,
+          "bbox_yxyx": [
+            85,
+            31,
+            101,
+            194
+          ],
+          "before": "So columns Personal | Scan Info | engine Info | machine Doc | driving | - info - info | - info | - info | - info | - info | - info",
+          "after": "Precompiler | Schema Info | Database Info | Multiple DBC | Efficiency | SQL Injection Risk"
+        },
+        {
+          "layout_index": 18,
+          "source_page": 1,
+          "bbox_yxyx": [
+            88,
+            419,
+            98,
+            576
+          ],
+          "before": "- for dynamic S3k, we cannot read, shu",
+          "after": "- for dynamic SQL, we cannot use, since"
+        },
+        {
+          "layout_index": 19,
+          "source_page": 1,
+          "bbox_yxyx": [
+            89,
+            253,
+            100,
+            375
+          ],
+          "before": "New York, Lewis, and Pine",
+          "after": "DB with cursor"
+        },
+        {
+          "layout_index": 20,
+          "source_page": 1,
+          "bbox_yxyx": [
+            96,
+            426,
+            110,
+            510
+          ],
+          "before": "For dynamic jobs, we need to prepare",
+          "after": "we need to prepare"
+        },
+        {
+          "layout_index": 21,
+          "source_page": 1,
+          "bbox_yxyx": [
+            98,
+            36,
+            111,
+            42
+          ],
+          "before": "·",
+          "after": "No"
+        },
+        {
+          "layout_index": 22,
+          "source_page": 1,
+          "bbox_yxyx": [
+            100,
+            74,
+            111,
+            102
+          ],
+          "before": "1/2",
+          "after": "Yes\nNo"
+        },
+        {
+          "layout_index": 23,
+          "source_page": 1,
+          "bbox_yxyx": [
+            103,
+            231,
+            115,
+            351
+          ],
+          "before": "It isn't a joke, it's",
+          "after": "If I want to update result;"
+        },
+        {
+          "layout_index": 24,
+          "source_page": 1,
+          "bbox_yxyx": [
+            104,
+            158,
+            114,
+            180
+          ],
+          "before": "sugar james",
+          "after": "lower"
+        },
+        {
+          "layout_index": 25,
+          "source_page": 1,
+          "bbox_yxyx": [
+            116,
+            232,
+            127,
+            348
+          ],
+          "before": "when outside, sensitive, cool",
+          "after": "then declare sensitive cursor"
+        },
+        {
+          "layout_index": 26,
+          "source_page": 1,
+          "bbox_yxyx": [
+            116,
+            415,
+            125,
+            474
+          ],
+          "before": "\\(\\frac{\\partial \\mathcal{L}}{\\partial \\dot{\\mathbf{q}}}\\)",
+          "after": "JDBC / ODBC"
+        },
+        {
+          "layout_index": 27,
+          "source_page": 1,
+          "bbox_yxyx": [
+            126,
+            178,
+            145,
+            197
+          ],
+          "before": "Squash",
+          "after": "Prepared Statement lower"
+        },
+        {
+          "layout_index": 28,
+          "source_page": 1,
+          "bbox_yxyx": [
+            129,
+            422,
+            144,
+            588
+          ],
+          "before": "This does not require training. No info at",
+          "after": "JDBC does not require knowing dbinfo or"
+        },
+        {
+          "layout_index": 29,
+          "source_page": 1,
+          "bbox_yxyx": [
+            135,
+            236,
+            154,
+            399
+          ],
+          "before": "gives me with checking set of triples",
+          "after": "fixes issue with collecting set of tuples"
+        },
+        {
+          "layout_index": 30,
+          "source_page": 1,
+          "bbox_yxyx": [
+            145,
+            18,
+            154,
+            126
+          ],
+          "before": "Schema of DB will be known",
+          "after": "Schema of DB must be known"
+        },
+        {
+          "layout_index": 31,
+          "source_page": 1,
+          "bbox_yxyx": [
+            146,
+            426,
+            156,
+            450
+          ],
+          "before": "stung",
+          "after": "Schema"
+        },
+        {
+          "layout_index": 32,
+          "source_page": 1,
+          "bbox_yxyx": [
+            149,
+            18,
+            169,
+            181
+          ],
+          "before": "Schema of DB will be known at the program is written for embedded SQL",
+          "after": "Schema of DB must be known at time program is written for embedded SQL"
+        },
+        {
+          "layout_index": 34,
+          "source_page": 1,
+          "bbox_yxyx": [
+            158,
+            246,
+            171,
+            345
+          ],
+          "before": "lose clawing over",
+          "after": "CLOSE: closes the cursor"
+        },
+        {
+          "layout_index": 35,
+          "source_page": 1,
+          "bbox_yxyx": [
+            166,
+            26,
+            195,
+            126
+          ],
+          "before": "on air info or written instead of complete info",
+          "after": "can get info at runtime instead of compile time"
+        },
+        {
+          "layout_index": 36,
+          "source_page": 1,
+          "bbox_yxyx": [
+            169,
+            233,
+            183,
+            388
+          ],
+          "before": "Close can and cover Can be reused when in use",
+          "after": "Cursor can be reopened when in variable"
+        },
+        {
+          "layout_index": 37,
+          "source_page": 1,
+          "bbox_yxyx": [
+            174,
+            429,
+            185,
+            489
+          ],
+          "before": "sepunk divers",
+          "after": "separate drivers"
+        },
+        {
+          "layout_index": 38,
+          "source_page": 1,
+          "bbox_yxyx": [
+            179,
+            421,
+            200,
+            579
+          ],
+          "before": "separate drivers - all interaction with the DB performed via a compatibility object",
+          "after": "- all interactions with the DB performed via"
+        },
+        {
+          "layout_index": 39,
+          "source_page": 1,
+          "bbox_yxyx": [
+            179,
+            259,
+            189,
+            283
+          ],
+          "before": "3. Let it flow",
+          "after": "can be different"
+        },
+        {
+          "layout_index": 41,
+          "source_page": 1,
+          "bbox_yxyx": [
+            200,
+            5,
+            217,
+            171
+          ],
+          "before": "- SQLSTATE - common error we might see",
+          "after": "- SQLSTATE - common error var defined here"
+        },
+        {
+          "layout_index": 42,
+          "source_page": 1,
+          "bbox_yxyx": [
+            202,
+            224,
+            215,
+            288
+          ],
+          "before": "We are all in",
+          "after": "Note the poll !!"
+        },
+        {
+          "layout_index": 43,
+          "source_page": 1,
+          "bbox_yxyx": [
+            211,
+            424,
+            241,
+            596
+          ],
+          "before": "Prepared statement is more efficient to use you as made to reuse & it is precompiled",
+          "after": "Prepared statement is more efficient to use since its made to reuse & it is precompiled"
+        },
+        {
+          "layout_index": 44,
+          "source_page": 1,
+          "bbox_yxyx": [
+            213,
+            234,
+            224,
+            267
+          ],
+          "before": "The world is a book and those who do not travel read only one page.",
+          "after": "Question"
+        },
+        {
+          "layout_index": 45,
+          "source_page": 1,
+          "bbox_yxyx": [
+            214,
+            33,
+            227,
+            146
+          ],
+          "before": "FREE JAL SELECT SINGAPORE SAGE",
+          "after": "EXEC SQL SELECT S.name, S.age"
+        },
+        {
+          "layout_index": 46,
+          "source_page": 1,
+          "bbox_yxyx": [
+            220,
+            33,
+            247,
+            170
+          ],
+          "before": "exec spal select s.idno, s.age into t-view c-obj from stuas s where s.id = t-sid",
+          "after": "EXEC SQL SELECT S.name, S.age\nINTO :c-name, :c-age → out parameters\nFROM Sailors S\nWHERE S.sid = :c_sid"
+        },
+        {
+          "layout_index": 47,
+          "source_page": 1,
+          "bbox_yxyx": [
+            239,
+            29,
+            263,
+            155
+          ],
+          "before": "FROM sales WHERE ssd = (c - sgd) -> in parens",
+          "after": "FROM Sailors S\nWHERE S.sid = :c_sid → in parameter"
+        },
+        {
+          "layout_index": 48,
+          "source_page": 1,
+          "bbox_yxyx": [
+            241,
+            420,
+            254,
+            496
+          ],
+          "before": "- ? are globules",
+          "after": "- ? are placeholders"
+        },
+        {
+          "layout_index": 49,
+          "source_page": 1,
+          "bbox_yxyx": [
+            266,
+            216,
+            279,
+            278
+          ],
+          "before": "- create Update",
+          "after": "- executeUpdate()"
+        },
+        {
+          "layout_index": 50,
+          "source_page": 1,
+          "bbox_yxyx": [
+            267,
+            413,
+            282,
+            502
+          ],
+          "before": "- Vagueness · Redundancy",
+          "after": "- Keyword → Redundancy"
+        },
+        {
+          "layout_index": 51,
+          "source_page": 1,
+          "bbox_yxyx": [
+            268,
+            9,
+            279,
+            142
+          ],
+          "before": "- for db, set index from 1",
+          "after": "- for db, start index from 1"
+        },
+        {
+          "layout_index": 52,
+          "source_page": 1,
+          "bbox_yxyx": [
+            270,
+            228,
+            294,
+            375
+          ],
+          "before": "make update() only returns number of runs (skipped)",
+          "after": "executeUpdate() only returns number of rows (affected)"
+        },
+        {
+          "layout_index": 53,
+          "source_page": 1,
+          "bbox_yxyx": [
+            277,
+            415,
+            301,
+            572
+          ],
+          "before": "- keyword - CD: most important kind of constraint in the relational model",
+          "after": "- FD: most important kind of constraint in the relational model"
+        },
+        {
+          "layout_index": 54,
+          "source_page": 1,
+          "bbox_yxyx": [
+            289,
+            211,
+            311,
+            332
+          ],
+          "before": "- see the confusion table for",
+          "after": "- see the comparison table for"
+        },
+        {
+          "layout_index": 56,
+          "source_page": 1,
+          "bbox_yxyx": [
+            292,
+            340,
+            301,
+            385
+          ],
+          "before": "by me",
+          "after": "so use"
+        },
+        {
+          "layout_index": 57,
+          "source_page": 1,
+          "bbox_yxyx": [
+            292,
+            449,
+            305,
+            551
+          ],
+          "before": "most important and at (on) mood",
+          "after": "in the relational model"
+        },
+        {
+          "layout_index": 58,
+          "source_page": 1,
+          "bbox_yxyx": [
+            295,
+            11,
+            316,
+            174
+          ],
+          "before": "Project 2 - we to use LIKE for partial matching",
+          "after": "- need to use LIKE for partial matching"
+        },
+        {
+          "layout_index": 59,
+          "source_page": 1,
+          "bbox_yxyx": [
+            302,
+            440,
+            319,
+            592
+          ],
+          "before": "in the abnormal mood, associated with the swarm, not",
+          "after": "- associated with the schema, not"
+        },
+        {
+          "layout_index": 60,
+          "source_page": 1,
+          "bbox_yxyx": [
+            305,
+            345,
+            316,
+            393
+          ],
+          "before": "executively",
+          "after": "executeQuery()"
+        },
+        {
+          "layout_index": 62,
+          "source_page": 1,
+          "bbox_yxyx": [
+            316,
+            435,
+            329,
+            505
+          ],
+          "before": "- associated w the instance",
+          "after": "the instance"
+        },
+        {
+          "layout_index": 63,
+          "source_page": 1,
+          "bbox_yxyx": [
+            319,
+            214,
+            333,
+            308
+          ],
+          "before": "- JOSCE vs SALVS",
+          "after": "- JDBC vs SQLJ"
+        },
+        {
+          "layout_index": 64,
+          "source_page": 1,
+          "bbox_yxyx": [
+            320,
+            14,
+            331,
+            73
+          ],
+          "before": "- Chose one?",
+          "after": "- Cross-check?"
+        },
+        {
+          "layout_index": 65,
+          "source_page": 1,
+          "bbox_yxyx": [
+            329,
+            429,
+            348,
+            603
+          ],
+          "before": "- Can I update the constraint laws for?",
+          "after": "- can I represent key constraint using FD?"
+        },
+        {
+          "layout_index": 66,
+          "source_page": 1,
+          "bbox_yxyx": [
+            332,
+            15,
+            350,
+            157
+          ],
+          "before": "- plagiar should NOT wish",
+          "after": "- program should NOT crash"
+        },
+        {
+          "layout_index": 67,
+          "source_page": 1,
+          "bbox_yxyx": [
+            337,
+            308,
+            346,
+            334
+          ],
+          "before": "win ap",
+          "after": "when to"
+        },
+        {
+          "layout_index": 68,
+          "source_page": 1,
+          "bbox_yxyx": [
+            339,
+            234,
+            349,
+            280
+          ],
+          "before": "Let's manage",
+          "after": "for managing"
+        },
+        {
+          "layout_index": 69,
+          "source_page": 1,
+          "bbox_yxyx": [
+            343,
+            306,
+            357,
+            362
+          ],
+          "before": "Can we choose?",
+          "after": "choose what?"
+        },
+        {
+          "layout_index": 71,
+          "source_page": 1,
+          "bbox_yxyx": [
+            354,
+            16,
+            374,
+            123
+          ],
+          "before": "- use grade for simplicity",
+          "after": "- Use grade for simplicity"
+        },
+        {
+          "layout_index": 72,
+          "source_page": 1,
+          "bbox_yxyx": [
+            356,
+            435,
+            367,
+            484
+          ],
+          "before": "x · y",
+          "after": "X →"
+        },
+        {
+          "layout_index": 73,
+          "source_page": 1,
+          "bbox_yxyx": [
+            358,
+            246,
+            371,
+            272
+          ],
+          "before": "explain better",
+          "after": "better"
+        },
+        {
+          "layout_index": 74,
+          "source_page": 1,
+          "bbox_yxyx": [
+            368,
+            23,
+            382,
+            147
+          ],
+          "before": "Use Steve as a synonym (what he's what I was lost)",
+          "after": "(cuz that's what I know best)"
+        },
+        {
+          "layout_index": 75,
+          "source_page": 1,
+          "bbox_yxyx": [
+            375,
+            433,
+            388,
+            535
+          ],
+          "before": "functionally determines",
+          "after": "X functionally determines"
+        },
+        {
+          "layout_index": 76,
+          "source_page": 1,
+          "bbox_yxyx": [
+            379,
+            213,
+            393,
+            311
+          ],
+          "before": "Lib: functional Dependencies",
+          "after": "L13: Functional Dependencies"
+        },
+        {
+          "layout_index": 77,
+          "source_page": 1,
+          "bbox_yxyx": [
+            387,
+            224,
+            405,
+            309
+          ],
+          "before": "3: functional Attributes Dependencies Closure",
+          "after": "Attribute Closure"
+        },
+        {
+          "layout_index": 78,
+          "source_page": 1,
+          "bbox_yxyx": [
+            393,
+            438,
+            405,
+            482
+          ],
+          "before": "often chintzy,",
+          "after": "alternatively,"
+        },
+        {
+          "layout_index": 79,
+          "source_page": 1,
+          "bbox_yxyx": [
+            406,
+            213,
+            422,
+            282
+          ],
+          "before": "L14: Normal fare",
+          "after": "L14: Normal forms"
+        },
+        {
+          "layout_index": 80,
+          "source_page": 1,
+          "bbox_yxyx": [
+            406,
+            461,
+            418,
+            550
+          ],
+          "before": "y = dependent on x",
+          "after": "Y is dependent on X"
+        },
+        {
+          "layout_index": 81,
+          "source_page": 1,
+          "bbox_yxyx": [
+            418,
+            235,
+            430,
+            270
+          ],
+          "before": "Aber ist normal",
+          "after": "Normalize"
+        },
+        {
+          "layout_index": 82,
+          "source_page": 1,
+          "bbox_yxyx": [
+            425,
+            212,
+            449,
+            328
+          ],
+          "before": "Normalise L15: Properties of Decomposition labelled J0n + D0",
+          "after": "L15: Properties of Decomposition"
+        },
+        {
+          "layout_index": 84,
+          "source_page": 1,
+          "bbox_yxyx": [
+            437,
+            234,
+            459,
+            309
+          ],
+          "before": "Properties of Damping Lossless J001 + DD",
+          "after": "Lossless Join + DP"
+        },
+        {
+          "layout_index": 85,
+          "source_page": 1,
+          "bbox_yxyx": [
+            444,
+            440,
+            480,
+            549
+          ],
+          "before": "Phone Home # | New | (PG) 3055950101 | Ave | forbox 3055950101 | Ave | Coles",
+          "after": "Phone # | Name | City\n7035550101 | Alice | Fairfax\n7035550101 | Alice | Fairfax"
+        },
+        {
+          "layout_index": 87,
+          "source_page": 1,
+          "bbox_yxyx": [
+            459,
+            528,
+            471,
+            551
+          ],
+          "before": "for the soul",
+          "after": "Fairfax"
+        },
+        {
+          "layout_index": 88,
+          "source_page": 1,
+          "bbox_yxyx": [
+            463,
+            212,
+            490,
+            322
+          ],
+          "before": "Minimal Cost Lib: Decomposability Algorithms",
+          "after": "L16: Decomposition Algorithms"
+        },
+        {
+          "layout_index": 89,
+          "source_page": 1,
+          "bbox_yxyx": [
+            479,
+            439,
+            490,
+            586
+          ],
+          "before": "If I won some money,",
+          "after": "if I know someone's phone no.,"
+        },
+        {
+          "layout_index": 90,
+          "source_page": 1,
+          "bbox_yxyx": [
+            487,
+            439,
+            500,
+            581
+          ],
+          "before": "I won sometimes but I never sign on her name",
+          "after": "can I always figure out their name"
+        },
+        {
+          "layout_index": 92,
+          "source_page": 1,
+          "bbox_yxyx": [
+            528,
+            415,
+            558,
+            513
+          ],
+          "before": "-x \\rightarrow \\gamma_2 \\quad \\sum_{x \\rightarrow \\gamma} \\varphi",
+          "after": "- X → YZ { X → Y, X → Z }"
+        },
+        {
+          "layout_index": 93,
+          "source_page": 1,
+          "bbox_yxyx": [
+            531,
+            31,
+            545,
+            161
+          ],
+          "before": "- look out for advantages in data",
+          "after": "- look out for redundancies in data"
+        },
+        {
+          "layout_index": 94,
+          "source_page": 1,
+          "bbox_yxyx": [
+            534,
+            217,
+            547,
+            339
+          ],
+          "before": "my nephew is pedantic",
+          "after": "- why repetition is problematic"
+        },
+        {
+          "layout_index": 95,
+          "source_page": 1,
+          "bbox_yxyx": [
+            534,
+            531,
+            544,
+            596
+          ],
+          "before": "Cont de mps",
+          "after": "cannot decompose"
+        },
+        {
+          "layout_index": 96,
+          "source_page": 1,
+          "bbox_yxyx": [
+            544,
+            32,
+            554,
+            72
+          ],
+          "before": "- Bold - DN - instances",
+          "after": "instances"
+        },
+        {
+          "layout_index": 98,
+          "source_page": 1,
+          "bbox_yxyx": [
+            549,
+            238,
+            560,
+            300
+          ],
+          "before": "upside and malay",
+          "after": "- update anomaly"
+        },
+        {
+          "layout_index": 99,
+          "source_page": 1,
+          "bbox_yxyx": [
+            558,
+            29,
+            573,
+            185
+          ],
+          "before": "\\[ C_{k}^{n} = C_{n}^{k} \\implies C_{x}^{y} = C_{y}^{x} \\]",
+          "after": "t₁[X] = t₂[X] ⇒ t₁[Y] = t₂[Y]"
+        },
+        {
+          "layout_index": 101,
+          "source_page": 1,
+          "bbox_yxyx": [
+            561,
+            427,
+            572,
+            482
+          ],
+          "before": "the SM",
+          "after": "LHS is the"
+        },
+        {
+          "layout_index": 102,
+          "source_page": 1,
+          "bbox_yxyx": [
+            563,
+            533,
+            580,
+            549
+          ],
+          "before": "······",
+          "after": "X Y"
+        },
+        {
+          "layout_index": 103,
+          "source_page": 1,
+          "bbox_yxyx": [
+            565,
+            436,
+            584,
+            511
+          ],
+          "before": "is this the decision?",
+          "after": "determinant"
+        },
+        {
+          "layout_index": 104,
+          "source_page": 1,
+          "bbox_yxyx": [
+            573,
+            239,
+            584,
+            309
+          ],
+          "before": "-deletion  onceonly",
+          "after": "- deletion anomaly"
+        },
+        {
+          "layout_index": 105,
+          "source_page": 1,
+          "bbox_yxyx": [
+            576,
+            24,
+            593,
+            170
+          ],
+          "before": "I, and it's · Any two cars in your local",
+          "after": "t₁ and t₂ → Any two rows in your rel"
+        },
+        {
+          "layout_index": 106,
+          "source_page": 1,
+          "bbox_yxyx": [
+            582,
+            350,
+            602,
+            389
+          ],
+          "before": "(100% Organic)",
+          "after": "understand"
+        },
+        {
+          "layout_index": 107,
+          "source_page": 1,
+          "bbox_yxyx": [
+            587,
+            21,
+            610,
+            177
+          ],
+          "before": "d_1 and d_2 · Any two out of your choice d_1[x] · You or it × whom of now!",
+          "after": "t₁[X] → look at the X columns of row"
+        },
+        {
+          "layout_index": 108,
+          "source_page": 1,
+          "bbox_yxyx": [
+            592,
+            313,
+            606,
+            347
+          ],
+          "before": "click",
+          "after": "didn't"
+        },
+        {
+          "layout_index": 109,
+          "source_page": 1,
+          "bbox_yxyx": [
+            594,
+            417,
+            606,
+            511
+          ],
+          "before": "-Closure of Authorities-",
+          "after": "- Closure of Attributes"
+        },
+        {
+          "layout_index": 110,
+          "source_page": 1,
+          "bbox_yxyx": [
+            597,
+            219,
+            608,
+            274
+          ],
+          "before": "She is going to get a new car.",
+          "after": "She is going way"
+        },
+        {
+          "layout_index": 111,
+          "source_page": 1,
+          "bbox_yxyx": [
+            603,
+            20,
+            625,
+            193
+          ],
+          "before": "f_1(x) \\rightarrow \\text{low order} \\quad \\text{for smal values of x} \\\\ f_1(x) = h(x) \\rightarrow \\text{low order for large values of x}",
+          "after": "t₁(X) = t₂(X) → Row 1 and Row 2 have same X values"
+        },
+        {
+          "layout_index": 112,
+          "source_page": 1,
+          "bbox_yxyx": [
+            605,
+            442,
+            624,
+            606
+          ],
+          "before": "- find all attributes dependent on entity",
+          "after": "- find all attributes dependent on {A₁, B₂}"
+        },
+        {
+          "layout_index": 113,
+          "source_page": 1,
+          "bbox_yxyx": [
+            606,
+            221,
+            618,
+            277
+          ],
+          "before": "so sorry, sorry for you for me",
+          "after": "too fast for me"
+        },
+        {
+          "layout_index": 114,
+          "source_page": 1,
+          "bbox_yxyx": [
+            619,
+            221,
+            627,
+            261
+          ],
+          "before": "the ocean",
+          "after": "to digest..."
+        },
+        {
+          "layout_index": 115,
+          "source_page": 1,
+          "bbox_yxyx": [
+            620,
+            265,
+            642,
+            367
+          ],
+          "before": "-see expansion in appx",
+          "after": "- see explanation in Appx"
+        },
+        {
+          "layout_index": 116,
+          "source_page": 1,
+          "bbox_yxyx": [
+            620,
+            439,
+            642,
+            579
+          ],
+          "before": "- find all solutions - if I know value of sin x, what",
+          "after": "if I know value of attrs X, what"
+        },
+        {
+          "layout_index": 117,
+          "source_page": 1,
+          "bbox_yxyx": [
+            628,
+            25,
+            640,
+            80
+          ],
+          "before": "·   ·   504",
+          "after": "⇒ → F"
+        },
+        {
+          "layout_index": 118,
+          "source_page": 1,
+          "bbox_yxyx": [
+            635,
+            443,
+            654,
+            555
+          ],
+          "before": "If I know what all sins & evil are I figure out",
+          "after": "else can I figure out?"
+        },
+        {
+          "layout_index": 119,
+          "source_page": 1,
+          "bbox_yxyx": [
+            640,
+            19,
+            657,
+            191
+          ],
+          "before": "f(-y) = f(y) \\Rightarrow \\text{even 1 or even 2 must also be even.}",
+          "after": "t₁(Y) = t₂(Y) → Row 1 and Row 2 must also have"
+        },
+        {
+          "layout_index": 120,
+          "source_page": 1,
+          "bbox_yxyx": [
+            650,
+            224,
+            670,
+            397
+          ],
+          "before": "- \\( k = \\{ A_1, A_2, \\ldots, A_r \\} \\) is a codimension",
+          "after": "- K = {A₁, A₂, ... Aₙ} is a candidate key"
+        },
+        {
+          "layout_index": 122,
+          "source_page": 1,
+          "bbox_yxyx": [
+            655,
+            110,
+            664,
+            149
+          ],
+          "before": "4 years",
+          "after": "Y values"
+        },
+        {
+          "layout_index": 123,
+          "source_page": 1,
+          "bbox_yxyx": [
+            656,
+            84,
+            664,
+            106
+          ],
+          "before": "Van zond",
+          "after": "same"
+        },
+        {
+          "layout_index": 124,
+          "source_page": 1,
+          "bbox_yxyx": [
+            664,
+            468,
+            678,
+            515
+          ],
+          "before": "\\[ \\mu_A = \\frac{1}{n} \\sum_{i=1}^n X_i \\]",
+          "after": "AKA X⁺"
+        },
+        {
+          "layout_index": 125,
+          "source_page": 1,
+          "bbox_yxyx": [
+            668,
+            236,
+            679,
+            316
+          ],
+          "before": "65 relation & 4",
+          "after": "for relation R if"
+        },
+        {
+          "layout_index": 126,
+          "source_page": 1,
+          "bbox_yxyx": [
+            676,
+            15,
+            693,
+            164
+          ],
+          "before": "F0  Lefevre  von Lutz  d'Hauteville",
+          "after": "FD between non-key attributes is a"
+        },
+        {
+          "layout_index": 127,
+          "source_page": 1,
+          "bbox_yxyx": [
+            678,
+            252,
+            696,
+            380
+          ],
+          "before": "relates R K \\Rightarrow M our attributes of R",
+          "after": "K → All other attributes of R"
+        },
+        {
+          "layout_index": 128,
+          "source_page": 1,
+          "bbox_yxyx": [
+            679,
+            439,
+            698,
+            550
+          ],
+          "before": "frame yourself as a desirable entity in one circle, ie",
+          "after": "think yourself as a detective"
+        },
+        {
+          "layout_index": 129,
+          "source_page": 1,
+          "bbox_yxyx": [
+            682,
+            463,
+            713,
+            586
+          ],
+          "before": "you get as a dreamer start with one circle, let it lead to more circles",
+          "after": "start with one clue, let it lead to more clues"
+        },
+        {
+          "layout_index": 130,
+          "source_page": 1,
+          "bbox_yxyx": [
+            686,
+            15,
+            708,
+            185
+          ],
+          "before": "PO between reality and dreams is a red flag with the idea of being rejected",
+          "after": "RED FLAG that data is being repeated"
+        },
+        {
+          "layout_index": 132,
+          "source_page": 1,
+          "bbox_yxyx": [
+            702,
+            252,
+            734,
+            390
+          ],
+          "before": "AND No SW in text of k · all over occupancy of R",
+          "after": "No other subset of K → all other attributes of R"
+        },
+        {
+          "layout_index": 133,
+          "source_page": 1,
+          "bbox_yxyx": [
+            705,
+            16,
+            718,
+            63
+          ],
+          "before": "smilessonly",
+          "after": "unnecessarily"
+        },
+        {
+          "layout_index": 134,
+          "source_page": 1,
+          "bbox_yxyx": [
+            708,
+            251,
+            722,
+            279
+          ],
+          "before": "No sir",
+          "after": "No other"
+        },
+        {
+          "layout_index": 135,
+          "source_page": 1,
+          "bbox_yxyx": [
+            718,
+            17,
+            742,
+            181
+          ],
+          "before": "- FO means one ATM's value is completely",
+          "after": "- FD means one attr's value is completely"
+        },
+        {
+          "layout_index": 136,
+          "source_page": 1,
+          "bbox_yxyx": [
+            732,
+            32,
+            776,
+            180
+          ],
+          "before": "so means one of its value is completely controled by another controling one appears in multiple rows, its dependent value gets copied · ie redundancy",
+          "after": "controlled by another\n- when controlling attr appears in multiple rows, its dependent value gets copy pasted → i.e. redundancy"
+        },
+        {
+          "layout_index": 137,
+          "source_page": 1,
+          "bbox_yxyx": [
+            736,
+            28,
+            749,
+            79
+          ],
+          "before": "go means one continued by",
+          "after": "controlled by"
+        },
+        {
+          "layout_index": 138,
+          "source_page": 1,
+          "bbox_yxyx": [
+            763,
+            69,
+            781,
+            142
+          ],
+          "before": "dependent · ie. relationship",
+          "after": "→ i.e. redundancy"
+        },
+        {
+          "layout_index": 139,
+          "source_page": 1,
+          "bbox_yxyx": [
+            768,
+            34,
+            780,
+            60
+          ],
+          "before": "pachad",
+          "after": "pasted"
+        },
+        {
+          "layout_index": 141,
+          "source_page": 2,
+          "bbox_yxyx": [
+            2,
+            216,
+            18,
+            330
+          ],
+          "before": "what about \\( \\Sigma C, D_3^+ \\)",
+          "after": "- what about {C,D}⁺"
+        },
+        {
+          "layout_index": 142,
+          "source_page": 2,
+          "bbox_yxyx": [
+            4,
+            415,
+            18,
+            466
+          ],
+          "before": "Navigation",
+          "after": "Normalization"
+        },
+        {
+          "layout_index": 143,
+          "source_page": 2,
+          "bbox_yxyx": [
+            8,
+            29,
+            25,
+            111
+          ],
+          "before": "example R = (A, B, C, D, \\pi, \\theta)",
+          "after": "example: R = (A, B, C, D, E, G)"
+        },
+        {
+          "layout_index": 144,
+          "source_page": 2,
+          "bbox_yxyx": [
+            12,
+            418,
+            32,
+            572
+          ],
+          "before": "Normalization - INF: disallowed attributes, empty cells, and no",
+          "after": "- 1NF: disallows multivalued attributes,"
+        },
+        {
+          "layout_index": 145,
+          "source_page": 2,
+          "bbox_yxyx": [
+            15,
+            17,
+            38,
+            178
+          ],
+          "before": "R = (A, B, C, D, E, G) fD3: AB \\rightarrow C, BC \\rightarrow AD, D \\rightarrow E, CE \\rightarrow B",
+          "after": "FDs: AB → C, BC → AD, D → E, CE → B"
+        },
+        {
+          "layout_index": 146,
+          "source_page": 2,
+          "bbox_yxyx": [
+            18,
+            225,
+            37,
+            314
+          ],
+          "before": "\\( \\xi \\in \\Omega^+ \\Rightarrow \\xi \\in \\Omega \\)",
+          "after": "{C,D}⁺ ⇒ {C,D}"
+        },
+        {
+          "layout_index": 147,
+          "source_page": 2,
+          "bbox_yxyx": [
+            26,
+            451,
+            39,
+            557
+          ],
+          "before": "tradition, mathematics, and composition.",
+          "after": "composite attrs, and their"
+        },
+        {
+          "layout_index": 148,
+          "source_page": 2,
+          "bbox_yxyx": [
+            33,
+            22,
+            56,
+            88
+          ],
+          "before": "f_0 : A \\to \\mathbb{C} \\\\ \\{A, \\theta_5\\} ?",
+          "after": "{A,B}⁺ ?"
+        },
+        {
+          "layout_index": 149,
+          "source_page": 2,
+          "bbox_yxyx": [
+            36,
+            449,
+            47,
+            504
+          ],
+          "before": "comics",
+          "after": "combinations"
+        },
+        {
+          "layout_index": 150,
+          "source_page": 2,
+          "bbox_yxyx": [
+            39,
+            254,
+            63,
+            335
+          ],
+          "before": "D \\rightarrow E \\implies \\xi \\in (0, \\xi_0)",
+          "after": "D → E ⇒ {C,D,E}"
+        },
+        {
+          "layout_index": 151,
+          "source_page": 2,
+          "bbox_yxyx": [
+            55,
+            415,
+            70,
+            523
+          ],
+          "before": "- Prime vs. Nonprime Prime",
+          "after": "- Prime vs. Nonprime Attrs"
+        },
+        {
+          "layout_index": 152,
+          "source_page": 2,
+          "bbox_yxyx": [
+            56,
+            53,
+            73,
+            108
+          ],
+          "before": "& 3rdworld!",
+          "after": "a snowball..."
+        },
+        {
+          "layout_index": 153,
+          "source_page": 2,
+          "bbox_yxyx": [
+            62,
+            19,
+            73,
+            45
+          ],
+          "before": "bold",
+          "after": "- build"
+        },
+        {
+          "layout_index": 154,
+          "source_page": 2,
+          "bbox_yxyx": [
+            65,
+            249,
+            86,
+            345
+          ],
+          "before": "\\(\\Rightarrow \\sum \\theta, c, d, \\beta\\)",
+          "after": "CE → B ⇒ {B,C,D,E}"
+        },
+        {
+          "layout_index": 155,
+          "source_page": 2,
+          "bbox_yxyx": [
+            65,
+            487,
+            94,
+            575
+          ],
+          "before": "not a pine tree. Got a memory of any guy",
+          "after": "not a prime attr (not a member of any C.K.)"
+        },
+        {
+          "layout_index": 158,
+          "source_page": 2,
+          "bbox_yxyx": [
+            73,
+            439,
+            109,
+            495
+          ],
+          "before": "number of any cardlike key",
+          "after": "member of any candidate key"
+        },
+        {
+          "layout_index": 159,
+          "source_page": 2,
+          "bbox_yxyx": [
+            75,
+            515,
+            102,
+            571
+          ],
+          "before": "not a pin or not a memory or only a cup",
+          "after": "not a prime attr (not a member of any C.K.)"
+        },
+        {
+          "layout_index": 160,
+          "source_page": 2,
+          "bbox_yxyx": [
+            82,
+            57,
+            93,
+            92
+          ],
+          "before": "p and b",
+          "after": "A and B"
+        },
+        {
+          "layout_index": 161,
+          "source_page": 2,
+          "bbox_yxyx": [
+            84,
+            135,
+            94,
+            165
+          ],
+          "before": "5A 25",
+          "after": "{A,B}"
+        },
+        {
+          "layout_index": 162,
+          "source_page": 2,
+          "bbox_yxyx": [
+            90,
+            241,
+            101,
+            269
+          ],
+          "before": "BC·A",
+          "after": "BC →"
+        },
+        {
+          "layout_index": 163,
+          "source_page": 2,
+          "bbox_yxyx": [
+            91,
+            261,
+            111,
+            353
+          ],
+          "before": "\\(\\Rightarrow \\{A, B, C, D, E\\}\\)",
+          "after": "⇒ {A,B,C,D,E}"
+        },
+        {
+          "layout_index": 164,
+          "source_page": 2,
+          "bbox_yxyx": [
+            94,
+            56,
+            104,
+            77
+          ],
+          "before": "AB·C",
+          "after": "AB → C"
+        },
+        {
+          "layout_index": 165,
+          "source_page": 2,
+          "bbox_yxyx": [
+            95,
+            133,
+            106,
+            176
+          ],
+          "before": "q1, q2, q3",
+          "after": "{A,B,C}"
+        },
+        {
+          "layout_index": 166,
+          "source_page": 2,
+          "bbox_yxyx": [
+            105,
+            56,
+            118,
+            84
+          ],
+          "before": "fol · AD",
+          "after": "BC → AD"
+        },
+        {
+          "layout_index": 167,
+          "source_page": 2,
+          "bbox_yxyx": [
+            106,
+            133,
+            120,
+            185
+          ],
+          "before": "q_{A,B,C,D}",
+          "after": "{A,B,C,D}"
+        },
+        {
+          "layout_index": 168,
+          "source_page": 2,
+          "bbox_yxyx": [
+            114,
+            255,
+            127,
+            340
+          ],
+          "before": "G SAI NING",
+          "after": "G still missing"
+        },
+        {
+          "layout_index": 170,
+          "source_page": 2,
+          "bbox_yxyx": [
+            119,
+            58,
+            128,
+            80
+          ],
+          "before": "D · E",
+          "after": "D →"
+        },
+        {
+          "layout_index": 171,
+          "source_page": 2,
+          "bbox_yxyx": [
+            122,
+            132,
+            132,
+            184
+          ],
+          "before": "S, A, B, C, E, F, y",
+          "after": "{A,B,C,E}"
+        },
+        {
+          "layout_index": 172,
+          "source_page": 2,
+          "bbox_yxyx": [
+            122,
+            240,
+            142,
+            401
+          ],
+          "before": "G (small)  NOT  contable lay",
+          "after": "∴ {C,D} is NOT a candidate key"
+        },
+        {
+          "layout_index": 173,
+          "source_page": 2,
+          "bbox_yxyx": [
+            135,
+            423,
+            145,
+            489
+          ],
+          "before": "- fun CD vs.",
+          "after": "- full FD vs."
+        },
+        {
+          "layout_index": 177,
+          "source_page": 2,
+          "bbox_yxyx": [
+            144,
+            216,
+            163,
+            373
+          ],
+          "before": "\\[ \\Rightarrow \\xi_{(B,43)} = \\xi_{A,B, C,D,E,43} \\]",
+          "after": "→ {C,D,G}⁺ = {A,B,C,D,E,G}"
+        },
+        {
+          "layout_index": 178,
+          "source_page": 2,
+          "bbox_yxyx": [
+            148,
+            435,
+            167,
+            483
+          ],
+          "before": "By removing a single letter",
+          "after": "removing a single attr"
+        },
+        {
+          "layout_index": 179,
+          "source_page": 2,
+          "bbox_yxyx": [
+            149,
+            518,
+            169,
+            584
+          ],
+          "before": "Do (no very good nic and op",
+          "after": "removing some attr and dep"
+        },
+        {
+          "layout_index": 180,
+          "source_page": 2,
+          "bbox_yxyx": [
+            157,
+            43,
+            177,
+            169
+          ],
+          "before": "\\(\\mathcal{A}_1, \\mathcal{B}_2^+ = \\mathcal{A}_1, \\mathcal{B}_2, \\mathcal{C}_1, \\mathcal{D}_1, \\mathcal{E}_1\\)",
+          "after": "{A,B}⁺ = {A,B,C,D,E}"
+        },
+        {
+          "layout_index": 181,
+          "source_page": 2,
+          "bbox_yxyx": [
+            158,
+            530,
+            180,
+            573
+          ],
+          "before": "D (no cry) & still holds",
+          "after": "still holds"
+        },
+        {
+          "layout_index": 182,
+          "source_page": 2,
+          "bbox_yxyx": [
+            161,
+            248,
+            176,
+            395
+          ],
+          "before": "is a survey since it covers",
+          "after": "is a superkey since it covers"
+        },
+        {
+          "layout_index": 183,
+          "source_page": 2,
+          "bbox_yxyx": [
+            166,
+            438,
+            175,
+            481
+          ],
+          "before": "unveil the lessons he",
+          "after": "breaks the"
+        },
+        {
+          "layout_index": 184,
+          "source_page": 2,
+          "bbox_yxyx": [
+            173,
+            258,
+            186,
+            354
+          ],
+          "before": "is a surjective function on chow's in R",
+          "after": "all attributes in R"
+        },
+        {
+          "layout_index": 185,
+          "source_page": 2,
+          "bbox_yxyx": [
+            174,
+            435,
+            186,
+            475
+          ],
+          "before": "means for degrading",
+          "after": "dependency"
+        },
+        {
+          "layout_index": 186,
+          "source_page": 2,
+          "bbox_yxyx": [
+            176,
+            63,
+            185,
+            152
+          ],
+          "before": "Gone's red, green.",
+          "after": "G was never reachable"
+        },
+        {
+          "layout_index": 187,
+          "source_page": 2,
+          "bbox_yxyx": [
+            183,
+            435,
+            203,
+            585
+          ],
+          "before": "object eg. EMP-PROJSSN, PrinS, Hous, God",
+          "after": "e.g. EMP-PROJ(SSN, Pnumber, Hours, Ename)"
+        },
+        {
+          "layout_index": 188,
+          "source_page": 2,
+          "bbox_yxyx": [
+            186,
+            249,
+            198,
+            394
+          ],
+          "before": "LJ is a candidate they told me",
+          "after": "is a candidate key too since"
+        },
+        {
+          "layout_index": 189,
+          "source_page": 2,
+          "bbox_yxyx": [
+            197,
+            259,
+            210,
+            398
+          ],
+          "before": "is minimal - removing 6 bonds",
+          "after": "is minimal - removing G breaks"
+        },
+        {
+          "layout_index": 190,
+          "source_page": 2,
+          "bbox_yxyx": [
+            200,
+            434,
+            222,
+            575
+          ],
+          "before": "e.g. EMI-PRO-3, MNO, MNO - ESSM, PROX/3 -> WAS : full PD (need both to",
+          "after": "{SSN,Pnumber} → Hours: full FD"
+        },
+        {
+          "layout_index": 191,
+          "source_page": 2,
+          "bbox_yxyx": [
+            207,
+            255,
+            221,
+            337
+          ],
+          "before": "is minimal · (unknown) for s,u, proper",
+          "after": "the S.K. property"
+        },
+        {
+          "layout_index": 192,
+          "source_page": 2,
+          "bbox_yxyx": [
+            213,
+            532,
+            225,
+            607
+          ],
+          "before": "but I had (was) both to own -",
+          "after": "(need both to determine"
+        },
+        {
+          "layout_index": 193,
+          "source_page": 2,
+          "bbox_yxyx": [
+            221,
+            225,
+            235,
+            296
+          ],
+          "before": "some copies for:",
+          "after": "same applies for:"
+        },
+        {
+          "layout_index": 194,
+          "source_page": 2,
+          "bbox_yxyx": [
+            222,
+            543,
+            231,
+            597
+          ],
+          "before": "was now",
+          "after": "Hours worked)"
+        },
+        {
+          "layout_index": 195,
+          "source_page": 2,
+          "bbox_yxyx": [
+            234,
+            244,
+            250,
+            292
+          ],
+          "before": "· a, b, c, d",
+          "after": "{A,B,G}"
+        },
+        {
+          "layout_index": 196,
+          "source_page": 2,
+          "bbox_yxyx": [
+            235,
+            429,
+            247,
+            568
+          ],
+          "before": "\\(\\mathbb{E}_{\\mathbb{N}}, \\mathbb{P}_{\\mathbb{N}} \\rightarrow \\mathbb{E}_{\\mathbb{N}} \\quad \\text{periodic} \\quad f \\Omega\\)",
+          "after": "{SSN,Pnumber} → Ename: partial FD"
+        },
+        {
+          "layout_index": 197,
+          "source_page": 2,
+          "bbox_yxyx": [
+            244,
+            521,
+            254,
+            594
+          ],
+          "before": "periods + B (see more detailed form)",
+          "after": "(SSN alone determines"
+        },
+        {
+          "layout_index": 198,
+          "source_page": 2,
+          "bbox_yxyx": [
+            252,
+            528,
+            262,
+            550
+          ],
+          "before": "EN a Eme",
+          "after": "Ename)"
+        },
+        {
+          "layout_index": 199,
+          "source_page": 2,
+          "bbox_yxyx": [
+            266,
+            224,
+            283,
+            356
+          ],
+          "before": "\\(\\forall x \\in S \\quad \\exists y \\in F \\implies x \\in B \\implies \\text{some}\\)",
+          "after": "∴ After 2NF → 3 tables"
+        },
+        {
+          "layout_index": 201,
+          "source_page": 2,
+          "bbox_yxyx": [
+            273,
+            427,
+            293,
+            608
+          ],
+          "before": "ex. exp-dept (emp, SSN, OAK, ABL, Dovler, Doc, Dov-25)",
+          "after": "e.g. EMP-DEPT(Ename, SSN, Bdate, Add, Dnumber, Dname, Dmgr_ssn)"
+        },
+        {
+          "layout_index": 202,
+          "source_page": 2,
+          "bbox_yxyx": [
+            280,
+            225,
+            302,
+            387
+          ],
+          "before": "EP1 (SSN, Primes, Vars) - for dcp",
+          "after": "EP1 (SSN, Pnumber, Hours) - full dep"
+        },
+        {
+          "layout_index": 204,
+          "source_page": 2,
+          "bbox_yxyx": [
+            291,
+            427,
+            308,
+            532
+          ],
+          "before": "FD chain: \\( \\mathbb{SN} \\to \\mathbb{D}_{\\text{numbers}} \\)",
+          "after": "FD chain: SSN → Dnumber"
+        },
+        {
+          "layout_index": 205,
+          "source_page": 2,
+          "bbox_yxyx": [
+            299,
+            39,
+            319,
+            192
+          ],
+          "before": "every nonprime odd is fully AD",
+          "after": "every nonprime attr is fully FD"
+        },
+        {
+          "layout_index": 206,
+          "source_page": 2,
+          "bbox_yxyx": [
+            300,
+            223,
+            315,
+            403
+          ],
+          "before": "E02 (SSN, Ename) - employee detail",
+          "after": "EP2 (SSN, Ename) - employee details"
+        },
+        {
+          "layout_index": 207,
+          "source_page": 2,
+          "bbox_yxyx": [
+            302,
+            471,
+            316,
+            580
+          ],
+          "before": "SSN · Dummied Dummied · Dummie, Dummie-SSN",
+          "after": "Dnumber → Dname, Dmgr_ss."
+        },
+        {
+          "layout_index": 209,
+          "source_page": 2,
+          "bbox_yxyx": [
+            316,
+            223,
+            335,
+            381
+          ],
+          "before": "EP3 (Prunus, Prae, Plurion) - project detail",
+          "after": "EP3 (Pnumber, Pname, Plocation) - project details"
+        },
+        {
+          "layout_index": 210,
+          "source_page": 2,
+          "bbox_yxyx": [
+            317,
+            448,
+            331,
+            522
+          ],
+          "before": "(0005 T.D)",
+          "after": "(breaks T.D)"
+        },
+        {
+          "layout_index": 211,
+          "source_page": 2,
+          "bbox_yxyx": [
+            328,
+            363,
+            339,
+            389
+          ],
+          "before": "projekt elektrik",
+          "after": "details"
+        },
+        {
+          "layout_index": 212,
+          "source_page": 2,
+          "bbox_yxyx": [
+            334,
+            453,
+            351,
+            600
+          ],
+          "before": "EDI (Final, SSN, DOB, address, Contact)",
+          "after": "ED1 (Ename, SSN, Bdate, Address, Dnumber)"
+        },
+        {
+          "layout_index": 213,
+          "source_page": 2,
+          "bbox_yxyx": [
+            336,
+            18,
+            349,
+            103
+          ],
+          "before": "\\(\\vdash_{\\text{Gödel}} 1\\text{NF} \\rightarrow 2\\text{NF}\\)",
+          "after": "∴ for 1NF → 2NF"
+        },
+        {
+          "layout_index": 214,
+          "source_page": 2,
+          "bbox_yxyx": [
+            343,
+            42,
+            364,
+            165
+          ],
+          "before": "INF \\rightarrow 2NT - find every partial order on S",
+          "after": "- find every partial dependencies"
+        },
+        {
+          "layout_index": 216,
+          "source_page": 2,
+          "bbox_yxyx": [
+            348,
+            451,
+            367,
+            581
+          ],
+          "before": "ED1 (Phases, OAR, NAR, NAR, NAR) ED2 (Dumbel, Door, Dog-SSN)",
+          "after": "ED2 (Dnumber, Dname, Dmgr_ssn)"
+        },
+        {
+          "layout_index": 217,
+          "source_page": 2,
+          "bbox_yxyx": [
+            355,
+            46,
+            376,
+            170
+          ],
+          "before": "-find every partial repeating -move over and press left -",
+          "after": "- move attr and partial key"
+        },
+        {
+          "layout_index": 218,
+          "source_page": 2,
+          "bbox_yxyx": [
+            357,
+            231,
+            371,
+            322
+          ],
+          "before": "- seasonal dependency",
+          "after": "- transitive dependency"
+        },
+        {
+          "layout_index": 219,
+          "source_page": 2,
+          "bbox_yxyx": [
+            367,
+            49,
+            387,
+            154
+          ],
+          "before": "- move over and press to new, sep one relation",
+          "after": "to new, separate relation"
+        },
+        {
+          "layout_index": 220,
+          "source_page": 2,
+          "bbox_yxyx": [
+            374,
+            245,
+            385,
+            316
+          ],
+          "before": "·, ·, ·, ·, ·, ·",
+          "after": "e.g. A → B,"
+        },
+        {
+          "layout_index": 221,
+          "source_page": 2,
+          "bbox_yxyx": [
+            380,
+            261,
+            401,
+            393
+          ],
+          "before": "a \\rightarrow b, \\quad b \\rightarrow c c \\text{ is transitively dependent on } a \\text{ via } b",
+          "after": "B → C ∴ C is transitively dependent"
+        },
+        {
+          "layout_index": 222,
+          "source_page": 2,
+          "bbox_yxyx": [
+            381,
+            26,
+            403,
+            183
+          ],
+          "before": "as part of precedence due tendencies",
+          "after": "as partial dependencies cause redundancies"
+        },
+        {
+          "layout_index": 223,
+          "source_page": 2,
+          "bbox_yxyx": [
+            395,
+            12,
+            420,
+            197
+          ],
+          "before": "as part of precedence (see below) eg. EMP-PROS(SSN, Phn#, name, email, phone, Practitioner) Maxs (full)",
+          "after": "e.g. EMP-PROJ(SSN, Pnumber, Hours, Ename, Pname, Plocation)"
+        },
+        {
+          "layout_index": 224,
+          "source_page": 2,
+          "bbox_yxyx": [
+            395,
+            278,
+            409,
+            350
+          ],
+          "before": "c is on A vs C",
+          "after": "on A via B"
+        },
+        {
+          "layout_index": 226,
+          "source_page": 2,
+          "bbox_yxyx": [
+            408,
+            15,
+            438,
+            165
+          ],
+          "before": "eg. EMP.PROC(SSN, Phone, Name, Email, Home) FD1: SSN, Phone3· Name (ful) FD2: SSN, Phone· Name (partial)",
+          "after": "FD1: {SSN,Pnumber} → Hours (full)"
+        },
+        {
+          "layout_index": 228,
+          "source_page": 2,
+          "bbox_yxyx": [
+            416,
+            242,
+            436,
+            391
+          ],
+          "before": "already not - no nonprime odd > 1 exist",
+          "after": "- no nonprime attr is transitively"
+        },
+        {
+          "layout_index": 229,
+          "source_page": 2,
+          "bbox_yxyx": [
+            428,
+            15,
+            450,
+            156
+          ],
+          "before": "for: SSN, name for: SSN -> name (partial) - engine",
+          "after": "FD2: SSN → Ename (partial)"
+        },
+        {
+          "layout_index": 230,
+          "source_page": 2,
+          "bbox_yxyx": [
+            431,
+            247,
+            446,
+            344
+          ],
+          "before": "no nonprime on p.v",
+          "after": "dependent on P.K."
+        },
+        {
+          "layout_index": 231,
+          "source_page": 2,
+          "bbox_yxyx": [
+            438,
+            412,
+            459,
+            536
+          ],
+          "before": "- seminot: look at fD set",
+          "after": "- determinant: look at F.D set"
+        },
+        {
+          "layout_index": 232,
+          "source_page": 2,
+          "bbox_yxyx": [
+            439,
+            135,
+            451,
+            189
+          ],
+          "before": "- error depends",
+          "after": "- Ename depends"
+        },
+        {
+          "layout_index": 234,
+          "source_page": 2,
+          "bbox_yxyx": [
+            449,
+            135,
+            459,
+            187
+          ],
+          "before": "mass & gnu",
+          "after": "only on SSN"
+        },
+        {
+          "layout_index": 235,
+          "source_page": 2,
+          "bbox_yxyx": [
+            455,
+            405,
+            472,
+            471
+          ],
+          "before": "- \\(\\frac{\\partial \\mathcal{L}{\\partial \\dot{q}_i} = \\frac{\\partial \\mathcal{L}{\\partial q_i}\\) - \\(\\dot{q}_i = \\frac{\\partial \\mathcal{L}{\\partial \\dot{q}_i}\\)",
+          "after": "to determine"
+        },
+        {
+          "layout_index": 236,
+          "source_page": 2,
+          "bbox_yxyx": [
+            455,
+            471,
+            468,
+            567
+          ],
+          "before": "if LNS is survey",
+          "after": "if LHS is superkey"
+        },
+        {
+          "layout_index": 237,
+          "source_page": 2,
+          "bbox_yxyx": [
+            457,
+            17,
+            476,
+            178
+          ],
+          "before": "(03): P_{mov} \\rightarrow \\text{Some, Boston} (partial)",
+          "after": "FD3: Pnumber → Pname, Plocation (partial)"
+        },
+        {
+          "layout_index": 239,
+          "source_page": 2,
+          "bbox_yxyx": [
+            466,
+            445,
+            481,
+            541
+          ],
+          "before": "- compose - contribute",
+          "after": "- Composite Attribute"
+        },
+        {
+          "layout_index": 240,
+          "source_page": 2,
+          "bbox_yxyx": [
+            468,
+            550,
+            475,
+            583
+          ],
+          "before": "closely",
+          "after": "closure"
+        },
+        {
+          "layout_index": 241,
+          "source_page": 2,
+          "bbox_yxyx": [
+            469,
+            137,
+            483,
+            201
+          ],
+          "before": "they depend on",
+          "after": "- they depend only"
+        },
+        {
+          "layout_index": 242,
+          "source_page": 2,
+          "bbox_yxyx": [
+            473,
+            269,
+            494,
+            400
+          ],
+          "before": "- find furniture - move to this to new (location) - work with some of it",
+          "after": "- move T.D attrs to new relation"
+        },
+        {
+          "layout_index": 243,
+          "source_page": 2,
+          "bbox_yxyx": [
+            481,
+            143,
+            492,
+            190
+          ],
+          "before": "on prompt",
+          "after": "on Pnumber"
+        },
+        {
+          "layout_index": 244,
+          "source_page": 2,
+          "bbox_yxyx": [
+            488,
+            275,
+            504,
+            396
+          ],
+          "before": "move to this along with copy of invoice",
+          "after": "along with copy of intermediate"
+        },
+        {
+          "layout_index": 245,
+          "source_page": 2,
+          "bbox_yxyx": [
+            500,
+            272,
+            512,
+            343
+          ],
+          "before": "determined",
+          "after": "determinant (B)"
+        },
+        {
+          "layout_index": 247,
+          "source_page": 2,
+          "bbox_yxyx": [
+            533,
+            436,
+            546,
+            509
+          ],
+          "before": "- 2NF · 3NF",
+          "after": "- for 2NF → 3NF"
+        },
+        {
+          "layout_index": 248,
+          "source_page": 2,
+          "bbox_yxyx": [
+            538,
+            216,
+            546,
+            237
+          ],
+          "before": "E4 = 1",
+          "after": "Ex.1"
+        },
+        {
+          "layout_index": 249,
+          "source_page": 2,
+          "bbox_yxyx": [
+            544,
+            456,
+            561,
+            549
+          ],
+          "before": "\\[ \\frac{1}{2} \\sin \\theta \\rightarrow \\sin \\theta \\] \\[ = \\text{area} \\quad , \\quad \\text{side} \\quad \\text{of} \\quad \\text{NP} \\]",
+          "after": "- Area, Price are NP"
+        },
+        {
+          "layout_index": 250,
+          "source_page": 2,
+          "bbox_yxyx": [
+            546,
+            21,
+            558,
+            132
+          ],
+          "before": "- Article version of the",
+          "after": "- stricter version of 3NF"
+        },
+        {
+          "layout_index": 251,
+          "source_page": 2,
+          "bbox_yxyx": [
+            547,
+            327,
+            560,
+            391
+          ],
+          "before": "Non prime pms",
+          "after": "Non prime Attrs"
+        },
+        {
+          "layout_index": 252,
+          "source_page": 2,
+          "bbox_yxyx": [
+            551,
+            216,
+            563,
+            275
+          ],
+          "before": "· \\( p_{MN} = \\frac{p_{MNS}}{p_{MM}} \\)",
+          "after": "⇒ Prime Attrs"
+        },
+        {
+          "layout_index": 253,
+          "source_page": 2,
+          "bbox_yxyx": [
+            558,
+            249,
+            572,
+            293
+          ],
+          "before": "Photo's Property",
+          "after": "- Property#"
+        },
+        {
+          "layout_index": 254,
+          "source_page": 2,
+          "bbox_yxyx": [
+            562,
+            331,
+            571,
+            361
+          ],
+          "before": "- pila",
+          "after": "- Area"
+        },
+        {
+          "layout_index": 256,
+          "source_page": 2,
+          "bbox_yxyx": [
+            568,
+            60,
+            581,
+            163
+          ],
+          "before": "infor 2019/2020 to BNF 2020/2021",
+          "after": "when I normalize to 3NF"
+        },
+        {
+          "layout_index": 257,
+          "source_page": 2,
+          "bbox_yxyx": [
+            569,
+            241,
+            584,
+            308
+          ],
+          "before": "- Pope - County - none",
+          "after": "- County-name"
+        },
+        {
+          "layout_index": 258,
+          "source_page": 2,
+          "bbox_yxyx": [
+            571,
+            328,
+            580,
+            367
+          ],
+          "before": "- price - price",
+          "after": "- Price"
+        },
+        {
+          "layout_index": 259,
+          "source_page": 2,
+          "bbox_yxyx": [
+            572,
+            460,
+            597,
+            597
+          ],
+          "before": "· AREA, Price · PID#, Comty, one, Lot#, Area",
+          "after": "① PID#, County-name, Lot#, A"
+        },
+        {
+          "layout_index": 260,
+          "source_page": 2,
+          "bbox_yxyx": [
+            581,
+            63,
+            591,
+            123
+          ],
+          "before": "does it work",
+          "after": "does it always"
+        },
+        {
+          "layout_index": 261,
+          "source_page": 2,
+          "bbox_yxyx": [
+            581,
+            135,
+            589,
+            169
+          ],
+          "before": "go up normalize",
+          "after": "normalize"
+        },
+        {
+          "layout_index": 262,
+          "source_page": 2,
+          "bbox_yxyx": [
+            581,
+            334,
+            593,
+            387
+          ],
+          "before": "= p112 = Tan -1 9/4e",
+          "after": "- Tax_rate"
+        },
+        {
+          "layout_index": 263,
+          "source_page": 2,
+          "bbox_yxyx": [
+            584,
+            232,
+            596,
+            283
+          ],
+          "before": "= (50+2)",
+          "after": "- Lot#"
+        },
+        {
+          "layout_index": 264,
+          "source_page": 2,
+          "bbox_yxyx": [
+            592,
+            63,
+            605,
+            96
+          ],
+          "before": "·····",
+          "after": "to BC"
+        },
+        {
+          "layout_index": 265,
+          "source_page": 2,
+          "bbox_yxyx": [
+            596,
+            435,
+            618,
+            538
+          ],
+          "before": "- writing BCNF",
+          "after": "- Verifying BCNF"
+        },
+        {
+          "layout_index": 266,
+          "source_page": 2,
+          "bbox_yxyx": [
+            603,
+            230,
+            619,
+            291
+          ],
+          "before": "- directly INF",
+          "after": "- already 1NF"
+        },
+        {
+          "layout_index": 267,
+          "source_page": 2,
+          "bbox_yxyx": [
+            611,
+            28,
+            623,
+            141
+          ],
+          "before": "if you're interested",
+          "after": "- if BCNF, no redundancies"
+        },
+        {
+          "layout_index": 268,
+          "source_page": 2,
+          "bbox_yxyx": [
+            616,
+            228,
+            636,
+            310
+          ],
+          "before": "- for INF · 2NF",
+          "after": "- for 1NF → 2NF"
+        },
+        {
+          "layout_index": 269,
+          "source_page": 2,
+          "bbox_yxyx": [
+            630,
+            28,
+            649,
+            129
+          ],
+          "before": "e.g.  65  ×  ·  y",
+          "after": "e.g. for X → Y"
+        },
+        {
+          "layout_index": 270,
+          "source_page": 2,
+          "bbox_yxyx": [
+            630,
+            416,
+            649,
+            572
+          ],
+          "before": "\\[ \\frac{E_{t+2}}{} : \\quad \\rho_{t+1}, \\ell_t, \\ell_t, \\rho_0, \\ell_0, s_{t+2}, s_n, \\ell \\]",
+          "after": "Ex.2: R#, Id, Lt, Ra, ip, S#, Sn, Ck"
+        },
+        {
+          "layout_index": 271,
+          "source_page": 2,
+          "bbox_yxyx": [
+            633,
+            221,
+            653,
+            344
+          ],
+          "before": "f02. D1D \\rightarrow m \\circ \\sigma \\circ \\sigma \\circ \\sigma",
+          "after": "FD2: PID → all other attrs"
+        },
+        {
+          "layout_index": 272,
+          "source_page": 2,
+          "bbox_yxyx": [
+            646,
+            223,
+            667,
+            351
+          ],
+          "before": "f02  D1D ·  m  D0.  D1K f03  Comty-mpc ·  Tax-10K",
+          "after": "FD3: County-name → Tax-rate"
+        },
+        {
+          "layout_index": 273,
+          "source_page": 2,
+          "bbox_yxyx": [
+            647,
+            54,
+            663,
+            136
+          ],
+          "before": "x^3 + x^2 + x + 1",
+          "after": "X is the determinant"
+        },
+        {
+          "layout_index": 274,
+          "source_page": 2,
+          "bbox_yxyx": [
+            647,
+            477,
+            660,
+            513
+          ],
+          "before": "non pire",
+          "after": "Nonprime"
+        },
+        {
+          "layout_index": 275,
+          "source_page": 2,
+          "bbox_yxyx": [
+            653,
+            419,
+            661,
+            438
+          ],
+          "before": "Picard",
+          "after": "Prime"
+        },
+        {
+          "layout_index": 276,
+          "source_page": 2,
+          "bbox_yxyx": [
+            655,
+            528,
+            688,
+            583
+          ],
+          "before": "3 required for INF",
+          "after": "required for 1NF"
+        },
+        {
+          "layout_index": 277,
+          "source_page": 2,
+          "bbox_yxyx": [
+            659,
+            98,
+            674,
+            188
+          ],
+          "before": "Like being sorry for",
+          "after": "the thing doing the"
+        },
+        {
+          "layout_index": 278,
+          "source_page": 2,
+          "bbox_yxyx": [
+            661,
+            477,
+            672,
+            499
+          ],
+          "before": "- \\( \\rho_C \\)",
+          "after": "- Pa"
+        },
+        {
+          "layout_index": 279,
+          "source_page": 2,
+          "bbox_yxyx": [
+            663,
+            223,
+            681,
+            327
+          ],
+          "before": "f_03: \\mathcal{C} \\to \\mathcal{A} f_{04}: \\rho_{03} \\to \\rho_{12}",
+          "after": "FD4: Area → Price"
+        },
+        {
+          "layout_index": 280,
+          "source_page": 2,
+          "bbox_yxyx": [
+            663,
+            421,
+            674,
+            444
+          ],
+          "before": "= p * b",
+          "after": "- P#"
+        },
+        {
+          "layout_index": 281,
+          "source_page": 2,
+          "bbox_yxyx": [
+            671,
+            480,
+            681,
+            500
+          ],
+          "before": "= \\frac{p_2}{c_0}",
+          "after": "- Co"
+        },
+        {
+          "layout_index": 282,
+          "source_page": 2,
+          "bbox_yxyx": [
+            674,
+            110,
+            685,
+            155
+          ],
+          "before": "\"deaths\"",
+          "after": "determining"
+        },
+        {
+          "layout_index": 283,
+          "source_page": 2,
+          "bbox_yxyx": [
+            675,
+            422,
+            686,
+            443
+          ],
+          "before": "- 10",
+          "after": "- Id"
+        },
+        {
+          "layout_index": 284,
+          "source_page": 2,
+          "bbox_yxyx": [
+            682,
+            34,
+            699,
+            179
+          ],
+          "before": "\"deforming\" - to every \\( x \\to y \\) in \\( \\beta \\), \\( x \\) must",
+          "after": "- for every X → Y in R, X must"
+        },
+        {
+          "layout_index": 285,
+          "source_page": 2,
+          "bbox_yxyx": [
+            682,
+            480,
+            691,
+            503
+          ],
+          "before": "\\(\\frac{\\partial}{\\partial t} - \\mathcal{S} \\mathcal{H}\\)",
+          "after": "- S#"
+        },
+        {
+          "layout_index": 286,
+          "source_page": 2,
+          "bbox_yxyx": [
+            685,
+            423,
+            698,
+            446
+          ],
+          "before": "-20 -1t",
+          "after": "- It"
+        },
+        {
+          "layout_index": 288,
+          "source_page": 2,
+          "bbox_yxyx": [
+            693,
+            481,
+            702,
+            501
+          ],
+          "before": "-5",
+          "after": "- Sn"
+        },
+        {
+          "layout_index": 289,
+          "source_page": 2,
+          "bbox_yxyx": [
+            695,
+            231,
+            718,
+            379
+          ],
+          "before": "·  P10#, CN, Lot#, Area, Price",
+          "after": "① PID#, CN, Lot#, Area, Price"
+        },
+        {
+          "layout_index": 290,
+          "source_page": 2,
+          "bbox_yxyx": [
+            696,
+            43,
+            711,
+            169
+          ],
+          "before": "be super easy (using identity",
+          "after": "be superkey (uniquely identify"
+        },
+        {
+          "layout_index": 292,
+          "source_page": 2,
+          "bbox_yxyx": [
+            708,
+            42,
+            719,
+            84
+          ],
+          "before": "On the edge of the world",
+          "after": "every row)"
+        },
+        {
+          "layout_index": 294,
+          "source_page": 2,
+          "bbox_yxyx": [
+            711,
+            352,
+            723,
+            369
+          ],
+          "before": "···· ······",
+          "after": "T.D"
+        },
+        {
+          "layout_index": 295,
+          "source_page": 2,
+          "bbox_yxyx": [
+            713,
+            237,
+            733,
+            337
+          ],
+          "before": "· CN, CN, CN · CN, TOX, CN",
+          "after": "② CN, Tax-rate"
+        },
+        {
+          "layout_index": 296,
+          "source_page": 2,
+          "bbox_yxyx": [
+            715,
+            426,
+            724,
+            459
+          ],
+          "before": "dineoby",
+          "after": "- already"
+        },
+        {
+          "layout_index": 297,
+          "source_page": 2,
+          "bbox_yxyx": [
+            722,
+            357,
+            742,
+            399
+          ],
+          "before": "Locksmith on Pif",
+          "after": "dependent on PID#"
+        },
+        {
+          "layout_index": 298,
+          "source_page": 2,
+          "bbox_yxyx": [
+            725,
+            26,
+            736,
+            68
+          ],
+          "before": "vs. BNF",
+          "after": "- vs. 3NF"
+        },
+        {
+          "layout_index": 299,
+          "source_page": 2,
+          "bbox_yxyx": [
+            729,
+            39,
+            753,
+            189
+          ],
+          "before": "BNF - BNF says non-expanding determinant is okay as long as it",
+          "after": "- 3NF says non-superkey determinant is okay as long as what"
+        },
+        {
+          "layout_index": 300,
+          "source_page": 2,
+          "bbox_yxyx": [
+            741,
+            93,
+            760,
+            174
+          ],
+          "before": "non-exposure",
+          "after": "as long as what"
+        },
+        {
+          "layout_index": 301,
+          "source_page": 2,
+          "bbox_yxyx": [
+            747,
+            52,
+            756,
+            91
+          ],
+          "before": "SNF L4 is away",
+          "after": "is okay"
+        },
+        {
+          "layout_index": 302,
+          "source_page": 2,
+          "bbox_yxyx": [
+            753,
+            50,
+            772,
+            175
+          ],
+          "before": "is only as long as the sum in detemn (4) is part of",
+          "after": "it determines (Y) is part of"
+        },
+        {
+          "layout_index": 303,
+          "source_page": 2,
+          "bbox_yxyx": [
+            766,
+            53,
+            782,
+            171
+          ],
+          "before": "4. delete (y) is to som (u) (ie. pine (u))",
+          "after": "some C.K. (i.e. prime attr)"
+        },
+        {
+          "layout_index": 304,
+          "source_page": 3,
+          "bbox_yxyx": [
+            0,
+            241,
+            28,
+            339
+          ],
+          "before": "· \\( \\xi \\in \\mathbb{T}_d, \\mathbb{Z}^d, (\\mathbb{R}^*)^d \\)",
+          "after": "④ {Id, S#, CR}"
+        },
+        {
+          "layout_index": 306,
+          "source_page": 3,
+          "bbox_yxyx": [
+            17,
+            27,
+            29,
+            101
+          ],
+          "before": "fD2 : \\( p_{\\#} \\to p_{\\#} \\)",
+          "after": "FD2: P# → Pa"
+        },
+        {
+          "layout_index": 307,
+          "source_page": 3,
+          "bbox_yxyx": [
+            19,
+            67,
+            56,
+            187
+          ],
+          "before": "p# · pA position up · 2NF solution (creat the ful 5 Oct table?)",
+          "after": "partial dep → 2NF violation"
+        },
+        {
+          "layout_index": 308,
+          "source_page": 3,
+          "bbox_yxyx": [
+            22,
+            241,
+            48,
+            359
+          ],
+          "before": "· 3, p#, Sd, J+, (0, S#)",
+          "after": "② {P#, Id, It, Co, S#}"
+        },
+        {
+          "layout_index": 309,
+          "source_page": 3,
+          "bbox_yxyx": [
+            27,
+            7,
+            59,
+            56
+          ],
+          "before": "for: to in p.l.",
+          "after": "both NP, so TD on P.K."
+        },
+        {
+          "layout_index": 310,
+          "source_page": 3,
+          "bbox_yxyx": [
+            49,
+            68,
+            65,
+            133
+          ],
+          "before": "(Not all will get, look?)",
+          "after": "(not the full {P#, Id})"
+        },
+        {
+          "layout_index": 312,
+          "source_page": 3,
+          "bbox_yxyx": [
+            54,
+            327,
+            64,
+            348
+          ],
+          "before": "e nek",
+          "after": "3NF"
+        },
+        {
+          "layout_index": 313,
+          "source_page": 3,
+          "bbox_yxyx": [
+            63,
+            33,
+            86,
+            126
+          ],
+          "before": "FOB: S# 35n · 7L",
+          "after": "FD3: S# → Sn"
+        },
+        {
+          "layout_index": 314,
+          "source_page": 3,
+          "bbox_yxyx": [
+            65,
+            213,
+            77,
+            260
+          ],
+          "before": "fD  A · B",
+          "after": "FD: A → B"
+        },
+        {
+          "layout_index": 315,
+          "source_page": 3,
+          "bbox_yxyx": [
+            70,
+            233,
+            90,
+            293
+          ],
+          "before": "A \\rightarrow B \\int B \\text{ is prime} \\text{with a word}",
+          "after": "B is prime"
+        },
+        {
+          "layout_index": 316,
+          "source_page": 3,
+          "bbox_yxyx": [
+            77,
+            326,
+            87,
+            358
+          ],
+          "before": "flowed",
+          "after": "Allowed"
+        },
+        {
+          "layout_index": 317,
+          "source_page": 3,
+          "bbox_yxyx": [
+            77,
+            368,
+            86,
+            401
+          ],
+          "before": "Vibration",
+          "after": "Violation"
+        },
+        {
+          "layout_index": 318,
+          "source_page": 3,
+          "bbox_yxyx": [
+            81,
+            28,
+            101,
+            145
+          ],
+          "before": "\\[ \\mu_3 : S^1 \\to S^1 \\\\ \\mathrm{cod}_u : \\{1, d, s, \\#3\\} \\to \\mathbb{C}R \\]",
+          "after": "FD4: {Id,S#} → CR"
+        },
+        {
+          "layout_index": 319,
+          "source_page": 3,
+          "bbox_yxyx": [
+            87,
+            238,
+            99,
+            308
+          ],
+          "before": "Be not a snob",
+          "after": "A not a superkey"
+        },
+        {
+          "layout_index": 320,
+          "source_page": 3,
+          "bbox_yxyx": [
+            108,
+            19,
+            127,
+            44
+          ],
+          "before": "· ·····",
+          "after": "∴ ①"
+        },
+        {
+          "layout_index": 321,
+          "source_page": 3,
+          "bbox_yxyx": [
+            111,
+            213,
+            126,
+            262
+          ],
+          "before": "fD: fA·fB",
+          "after": "FD: A → B"
+        },
+        {
+          "layout_index": 322,
+          "source_page": 3,
+          "bbox_yxyx": [
+            114,
+            439,
+            131,
+            520
+          ],
+          "before": "R · {A, B, C, D, E, Z}",
+          "after": "R {A,B,C,D,E}"
+        },
+        {
+          "layout_index": 323,
+          "source_page": 3,
+          "bbox_yxyx": [
+            121,
+            29,
+            143,
+            103
+          ],
+          "before": "· ····· · ··p#·T#·t#·c#·s#·s#·s#·c#",
+          "after": "② {P#,Id,It,Co}"
+        },
+        {
+          "layout_index": 324,
+          "source_page": 3,
+          "bbox_yxyx": [
+            122,
+            371,
+            134,
+            391
+          ],
+          "before": "·· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·",
+          "after": "Violation"
+        },
+        {
+          "layout_index": 325,
+          "source_page": 3,
+          "bbox_yxyx": [
+            123,
+            234,
+            149,
+            310
+          ],
+          "before": "If B is negative it is not asymptotic",
+          "after": "B is nonprime; A is not a superkey"
+        },
+        {
+          "layout_index": 326,
+          "source_page": 3,
+          "bbox_yxyx": [
+            125,
+            326,
+            135,
+            358
+          ],
+          "before": "VieYak.com",
+          "after": "Violation"
+        },
+        {
+          "layout_index": 327,
+          "source_page": 3,
+          "bbox_yxyx": [
+            133,
+            432,
+            146,
+            497
+          ],
+          "before": "f_{D1} : A \\longrightarrow B",
+          "after": "FD1: A → B"
+        },
+        {
+          "layout_index": 328,
+          "source_page": 3,
+          "bbox_yxyx": [
+            142,
+            19,
+            163,
+            111
+          ],
+          "before": "- \\( \\forall x \\) \\( 2NF \\rightarrow 3NF \\)",
+          "after": "- for 2NF → 3NF"
+        },
+        {
+          "layout_index": 329,
+          "source_page": 3,
+          "bbox_yxyx": [
+            147,
+            433,
+            161,
+            491
+          ],
+          "before": "fD2   BC · G",
+          "after": "FD2: BC →"
+        },
+        {
+          "layout_index": 330,
+          "source_page": 3,
+          "bbox_yxyx": [
+            161,
+            29,
+            176,
+            64
+          ],
+          "before": "· ···3n^3",
+          "after": "③ {S#}"
+        },
+        {
+          "layout_index": 331,
+          "source_page": 3,
+          "bbox_yxyx": [
+            161,
+            434,
+            176,
+            502
+          ],
+          "before": "f_{03} : \\mathbb{E} \\rightarrow \\mathbb{A}",
+          "after": "FD3: ED → A"
+        },
+        {
+          "layout_index": 332,
+          "source_page": 3,
+          "bbox_yxyx": [
+            170,
+            27,
+            193,
+            153
+          ],
+          "before": "· 5#, 5n3 · 5, p#, I, 14, C#, 5#, CRS",
+          "after": "③ {S#,Sn}; ② {P#,Id,It,Co,S#,CR}"
+        },
+        {
+          "layout_index": 333,
+          "source_page": 3,
+          "bbox_yxyx": [
+            174,
+            437,
+            196,
+            537
+          ],
+          "before": ") Chique Ahi Cosele",
+          "after": "a) Utilize Attr. Closure"
+        },
+        {
+          "layout_index": 334,
+          "source_page": 3,
+          "bbox_yxyx": [
+            175,
+            245,
+            184,
+            265
+          ],
+          "before": "p q",
+          "after": "P P"
+        },
+        {
+          "layout_index": 335,
+          "source_page": 3,
+          "bbox_yxyx": [
+            175,
+            265,
+            185,
+            291
+          ],
+          "before": "RIP ND",
+          "after": "NP NP"
+        },
+        {
+          "layout_index": 337,
+          "source_page": 3,
+          "bbox_yxyx": [
+            185,
+            320,
+            202,
+            394
+          ],
+          "before": "2NF · (removes partial/true functional dependency)",
+          "after": "(requires partial check"
+        },
+        {
+          "layout_index": 338,
+          "source_page": 3,
+          "bbox_yxyx": [
+            186,
+            271,
+            194,
+            290
+          ],
+          "before": "KP KP C D A",
+          "after": "C D"
+        },
+        {
+          "layout_index": 339,
+          "source_page": 3,
+          "bbox_yxyx": [
+            188,
+            242,
+            196,
+            262
+          ],
+          "before": "p m",
+          "after": "A B"
+        },
+        {
+          "layout_index": 340,
+          "source_page": 3,
+          "bbox_yxyx": [
+            192,
+            25,
+            213,
+            113
+          ],
+          "before": "- for 3NF · BCNF",
+          "after": "- for 3NF → BCNF"
+        },
+        {
+          "layout_index": 341,
+          "source_page": 3,
+          "bbox_yxyx": [
+            196,
+            321,
+            208,
+            394
+          ],
+          "before": "Creating a new work of art",
+          "after": "for subset of prime"
+        },
+        {
+          "layout_index": 342,
+          "source_page": 3,
+          "bbox_yxyx": [
+            198,
+            457,
+            212,
+            539
+          ],
+          "before": "\\(\\rightarrow \\mathbb{R}^n: \\xi, \\alpha, \\beta, \\varepsilon \\in \\mathbb{S}\\)",
+          "after": "RHS: {A,B,E}"
+        },
+        {
+          "layout_index": 343,
+          "source_page": 3,
+          "bbox_yxyx": [
+            201,
+            36,
+            227,
+            160
+          ],
+          "before": "for 3NF · BCNF i.e. , S#3 · not a superkey 3NF violation",
+          "after": "{Id,S#} → not a superkey"
+        },
+        {
+          "layout_index": 344,
+          "source_page": 3,
+          "bbox_yxyx": [
+            205,
+            327,
+            217,
+            379
+          ],
+          "before": "6 (without a)",
+          "after": "attributes)"
+        },
+        {
+          "layout_index": 345,
+          "source_page": 3,
+          "bbox_yxyx": [
+            212,
+            477,
+            225,
+            532
+          ],
+          "before": "- as invited",
+          "after": "∴ not included"
+        },
+        {
+          "layout_index": 346,
+          "source_page": 3,
+          "bbox_yxyx": [
+            217,
+            66,
+            235,
+            144
+          ],
+          "before": ", S#3 · not a type BNF union",
+          "after": "∴ BCNF violation"
+        },
+        {
+          "layout_index": 347,
+          "source_page": 3,
+          "bbox_yxyx": [
+            217,
+            319,
+            228,
+            357
+          ],
+          "before": "x",
+          "after": "3NF ✗"
+        },
+        {
+          "layout_index": 348,
+          "source_page": 3,
+          "bbox_yxyx": [
+            223,
+            80,
+            249,
+            168
+          ],
+          "before": "benf uioeetn L> she ras ri p pokas NP otus",
+          "after": "since RHS is P"
+        },
+        {
+          "layout_index": 349,
+          "source_page": 3,
+          "bbox_yxyx": [
+            224,
+            511,
+            236,
+            548
+          ],
+          "before": "\\(\\sum \\in \\{ \\mathbb{D} \\}^*\\)",
+          "after": "{C,D}⁺"
+        },
+        {
+          "layout_index": 350,
+          "source_page": 3,
+          "bbox_yxyx": [
+            241,
+            38,
+            256,
+            147
+          ],
+          "before": "BnF and NP other",
+          "after": "3NF only protects NP attrs"
+        },
+        {
+          "layout_index": 351,
+          "source_page": 3,
+          "bbox_yxyx": [
+            262,
+            64,
+            281,
+            174
+          ],
+          "before": "needs to be included for us",
+          "after": "needs to be included for CK"
+        },
+        {
+          "layout_index": 352,
+          "source_page": 3,
+          "bbox_yxyx": [
+            284,
+            32,
+            303,
+            137
+          ],
+          "before": "\\(\\xi_{A,\\ell,B}^3 \\Rightarrow \\eta_{A,\\ell,\\psi}\\)",
+          "after": "{A,C,D}⁺ ⇒ {A,B,C,D}"
+        },
+        {
+          "layout_index": 353,
+          "source_page": 3,
+          "bbox_yxyx": [
+            304,
+            69,
+            316,
+            148
+          ],
+          "before": "· {A, ·, c, 0, E3}",
+          "after": "⇒ {A,B,C,D,E}"
+        },
+        {
+          "layout_index": 354,
+          "source_page": 3,
+          "bbox_yxyx": [
+            323,
+            26,
+            341,
+            149
+          ],
+          "before": "\\{ \\hat{\\xi}_B, \\hat{\\epsilon}_D \\} \\Rightarrow \\hat{\\xi}_B, \\hat{\\epsilon}_D, \\hat{\\xi}_B",
+          "after": "{B,C,D}⁺ ⇒ {B,C,D,E}"
+        },
+        {
+          "layout_index": 355,
+          "source_page": 3,
+          "bbox_yxyx": [
+            343,
+            76,
+            354,
+            158
+          ],
+          "before": "·  \\( \\exists A, B, C, D, E \\)",
+          "after": "⇒ {A,B,C,D,E}"
+        },
+        {
+          "layout_index": 356,
+          "source_page": 3,
+          "bbox_yxyx": [
+            377,
+            28,
+            389,
+            87
+          ],
+          "before": "\\(\\int_{z \\in C, D, E} \\)",
+          "after": "{C,D,E}"
+        },
+        {
+          "layout_index": 357,
+          "source_page": 3,
+          "bbox_yxyx": [
+            399,
+            26,
+            409,
+            127
+          ],
+          "before": "io el ours quel pain",
+          "after": "b) All attrs are prime"
+        },
+        {
+          "layout_index": 358,
+          "source_page": 3,
+          "bbox_yxyx": [
+            407,
+            47,
+            425,
+            134
+          ],
+          "before": "has not been : already in BNF",
+          "after": "∴ already in 3NF"
+        },
+        {
+          "layout_index": 360,
+          "source_page": 3,
+          "bbox_yxyx": [
+            441,
+            59,
+            452,
+            93
+          ],
+          "before": "p -> b",
+          "after": "A → B"
+        },
+        {
+          "layout_index": 361,
+          "source_page": 3,
+          "bbox_yxyx": [
+            453,
+            61,
+            464,
+            126
+          ],
+          "before": "is not a superior",
+          "after": "not a superkey"
+        },
+        {
+          "layout_index": 362,
+          "source_page": 3,
+          "bbox_yxyx": [
+            466,
+            62,
+            477,
+            95
+          ],
+          "before": "\\[ \\partial_0 \\mathcal{C} \\rightarrow \\mathcal{C} \\]",
+          "after": "BC → E"
+        },
+        {
+          "layout_index": 363,
+          "source_page": 3,
+          "bbox_yxyx": [
+            480,
+            67,
+            490,
+            88
+          ],
+          "before": "··",
+          "after": "→"
+        },
+        {
+          "layout_index": 364,
+          "source_page": 3,
+          "bbox_yxyx": [
+            490,
+            67,
+            500,
+            93
+          ],
+          "before": "ED · A",
+          "after": "ED → A"
+        }
+      ]
+    },
+    "notes": {
+      "source": "examples/notes.pdf",
+      "source_sha256": "9f8b51474d5a8fef1745d6754f803e5879fb81f308d741e080e3ea3441f6e442",
+      "original_fixture_sha256": "4407196345abfde22a32d64e0a06ac10d3b231c2a45574d26a6882596b98d18c",
+      "corrected_fixture_sha256": "7d0a540c88e96f8016f4c43890fa63e176e831d4a6337394fb1ce749d52fb41f",
+      "reviewed_layout_blocks": 477,
+      "changes": [
+        {
+          "layout_index": 0,
+          "source_page": 1,
+          "bbox_yxyx": [
+            18,
+            16,
+            42,
+            268
+          ],
+          "before": "- PK can have null value",
+          "after": "- FK can have null value"
+        },
+        {
+          "layout_index": 3,
+          "source_page": 1,
+          "bbox_yxyx": [
+            152,
+            43,
+            176,
+            186
+          ],
+          "before": "- F.U approach",
+          "after": "- F.K approach"
+        },
+        {
+          "layout_index": 7,
+          "source_page": 1,
+          "bbox_yxyx": [
+            308,
+            19,
+            340,
+            232
+          ],
+          "before": "(1) F.U approach",
+          "after": "① F.K approach"
+        },
+        {
+          "layout_index": 8,
+          "source_page": 1,
+          "bbox_yxyx": [
+            308,
+            429,
+            335,
+            559
+          ],
+          "before": "[Diagram]",
+          "after": "Cross Ref also"
+        },
+        {
+          "layout_index": 9,
+          "source_page": 1,
+          "bbox_yxyx": [
+            333,
+            429,
+            362,
+            564
+          ],
+          "before": "S 1",
+          "after": "applies here"
+        },
+        {
+          "layout_index": 10,
+          "source_page": 1,
+          "bbox_yxyx": [
+            339,
+            171,
+            432,
+            248
+          ],
+          "before": "|",
+          "after": "R; a₁"
+        },
+        {
+          "layout_index": 11,
+          "source_page": 1,
+          "bbox_yxyx": [
+            362,
+            409,
+            418,
+            589
+          ],
+          "before": "|--- R",
+          "after": "merge-rel can work here with P.K from"
+        },
+        {
+          "layout_index": 12,
+          "source_page": 1,
+          "bbox_yxyx": [
+            401,
+            169,
+            429,
+            198
+          ],
+          "before": "|     |",
+          "after": "a₁"
+        },
+        {
+          "layout_index": 13,
+          "source_page": 1,
+          "bbox_yxyx": [
+            409,
+            413,
+            441,
+            570
+          ],
+          "before": "|     a_1 ... a_n",
+          "after": "both participations"
+        },
+        {
+          "layout_index": 14,
+          "source_page": 1,
+          "bbox_yxyx": [
+            431,
+            456,
+            455,
+            582
+          ],
+          "before": "|     |",
+          "after": "- not desired"
+        },
+        {
+          "layout_index": 15,
+          "source_page": 1,
+          "bbox_yxyx": [
+            466,
+            339,
+            496,
+            551
+          ],
+          "before": "|--- T",
+          "after": "PK(T) | a₁ | ... | aₙ"
+        },
+        {
+          "layout_index": 16,
+          "source_page": 1,
+          "bbox_yxyx": [
+            469,
+            182,
+            500,
+            319
+          ],
+          "before": "Cross Ref also applies here",
+          "after": "S | PK(S) | ..."
+        },
+        {
+          "layout_index": 17,
+          "source_page": 1,
+          "bbox_yxyx": [
+            520,
+            19,
+            616,
+            345
+          ],
+          "before": "merge-ru can work here with F.U from both participations - not desired",
+          "after": "② Merge-relation"
+        },
+        {
+          "layout_index": 18,
+          "source_page": 1,
+          "bbox_yxyx": [
+            599,
+            86,
+            639,
+            130
+          ],
+          "before": "S | PK(S) | .. | PK(T) | a_1 | .. | a_n",
+          "after": "S"
+        },
+        {
+          "layout_index": 19,
+          "source_page": 1,
+          "bbox_yxyx": [
+            604,
+            154,
+            637,
+            224
+          ],
+          "before": "T | PK(S) | ... | T |",
+          "after": "R"
+        },
+        {
+          "layout_index": 20,
+          "source_page": 1,
+          "bbox_yxyx": [
+            618,
+            427,
+            657,
+            542
+          ],
+          "before": "(2) Merge-relation",
+          "after": "be either one"
+        },
+        {
+          "layout_index": 21,
+          "source_page": 1,
+          "bbox_yxyx": [
+            629,
+            337,
+            650,
+            387
+          ],
+          "before": "[Diagram]",
+          "after": "F.K"
+        },
+        {
+          "layout_index": 22,
+          "source_page": 1,
+          "bbox_yxyx": [
+            632,
+            387,
+            651,
+            413
+          ],
+          "before": "S 1",
+          "after": "can"
+        },
+        {
+          "layout_index": 23,
+          "source_page": 1,
+          "bbox_yxyx": [
+            656,
+            152,
+            673,
+            171
+          ],
+          "before": "| |--- R",
+          "after": "a₁"
+        },
+        {
+          "layout_index": 24,
+          "source_page": 1,
+          "bbox_yxyx": [
+            665,
+            37,
+            695,
+            128
+          ],
+          "before": "|     |",
+          "after": "F.K applies"
+        },
+        {
+          "layout_index": 25,
+          "source_page": 1,
+          "bbox_yxyx": [
+            678,
+            37,
+            722,
+            150
+          ],
+          "before": "|     a_1 ... a_n",
+          "after": "to second case"
+        },
+        {
+          "layout_index": 26,
+          "source_page": 1,
+          "bbox_yxyx": [
+            707,
+            50,
+            742,
+            126
+          ],
+          "before": "|     |",
+          "after": "as well"
+        },
+        {
+          "layout_index": 27,
+          "source_page": 1,
+          "bbox_yxyx": [
+            711,
+            215,
+            738,
+            545
+          ],
+          "before": "|--- T",
+          "after": "ST | PK(S) | PK(T) | ... | a₁ | ... | aₙ"
+        },
+        {
+          "layout_index": 28,
+          "source_page": 1,
+          "bbox_yxyx": [
+            725,
+            32,
+            766,
+            170
+          ],
+          "before": "PK can be either one S T | PK(S) | PK(T) | ... | a_1 | ... | a_n",
+          "after": "Cross Ref can also"
+        },
+        {
+          "layout_index": 29,
+          "source_page": 1,
+          "bbox_yxyx": [
+            749,
+            231,
+            774,
+            374
+          ],
+          "before": "(since it's 1:1) fu applies to second case as well",
+          "after": "(since its 1:1)"
+        },
+        {
+          "layout_index": 30,
+          "source_page": 1,
+          "bbox_yxyx": [
+            750,
+            53,
+            788,
+            138
+          ],
+          "before": "Cross Ref can also apply here",
+          "after": "apply here"
+        },
+        {
+          "layout_index": 32,
+          "source_page": 2,
+          "bbox_yxyx": [
+            60,
+            400,
+            87,
+            540
+          ],
+          "before": "for approach can",
+          "after": "F.K approach can"
+        },
+        {
+          "layout_index": 34,
+          "source_page": 2,
+          "bbox_yxyx": [
+            100,
+            183,
+            132,
+            224
+          ],
+          "before": "\\(\\frac{1}{R}\\)",
+          "after": "R"
+        },
+        {
+          "layout_index": 35,
+          "source_page": 2,
+          "bbox_yxyx": [
+            153,
+            229,
+            179,
+            268
+          ],
+          "before": "\\( a_n \\)",
+          "after": "aₙ"
+        },
+        {
+          "layout_index": 36,
+          "source_page": 2,
+          "bbox_yxyx": [
+            159,
+            155,
+            184,
+            179
+          ],
+          "before": "a",
+          "after": "a₁"
+        },
+        {
+          "layout_index": 38,
+          "source_page": 2,
+          "bbox_yxyx": [
+            171,
+            446,
+            217,
+            580
+          ],
+          "before": "f/n approach can also apply here",
+          "after": "merge-relation"
+        },
+        {
+          "layout_index": 39,
+          "source_page": 2,
+          "bbox_yxyx": [
+            200,
+            446,
+            238,
+            594
+          ],
+          "before": "can't have merge-relation here, could have nul values from either S or T",
+          "after": "here, could have"
+        },
+        {
+          "layout_index": 40,
+          "source_page": 2,
+          "bbox_yxyx": [
+            226,
+            191,
+            258,
+            274
+          ],
+          "before": "\\( \\frac{S}{\\operatorname{Pv}(S)} \\)",
+          "after": "S | PK(S)"
+        },
+        {
+          "layout_index": 42,
+          "source_page": 2,
+          "bbox_yxyx": [
+            249,
+            450,
+            287,
+            593
+          ],
+          "before": "either one can be unique.",
+          "after": "from either S or T"
+        },
+        {
+          "layout_index": 43,
+          "source_page": 2,
+          "bbox_yxyx": [
+            278,
+            219,
+            305,
+            278
+          ],
+          "before": "\\[ \\frac{\\rho_{K}(T)}{1} \\]",
+          "after": "PK(T)"
+        },
+        {
+          "layout_index": 44,
+          "source_page": 2,
+          "bbox_yxyx": [
+            329,
+            189,
+            360,
+            408
+          ],
+          "before": "if combo is unique, eNV is unique",
+          "after": "R | PK(S) | PK(T) | a₁ | ..."
+        },
+        {
+          "layout_index": 45,
+          "source_page": 2,
+          "bbox_yxyx": [
+            333,
+            412,
+            357,
+            447
+          ],
+          "before": "\\(\\int a_n\\)",
+          "after": "aₙ"
+        },
+        {
+          "layout_index": 46,
+          "source_page": 2,
+          "bbox_yxyx": [
+            338,
+            61,
+            359,
+            107
+          ],
+          "before": "@ilks",
+          "after": "either"
+        },
+        {
+          "layout_index": 50,
+          "source_page": 2,
+          "bbox_yxyx": [
+            432,
+            63,
+            459,
+            195
+          ],
+          "before": "Since 1:1",
+          "after": "either is unique"
+        },
+        {
+          "layout_index": 51,
+          "source_page": 2,
+          "bbox_yxyx": [
+            462,
+            84,
+            480,
+            165
+          ],
+          "before": "Sinul Lin",
+          "after": "Since 1:1"
+        },
+        {
+          "layout_index": 52,
+          "source_page": 3,
+          "bbox_yxyx": [
+            5,
+            116,
+            49,
+            355
+          ],
+          "before": "Mapping of Binary 1:N Relationship Sets",
+          "after": "of Binary 1:N Relationship"
+        },
+        {
+          "layout_index": 53,
+          "source_page": 3,
+          "bbox_yxyx": [
+            17,
+            375,
+            32,
+            413
+          ],
+          "before": "Sett",
+          "after": "Sets"
+        },
+        {
+          "layout_index": 54,
+          "source_page": 3,
+          "bbox_yxyx": [
+            26,
+            30,
+            51,
+            97
+          ],
+          "before": "Account #  Bname  City",
+          "after": "Mapping"
+        },
+        {
+          "layout_index": 55,
+          "source_page": 3,
+          "bbox_yxyx": [
+            58,
+            298,
+            80,
+            352
+          ],
+          "before": "Brave",
+          "after": "Bname"
+        },
+        {
+          "layout_index": 59,
+          "source_page": 3,
+          "bbox_yxyx": [
+            121,
+            221,
+            135,
+            243
+          ],
+          "before": "suqes",
+          "after": "has"
+        },
+        {
+          "layout_index": 61,
+          "source_page": 3,
+          "bbox_yxyx": [
+            179,
+            117,
+            209,
+            169
+          ],
+          "before": "Bqian e",
+          "after": "Bname"
+        },
+        {
+          "layout_index": 62,
+          "source_page": 3,
+          "bbox_yxyx": [
+            213,
+            371,
+            243,
+            503
+          ],
+          "before": "Account    Branch",
+          "after": "Bname | Bname"
+        },
+        {
+          "layout_index": 63,
+          "source_page": 3,
+          "bbox_yxyx": [
+            219,
+            305,
+            246,
+            365
+          ],
+          "before": "Branch",
+          "after": "Acct#"
+        },
+        {
+          "layout_index": 64,
+          "source_page": 3,
+          "bbox_yxyx": [
+            231,
+            251,
+            254,
+            295
+          ],
+          "before": "Account  [Account#  Bname]  Bname",
+          "after": "Acct"
+        },
+        {
+          "layout_index": 65,
+          "source_page": 3,
+          "bbox_yxyx": [
+            265,
+            88,
+            285,
+            125
+          ],
+          "before": "sinc",
+          "after": "Since"
+        },
+        {
+          "layout_index": 68,
+          "source_page": 3,
+          "bbox_yxyx": [
+            397,
+            105,
+            445,
+            559
+          ],
+          "before": "- always create separate table for relationship set if M:N",
+          "after": "- always create separate table for relationship"
+        },
+        {
+          "layout_index": 69,
+          "source_page": 3,
+          "bbox_yxyx": [
+            442,
+            124,
+            468,
+            285
+          ],
+          "before": "set if min",
+          "after": "set if M:N"
+        },
+        {
+          "layout_index": 70,
+          "source_page": 3,
+          "bbox_yxyx": [
+            462,
+            313,
+            497,
+            497
+          ],
+          "before": "- relationship attr can't be shifted",
+          "after": "can't be shifted"
+        },
+        {
+          "layout_index": 71,
+          "source_page": 3,
+          "bbox_yxyx": [
+            476,
+            113,
+            506,
+            309
+          ],
+          "before": "- relationships after",
+          "after": "- relationship attr"
+        },
+        {
+          "layout_index": 72,
+          "source_page": 3,
+          "bbox_yxyx": [
+            515,
+            340,
+            544,
+            428
+          ],
+          "before": "\\[ \\int \\sqrt{p_{\\mathcal{R}}(cs)} \\, ds \\]",
+          "after": "S | PK(S)"
+        },
+        {
+          "layout_index": 73,
+          "source_page": 3,
+          "bbox_yxyx": [
+            569,
+            366,
+            595,
+            469
+          ],
+          "before": "S  [PK(S)]",
+          "after": "PK(T)"
+        },
+        {
+          "layout_index": 74,
+          "source_page": 3,
+          "bbox_yxyx": [
+            609,
+            207,
+            630,
+            229
+          ],
+          "before": "\\(\\theta_n\\)",
+          "after": "aₙ"
+        },
+        {
+          "layout_index": 75,
+          "source_page": 3,
+          "bbox_yxyx": [
+            610,
+            126,
+            633,
+            147
+          ],
+          "before": "q_1",
+          "after": "a₁"
+        },
+        {
+          "layout_index": 76,
+          "source_page": 3,
+          "bbox_yxyx": [
+            626,
+            357,
+            654,
+            505
+          ],
+          "before": "\\[ \\begin{array}{|c|c|c|} \\hline p_{K}(S) & p_{K}(T) & a_1 \\\\ \\hline \\end{array} \\]",
+          "after": "PK(S) | PK(T) | a₁"
+        },
+        {
+          "layout_index": 78,
+          "source_page": 3,
+          "bbox_yxyx": [
+            636,
+            553,
+            650,
+            574
+          ],
+          "before": "\\( \\alpha_n \\)",
+          "after": "aₙ"
+        },
+        {
+          "layout_index": 79,
+          "source_page": 3,
+          "bbox_yxyx": [
+            667,
+            156,
+            693,
+            259
+          ],
+          "before": "T  [PK(T)]",
+          "after": "Can't apply"
+        },
+        {
+          "layout_index": 80,
+          "source_page": 3,
+          "bbox_yxyx": [
+            695,
+            152,
+            725,
+            366
+          ],
+          "before": "R  [PK(S)  PK(T)  a_1 ... a_n]",
+          "after": "F.K approach here since"
+        },
+        {
+          "layout_index": 81,
+          "source_page": 3,
+          "bbox_yxyx": [
+            704,
+            151,
+            756,
+            507
+          ],
+          "before": "Can't apply FK approach here since it could create circular dependency",
+          "after": "it could create circular dependency"
+        },
+        {
+          "layout_index": 82,
+          "source_page": 4,
+          "bbox_yxyx": [
+            13,
+            144,
+            45,
+            377
+          ],
+          "before": "# Mapping of Multivalued Attributes",
+          "after": "of Multivalued Attributes"
+        },
+        {
+          "layout_index": 83,
+          "source_page": 4,
+          "bbox_yxyx": [
+            22,
+            50,
+            51,
+            127
+          ],
+          "before": "Employee",
+          "after": "Mapping"
+        },
+        {
+          "layout_index": 85,
+          "source_page": 4,
+          "bbox_yxyx": [
+            90,
+            297,
+            121,
+            350
+          ],
+          "before": "·",
+          "after": "Employee"
+        },
+        {
+          "layout_index": 86,
+          "source_page": 4,
+          "bbox_yxyx": [
+            90,
+            436,
+            113,
+            464
+          ],
+          "before": "y",
+          "after": "x"
+        },
+        {
+          "layout_index": 87,
+          "source_page": 4,
+          "bbox_yxyx": [
+            115,
+            108,
+            140,
+            188
+          ],
+          "before": "dependent",
+          "after": "Employee"
+        },
+        {
+          "layout_index": 89,
+          "source_page": 4,
+          "bbox_yxyx": [
+            176,
+            108,
+            202,
+            195
+          ],
+          "before": "Employee",
+          "after": "dependent"
+        },
+        {
+          "layout_index": 92,
+          "source_page": 4,
+          "bbox_yxyx": [
+            229,
+            253,
+            254,
+            336
+          ],
+          "before": "SSN | · | y",
+          "after": "alternatively"
+        },
+        {
+          "layout_index": 93,
+          "source_page": 4,
+          "bbox_yxyx": [
+            247,
+            515,
+            262,
+            550
+          ],
+          "before": "p.vc",
+          "after": "P.K"
+        },
+        {
+          "layout_index": 95,
+          "source_page": 4,
+          "bbox_yxyx": [
+            278,
+            234,
+            304,
+            290
+          ],
+          "before": "\\[\\int \\frac{ss}{n}\\]",
+          "after": "SSN"
+        },
+        {
+          "layout_index": 96,
+          "source_page": 4,
+          "bbox_yxyx": [
+            274,
+            290,
+            312,
+            364
+          ],
+          "before": "Dependent",
+          "after": "x | y"
+        },
+        {
+          "layout_index": 97,
+          "source_page": 4,
+          "bbox_yxyx": [
+            280,
+            364,
+            316,
+            517
+          ],
+          "before": "ESSN | Dependent Name",
+          "after": "Dependent Name"
+        },
+        {
+          "layout_index": 98,
+          "source_page": 4,
+          "bbox_yxyx": [
+            316,
+            288,
+            342,
+            406
+          ],
+          "before": "Combination to form P.K",
+          "after": "required to"
+        },
+        {
+          "layout_index": 99,
+          "source_page": 4,
+          "bbox_yxyx": [
+            322,
+            408,
+            343,
+            467
+          ],
+          "before": "E-D",
+          "after": "repeat"
+        },
+        {
+          "layout_index": 100,
+          "source_page": 4,
+          "bbox_yxyx": [
+            336,
+            294,
+            380,
+            474
+          ],
+          "before": "SSN | · | y | Dependent Name X",
+          "after": "x and y for each"
+        },
+        {
+          "layout_index": 101,
+          "source_page": 4,
+          "bbox_yxyx": [
+            366,
+            268,
+            397,
+            479
+          ],
+          "before": "required to repeat · and y for each dependent, not ideal",
+          "after": "dependent, not ideal"
+        },
+        {
+          "layout_index": 102,
+          "source_page": 4,
+          "bbox_yxyx": [
+            426,
+            217,
+            459,
+            443
+          ],
+          "before": "# Mapping of N-ary relationship sets",
+          "after": "N-ary relationship sets"
+        },
+        {
+          "layout_index": 103,
+          "source_page": 4,
+          "bbox_yxyx": [
+            430,
+            83,
+            456,
+            137
+          ],
+          "before": "Supplier",
+          "after": "Mapping"
+        },
+        {
+          "layout_index": 104,
+          "source_page": 4,
+          "bbox_yxyx": [
+            535,
+            67,
+            562,
+            131
+          ],
+          "before": "m",
+          "after": "Supplier"
+        },
+        {
+          "layout_index": 105,
+          "source_page": 4,
+          "bbox_yxyx": [
+            535,
+            236,
+            565,
+            294
+          ],
+          "before": "supply m",
+          "after": "Supply"
+        },
+        {
+          "layout_index": 106,
+          "source_page": 4,
+          "bbox_yxyx": [
+            541,
+            400,
+            569,
+            447
+          ],
+          "before": "m",
+          "after": "Project"
+        },
+        {
+          "layout_index": 108,
+          "source_page": 4,
+          "bbox_yxyx": [
+            635,
+            266,
+            661,
+            312
+          ],
+          "before": "Part Project",
+          "after": "Part"
+        },
+        {
+          "layout_index": 110,
+          "source_page": 5,
+          "bbox_yxyx": [
+            53,
+            112,
+            84,
+            473
+          ],
+          "before": "- must have tables for each strong entity sets",
+          "after": "- must have tables for each strong"
+        },
+        {
+          "layout_index": 111,
+          "source_page": 5,
+          "bbox_yxyx": [
+            87,
+            119,
+            109,
+            260
+          ],
+          "before": "- primarily creating the relationship set to a separate table",
+          "after": "entity sets"
+        },
+        {
+          "layout_index": 112,
+          "source_page": 5,
+          "bbox_yxyx": [
+            98,
+            115,
+            192,
+            546
+          ],
+          "before": "![Entity-Relationship diagram showing relationships between EMPLOYEE, DEPARTMENT, PROJECT, DEPENDENT, and SUPERVISION](page_320_624_704_480.png)",
+          "after": "- primarily creating the relationship set to a separate table"
+        },
+        {
+          "layout_index": 113,
+          "source_page": 5,
+          "bbox_yxyx": [
+            347,
+            101,
+            354,
+            122
+          ],
+          "before": "Fruitmo",
+          "after": "Fname"
+        },
+        {
+          "layout_index": 114,
+          "source_page": 5,
+          "bbox_yxyx": [
+            347,
+            407,
+            355,
+            429
+          ],
+          "before": "Hunter",
+          "after": "Number"
+        },
+        {
+          "layout_index": 117,
+          "source_page": 5,
+          "bbox_yxyx": [
+            364,
+            307,
+            374,
+            346
+          ],
+          "before": "WORKS FOR",
+          "after": "WORKS_FOR"
+        },
+        {
+          "layout_index": 118,
+          "source_page": 5,
+          "bbox_yxyx": [
+            367,
+            385,
+            376,
+            407
+          ],
+          "before": "Home",
+          "after": "Name"
+        },
+        {
+          "layout_index": 126,
+          "source_page": 5,
+          "bbox_yxyx": [
+            459,
+            295,
+            468,
+            318
+          ],
+          "before": "Haus",
+          "after": "Hours"
+        },
+        {
+          "layout_index": 134,
+          "source_page": 6,
+          "bbox_yxyx": [
+            80,
+            99,
+            87,
+            138
+          ],
+          "before": "EMPLOYEE FNAME  MINIT  LNAME  SSN  BOATE  ADDRESS  SEX  SALARY  SUPERSSN  DNO",
+          "after": "EMPLOYEE"
+        },
+        {
+          "layout_index": 135,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            108,
+            104,
+            130
+          ],
+          "before": "DEPARTMENT",
+          "after": "FNAME"
+        },
+        {
+          "layout_index": 136,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            148,
+            104,
+            165
+          ],
+          "before": "DNAME DNUMBER MGRSSN MGRSTARTDATE",
+          "after": "MINIT"
+        },
+        {
+          "layout_index": 137,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            181,
+            104,
+            204
+          ],
+          "before": "DEPT_LOCATIONS",
+          "after": "LNAME"
+        },
+        {
+          "layout_index": 138,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            252,
+            104,
+            275
+          ],
+          "before": "DNUMBER  DLOCATION",
+          "after": "BDATE"
+        },
+        {
+          "layout_index": 139,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            291,
+            104,
+            320
+          ],
+          "before": "PROJECT",
+          "after": "ADDRESS"
+        },
+        {
+          "layout_index": 140,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            335,
+            104,
+            349
+          ],
+          "before": "PNAME PNUMBER PLOCATION DNUM",
+          "after": "SEX"
+        },
+        {
+          "layout_index": 141,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            361,
+            104,
+            387
+          ],
+          "before": "WORKS_ON ESSN  PNO  HOURS",
+          "after": "SALARY"
+        },
+        {
+          "layout_index": 142,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            402,
+            104,
+            437
+          ],
+          "before": "DEPENDENT ESSN  DEPENDENT_NAME  SEX  BOATE  RELATIONSHIP",
+          "after": "SUPERSSN"
+        },
+        {
+          "layout_index": 143,
+          "source_page": 6,
+          "bbox_yxyx": [
+            95,
+            450,
+            104,
+            468
+          ],
+          "before": "Customer",
+          "after": "DNO"
+        },
+        {
+          "layout_index": 144,
+          "source_page": 6,
+          "bbox_yxyx": [
+            96,
+            221,
+            104,
+            235
+          ],
+          "before": "<table>",
+          "after": "SSN"
+        },
+        {
+          "layout_index": 145,
+          "source_page": 6,
+          "bbox_yxyx": [
+            125,
+            207,
+            134,
+            254
+          ],
+          "before": "<tr>",
+          "after": "DEPARTMENT"
+        },
+        {
+          "layout_index": 146,
+          "source_page": 6,
+          "bbox_yxyx": [
+            138,
+            255,
+            148,
+            288
+          ],
+          "before": "<th>SSN</th>",
+          "after": "DNUMBER"
+        },
+        {
+          "layout_index": 147,
+          "source_page": 6,
+          "bbox_yxyx": [
+            139,
+            212,
+            148,
+            236
+          ],
+          "before": "<th>Name</th>",
+          "after": "DNAME"
+        },
+        {
+          "layout_index": 148,
+          "source_page": 6,
+          "bbox_yxyx": [
+            139,
+            303,
+            148,
+            332
+          ],
+          "before": "</tr>",
+          "after": "MGRSSN"
+        },
+        {
+          "layout_index": 149,
+          "source_page": 6,
+          "bbox_yxyx": [
+            140,
+            354,
+            149,
+            405
+          ],
+          "before": "</table>",
+          "after": "MGRSTARTDATE"
+        },
+        {
+          "layout_index": 150,
+          "source_page": 6,
+          "bbox_yxyx": [
+            174,
+            209,
+            183,
+            270
+          ],
+          "before": "Loan",
+          "after": "DEPT_LOCATIONS"
+        },
+        {
+          "layout_index": 151,
+          "source_page": 6,
+          "bbox_yxyx": [
+            188,
+            217,
+            197,
+            250
+          ],
+          "before": "<table>",
+          "after": "DNUMBER"
+        },
+        {
+          "layout_index": 152,
+          "source_page": 6,
+          "bbox_yxyx": [
+            188,
+            275,
+            197,
+            313
+          ],
+          "before": "<tr>",
+          "after": "DLOCATION"
+        },
+        {
+          "layout_index": 153,
+          "source_page": 6,
+          "bbox_yxyx": [
+            219,
+            183,
+            227,
+            216
+          ],
+          "before": "<th>Loan#</th>",
+          "after": "PROJECT"
+        },
+        {
+          "layout_index": 154,
+          "source_page": 6,
+          "bbox_yxyx": [
+            232,
+            240,
+            243,
+            273
+          ],
+          "before": "<th>Amount</th>",
+          "after": "PNUMBER"
+        },
+        {
+          "layout_index": 155,
+          "source_page": 6,
+          "bbox_yxyx": [
+            233,
+            194,
+            241,
+            218
+          ],
+          "before": "</tr>",
+          "after": "PNAME"
+        },
+        {
+          "layout_index": 156,
+          "source_page": 6,
+          "bbox_yxyx": [
+            233,
+            300,
+            241,
+            337
+          ],
+          "before": "</table>",
+          "after": "PLOCATION"
+        },
+        {
+          "layout_index": 157,
+          "source_page": 6,
+          "bbox_yxyx": [
+            233,
+            364,
+            241,
+            384
+          ],
+          "before": "Borrows",
+          "after": "DNUM"
+        },
+        {
+          "layout_index": 158,
+          "source_page": 6,
+          "bbox_yxyx": [
+            261,
+            238,
+            270,
+            282
+          ],
+          "before": "<table>",
+          "after": "WORKS_ON"
+        },
+        {
+          "layout_index": 159,
+          "source_page": 6,
+          "bbox_yxyx": [
+            277,
+            302,
+            285,
+            327
+          ],
+          "before": "<tr>",
+          "after": "HOURS"
+        },
+        {
+          "layout_index": 160,
+          "source_page": 6,
+          "bbox_yxyx": [
+            278,
+            238,
+            285,
+            255
+          ],
+          "before": "<th>PK(C)</th>",
+          "after": "ESSN"
+        },
+        {
+          "layout_index": 161,
+          "source_page": 6,
+          "bbox_yxyx": [
+            278,
+            270,
+            285,
+            285
+          ],
+          "before": "<th>PK(L)</th>",
+          "after": "PNO"
+        },
+        {
+          "layout_index": 162,
+          "source_page": 6,
+          "bbox_yxyx": [
+            302,
+            192,
+            312,
+            236
+          ],
+          "before": "</tr>",
+          "after": "DEPENDENT"
+        },
+        {
+          "layout_index": 163,
+          "source_page": 6,
+          "bbox_yxyx": [
+            319,
+            231,
+            327,
+            290
+          ],
+          "before": "</table>",
+          "after": "DEPENDENT_NAME"
+        },
+        {
+          "layout_index": 164,
+          "source_page": 6,
+          "bbox_yxyx": [
+            319,
+            321,
+            326,
+            337
+          ],
+          "before": "Loan Office",
+          "after": "SEX"
+        },
+        {
+          "layout_index": 165,
+          "source_page": 6,
+          "bbox_yxyx": [
+            319,
+            353,
+            327,
+            376
+          ],
+          "before": "<table>",
+          "after": "BDATE"
+        },
+        {
+          "layout_index": 166,
+          "source_page": 6,
+          "bbox_yxyx": [
+            319,
+            406,
+            326,
+            450
+          ],
+          "before": "<tr>",
+          "after": "RELATIONSHIP"
+        },
+        {
+          "layout_index": 167,
+          "source_page": 6,
+          "bbox_yxyx": [
+            319,
+            186,
+            326,
+            204
+          ],
+          "before": "<th>PK(E)</th>",
+          "after": "ESSN"
+        },
+        {
+          "layout_index": 168,
+          "source_page": 6,
+          "bbox_yxyx": [
+            406,
+            51,
+            439,
+            172
+          ],
+          "before": "<th>PK(D)</th>",
+          "after": "Customer | SSN"
+        },
+        {
+          "layout_index": 169,
+          "source_page": 6,
+          "bbox_yxyx": [
+            406,
+            221,
+            421,
+            264
+          ],
+          "before": "</tr>",
+          "after": "Name"
+        },
+        {
+          "layout_index": 170,
+          "source_page": 6,
+          "bbox_yxyx": [
+            466,
+            210,
+            488,
+            264
+          ],
+          "before": "</table>",
+          "after": "Amount"
+        },
+        {
+          "layout_index": 171,
+          "source_page": 6,
+          "bbox_yxyx": [
+            474,
+            151,
+            487,
+            186
+          ],
+          "before": "Employee",
+          "after": "Loan#"
+        },
+        {
+          "layout_index": 172,
+          "source_page": 6,
+          "bbox_yxyx": [
+            671,
+            368,
+            770,
+            588
+          ],
+          "before": "Law Ofice [PK(E) | PK(A)] If joint participation between borowers and law ofices, then can remove borowers for redundancy",
+          "after": "can remove borrows for redundancy"
+        },
+        {
+          "layout_index": 173,
+          "source_page": 6,
+          "bbox_yxyx": [
+            476,
+            71,
+            489,
+            105
+          ],
+          "before": "<table>",
+          "after": "Loan"
+        },
+        {
+          "layout_index": 174,
+          "source_page": 6,
+          "bbox_yxyx": [
+            535,
+            211,
+            557,
+            240
+          ],
+          "before": "<tr>",
+          "after": "PK(L)"
+        },
+        {
+          "layout_index": 175,
+          "source_page": 6,
+          "bbox_yxyx": [
+            536,
+            152,
+            558,
+            193
+          ],
+          "before": "<th>ESSN</th>",
+          "after": "PK(C)"
+        },
+        {
+          "layout_index": 176,
+          "source_page": 6,
+          "bbox_yxyx": [
+            539,
+            61,
+            562,
+            115
+          ],
+          "before": "<th>Name</th>",
+          "after": "Borrows"
+        },
+        {
+          "layout_index": 177,
+          "source_page": 6,
+          "bbox_yxyx": [
+            607,
+            59,
+            637,
+            120
+          ],
+          "before": "<th>Addr</th>",
+          "after": "Employee"
+        },
+        {
+          "layout_index": 178,
+          "source_page": 6,
+          "bbox_yxyx": [
+            616,
+            159,
+            630,
+            195
+          ],
+          "before": "</tr>",
+          "after": "ESSN"
+        },
+        {
+          "layout_index": 179,
+          "source_page": 6,
+          "bbox_yxyx": [
+            617,
+            217,
+            636,
+            259
+          ],
+          "before": "</table>",
+          "after": "Name"
+        },
+        {
+          "layout_index": 180,
+          "source_page": 6,
+          "bbox_yxyx": [
+            618,
+            274,
+            632,
+            306
+          ],
+          "before": "F dual participation between borows and loan ofice, then can remove borows for redundancy",
+          "after": "Addr"
+        },
+        {
+          "layout_index": 181,
+          "source_page": 7,
+          "bbox_yxyx": [
+            33,
+            272,
+            69,
+            388
+          ],
+          "before": "Mapping of Specialization / Generalization",
+          "after": "Generalization"
+        },
+        {
+          "layout_index": 182,
+          "source_page": 7,
+          "bbox_yxyx": [
+            38,
+            19,
+            76,
+            123
+          ],
+          "before": "S",
+          "after": "Mapping of"
+        },
+        {
+          "layout_index": 183,
+          "source_page": 7,
+          "bbox_yxyx": [
+            38,
+            123,
+            75,
+            233
+          ],
+          "before": "/   \\",
+          "after": "Specialization"
+        },
+        {
+          "layout_index": 184,
+          "source_page": 7,
+          "bbox_yxyx": [
+            227,
+            184,
+            265,
+            214
+          ],
+          "before": "C_1   C_m",
+          "after": "C₁"
+        },
+        {
+          "layout_index": 185,
+          "source_page": 7,
+          "bbox_yxyx": [
+            231,
+            315,
+            259,
+            349
+          ],
+          "before": "Option 1",
+          "after": "Cₘ"
+        },
+        {
+          "layout_index": 186,
+          "source_page": 7,
+          "bbox_yxyx": [
+            325,
+            184,
+            347,
+            205
+          ],
+          "before": "S | (x) a_1 | ... | a_m |",
+          "after": "a₁"
+        },
+        {
+          "layout_index": 188,
+          "source_page": 7,
+          "bbox_yxyx": [
+            341,
+            391,
+            379,
+            460
+          ],
+          "before": "|                |",
+          "after": "option 1"
+        },
+        {
+          "layout_index": 190,
+          "source_page": 7,
+          "bbox_yxyx": [
+            376,
+            145,
+            402,
+            174
+          ],
+          "before": "C_1 | x | x",
+          "after": "x"
+        },
+        {
+          "layout_index": 191,
+          "source_page": 7,
+          "bbox_yxyx": [
+            378,
+            200,
+            404,
+            217
+          ],
+          "before": "|                |",
+          "after": "x"
+        },
+        {
+          "layout_index": 193,
+          "source_page": 7,
+          "bbox_yxyx": [
+            573,
+            349,
+            599,
+            367
+          ],
+          "before": "C_m | x | z",
+          "after": "z"
+        },
+        {
+          "layout_index": 194,
+          "source_page": 7,
+          "bbox_yxyx": [
+            577,
+            100,
+            609,
+            183
+          ],
+          "before": "Redundancy with option 2",
+          "after": "Redundancy"
+        },
+        {
+          "layout_index": 195,
+          "source_page": 7,
+          "bbox_yxyx": [
+            579,
+            241,
+            603,
+            266
+          ],
+          "before": "+3",
+          "after": "with"
+        },
+        {
+          "layout_index": 197,
+          "source_page": 8,
+          "bbox_yxyx": [
+            19,
+            32,
+            61,
+            246
+          ],
+          "before": "Option 3: works only with disjoint",
+          "after": "Option 3: works only"
+        },
+        {
+          "layout_index": 198,
+          "source_page": 8,
+          "bbox_yxyx": [
+            40,
+            280,
+            87,
+            504
+          ],
+          "before": "- single relation with one type attribute",
+          "after": "with one type attribute"
+        },
+        {
+          "layout_index": 202,
+          "source_page": 8,
+          "bbox_yxyx": [
+            214,
+            55,
+            312,
+            601
+          ],
+          "before": "ie total participation and disjoint,",
+          "after": "if total participation and disjoint, all options apply..."
+        },
+        {
+          "layout_index": 203,
+          "source_page": 8,
+          "bbox_yxyx": [
+            307,
+            14,
+            340,
+            599
+          ],
+          "before": "all options apply --",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 205,
+          "source_page": 9,
+          "bbox_yxyx": [
+            51,
+            450,
+            80,
+            522
+          ],
+          "before": "5th about",
+          "after": "sth about"
+        },
+        {
+          "layout_index": 206,
+          "source_page": 9,
+          "bbox_yxyx": [
+            65,
+            27,
+            104,
+            238
+          ],
+          "before": "SalesPerson (Sid, None)",
+          "after": "SalesPerson (Sid, Name)"
+        },
+        {
+          "layout_index": 208,
+          "source_page": 9,
+          "bbox_yxyx": [
+            108,
+            26,
+            159,
+            372
+          ],
+          "before": "Customer (SSN, None, Street, City, State)",
+          "after": "Customer (SSN, Name, Street, City, State)"
+        },
+        {
+          "layout_index": 224,
+          "source_page": 9,
+          "bbox_yxyx": [
+            466,
+            368,
+            476,
+            408
+          ],
+          "before": "No seats",
+          "after": "No_seats"
+        },
+        {
+          "layout_index": 234,
+          "source_page": 9,
+          "bbox_yxyx": [
+            622,
+            106,
+            643,
+            233
+          ],
+          "before": "we can convert it",
+          "after": "can convert it"
+        },
+        {
+          "layout_index": 235,
+          "source_page": 9,
+          "bbox_yxyx": [
+            628,
+            58,
+            641,
+            97
+          ],
+          "before": "ne",
+          "after": "we"
+        },
+        {
+          "layout_index": 236,
+          "source_page": 9,
+          "bbox_yxyx": [
+            639,
+            60,
+            675,
+            508
+          ],
+          "before": "to a binary relation. We can merge Vehicle and Sale since they share the same p.k",
+          "after": "to a binary relation. We can merge Vehicle"
+        },
+        {
+          "layout_index": 237,
+          "source_page": 9,
+          "bbox_yxyx": [
+            671,
+            67,
+            700,
+            180
+          ],
+          "before": "and Sole",
+          "after": "and Sale"
+        },
+        {
+          "layout_index": 238,
+          "source_page": 9,
+          "bbox_yxyx": [
+            671,
+            180,
+            700,
+            517
+          ],
+          "before": "![Entity-Relationship diagram showing Vehicle, Sale, SalesPerson, and Customer entities with relationships](page_320_624_704_384.png)",
+          "after": "since they share the same P.K"
+        },
+        {
+          "layout_index": 247,
+          "source_page": 10,
+          "bbox_yxyx": [
+            336,
+            91,
+            384,
+            447
+          ],
+          "before": "\\( \\sigma \\) (Dno='u' AND salary>25000) OR (Dno='s' AND salary>30000) (EMPLOYEE)",
+          "after": "σ (Dno='4' AND Salary > 25000) OR (Dno='5' AND Salary > 30000)"
+        },
+        {
+          "layout_index": 248,
+          "source_page": 10,
+          "bbox_yxyx": [
+            394,
+            144,
+            422,
+            255
+          ],
+          "before": "- NOT > AND > OR - precedence",
+          "after": "AND > OR"
+        },
+        {
+          "layout_index": 255,
+          "source_page": 10,
+          "bbox_yxyx": [
+            640,
+            41,
+            681,
+            243
+          ],
+          "before": "\\( \\Pi_{Rid, Height}(Clerks) \\)",
+          "after": "π Rid,Height (Routes)"
+        },
+        {
+          "layout_index": 257,
+          "source_page": 11,
+          "bbox_yxyx": [
+            9,
+            33,
+            50,
+            553
+          ],
+          "before": "- in \"pure\" relational algebra, selections should be sets, so no duplicates",
+          "after": "- in pure relational algebra, selections should be"
+        },
+        {
+          "layout_index": 260,
+          "source_page": 11,
+          "bbox_yxyx": [
+            128,
+            15,
+            189,
+            403
+          ],
+          "before": "- it is unary, not commutative",
+          "after": "- π is unary, not commutative"
+        },
+        {
+          "layout_index": 261,
+          "source_page": 11,
+          "bbox_yxyx": [
+            195,
+            91,
+            263,
+            424
+          ],
+          "before": "Throne, age (6 Age > 30 (Climbers))",
+          "after": "π name,age (σ Age > 30 Climbers)"
+        },
+        {
+          "layout_index": 262,
+          "source_page": 11,
+          "bbox_yxyx": [
+            252,
+            50,
+            351,
+            308
+          ],
+          "before": "SELECT name, age from CLIMBERS",
+          "after": "SELECT name, age from WHERE Age > 30"
+        },
+        {
+          "layout_index": 263,
+          "source_page": 11,
+          "bbox_yxyx": [
+            265,
+            322,
+            303,
+            488
+          ],
+          "before": "WHERE Age > 30",
+          "after": "CLIMBERS"
+        },
+        {
+          "layout_index": 265,
+          "source_page": 11,
+          "bbox_yxyx": [
+            451,
+            16,
+            512,
+            515
+          ],
+          "before": "Do we need to check union compatibility for cartesian product?",
+          "after": "Do we need to check union compatibility for"
+        },
+        {
+          "layout_index": 267,
+          "source_page": 11,
+          "bbox_yxyx": [
+            511,
+            39,
+            574,
+            566
+          ],
+          "before": "- No, since it already returns a list of combinations uniquely",
+          "after": "- No, since it always returns all list of combinations"
+        },
+        {
+          "layout_index": 270,
+          "source_page": 12,
+          "bbox_yxyx": [
+            114,
+            108,
+            135,
+            246
+          ],
+          "before": "Depositor: C_Name, Account",
+          "after": "Depositor: C_Name, Account#"
+        },
+        {
+          "layout_index": 271,
+          "source_page": 12,
+          "bbox_yxyx": [
+            142,
+            108,
+            155,
+            254
+          ],
+          "before": "Loan_B_Name, Loan_N, Amount",
+          "after": "Loan: B_Name, Loan_#, Amount"
+        },
+        {
+          "layout_index": 272,
+          "source_page": 12,
+          "bbox_yxyx": [
+            165,
+            108,
+            176,
+            233
+          ],
+          "before": "Borrower: C_Name, LoanII.",
+          "after": "Borrower: C_Name, Loan#"
+        },
+        {
+          "layout_index": 273,
+          "source_page": 12,
+          "bbox_yxyx": [
+            186,
+            138,
+            201,
+            402
+          ],
+          "before": "Loan: B_Name, Loan_ID, Amount",
+          "after": "Select tuples of the loan relation where the branch name is"
+        },
+        {
+          "layout_index": 274,
+          "source_page": 12,
+          "bbox_yxyx": [
+            206,
+            222,
+            223,
+            324
+          ],
+          "before": "Borrower: C_Name, Loan_ID",
+          "after": "σ Bname='GMU' (Loan)"
+        },
+        {
+          "layout_index": 275,
+          "source_page": 12,
+          "bbox_yxyx": [
+            227,
+            137,
+            247,
+            424
+          ],
+          "before": "Select tuples of the loan relation where the branch name is \"GMU\"",
+          "after": "Find all tuples in which the amount of loan is more than $12000"
+        },
+        {
+          "layout_index": 276,
+          "source_page": 12,
+          "bbox_yxyx": [
+            248,
+            168,
+            265,
+            269
+          ],
+          "before": "6_{\\text{per unit}} > 1.080 \\quad (10^{10})",
+          "after": "σ amount > 12000 (Loan)"
+        },
+        {
+          "layout_index": 277,
+          "source_page": 12,
+          "bbox_yxyx": [
+            273,
+            135,
+            292,
+            502
+          ],
+          "before": "Find all tuples in which the amount of loan is more than $12000.",
+          "after": "Find those tuples pertaining to loans of more than $12000 made by GMU branch"
+        },
+        {
+          "layout_index": 278,
+          "source_page": 12,
+          "bbox_yxyx": [
+            295,
+            166,
+            312,
+            355
+          ],
+          "before": "·_{·, \\alpha+1} > 1000 \\text{ and } \\delta_{\\alpha+1, \\alpha} = (a_{\\alpha+1})^i \\quad (\\text{Luv})",
+          "after": "σ amount > 12000 AND Bname='GMU' (Loan)"
+        },
+        {
+          "layout_index": 279,
+          "source_page": 12,
+          "bbox_yxyx": [
+            295,
+            398,
+            309,
+            414
+          ],
+          "before": "····",
+          "after": "R₁"
+        },
+        {
+          "layout_index": 281,
+          "source_page": 12,
+          "bbox_yxyx": [
+            338,
+            168,
+            353,
+            241
+          ],
+          "before": "\\(\\pi_{\\text{low},\\text{pmod}}\\)",
+          "after": "π Loan#, Amount"
+        },
+        {
+          "layout_index": 282,
+          "source_page": 12,
+          "bbox_yxyx": [
+            339,
+            263,
+            348,
+            287
+          ],
+          "before": "León",
+          "after": "Loan"
+        },
+        {
+          "layout_index": 283,
+          "source_page": 12,
+          "bbox_yxyx": [
+            362,
+            134,
+            377,
+            372
+          ],
+          "before": "Find the names of all customers who live in \"airfax\".",
+          "after": "Find the names of all customers who live in Fairfax"
+        },
+        {
+          "layout_index": 284,
+          "source_page": 12,
+          "bbox_yxyx": [
+            379,
+            176,
+            403,
+            358
+          ],
+          "before": "Find those tuples pertaining to loans of more than $12000 made by \"GMU\" branch.",
+          "after": "π name (σ C_city='Fairfax' Customer)"
+        },
+        {
+          "layout_index": 285,
+          "source_page": 12,
+          "bbox_yxyx": [
+            408,
+            134,
+            422,
+            504
+          ],
+          "before": "List all loan numbers and the amount of loan.",
+          "after": "Find the names of all bank customers who have either an account or a loan or both"
+        },
+        {
+          "layout_index": 286,
+          "source_page": 12,
+          "bbox_yxyx": [
+            422,
+            169,
+            444,
+            402
+          ],
+          "before": "Find the names of all customers who live in \"airfax\".",
+          "after": "π C_name (Depositor) ∪ π C_name (Borrower)"
+        },
+        {
+          "layout_index": 287,
+          "source_page": 12,
+          "bbox_yxyx": [
+            453,
+            133,
+            465,
+            492
+          ],
+          "before": "Find the names of all bank customers who have either an account or a loan or both.",
+          "after": "Find the names of all customers of the bank who have an account but not a loan"
+        },
+        {
+          "layout_index": 288,
+          "source_page": 12,
+          "bbox_yxyx": [
+            471,
+            178,
+            490,
+            268
+          ],
+          "before": "·_{\\text{cave}} (\\text{Exposition})",
+          "after": "π C_name (Depositor)"
+        },
+        {
+          "layout_index": 289,
+          "source_page": 12,
+          "bbox_yxyx": [
+            471,
+            282,
+            490,
+            394
+          ],
+          "before": "- 71 Erone (Barnet)",
+          "after": "- π C_name (Borrower)"
+        },
+        {
+          "layout_index": 290,
+          "source_page": 12,
+          "bbox_yxyx": [
+            497,
+            132,
+            510,
+            450
+          ],
+          "before": "Find the names of all customers of the bank who have an account but not a loan.",
+          "after": "Find the names of all customers who have both a loan and an account"
+        },
+        {
+          "layout_index": 291,
+          "source_page": 12,
+          "bbox_yxyx": [
+            510,
+            356,
+            529,
+            414
+          ],
+          "before": "(Duflord)",
+          "after": "(Borrower)"
+        },
+        {
+          "layout_index": 292,
+          "source_page": 12,
+          "bbox_yxyx": [
+            514,
+            181,
+            542,
+            340
+          ],
+          "before": "Find the names of all customers who have both a loan and an account.",
+          "after": "π C_name (Depositor) ∩ π C_name"
+        },
+        {
+          "layout_index": 295,
+          "source_page": 13,
+          "bbox_yxyx": [
+            155,
+            88,
+            171,
+            244
+          ],
+          "before": "Loan: B_Name, Loan_, Amount",
+          "after": "Loan: B_Name, Loan_#, Amount"
+        },
+        {
+          "layout_index": 302,
+          "source_page": 13,
+          "bbox_yxyx": [
+            316,
+            151,
+            336,
+            356
+          ],
+          "before": "\\( \\sigma_{\\text{amount} > 12000 \\text{ and } \\text{name} = 'GMU'} (Loan) \\)",
+          "after": "σ amount > 12000 AND Branch='GMU' (Loan)"
+        },
+        {
+          "layout_index": 305,
+          "source_page": 13,
+          "bbox_yxyx": [
+            367,
+            154,
+            381,
+            236
+          ],
+          "before": "Lizzy, Amanda",
+          "after": "π Loan#, Amount"
+        },
+        {
+          "layout_index": 306,
+          "source_page": 13,
+          "bbox_yxyx": [
+            367,
+            247,
+            377,
+            281
+          ],
+          "before": "Loon",
+          "after": "Loan"
+        },
+        {
+          "layout_index": 307,
+          "source_page": 13,
+          "bbox_yxyx": [
+            394,
+            118,
+            405,
+            370
+          ],
+          "before": "\\( \\Pi_{\\text{Loan}, \\text{amount}} (Loan) \\)",
+          "after": "Find the names of all customers who live in Fairfax"
+        },
+        {
+          "layout_index": 308,
+          "source_page": 13,
+          "bbox_yxyx": [
+            410,
+            160,
+            435,
+            356
+          ],
+          "before": "· Find the names of all customers who live in \"Fairfax\".",
+          "after": "π name (σ C_city='Fairfax' Customer)"
+        },
+        {
+          "layout_index": 309,
+          "source_page": 13,
+          "bbox_yxyx": [
+            442,
+            116,
+            456,
+            513
+          ],
+          "before": "\\( \\Pi_{\\text{name}} (\\sigma_{\\text{city} = 'Fairfax'} (Customers)) \\)",
+          "after": "Find the names of all bank customers who have either an account or a loan or both"
+        },
+        {
+          "layout_index": 310,
+          "source_page": 13,
+          "bbox_yxyx": [
+            456,
+            156,
+            477,
+            401
+          ],
+          "before": "· Find the names of all bank customers who have either an account or a loan or both.",
+          "after": "π C_name (Depositor) ∪ π C_name (Borrower)"
+        },
+        {
+          "layout_index": 311,
+          "source_page": 13,
+          "bbox_yxyx": [
+            491,
+            116,
+            502,
+            500
+          ],
+          "before": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) \\cup \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+          "after": "Find the names of all customers of the bank who have an account but not a loan"
+        },
+        {
+          "layout_index": 312,
+          "source_page": 13,
+          "bbox_yxyx": [
+            508,
+            162,
+            528,
+            390
+          ],
+          "before": "· Find the names of all customers of the bank who have an account but not a loan.",
+          "after": "π C_name (Depositor) - π C_name (Borrower)"
+        },
+        {
+          "layout_index": 313,
+          "source_page": 13,
+          "bbox_yxyx": [
+            538,
+            115,
+            550,
+            454
+          ],
+          "before": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) - \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+          "after": "Find the names of all customers who have both a loan and an account"
+        },
+        {
+          "layout_index": 314,
+          "source_page": 13,
+          "bbox_yxyx": [
+            551,
+            355,
+            567,
+            415
+          ],
+          "before": "(Dollars)",
+          "after": "(Borrower)"
+        },
+        {
+          "layout_index": 315,
+          "source_page": 13,
+          "bbox_yxyx": [
+            557,
+            166,
+            578,
+            334
+          ],
+          "before": "· Find the names of all customers who have both a loan and an account.",
+          "after": "π C_name (Depositor) ∩ π C_name"
+        },
+        {
+          "layout_index": 316,
+          "source_page": 13,
+          "bbox_yxyx": [
+            749,
+            193,
+            760,
+            489
+          ],
+          "before": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) \\cap \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 318,
+          "source_page": 14,
+          "bbox_yxyx": [
+            65,
+            64,
+            101,
+            391
+          ],
+          "before": "- Cartesian Product",
+          "after": "σ Cid.1 = Cid.2 (Climbs × Climbers)"
+        },
+        {
+          "layout_index": 319,
+          "source_page": 14,
+          "bbox_yxyx": [
+            108,
+            52,
+            145,
+            294
+          ],
+          "before": "\\( \\sigma_{C_{1.1} = C_{1.2}} (Climbs \\times Climbers) \\)",
+          "after": "In general, very expensive..."
+        },
+        {
+          "layout_index": 320,
+          "source_page": 14,
+          "bbox_yxyx": [
+            159,
+            32,
+            190,
+            268
+          ],
+          "before": "In general, very expensive...",
+          "after": "Use JOIN instead"
+        },
+        {
+          "layout_index": 323,
+          "source_page": 14,
+          "bbox_yxyx": [
+            288,
+            145,
+            328,
+            390
+          ],
+          "before": "Use Join instead",
+          "after": "R ⋈ C S = σ C (R × S)"
+        },
+        {
+          "layout_index": 324,
+          "source_page": 14,
+          "bbox_yxyx": [
+            329,
+            159,
+            367,
+            354
+          ],
+          "before": "- (THETA) JOIN",
+          "after": "C is called"
+        },
+        {
+          "layout_index": 326,
+          "source_page": 14,
+          "bbox_yxyx": [
+            363,
+            420,
+            387,
+            542
+          ],
+          "before": "you only",
+          "after": "can only"
+        },
+        {
+          "layout_index": 327,
+          "source_page": 14,
+          "bbox_yxyx": [
+            367,
+            192,
+            394,
+            333
+          ],
+          "before": "· usually using ju",
+          "after": "- usually using the"
+        },
+        {
+          "layout_index": 328,
+          "source_page": 14,
+          "bbox_yxyx": [
+            390,
+            180,
+            446,
+            348
+          ],
+          "before": "- Join of two relations",
+          "after": "F.K constraint"
+        },
+        {
+          "layout_index": 329,
+          "source_page": 14,
+          "bbox_yxyx": [
+            391,
+            436,
+            415,
+            579
+          ],
+          "before": "have attributed",
+          "after": "take attribute"
+        },
+        {
+          "layout_index": 332,
+          "source_page": 14,
+          "bbox_yxyx": [
+            486,
+            411,
+            510,
+            522
+          ],
+          "before": "unconditioned",
+          "after": "condition"
+        },
+        {
+          "layout_index": 333,
+          "source_page": 14,
+          "bbox_yxyx": [
+            504,
+            121,
+            560,
+            475
+          ],
+          "before": "\\( R \\bowtie_C S = \\sigma_C (R \\times S) \\)",
+          "after": "Climbs ⋈ Cid.1 = Cid.2 Climbers"
+        },
+        {
+          "layout_index": 334,
+          "source_page": 14,
+          "bbox_yxyx": [
+            542,
+            34,
+            603,
+            519
+          ],
+          "before": "\\( \\bowtie_C \\) is called a Join condition",
+          "after": "- there should be fewer tuples in JOIN"
+        },
+        {
+          "layout_index": 335,
+          "source_page": 14,
+          "bbox_yxyx": [
+            580,
+            73,
+            635,
+            522
+          ],
+          "before": "\\( \\bowtie_C \\) can only take attribute name",
+          "after": "compared to PRODUCT"
+        },
+        {
+          "layout_index": 336,
+          "source_page": 14,
+          "bbox_yxyx": [
+            637,
+            173,
+            662,
+            590
+          ],
+          "before": "This is different from SELECTION condition",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 337,
+          "source_page": 14,
+          "bbox_yxyx": [
+            672,
+            32,
+            698,
+            588
+          ],
+          "before": "Climbs \\( \\bowtie_C \\) Climbers",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 338,
+          "source_page": 14,
+          "bbox_yxyx": [
+            708,
+            28,
+            732,
+            588
+          ],
+          "before": "\\( (C_{1.1} = C_{1.2}) \\)",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 339,
+          "source_page": 14,
+          "bbox_yxyx": [
+            744,
+            26,
+            768,
+            590
+          ],
+          "before": "- there should be fewer tuples in Join compared to PRODUCT",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 343,
+          "source_page": 15,
+          "bbox_yxyx": [
+            134,
+            96,
+            152,
+            365
+          ],
+          "before": "1. Sailors x Reserves (Cockson, 6 tuples)",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 344,
+          "source_page": 15,
+          "bbox_yxyx": [
+            177,
+            32,
+            227,
+            446
+          ],
+          "before": "2. Sailors · Reserves (Theta Join)",
+          "after": "① Sailors × Reserves (Cartesian, 6 tuples)"
+        },
+        {
+          "layout_index": 345,
+          "source_page": 15,
+          "bbox_yxyx": [
+            223,
+            19,
+            289,
+            482
+          ],
+          "before": "Sailor.S.Sid < Reserve.S.Sid <table> <tr>",
+          "after": "② Sailors ⋈ Sailors.Sid < Reserves.Sid Reserves (Theta Join)"
+        },
+        {
+          "layout_index": 346,
+          "source_page": 15,
+          "bbox_yxyx": [
+            297,
+            113,
+            334,
+            327
+          ],
+          "before": "<th>S.Sid</th> <th>...</th>",
+          "after": "S.sid | ... | R.sid"
+        },
+        {
+          "layout_index": 347,
+          "source_page": 15,
+          "bbox_yxyx": [
+            299,
+            347,
+            336,
+            454
+          ],
+          "before": "<th>R.Sid</th> <th>..</th> </tr> <tr> <td>22</td> <td></td> <td>58</td> <td></td> </tr> <tr> <td>31</td> <td></td> <td>58</td> <td></td> </tr> </table>",
+          "after": "..."
+        },
+        {
+          "layout_index": 348,
+          "source_page": 15,
+          "bbox_yxyx": [
+            330,
+            101,
+            374,
+            337
+          ],
+          "before": "3. Sailors & S.Sid = R.Sid Reserves (Equijoin) (7 columns) <table>",
+          "after": "22 | 58; 31 | 58"
+        },
+        {
+          "layout_index": 349,
+          "source_page": 15,
+          "bbox_yxyx": [
+            350,
+            443,
+            367,
+            492
+          ],
+          "before": "<tr>",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 350,
+          "source_page": 15,
+          "bbox_yxyx": [
+            388,
+            26,
+            431,
+            482
+          ],
+          "before": "<th>S.Sid</th> <th>...</th>",
+          "after": "③ Sailors ⋈ S.sid = R.sid Reserves (Equijoin)"
+        },
+        {
+          "layout_index": 351,
+          "source_page": 15,
+          "bbox_yxyx": [
+            426,
+            432,
+            457,
+            569
+          ],
+          "before": "<th>R.Sid</th>",
+          "after": "(7 columns)"
+        },
+        {
+          "layout_index": 352,
+          "source_page": 15,
+          "bbox_yxyx": [
+            432,
+            101,
+            527,
+            413
+          ],
+          "before": "<th>..</th> </tr> <tr> <td>22</td> <td></td> <td>22</td> <td></td> </tr> <tr> <td>58</td> <td></td>",
+          "after": "S.sid | ... | R.sid | ...\n22 | 22\n58 | 58"
+        },
+        {
+          "layout_index": 353,
+          "source_page": 15,
+          "bbox_yxyx": [
+            535,
+            37,
+            592,
+            556
+          ],
+          "before": "<td>58</td> <td></td> </tr> </table>",
+          "after": "④ Sailors ⋈ Reserves (Natural JOIN) (6 columns)"
+        },
+        {
+          "layout_index": 354,
+          "source_page": 15,
+          "bbox_yxyx": [
+            597,
+            104,
+            621,
+            508
+          ],
+          "before": "4. Sailors · Reserves (Natural JOIN) (6 columns) <table> <tr> <th>Sid</th> <th>...</th> </tr> <tr> <td>22</td> <td></td>",
+          "after": "22"
+        },
+        {
+          "layout_index": 355,
+          "source_page": 15,
+          "bbox_yxyx": [
+            676,
+            337,
+            690,
+            431
+          ],
+          "before": "</tr> </table>",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 356,
+          "source_page": 16,
+          "bbox_yxyx": [
+            17,
+            42,
+            64,
+            521
+          ],
+          "before": "·_{S,snow} / S_{r,bb} = 0.2 (Silos & SSID: 1.50 Reserves)",
+          "after": "π S.sname (σ r.bid = 103 (Sailors ⋈ S.sid = r.sid Reserves))"
+        },
+        {
+          "layout_index": 360,
+          "source_page": 16,
+          "bbox_yxyx": [
+            201,
+            244,
+            210,
+            263
+          ],
+          "before": "snamo",
+          "after": "sname"
+        },
+        {
+          "layout_index": 362,
+          "source_page": 16,
+          "bbox_yxyx": [
+            211,
+            360,
+            218,
+            381
+          ],
+          "before": "Criminology Interlake",
+          "after": "Interlake"
+        },
+        {
+          "layout_index": 364,
+          "source_page": 16,
+          "bbox_yxyx": [
+            233,
+            361,
+            241,
+            380
+          ],
+          "before": "Choper",
+          "after": "Clipper"
+        },
+        {
+          "layout_index": 370,
+          "source_page": 16,
+          "bbox_yxyx": [
+            377,
+            215,
+            387,
+            417
+          ],
+          "before": "· Find the names of sailors who have reserved boat 103. · Find the names of sailors who have reserved a red boat.",
+          "after": "Find the names of sailors who have reserved a red boat."
+        },
+        {
+          "layout_index": 371,
+          "source_page": 16,
+          "bbox_yxyx": [
+            388,
+            215,
+            398,
+            374
+          ],
+          "before": "· Find the names of sailors who have reserved. · Find the colors of boats reserved by Dustin.",
+          "after": "Find the colors of boats reserved by Dustin."
+        },
+        {
+          "layout_index": 375,
+          "source_page": 16,
+          "bbox_yxyx": [
+            431,
+            224,
+            439,
+            265
+          ],
+          "before": "Find the tiny green boat.",
+          "after": "green boat."
+        },
+        {
+          "layout_index": 377,
+          "source_page": 16,
+          "bbox_yxyx": [
+            452,
+            224,
+            460,
+            271
+          ],
+          "before": "I will be sailing a green boat.",
+          "after": "a green boat."
+        },
+        {
+          "layout_index": 379,
+          "source_page": 16,
+          "bbox_yxyx": [
+            483,
+            392,
+            514,
+            493
+          ],
+          "before": "Rosenes",
+          "after": "Reserves))"
+        },
+        {
+          "layout_index": 380,
+          "source_page": 16,
+          "bbox_yxyx": [
+            486,
+            265,
+            514,
+            366
+          ],
+          "before": "(648 - 108)",
+          "after": "σ bid = 103"
+        },
+        {
+          "layout_index": 381,
+          "source_page": 16,
+          "bbox_yxyx": [
+            488,
+            128,
+            516,
+            241
+          ],
+          "before": "[Sailors]",
+          "after": "Sailors ⋈"
+        },
+        {
+          "layout_index": 382,
+          "source_page": 16,
+          "bbox_yxyx": [
+            490,
+            48,
+            516,
+            99
+          ],
+          "before": "Tigane",
+          "after": "π sname"
+        },
+        {
+          "layout_index": 383,
+          "source_page": 16,
+          "bbox_yxyx": [
+            521,
+            373,
+            560,
+            564
+          ],
+          "before": "Boats & Reserves",
+          "after": "Boats ⋈ Reserves))"
+        },
+        {
+          "layout_index": 384,
+          "source_page": 16,
+          "bbox_yxyx": [
+            524,
+            156,
+            570,
+            328
+          ],
+          "before": "\\[ \\int_{0}^{\\infty} e^{-\\alpha x} \\cos(\\omega x) dx \\]",
+          "after": "σ color='red' (Sailors"
+        },
+        {
+          "layout_index": 385,
+          "source_page": 16,
+          "bbox_yxyx": [
+            531,
+            67,
+            565,
+            133
+          ],
+          "before": "Tisnor",
+          "after": "π sname"
+        },
+        {
+          "layout_index": 386,
+          "source_page": 16,
+          "bbox_yxyx": [
+            582,
+            372,
+            604,
+            387
+          ],
+          "before": "·",
+          "after": "⋈"
+        },
+        {
+          "layout_index": 387,
+          "source_page": 16,
+          "bbox_yxyx": [
+            584,
+            246,
+            613,
+            357
+          ],
+          "before": "A. Levenus",
+          "after": "⋈ Reserves"
+        },
+        {
+          "layout_index": 390,
+          "source_page": 16,
+          "bbox_yxyx": [
+            637,
+            230,
+            661,
+            339
+          ],
+          "before": "· Russell",
+          "after": "⋈ Reserves"
+        },
+        {
+          "layout_index": 391,
+          "source_page": 16,
+          "bbox_yxyx": [
+            639,
+            68,
+            664,
+            226
+          ],
+          "before": "a sane (Sailors",
+          "after": "π sname (Sailors"
+        },
+        {
+          "layout_index": 392,
+          "source_page": 17,
+          "bbox_yxyx": [
+            13,
+            158,
+            97,
+            571
+          ],
+          "before": "5 \\( \\Pi_{\\text{snare}} ((\\delta_{\\text{color}} = 'red') \\text{ OR } \\text{color} = 'green' \\text{ Boots}) \\approx (\\delta_{\\text{AB}}) \\)",
+          "after": "((σ color='red' OR color='green' Boats) ⋈ R ⋈ S)"
+        },
+        {
+          "layout_index": 393,
+          "source_page": 17,
+          "bbox_yxyx": [
+            22,
+            27,
+            77,
+            112
+          ],
+          "before": "· · snare",
+          "after": "⑤ π sname"
+        },
+        {
+          "layout_index": 394,
+          "source_page": 17,
+          "bbox_yxyx": [
+            179,
+            156,
+            224,
+            501
+          ],
+          "before": "6  Red \\( \\rightarrow \\Pi_{S_{\\text{B, snare}}} (S \\approx R \\approx (\\delta_{\\text{color}} = 'red', B)) \\approx S \\)",
+          "after": "⑤ π S.sname (Sailors ⋈ S.sid = r.sid (Reserves ⋈ r.bid = b.bid (σ b.color='red' OR b.color='green' (Boats))))\n⑥ π S.sname (Sailors ⋈ (π sid (R ⋈ r.bid = b.bid (σ b.color='red' Boats))) ∪ (π sid (R ⋈ r.bid = b.bid (σ b.color='green' Boats))))"
+        },
+        {
+          "layout_index": 395,
+          "source_page": 17,
+          "bbox_yxyx": [
+            217,
+            157,
+            245,
+            382
+          ],
+          "before": "1. Name: Orbis 108 (Sailors) - Red Reserve 2. Name:",
+          "after": "① π S.sname (σ r.bid = 103 (Sailors ⋈ S.sid = r.sid Reserves))"
+        },
+        {
+          "layout_index": 396,
+          "source_page": 17,
+          "bbox_yxyx": [
+            238,
+            156,
+            275,
+            378
+          ],
+          "before": "2. TT's name (Sailor 2000) (2000-2002) (2 years) 3. TT's name (Boat 1000)",
+          "after": "② π S.sname (Sailors ⋈ S.sid = r.sid (Reserves ⋈ r.bid = b.bid (σ b.color='red' Boats)))"
+        },
+        {
+          "layout_index": 397,
+          "source_page": 17,
+          "bbox_yxyx": [
+            262,
+            160,
+            299,
+            397
+          ],
+          "before": "3 The color Boots and leggings (Rservable, please (to earn the 30000)) 4 The name / Satisf",
+          "after": "③ π b.color (Boats ⋈ b.bid = r.bid (Reserves ⋈ r.sid = s.sid (σ S.name='Dustin' Sailors)))"
+        },
+        {
+          "layout_index": 398,
+          "source_page": 17,
+          "bbox_yxyx": [
+            287,
+            158,
+            324,
+            309
+          ],
+          "before": "Message (Sailors and other Reserves)",
+          "after": "④ π S.sname (Sailors ⋈ S.sid = r.sid Reserves)"
+        },
+        {
+          "layout_index": 399,
+          "source_page": 17,
+          "bbox_yxyx": [
+            419,
+            11,
+            517,
+            563
+          ],
+          "before": "Green \\( \\rightarrow \\Pi_{S_{\\text{W, snare}}} (S \\approx R \\approx (\\delta_{\\text{color}} = 'green', B)) \\approx S \\)",
+          "after": "Green → π S.bid,S.name (S ⋈ R ⋈ (σ color='green' B))"
+        },
+        {
+          "layout_index": 400,
+          "source_page": 17,
+          "bbox_yxyx": [
+            540,
+            63,
+            595,
+            591
+          ],
+          "before": "\\( R \\cap G \\in \\Pi_{\\text{snare}} (\\text{Red} \\cap \\text{Green}) \\)",
+          "after": "R ∩ G ← π sname (Red ∩ Green)"
+        },
+        {
+          "layout_index": 401,
+          "source_page": 18,
+          "bbox_yxyx": [
+            21,
+            61,
+            55,
+            138
+          ],
+          "before": "R1 · · Sid (6ege > 20 sailors)",
+          "after": "R₁ ←"
+        },
+        {
+          "layout_index": 402,
+          "source_page": 18,
+          "bbox_yxyx": [
+            21,
+            221,
+            70,
+            469
+          ],
+          "before": "R2 · · Sid (R & (6 case = 'red')) R · · name [(R1 - R2) · Sailors] - Division in SQL query Climbs <table>",
+          "after": "π sid (σ age > 20 Sailors)"
+        },
+        {
+          "layout_index": 403,
+          "source_page": 18,
+          "bbox_yxyx": [
+            25,
+            15,
+            50,
+            59
+          ],
+          "before": "<tr>",
+          "after": "②"
+        },
+        {
+          "layout_index": 404,
+          "source_page": 18,
+          "bbox_yxyx": [
+            76,
+            207,
+            118,
+            507
+          ],
+          "before": "<th>Cid</th>",
+          "after": "π sid (R ⋈ (σ color='red' B))"
+        },
+        {
+          "layout_index": 405,
+          "source_page": 18,
+          "bbox_yxyx": [
+            79,
+            63,
+            118,
+            199
+          ],
+          "before": "<th>Rid</th> </tr> <tr> <td>1</td> <td>A</td> </tr> <tr>",
+          "after": "R₂ ←"
+        },
+        {
+          "layout_index": 406,
+          "source_page": 18,
+          "bbox_yxyx": [
+            135,
+            77,
+            186,
+            490
+          ],
+          "before": "<td>1</td>",
+          "after": "R ← π sname ((R₁ - R₂) ⋈ Sailors)"
+        },
+        {
+          "layout_index": 407,
+          "source_page": 18,
+          "bbox_yxyx": [
+            235,
+            22,
+            273,
+            245
+          ],
+          "before": "<td>B</td> </tr>",
+          "after": "- Division in SQL query"
+        },
+        {
+          "layout_index": 408,
+          "source_page": 18,
+          "bbox_yxyx": [
+            306,
+            231,
+            329,
+            287
+          ],
+          "before": "<tr> <td>2</td> <td>A</td>",
+          "after": "C × R"
+        },
+        {
+          "layout_index": 409,
+          "source_page": 18,
+          "bbox_yxyx": [
+            311,
+            76,
+            333,
+            146
+          ],
+          "before": "</tr>",
+          "after": "Climbs"
+        },
+        {
+          "layout_index": 410,
+          "source_page": 18,
+          "bbox_yxyx": [
+            311,
+            289,
+            333,
+            352
+          ],
+          "before": "<tr> <td>2</td>",
+          "after": "",
+          "label_before": "text",
+          "label_after": "empty_line",
+          "reason": "Source region contains blank dotted paper, with no text."
+        },
+        {
+          "layout_index": 411,
+          "source_page": 18,
+          "bbox_yxyx": [
+            335,
+            236,
+            425,
+            418
+          ],
+          "before": "<td>B</td> </tr> </table> C × R <table> <tr>",
+          "after": "Cid | Rid\n1 | A\n1 | B"
+        },
+        {
+          "layout_index": 412,
+          "source_page": 18,
+          "bbox_yxyx": [
+            345,
+            65,
+            428,
+            172
+          ],
+          "before": "<th>Cid</th>",
+          "after": "Cid | rid\n1 | A\n1 | B\n2 | A"
+        },
+        {
+          "layout_index": 413,
+          "source_page": 18,
+          "bbox_yxyx": [
+            415,
+            255,
+            484,
+            452
+          ],
+          "before": "<th>Rid</th> </tr> <tr> <td>1</td> <td>A</td> </tr> <tr> <td>1</td> <td>B</td> </tr> <tr> <td>2</td> <td>A</td> </tr> <tr> <td>2</td> <td>B</td> </tr> </table>",
+          "after": "2 | A\n2 | B ✓"
+        },
+        {
+          "layout_index": 414,
+          "source_page": 18,
+          "bbox_yxyx": [
+            499,
+            87,
+            541,
+            391
+          ],
+          "before": "C × R - · Cid, Rid (Climbs)",
+          "after": "C × R - π Cid,rid Climbs"
+        },
+        {
+          "layout_index": 416,
+          "source_page": 18,
+          "bbox_yxyx": [
+            562,
+            88,
+            625,
+            466
+          ],
+          "before": "· Cid, Rid Climbs ÷ (· Rid Routes)",
+          "after": "π Cid,Rid Climbs ÷ (π rid Routes)"
+        },
+        {
+          "layout_index": 421,
+          "source_page": 19,
+          "bbox_yxyx": [
+            130,
+            86,
+            208,
+            369
+          ],
+          "before": "1. Find rows of sailors who have reserved all boots",
+          "after": "find names of sailors who all boats"
+        },
+        {
+          "layout_index": 422,
+          "source_page": 19,
+          "bbox_yxyx": [
+            137,
+            371,
+            156,
+            504
+          ],
+          "before": "denominator",
+          "after": "have reserved"
+        },
+        {
+          "layout_index": 423,
+          "source_page": 19,
+          "bbox_yxyx": [
+            208,
+            120,
+            234,
+            262
+          ],
+          "before": "\\( R_1 \\gets \\pi_{sid, bid} (reserves) / \\pi_{sid} (Boots) \\)",
+          "after": "denominator"
+        },
+        {
+          "layout_index": 424,
+          "source_page": 19,
+          "bbox_yxyx": [
+            282,
+            111,
+            328,
+            523
+          ],
+          "before": "\\( R \\gets \\pi_{sname} (R_1 \\bowtie Sailors) \\)",
+          "after": "R₁ ← π sid,bid (Reserves) / π sid (Boats)"
+        },
+        {
+          "layout_index": 425,
+          "source_page": 19,
+          "bbox_yxyx": [
+            352,
+            110,
+            398,
+            428
+          ],
+          "before": "2. \\( R_1 \\gets (\\pi_{sid, bid} reserves) \\div \\pi_{bid} (b = '...') \\)",
+          "after": "R ← π sname (R₁ ⋈ Sailors)"
+        },
+        {
+          "layout_index": 426,
+          "source_page": 19,
+          "bbox_yxyx": [
+            444,
+            77,
+            495,
+            568
+          ],
+          "before": "Recap of Relational Algebra Operations",
+          "after": "R₁ ← (π sid,bid Reserves) ÷ π bid (σ bname='...' Boats)"
+        },
+        {
+          "layout_index": 427,
+          "source_page": 19,
+          "bbox_yxyx": [
+            532,
+            169,
+            553,
+            414
+          ],
+          "before": "· Select \\(\\sigma<selection\\ condition> R\\)",
+          "after": "Recap of Relational Algebra"
+        },
+        {
+          "layout_index": 428,
+          "source_page": 19,
+          "bbox_yxyx": [
+            557,
+            244,
+            575,
+            343
+          ],
+          "before": "· Project \\(\\pi<attribute\\ list> R\\)",
+          "after": "Operations"
+        },
+        {
+          "layout_index": 429,
+          "source_page": 19,
+          "bbox_yxyx": [
+            596,
+            264,
+            607,
+            423
+          ],
+          "before": "· Union \\(R \\cup S\\)",
+          "after": "σ <selection condition> R"
+        },
+        {
+          "layout_index": 431,
+          "source_page": 19,
+          "bbox_yxyx": [
+            613,
+            152,
+            625,
+            211
+          ],
+          "before": "· Intersection \\(R \\cap S\\)",
+          "after": "Project"
+        },
+        {
+          "layout_index": 432,
+          "source_page": 19,
+          "bbox_yxyx": [
+            613,
+            264,
+            625,
+            386
+          ],
+          "before": "· Difference \\(R - S\\)",
+          "after": "π <attribute list> R"
+        },
+        {
+          "layout_index": 434,
+          "source_page": 19,
+          "bbox_yxyx": [
+            630,
+            265,
+            641,
+            298
+          ],
+          "before": "RUS",
+          "after": "R ∪ S"
+        },
+        {
+          "layout_index": 435,
+          "source_page": 19,
+          "bbox_yxyx": [
+            647,
+            152,
+            657,
+            238
+          ],
+          "before": "· Cross product \\(R \\times S\\)",
+          "after": "Intersection"
+        },
+        {
+          "layout_index": 437,
+          "source_page": 19,
+          "bbox_yxyx": [
+            664,
+            152,
+            674,
+            229
+          ],
+          "before": "· Join \\(R \\bowtie<join\\ condition> S\\)",
+          "after": "Difference"
+        },
+        {
+          "layout_index": 439,
+          "source_page": 19,
+          "bbox_yxyx": [
+            679,
+            152,
+            692,
+            296
+          ],
+          "before": "· Natural join \\(R \\bowtie S\\)",
+          "after": "Cross product R × S"
+        },
+        {
+          "layout_index": 440,
+          "source_page": 19,
+          "bbox_yxyx": [
+            695,
+            264,
+            711,
+            406
+          ],
+          "before": "· Division \\(R \\div S\\)",
+          "after": "R ⋈ <join condition> S"
+        },
+        {
+          "layout_index": 443,
+          "source_page": 19,
+          "bbox_yxyx": [
+            715,
+            265,
+            725,
+            300
+          ],
+          "before": "R \\otimes S",
+          "after": "R ⋈ S"
+        },
+        {
+          "layout_index": 446,
+          "source_page": 19,
+          "bbox_yxyx": [
+            747,
+            262,
+            760,
+            379
+          ],
+          "before": "· Rename \\(\\rho<new\\ schema> R\\)",
+          "after": "ρ <new schema> R"
+        },
+        {
+          "layout_index": 451,
+          "source_page": 20,
+          "bbox_yxyx": [
+            136,
+            154,
+            151,
+            357
+          ],
+          "before": "· Find the names of sailors who have reserved all boats. \\[",
+          "after": "Find the names of sailors who have reserved all boats"
+        },
+        {
+          "layout_index": 452,
+          "source_page": 20,
+          "bbox_yxyx": [
+            159,
+            149,
+            189,
+            425
+          ],
+          "before": "\\pi_{(R1, \\forall bid (Reserves \\div \\forall bid Boats))} (R1 \\bowtie Sailors) \\]",
+          "after": "ρ (R₁, π sid,bid Reserves ÷ π bid Boats)"
+        },
+        {
+          "layout_index": 453,
+          "source_page": 20,
+          "bbox_yxyx": [
+            188,
+            191,
+            207,
+            330
+          ],
+          "before": "· Find the names of sailors who have reserved all boats called Interlake.",
+          "after": "π (R₁ ⋈ Sailors)"
+        },
+        {
+          "layout_index": 454,
+          "source_page": 20,
+          "bbox_yxyx": [
+            212,
+            150,
+            227,
+            413
+          ],
+          "before": "· Find the names of sailors who have reserved at least two different boats.",
+          "after": "Find the names of sailors who have reserved all boats called Interlake"
+        },
+        {
+          "layout_index": 455,
+          "source_page": 20,
+          "bbox_yxyx": [
+            291,
+            487,
+            314,
+            580
+          ],
+          "before": "\\[",
+          "after": "ρ (R₂, Reserves)"
+        },
+        {
+          "layout_index": 456,
+          "source_page": 20,
+          "bbox_yxyx": [
+            292,
+            160,
+            305,
+            420
+          ],
+          "before": "R_1 \\bowtie R_2 \\text{Reserve} \\]",
+          "after": "Find the names of sailors who have reserved at least two different boats"
+        },
+        {
+          "layout_index": 457,
+          "source_page": 20,
+          "bbox_yxyx": [
+            312,
+            185,
+            329,
+            308
+          ],
+          "before": "\\[",
+          "after": "R₁ ⋈ Reserves"
+        },
+        {
+          "layout_index": 458,
+          "source_page": 20,
+          "bbox_yxyx": [
+            320,
+            231,
+            352,
+            465
+          ],
+          "before": "R_1.\\text{Sid} = \\text{Reserve}.\\text{Sid} \\text{ AND }",
+          "after": "R₁.sid = Reserves.sid AND"
+        },
+        {
+          "layout_index": 459,
+          "source_page": 20,
+          "bbox_yxyx": [
+            350,
+            237,
+            374,
+            410
+          ],
+          "before": "R_1.\\text{Bid} \\neq R_2.\\text{Bid}",
+          "after": "R₁.bid ≠ R₂.bid"
+        },
+        {
+          "layout_index": 460,
+          "source_page": 20,
+          "bbox_yxyx": [
+            371,
+            158,
+            381,
+            247
+          ],
+          "before": "\\]",
+          "after": "Find the names of sailors"
+        },
+        {
+          "layout_index": 461,
+          "source_page": 20,
+          "bbox_yxyx": [
+            369,
+            247,
+            385,
+            427
+          ],
+          "before": "· Find the names of sailors who have reserved the same boat at least twice.",
+          "after": "who have reserved the same boat at least twice."
+        },
+        {
+          "layout_index": 462,
+          "source_page": 20,
+          "bbox_yxyx": [
+            384,
+            164,
+            403,
+            223
+          ],
+          "before": "\\[",
+          "after": "R₁ Reserves"
+        },
+        {
+          "layout_index": 463,
+          "source_page": 20,
+          "bbox_yxyx": [
+            402,
+            135,
+            431,
+            359
+          ],
+          "before": "\\pi_{(R1, Reserves)} \\text{ TIE } \\tau_{\\text{Sid}} (R1 \\bowtie Reserves) \\] \\[",
+          "after": "T₁ ← π sid (R₁ ⋈ Reserves)"
+        },
+        {
+          "layout_index": 464,
+          "source_page": 20,
+          "bbox_yxyx": [
+            425,
+            238,
+            451,
+            431
+          ],
+          "before": "R1.\\text{Sid} = \\text{Reserves}.\\text{Sid} \\text{ AND }",
+          "after": "R₁.sid = Reserves.sid AND"
+        },
+        {
+          "layout_index": 465,
+          "source_page": 20,
+          "bbox_yxyx": [
+            452,
+            238,
+            478,
+            435
+          ],
+          "before": "R1.\\text{Bid} = \\text{Reserves}.\\text{Bid} \\text{ AND }",
+          "after": "R₁.bid = Reserves.bid AND"
+        },
+        {
+          "layout_index": 466,
+          "source_page": 20,
+          "bbox_yxyx": [
+            490,
+            207,
+            516,
+            310
+          ],
+          "before": "R1.\\text{Day} \\neq \\text{Reserves}.\\text{Day}",
+          "after": "R₁.day ≠"
+        },
+        {
+          "layout_index": 467,
+          "source_page": 20,
+          "bbox_yxyx": [
+            490,
+            310,
+            516,
+            436
+          ],
+          "before": "\\]",
+          "after": "Reserves.day"
+        },
+        {
+          "layout_index": 468,
+          "source_page": 20,
+          "bbox_yxyx": [
+            522,
+            159,
+            564,
+            409
+          ],
+          "before": "\\[",
+          "after": "R ← π name (T₁ ⋈ Sailors)"
+        },
+        {
+          "layout_index": 469,
+          "source_page": 20,
+          "bbox_yxyx": [
+            582,
+            261,
+            623,
+            522
+          ],
+          "before": "R \\in \\tau_{\\text{Sid}} (T, \\bowtie Sailors)",
+          "after": "multiple renames / aliases &"
+        },
+        {
+          "layout_index": 471,
+          "source_page": 20,
+          "bbox_yxyx": [
+            599,
+            166,
+            622,
+            218
+          ],
+          "before": "\\]",
+          "after": "meeting"
+        },
+        {
+          "layout_index": 472,
+          "source_page": 20,
+          "bbox_yxyx": [
+            633,
+            51,
+            654,
+            134
+          ],
+          "before": "-essentially meeting multiple renames / aliases & needed",
+          "after": "needed"
+        },
+        {
+          "layout_index": 473,
+          "source_page": 20,
+          "bbox_yxyx": [
+            681,
+            250,
+            703,
+            317
+          ],
+          "before": "-PREP for QUIZ",
+          "after": "QUIZ"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 12.23399999999674,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-mcJg3uFMVSIwZ0w5Ly3pqacWq3dbnGzw",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![header](68,1,927,72) $\\pi_{S.sname} \\left( \\sigma_{G.bid=103} \\left( Sailors \\bowtie_{S.sid=1.5} Reserves \\right) \\right)$\n\n![text](472,207,567,225) **Exercise**\n\n![table](351,248,518,312) <table>\n  <tr>\n    <th colspan=\"4\">Sailors</th>\n  </tr>\n  <tr>\n    <th>sid</th>\n    <th>sname</th>\n    <th>rating</th>\n    <th>age</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td>Dustin</td>\n    <td>7</td>\n    <td>45</td>\n  </tr>\n  <tr>\n    <td>31</td>\n    <td>Lubber</td>\n    <td>8</td>\n    <td>55</td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td>Rusty</td>\n    <td>10</td>\n    <td>35</td>\n  </tr>\n</table>\n\n![table](531,251,681,320) <table>\n  <tr>\n    <th colspan=\"3\">Boats</th>\n  </tr>\n  <tr>\n    <th>bid</th>\n    <th>bname</th>\n    <th>color</th>\n  </tr>\n  <tr>\n    <td>101</td>\n    <td>Interlake</td>\n    <td>blue</td>\n  </tr>\n  <tr>\n    <td>102</td>\n    <td>Interlake</td>\n    <td>red</td>\n  </tr>\n  <tr>\n    <td>103</td>\n    <td>Clipper</td>\n    <td>green</td>\n  </tr>\n  <tr>\n    <td>104</td>\n    <td>Marine</td>\n    <td>red</td>\n  </tr>\n</table>\n\n![table](351,335,483,387) <table>\n  <tr>\n    <th colspan=\"3\">Reserves</th>\n  </tr>\n  <tr>\n    <th>sid</th>\n    <th>bid</th>\n    <th>day</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td>101</td>\n    <td>10/10/96</td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td>103</td>\n    <td>11/12/96</td>\n  </tr>\n</table>\n\n![title](431,431,606,454) **Exercise (Cont.)**\n\n![list](352,461,688,596)\n- Find the names of sailors who have reserved boat 103.\n- Find the names of sailors who have reserved a red boat.\n- Find the colors of boats reserved by Dustin.\n- Find the names of sailors who have reserved at least one boat.\n- Find the names of sailors who have reserved a red or a green boat.\n- Find the names of sailors who have reserved a red and a green boat.\n- Find the names of sailors with age over 20 who have\n\n![formula](25,598,812,653) ① $\\pi_{sname} \\left( Sailors \\bowtie \\left( \\sigma_{bid=103} Reserves \\right) \\right)$\n\n![formula](11,655,933,709) ② $\\pi_{sname} \\left( \\sigma_{color='red'} \\left( Sailors \\bowtie \\left( Boats \\bowtie Reserves \\right) \\right) \\right)$\n\n![formula](16,712,778,777) ③ $\\pi_{color} \\left( \\sigma_{sname} Sailors \\right) \\bowtie Reserves \\bowtie Boats$\n\n![formula](25,792,592,846) ④ $\\pi_{sname} \\left( Sailors \\bowtie Reserves \\right)$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844184,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 1119,
+      "prompt_tokens": 2096,
+      "total_tokens": 3215,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 957.965,
+      "prompt_per_token_ms": 0.4570443702290076,
+      "prompt_per_second": 2187.9713768248316,
+      "predicted_n": 1119,
+      "predicted_ms": 11124.448,
+      "predicted_per_token_ms": 9.950311270125225,
+      "predicted_per_second": 100.49936859788458
+    }
+  }
+}

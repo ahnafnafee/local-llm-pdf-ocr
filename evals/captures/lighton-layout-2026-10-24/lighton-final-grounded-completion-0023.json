@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 5.344000000011874,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-y9YqMcQ1FF0nY7atzJ6CyTVI8oYPVgML",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](47,25,193,57) # Lecture 6\n\n![title](36,83,309,122) ## Relational Algebra\n\n![list](56,133,814,257)\n- $\\sigma$ used to select tuples\n  - selecting tuples from relation $R$ that satisfy selection condition $C$\n\n![formula](313,274,453,322) $\\sigma_C(R)$\n\n![text](62,340,650,387) *String constant written in single quotes*\n\n![text](73,400,127,437) e.g.\n\n![text](152,427,726,474) $\\sigma(\\text{Dno}=4 \\text{ AND } \\text{Salary}>25000) \\text{ OR } (\\text{Dno}=5 \\text{ AND } \\text{Salary}>30000)$\n\n![text](73,490,426,531) - NOT > AND > OR — Precedence\n\n![list](56,546,366,587)\n- $\\sigma$ is commutative\n\n![list](45,633,690,688)\n- Project used to SELECT attributes\n\n![formula](181,692,378,740) $\\pi_L(R)$\n\n![text](382,744,626,790) $\\leftarrow$ list of attributes\n\n![text](112,800,403,853) $\\pi_{\\text{rid}, \\text{height}}(\\text{Players})$\n\n![text](247,857,745,907) $\\rightarrow$ basically filtering by columns",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844139,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 436,
+      "prompt_tokens": 2096,
+      "total_tokens": 2532,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 957.599,
+      "prompt_per_token_ms": 0.45686975190839696,
+      "prompt_per_second": 2188.8076324223393,
+      "predicted_n": 436,
+      "predicted_ms": 4258.059,
+      "predicted_per_token_ms": 9.788641379310345,
+      "predicted_per_second": 102.15922325172102
+    }
+  }
+}

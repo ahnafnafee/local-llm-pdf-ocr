@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 8.937999999994645,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-JPAZKGXv4byQmQ0r9B36JS7LfumAXbxC",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](176,125,458,149) Customer: $C\\_Name, C\\_Street, C\\_City$\n\n![text](175,151,408,174) Depositor: $C\\_Name, Account\\#$\n\n![text](174,179,418,201) Loan: $B\\_Name, Loan\\_N, Amount$\n\n![text](174,207,403,229) Borrower: $C\\_Name, Loan\\#$\n\n![text](224,237,717,259) Select tuples of the loan relation where the branch name is \"GMU\"\n\n![formula](361,261,536,285) $\\sigma_{branch = 'GMU'} (Loan)$\n\n![list](221,290,701,314)\n- Find all tuples in which the amount of loan is more than \\$12000.\n\n![formula](275,312,443,337) $\\sigma_{amount > 12000} (Loan)$\n\n![list](218,346,833,372)\n- Find those tuples pertaining to loans of more than \\$ 12000 made by \"GMU\" branch.\n\n![formula](270,370,750,398) $\\sigma_{amount > 12000 \\text{ and } branch = 'GMU'} (Loan)$\n\n![list](218,401,564,423)\n- List all loan numbers and the amount of loan.\n\n![formula](275,424,474,448) $\\pi_{loan\\_N, amount} (Loan)$\n\n![list](217,457,616,479)\n- Find the names of all customers who live in \"Fairfax\".\n\n![formula](286,479,597,507) $\\pi_{name} (\\sigma_{city = 'Fairfax'} (Customer))$\n\n![list](216,514,836,535)\n- Find the names of all bank customers who have either an account or a loan or both.\n\n![formula](279,535,682,559) $\\pi_{name} (Depositor) \\cup \\pi_{name} (Borrower)$\n\n![list](216,568,817,588)\n- Find the names of all customers of the bank who have an account but not a loan.\n\n![formula](286,588,647,616) $\\pi_{name} (Depositor) - \\pi_{name} (Borrower)$\n\n![list](216,625,745,644)\n- Find the names of all customers who have both a loan and an account.\n\n![formula](296,642,682,679) $\\pi_{name} (Depositor) \\cap \\pi_{name} (Borrower)$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844457,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 743,
+      "prompt_tokens": 3152,
+      "total_tokens": 3895,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1553.996,
+      "prompt_per_token_ms": 0.493019035532995,
+      "prompt_per_second": 2028.3192492129965,
+      "predicted_n": 743,
+      "predicted_ms": 7221.314,
+      "predicted_per_token_ms": 9.73222911051213,
+      "predicted_per_second": 102.75138292006136
+    }
+  }
+}

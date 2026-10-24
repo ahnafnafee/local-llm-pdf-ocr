@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 9.187000000005355,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-Lo63MzgmMnOHBTBQgjGyXeotUCW8tnv8",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](52,37,962,114) (5) $\\pi_{sname} \\left( \\left( \\sigma_{b.c = 'red'} \\text{ OR } \\sigma_{b.c = 'green'} \\text{ Boats} \\right) \\cap R \\cap B \\right)$\n\n![text](177,344,831,400) (5) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{s.sid = j.sid} \\left( \\text{Reserves} \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'red'} \\text{ OR } b.color = 'green' \\text{ Boats} \\right) \\right) \\right)$\n\n![text](177,398,829,453) (6) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{\\pi_{sid}} \\left( R \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'red'} \\text{ Boats} \\right) \\right) \\cup \\pi_{sid} \\left( R \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'green'} \\text{ Boats} \\right) \\right) \\right)$\n\n![text](177,451,829,507) (1) $\\pi_{s.name} \\left( \\sigma_{r.bid = 103} \\left( \\text{Sailors} \\bowtie_{s.sid = r.sid} \\text{Reserve} \\right) \\right)$\n\n![text](177,505,829,561) (2) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{s.sid = j.sid} \\left( \\text{Reserves} \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'red'} \\text{ Boats} \\right) \\right) \\right)$\n\n![text](177,559,829,614) (3) $\\pi_{b.color} \\left( \\text{Boats} \\bowtie_{b.bid = j.bid} \\left( \\text{Reserves} \\bowtie_{r.sid = s.sid} \\left( \\sigma_{s.name = 'John'} \\text{ Sailors} \\right) \\right) \\right)$\n\n![text](177,612,829,668) (4) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{s.sid = r.sid} \\text{Reserves} \\right)$\n\n![text](17,744,962,820) (6) $\\text{red} \\rightarrow \\pi_{s.b.name} \\left( S \\bowtie R \\bowtie \\left( \\sigma_{b.color = 'red'} B \\right) \\right) \\bowtie S$\n\n![text](17,744,962,820) $\\text{green} \\rightarrow \\pi_{s.b.name} \\left( S \\bowtie R \\bowtie \\left( \\sigma_{b.color = 'green'} B \\right) \\right) \\bowtie S$\n\n![text](107,844,829,920) $R \\cap B \\in \\pi_{sname} \\left( \\text{Red} \\cap \\text{Green} \\right)$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844194,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 826,
+      "prompt_tokens": 2096,
+      "total_tokens": 2922,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 976.52,
+      "prompt_per_token_ms": 0.4658969465648855,
+      "prompt_per_second": 2146.397411215336,
+      "predicted_n": 826,
+      "predicted_ms": 8049.997,
+      "predicted_per_token_ms": 9.757572121212121,
+      "predicted_per_second": 102.48451024267462
+    }
+  }
+}

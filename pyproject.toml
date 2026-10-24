@@ -1,14 +1,14 @@
 [project]
 name = "local-llm-pdf-ocr"
 version = "0.3.0"
-description = "Transform scanned and written documents into fully searchable, selectable PDFs using the power of Local LLM Vision"
+description = "Convert scanned PDFs and images into searchable documents with any OpenAI-compatible vision server"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [
     { name = "Ahnaf An Nafee", email = "ahnafnafee@gmail.com" },
 ]
-keywords = ["ocr", "pdf", "vision", "llm", "olmocr", "surya"]
+keywords = ["ocr", "pdf", "vision", "llm", "lightonocr", "surya"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
@@ -38,6 +38,7 @@ dependencies = [
     "requests>=2.31",
     "scipy>=1.15.3",
     "jiwer>=4.0.0",
+    "pylatexenc>=2.10,<3",
 ]
 
 [project.optional-dependencies]
@@ -94,7 +95,7 @@ testpaths = ["tests"]
 addopts = "-ra --strict-markers"
 markers = [
     "slow: loads Surya models (~5s first run) — skip with '-m \"not slow\"'",
-    "live_llm: hits a real LLM endpoint — skip unless LM Studio is running",
+    "live_llm: hits a configured vision inference endpoint",
 ]
 filterwarnings = [
     "ignore::pydantic.PydanticDeprecatedSince20:surya.*",

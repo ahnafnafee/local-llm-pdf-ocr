@@ -1,0 +1,127 @@
+[
+  {
+    "document": "digital.pdf",
+    "mode": "grounded",
+    "gt_count": 16,
+    "pipeline_count": 18,
+    "metrics": {
+      "recall": 0.8125,
+      "recall_at_05": 0.6875,
+      "precision": 0.7222,
+      "hmean": 0.7647,
+      "avg_iou": 0.7457,
+      "text_sim": 0.9987,
+      "avg_cer": 0.0013,
+      "bow_f1": 0.997,
+      "char_recall": 0.9048,
+      "char_precision": 0.9928,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "hybrid.pdf",
+    "mode": "grounded",
+    "gt_count": 38,
+    "pipeline_count": 14,
+    "metrics": {
+      "recall": 0.2368,
+      "recall_at_05": 0.1316,
+      "precision": 0.6429,
+      "hmean": 0.3462,
+      "avg_iou": 0.5427,
+      "text_sim": 0.8528,
+      "avg_cer": 0.3175,
+      "bow_f1": 1.0,
+      "char_recall": 0.9572,
+      "char_precision": 0.808,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "handwritten.pdf",
+    "mode": "grounded",
+    "gt_count": 14,
+    "pipeline_count": 7,
+    "metrics": {
+      "recall": 0.4286,
+      "recall_at_05": 0.3571,
+      "precision": 0.8571,
+      "hmean": 0.5714,
+      "avg_iou": 0.6331,
+      "text_sim": 0.81,
+      "avg_cer": 0.4037,
+      "bow_f1": 0.9324,
+      "char_recall": 0.9935,
+      "char_precision": 0.9183,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "dense.pdf",
+    "mode": "grounded",
+    "gt_count": 365,
+    "pipeline_count": 286,
+    "metrics": {
+      "recall": 0.211,
+      "recall_at_05": 0.0274,
+      "precision": 0.2692,
+      "hmean": 0.2366,
+      "avg_iou": 0.4128,
+      "text_sim": 0.3488,
+      "avg_cer": 0.8538,
+      "bow_f1": 0.6031,
+      "char_recall": 0.3865,
+      "char_precision": 0.5249,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "notes.pdf",
+    "mode": "grounded",
+    "gt_count": 467,
+    "pipeline_count": 190,
+    "metrics": {
+      "recall": 0.3255,
+      "recall_at_05": 0.242,
+      "precision": 0.8,
+      "hmean": 0.4627,
+      "avg_iou": 0.6412,
+      "text_sim": 0.7632,
+      "avg_cer": 0.4517,
+      "bow_f1": 0.5612,
+      "char_recall": 0.8197,
+      "char_precision": 0.6937,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  }
+]

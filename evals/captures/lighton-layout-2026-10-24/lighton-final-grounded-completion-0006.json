@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 12.71899999998277,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-qE16d4v0cPtfU6Ehlld8RgUC15Emyo3Q",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](12,17,112,103) SAL in Application Code\n\n![list](12,103,112,172)\n- Two main integration approaches\n\n![list](12,172,112,240)\n- Statement level interface → embedded SQL\n\n![list](12,240,112,308)\n- embedded SQL →\n\n![list](12,308,112,376)\n- Call-level interface → JDBC\n\n![list](12,376,112,444)\n- (CL) - special API to → JDBC\n\n![text](12,444,112,512) SQL commands\n\n![table](12,512,112,820) <table>\n  <tr>\n    <th rowspan=\"2\">SQL</th>\n    <th>Precompiled</th>\n    <th>Schema Info</th>\n    <th>Out-of-DB</th>\n    <th>Multiple DBs</th>\n    <th>Efficiency</th>\n    <th>to support</th>\n  </tr>\n  <tr>\n    <td>dynamic</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>No</td>\n    <td>higher</td>\n    <td>lower</td>\n  </tr>\n  <tr>\n    <td>(CL)</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>lower</td>\n    <td>higher</td>\n  </tr>\n</table>\n\n![text](12,820,112,909) Schema of DB must be known at first program & written for embedded SQL\n\n![text](12,909,112,977) → can get info at runtime instead of compile time\n\n![list](12,977,112,1037)\n- SALSTATE - common effect not offered here\n\n![text](12,1037,112,1105) EXEC SQL SELECT S-name, S-age INTO :c-name, :c-age FROM S-ids S WHERE S-ssd = :c-ssd\n\n![text](12,1105,112,1172) → in parameter\n\n![list](12,1172,112,1240)\n- for db, start index from 1\n\n![list](376,17,476,103)\n- Improbable Mismatch problem\n\n![list](376,103,476,172)\n- Fixed with Cursor\n\n![text](376,172,476,240) OPEN: when SQL statement is executed\n\n![text](376,240,476,308) FETCH: when it moves to the next row\n\n![text](376,308,476,376) INSSENSITIVE Cursor: cannot make changes to DB with Cursor.\n\n![text](376,376,476,444) If I want to update result, then declare SENSITIVE Cursor\n\n![text](376,444,476,512) → Fixes issue with collecting set of tuples\n\n![text](376,512,476,580) CLOSE: closes the cursor\n\n![text](376,580,476,648) Cursor can be reopened when in variable is different\n\n![text](376,648,476,716) Note the poll question !!\n\n![text](376,716,476,785) - execute Update ()\n\n![text](376,785,476,853) (number of rows selected)\n\n![list](722,17,822,103)\n- to make any changes, I need to declare a sensitive Cursor\n\n![text](722,103,822,172) - embedded SQL recommended in systems that require high performance without JDBC overhead\n\n![text](722,172,822,240) - for dynamic SQL, we cannot reuse, since we need to prepare\n\n![text](722,240,822,308) JDBC/JDBC\n\n![text](722,308,822,376) JDBC does not require knowing details of schema info\n\n![text](722,376,822,444) - can connect to multiple DBs with multiple separate drivers\n\n![text](722,444,822,512) - all interactions with the DB performed via a Connection Object\n\n![text](722,512,822,580) Prepared Statement is more efficient to use since it is made to reuse as it is precompiled\n\n![text](722,580,822,648) - ? are placeholders\n\n![text](722,648,822,716) - Keyword → Redundancy",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792843957,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 1261,
+      "prompt_tokens": 736,
+      "total_tokens": 1997,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 736,
+      "prompt_ms": 335.449,
+      "prompt_per_token_ms": 0.455773097826087,
+      "prompt_per_second": 2194.0742109828916,
+      "predicted_n": 1261,
+      "predicted_ms": 12262.821,
+      "predicted_per_token_ms": 9.73239761904762,
+      "predicted_per_second": 102.74960386358083
+    }
+  }
+}

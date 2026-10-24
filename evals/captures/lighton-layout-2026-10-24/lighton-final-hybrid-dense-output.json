@@ -1,0 +1,2666 @@
+[
+  [
+    [
+      0.011999999999999999,
+      0.012,
+      0.127,
+      0.033
+    ],
+    "SQL in Application Code"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.033,
+      0.227,
+      0.053
+    ],
+    "- Two main integration approaches"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.053,
+      0.227,
+      0.073
+    ],
+    "- Statement level interface → embedded SQL"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.073,
+      0.127,
+      0.092
+    ],
+    "- embedded SQL →"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.092,
+      0.227,
+      0.112
+    ],
+    "- Call-level interface → JDBC"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.112,
+      0.227,
+      0.132
+    ],
+    "- special API to → JDBC"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.132,
+      0.127,
+      0.151
+    ],
+    "SQL commands"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.151,
+      0.227,
+      0.311
+    ],
+    "<table>\n  <tr>\n    <th rowspan=\"2\">SQL</th>\n    <th rowspan=\"2\">Precompiler</th>\n    <th rowspan=\"2\">Schema Info</th>\n    <th rowspan=\"2\">Database Info</th>\n    <th rowspan=\"2\">Multiple DBs</th>\n    <th rowspan=\"2\">Efficiency</th>\n    <th rowspan=\"2\">DB System</th>\n  </tr>\n  <tr>\n    <th>Static</th>\n    <th>Dynamic</th>\n  </tr>\n  <tr>\n    <td>SQL</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>No</td>\n    <td>Higher</td>\n    <td>Lower</td>\n  </tr>\n  <tr>\n    <td>(C)</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>Lower</td>\n    <td>Higher</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.311,
+      0.227,
+      0.331
+    ],
+    "Schema of DB must be known at"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.331,
+      0.227,
+      0.351
+    ],
+    "first program is written for embedded SQL"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.351,
+      0.227,
+      0.371
+    ],
+    "→ can get info at runtime instead of compile time."
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.371,
+      0.227,
+      0.391
+    ],
+    "- SQLSTATE - common error was defined here"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.391,
+      0.227,
+      0.411
+    ],
+    "EXEC SQL SELECT S-name, S-age"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.411,
+      0.227,
+      0.431
+    ],
+    "INTO :c-name, :c-age → out parameters"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.431,
+      0.227,
+      0.451
+    ],
+    "FROM S, S1, S2"
+  ],
+  [
+    [
+      0.027163613392293114,
+      0.44677734375,
+      0.20972836386607707,
+      0.47265625
+    ],
+    "WHERE S.Sid = :c-Sid"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.471,
+      0.227,
+      0.491
+    ],
+    "→ in parameter"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.491,
+      0.227,
+      0.511
+    ],
+    "- for db, start index from 1"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.511,
+      0.227,
+      0.531
+    ],
+    "Project 2"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.531,
+      0.227,
+      0.551
+    ],
+    "- need to use LIKE for partial matching"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.551,
+      0.227,
+      0.571
+    ],
+    "- cross-check?"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.571,
+      0.227,
+      0.591
+    ],
+    "- program should NOT crash"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.591,
+      0.227,
+      0.611
+    ],
+    "- use gtable for simplicity"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.611,
+      0.227,
+      0.631
+    ],
+    "(use that's what I know best)"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.631,
+      0.227,
+      0.651
+    ],
+    "- look out for redundancies in data instances"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.651,
+      0.227,
+      0.671
+    ],
+    "$t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]$"
+  ],
+  [
+    [
+      0.051168667087807956,
+      0.6708984375,
+      0.26658243840808593,
+      0.6875
+    ],
+    "$t_1$ and $t_2$ → Any two rows in year table"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.691,
+      0.227,
+      0.711
+    ],
+    "$t_1[X]$ → row at the x columns of row 1"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.711,
+      0.227,
+      0.731
+    ],
+    "$t_1[X] = t_2[X]$ → row 1 and row 2 have same x values"
+  ],
+  [
+    [
+      0.037271004421983576,
+      0.7275390625,
+      0.2962728995578016,
+      0.75
+    ],
+    "⇒ → forces"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.751,
+      0.227,
+      0.771
+    ],
+    "$t_1[Y] = t_2[Y]$ → row 1 and row 2 must also have same y values"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.771,
+      0.227,
+      0.791
+    ],
+    "FD between non-key attributes is a"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.791,
+      0.227,
+      0.811
+    ],
+    "RED FLAG that data is being repeatedly unnecessarily"
+  ],
+  [
+    [
+      0.03095388502842704,
+      0.8095703125,
+      0.31838281743524954,
+      0.82958984375
+    ],
+    "- FD means one attr's value is completely controlled by another"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.831,
+      0.227,
+      0.851
+    ],
+    "- when controlling attr appears in multiple rows, its dependent value gets copied"
+  ],
+  [
+    [
+      0.024005053695514846,
+      0.8515625,
+      0.28932406822488943,
+      0.87646484375
+    ],
+    "passed → i.e. redundancy"
+  ],
+  [
+    [
+      0.371,
+      0.012,
+      0.581,
+      0.032
+    ],
+    "- Impedance Mismatch problem"
+  ],
+  [
+    [
+      0.371,
+      0.032,
+      0.581,
+      0.052
+    ],
+    "- fixed with Cursor"
+  ],
+  [
+    [
+      0.371,
+      0.052,
+      0.581,
+      0.072
+    ],
+    "OPEN: when SQL statement is executed"
+  ],
+  [
+    [
+      0.371,
+      0.072,
+      0.581,
+      0.092
+    ],
+    "FETCH: when it moves to the next row"
+  ],
+  [
+    [
+      0.371,
+      0.092,
+      0.581,
+      0.112
+    ],
+    "INSENSITIVE Cursor: cannot make changes to DB with cursor"
+  ],
+  [
+    [
+      0.371,
+      0.112,
+      0.581,
+      0.132
+    ],
+    "If I want to update result, then declare sensitive cursor"
+  ],
+  [
+    [
+      0.37713202779532534,
+      0.13134765625,
+      0.5742261528742894,
+      0.14453125
+    ],
+    "→ fixes issue with collecting set of tuples"
+  ],
+  [
+    [
+      0.371,
+      0.151,
+      0.581,
+      0.171
+    ],
+    "CLOSE: closes the cursor"
+  ],
+  [
+    [
+      0.3885028427037271,
+      0.169921875,
+      0.6601389766266582,
+      0.19580078125
+    ],
+    "Cursor can be reopened when in variable is different"
+  ],
+  [
+    [
+      0.371,
+      0.191,
+      0.581,
+      0.211
+    ],
+    "Note the poll !!"
+  ],
+  [
+    [
+      0.3809222994314593,
+      0.21484375,
+      0.6348704990524321,
+      0.23046875
+    ],
+    "Question"
+  ],
+  [
+    [
+      0.371,
+      0.231,
+      0.581,
+      0.251
+    ],
+    "- execute Update()"
+  ],
+  [
+    [
+      0.371,
+      0.251,
+      0.581,
+      0.271
+    ],
+    "only returns number of rows (affected)"
+  ],
+  [
+    [
+      0.371,
+      0.271,
+      0.581,
+      0.291
+    ],
+    "- see the comparison table for"
+  ],
+  [
+    [
+      0.371,
+      0.291,
+      0.581,
+      0.311
+    ],
+    "also use executeQuery() instead"
+  ],
+  [
+    [
+      0.371,
+      0.311,
+      0.581,
+      0.331
+    ],
+    "- JDBC vs SQLS"
+  ],
+  [
+    [
+      0.371,
+      0.331,
+      0.581,
+      0.351
+    ],
+    "for managing complexity better"
+  ],
+  [
+    [
+      0.3720783322804801,
+      0.3408203125,
+      0.6304485154769425,
+      0.37109375
+    ],
+    "when to choose what?"
+  ],
+  [
+    [
+      0.34301958307012004,
+      0.36376953125,
+      0.6336070751737208,
+      0.39208984375
+    ],
+    "L13: Functional Dependencies"
+  ],
+  [
+    [
+      0.371,
+      0.391,
+      0.581,
+      0.411
+    ],
+    "Attribute Closure"
+  ],
+  [
+    [
+      0.371,
+      0.411,
+      0.581,
+      0.431
+    ],
+    "L14: Normal Forms"
+  ],
+  [
+    [
+      0.3663929248262792,
+      0.42333984375,
+      0.6007580543272267,
+      0.451171875
+    ],
+    "Normalize"
+  ],
+  [
+    [
+      0.371,
+      0.451,
+      0.581,
+      0.471
+    ],
+    "L15: Properties of Decomposition"
+  ],
+  [
+    [
+      0.371,
+      0.471,
+      0.581,
+      0.491
+    ],
+    "Lossless Join + BP"
+  ],
+  [
+    [
+      0.3708149084017688,
+      0.49072265625,
+      0.509159823120657,
+      0.51123046875
+    ],
+    "Minimal Cover"
+  ],
+  [
+    [
+      0.371,
+      0.511,
+      0.581,
+      0.531
+    ],
+    "L16: Decomposition Algorithms"
+  ],
+  [
+    [
+      0.011999999999999999,
+      0.531,
+      0.227,
+      0.551
+    ],
+    "- why repetition is problematic"
+  ],
+  [
+    [
+      0.371,
+      0.551,
+      0.581,
+      0.571
+    ],
+    "- update anomaly"
+  ],
+  [
+    [
+      0.3733417561591914,
+      0.57275390625,
+      0.509159823120657,
+      0.59619140625
+    ],
+    "- insertion anomaly"
+  ],
+  [
+    [
+      0.3461781427668983,
+      0.58984375,
+      0.5325331648768161,
+      0.61669921875
+    ],
+    "- deletion anomaly"
+  ],
+  [
+    [
+      0.371,
+      0.611,
+      0.581,
+      0.631
+    ],
+    "She is going way too fast for me to observe..."
+  ],
+  [
+    [
+      0.371,
+      0.631,
+      0.581,
+      0.651
+    ],
+    "didn't understand this"
+  ],
+  [
+    [
+      0.371,
+      0.651,
+      0.581,
+      0.671
+    ],
+    "- see explanation in PDX"
+  ],
+  [
+    [
+      0.35249526216045485,
+      0.673828125,
+      0.5540113708149084,
+      0.6904296875
+    ],
+    "- $k = \\{A_1, A_2, ..., A_n\\}$ is a candidate key for relation R if"
+  ],
+  [
+    [
+      0.371,
+      0.691,
+      0.581,
+      0.711
+    ],
+    "$K \\rightarrow$ all other attributes of R"
+  ],
+  [
+    [
+      0.371,
+      0.711,
+      0.581,
+      0.731
+    ],
+    "AND"
+  ],
+  [
+    [
+      0.371,
+      0.731,
+      0.581,
+      0.751
+    ],
+    "No other subset of $k \\rightarrow$ all other attributes of R"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.012,
+      0.981,
+      0.032
+    ],
+    "- to make any changes, I need to declare a sensitive cursor"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.032,
+      0.981,
+      0.052
+    ],
+    "- embedded SQL recommended in systems that require high performance without JDBC overhead"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.052,
+      0.981,
+      0.072
+    ],
+    "- for dynamic SQL, we cannot reuse, since we need to prepare"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.072,
+      0.981,
+      0.092
+    ],
+    "JDBC/JDBC"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.092,
+      0.981,
+      0.112
+    ],
+    "JDBC does not require training domain or schema info"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.112,
+      0.981,
+      0.132
+    ],
+    "- can connect to multiple DBs with multiple separate drivers"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.132,
+      0.981,
+      0.151
+    ],
+    "- all interactions with the DB performed via a connection object"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.151,
+      0.981,
+      0.171
+    ],
+    "Prepared statement is more efficient to use since it's made to reuse as it is precompiled"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.171,
+      0.981,
+      0.191
+    ],
+    "- ? are placeholders"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.191,
+      0.981,
+      0.211
+    ],
+    "- Keyword → Redundancy"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.211,
+      0.981,
+      0.231
+    ],
+    "- FD: most important kind of constraint in the relational model"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.231,
+      0.981,
+      0.251
+    ],
+    "- associated with the schema, not the instance"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.251,
+      0.981,
+      0.271
+    ],
+    "- can I represent key constraint using FD?"
+  ],
+  [
+    [
+      0.6923562855337966,
+      0.2705078125,
+      0.9444093493367025,
+      0.2919921875
+    ],
+    "$X \\rightarrow Y$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.291,
+      0.981,
+      0.311
+    ],
+    "$X$ functionally determines $Y$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.311,
+      0.981,
+      0.331
+    ],
+    "alternatively,"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.331,
+      0.981,
+      0.351
+    ],
+    "$Y$ is dependent on $X$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.351,
+      0.981,
+      0.371
+    ],
+    "Phonebook"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.371,
+      0.981,
+      0.431
+    ],
+    "<table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.431,
+      0.981,
+      0.451
+    ],
+    "If I know someone's phone no, can I always figure out their name?"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.451,
+      0.981,
+      0.471
+    ],
+    "Phone # → Name"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.471,
+      0.981,
+      0.491
+    ],
+    "- $X \\rightarrow Y_2$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.491,
+      0.981,
+      0.511
+    ],
+    "$X \\rightarrow Y$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.511,
+      0.981,
+      0.531
+    ],
+    "$X \\rightarrow Z$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.531,
+      0.981,
+      0.551
+    ],
+    "LHS is the determinant"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.551,
+      0.981,
+      0.571
+    ],
+    "cannot decompose LHS"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.571,
+      0.981,
+      0.591
+    ],
+    "$XY \\rightarrow YZ$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.591,
+      0.981,
+      0.611
+    ],
+    "$X \\rightarrow Y$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.611,
+      0.981,
+      0.631
+    ],
+    "$X \\rightarrow Z$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.631,
+      0.981,
+      0.651
+    ],
+    "- Closure of Attributes"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.651,
+      0.981,
+      0.671
+    ],
+    "- find all attributes dependent on $A_1$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.671,
+      0.981,
+      0.691
+    ],
+    "if I know value of attr $X$ , what else can I figure out?"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.691,
+      0.981,
+      0.711
+    ],
+    "- i.e. closure of $X$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.711,
+      0.981,
+      0.731
+    ],
+    "$AUA$ $X^+$"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.731,
+      0.981,
+      0.751
+    ],
+    "- think yourself as a detective"
+  ],
+  [
+    [
+      0.7709999999999999,
+      0.751,
+      0.981,
+      0.771
+    ],
+    "- start with one clue, let it lead to more clues"
+  ],
+  [
+    [
+      0.001,
+      0.001,
+      0.1,
+      0.003
+    ],
+    "- for example:"
+  ],
+  [
+    [
+      0.001,
+      0.003,
+      0.1,
+      0.011
+    ],
+    "$R = \\{A, B, C, D, E, G\\}$"
+  ],
+  [
+    [
+      0.001,
+      0.011,
+      0.1,
+      0.02
+    ],
+    "FDs: $AB \\rightarrow C$ , $BC \\rightarrow AD$ , $D \\rightarrow E$ , $CE \\rightarrow B$"
+  ],
+  [
+    [
+      0.001,
+      0.02,
+      0.1,
+      0.029
+    ],
+    "$\\therefore \\{A, B\\}^+ ?$"
+  ],
+  [
+    [
+      0.001,
+      0.03,
+      0.1,
+      0.039
+    ],
+    "- build a snowball..."
+  ],
+  [
+    [
+      0.001,
+      0.04,
+      0.3,
+      0.32
+    ],
+    "<table>\n  <tr>\n    <th>Round</th>\n    <th>Snowball</th>\n  </tr>\n  <tr>\n    <td>Start</td>\n    <td>A and B</td>\n    <td> $\\{A, B\\}$ </td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td> $AB \\rightarrow C$ </td>\n    <td> $\\{A, B, C\\}$ </td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td> $BC \\rightarrow AD$ </td>\n    <td> $\\{A, B, C, D\\}$ </td>\n  </tr>\n  <tr>\n    <td>3</td>\n    <td> $D \\rightarrow E$ </td>\n    <td> $\\{A, B, C, E\\}$ </td>\n  </tr>\n  <tr>\n    <td>4</td>\n    <td>X</td>\n    <td>Done</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.001,
+      0.32,
+      0.1,
+      0.331
+    ],
+    "$\\therefore \\{A, B\\}^+ = \\{A, B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.001,
+      0.331,
+      0.1,
+      0.34
+    ],
+    "$G$ -as new: redundant"
+  ],
+  [
+    [
+      0.37,
+      0.001,
+      0.46,
+      0.02
+    ],
+    "- what about $\\{C, D\\}^+$"
+  ],
+  [
+    [
+      0.37,
+      0.02,
+      0.46,
+      0.031
+    ],
+    "$\\{C, D\\}^+ \\Rightarrow \\{C, D\\}$"
+  ],
+  [
+    [
+      0.46,
+      0.031,
+      0.49,
+      0.04
+    ],
+    "$D \\rightarrow E$"
+  ],
+  [
+    [
+      0.46,
+      0.04,
+      0.49,
+      0.05
+    ],
+    "$\\Rightarrow \\{C, D, E\\}$"
+  ],
+  [
+    [
+      0.46,
+      0.05,
+      0.49,
+      0.06
+    ],
+    "$CE \\rightarrow B$"
+  ],
+  [
+    [
+      0.46,
+      0.06,
+      0.49,
+      0.07
+    ],
+    "$\\Rightarrow \\{C, D, E\\}$"
+  ],
+  [
+    [
+      0.46,
+      0.07,
+      0.49,
+      0.08
+    ],
+    "$BC \\rightarrow A$"
+  ],
+  [
+    [
+      0.46,
+      0.08,
+      0.49,
+      0.09
+    ],
+    "$\\Rightarrow \\{A, B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.46,
+      0.09,
+      0.5,
+      0.1
+    ],
+    "$G$ still missing"
+  ],
+  [
+    [
+      0.46,
+      0.1,
+      0.5,
+      0.11
+    ],
+    "$\\therefore \\{C, D\\}$ is NOT a candidate key"
+  ],
+  [
+    [
+      0.46,
+      0.11,
+      0.5,
+      0.12
+    ],
+    "$\\Rightarrow \\{C, D, E\\}^+ = \\{A, B, C, D, E, G\\}$"
+  ],
+  [
+    [
+      0.46,
+      0.12,
+      0.5,
+      0.13
+    ],
+    "$L$ is a superkey since it covers all attributes in $R$"
+  ],
+  [
+    [
+      0.46,
+      0.13,
+      0.5,
+      0.14
+    ],
+    "$L$ is a candidate key too since is minimal — removing $G$ breaks the S.U. property"
+  ],
+  [
+    [
+      0.46,
+      0.14,
+      0.5,
+      0.15
+    ],
+    "same applies for:"
+  ],
+  [
+    [
+      0.46,
+      0.15,
+      0.5,
+      0.16
+    ],
+    "$\\{A, B, G\\}^+$"
+  ],
+  [
+    [
+      0.72,
+      0.001,
+      0.8,
+      0.02
+    ],
+    "Normalization"
+  ],
+  [
+    [
+      0.72,
+      0.02,
+      0.8,
+      0.031
+    ],
+    "- 1NF: disallows multi-valued attributes, composite attrs, and over combinations"
+  ],
+  [
+    [
+      0.72,
+      0.031,
+      0.8,
+      0.04
+    ],
+    "- Prime vs. Nonprime Attrs"
+  ],
+  [
+    [
+      0.72,
+      0.04,
+      0.8,
+      0.05
+    ],
+    "$\\downarrow$ number of any candidate key"
+  ],
+  [
+    [
+      0.72,
+      0.05,
+      0.8,
+      0.06
+    ],
+    "$\\downarrow$ not a prime attr (not a member of any c.k.)"
+  ],
+  [
+    [
+      0.72,
+      0.06,
+      0.78,
+      0.07
+    ],
+    "disjoint"
+  ],
+  [
+    [
+      0.72,
+      0.07,
+      0.8,
+      0.08
+    ],
+    "- Full FD vs. Partial FD"
+  ],
+  [
+    [
+      0.72,
+      0.08,
+      0.8,
+      0.09
+    ],
+    "$\\downarrow$ removing a single attr breaks the dependency"
+  ],
+  [
+    [
+      0.72,
+      0.09,
+      0.8,
+      0.1
+    ],
+    "$\\downarrow$ removing some attr and dep still holds"
+  ],
+  [
+    [
+      0.7201516108654453,
+      0.10107421875,
+      0.8016424510423247,
+      0.11572265625
+    ],
+    "e.g. EMP-PROS(SSN, Pnum, Wages, Ename)"
+  ],
+  [
+    [
+      0.72,
+      0.11,
+      0.8,
+      0.12
+    ],
+    "$\\{SSN, Pnum\\} \\rightarrow Wages$ : full FD"
+  ],
+  [
+    [
+      0.72,
+      0.12,
+      0.8,
+      0.13
+    ],
+    "(need both to obtain Wages)"
+  ],
+  [
+    [
+      0.72,
+      0.13,
+      0.8,
+      0.14
+    ],
+    "$\\{SSN, Pnum\\} \\rightarrow Ename$ : partial FD"
+  ],
+  [
+    [
+      0.72,
+      0.14,
+      0.8,
+      0.15
+    ],
+    "(SSN alone determines Ename)"
+  ],
+  [
+    [
+      0.37,
+      0.031,
+      0.46,
+      0.04
+    ],
+    "- 2NF (Second Normal Form)"
+  ],
+  [
+    [
+      0.37,
+      0.04,
+      0.46,
+      0.05
+    ],
+    "$\\downarrow$ already in 1NF"
+  ],
+  [
+    [
+      0.37,
+      0.05,
+      0.46,
+      0.06
+    ],
+    "$\\downarrow$ every nonprime attr is fully FD on primary key"
+  ],
+  [
+    [
+      0.37,
+      0.06,
+      0.46,
+      0.07
+    ],
+    "$\\therefore$ for 1NF $\\rightarrow$ 2NF"
+  ],
+  [
+    [
+      0.37,
+      0.07,
+      0.46,
+      0.08
+    ],
+    "- find every partial dependencies"
+  ],
+  [
+    [
+      0.37,
+      0.08,
+      0.46,
+      0.09
+    ],
+    "- move attr and partial key to new, separate relation"
+  ],
+  [
+    [
+      0.37,
+      0.09,
+      0.46,
+      0.1
+    ],
+    "as partial dependencies cause redundancies"
+  ],
+  [
+    [
+      0.37,
+      0.1,
+      0.46,
+      0.11
+    ],
+    "e.g. EMP-PROS(SSN, Pnum, Wages, Ename, Pnum, Pnum)"
+  ],
+  [
+    [
+      0.37,
+      0.11,
+      0.46,
+      0.12
+    ],
+    "FD1: $\\{SSN, Pnum\\} \\rightarrow Wages$ (full)"
+  ],
+  [
+    [
+      0.37,
+      0.12,
+      0.46,
+      0.13
+    ],
+    "FD2: $SSN \\rightarrow Ename$ (partial)"
+  ],
+  [
+    [
+      0.37,
+      0.13,
+      0.46,
+      0.14
+    ],
+    "- ename depends only on SSN"
+  ],
+  [
+    [
+      0.37,
+      0.14,
+      0.46,
+      0.15
+    ],
+    "FD3: $Pnum \\rightarrow Pnum, Pnum$ (partial)"
+  ],
+  [
+    [
+      0.37,
+      0.15,
+      0.46,
+      0.16
+    ],
+    "- key depends on Pnum"
+  ],
+  [
+    [
+      0.46,
+      0.031,
+      0.5,
+      0.04
+    ],
+    "$\\therefore$ After 2NF $\\rightarrow$ 3 norms"
+  ],
+  [
+    [
+      0.46,
+      0.04,
+      0.5,
+      0.05
+    ],
+    "EP1 (SSN, Pnum, Wages) - full dep"
+  ],
+  [
+    [
+      0.46,
+      0.05,
+      0.5,
+      0.06
+    ],
+    "EP2 (SSN, Ename) - employee details"
+  ],
+  [
+    [
+      0.46,
+      0.06,
+      0.5,
+      0.07
+    ],
+    "EP3 (Pnum, Pnum, Pnum) - project details"
+  ],
+  [
+    [
+      0.46,
+      0.07,
+      0.5,
+      0.08
+    ],
+    "- 3NF (Third Normal Form)"
+  ],
+  [
+    [
+      0.46,
+      0.08,
+      0.5,
+      0.09
+    ],
+    "- transitive dependency"
+  ],
+  [
+    [
+      0.46,
+      0.09,
+      0.5,
+      0.1
+    ],
+    "e.g. $A \\rightarrow B$ , $B \\rightarrow C$"
+  ],
+  [
+    [
+      0.46,
+      0.1,
+      0.5,
+      0.11
+    ],
+    "$\\therefore$ $C$ is transitively dependent on $A$ via $B$"
+  ],
+  [
+    [
+      0.46,
+      0.11,
+      0.5,
+      0.12
+    ],
+    "- already 2NF"
+  ],
+  [
+    [
+      0.46,
+      0.12,
+      0.5,
+      0.13
+    ],
+    "- no nonprime attr is transitively dependent on PK"
+  ],
+  [
+    [
+      0.46,
+      0.13,
+      0.5,
+      0.14
+    ],
+    "for 2NF $\\rightarrow$ 3NF"
+  ],
+  [
+    [
+      0.46,
+      0.14,
+      0.5,
+      0.15
+    ],
+    "- find transitive deps"
+  ],
+  [
+    [
+      0.46,
+      0.15,
+      0.5,
+      0.16
+    ],
+    "- move T.D attrs to new relation along with copy of internal determinant (CD)"
+  ],
+  [
+    [
+      0.72,
+      0.031,
+      0.8,
+      0.04
+    ],
+    "e.g."
+  ],
+  [
+    [
+      0.72,
+      0.04,
+      0.8,
+      0.05
+    ],
+    "EMP-DEPT (Ename, SSN, Date, Add, Dnum, Dnum, Dnum, Dnum)"
+  ],
+  [
+    [
+      0.72,
+      0.05,
+      0.8,
+      0.06
+    ],
+    "FD chain: $SSN \\rightarrow Dnum$"
+  ],
+  [
+    [
+      0.72,
+      0.06,
+      0.8,
+      0.07
+    ],
+    "$Dnum \\rightarrow Dnum, Dnum, SSN$"
+  ],
+  [
+    [
+      0.72,
+      0.07,
+      0.78,
+      0.08
+    ],
+    "(creates T.D)"
+  ],
+  [
+    [
+      0.72,
+      0.08,
+      0.8,
+      0.09
+    ],
+    "$\\therefore$ ED1 (Ename, SSN, Date, Address, Dnum)"
+  ],
+  [
+    [
+      0.72,
+      0.09,
+      0.8,
+      0.1
+    ],
+    "ED2 (Dnum, Dnum, Dnum, SSN)"
+  ],
+  [
+    [
+      0.72,
+      0.1,
+      0.8,
+      0.11
+    ],
+    "$\\rightarrow$ (as of F.D)"
+  ],
+  [
+    [
+      0.72,
+      0.11,
+      0.8,
+      0.12
+    ],
+    "- determinant: look at F.D set"
+  ],
+  [
+    [
+      0.72,
+      0.12,
+      0.8,
+      0.13
+    ],
+    "- to determine if LHS is superkey"
+  ],
+  [
+    [
+      0.72,
+      0.13,
+      0.8,
+      0.14
+    ],
+    "- compute attribute closure"
+  ],
+  [
+    [
+      0.001,
+      0.031,
+      0.1,
+      0.04
+    ],
+    "- BCNF (Boyce-Codd Normal Form)"
+  ],
+  [
+    [
+      0.001,
+      0.04,
+      0.1,
+      0.05
+    ],
+    "- stricter version of 3NF"
+  ],
+  [
+    [
+      0.001,
+      0.05,
+      0.1,
+      0.06
+    ],
+    "when I normalize to 3NF does it always normalize to BCNF?"
+  ],
+  [
+    [
+      0.001,
+      0.06,
+      0.1,
+      0.07
+    ],
+    "- if BCNF, no redundancies"
+  ],
+  [
+    [
+      0.001,
+      0.07,
+      0.1,
+      0.08
+    ],
+    "e.g. for $X \\rightarrow Y$"
+  ],
+  [
+    [
+      0.001,
+      0.08,
+      0.1,
+      0.09
+    ],
+    "$X$ is the determinant"
+  ],
+  [
+    [
+      0.001,
+      0.09,
+      0.1,
+      0.1
+    ],
+    "(the thing doing the \"determining\")"
+  ],
+  [
+    [
+      0.001,
+      0.1,
+      0.1,
+      0.11
+    ],
+    "- for every $X \\rightarrow Y$ in $R$ , $X$ must be superkey (unique identifier)"
+  ],
+  [
+    [
+      0.001,
+      0.11,
+      0.1,
+      0.12
+    ],
+    "every row"
+  ],
+  [
+    [
+      0.001,
+      0.12,
+      0.1,
+      0.13
+    ],
+    "- vs. 3NF"
+  ],
+  [
+    [
+      0.001,
+      0.13,
+      0.1,
+      0.14
+    ],
+    "- 3NF says non-superkey determinant is okay as long as what it determines (Y) is part of some c.k. (i.e. prime attr)"
+  ],
+  [
+    [
+      0.37,
+      0.11,
+      0.46,
+      0.12
+    ],
+    "Ex. 1"
+  ],
+  [
+    [
+      0.37,
+      0.12,
+      0.46,
+      0.13
+    ],
+    "$\\Rightarrow$ Prime Attrs"
+  ],
+  [
+    [
+      0.37,
+      0.13,
+      0.46,
+      0.14
+    ],
+    "- Property#"
+  ],
+  [
+    [
+      0.37,
+      0.14,
+      0.46,
+      0.15
+    ],
+    "- County-name"
+  ],
+  [
+    [
+      0.37,
+      0.15,
+      0.46,
+      0.16
+    ],
+    "- Lot#"
+  ],
+  [
+    [
+      0.37,
+      0.16,
+      0.46,
+      0.17
+    ],
+    "- already 1NF"
+  ],
+  [
+    [
+      0.37,
+      0.17,
+      0.46,
+      0.18
+    ],
+    "- for 1NF $\\rightarrow$ 2NF"
+  ],
+  [
+    [
+      0.37,
+      0.18,
+      0.46,
+      0.19
+    ],
+    "FD2: $PID \\rightarrow$ all other attr"
+  ],
+  [
+    [
+      0.37,
+      0.19,
+      0.46,
+      0.2
+    ],
+    "FD3: County-name $\\rightarrow$ Tax-rate"
+  ],
+  [
+    [
+      0.37,
+      0.2,
+      0.46,
+      0.21
+    ],
+    "FD4: Area $\\rightarrow$ Price"
+  ],
+  [
+    [
+      0.37,
+      0.21,
+      0.46,
+      0.22
+    ],
+    "2NF"
+  ],
+  [
+    [
+      0.37,
+      0.22,
+      0.46,
+      0.23
+    ],
+    "① $PID\\#, CN, Lot\\#, Area, Price$"
+  ],
+  [
+    [
+      0.37,
+      0.23,
+      0.46,
+      0.24
+    ],
+    "② $CN, Tax-rate$"
+  ],
+  [
+    [
+      0.37,
+      0.24,
+      0.46,
+      0.25
+    ],
+    "$\\downarrow$ dependent on PID#"
+  ],
+  [
+    [
+      0.72,
+      0.11,
+      0.8,
+      0.12
+    ],
+    "- for 2NF $\\rightarrow$ 3NF"
+  ],
+  [
+    [
+      0.72,
+      0.12,
+      0.8,
+      0.13
+    ],
+    "- Area, Price are NP"
+  ],
+  [
+    [
+      0.72,
+      0.13,
+      0.8,
+      0.14
+    ],
+    "③ Area, Price"
+  ],
+  [
+    [
+      0.72,
+      0.14,
+      0.8,
+      0.15
+    ],
+    "① $PID\\#, County-name, Lot\\#, Area$"
+  ],
+  [
+    [
+      0.72,
+      0.15,
+      0.8,
+      0.16
+    ],
+    "- verifying BCNF (W)"
+  ],
+  [
+    [
+      0.72,
+      0.16,
+      0.8,
+      0.17
+    ],
+    "Ex. 2: $P\\#, Id, Lt, Pa, Co, S\\#, Sn, CR$"
+  ],
+  [
+    [
+      0.72,
+      0.17,
+      0.8,
+      0.18
+    ],
+    "Prime Nonprime"
+  ],
+  [
+    [
+      0.72,
+      0.18,
+      0.8,
+      0.19
+    ],
+    "- $P\\#$ - $Pa$"
+  ],
+  [
+    [
+      0.7106759317751106,
+      0.1875,
+      0.7751105495893872,
+      0.2001953125
+    ],
+    "- $Id$ - $Co$"
+  ],
+  [
+    [
+      0.722678458622868,
+      0.19677734375,
+      0.7902716361339229,
+      0.2109375
+    ],
+    "- $Lt$ - $S\\#$"
+  ],
+  [
+    [
+      0.7163613392293114,
+      0.21142578125,
+      0.7890082122552117,
+      0.22216796875
+    ],
+    "- $CR$ - $Sn$"
+  ],
+  [
+    [
+      0.72,
+      0.22,
+      0.8,
+      0.23
+    ],
+    "- already 1NF"
+  ],
+  [
+    [
+      0.72,
+      0.23,
+      0.8,
+      0.24
+    ],
+    "$\\downarrow$ required for 1NF"
+  ],
+  [
+    [
+      0.017,
+      0.022,
+      0.123,
+      0.04
+    ],
+    "- for $1NF \\rightarrow 2NF$"
+  ],
+  [
+    [
+      0.123,
+      0.04,
+      0.173,
+      0.056
+    ],
+    "$FD2: P\\# \\rightarrow P_a$"
+  ],
+  [
+    [
+      0.123,
+      0.055,
+      0.223,
+      0.071
+    ],
+    "both NP, S="
+  ],
+  [
+    [
+      0.123,
+      0.07,
+      0.173,
+      0.086
+    ],
+    "$TD on P, LK$"
+  ],
+  [
+    [
+      0.223,
+      0.055,
+      0.303,
+      0.071
+    ],
+    "$partial dep \\rightarrow 2NF violation$"
+  ],
+  [
+    [
+      0.223,
+      0.07,
+      0.303,
+      0.086
+    ],
+    "$Gnot the full$"
+  ],
+  [
+    [
+      0.223,
+      0.085,
+      0.303,
+      0.101
+    ],
+    "$\\{P\\#, Id\\#3\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.101,
+      0.173,
+      0.117
+    ],
+    "$FD3: S\\# \\rightarrow Sn$"
+  ],
+  [
+    [
+      0.123,
+      0.116,
+      0.173,
+      0.133
+    ],
+    "$\\rightarrow TD$"
+  ],
+  [
+    [
+      0.123,
+      0.132,
+      0.173,
+      0.148
+    ],
+    "$FD4: \\{Id, S\\#3\\} \\rightarrow CR$"
+  ],
+  [
+    [
+      0.123,
+      0.148,
+      0.173,
+      0.164
+    ],
+    "① $\\{P\\#, P_a\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.163,
+      0.173,
+      0.179
+    ],
+    "② $\\{P\\#, Id, It, Co, S\\#, Sn, CR\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.179,
+      0.173,
+      0.195
+    ],
+    "- for $2NF \\rightarrow 3NF$"
+  ],
+  [
+    [
+      0.123,
+      0.194,
+      0.173,
+      0.21
+    ],
+    "③ $\\{S\\#, Sn\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.209,
+      0.173,
+      0.225
+    ],
+    "② $\\{P\\#, Id, It, Co, S\\#, CR\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.225,
+      0.173,
+      0.241
+    ],
+    "- for $3NF \\rightarrow BCNF$"
+  ],
+  [
+    [
+      0.123,
+      0.24,
+      0.173,
+      0.256
+    ],
+    "$\\{Id, S\\#3\\} \\rightarrow not a superkey$"
+  ],
+  [
+    [
+      0.123,
+      0.255,
+      0.173,
+      0.271
+    ],
+    "$BCNF violation$"
+  ],
+  [
+    [
+      0.123,
+      0.27,
+      0.173,
+      0.286
+    ],
+    "$\\{since RUS is P\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.285,
+      0.173,
+      0.301
+    ],
+    "$3NF only protects NP attrs$"
+  ],
+  [
+    [
+      0.123,
+      0.301,
+      0.173,
+      0.317
+    ],
+    "needs to be included for $C$"
+  ],
+  [
+    [
+      0.123,
+      0.316,
+      0.173,
+      0.332
+    ],
+    "$\\{A, C, D\\}^+ \\Rightarrow \\{A, B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.331,
+      0.173,
+      0.347
+    ],
+    "$\\Rightarrow \\{A, B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.346,
+      0.173,
+      0.362
+    ],
+    "$\\{B, C, D\\}^+ \\Rightarrow \\{B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.361,
+      0.173,
+      0.377
+    ],
+    "$\\Rightarrow \\{A, B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.377,
+      0.173,
+      0.393
+    ],
+    "$\\{C, D, E\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.392,
+      0.173,
+      0.408
+    ],
+    "b) all attrs are prime"
+  ],
+  [
+    [
+      0.123,
+      0.407,
+      0.173,
+      0.423
+    ],
+    "$\\therefore$ already in $3NF$"
+  ],
+  [
+    [
+      0.123,
+      0.422,
+      0.173,
+      0.438
+    ],
+    "c) No,"
+  ],
+  [
+    [
+      0.123,
+      0.437,
+      0.173,
+      0.453
+    ],
+    "$A \\rightarrow B$"
+  ],
+  [
+    [
+      0.123,
+      0.452,
+      0.173,
+      0.468
+    ],
+    "$\\{not a superkey\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.467,
+      0.173,
+      0.483
+    ],
+    "$BC \\rightarrow E$"
+  ],
+  [
+    [
+      0.123,
+      0.482,
+      0.173,
+      0.498
+    ],
+    "$\\{not\\}$"
+  ],
+  [
+    [
+      0.123,
+      0.497,
+      0.173,
+      0.513
+    ],
+    "$ED \\rightarrow A$"
+  ],
+  [
+    [
+      0.123,
+      0.512,
+      0.173,
+      0.528
+    ],
+    "$\\{not\\}$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.022,
+      0.573,
+      0.04
+    ],
+    "④ $\\{Id, S\\#, CR\\}$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.04,
+      0.573,
+      0.056
+    ],
+    "② $\\{P\\#, Id, It, Co, S\\#3\\}$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.056,
+      0.47300000000000003,
+      0.072
+    ],
+    "$FD: A \\rightarrow B$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.071,
+      0.47300000000000003,
+      0.087
+    ],
+    "$\\{B is prime\\}$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.087,
+      0.47300000000000003,
+      0.103
+    ],
+    "$\\{A not a superkey\\}$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.103,
+      0.47300000000000003,
+      0.119
+    ],
+    "$FD: A \\rightarrow B$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.118,
+      0.47300000000000003,
+      0.134
+    ],
+    "$\\{B is nonprime\\}$"
+  ],
+  [
+    [
+      0.42299999999999993,
+      0.133,
+      0.47300000000000003,
+      0.149
+    ],
+    "$\\{A is not a superkey\\}$"
+  ],
+  [
+    [
+      0.573,
+      0.103,
+      0.613,
+      0.119
+    ],
+    "$3NF$"
+  ],
+  [
+    [
+      0.613,
+      0.103,
+      0.653,
+      0.119
+    ],
+    "$BCNF$"
+  ],
+  [
+    [
+      0.573,
+      0.118,
+      0.613,
+      0.134
+    ],
+    "Allowed"
+  ],
+  [
+    [
+      0.613,
+      0.118,
+      0.653,
+      0.134
+    ],
+    "Violation"
+  ],
+  [
+    [
+      0.573,
+      0.134,
+      0.613,
+      0.15
+    ],
+    "Violation"
+  ],
+  [
+    [
+      0.613,
+      0.134,
+      0.653,
+      0.15
+    ],
+    "Violation"
+  ],
+  [
+    [
+      0.573,
+      0.15,
+      0.613,
+      0.166
+    ],
+    "$P \\quad P \\quad NP \\quad NP$"
+  ],
+  [
+    [
+      0.573,
+      0.166,
+      0.613,
+      0.182
+    ],
+    "$A \\quad B \\quad C \\quad D$"
+  ],
+  [
+    [
+      0.573,
+      0.182,
+      0.613,
+      0.198
+    ],
+    "$\\downarrow \\uparrow$"
+  ],
+  [
+    [
+      0.573,
+      0.198,
+      0.613,
+      0.214
+    ],
+    "$2NF \\checkmark$"
+  ],
+  [
+    [
+      0.573,
+      0.214,
+      0.613,
+      0.23
+    ],
+    "(requires partial check"
+  ],
+  [
+    [
+      0.573,
+      0.23,
+      0.613,
+      0.246
+    ],
+    "for subset of prime"
+  ],
+  [
+    [
+      0.573,
+      0.246,
+      0.613,
+      0.262
+    ],
+    "attributes)"
+  ],
+  [
+    [
+      0.573,
+      0.262,
+      0.613,
+      0.278
+    ],
+    "$3NF \\times$"
+  ],
+  [
+    [
+      0.783,
+      0.103,
+      0.833,
+      0.119
+    ],
+    "① $R \\{A, B, C, D, E\\}$"
+  ],
+  [
+    [
+      0.783,
+      0.118,
+      0.833,
+      0.134
+    ],
+    "$FD1: A \\rightarrow B$"
+  ],
+  [
+    [
+      0.783,
+      0.133,
+      0.833,
+      0.149
+    ],
+    "$FD2: BC \\rightarrow E$"
+  ],
+  [
+    [
+      0.783,
+      0.148,
+      0.833,
+      0.164
+    ],
+    "$FD3: ED \\rightarrow A$"
+  ],
+  [
+    [
+      0.783,
+      0.164,
+      0.833,
+      0.18
+    ],
+    "a) Utilize Attr. Closure"
+  ],
+  [
+    [
+      0.783,
+      0.18,
+      0.833,
+      0.196
+    ],
+    "$\\Rightarrow RUS: \\{A, B, E\\}$"
+  ],
+  [
+    [
+      0.783,
+      0.196,
+      0.833,
+      0.212
+    ],
+    "$\\therefore not included$"
+  ],
+  [
+    [
+      0.783,
+      0.211,
+      0.833,
+      0.227
+    ],
+    "$\\{C, D\\}^+$"
+  ],
+  [
+    [
+      0.873,
+      0.103,
+      0.923,
+      0.119
+    ],
+    "1. Consider a relation R with five attributes ABCDE. You are given the following dependencies: A→B, BC→E, and ED→A."
+  ],
+  [
+    [
+      0.873,
+      0.118,
+      0.923,
+      0.134
+    ],
+    "a) List all candidate keys for R."
+  ],
+  [
+    [
+      0.873,
+      0.133,
+      0.923,
+      0.149
+    ],
+    "b) Is R in 3NF?"
+  ],
+  [
+    [
+      0.873,
+      0.148,
+      0.923,
+      0.164
+    ],
+    "c) Is R in BCNF?"
+  ],
+  [
+    [
+      0.873,
+      0.164,
+      0.923,
+      0.18
+    ],
+    "2. Suppose that we have the following three tuples in a legal instance of a relation schema S with three attributes ABC (listed in order): (1, 2, 3), (4, 2, 3), and (5, 3, 3)."
+  ],
+  [
+    [
+      0.873,
+      0.18,
+      0.923,
+      0.196
+    ],
+    "a) Which of the following dependencies can you infer does not hold over schema S? A→B, BC→A, B→C"
+  ],
+  [
+    [
+      0.873,
+      0.196,
+      0.923,
+      0.212
+    ],
+    "b) Can you identify any dependencies that hold over S?"
+  ],
+  [
+    [
+      0.873,
+      0.212,
+      0.923,
+      0.228
+    ],
+    "3. Suppose you are given a relation R with four attributes, ABCD. For the following sets of FDs: C→D, C→A, B→C, assuming those are the only dependencies that hold for R."
+  ],
+  [
+    [
+      0.873,
+      0.228,
+      0.923,
+      0.244
+    ],
+    "a) Identify the candidate key(s) for R."
+  ],
+  [
+    [
+      0.873,
+      0.244,
+      0.923,
+      0.259
+    ],
+    "b) Identify the best normal form that R satisfies (1NF, 2NF, 3NF, or BCNF)."
+  ]
+]

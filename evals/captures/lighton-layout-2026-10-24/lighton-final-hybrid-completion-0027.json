@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 7.75,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-sU64p8Sat5MoWmQBhoFKGTbNDrIiQ0Ct",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](231,101,423,122) Sailors (sid, sname, rating, age)\n\n![text](231,127,386,146) Boats (bid, bname, color)\n\n![text](228,150,373,168) Reserves (sid, bid, day)\n\n![list](272,174,593,194)\n- Find the names of sailors who have reserved all boats.\n\n![formula](243,198,704,268) $$\nP(R1, \\pi_{\\text{bid}} \\text{Reserves} \\div \\pi_{\\text{bid}} \\text{Boats}) \\\\\n\\pi(R1 \\times \\text{Sailors})\n$$\n\n![list](267,272,684,290)\n- Find the names of sailors who have reserved all boats called Interlake.\n\n![list](262,368,697,388)\n- Find the names of sailors who have reserved at least two different boats.\n\n![formula](299,388,767,474) $$\nR1 \\times \\text{Reserves} \\\\\nR1.sid = \\text{Reserves}.sid \\text{ AND} \\\\\nR1.bid \\neq R2.bid\n$$\n\n![list](257,468,706,488)\n- Find the names of sailors who have reserved the same boat at least twice.\n\n![formula](218,490,717,601) $$\nP(R1, \\text{Reserves}) \\\\\nT1 \\leftarrow \\pi_{\\text{sid}}(R1 \\times \\text{Reserves}) \\\\\nR1.sid = \\text{Reserves}.sid \\text{ AND} \\\\\nR1.bid = \\text{Reserves}.bid \\text{ AND} \\\\\nR1.day \\neq \\text{Reserves}.day\n$$\n\n![formula](260,607,718,698) $$\nR \\in \\pi_{\\text{name}}(T, \\times \\text{Sailors})\n$$\n\n![text](80,737,865,827) - essentially creating multiple renames / aliases as needed\n\n![text](113,844,526,903) - PREP for QUIZ\n\n![text](797,366,969,403) $\\pi(R1, \\text{Reserve})$",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844521,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 614,
+      "prompt_tokens": 3152,
+      "total_tokens": 3766,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1554.749,
+      "prompt_per_token_ms": 0.49325793147208125,
+      "prompt_per_second": 2027.336888462382,
+      "predicted_n": 614,
+      "predicted_ms": 5973.433,
+      "predicted_per_token_ms": 9.744588907014682,
+      "predicted_per_second": 102.62105559734243
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 41.51500000001397,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-weIZWrXOm6j6ZajLLCMCw6KUHcm3ytl4",
+    "choices": [
+      {
+        "finish_reason": "length",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](1,1,100,3) for example:\n\n![text](1,3,100,11) $R = \\{A, B, C, D, E, F\\}$\n\n![text](1,11,100,20) $FDs: AB \\rightarrow C, BC \\rightarrow AD, D \\rightarrow E, CE \\rightarrow B$\n\n![text](1,20,100,29) $\\therefore \\{A, B\\}^+ ?$\n\n![text](1,30,100,39) - build\n\n![text](1,39,100,48) Round\n\n![table](1,50,320,268) <table>\n  <thead>\n    <tr>\n      <th>Start</th>\n      <th>A and B</th>\n      <th>Snowball</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>1</td>\n      <td> $AB \\rightarrow C$ </td>\n      <td> $\\{A, B, C\\}$ </td>\n    </tr>\n    <tr>\n      <td>2</td>\n      <td> $BC \\rightarrow AD$ </td>\n      <td> $\\{A, B, C, D\\}$ </td>\n    </tr>\n    <tr>\n      <td>3</td>\n      <td> $D \\rightarrow E$ </td>\n      <td> $\\{A, B, C, D, E\\}$ </td>\n    </tr>\n    <tr>\n      <td>4</td>\n      <td>X</td>\n      <td>Done</td>\n    </tr>\n  </tbody>\n</table>\n\n![text](1,270,100,279) $\\therefore \\{A, B\\}^+ = \\{A, B, C, D, E\\}$\n\n![text](1,279,100,288) $G$ -as new: readmore\n\n![text](350,1,440,29) - what about $\\{C, D\\}^+$\n\n![text](350,30,440,39) $\\{C, D\\}^+ \\Rightarrow \\{C, D\\}$\n\n![text](350,40,440,49) $D \\rightarrow E$\n\n![text](350,50,440,59) $\\Rightarrow \\{C, D, E\\}$\n\n![text](350,60,440,69) $CE \\rightarrow B$\n\n![text](350,70,440,79) $\\Rightarrow \\{C, D, E, B\\}$\n\n![text](350,80,440,89) $BC \\rightarrow A$\n\n![text](350,90,440,99) $\\Rightarrow \\{A, B, C, D, E\\}$\n\n![text](350,100,440,109) $G$ still missing\n\n![text](350,110,440,119) $\\therefore \\{C, D\\}^+ \\text{ is NOT a candidate key}$\n\n![text](350,120,440,129) $\\Rightarrow \\{C, D, E\\}^+ = \\{A, B, C, D, E, G\\}$\n\n![text](350,130,440,139) $G$ is a superkey since it covers\n\n![text](350,140,440,149) all attributes in $R$ .\n\n![text](350,150,440,159) $G$ is a candidate key too since\n\n![text](350,160,440,169) is minimal - removing $G$ breaks\n\n![text](350,170,440,179) the S.U. property.\n\n![text](350,180,440,189) same applies for:\n\n![text](350,190,440,199) $\\{A, B, G\\}^+$\n\n![text](680,1,770,29) Normalization\n\n![text](680,30,770,39) - INF: dissolves multi-valued attributes,\n\n![text](680,40,770,49) composite attrs, and their\n\n![text](680,50,770,59) combinations\n\n![text](680,60,770,69) - Prime vs. Nonprime Attrs\n\n![text](680,70,770,79) $\\{ \\text{number of} \\} \\Rightarrow \\text{not a prime attr.}$\n\n![text](680,80,770,89) any candidate key\n\n![text](680,90,770,99) (not a member of any C.U.)\n\n![text](680,100,770,109) disjoint\n\n![text](680,110,770,119) - Full FD vs. Partial FD\n\n![text](680,120,770,129) $\\{ \\text{removing a single attr} \\} \\Rightarrow \\text{breaks the} \\Rightarrow \\text{still holds}$\n\n![text](680,130,770,139) $\\{ \\text{removing some attr and dep} \\} \\Rightarrow \\text{still holds}$\n\n![text](680,140,770,149) e.g. EMP-PROS(SSN, Phone, Name, Grade)\n\n![text](680,150,770,159) $\\{SSN, Phone\\} \\rightarrow Name$ : full FD\n\n![text](680,160,770,169) (used both to determine Name values)\n\n![text](680,170,770,179) $\\{SSN, Phone\\} \\rightarrow Grade$ : partial FD\n\n![text](680,180,770,189) (SSN alone determines Grade)\n\n![text](680,190,770,199) e.g.\n\n![text](680,200,770,209) EMP-DEPT (Name, SSN, Date, Addr, Director, Dept, Dept-SSN)\n\n![text](680,210,770,219) FD chain: SSN $\\rightarrow$ Director\n\n![text](680,220,770,229) Director $\\rightarrow$ Name, Dept-SSN\n\n![text](680,230,770,239) (creates T.D.)\n\n![text](680,240,770,249) ED (Name, SSN, Date, Address, Director)\n\n![text](680,250,770,259) ED2 (Director, Name, Dept-SSN)\n\n![text](100,1,190,29) - 2NF (Second Normal Form)\n\n![text](100,30,190,39) $\\{ \\text{already in INF} \\}$\n\n![text](100,40,190,49) $\\Rightarrow$ every nonprime attr is fully FD\n\n![text](100,50,190,59) on primary key\n\n![text](100,60,190,69) $\\therefore$ for INF $\\rightarrow$ 2NF\n\n![text](100,70,190,79) - find every partial dependencies\n\n![text](100,80,190,89) - move attr and partial key\n\n![text](100,90,190,99) to new, separate relation\n\n![text](100,100,190,109) as partial dependencies cause redundancies\n\n![text](100,110,190,119) e.g. EMP-PROS(SSN, Phone, Name, Grade, Phone, Phone)\n\n![text](100,120,190,129) FD1: $\\{SSN, Phone\\} \\rightarrow Name$ (full)\n\n![text](100,130,190,139) FD2: SSN $\\rightarrow$ Grade (partial)\n\n![text](100,140,190,149) - grade depends\n\n![text](100,150,190,159) only on SSN\n\n![text](100,160,190,169) FD3: Phone $\\rightarrow$ Grade, Phone (partial)\n\n![text](100,170,190,179) - they depend on\n\n![text](100,180,190,189) on Phone.\n\n![text](450,1,540,29) - 3NF (Third Normal Form)\n\n![text](450,30,540,39) - transitive dependency\n\n![text](450,40,540,49) e.g. $A \\rightarrow B$ , $B \\rightarrow C$\n\n![text](450,50,540,59) $C$ is transitively dependent\n\n![text](450,60,540,69) on $A$ via $B$\n\n![text](450,70,540,79) - already 2NF\n\n![text](450,80,540,89) - no nonprime attr is transitively\n\n![text](450,90,540,99) dependent on P.K.\n\n![text](450,100,540,109) for 2NF $\\rightarrow$ 3NF\n\n![text](450,110,540,119) - find transitive deps\n\n![text](450,120,540,129) - move T.D. attrs to new relation\n\n![text](450,130,540,139) along with copy of intermediate\n\n![text](450,140,540,149) determinant (CD)\n\n![text](100,190,190,200) - B.CNF. (Boyce-Codd Normal Form)\n\n![text](100,200,190,209) - stricter version of 3NF\n\n![text](100,210,190,219) $\\Rightarrow$ when I normalize to 3NF\n\n![text](100,220,190,229) does it always normalize\n\n![text](100,230,190,239) to B.CNF?\n\n![text](100,240,190,249) - if B.CNF, no redundancies\n\n![text](100,250,190,259) e.g. for $X \\rightarrow Y$\n\n![text](100,260,190,269) $X$ is the determinant\n\n![text](100,270,190,279) (the thing doing the\n\n![text](100,280,190,289) \"defining\")\n\n![text](100,290,190,299) - for every $X \\rightarrow Y$ in $R$ , $X$ must\n\n![text](100,300,190,309) be superkey (uniquely identify\n\n![text](100,310,190,319) every row)\n\n![text](100,320,190,329) - vs. 3NF\n\n![text](100,330,190,339) - 3NF says non-superkey determinant\n\n![text](100,340,190,349) is okay as long as what\n\n![text](100,350,190,359) it determines ( $Y$ ) is part of\n\n![text](100,360,190,369) some C.U. (i.e. prime attr)\n\n![text](500,1,590,29) Ex. 1\n\n![text](500,30,590,39) $\\Rightarrow$ Prime Attrs\n\n![text](500,40,590,49) - Property#\n\n![text](500,50,590,59) - County - name\n\n![text](500,60,590,69) - Lot#\n\n![text](500,70,590,79) - already INF\n\n![text](500,80,590,89) - for INF $\\rightarrow$ 2NF\n\n![text](500,90,590,99) FD2: PID $\\rightarrow$ all other attr\n\n![text](500,100,590,109) FD3: County - name $\\rightarrow$ Tax - rate\n\n![text](500,110,590,119) FD4: Area $\\rightarrow$ Price\n\n![text](500,120,590,129) 2NF\n\n![text](500,130,590,139) ① PID#, CN, Lot#, Area, Price\n\n![text](500,140,590,149) ② CN, Tax - rate\n\n![text](500,150,590,159) $\\Rightarrow$ Non prime Attrs\n\n![text](500,160,590,169) - Area\n\n![text](500,170,590,179) - Price\n\n![text](500,180,590,189) - Tax - rate\n\n![text](500,190,590,199) - for 2NF $\\rightarrow$ 3NF\n\n![text](500,200,590,209) - Area, Price are NP\n\n![text](500,210,590,219) $\\therefore$ ③ Area, Price\n\n![text](500,220,590,229) ① PID#, County - name, Lot#, Area\n\n![text](500,230,590,239) - verifying B.CNF (W)\n\n![text](500,240,590,249) Ex. 2: PID, Id, Lt, Pa, Co, St#, Sn, CR\n\n![text](500,250,590,259) Prime\n\n![text](500,260,590,269) - P#\n\n![text](500,270,590,279) - Id\n\n![text](500,280,590,289) - Lt\n\n![text](500,290,590,299) - CR\n\n![text](500,300,590,309) Non prime\n\n![text](500,310,590,319) - PA\n\n![text](500,320,590,329) - Co\n\n![text](500,330,590,339) - St#\n\n![text](500,340,590,349) - Sn\n\n![text](500,350,590,359) $\\Rightarrow$ required for\n\n![text](500,360,590,369) INF\n\n![text](500,370,590,379) - already INF\n\n![text](500,380,590,389) $\\Rightarrow$ CUS of F.D\n\n![text](500,390,590,399) - determinant: look at F.D set\n\n![text](500,400,590,409) - to determine if LUS is superkey\n\n![text](500,410,590,419) - compute attribute closure\n\n![text](500,420,590,429",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844034,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 4096,
+      "prompt_tokens": 2096,
+      "total_tokens": 6192,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 954.614,
+      "prompt_per_token_ms": 0.45544561068702294,
+      "prompt_per_second": 2195.651855095358,
+      "predicted_n": 4096,
+      "predicted_ms": 40422.219,
+      "predicted_per_token_ms": 9.87111575091575,
+      "predicted_per_second": 101.3056705273899
+    }
+  }
+}

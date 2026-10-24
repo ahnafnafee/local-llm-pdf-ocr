@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 7.89000000001397,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-hMdKeaT5CeRzTgxlRtKPPQWxjliV9ovV",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![list](32,31,270,62)\n- Natural Join\n\n![list](122,57,650,101)\n- where the condition is *implied*\n\n![list](122,103,521,142)\n- not *knowledges* to us\n\n![list](48,227,744,279)\n① Sailors × Resources (Cartesian, 6 tuples)\n\n![list](25,283,794,351)\n② Sailors ∞ Resources (Theta Join) Sailors.Sid < Resources.Sid\n\n![table](142,372,727,481) <table>\n  <tr>\n    <th>S.Sid</th>\n    <th>...</th>\n    <th>R.Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>31</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n</table>\n\n![list](37,479,918,583)\n③ Sailors ⋈ Resources (Equijoin) S.Sid = R.Sid (7 columns)\n\n![table](142,548,727,666) <table>\n  <tr>\n    <th>S.Sid</th>\n    <th>...</th>\n    <th>R.Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n    <td>22</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n</table>\n\n![list](57,668,924,753)\n④ Sailors → Resources (Natural Join) (6 columns)\n\n![table](142,718,532,792) <table>\n  <tr>\n    <th>Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n  </tr>\n</table>",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844481,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 634,
+      "prompt_tokens": 3152,
+      "total_tokens": 3786,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1555.07,
+      "prompt_per_token_ms": 0.49335977157360406,
+      "prompt_per_second": 2026.9184023870307,
+      "predicted_n": 634,
+      "predicted_ms": 6162.862,
+      "predicted_per_token_ms": 9.735958925750396,
+      "predicted_per_second": 102.71201918848743
+    }
+  }
+}

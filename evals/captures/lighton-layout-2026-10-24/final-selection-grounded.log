@@ -1,0 +1,49 @@
+Processing 
+'D:\GitHub\local-llm-pdf-ocr\.cache\lighton-layout-20261024\selection-source-13
+0-pages.pdf'...
+  Grounded OCR (2/2) ------------------------------------- 100% 0:00:19 0:00:00
+  Done.              ------------------------------------- 100% 0:00:00 0:00:00
+Done! Saved to 
+'D:\GitHub\local-llm-pdf-ocr\.cache\lighton-layout-20261024\selection-grounded.
+md' in 19.8s
+{
+  "mode": "grounded",
+  "model": "lightonai/LightOnOCR-3-4B",
+  "source_pages": 130,
+  "explicit_model_argument": false,
+  "selection": "2,4",
+  "rendered_zero_based_indices": [
+    1,
+    3
+  ],
+  "real_inference_requests": 2,
+  "exit_code": 0,
+  "inference_requests": [
+    {
+      "model": "lightonai/LightOnOCR-3-4B",
+      "image_size": [
+        1583,
+        2048
+      ],
+      "pixel_sha256": "34be77a51a50a4e029b750bf5ace7c5b06f0b039b300d8df848f40bba23a2ae3"
+    },
+    {
+      "model": "lightonai/LightOnOCR-3-4B",
+      "image_size": [
+        1583,
+        2048
+      ],
+      "pixel_sha256": "34be77a51a50a4e029b750bf5ace7c5b06f0b039b300d8df848f40bba23a2ae3"
+    }
+  ],
+  "elapsed_seconds": 21.33,
+  "output": "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\lighton-layout-20261024\\selection-grounded.md",
+  "output_characters": 4592,
+  "output_page_numbers": [
+    2,
+    4
+  ],
+  "full_page_inference_requests": 2,
+  "recovery_inference_requests": 0,
+  "passed": true
+}

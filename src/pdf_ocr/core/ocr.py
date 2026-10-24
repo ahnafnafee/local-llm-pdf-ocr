@@ -1,40 +1,35 @@
 """
 OCRProcessor - LLM-based OCR processing.
 
-Uses a local vision LLM (OlmOCR via LM Studio by default; any OpenAI-compatible
-endpoint works, including GLM OCR via Ollama — set LLM_API_BASE/LLM_MODEL or
-pass --api-base/--model).
+Keeps prompts and OCR response cleanup independent of the inference server.
+Configure LLM_API_BASE/LLM_MODEL or inject a VisionClient.
 """
 
+import asyncio
 import logging
-import os
+import re
 
-from dotenv import load_dotenv
-from openai import AsyncOpenAI
-
-load_dotenv()
-
-
-class LLMCallError(RuntimeError):
-    """Raised when a call to the local LLM OCR endpoint fails.
-
-    Wraps the underlying exception (connection refused, model not loaded,
-    timeout, auth, ...) with a message that names the api-base and model
-    so the user can diagnose without digging through a stack trace.
-    """
+from pdf_ocr.inference import (
+    LLMCallError,  # compatibility re-export
+    IncompleteCompletionError,
+    LLMConfig,
+    ModelNotLoadedError,  # compatibility re-export
+    OpenAICompatibleClient,
+    VisionClient,
+    ensure_model_available,
+)
+from pdf_ocr.utils.image import crop_for_ocr
+from pdf_ocr.core.profiles import resolve_profile
 
 
-class ModelNotLoadedError(LLMCallError):
-    """Raised when the requested model is not loaded on the LLM server.
-
-    LM Studio silently falls back to whatever model is currently loaded
-    when an OpenAI-compat client requests an unavailable model ID — so a
-    typo in --model or a forgotten model swap produces subtly wrong OCR
-    output with no surface error. This exception is raised by
-    :meth:`OCRProcessor.ensure_model_loaded` (and the grounded equivalent)
-    *before* any OCR work starts so the user sees the mismatch immediately
-    instead of debugging strange output later.
-    """
+PAGE_PROMPT = (
+    "Transcribe all text in this document image in reading order. "
+    "Preserve line breaks and use Markdown for headings and tables. "
+    "Preserve the original spelling and abbreviations, including errors. "
+    "Do not correct or expand any source word. Read the visible characters "
+    "rather than replacing them with a more likely word. "
+    "Return only the transcription, without commentary."
+)
 
 
 # Canonical OlmOCR-2 prompt (the model was RL-trained on this exact string).
@@ -56,6 +51,7 @@ OLMOCR_PAGE_PROMPT = (
 # (the YAML front matter is nonsensical for a single line/region).
 CROP_PROMPT = (
     "Transcribe the text in this image exactly as it appears. "
+    "Preserve the original spelling and abbreviations, including errors. "
     "Return only the plain text on a single line when possible, "
     "with no metadata, no markdown, no formatting, no explanation."
 )
@@ -86,6 +82,15 @@ def _is_fallback_response(text: str) -> bool:
     return normalized in _HALLUCINATION_PATTERNS
 
 
+class OCRLines(list):
+    """Transcribed lines with an optional layout hint for hybrid alignment."""
+
+    def __init__(self, lines, *, requires_region_ocr=False, grounded_blocks=None):
+        super().__init__(lines)
+        self.requires_region_ocr = requires_region_ocr
+        self.grounded_blocks = grounded_blocks
+
+
 class OCRProcessor:
     """LLM-based OCR processor over an OpenAI-compatible async client.
 
@@ -108,30 +113,56 @@ class OCRProcessor:
     # of hallucinated text into one bbox during the refine stage.
     CROP_TIMEOUT_S: float = 60.0
     CROP_MAX_TOKENS: int = 256
+    # Subclasses may implement their own recognition methods without a client.
+    crop_canvas_size: int | None = None
 
-    def __init__(self, api_base: str | None = None, model: str | None = None):
-        self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
-        self.model = model or os.getenv("LLM_MODEL", "allenai/olmocr-2-7b")
-        self.client = AsyncOpenAI(base_url=self.api_base, api_key="lm-studio")
+    def __init__(
+        self, api_base: str | None = None, model: str | None = None, *,
+        api_key: str | None = None, client: VisionClient | None = None,
+        page_prompt: str | None = None,
+        crop_prompt: str | None = None,
+        profile: str | None = None,
+    ):
+        config = LLMConfig.from_env(
+            api_base=api_base, model=model, api_key=api_key,
+            require_endpoint=client is None,
+        )
+        self.api_base = config.api_base
+        self.model = config.model
+        self.profile = resolve_profile(self.model, profile)
+        self.native_layout = self.profile.native_layout and page_prompt is None
+        self.temperature = self.profile.temperature
+        # A bounded page canvas is an alternate view for format failures,
+        # not the primary crop: padding every region loses small details.
+        self.crop_canvas_size = self.profile.crop_canvas_size
+        self._owned_client: OpenAICompatibleClient | None = None
+        if client is None:
+            client = self._owned_client = OpenAICompatibleClient(
+                config, image_first=self.profile.image_first,
+                generation_options=dict(self.profile.sampling),
+            )
+        self.client = client
+        native_prompt = self.profile.page_prompt
+        if native_prompt is None:
+            native_prompt = OLMOCR_PAGE_PROMPT if self.profile.name == "olmocr" else PAGE_PROMPT
+        self.page_prompt = page_prompt if page_prompt is not None else native_prompt
+        native_crop = self.profile.crop_prompt
+        self.crop_prompt = crop_prompt if crop_prompt is not None else (
+            native_crop if native_crop is not None else CROP_PROMPT
+        )
+
+    async def ensure_model_available(self) -> None:
+        """Verify the server advertises the configured model ID."""
+        await ensure_model_available(self.client, self.model)
 
     async def ensure_model_loaded(self) -> None:
-        """Pre-flight check that ``self.model`` is loaded on the server.
+        """Compatibility alias; availability does not imply memory residency."""
+        await self.ensure_model_available()
 
-        Hits ``GET /v1/models`` via the OpenAI SDK and verifies the
-        configured model ID appears in the loaded list (case-insensitive).
-        Raises :class:`ModelNotLoadedError` on mismatch with a message
-        that names what's loaded and how to fix it. Wraps any underlying
-        transport / auth failure in :class:`LLMCallError`.
-
-        Why we do this: see :class:`ModelNotLoadedError`. Cheap call (one
-        GET, no inference); call once at pipeline startup before paying
-        for image conversion or detection.
-        """
-        loaded = await _list_loaded_model_ids(self.client, self.api_base)
-        if not _model_in_loaded(self.model, loaded):
-            raise ModelNotLoadedError(
-                _format_model_not_loaded(self.api_base, self.model, loaded)
-            )
+    async def aclose(self) -> None:
+        """Close an internally created adapter; injected clients stay open."""
+        if self._owned_client is not None:
+            await self._owned_client.aclose()
 
     async def perform_ocr(self, image_base64: str) -> list[str]:
         """
@@ -144,7 +175,7 @@ class OCRProcessor:
         max_tokens set, and pollutes downstream alignment with junk lines.
         """
         text = await self._chat(
-            OLMOCR_PAGE_PROMPT, image_base64,
+            self.page_prompt, image_base64,
             timeout=self.PAGE_TIMEOUT_S,
             max_tokens=self.PAGE_MAX_TOKENS,
         )
@@ -152,7 +183,41 @@ class OCRProcessor:
             return []
         body = _strip_yaml_front_matter(text)
         lines = [line.strip() for line in body.split("\n") if line.strip()]
-        return _strip_runaway_repetition(lines)
+        # Linear alignment cannot bind table cells or diagram labels reliably.
+        # Read only the front matter, never similarly named text in the body.
+        front_matter = re.match(r"\s*---\s*\n(.*?)\n---(?:\s*\n|$)", text, re.DOTALL)
+        region_layout = bool(front_matter and re.search(
+            r"^\s*is_(?:table|diagram):\s*(?:true|yes)\s*$",
+            front_matter.group(1), re.IGNORECASE | re.MULTILINE,
+        ))
+        return OCRLines(_strip_runaway_repetition(lines), requires_region_ocr=region_layout)
+
+    async def perform_ocr_with_layout(self, image_base64: str, *, detected_boxes=None,
+                                      max_image_dim=None, source_loader=None,
+                                      layout_detector=None) -> list[str]:
+        """Preserve native page geometry when the model supports it.
+
+        Generic recognizers retain the text-only interface. Native page models
+        share the grounded backend's parsers, deadlines and region recovery.
+        The transport remains injected and owned by this processor's caller.
+        """
+        if not self.native_layout:
+            return await self.perform_ocr(image_base64)
+        from pdf_ocr.core.grounded import PromptedGroundedOCR
+
+        backend = PromptedGroundedOCR(
+            api_base=self.api_base, model=self.model, client=self.client,
+            profile=self.profile.name, max_image_dim=max_image_dim or self.profile.max_image_dim,
+            timeout_s=self.PAGE_TIMEOUT_S,
+            max_tokens=min(self.PAGE_MAX_TOKENS, self.profile.grounded_max_tokens),
+            layout_detector=layout_detector,
+        )
+        response = await backend.ocr_image(image_base64, detected_boxes=detected_boxes,
+                                          source_loader=source_loader)
+        if response.page_errors or not response.blocks:
+            raise LLMCallError("Native page OCR failed: " + "; ".join(response.page_errors.values()))
+        return OCRLines([block.text for block in response.blocks],
+                        grounded_blocks=[(block.bbox, block.text) for block in response.blocks])
 
     async def perform_ocr_on_crop(self, image_base64: str) -> str:
         """
@@ -160,11 +225,24 @@ class OCRProcessor:
         string (the crop is small, so we don't try to preserve line structure).
         Empty-string for blank/uncertain crops (filtered hallucination).
         """
-        text = await self._chat(
-            CROP_PROMPT, image_base64,
-            timeout=self.CROP_TIMEOUT_S,
-            max_tokens=self.CROP_MAX_TOKENS,
-        )
+        try:
+            text = await self._chat(
+                self.crop_prompt, image_base64,
+                timeout=self.CROP_TIMEOUT_S, max_tokens=self.CROP_MAX_TOKENS,
+            )
+        except IncompleteCompletionError:
+            # A line crop cannot legitimately contain hundreds of repeated
+            # tokens. Retry using the page-trained prompt, then leave an
+            # unreadable region empty rather than embedding a cut-off loop.
+            logging.warning("Crop transcription hit its token limit; retrying with the page prompt.")
+            try:
+                text = await self._chat(
+                    self.page_prompt, image_base64,
+                    timeout=self.CROP_TIMEOUT_S, max_tokens=self.CROP_MAX_TOKENS,
+                )
+            except IncompleteCompletionError:
+                logging.warning("Crop retry also hit its token limit; region remains unrecognized.")
+                return ""
         if not text:
             return ""
         body = _strip_yaml_front_matter(text)
@@ -172,6 +250,36 @@ class OCRProcessor:
         if _is_fallback_response(result):
             return ""
         return result
+
+    async def perform_ocr_on_region(self, page_image: str, bbox, *, mask_boxes=None) -> str:
+        """Read a native region, with one alternate view for format failures.
+
+        OlmOCR can interpret narrow handwriting as LaTeX even when asked for
+        literal text. Retry that response on a paper canvas made from source
+        pixels. Ordinary crops retain their original detail and aspect ratio.
+        The total deadline includes truncation retries and the alternate view.
+        """
+        async def recognize():
+            image = await asyncio.to_thread(crop_for_ocr, page_image, bbox, mask_boxes=mask_boxes)
+            if image is None:
+                return ""
+            text = await self.perform_ocr_on_crop(image)
+            formatted = re.search(r"\\[([]|(?<![\w:])\\[A-Za-z]+|\$\$|```", text)
+            if self.crop_canvas_size is not None and formatted:
+                alternate = await asyncio.to_thread(
+                    crop_for_ocr, page_image, bbox, mask_boxes=mask_boxes,
+                    canvas_size=self.crop_canvas_size,
+                )
+                if alternate is not None:
+                    logging.debug("Retrying formatted region transcription on a source-pixel canvas.")
+                    text = await self.perform_ocr_on_crop(alternate) or text
+            return text
+
+        budget = 2 * self.CROP_TIMEOUT_S
+        try:
+            return await asyncio.wait_for(recognize(), timeout=budget)
+        except asyncio.TimeoutError as exc:
+            raise LLMCallError(f"Region OCR exceeded its {budget:g}s deadline, including retries") from exc
 
     async def _chat(
         self,
@@ -181,41 +289,10 @@ class OCRProcessor:
         timeout: float,
         max_tokens: int,
     ) -> str:
-        try:
-            response = await self.client.with_options(
-                timeout=timeout
-            ).chat.completions.create(
-                model=self.model,
-                temperature=0.1,
-                max_tokens=max_tokens,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:image/png;base64,{image_base64}"
-                                },
-                            },
-                        ],
-                    }
-                ],
-            )
-            return (response.choices[0].message.content or "").strip()
-        except Exception as e:
-            raise LLMCallError(
-                f"LLM OCR call failed against {self.api_base} "
-                f"(model={self.model!r}): {type(e).__name__}: {e}\n"
-                f"  - Is your local LLM server (LM Studio / Ollama / vLLM) running at "
-                f"{self.api_base}?\n"
-                f"  - Is model {self.model!r} loaded and serving vision inputs?\n"
-                f"  - Did the model run away on this page? "
-                f"Try reducing --max-image-dim or capping the page complexity.\n"
-                f"  - Override endpoint with LLM_API_BASE / LLM_MODEL in .env, "
-                f"or pass --api-base / --model."
-            ) from e
+        return await self.client.complete(
+            prompt, image_base64, model=self.model,
+            timeout=timeout, max_tokens=max_tokens, temperature=self.temperature,
+        )
 
 
 def _strip_runaway_repetition(lines: list[str], max_repeat: int = 20) -> list[str]:
@@ -254,50 +331,6 @@ def _strip_runaway_repetition(lines: list[str], max_repeat: int = 20) -> list[st
             truncated, worst[0][:60], worst[1],
         )
     return out
-
-
-async def _list_loaded_model_ids(client: AsyncOpenAI, api_base: str) -> list[str]:
-    """Return model IDs loaded on an OpenAI-compatible server.
-
-    Uses the SDK's ``client.models.list()`` (hits ``GET /v1/models``).
-    Wraps any transport / auth / response-shape failure in
-    :class:`LLMCallError` with the same diagnostic format ``_chat`` uses
-    so the caller sees a consistent error message style across the
-    pipeline's LLM-facing surfaces.
-    """
-    try:
-        page = await client.models.list()
-    except Exception as e:
-        raise LLMCallError(
-            f"Could not list models on {api_base}: "
-            f"{type(e).__name__}: {e}\n"
-            f"  - Is your local LLM server (LM Studio / Ollama / vLLM) running at "
-            f"{api_base}?\n"
-            f"  - Does it expose GET /v1/models? (Most do; some custom servers "
-            f"don't — pass --no-verify-model to skip this check.)"
-        ) from e
-    return [m.id for m in page.data]
-
-
-def _model_in_loaded(model: str, loaded: list[str]) -> bool:
-    target = model.lower()
-    return any(m.lower() == target for m in loaded)
-
-
-def _format_model_not_loaded(api_base: str, model: str, loaded: list[str]) -> str:
-    listing = "\n    ".join(loaded) if loaded else "(none)"
-    return (
-        f"Model {model!r} is not loaded on {api_base}.\n"
-        f"  Loaded models:\n    {listing}\n"
-        f"  Fix:\n"
-        f"    - Load {model!r} in LM Studio (Models -> search -> Load), then retry.\n"
-        f"    - Or pass --model with one of the loaded model IDs above.\n"
-        f"    - Or pass --no-verify-model to skip this check "
-        f"(e.g. on Ollama / vLLM, which auto-load on demand).\n"
-        f"  Why this matters: LM Studio silently falls back to whatever model is "
-        f"loaded when the requested one is missing, producing subtly wrong OCR "
-        f"results with no error. (issue #7)"
-    )
 
 
 def _strip_yaml_front_matter(text: str) -> str:

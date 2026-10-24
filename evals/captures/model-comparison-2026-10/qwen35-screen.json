@@ -1,0 +1,1240 @@
+[
+  {
+    "document": "digital",
+    "mode": "text",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "# GEORGE MASON UNIVERSITY\n\nDepartment of Computer Science  \nCollege of Engineering and Computing  \n4400 University Drive, MS 4A5, Fairfax, Virginia 22030  \nPhone: 703-993-1530; Fax: 703-993-1710  \nwww: http://www.cs.gmu.edu/\n\n---\n\n## CS 701 - Research Experience in Computer Science – Spring’26\n\nStudent Name (Last, First): ___________________________\n\nStudent e-mail address: _______________________________\n\nStudent G#: _________________________________________\n\nName of the CS faculty member to supervise the student in CS 701: _______________________________\n\nDescription of the research activity (clarify the hands-on component explicitly in your description):\n\nList of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\n\n---\n\n### Signatures\n\nStudent: ___________________________  \nCS Faculty Supervisor: ___________________________  \nPhD CS Program Director: ___________________________\n\n---\n\n### Notes\n\n1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\n\n2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.\n\n3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.\n\n4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.\n\n5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by **November 21, 2025**.",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "# GEORGE MASON UNIVERSITY\n\nDepartment of Computer Science  \nCollege of Engineering and Computing  \n4400 University Drive, MS 4A5, Fairfax, Virginia 22030  \nPhone: 703-993-1530; Fax: 703-993-1710  \nwww: http://www.cs.gmu.edu/\n\n---\n\n## CS 701 - Research Experience in Computer Science – Spring’26\n\nStudent Name (Last, First): ___________________________\n\nStudent e-mail address: _______________________________\n\nStudent G#: _________________________________________\n\nName of the CS faculty member to supervise the student in CS 701: _______________________________\n\nDescription of the research activity (clarify the hands-on component explicitly in your description):\n\nList of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\n\n---\n\n### Signatures\n\nStudent: ___________________________  \nCS Faculty Supervisor: ___________________________  \nPhD CS Program Director: ___________________________\n\n---\n\n### Notes\n\n1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\n\n2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.\n\n3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.\n\n4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.\n\n5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by **November 21, 2025**."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9925,
+      "char_recall": 1.0,
+      "char_precision": 0.0855
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 12.734
+  },
+  {
+    "document": "digital",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [569, 10, 784, 26], \"content\": \"Department of Computer Science\"},\n\t{\"bbox_2d\": [569, 26, 826, 42], \"content\": \"College of Engineering and Computing\"},\n\t{\"bbox_2d\": [569, 42, 929, 58], \"content\": \"4400 University Drive, MS 4A5, Fairfax, Virginia 22030\"},\n\t{\"bbox_2d\": [569, 58, 894, 74], \"content\": \"Phone: 703-993-1530; Fax: 703-993-1710\"},\n\t{\"bbox_2d\": [569, 74, 834, 89], \"content\": \"www: http://www.cs.gmu.edu/\"},\n\t{\"bbox_2d\": [214, 101, 929, 123], \"content\": \"CS 701 - Research Experience in Computer Science – Spring’26\"},\n\t{\"bbox_2d\": [104, 144, 364, 160], \"content\": \"Student Name (Last, First):\"},\n\t{\"bbox_2d\": [104, 185, 334, 201], \"content\": \"Student e-mail address:\"},\n\t{\"bbox_2d\": [104, 226, 244, 242], \"content\": \"Student G#:\"},\n\t{\"bbox_2d\": [104, 267, 364, 283], \"content\": \"Name of the CS faculty member\"},\n\t{\"bbox_2d\": [104, 283, 444, 300], \"content\": \"to supervise the student in CS 701:\"},\n\t{\"bbox_2d\": [104, 324, 929, 340], \"content\": \"Description of the research activity (clarify the hands-on component explicitly in your description):\"},\n\t{\"bbox_2d\": [104, 466, 929, 482], \"content\": \"List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\"},\n\t{\"bbox_2d\": [104, 507, 204, 523], \"content\": \"Signatures\"},\n\t{\"bbox_2d\": [104, 533, 204, 549], \"content\": \"Student:\"},\n\t{\"bbox_2d\": [394, 533, 614, 549], \"content\": \"CS Faculty Supervisor:\"},\n\t{\"bbox_2d\": [684, 533, 929, 549], \"content\": \"PhD CS Program Director:\"},\n\t{\"bbox_2d\": [104, 601, 174, 617], \"content\": \"Notes\"},\n\t{\"bbox_2d\": [214, 617, 929, 633], \"content\": \"1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\"},\n\t{\"bbox_2d\": [214, 633, 929, 649], \"content\": \"2. A thorough literature review is likely to be part of most CS 701 research activities. However, the\"},\n\t{\"bbox_2d\": [214, 649, 929, 665], \"content\": \"CS 701 research activity should include a hands-on component (such as software development,\"},\n\t{\"bbox_2d\": [214, 665, 929, 681], \"content\": \"performing and analyzing experiments with existing techniques) beyond the literature review.\"},\n\t{\"bbox_2d\": [214, 681, 929, 697], \"content\": \"Specify the hands-on activity within the “description of the research activity” field above.\"},\n\t{\"bbox_2d\": [214, 697, 929, 713], \"content\": \"If necessary, you can attach an additional sheet to elaborate further on the description of the\"},\n\t{\"bbox_2d\": [214, 713, 414, 729], \"content\": \"research activity.\"},\n\t{\"bbox_2d\": [214, 729, 929, 745], \"content\": \"3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the\"},\n\t{\"bbox_2d\": [214, 745, 929, 761], \"content\": \"end of the semester. In addition, all CS 701 students are required to give a short talk to the\"},\n\t{\"bbox_2d\": [214, 761, 929, 777], \"content\": \"public about their research at the end of the semester. Logistics of that meeting will be\"},\n\t{\"bbox_2d\": [214, 777, 514, 793], \"content\": \"announced by the CS department.\"},\n\t{\"bbox_2d\": [214, 793, 929, 809], \"content\": \"4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be\"},\n\t{\"bbox_2d\": [214, 809, 929, 825], \"content\": \"indicated next to the “CS faculty member name” field above, and they should co-sign the form.\"},\n\t{\"bbox_2d\": [214, 825, 929, 841], \"content\": \"At the registrar level, the CS 701 registration will be made only under CS faculty names.\"},\n\t{\"bbox_2d\": [214, 841, 929, 857], \"content\": \"5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put\"},\n\t{\"bbox_2d\": [214, 857, 614, 873], \"content\": \"[CS701 form]” in the subject line) by November 21, 2025.\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.569,
+          0.01,
+          0.784,
+          0.026
+        ],
+        "Department of Computer Science"
+      ],
+      [
+        [
+          0.569,
+          0.026,
+          0.826,
+          0.042
+        ],
+        "College of Engineering and Computing"
+      ],
+      [
+        [
+          0.569,
+          0.042,
+          0.929,
+          0.058
+        ],
+        "4400 University Drive, MS 4A5, Fairfax, Virginia 22030"
+      ],
+      [
+        [
+          0.569,
+          0.058,
+          0.894,
+          0.074
+        ],
+        "Phone: 703-993-1530; Fax: 703-993-1710"
+      ],
+      [
+        [
+          0.569,
+          0.074,
+          0.834,
+          0.089
+        ],
+        "www: http://www.cs.gmu.edu/"
+      ],
+      [
+        [
+          0.214,
+          0.101,
+          0.929,
+          0.123
+        ],
+        "CS 701 - Research Experience in Computer Science – Spring’26"
+      ],
+      [
+        [
+          0.104,
+          0.144,
+          0.364,
+          0.16
+        ],
+        "Student Name (Last, First):"
+      ],
+      [
+        [
+          0.104,
+          0.185,
+          0.334,
+          0.201
+        ],
+        "Student e-mail address:"
+      ],
+      [
+        [
+          0.104,
+          0.226,
+          0.244,
+          0.242
+        ],
+        "Student G#:"
+      ],
+      [
+        [
+          0.104,
+          0.267,
+          0.364,
+          0.283
+        ],
+        "Name of the CS faculty member"
+      ],
+      [
+        [
+          0.104,
+          0.283,
+          0.444,
+          0.3
+        ],
+        "to supervise the student in CS 701:"
+      ],
+      [
+        [
+          0.104,
+          0.324,
+          0.929,
+          0.34
+        ],
+        "Description of the research activity (clarify the hands-on component explicitly in your description):"
+      ],
+      [
+        [
+          0.104,
+          0.466,
+          0.929,
+          0.482
+        ],
+        "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+      ],
+      [
+        [
+          0.104,
+          0.507,
+          0.204,
+          0.523
+        ],
+        "Signatures"
+      ],
+      [
+        [
+          0.104,
+          0.533,
+          0.204,
+          0.549
+        ],
+        "Student:"
+      ],
+      [
+        [
+          0.394,
+          0.533,
+          0.614,
+          0.549
+        ],
+        "CS Faculty Supervisor:"
+      ],
+      [
+        [
+          0.684,
+          0.533,
+          0.929,
+          0.549
+        ],
+        "PhD CS Program Director:"
+      ],
+      [
+        [
+          0.104,
+          0.601,
+          0.174,
+          0.617
+        ],
+        "Notes"
+      ],
+      [
+        [
+          0.214,
+          0.617,
+          0.929,
+          0.633
+        ],
+        "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701."
+      ],
+      [
+        [
+          0.214,
+          0.633,
+          0.929,
+          0.649
+        ],
+        "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the"
+      ],
+      [
+        [
+          0.214,
+          0.649,
+          0.929,
+          0.665
+        ],
+        "CS 701 research activity should include a hands-on component (such as software development,"
+      ],
+      [
+        [
+          0.214,
+          0.665,
+          0.929,
+          0.681
+        ],
+        "performing and analyzing experiments with existing techniques) beyond the literature review."
+      ],
+      [
+        [
+          0.214,
+          0.681,
+          0.929,
+          0.697
+        ],
+        "Specify the hands-on activity within the “description of the research activity” field above."
+      ],
+      [
+        [
+          0.214,
+          0.697,
+          0.929,
+          0.713
+        ],
+        "If necessary, you can attach an additional sheet to elaborate further on the description of the"
+      ],
+      [
+        [
+          0.214,
+          0.713,
+          0.414,
+          0.729
+        ],
+        "research activity."
+      ],
+      [
+        [
+          0.214,
+          0.729,
+          0.929,
+          0.745
+        ],
+        "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the"
+      ],
+      [
+        [
+          0.214,
+          0.745,
+          0.929,
+          0.761
+        ],
+        "end of the semester. In addition, all CS 701 students are required to give a short talk to the"
+      ],
+      [
+        [
+          0.214,
+          0.761,
+          0.929,
+          0.777
+        ],
+        "public about their research at the end of the semester. Logistics of that meeting will be"
+      ],
+      [
+        [
+          0.214,
+          0.777,
+          0.514,
+          0.793
+        ],
+        "announced by the CS department."
+      ],
+      [
+        [
+          0.214,
+          0.793,
+          0.929,
+          0.809
+        ],
+        "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be"
+      ],
+      [
+        [
+          0.214,
+          0.809,
+          0.929,
+          0.825
+        ],
+        "indicated next to the “CS faculty member name” field above, and they should co-sign the form."
+      ],
+      [
+        [
+          0.214,
+          0.825,
+          0.929,
+          0.841
+        ],
+        "At the registrar level, the CS 701 registration will be made only under CS faculty names."
+      ],
+      [
+        [
+          0.214,
+          0.841,
+          0.929,
+          0.857
+        ],
+        "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put"
+      ],
+      [
+        [
+          0.214,
+          0.857,
+          0.614,
+          0.873
+        ],
+        "[CS701 form]” in the subject line) by November 21, 2025."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9894,
+      "char_recall": 0.5512,
+      "char_precision": 0.7588
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 23.578
+  },
+  {
+    "document": "hybrid",
+    "mode": "text",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "FakeDoc M.D.\n# HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\nDate: 9/14/19\nName: Sally Walker\nDOB: 09/04/1986\nAddress: 24 Barney Lane\nCity: Towaco\nState: NJ\nZip: 07082\nEmail: sally.walker@gmail.com\nPhone #: (906) 917-3486\nGender: F\nMarital Status: Single\nOccupation: Software Engineer\nReferred By: None\nEmergency Contact: Eva Walker\nEmergency Contact Phone: (906) 334-89260\nDescribe your medical concerns (symptoms, diagnoses, etc):\nRunny nose, mucus in throat, weakness, aches, chills, tired\nAre you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "FakeDoc M.D.\n# HEALTH INTAKE FORM\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\nDate: 9/14/19\nName: Sally Walker\nDOB: 09/04/1986\nAddress: 24 Barney Lane\nCity: Towaco\nState: NJ\nZip: 07082\nEmail: sally.walker@gmail.com\nPhone #: (906) 917-3486\nGender: F\nMarital Status: Single\nOccupation: Software Engineer\nReferred By: None\nEmergency Contact: Eva Walker\nEmergency Contact Phone: (906) 334-89260\nDescribe your medical concerns (symptoms, diagnoses, etc):\nRunny nose, mucus in throat, weakness, aches, chills, tired\nAre you currently taking any medication? (If yes, please describe):\nVyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9712,
+      "char_recall": 1.0,
+      "char_precision": 0.7462
+    },
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ],
+    "seconds": 7.156
+  },
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "```json\n[\n\t{\"bbox_2d\":[114, 19, 229, 34], \"content\": \"FakeDoc M.D.\"},\n\t{\"bbox_2d\":[358, 41, 644, 61], \"content\": \"HEALTH INTAKE FORM\"},\n\t{\"bbox_2d\": [112, 69, 859, 88], \"content\": \"Please fill out the questionnaire carefully. The information you provide will be used to complete\"},\n\t{\"bbox_2d\": [112, 92, 483, 108], \"content\": \"your health profile and will be kept confidential.\"},\n\t{\"bbox_2d\": [112, 137, 168, 153], \"content\": \"Date:\"},\n\t{\"bbox_2d\": [196, 120, 341, 158], \"content\": \"9/14/19\"},\n\t{\"bbox_2d\": [112, 181, 176, 197], \"content\": \"Name:\"},\n\t{\"bbox_2d\": [196, 167, 431, 217], \"content\": \"Sally Walker\"},\n\t{\"bbox_2d\": [649, 179, 704, 196], \"content\": \"DOB:\"},\n\t{\"bbox_2d\": [727, 164, 923, 200], \"content\": \"09/04/1986\"},\n\t{\"bbox_2d\": [112, 226, 188, 242], \"content\": \"Address:\"},\n\t{\"bbox_2d\": [206, 219, 416, 250], \"content\": \"24 Barney Lane\"},\n\t{\"bbox_2d\": [453, 226, 508, 242], \"content\": \"City:\"},\n\t{\"bbox_2d\": [503, 222, 610, 247], \"content\": \"Towaco\"},\n\t{\"bbox_2d\": [642, 226, 697, 242], \"content\": \"State:\"},\n\t{\"bbox_2d\": [706, 222, 754, 247], \"content\": \"NJ\"},\n\t{\"bbox_2d\": [769, 226, 814, 242], \"content\": \"Zip:\"},\n\t{\"bbox_2d\": [819, 220, 906, 244], \"content\": \"07082\"},\n\t{\"bbox_2d\": [112, 270, 176, 286], \"content\": \"Email:\"},\n\t{\"bbox_2d\": [179, 263, 516, 292], \"content\": \"sally.walker@gmail.com\"},\n\t{\"bbox_2d\": [542, 270, 629, 286], \"content\": \"Phone #:\"},\n\t{\"bbox_2d\": [659, 258, 890, 289], \"content\": \"(906) 917-3486\"},\n\t{\"bbox_2d\": [112, 315, 188, 331], \"content\": \"Gender:\"},\n\t{\"bbox_2d\": [226, 307, 254, 332], \"content\": \"F\"},\n\t{\"bbox_2d\": [301, 315, 440, 331], \"content\": \"Marital Status:\"},\n\t{\"bbox_2d\": [448, 302, 534, 348], \"content\": \"Single\"},\n\t{\"bbox_2d\": [548, 315, 667, 331], \"content\": \"Occupation:\"},\n\t{\"bbox_2d\": [674, 302, 939, 350], \"content\": \"Software Engineer\"},\n\t{\"bbox_2d\": [112, 360, 231, 376], \"content\": \"Referred By:\"},\n\t{\"bbox_2d\": [251, 352, 341, 378], \"content\": \"None\"},\n\t{\"bbox_2d\": [112, 404, 311, 420], \"content\": \"Emergency Contact:\"},\n\t{\"bbox_2d\": [319, 398, 469, 423], \"content\": \"Eva Walker\"},\n\t{\"bbox_2d\": [481, 404, 744, 420], \"content\": \"Emergency Contact Phone:\"},\n\t{\"bbox_2d\": [751, 391, 966, 423], \"content\": \"(906) 334-8926\"},\n\t{\"bbox_2d\": [112, 449, 729, 465], \"content\": \"Describe your medical concerns (symptoms, diagnoses, etc):\"},\n\t{\"bbox_2d\": [154, 485, 816, 523], \"content\": \"Runny nose, mucus in throat, weakness,\"},\n\t{\"bbox_2d\": [159, 529, 508, 568], \"content\": \"aches, chills, tired\"},\n\t{\"bbox_2d\": [112, 759, 786, 778], \"content\": \"Are you currently taking any medication? (If yes, please describe):\"},\n\t{\"bbox_2d\": [161, 793, 734, 839], \"content\": \"Vyvanse (25mg) daily for attention\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.114,
+          0.019,
+          0.229,
+          0.034
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.358,
+          0.041,
+          0.644,
+          0.061
+        ],
+        "HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.112,
+          0.069,
+          0.859,
+          0.088
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete"
+      ],
+      [
+        [
+          0.112,
+          0.092,
+          0.483,
+          0.108
+        ],
+        "your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.112,
+          0.137,
+          0.168,
+          0.153
+        ],
+        "Date:"
+      ],
+      [
+        [
+          0.196,
+          0.12,
+          0.341,
+          0.158
+        ],
+        "9/14/19"
+      ],
+      [
+        [
+          0.112,
+          0.181,
+          0.176,
+          0.197
+        ],
+        "Name:"
+      ],
+      [
+        [
+          0.196,
+          0.167,
+          0.431,
+          0.217
+        ],
+        "Sally Walker"
+      ],
+      [
+        [
+          0.649,
+          0.179,
+          0.704,
+          0.196
+        ],
+        "DOB:"
+      ],
+      [
+        [
+          0.727,
+          0.164,
+          0.923,
+          0.2
+        ],
+        "09/04/1986"
+      ],
+      [
+        [
+          0.112,
+          0.226,
+          0.188,
+          0.242
+        ],
+        "Address:"
+      ],
+      [
+        [
+          0.206,
+          0.219,
+          0.416,
+          0.25
+        ],
+        "24 Barney Lane"
+      ],
+      [
+        [
+          0.453,
+          0.226,
+          0.508,
+          0.242
+        ],
+        "City:"
+      ],
+      [
+        [
+          0.503,
+          0.222,
+          0.61,
+          0.247
+        ],
+        "Towaco"
+      ],
+      [
+        [
+          0.642,
+          0.226,
+          0.697,
+          0.242
+        ],
+        "State:"
+      ],
+      [
+        [
+          0.706,
+          0.222,
+          0.754,
+          0.247
+        ],
+        "NJ"
+      ],
+      [
+        [
+          0.769,
+          0.226,
+          0.814,
+          0.242
+        ],
+        "Zip:"
+      ],
+      [
+        [
+          0.819,
+          0.22,
+          0.906,
+          0.244
+        ],
+        "07082"
+      ],
+      [
+        [
+          0.112,
+          0.27,
+          0.176,
+          0.286
+        ],
+        "Email:"
+      ],
+      [
+        [
+          0.179,
+          0.263,
+          0.516,
+          0.292
+        ],
+        "sally.walker@gmail.com"
+      ],
+      [
+        [
+          0.542,
+          0.27,
+          0.629,
+          0.286
+        ],
+        "Phone #:"
+      ],
+      [
+        [
+          0.659,
+          0.258,
+          0.89,
+          0.289
+        ],
+        "(906) 917-3486"
+      ],
+      [
+        [
+          0.112,
+          0.315,
+          0.188,
+          0.331
+        ],
+        "Gender:"
+      ],
+      [
+        [
+          0.226,
+          0.307,
+          0.254,
+          0.332
+        ],
+        "F"
+      ],
+      [
+        [
+          0.301,
+          0.315,
+          0.44,
+          0.331
+        ],
+        "Marital Status:"
+      ],
+      [
+        [
+          0.448,
+          0.302,
+          0.534,
+          0.348
+        ],
+        "Single"
+      ],
+      [
+        [
+          0.548,
+          0.315,
+          0.667,
+          0.331
+        ],
+        "Occupation:"
+      ],
+      [
+        [
+          0.674,
+          0.302,
+          0.939,
+          0.35
+        ],
+        "Software Engineer"
+      ],
+      [
+        [
+          0.112,
+          0.36,
+          0.231,
+          0.376
+        ],
+        "Referred By:"
+      ],
+      [
+        [
+          0.251,
+          0.352,
+          0.341,
+          0.378
+        ],
+        "None"
+      ],
+      [
+        [
+          0.112,
+          0.404,
+          0.311,
+          0.42
+        ],
+        "Emergency Contact:"
+      ],
+      [
+        [
+          0.319,
+          0.398,
+          0.469,
+          0.423
+        ],
+        "Eva Walker"
+      ],
+      [
+        [
+          0.481,
+          0.404,
+          0.744,
+          0.42
+        ],
+        "Emergency Contact Phone:"
+      ],
+      [
+        [
+          0.751,
+          0.391,
+          0.966,
+          0.423
+        ],
+        "(906) 334-8926"
+      ],
+      [
+        [
+          0.112,
+          0.449,
+          0.729,
+          0.465
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.154,
+          0.485,
+          0.816,
+          0.523
+        ],
+        "Runny nose, mucus in throat, weakness,"
+      ],
+      [
+        [
+          0.159,
+          0.529,
+          0.508,
+          0.568
+        ],
+        "aches, chills, tired"
+      ],
+      [
+        [
+          0.112,
+          0.759,
+          0.786,
+          0.778
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.161,
+          0.793,
+          0.734,
+          0.839
+        ],
+        "Vyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.7632,
+      "recall_at_05": 0.3684,
+      "precision": 0.7436,
+      "hmean": 0.7532,
+      "avg_iou": 0.5083,
+      "text_sim": 0.9214,
+      "avg_cer": 0.0833,
+      "bow_f1": 0.9808,
+      "char_recall": 0.6765,
+      "char_precision": 0.9038
+    },
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ],
+    "seconds": 23.5
+  },
+  {
+    "document": "handwritten",
+    "mode": "text",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "# Algorithms\n\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\ninput $\\xrightarrow{\\text{mapped}}$ output\n\n- the input data needs to properly formatted\n- ensures a CORRECT ALGORITHM\n\n- post condition is a logical predicate for the input and output\n\n- halting: the algo needs to finish in finite time\n\n- look into induction proofs\n\nCorrectness\n\n- Validity\n- Halting\n  (conjunction of both)\n\n- if the algo has a strong post condition it makes it more useful",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "# Algorithms\n\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\ninput $\\xrightarrow{\\text{mapped}}$ output\n\n- the input data needs to properly formatted\n- ensures a CORRECT ALGORITHM\n\n- post condition is a logical predicate for the input and output\n\n- halting: the algo needs to finish in finite time\n\n- look into induction proofs\n\nCorrectness\n\n- Validity\n- Halting\n  (conjunction of both)\n\n- if the algo has a strong post condition it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9722,
+      "char_recall": 1.0,
+      "char_precision": 0.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 5.578
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [46, 35, 222, 85], \"content\": \"Algorithms,\"},\n\t{\"bbox_2d\": [81, 108, 484, 156], \"content\": \"- computational procedure\"},\n\t{\"bbox_2d\": [91, 148, 894, 190], \"content\": \"- processes are finite, but the data does not\"},\n\t{\"bbox_2d\": [91, 188, 506, 228], \"content\": \"have an upper bound.\"},\n\t{\"bbox_2d\": [354, 238, 434, 263], \"content\": \"mapped\"},\n\t{\"bbox_2d\": [214, 268, 314, 298], \"content\": \"input\"},\n\t{\"bbox_2d\": [479, 263, 584, 290], \"content\": \"output\"},\n\t{\"bbox_2d\": [46, 308, 886, 353], \"content\": \"- the input data needs to properly formatted\"},\n\t{\"bbox_2d\": [124, 368, 784, 403], \"content\": \"- ensures a CORRECT ALGORITHM\"},\n\t{\"bbox_2d\": [46, 428, 874, 463], \"content\": \"- post condition is a logical predicate for\"},\n\t{\"bbox_2d\": [89, 468, 564, 503], \"content\": \"the input and output\"},\n\t{\"bbox_2d\": [46, 518, 884, 558], \"content\": \"- halting: the algo needs to finish in finite\"},\n\t{\"bbox_2d\": [79, 563, 151, 590], \"content\": \"time\"},\n\t{\"bbox_2d\": [154, 608, 664, 638], \"content\": \"- look into induction proofs\"},\n\t{\"bbox_2d\": [394, 658, 564, 688], \"content\": \"Correctness\"},\n\t{\"bbox_2d\": [264, 748, 404, 790], \"content\": \"Validity\"},\n\t{\"bbox_2d\": [624, 758, 764, 818], \"content\": \"Halting\"},\n\t{\"bbox_2d\": [314, 803, 714, 843], \"content\": \"(conjunction of both)\"},\n\t{\"bbox_2d\": [81, 868, 954, 903], \"content\": \"- if the algo has a strong post condition\"},\n\t{\"bbox_2d\": [124, 908, 574, 943], \"content\": \"it makes it more useful\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.046,
+          0.035,
+          0.222,
+          0.085
+        ],
+        "Algorithms,"
+      ],
+      [
+        [
+          0.081,
+          0.108,
+          0.484,
+          0.156
+        ],
+        "- computational procedure"
+      ],
+      [
+        [
+          0.091,
+          0.148,
+          0.894,
+          0.19
+        ],
+        "- processes are finite, but the data does not"
+      ],
+      [
+        [
+          0.091,
+          0.188,
+          0.506,
+          0.228
+        ],
+        "have an upper bound."
+      ],
+      [
+        [
+          0.354,
+          0.238,
+          0.434,
+          0.263
+        ],
+        "mapped"
+      ],
+      [
+        [
+          0.214,
+          0.268,
+          0.314,
+          0.298
+        ],
+        "input"
+      ],
+      [
+        [
+          0.479,
+          0.263,
+          0.584,
+          0.29
+        ],
+        "output"
+      ],
+      [
+        [
+          0.046,
+          0.308,
+          0.886,
+          0.353
+        ],
+        "- the input data needs to properly formatted"
+      ],
+      [
+        [
+          0.124,
+          0.368,
+          0.784,
+          0.403
+        ],
+        "- ensures a CORRECT ALGORITHM"
+      ],
+      [
+        [
+          0.046,
+          0.428,
+          0.874,
+          0.463
+        ],
+        "- post condition is a logical predicate for"
+      ],
+      [
+        [
+          0.089,
+          0.468,
+          0.564,
+          0.503
+        ],
+        "the input and output"
+      ],
+      [
+        [
+          0.046,
+          0.518,
+          0.884,
+          0.558
+        ],
+        "- halting: the algo needs to finish in finite"
+      ],
+      [
+        [
+          0.079,
+          0.563,
+          0.151,
+          0.59
+        ],
+        "time"
+      ],
+      [
+        [
+          0.154,
+          0.608,
+          0.664,
+          0.638
+        ],
+        "- look into induction proofs"
+      ],
+      [
+        [
+          0.394,
+          0.658,
+          0.564,
+          0.688
+        ],
+        "Correctness"
+      ],
+      [
+        [
+          0.264,
+          0.748,
+          0.404,
+          0.79
+        ],
+        "Validity"
+      ],
+      [
+        [
+          0.624,
+          0.758,
+          0.764,
+          0.818
+        ],
+        "Halting"
+      ],
+      [
+        [
+          0.314,
+          0.803,
+          0.714,
+          0.843
+        ],
+        "(conjunction of both)"
+      ],
+      [
+        [
+          0.081,
+          0.868,
+          0.954,
+          0.903
+        ],
+        "- if the algo has a strong post condition"
+      ],
+      [
+        [
+          0.124,
+          0.908,
+          0.574,
+          0.943
+        ],
+        "it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.9286,
+      "recall_at_05": 0.5714,
+      "precision": 0.65,
+      "hmean": 0.7647,
+      "avg_iou": 0.5377,
+      "text_sim": 0.9469,
+      "avg_cer": 0.0886,
+      "bow_f1": 0.9861,
+      "char_recall": 0.8826,
+      "char_precision": 0.9525
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 12.718
+  },
+  {
+    "document": "dense",
+    "mode": "text",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "error": "IncompleteCompletionError: Vision response reached the 8192 token limit (model='Qwen/Qwen3.5-9B'); retry with smaller regions.",
+    "seconds": 105.796
+  },
+  {
+    "document": "dense",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "error": "IncompleteCompletionError: Vision response reached the 8192 token limit (model='Qwen/Qwen3.5-9B'); retry with smaller regions.",
+    "seconds": 103.282
+  },
+  {
+    "document": "notes",
+    "mode": "text",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "- FK can have null value\n- I could modify my existing implementation of Project 1)\n\n# Mapping Binary 1:1 Relationship Sets\n\n- FK approach\n- Merged relation approach\n  (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n1. FK approach\n   - total\n   - Cross Ref also applies here\n   - merge-rel can work here with FK from total participations - not desirable\n\n2. merge-relation\n   - FK applies to second case as well\n   - Cross Ref can also apply here\n   - FK can be either one\n   - (since it's 1:1)",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "- FK can have null value\n- I could modify my existing implementation of Project 1)\n\n# Mapping Binary 1:1 Relationship Sets\n\n- FK approach\n- Merged relation approach\n  (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n1. FK approach\n   - total\n   - Cross Ref also applies here\n   - merge-rel can work here with FK from total participations - not desirable\n\n2. merge-relation\n   - FK applies to second case as well\n   - Cross Ref can also apply here\n   - FK can be either one\n   - (since it's 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.72,
+      "char_recall": 1.0,
+      "char_precision": 0.4196
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 6.141
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "error": "IncompleteCompletionError: Vision response reached the 8192 token limit (model='Qwen/Qwen3.5-9B'); retry with smaller regions.",
+    "seconds": 107.187
+  },
+  {
+    "document": "image",
+    "mode": "text",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "Fr 10.4.2026\n\n1000\n\nNeurotiker\n\nTypen 23\n\nschwache Grenzen\n\nim Kopf\n\nLinke\n\nweiblich\n\nverwechseln viel\n\n\"Alles ist eins\"\n\ndenken verschwommen\n\nSchwammkopf\n\nSchwadrkopf\n\nMystiker\n\nPsychotiker\n\nTypen 14\n\nstarke Grenzen\n\nim Kopf\n\nRechte\n\nmännlich\n\nverwechseln wenig\n\ndenken scharf\n\nGnostiker",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "Fr 10.4.2026\n\n1000\n\nNeurotiker\n\nTypen 23\n\nschwache Grenzen\n\nim Kopf\n\nLinke\n\nweiblich\n\nverwechseln viel\n\n\"Alles ist eins\"\n\ndenken verschwommen\n\nSchwammkopf\n\nSchwadrkopf\n\nMystiker\n\nPsychotiker\n\nTypen 14\n\nstarke Grenzen\n\nim Kopf\n\nRechte\n\nmännlich\n\nverwechseln wenig\n\ndenken scharf\n\nGnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9722,
+      "char_recall": 1.0,
+      "char_precision": 0.7014
+    },
+    "seconds": 5.219
+  },
+  {
+    "document": "image",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [56, 30, 434, 69], \"text_content\": \"Fr 10.4.2026\"},\n\t{\"bbox_2d\": [746, 23, 836, 48], \"text_content\": \"1000\"},\n\t{\"bbox_2d\": [56, 134, 280, 167], \"text_content\": \"Neurotiker\"},\n\t{\"bbox_2d\": [608, 121, 888, 172], \"text_content\": \"Psychotiker\"},\n\t{\"bbox_2d\": [54, 197, 274, 243], \"text_content\": \"Typen 23\"},\n\t{\"bbox_2d\": [618, 197, 890, 247], \"text_content\": \"Typen 14\"},\n\t{\"bbox_2d\": [54, 284, 368, 317], \"text_content\": \"schwache Grenzen\"},\n\t{\"bbox_2d\": [146, 319, 328, 354], \"text_content\": \"im Kopf\"},\n\t{\"bbox_2d\": [542, 288, 902, 322], \"text_content\": \"starke Grenzen\"},\n\t{\"bbox_2d\": [692, 319, 926, 362], \"text_content\": \"im Kopf\"},\n\t{\"bbox_2d\": [98, 384, 250, 414], \"text_content\": \"Linke\"},\n\t{\"bbox_2d\": [80, 419, 314, 462], \"text_content\": \"weiblich\"},\n\t{\"bbox_2d\": [644, 377, 818, 412], \"text_content\": \"Rechte\"},\n\t{\"bbox_2d\": [620, 424, 844, 457], \"text_content\": \"männlich\"},\n\t{\"bbox_2d\": [44, 509, 394, 550], \"text_content\": \"verwechseln viel\"},\n\t{\"bbox_2d\": [558, 505, 926, 552], \"text_content\": \"verwechseln wenig\"},\n\t{\"bbox_2d\": [54, 594, 398, 634], \"text_content\": \"\\\"Alles ist eins\\\"\"},\n\t{\"bbox_2d\": [60, 674, 464, 707], \"text_content\": \"denken verschwommen\"},\n\t{\"bbox_2d\": [544, 657, 854, 704], \"text_content\": \"denken scharf\"},\n\t{\"bbox_2d\": [68, 734, 334, 787], \"text_content\": \"Schwammkopf\"},\n\t{\"bbox_2d\": [70, 787, 362, 837], \"text_content\": \"Schwadrkopf\"},\n\t{\"bbox_2d\": [82, 844, 326, 892], \"text_content\": \"Mystiker\"},\n\t{\"bbox_2d\": [558, 842, 842, 880], \"text_content\": \"Gnostiker\"}\n]\n```",
+    "blocks": [],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.0,
+      "char_recall": 0.0,
+      "char_precision": 0.0
+    },
+    "seconds": 13.859
+  }
+]

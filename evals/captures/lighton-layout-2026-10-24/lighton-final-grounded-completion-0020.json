@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 2.9690000000118744,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-WFDFOnrSmfbdwt46cPocJp8qZumxkzr0",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](34,44,640,94) # Mapping of Specialization / Generalization\n\n![image](227,101,620,381) Hand-drawn diagram showing a central box labeled 'S' connected to circles 'G₁', 'G₂', ..., 'Gₙ', which branch to boxes 'C₁', ..., 'Cₘ' with nodes 'n' and 'z'.\n\n![image](57,401,810,662) Hand-drawn diagram showing a table S with columns α, a₁, ..., aₘ, and rows C₁ to Cₘ with values α, x, α, z, labeled 'option 1' and 'mtf'.\n\n![text](162,722,605,770) Redundancy with option 2",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844127,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 192,
+      "prompt_tokens": 2096,
+      "total_tokens": 2288,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 973.231,
+      "prompt_per_token_ms": 0.4643277671755725,
+      "prompt_per_second": 2153.651085918965,
+      "predicted_n": 192,
+      "predicted_ms": 1868.839,
+      "predicted_per_token_ms": 9.784497382198953,
+      "predicted_per_second": 102.20249042319857
+    }
+  }
+}

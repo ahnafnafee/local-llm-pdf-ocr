@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 6.546999999991385,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-jHLfXPuAp5RusbkCXO9V9Q3I7ghMor7Q",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![header](110,16,229,34) FakeDoc M.D.\n\n![title](355,38,646,61) # HEALTH INTAKE FORM\n\n![text](110,67,859,109) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](105,116,344,162) Date: 9/14/19\n\n![text](105,162,922,203) Name: Sally Walker DOB: 09/04/1986\n\n![text](108,216,906,248) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](108,257,893,292) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](105,301,939,344) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](108,351,343,381) Referred By: None\n\n![text](108,388,968,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](110,446,728,468) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](149,483,818,566) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](110,757,786,780) Are you currently taking any medication? (If yes, please describe):\n\n![text](154,787,740,837) Vyvanse (25mg) daily for attention",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844244,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 479,
+      "prompt_tokens": 3188,
+      "total_tokens": 3667,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3188,
+      "prompt_ms": 1722.522,
+      "prompt_per_token_ms": 0.5403143036386449,
+      "prompt_per_second": 1850.7746200048534,
+      "predicted_n": 479,
+      "predicted_ms": 4699.46,
+      "predicted_per_token_ms": 9.831506276150627,
+      "predicted_per_second": 101.71381392755764
+    }
+  }
+}

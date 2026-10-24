@@ -1,0 +1,93 @@
+{
+  "mode": "grounded",
+  "model": "lightonai/LightOnOCR-3-4B",
+  "source_pages": 130,
+  "explicit_model_argument": false,
+  "selection": "2,4",
+  "rendered_zero_based_indices": [
+    1,
+    3,
+    1,
+    3
+  ],
+  "render_events": [
+    {
+      "source_page_index": 1,
+      "dpi": 200,
+      "size": [
+        1700,
+        2200
+      ]
+    },
+    {
+      "source_page_index": 3,
+      "dpi": 200,
+      "size": [
+        1700,
+        2200
+      ]
+    },
+    {
+      "source_page_index": 1,
+      "dpi": 400,
+      "size": [
+        3400,
+        4400
+      ]
+    },
+    {
+      "source_page_index": 3,
+      "dpi": 400,
+      "size": [
+        3400,
+        4400
+      ]
+    }
+  ],
+  "real_inference_requests": 4,
+  "exit_code": 0,
+  "inference_requests": [
+    {
+      "model": "lightonai/LightOnOCR-3-4B",
+      "image_size": [
+        1583,
+        2048
+      ],
+      "pixel_sha256": "34be77a51a50a4e029b750bf5ace7c5b06f0b039b300d8df848f40bba23a2ae3"
+    },
+    {
+      "model": "lightonai/LightOnOCR-3-4B",
+      "image_size": [
+        771,
+        224
+      ],
+      "pixel_sha256": "c3565c0af2bdb0eb51b332072eec6b4f3fd67b308d0ff413a8d998ef71f8cef4"
+    },
+    {
+      "model": "lightonai/LightOnOCR-3-4B",
+      "image_size": [
+        1583,
+        2048
+      ],
+      "pixel_sha256": "34be77a51a50a4e029b750bf5ace7c5b06f0b039b300d8df848f40bba23a2ae3"
+    },
+    {
+      "model": "lightonai/LightOnOCR-3-4B",
+      "image_size": [
+        771,
+        224
+      ],
+      "pixel_sha256": "c3565c0af2bdb0eb51b332072eec6b4f3fd67b308d0ff413a8d998ef71f8cef4"
+    }
+  ],
+  "elapsed_seconds": 30.14,
+  "output": "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\selection-grounded.md",
+  "output_characters": 4644,
+  "output_page_numbers": [
+    2,
+    4
+  ],
+  "full_page_inference_requests": 2,
+  "recovery_inference_requests": 2,
+  "passed": true
+}

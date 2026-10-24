@@ -1,0 +1,5 @@
+sss...s.sss...s.sss...s.s.s.                                             [100%]
+=========================== short test summary info ===========================
+SKIPPED [12] tests\test_live_quality.py:33: Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference
+SKIPPED [2] tests\test_live_quality.py:86: Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference
+14 passed, 14 skipped in 661.25s (0:11:01)

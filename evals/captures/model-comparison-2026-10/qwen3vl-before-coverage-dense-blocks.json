@@ -1,0 +1,860 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.019,
+        0.017,
+        0.26,
+        0.034
+      ],
+      "text": "SQL - Application Code",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.034,
+        0.257,
+        0.049
+      ],
+      "text": "- Two main integration approaches",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.049,
+        0.256,
+        0.064
+      ],
+      "text": "- SQL (SQL Server level interface) -> embedded SQL",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.064,
+        0.257,
+        0.078
+      ],
+      "text": "- ODBC (C++) - special API to ODBC",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.078,
+        0.257,
+        0.093
+      ],
+      "text": "SQL commands",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.093,
+        0.26,
+        0.108
+      ],
+      "text": "(1) No No No Yes lower",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.108,
+        0.257,
+        0.12199999999999998
+      ],
+      "text": "- Some of DB must be written for embedded SQL",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.12199999999999998,
+        0.26,
+        0.137
+      ],
+      "text": "-> can get rid of runtime overhead",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.137,
+        0.257,
+        0.151
+      ],
+      "text": "- SQLSTATE - common error code defined here",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.151,
+        0.26,
+        0.166
+      ],
+      "text": "EXEC SQL SELECT Sname, Sage",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.166,
+        0.26,
+        0.18
+      ],
+      "text": "INTO cursor :cage on parameters",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.18,
+        0.257,
+        0.194
+      ],
+      "text": "FROM sailors S",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.194,
+        0.26,
+        0.209
+      ],
+      "text": "WHERE SSID = :sid",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.209,
+        0.257,
+        0.223
+      ],
+      "text": "- for DB, start index from 1",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.223,
+        0.26,
+        0.238
+      ],
+      "text": "Project 2",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.238,
+        0.26,
+        0.252
+      ],
+      "text": "- need to use LIKE for partial matching",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.252,
+        0.257,
+        0.267
+      ],
+      "text": "- open-close?",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.267,
+        0.26,
+        0.282
+      ],
+      "text": "- program should NOT crash",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.282,
+        0.26,
+        0.296
+      ],
+      "text": "(use graceful way that I know best)",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.026,
+        0.014,
+        0.197,
+        0.035
+      ],
+      "text": "for example:",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.035,
+        0.205,
+        0.054
+      ],
+      "text": "R: (A,B,C,D,E)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.015,
+        0.10600000000000001,
+        0.032
+      ],
+      "text": "for INF \u2192 2NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.03,
+        0.096,
+        0.048
+      ],
+      "text": "FD2: P#\u2192Pa",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10600000000000001,
+        0.03,
+        0.285,
+        0.047
+      ],
+      "text": "partial exp \u2192 2NF violation",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.028,
+        0.051,
+        0.118,
+        0.069
+      ],
+      "text": "FD3: ST#\u2192Sn \u2192 TD",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.03,
+        0.069,
+        0.146,
+        0.087
+      ],
+      "text": "FD4: {Id, S#} \u2192 CR",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.095,
+        0.152,
+        0.112
+      ],
+      "text": "\u2460 Id#, Pa#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.11300000000000002,
+        0.26,
+        0.13
+      ],
+      "text": "\u2461 P#, Id, (t, C#, S#, CR) \u2192 S#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.135,
+        0.104,
+        0.151
+      ],
+      "text": "for 2NF \u2192 3NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.152,
+        0.10600000000000001,
+        0.167
+      ],
+      "text": "\u2460 S#, Sn#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.169,
+        0.26,
+        0.185
+      ],
+      "text": "\u2461 P#, Id, (t, C#, S#, CR) \u2192 S#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.19,
+        0.10600000000000001,
+        0.204
+      ],
+      "text": "for 3NF \u2192 BCNF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.20699999999999996,
+        0.25,
+        0.222
+      ],
+      "text": "FD3: S#\u2192Sn \u2192 TD",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.225,
+        0.146,
+        0.239
+      ],
+      "text": "BCNF violation",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.24,
+        0.10600000000000001,
+        0.254
+      ],
+      "text": "since FDs is P",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.257,
+        0.10600000000000001,
+        0.271
+      ],
+      "text": "3NF only violates no other",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.279,
+        0.118,
+        0.293
+      ],
+      "text": "needs to be included for FD3",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.3,
+        0.196,
+        0.315
+      ],
+      "text": "A,C,D#\u2192A,B,C,D,E#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.318,
+        0.24200000000000002,
+        0.332
+      ],
+      "text": "\u2192 A,B,C,D,E#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.3360000000000001,
+        0.202,
+        0.35
+      ],
+      "text": "B,C,D#\u2192 B,C,D,E#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.35400000000000004,
+        0.21200000000000002,
+        0.36800000000000005
+      ],
+      "text": "\u2192 A,B,C,D,E#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.371,
+        0.104,
+        0.384
+      ],
+      "text": "C,D,E#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.395,
+        0.10600000000000001,
+        0.4089999999999999
+      ],
+      "text": "b) All are in 3NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.413,
+        0.10600000000000001,
+        0.427
+      ],
+      "text": "already in 3NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.43,
+        0.068,
+        0.445
+      ],
+      "text": "c) No,",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.45,
+        0.104,
+        0.463
+      ],
+      "text": "A\u2192B",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.467,
+        0.189,
+        0.481
+      ],
+      "text": "B not a superkey",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.485,
+        0.104,
+        0.499
+      ],
+      "text": "D\u2192C",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.503,
+        0.104,
+        0.516
+      ],
+      "text": "E\u2192A",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.519,
+        0.10600000000000001,
+        0.533
+      ],
+      "text": "not",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.38,
+        0.014,
+        0.642,
+        0.033
+      ],
+      "text": "\u2461 {Id, S#, (t, C#, S#, CR) \u2192 S#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.38,
+        0.035,
+        0.549,
+        0.054
+      ],
+      "text": "FD: A\u2192B",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.602,
+        0.035,
+        0.671,
+        0.054
+      ],
+      "text": "3NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.673,
+        0.035,
+        0.735,
+        0.054
+      ],
+      "text": "BCNF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.38,
+        0.059,
+        0.549,
+        0.076
+      ],
+      "text": "FD: A\u2192B",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.507,
+        0.076,
+        0.576,
+        0.091
+      ],
+      "text": "B is prime",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.583,
+        0.076,
+        0.648,
+        0.091
+      ],
+      "text": "Allowed",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.655,
+        0.076,
+        0.72,
+        0.091
+      ],
+      "text": "Violation",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.38,
+        0.094,
+        0.549,
+        0.112
+      ],
+      "text": "FD: A\u2192B",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.507,
+        0.112,
+        0.6,
+        0.126
+      ],
+      "text": "B is nonprime",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.618,
+        0.112,
+        0.692,
+        0.126
+      ],
+      "text": "Violation",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.705,
+        0.112,
+        0.774,
+        0.126
+      ],
+      "text": "Violation",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.38,
+        0.134,
+        0.525,
+        0.151
+      ],
+      "text": "P P A D C D",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.38,
+        0.157,
+        0.475,
+        0.173
+      ],
+      "text": "2NF \u2228",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.496,
+        0.157,
+        0.623,
+        0.171
+      ],
+      "text": "Creates partial tree",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.496,
+        0.17,
+        0.638,
+        0.18400000000000002
+      ],
+      "text": "for winner of some",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.496,
+        0.18400000000000002,
+        0.583,
+        0.19799999999999998
+      ],
+      "text": "attributes",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.496,
+        0.197,
+        0.55,
+        0.212
+      ],
+      "text": "3NF X",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.134,
+        0.783,
+        0.151
+      ],
+      "text": "\u2460 R(A,B,C,D,E) \u2192 S#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.151,
+        0.79,
+        0.167
+      ],
+      "text": "FD1: A\u2192B",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.167,
+        0.79,
+        0.18400000000000002
+      ],
+      "text": "FD2: BC\u2192E",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.18400000000000002,
+        0.783,
+        0.2
+      ],
+      "text": "FD3: ED\u2192A",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.2,
+        0.79,
+        0.217
+      ],
+      "text": "a) Unable to close",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.217,
+        0.783,
+        0.234
+      ],
+      "text": "\u2192 RHS: A,B,E#",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.234,
+        0.79,
+        0.25
+      ],
+      "text": "not included",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.671,
+        0.25,
+        0.783,
+        0.267
+      ],
+      "text": "C,D#",
+      "page_index": 2,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      791,
+      1024
+    ],
+    [
+      791,
+      1024
+    ],
+    [
+      791,
+      1024
+    ]
+  ],
+  "page_indices": [
+    0,
+    1,
+    2
+  ],
+  "page_errors": {}
+}

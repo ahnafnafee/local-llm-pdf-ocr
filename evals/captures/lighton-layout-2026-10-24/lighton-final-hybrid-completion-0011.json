@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.64000000001397,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-zXEkGJmmCla5obAFrX4JWvZKQ7ts8Nyn",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](33,22,627,68) # Mapping of Multivalued Attributes\n\n![image](107,81,448,283) Entity-relationship diagram showing Employee and Dependent entities with attributes SSN, n, y.\n\n![image](468,103,972,344) Entity-relationship diagram showing Employee and Dependent entities with attributes and combination to form P.K.\n\n![text](404,292,562,325) *attentively,*\n\n![text](310,353,850,401) E-D $\\boxed{\\text{SSN} \\mid n \\mid y \\mid \\text{Dependent Name}}$\n\n![image](274,398,404,462) red circle with a cross inside\n\n![text](447,398,800,501) $\\boxed{\\times}$\n\n*required to repeat n and y for each dependent, not ideal*\n\n![title](42,520,727,583) # Mapping of N-any relationship sets\n\n![image](84,664,747,853) Entity-relationship diagram showing Supplier, Supply, Project, and Post entities with M relationships.",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844420,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 301,
+      "prompt_tokens": 3152,
+      "total_tokens": 3453,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1535.32,
+      "prompt_per_token_ms": 0.48709390862944163,
+      "prompt_per_second": 2052.9922100930103,
+      "predicted_n": 301,
+      "predicted_ms": 2912.015,
+      "predicted_per_token_ms": 9.706716666666667,
+      "predicted_per_second": 103.0214473483138
+    }
+  }
+}

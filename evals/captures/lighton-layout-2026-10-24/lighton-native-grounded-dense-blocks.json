@@ -1,0 +1,1500 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.004298181818181818,
+        0.06366117647058823,
+        0.015043636363636365
+      ],
+      "text": "- for example:",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.015043636363636365,
+        0.09370352941176471,
+        0.025789090909090907
+      ],
+      "text": "$R = \\{A, B, C, D, E, \\hat{A}\\}$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.025789090909090907,
+        0.16523294117647058,
+        0.03653454545454545
+      ],
+      "text": "$FDs: AB \\rightarrow C, \\quad D \\rightarrow AD, \\quad D \\rightarrow E, \\quad CE \\rightarrow B$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.03653454545454545,
+        0.06366117647058823,
+        0.04728
+      ],
+      "text": "$\\therefore \\{A, B\\}^+ ?$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.05444363636363636,
+        0.06366117647058823,
+        0.0651890909090909
+      ],
+      "text": "- build a Snowball...",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.0651890909090909,
+        0.24248470588235294,
+        0.22278909090909088
+      ],
+      "text": "<table>\n  <tr>\n    <th>Round</th>\n    <th>a. Snowball</th>\n    <th>Snowball</th>\n  </tr>\n  <tr>\n    <td>Start</td>\n    <td>A and B</td>\n    <td> $\\{A, B\\}$ </td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td> $AB \\rightarrow C$ </td>\n    <td> $\\{A, B, C\\}$ </td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td> $BC \\rightarrow AD$ </td>\n    <td> $\\{A, B, C, D\\}$ </td>\n  </tr>\n  <tr>\n    <td>3</td>\n    <td> $D \\rightarrow E$ </td>\n    <td> $\\{A, B, C, E\\}$ </td>\n  </tr>\n  <tr>\n    <td>4</td>\n    <td>X</td>\n    <td>Done</td>\n  </tr>\n</table>",
+      "page_index": 1,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.22278909090909088,
+        0.16523294117647058,
+        0.23353454545454544
+      ],
+      "text": "$\\therefore \\{A, B\\}^+ = \\{A, B, C, D, E\\}$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.07939764705882353,
+        0.23353454545454544,
+        0.16523294117647058,
+        0.24428
+      ],
+      "text": "*Gives new redundancy*",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0035764705882352947,
+        0.28009818181818186,
+        0.16523294117647058,
+        0.2908436363636364
+      ],
+      "text": "- 2NF (Second Normal Form)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.008596363636363636,
+        0.4513819607843137,
+        0.016476363636363636
+      ],
+      "text": "- what about $\\mathcal{E}(C, D)^+$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.018983636363636362,
+        0.4513819607843137,
+        0.02686363636363636
+      ],
+      "text": "$\\mathcal{E}(C, D)^+ \\Rightarrow \\mathcal{E}(C, D)$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.41310745098039214,
+        0.028296363636363637,
+        0.4513819607843137,
+        0.03617636363636364
+      ],
+      "text": "$D \\rightarrow E$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.41310745098039214,
+        0.03689272727272727,
+        0.4513819607843137,
+        0.04477272727272727
+      ],
+      "text": "$\\Rightarrow \\mathcal{E}(C, D, E)$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.41310745098039214,
+        0.04548909090909091,
+        0.4513819607843137,
+        0.05372727272727272
+      ],
+      "text": "$C \\rightarrow D$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.41310745098039214,
+        0.05408545454545455,
+        0.4513819607843137,
+        0.061965454545454546
+      ],
+      "text": "$\\Rightarrow \\mathcal{E}(D, C, D, E)$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.41310745098039214,
+        0.06268181818181819,
+        0.4513819607843137,
+        0.07056181818181818
+      ],
+      "text": "$B \\rightarrow A$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.41310745098039214,
+        0.07092,
+        0.4513819607843137,
+        0.07880000000000001
+      ],
+      "text": "$\\Rightarrow \\mathcal{E}(A, B, C, D, E)$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.4513819607843137,
+        0.08023272727272728,
+        0.5087937254901961,
+        0.08811272727272727
+      ],
+      "text": "$G$ still missing",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.4513819607843137,
+        0.08882909090909091,
+        0.5470682352941176,
+        0.09670909090909093
+      ],
+      "text": "$\\therefore \\mathcal{E}(C, D)$ is NOT a candidate key",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.09814181818181819,
+        0.5470682352941176,
+        0.10602181818181818
+      ],
+      "text": "$\\Rightarrow \\mathcal{E}(C, D, G)^+ = \\mathcal{E}(A, B, C, D, E, G)$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.10745454545454544,
+        0.5470682352941176,
+        0.11533454545454545
+      ],
+      "text": "$G$ is a superkey since it covers all attributes in $R$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.1160509090909091,
+        0.5470682352941176,
+        0.12393090909090909
+      ],
+      "text": "$G$ is a candidate key too since is minimal \u2014 removing $G$ breaks the SIK property.",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.12536363636363637,
+        0.4513819607843137,
+        0.13324363636363637
+      ],
+      "text": "same applies for:",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.13396,
+        0.4513819607843137,
+        0.14184
+      ],
+      "text": "$\\mathcal{E}(A, B, G)^+$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3556956862745098,
+        0.14327272727272727,
+        0.4513819607843137,
+        0.15115272727272727
+      ],
+      "text": "$\\therefore$ After 2NF $\\rightarrow$ 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.008596363636363636,
+        0.7412125490196079,
+        0.02220727272727273
+      ],
+      "text": "# Normalization",
+      "page_index": 1,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.02292363636363636,
+        0.9204282352941177,
+        0.06232363636363636
+      ],
+      "text": "- 1NF: dissolves multi-valued attributes. composite atts, and new combinations",
+      "page_index": 1,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.06232363636363636,
+        0.9204282352941177,
+        0.1160509090909091
+      ],
+      "text": "- Prime vs. Nonprime Atts\n  - $\\downarrow$ number of any candidate key\n  - $\\downarrow$ not a prime att. (not a member of any c.k.)",
+      "page_index": 1,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.7949772549019608,
+        0.1160509090909091,
+        0.8458745098039215,
+        0.12966181818181818
+      ],
+      "text": "$\\downarrow$ disjoint",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.12966181818181818,
+        0.9204282352941177,
+        0.16906181818181817
+      ],
+      "text": "- Full FD vs. Partial FD\n  - $\\downarrow$ removing a single attr breaks the dependency\n  - $\\downarrow$ removing some attr and dep still holds",
+      "page_index": 1,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.16906181818181817,
+        0.9204282352941177,
+        0.1830309090909091
+      ],
+      "text": "e.g. EMP-PROS(SSN, Pname, Maws, Ename)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.1830309090909091,
+        0.9204282352941177,
+        0.21061090909090907
+      ],
+      "text": "$\\rightarrow$ SSN, Pname/3 \u2192 Maws : full FD (need both to obtain Maws value)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.21061090909090907,
+        0.9204282352941177,
+        0.2385490909090909
+      ],
+      "text": "$\\rightarrow$ SSN, Pname/3 \u2192 Ename : partial FD (SSN alone determines Ename)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.2385490909090909,
+        0.9204282352941177,
+        0.2525181818181818
+      ],
+      "text": "e.g.",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.6784870588235294,
+        0.2525181818181818,
+        0.9204282352941177,
+        0.26648727272727274
+      ],
+      "text": "$\\rightarrow$ SSN, Pname, and Mname/3 \u2192 Ename",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.3508460606060606,
+        0.248,
+        0.4122278787878788
+      ],
+      "text": "- 2NF (Second Normal Form)\n  - already in 1NF\n  - every nonprime attr is fully FD on primary key",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.4160642424242424,
+        0.248,
+        0.5081369696969696
+      ],
+      "text": "\u2234 for 1NF \u2192 2NF\n  - find every partial dependencies\n  - move attr and partial key to new, sep table relation\n  - as partial dependencies cause redundancies",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.5119733333333334,
+        0.248,
+        0.6232278787878788
+      ],
+      "text": "e.g. EMP-PROJ(SSN, Pnumber, Name, Ename, Phone, Plocation) FD1: SSN, Pnumber \u2192 Name (full) FD2: SSN \u2192 Ename (partial) - ename depends only on SSN FD3: Pnumber \u2192 Phone, Plocation (partial) - they depend on Pnumber",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.6270642424242424,
+        0.248,
+        0.6731006060606061
+      ],
+      "text": "- BCNF (Boyce-Codd Normal Form)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.472,
+        0.3508460606060606,
+        0.622,
+        0.4122278787878788
+      ],
+      "text": "After 2NF \u2192 3 tables EP1 (SSN, Pnumber, Name) - full dep EP2 (SSN, Ename) - employee details EP3 (Pnumber, Phone, Plocation) - project details",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.472,
+        0.4160642424242424,
+        0.622,
+        0.5848642424242425
+      ],
+      "text": "- 3NF (Third Normal Form)\n  - transitive dependency\n  - e.g. A \u2192 B, B \u2192 C\n    - C is transitively dependent on A via B\n  - already 2NF\n  - no nonprime attr is transitively dependent on PK",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.472,
+        0.588700606060606,
+        0.622,
+        0.6731006060606061
+      ],
+      "text": "For 2NF \u2192 3NF\n  - find transitive deps\n  - move T.D attrs to new relation along with copy of intermediate determinant (CD)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.732,
+        0.3508460606060606,
+        0.882,
+        0.4122278787878788
+      ],
+      "text": "e.g. EMP-DEPT (Ename, SSN, Date, Addr, Dnumber, Dname, Dmgr, SSN) FD chain: SSN \u2192 Dnumber Dnumber \u2192 Dname, Dmgr, SSN (creates T.D)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.732,
+        0.4160642424242424,
+        0.882,
+        0.5081369696969696
+      ],
+      "text": "ED1 (Ename, SSN, Date, Address, Dnumber) ED2 (Dnumber, Dname, Dmgr, SSN)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.732,
+        0.5119733333333334,
+        0.882,
+        0.6731006060606061
+      ],
+      "text": "\u2192 LHS of F.D - determinant: look at F.D set - to determine if LHS is superkey - compute attribute closure",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.9219999999999999,
+        0.3508460606060606,
+        0.9989999999999999,
+        0.4122278787878788
+      ],
+      "text": "(SSN alone determines Ename)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.9219999999999999,
+        0.4160642424242424,
+        0.9989999999999999,
+        0.6731006060606061
+      ],
+      "text": "- for 2NF \u2192 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.6781672727272728,
+        0.224,
+        0.7029236363636364
+      ],
+      "text": "- BCNF (Boyce-Codd Normal Form)\n  - stricter version of 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.127,
+        0.7136872727272727,
+        0.224,
+        0.7746812121212121
+      ],
+      "text": "> why I normalize to 3NF > does it always normalize > to BCNF?",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.127,
+        0.7793454545454546,
+        0.224,
+        0.7997963636363636
+      ],
+      "text": "- if BCNF, no redundancies",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.127,
+        0.8033842424242424,
+        0.224,
+        0.8643781818181818
+      ],
+      "text": "e.g. for $X \\rightarrow Y$ $X$ is the determinant > other thing doing the > \"determining\"",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.127,
+        0.8679660606060606,
+        0.224,
+        0.9253721212121212
+      ],
+      "text": "- for every $X \\rightarrow Y$ in $R$ , $X$ must > be superkey (uniquely identify > every row)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.127,
+        0.9289600000000001,
+        0.224,
+        0.9899539393939394
+      ],
+      "text": "- vs. 3NF\n  - 3NF says non-superkey determinant > is okay as long as what > it determines ( $Y$ ) is part of > some C/L (i.e. prime attr)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.6781672727272728,
+        0.47400000000000003,
+        0.7029236363636364
+      ],
+      "text": "Ev. 1",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.7065115151515151,
+        0.55,
+        0.7639175757575757
+      ],
+      "text": "$\\Rightarrow$ Prime Attrs\n  - Property#\n  - County-name\n  - Lot#",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.7675054545454546,
+        0.55,
+        0.7997963636363636
+      ],
+      "text": "- already INF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.8033842424242424,
+        0.55,
+        0.8356751515151515
+      ],
+      "text": "- for INF $\\rightarrow$ 2NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.8392630303030304,
+        0.55,
+        0.8715539393939394
+      ],
+      "text": "FD2: PID $\\rightarrow$ all other attr FD3: County-name $\\rightarrow$ Tax-rate FD4: Area $\\rightarrow$ Price",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.8751418181818181,
+        0.47400000000000003,
+        0.9002569696969697
+      ],
+      "text": "2NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.45200000000000007,
+        0.9038448484848485,
+        0.55,
+        0.9576630303030303
+      ],
+      "text": "\u2460 PID#, CN, Lot#, Area, Price \u2461 CN, Tax-rate",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.6781672727272728,
+        0.685,
+        0.7029236363636364
+      ],
+      "text": "Non prime Attrs\n  - Area\n  - Price\n  - Tax-rate",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.7065115151515151,
+        0.685,
+        0.7639175757575757
+      ],
+      "text": "- for 2NF $\\rightarrow$ 3NF\n  - Area, Price are NP",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.7675054545454546,
+        0.685,
+        0.7997963636363636
+      ],
+      "text": "\u2462 Area, Price \u2460 PID#, County-name, Lot#, Area",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.8033842424242424,
+        0.685,
+        0.8356751515151515
+      ],
+      "text": "- verifying BCNF (W)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.724,
+        0.6781672727272728,
+        0.746,
+        0.7029236363636364
+      ],
+      "text": "Ev. 2: P#, Id, Lt, Pa, Co, S#, Sn, CR",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.724,
+        0.7065115151515151,
+        0.746,
+        0.7639175757575757
+      ],
+      "text": "Prime Non prime\n  - P# - PA\n  - Id - Co\n  - Lt - S#\n  - CR - Sn",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.724,
+        0.7675054545454546,
+        0.746,
+        0.7997963636363636
+      ],
+      "text": "- already INF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.724,
+        0.8033842424242424,
+        0.746,
+        0.8356751515151515
+      ],
+      "text": "$\\left\\{ \\begin{array}{l} \\text{required for} \\\\ \\text{INF} \\end{array} \\right.$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.8392630303030304,
+        0.685,
+        0.8715539393939394
+      ],
+      "text": "$\\text{TD}$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.8751418181818181,
+        0.685,
+        0.9253721212121212
+      ],
+      "text": "$\\text{Independent on PID\\#}$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.012,
+        0.10799999999999998,
+        0.033
+      ],
+      "text": "- for $1NF \\rightarrow 2NF$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.033,
+        0.10799999999999998,
+        0.055
+      ],
+      "text": "$FD2: P\\# \\rightarrow P_a$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.053,
+        0.10799999999999998,
+        0.075
+      ],
+      "text": "both NP, so",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.074,
+        0.10799999999999998,
+        0.096
+      ],
+      "text": "TD on P, L",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.094,
+        0.10799999999999998,
+        0.116
+      ],
+      "text": "$FD3: S\\# \\rightarrow Sn \\rightarrow TD$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.11399999999999999,
+        0.10799999999999998,
+        0.137
+      ],
+      "text": "$FD4: \\{Id, S\\#3 \\rightarrow CR$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.135,
+        0.10799999999999998,
+        0.157
+      ],
+      "text": "- \u2460 $\\not\\exists P\\#, Pa3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.155,
+        0.10799999999999998,
+        0.17700000000000002
+      ],
+      "text": "- \u2461 $\\not\\exists P\\#, Id, It, Co, S\\#, Sn, CR3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.175,
+        0.10799999999999998,
+        0.19799999999999998
+      ],
+      "text": "- for $2NF \\rightarrow 3NF$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.196,
+        0.10799999999999998,
+        0.218
+      ],
+      "text": "\u2460 $\\not\\exists S\\#, Sn3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.216,
+        0.10799999999999998,
+        0.238
+      ],
+      "text": "\u2461 $\\not\\exists P\\#, Id, It, Co, S\\#, CRS$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.23699999999999996,
+        0.10799999999999998,
+        0.259
+      ],
+      "text": "- for $3NF \\rightarrow BCNF$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.257,
+        0.10799999999999998,
+        0.279
+      ],
+      "text": "$\\not\\exists Id, S\\#3 \\rightarrow$ not a superkey",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.277,
+        0.10799999999999998,
+        0.299
+      ],
+      "text": "$\\therefore BCNF$ violation",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.297,
+        0.10799999999999998,
+        0.319
+      ],
+      "text": "$\\therefore$ since RUS is P",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.31699999999999995,
+        0.10799999999999998,
+        0.339
+      ],
+      "text": "$3NF$ only protects NP attrs",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.337,
+        0.10799999999999998,
+        0.35900000000000004
+      ],
+      "text": "needs to be included for CR",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.357,
+        0.10799999999999998,
+        0.379
+      ],
+      "text": "$\\not\\exists A, C, D3 \\Rightarrow \\not\\exists A, B, CRS$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.37699999999999995,
+        0.10799999999999998,
+        0.399
+      ],
+      "text": "$\\Rightarrow \\not\\exists A, B, C, D, E3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.397,
+        0.10799999999999998,
+        0.41900000000000004
+      ],
+      "text": "$\\not\\exists B, C, D3 \\Rightarrow \\not\\exists B, C, D, E3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.417,
+        0.10799999999999998,
+        0.439
+      ],
+      "text": "$\\Rightarrow \\not\\exists A, B, C, D, E3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.437,
+        0.10799999999999998,
+        0.459
+      ],
+      "text": "$\\not\\exists C, D, E3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.457,
+        0.10799999999999998,
+        0.47900000000000004
+      ],
+      "text": "b) all attrs are prime",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.477,
+        0.10799999999999998,
+        0.499
+      ],
+      "text": "$\\therefore$ already in 3NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.497,
+        0.10799999999999998,
+        0.519
+      ],
+      "text": "c) No,",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.517,
+        0.10799999999999998,
+        0.539
+      ],
+      "text": "$A \\rightarrow B$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.537,
+        0.10799999999999998,
+        0.559
+      ],
+      "text": "$\\not\\Rightarrow$ not a superkey",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.557,
+        0.10799999999999998,
+        0.579
+      ],
+      "text": "$D \\rightarrow E$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.577,
+        0.10799999999999998,
+        0.599
+      ],
+      "text": "$\\not\\Rightarrow$ not",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.597,
+        0.10799999999999998,
+        0.619
+      ],
+      "text": "$ED \\rightarrow A$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.012,
+        0.617,
+        0.10799999999999998,
+        0.6389999999999999
+      ],
+      "text": "$\\not\\Rightarrow$ not",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.012,
+        0.518,
+        0.033
+      ],
+      "text": "\u2463 $\\not\\exists Id, S\\#, CR$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.033,
+        0.518,
+        0.055
+      ],
+      "text": "\u2461 $\\not\\exists P\\#, Id, It, Co, S\\#3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.053,
+        0.518,
+        0.075
+      ],
+      "text": "$FD: A \\rightarrow B$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.074,
+        0.518,
+        0.096
+      ],
+      "text": "$\\not\\exists B$ is prime",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.094,
+        0.518,
+        0.116
+      ],
+      "text": "$\\not\\exists A$ not a superkey",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.11399999999999999,
+        0.518,
+        0.137
+      ],
+      "text": "$FD: A \\rightarrow B$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.135,
+        0.518,
+        0.157
+      ],
+      "text": "$\\not\\exists B$ is non-prime",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.155,
+        0.518,
+        0.17700000000000002
+      ],
+      "text": "$\\not\\exists A$ is not a superkey",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.175,
+        0.518,
+        0.319
+      ],
+      "text": "<table>\n  <tr>\n    <th>3NF</th>\n    <th>BCNF</th>\n  </tr>\n  <tr>\n    <td>Allowed</td>\n    <td>Violation</td>\n  </tr>\n  <tr>\n    <td>Violation</td>\n    <td>Violation</td>\n  </tr>\n</table>",
+      "page_index": 2,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.31699999999999995,
+        0.518,
+        0.339
+      ],
+      "text": "$P \\quad P \\quad NP \\quad NP$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.337,
+        0.518,
+        0.35900000000000004
+      ],
+      "text": "$A \\quad B \\quad C \\quad D$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.357,
+        0.518,
+        0.379
+      ],
+      "text": "$\\not\\Rightarrow$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.37699999999999995,
+        0.518,
+        0.399
+      ],
+      "text": "$2NF \\checkmark$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.397,
+        0.518,
+        0.41900000000000004
+      ],
+      "text": "(creates partial keys for subset of prime attributes)",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.422,
+        0.417,
+        0.518,
+        0.439
+      ],
+      "text": "$3NF \\times$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.012,
+        0.868,
+        0.033
+      ],
+      "text": "1. Consider a relation R with five attributes ABCDE. You are given the following dependencies: A \u2192 B, BC \u2192 C, and ED \u2192 A.",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.033,
+        0.868,
+        0.055
+      ],
+      "text": "a) List all candidate keys for R.",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.053,
+        0.868,
+        0.075
+      ],
+      "text": "b) Is R in 3NF?",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.074,
+        0.868,
+        0.096
+      ],
+      "text": "c) Is R in BCNF?",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.094,
+        0.868,
+        0.116
+      ],
+      "text": "2. Suppose that we have the following three tuples in a legal instance of a relation schema S with three attributes ABC (listed in order): (1, 2, 3), (4, 2, 3), and (5, 3, 3).",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.11399999999999999,
+        0.868,
+        0.137
+      ],
+      "text": "a) Which of the following dependencies can you infer does not hold over schema S?",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.135,
+        0.868,
+        0.157
+      ],
+      "text": "b) Can you identify any dependencies that hold over S?",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.155,
+        0.868,
+        0.17700000000000002
+      ],
+      "text": "3. Suppose you are given a relation R with four attributes, ABCD. For the following sets of FDs: C \u2192 D, C \u2192 A, B \u2192 C, assuming those are the only dependencies that hold for R.",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.175,
+        0.868,
+        0.19799999999999998
+      ],
+      "text": "a) Identify the candidate key(s) for R.",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.196,
+        0.868,
+        0.218
+      ],
+      "text": "b) Identify the best normal form that R satisfies (1NF, 2NF, 3NF, or BCNF).",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.216,
+        0.868,
+        0.238
+      ],
+      "text": "\u2460 $R \\not\\exists A, B, C, D, E3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.23699999999999996,
+        0.868,
+        0.259
+      ],
+      "text": "$FD1: A \\rightarrow B$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.257,
+        0.868,
+        0.279
+      ],
+      "text": "$FD2: BC \\rightarrow E$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.277,
+        0.868,
+        0.299
+      ],
+      "text": "$FD3: ED \\rightarrow A$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.297,
+        0.868,
+        0.319
+      ],
+      "text": "a) Closure Attr Closure",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.31699999999999995,
+        0.868,
+        0.339
+      ],
+      "text": "$\\Rightarrow RUS: \\not\\exists A, B, E3$",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.337,
+        0.868,
+        0.35900000000000004
+      ],
+      "text": "$\\therefore$ not included",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.772,
+        0.357,
+        0.868,
+        0.379
+      ],
+      "text": "$\\not\\exists C, D3^+$",
+      "page_index": 2,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ]
+  ],
+  "page_indices": [
+    0,
+    1,
+    2
+  ],
+  "page_errors": {
+    "0": "IncompleteCompletionError: Vision response reached the 2048 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller regions."
+  }
+}

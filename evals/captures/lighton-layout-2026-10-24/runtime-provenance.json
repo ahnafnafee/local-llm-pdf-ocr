@@ -1,0 +1,42 @@
+{
+  "python": "3.12.2",
+  "packages": {
+    "torch": "2.9.1",
+    "transformers": "4.57.3",
+    "surya-ocr": "0.17.0",
+    "openai": "2.11.0",
+    "Pillow": "12.2.0",
+    "PyMuPDF": "1.26.7"
+  },
+  "server_sampling_defaults": {
+    "temperature": 0.800000011920929,
+    "top_k": 40,
+    "top_p": 0.949999988079071,
+    "min_p": 0.05000000074505806,
+    "repeat_penalty": 1.0,
+    "presence_penalty": 0.0,
+    "frequency_penalty": 0.0,
+    "seed": 4294967295
+  },
+  "api_base": "http://127.0.0.1:28127/v1",
+  "model_alias": "lightonai/LightOnOCR-3-4B",
+  "code_commit": "6ec5cc7fbe8bd0dd483d72f0ffe32aa2cb7c1f0e",
+  "weight_hashes": {
+    "LightOnOCR-3-4B-Q8_0.gguf": {
+      "sha256": "51e2913cad715f2516a7ab1a6f7677ebc6122361b80ba21bffc490198621ec0a",
+      "bytes": 4482403296
+    },
+    "mmproj-LightOnOCR-3-4B-F16.gguf": {
+      "sha256": "21eae623f60580f19ae4f04716292cd76ad36b420ee01e761254c8b1ec966321",
+      "bytes": 672423200
+    },
+    "model.safetensors": {
+      "sha256": "5ea422c6cc5fe759a47e1357c35639b58173508e025a3131cbe4b6ac59e2b85e",
+      "bytes": 133270468
+    },
+    "chat_template.jinja": {
+      "sha256": "d5ddb788d5f3df12e32244954037eb535409d24eeb48c2429d7588af4e7b69a7",
+      "bytes": 7759
+    }
+  }
+}

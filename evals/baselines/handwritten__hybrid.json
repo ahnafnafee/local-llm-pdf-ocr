@@ -1,13 +1,39 @@
 {
-  "recall": 0.9286,
-  "recall_at_05": 0.7143,
-  "precision": 0.8667,
-  "hmean": 0.8966,
-  "avg_iou": 0.5943,
-  "text_sim": 0.7155,
-  "avg_cer": 0.3216,
-  "bow_f1": 0.966,
-  "char_recall": 0.9609,
-  "char_precision": 0.9353,
-  "checks_pass_rate": 1.0
+  "context": {
+    "protocol": "page-aware-v2",
+    "document_sha256": "d2183248339fbc4ca9fede5ab20ad5a6a4cf55684dac9ee1f82e6c73f2230c92",
+    "fixture_sha256": "41373e81bf07f03df5372083ec20d5c8b50096586ba374b0bc753f765223a194",
+    "checks_sha256": "b2d02c7f83c0d7cec84cc8950cd04e63aa65fb8a1f6f6968e983d7f7fc8e1f51",
+    "model": "allenai/olmocr-2-7b",
+    "max_image_dim": 1024,
+    "iou_threshold": 0.3,
+    "matching": "hungarian"
+  },
+  "metrics": {
+    "recall": 1.0,
+    "recall_at_05": 0.7857,
+    "precision": 0.8235,
+    "hmean": 0.9032,
+    "avg_iou": 0.5924,
+    "text_sim": 0.9324,
+    "avg_cer": 0.0909,
+    "bow_f1": 0.9452,
+    "char_recall": 0.9826,
+    "char_precision": 0.931,
+    "checks_pass_rate": 1.0
+  },
+  "provenance": {
+    "kind": "frozen-control",
+    "source_commit": "1cb795df731986fe93f0a2cc57ba290b302e4ea6",
+    "capture": "evals/captures/before-crop-canvas/handwritten__hybrid.json",
+    "capture_sha256": "24f260f9347846e9aa1ba7055e8bbfeae12ca9bd5d58997ea47793162fc6eb68",
+    "runtime": {
+      "weights_sha256": "821ed0a31450d7d265bcc05519a28ebb43eb3cd2738ca543fa11b78f35153e25",
+      "projector_sha256": "fe90b9db826810aa37a17b53bd575ee15a9947e9075d73a8f68e284a38ab5eb4",
+      "server": "llama.cpp 10735 (842b18804), CUDA",
+      "temperature": 0.1,
+      "seed": null,
+      "concurrency": 1
+    }
+  }
 }
