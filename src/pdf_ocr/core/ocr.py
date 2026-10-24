@@ -5,6 +5,7 @@ Keeps prompts and OCR response cleanup independent of the inference server.
 Configure LLM_API_BASE/LLM_MODEL or inject a VisionClient.
 """
 
+import asyncio
 import logging
 import re
 
@@ -17,11 +18,16 @@ from pdf_ocr.inference import (
     VisionClient,
     ensure_model_available,
 )
+from pdf_ocr.utils.image import crop_for_ocr
+from pdf_ocr.core.profiles import resolve_profile
 
 
 PAGE_PROMPT = (
     "Transcribe all text in this document image in reading order. "
     "Preserve line breaks and use Markdown for headings and tables. "
+    "Preserve the original spelling and abbreviations, including errors. "
+    "Do not correct or expand any source word. Read the visible characters "
+    "rather than replacing them with a more likely word. "
     "Return only the transcription, without commentary."
 )
 
@@ -45,6 +51,7 @@ OLMOCR_PAGE_PROMPT = (
 # (the YAML front matter is nonsensical for a single line/region).
 CROP_PROMPT = (
     "Transcribe the text in this image exactly as it appears. "
+    "Preserve the original spelling and abbreviations, including errors. "
     "Return only the plain text on a single line when possible, "
     "with no metadata, no markdown, no formatting, no explanation."
 )
@@ -105,11 +112,15 @@ class OCRProcessor:
     # of hallucinated text into one bbox during the refine stage.
     CROP_TIMEOUT_S: float = 60.0
     CROP_MAX_TOKENS: int = 256
+    # Subclasses may implement their own recognition methods without a client.
+    crop_canvas_size: int | None = None
 
     def __init__(
         self, api_base: str | None = None, model: str | None = None, *,
         api_key: str | None = None, client: VisionClient | None = None,
         page_prompt: str | None = None,
+        crop_prompt: str | None = None,
+        profile: str | None = None,
     ):
         config = LLMConfig.from_env(
             api_base=api_base, model=model, api_key=api_key,
@@ -117,12 +128,25 @@ class OCRProcessor:
         )
         self.api_base = config.api_base
         self.model = config.model
+        self.profile = resolve_profile(self.model, profile)
+        self.temperature = self.profile.temperature
+        # A bounded page canvas is an alternate view for format failures,
+        # not the primary crop: padding every region loses small details.
+        self.crop_canvas_size = self.profile.crop_canvas_size
         self._owned_client: OpenAICompatibleClient | None = None
         if client is None:
-            client = self._owned_client = OpenAICompatibleClient(config)
+            client = self._owned_client = OpenAICompatibleClient(
+                config, image_first=self.profile.image_first,
+                generation_options=dict(self.profile.sampling),
+            )
         self.client = client
-        self.page_prompt = page_prompt or (
-            OLMOCR_PAGE_PROMPT if "olmocr" in self.model.lower() else PAGE_PROMPT
+        native_prompt = self.profile.page_prompt
+        if native_prompt is None:
+            native_prompt = OLMOCR_PAGE_PROMPT if self.profile.name == "olmocr" else PAGE_PROMPT
+        self.page_prompt = page_prompt if page_prompt is not None else native_prompt
+        native_crop = self.profile.crop_prompt
+        self.crop_prompt = crop_prompt if crop_prompt is not None else (
+            native_crop if native_crop is not None else CROP_PROMPT
         )
 
     async def ensure_model_available(self) -> None:
@@ -174,7 +198,7 @@ class OCRProcessor:
         """
         try:
             text = await self._chat(
-                CROP_PROMPT, image_base64,
+                self.crop_prompt, image_base64,
                 timeout=self.CROP_TIMEOUT_S, max_tokens=self.CROP_MAX_TOKENS,
             )
         except IncompleteCompletionError:
@@ -198,6 +222,36 @@ class OCRProcessor:
             return ""
         return result
 
+    async def perform_ocr_on_region(self, page_image: str, bbox, *, mask_boxes=None) -> str:
+        """Read a native region, with one alternate view for format failures.
+
+        OlmOCR can interpret narrow handwriting as LaTeX even when asked for
+        literal text. Retry that response on a paper canvas made from source
+        pixels. Ordinary crops retain their original detail and aspect ratio.
+        The total deadline includes truncation retries and the alternate view.
+        """
+        async def recognize():
+            image = await asyncio.to_thread(crop_for_ocr, page_image, bbox, mask_boxes=mask_boxes)
+            if image is None:
+                return ""
+            text = await self.perform_ocr_on_crop(image)
+            formatted = re.search(r"\\[([]|(?<![\w:])\\[A-Za-z]+|\$\$|```", text)
+            if self.crop_canvas_size is not None and formatted:
+                alternate = await asyncio.to_thread(
+                    crop_for_ocr, page_image, bbox, mask_boxes=mask_boxes,
+                    canvas_size=self.crop_canvas_size,
+                )
+                if alternate is not None:
+                    logging.debug("Retrying formatted region transcription on a source-pixel canvas.")
+                    text = await self.perform_ocr_on_crop(alternate) or text
+            return text
+
+        budget = 2 * self.CROP_TIMEOUT_S
+        try:
+            return await asyncio.wait_for(recognize(), timeout=budget)
+        except asyncio.TimeoutError as exc:
+            raise LLMCallError(f"Region OCR exceeded its {budget:g}s deadline, including retries") from exc
+
     async def _chat(
         self,
         prompt: str,
@@ -208,7 +262,7 @@ class OCRProcessor:
     ) -> str:
         return await self.client.complete(
             prompt, image_base64, model=self.model,
-            timeout=timeout, max_tokens=max_tokens, temperature=0.1,
+            timeout=timeout, max_tokens=max_tokens, temperature=self.temperature,
         )
 
 

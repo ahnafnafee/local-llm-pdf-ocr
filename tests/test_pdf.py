@@ -65,6 +65,29 @@ def test_native_crop_rendering_keeps_detail_and_renders_only_its_source_page(tmp
     assert blue > 240 and red < 10 and green < 10
 
 
+def test_inference_images_preserve_source_pixels_before_resizing(tmp_path):
+    """Thin character strokes must not pass through a lossy JPEG round trip."""
+    import io
+    from PIL import Image, ImageChops, ImageDraw
+
+    image = Image.new("RGB", (90, 120), "white")
+    draw = ImageDraw.Draw(image)
+    for x in range(3, 85, 4):
+        draw.line((x, 7, x, 113), fill=(35, 48, 70), width=1)
+    source_image = tmp_path / "thin-strokes.png"
+    image.save(source_image)
+    source_pdf = tmp_path / "thin-strokes.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page(width=90, height=120)
+        page.insert_image(page.rect, filename=str(source_image))
+        doc.save(source_pdf)
+    handler = PDFHandler()
+    for source in [source_image, source_pdf]:
+        encoded = handler.convert_to_images(source, dpi=72, max_image_dim=1024)[0]
+        decoded = Image.open(io.BytesIO(base64.b64decode(encoded))).convert("RGB")
+        assert ImageChops.difference(image, decoded).getbbox() is None
+
+
 def test_embed_structured_text_produces_searchable_pdf(
     pdf_handler: PDFHandler, example_pdfs: dict[str, Path], tmp_path: Path
 ):

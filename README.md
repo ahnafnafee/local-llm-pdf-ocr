@@ -58,7 +58,7 @@ Connect any OpenAI-compatible vision server. Run it locally to keep documents on
 - **🔒 Local & Private** — Run offline with your own vision model server. [Ollama](https://ollama.com), vLLM, llama.cpp, and other servers can provide the OpenAI-compatible API; no particular application is required.
 - **🔍 Four Output Formats** — Searchable sandwich **PDF** (default), **HTML** overlay, plain **Markdown**, or plain **text**. Pick via `--format`, the output extension, or the web dropdown.
 - **📚 Dense-Page Mode** — Auto-detects densely-laid-out pages (default > 60 boxes) and switches to per-box OCR — bypassing the loops / hallucination that full-page OCR exhibits on dense handwritten content.
-- **🧪 Tested** — A comprehensive suite (544 fast + 29 Surya-integration) covers DP invariants, reading-order auto-detection, blank-crop / pangram filters, embedding geometry, grounded JSON parsing, the HTML / Markdown / text writers, evaluation metrics, CLI dispatch, and the full server option surface.
+- **🧪 Tested** — Local unit and Surya integration tests cover alignment, crop handling, embedding geometry, native model formats, evaluation metrics, CLI dispatch, and server options. Opt-in live tests exercise actual recognition; see the [2026 model comparison](evals/model-comparison-2026-10.md).
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 
@@ -238,7 +238,7 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--no-refine`             | Skip per-box crop re-OCR (faster, less robust on tables/multi-column) |
 | `--text-only`             | Fast path: OCR each page's full text and write it as plain text, skipping Surya layout detection, DP alignment, and crop re-OCR entirely (no detection-model load). Naturally parallel (raise `--concurrency`). Output defaults to `<input_stem>_ocr.txt`. |
 | `--max-image-dim <int>`   | Longest-edge px cap for page images (default: 1024; see note below)   |
-| `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for pages above `--dense-threshold`, and retries a page per-box when the DP alignment matched under half its boxes (the form-page failure mode); `always` forces per-box for every page (most accurate on handwriting); `never` keeps the original full-page path. |
+| `--dense-mode {auto,always,never}` | `auto` (default) switches to per-box OCR for dense pages, table/diagram layouts, or ambiguous alignment. Single-column pages retry after any alignment gap; column layouts retry below half their boxes matched (both require at least eight boxes). `always` forces per-box OCR; `never` keeps the full-page path. Region OCR costs more requests but avoids shifting text into neighboring form fields. |
 | `--dense-threshold <int>` | In `auto` dense-mode, pages with more than this many detected boxes use per-box OCR (default: 60). |
 | `--min-box-confidence <float>` | Drop detected layout boxes below this confidence before alignment and per-box OCR (hybrid path only; default: keep all). Surya's confidence is normalized per page. Cuts junk detections that mislead alignment and burn LLM calls in dense mode. |
 | `--preprocess {auto,always,never}` | Photo rectification (hybrid path). `auto` (default): pages with a confidently-detected tilted page outline are perspective-corrected and illumination-flattened for recognition, then mapped back onto the original photo for output. `always` rectifies whenever a page outline is found; `never` disables. |

@@ -197,6 +197,7 @@ async def process_pdf(
     engine: str = Form("hybrid"),
     format: str = Form("pdf"),
     model: str = Form(""),
+    model_profile: str = Form(""),
     api_base: str = Form(""),
     dpi: int = Form(200),
     pages: str = Form(""),
@@ -307,9 +308,11 @@ async def process_pdf(
             backend = PromptedGroundedOCR(
                 api_base=api_base_arg, model=model_arg, max_image_dim=max_image_dim,
                 dpi=dpi, concurrency=concurrency, api_key=api_key_arg,
+                **({"profile": model_profile} if model_profile else {}),
             )
         else:
-            backend = OCRProcessor(api_base=api_base_arg, model=model_arg, api_key=api_key_arg)
+            backend = OCRProcessor(api_base=api_base_arg, model=model_arg, api_key=api_key_arg,
+                                   **({"profile": model_profile} if model_profile else {}))
 
         # Fail fast on model mismatch (issue #7). The client can opt out per
         # request; OCR_VERIFY_MODEL=0 forces it off server-wide (for servers

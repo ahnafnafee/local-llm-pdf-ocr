@@ -29,15 +29,18 @@ class AlignmentResult(list):
     also carries DP diagnostics.
 
     Subclasses ``list`` so every existing consumer keeps working; the
-    pipeline reads ``match_count`` to judge whether the line→box binding
-    is trustworthy (real ``op=match`` pairings, excluding lines attached
+    pipeline reads ``match_count`` and ``unmatched_line_count`` to judge
+    whether line→box binding is trustworthy (real ``op=match`` pairings, excluding lines attached
     via the skip-line fallback) and can re-route a page to per-box OCR
     when it is not.
     """
 
-    def __init__(self, pairs, match_count: int = 0):
+    def __init__(self, pairs, match_count: int = 0, unmatched_line_count: int = 0,
+                 multi_column: bool = False):
         super().__init__(pairs)
         self.match_count = match_count
+        self.unmatched_line_count = unmatched_line_count
+        self.multi_column = multi_column
 
 
 class HybridAligner:
@@ -209,6 +212,8 @@ class HybridAligner:
         return AlignmentResult(
             [(box, text) for box, text in zip(boxes, text_per_input)],
             match_count=best_match_count,
+            unmatched_line_count=len(lines) - best_match_count,
+            multi_column=candidates[0] != candidates[1],
         )
 
 

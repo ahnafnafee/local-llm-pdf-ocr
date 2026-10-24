@@ -60,6 +60,12 @@ Examples:
     parser.add_argument("--dpi", type=int, default=200, help="DPI for image rendering (default: 200)")
     parser.add_argument("--pages", help="Page range to process, e.g., '1-3,5' (default: all)")
     parser.add_argument(
+        "--model-profile", default=None,
+        choices=("auto", "generic", "olmocr", "qwen3-vl", "qwen3.5", "lightonocr-3", "paddleocr-vl"),
+        help="Model prompt/output conventions; auto detects known model IDs. "
+             "Use an explicit profile for server aliases (or set LLM_MODEL_PROFILE).",
+    )
+    parser.add_argument(
         "--concurrency", type=int, default=2,
         help="Parallel in-flight LLM requests (default: 2). This never "
              "loads extra model copies — queuing servers "
@@ -264,9 +270,11 @@ async def run(args: argparse.Namespace, console: Console) -> None:
             api_base=args.api_base, model=args.model,
             max_image_dim=args.max_image_dim, dpi=args.dpi,
             concurrency=args.concurrency,
+            **({"profile": args.model_profile} if args.model_profile else {}),
         )
     else:
-        backend = OCRProcessor(api_base=args.api_base, model=args.model)
+        backend = OCRProcessor(api_base=args.api_base, model=args.model,
+                               **({"profile": args.model_profile} if args.model_profile else {}))
 
     try:
         # Validate configuration and model availability before loading Surya.

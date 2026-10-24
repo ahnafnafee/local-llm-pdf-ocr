@@ -48,7 +48,7 @@ class PDFHandler:
         pages: str | None = None,
     ) -> dict[int, str]:
         """
-        Render selected pages to base64-encoded JPEGs, capped at `max_image_dim`
+        Render selected pages to base64-encoded PNGs, capped at `max_image_dim`
         pixels on the longest edge so the image fits the VLM's context window.
 
         Accepts either a PDF or a raw image file
@@ -75,11 +75,11 @@ class PDFHandler:
             for page_num in select_pages(pages, len(doc)):
                 page = doc[page_num]
                 pix = page.get_pixmap(dpi=dpi)
-                img = Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50)))
+                img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
                 img.thumbnail((max_image_dim, max_image_dim))
 
                 buffer = io.BytesIO()
-                img.save(buffer, format="JPEG", quality=50)
+                img.save(buffer, format="PNG")
                 images[page_num] = base64.b64encode(buffer.getvalue()).decode("utf-8")
         finally:
             doc.close()
@@ -102,7 +102,7 @@ class PDFHandler:
                 image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
         image.thumbnail((2048, 2048))
         buffer = io.BytesIO()
-        image.save(buffer, format="JPEG", quality=90)
+        image.save(buffer, format="PNG")
         return base64.b64encode(buffer.getvalue()).decode()
 
     @staticmethod
@@ -117,7 +117,7 @@ class PDFHandler:
                 img = src.convert("RGB").copy()
                 img.thumbnail((max_image_dim, max_image_dim))
                 buffer = io.BytesIO()
-                img.save(buffer, format="JPEG", quality=80)
+                img.save(buffer, format="PNG")
                 images[page_num] = base64.b64encode(buffer.getvalue()).decode("utf-8")
         return images
 

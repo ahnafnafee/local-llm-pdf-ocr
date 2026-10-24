@@ -28,7 +28,9 @@ from __future__ import annotations
 import asyncio
 import base64
 import logging
+import re
 from collections import defaultdict
+from difflib import SequenceMatcher
 from typing import Awaitable, Callable, Optional
 
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
@@ -37,9 +39,10 @@ from pdf_ocr.inference import IncompleteCompletionError
 from pdf_ocr.utils.image import crop_for_ocr
 from pdf_ocr.utils.pages import parse_page_range  # re-export for existing callers
 
-# DP-confidence retry thresholds (dense_mode="auto" only): a sparse page
-# whose alignment produced real matches for under _DP_RETRY_MATCH_RATE of
-# its boxes is redone per-box. The box floor keeps near-trivial pages
+# DP-confidence retry (dense_mode="auto" only): even one skipped visual
+# line can shift every later field in a single column. Column layouts often
+# merge wrapped text, so retain their page context unless most bindings fail.
+# The floor keeps near-trivial pages
 # (title page with three boxes) on the cheap path, where a low rate is
 # noise rather than evidence of misbinding.
 _DP_RETRY_MIN_BOXES = 8
@@ -284,24 +287,13 @@ class OCRPipeline:
 
         async def process_regions(p_num, page_lines=None):
             per_box_pages.add(p_num)  # refinement must not OCR these twice
-            preserved = {}
             structured = pages_structured[p_num]
-            # A complete page pass retains context that tiny crops can lose.
-            # Keep its first line only when geometry identifies one isolated
-            # heading above all other text. Forms with adjacent labels do not
-            # have this unambiguous correspondence.
-            if page_lines and len(page_lines) > 1 and len(structured) > 1:
-                top = min(range(len(structured)), key=lambda i: structured[i][0][1])
-                heading = structured[top][0]
-                next_top = min(b[1] for i, (b, _) in enumerate(structured) if i != top)
-                if (_is_refinable(heading)
-                        and next_top - heading[3] >= 0.5 * (heading[3] - heading[1])):
-                    preserved[top] = page_lines[0]
             aligned = await self._ocr_per_box(
                 await crop_page_image(p_num), structured, semaphore,
                 mask_neighbors=p_num in mask_pages,
-                preserved=preserved,
             )
+            if page_lines:
+                aligned = _restore_page_context(aligned, page_lines)
             return p_num, [t for _, t in aligned if t], aligned
 
         async def process_page(p_num: int):
@@ -331,12 +323,10 @@ class OCRPipeline:
             aligned = await asyncio.to_thread(
                 self.aligner.align_text, pages_structured[p_num], llm_lines
             )
-            # DP-confidence retry: a low real-match rate means the
-            # line→box binding is mostly guesswork (forms are the
-            # canonical case — many label boxes with near-identical
-            # match costs), so the page is redone per-box, trading one
-            # LLM call per box for per-region ground truth. Pages with
-            # only a handful of boxes skip the retry: the DP is rarely
+            # Any skipped line/box leaves subsequent positions ambiguous:
+            # character-count costs cannot tell a label from its value.
+            # Re-read regions rather than trusting a mostly complete mapping.
+            # Pages with only a handful of boxes skip the retry: the DP is rarely
             # the bottleneck there and the redo would mostly re-OCR
             # decorations.
             n_boxes = len(pages_structured[p_num])
@@ -345,12 +335,16 @@ class OCRPipeline:
                 dense_mode == "auto"
                 and match_count is not None
                 and n_boxes >= _DP_RETRY_MIN_BOXES
-                and match_count < _DP_RETRY_MATCH_RATE * n_boxes
+                and (
+                    match_count < _DP_RETRY_MATCH_RATE * n_boxes
+                    or (not getattr(aligned, "multi_column", False)
+                        and (match_count < n_boxes or getattr(aligned, "unmatched_line_count", 0)))
+                )
             ):
                 logging.warning(
-                    "DP alignment matched only %d of %d boxes on page %d "
-                    "— retrying the page with per-box OCR.",
-                    match_count, n_boxes, p_num + 1,
+                    "DP alignment left gaps on page %d (%d/%d boxes matched, "
+                    "%d unmatched lines); transcribing regions.",
+                    p_num + 1, match_count, n_boxes, getattr(aligned, "unmatched_line_count", 0),
                 )
                 return await process_regions(p_num, llm_lines)
             return p_num, llm_lines, aligned
@@ -543,7 +537,6 @@ class OCRPipeline:
         semaphore: asyncio.Semaphore,
         *,
         mask_neighbors: bool = False,
-        preserved: dict[int, str] | None = None,
     ) -> list[tuple[list[float], str]]:
         """
         OCR every detected box on a page individually.
@@ -579,8 +572,6 @@ class OCRPipeline:
         boxes_only = [bbox for bbox, _ in structured] if mask_neighbors else None
 
         async def ocr_one(idx: int, bbox: list[float]):
-            if preserved and idx in preserved:
-                return idx, preserved[idx]
             async with semaphore:
                 if not _is_refinable(bbox):
                     return idx, ""
@@ -592,12 +583,7 @@ class OCRPipeline:
                     _maskable_neighbors(idx, boxes_only)
                     if boxes_only is not None else None
                 )
-                crop_b64 = await asyncio.to_thread(
-                    crop_for_ocr, image_b64, bbox, mask_boxes=neighbors
-                )
-                if crop_b64 is None:
-                    return idx, ""
-                text = await self.ocr_processor.perform_ocr_on_crop(crop_b64)
+                text = await self._ocr_region(image_b64, bbox, neighbors)
                 return idx, text
 
         tasks = [
@@ -669,12 +655,7 @@ class OCRPipeline:
                 if p_num in mask_pages:
                     page_boxes = [b for b, _ in pages_structured[p_num]]
                     neighbors = _maskable_neighbors(idx, page_boxes)
-                crop_b64 = await asyncio.to_thread(
-                    crop_for_ocr, images_dict[p_num], bbox, mask_boxes=neighbors
-                )
-                if crop_b64 is None:
-                    return p_num, idx, ""
-                text = await self.ocr_processor.perform_ocr_on_crop(crop_b64)
+                text = await self._ocr_region(images_dict[p_num], bbox, neighbors)
                 return p_num, idx, text
 
         completed = 0
@@ -702,8 +683,66 @@ class OCRPipeline:
         for p_num, idxs in refined_indices.items():
             _drop_refined_duplicates(pages_structured[p_num], idxs)
 
+    async def _ocr_region(self, page_image, bbox, mask_boxes=None):
+        # Native-region support lets a recognizer choose an alternate view
+        # without changing the transport or requiring it of injected processors.
+        region_ocr = getattr(self.ocr_processor, "perform_ocr_on_region", None)
+        if region_ocr is not None:
+            return await region_ocr(page_image, bbox, mask_boxes=mask_boxes)
+        image = await asyncio.to_thread(
+            crop_for_ocr, page_image, bbox, mask_boxes=mask_boxes,
+            canvas_size=getattr(self.ocr_processor, "crop_canvas_size", None),
+        )
+        return await self.ocr_processor.perform_ocr_on_crop(image) if image is not None else ""
+
 
 # --- helpers ----------------------------------------------------------------
+
+
+def _restore_page_context(regions, page_lines):
+    """Recover context only when a region identifies a unique page-text span.
+
+    Crop recognition anchors the location; length-only DP never supplies it.
+    Small spelling differences can then use the complete page's context. Keep
+    the crop when multiple page spans are plausible, or when their agreement
+    is weak. Never populate a blank region from page text alone.
+    """
+    normalize = lambda value: "".join(c for c in value.casefold() if c.isalnum())
+    page_text = " ".join(page_lines)
+    words = list(re.finditer(r"\w+", page_text))
+    result = []
+    for bbox, crop in regions:
+        normalized = normalize(crop)
+        # Short labels and numbers have too little evidence to correct safely.
+        if len(normalized) < 6:
+            result.append((bbox, crop))
+            continue
+        count = len(re.findall(r"\w+", crop))
+        ranked = []
+        for start in range(len(words)):
+            for length in range(max(1, count - 1), count + 2):
+                end = start + length
+                if end > len(words):
+                    break
+                text = page_text[words[start].start():words[end - 1].end()]
+                candidate = normalize(text)
+                if (abs(len(candidate) - len(normalized)) > max(2, len(normalized) * 0.15)
+                        or re.findall(r"\d+", text) != re.findall(r"\d+", crop)):
+                    continue
+                score = SequenceMatcher(None, normalized, candidate, autojunk=False).ratio()
+                ranked.append((score, text, start, end, candidate))
+        ranked.sort(reverse=True)
+        if ranked:
+            score, text, start, end, candidate = ranked[0]
+            # Overlapping windows are alternative boundaries of the same
+            # anchor. A different nearby field must be a clearly worse match.
+            competing = [r[0] for r in ranked[1:]
+                         if r[4] != candidate and (r[3] <= start or r[2] >= end)]
+            if (score >= 0.88 and candidate != normalized
+                    and (not competing or score - max(competing) >= 0.08)):
+                crop = text
+        result.append((bbox, crop))
+    return result
 
 
 def _normalize_for_dedup(text: str) -> str:

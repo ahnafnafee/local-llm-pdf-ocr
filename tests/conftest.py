@@ -29,6 +29,7 @@ def inference_environment(monkeypatch):
     monkeypatch.setenv("LLM_API_BASE", "http://inference.test/v1")
     monkeypatch.setenv("LLM_MODEL", "test-vision")
     monkeypatch.delenv("LLM_API_KEY", raising=False)
+    monkeypatch.delenv("LLM_MODEL_PROFILE", raising=False)
 
 
 @pytest.fixture(scope="session")

@@ -96,8 +96,9 @@ async def test_all_ocr_paths_share_standard_requests_and_authentication(tmp_path
         body = json.loads(request.content)
         assert body["model"] == "vision-model"
         content = body["messages"][0]["content"]
-        assert content[1]["image_url"]["url"].startswith("data:image/jpeg;base64,")
         prompt = content[0]["text"]
+        expected_mime = "image/png" if "JSON array" in prompt else "image/jpeg"
+        assert content[1]["image_url"]["url"].startswith(f"data:{expected_mime};base64,")
         text = ('[{"bbox_2d":[0,0,20,15],"content":"grounded"}]'
                 if "JSON array" in prompt else "transcribed")
         return httpx.Response(200, json={
@@ -130,7 +131,7 @@ async def test_all_ocr_paths_share_standard_requests_and_authentication(tmp_path
     inference = [request for request in requests if request.method == "POST"]
     assert [json.loads(r.content)["max_tokens"] for r in inference] == [6144, 256, 4096]
     assert [r.extensions["timeout"]["read"] for r in inference] == [240, 60, 240]
-    assert [json.loads(r.content)["temperature"] for r in inference] == [0.1, 0.1, 0.0]
+    assert [json.loads(r.content)["temperature"] for r in inference] == [0.0, 0.0, 0.0]
 
 
 @pytest.mark.parametrize("fmt, mime", [("JPEG", "image/jpeg"), ("PNG", "image/png")])
@@ -160,6 +161,37 @@ async def test_injected_transport_needs_no_sdk_or_server_configuration(monkeypat
     await backend.aclose()
     client.aclose.assert_not_awaited()
     sdk_factory.assert_not_called()
+
+
+@pytest.mark.parametrize("prompt,types", [
+    ("grounding", ["image_url", "text"]),
+    ("", ["image_url"]),
+])
+async def test_native_ocr_image_order_and_empty_prompt_reach_http(prompt, types):
+    """LightOn's native modes distinguish image-first from text-first input."""
+    bodies = []
+
+    def respond(request):
+        bodies.append(json.loads(request.content))
+        return httpx.Response(200, json={"choices": [{
+            "message": {"role": "assistant", "content": "recognized"},
+            "finish_reason": "stop",
+        }]})
+
+    async with AsyncOpenAI(
+        base_url="http://inference.test/v1", api_key="test-key",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(respond)),
+    ) as sdk:
+        adapter = OpenAICompatibleClient(
+            LLMConfig("http://inference.test/v1"), sdk_client=sdk, image_first=True,
+        )
+        result = await adapter.complete(prompt, image_base64(), model="vision",
+                                        timeout=2, max_tokens=10, temperature=0)
+    assert result == "recognized"
+    content = bodies[0]["messages"][0]["content"]
+    assert [part["type"] for part in content] == types
+    if prompt:
+        assert content[1]["text"] == prompt
 
 
 async def test_owned_sdk_is_reused_and_closed(monkeypatch):
@@ -200,6 +232,8 @@ def test_prompt_choice_is_independent_of_server():
     assert OCRProcessor(model="vision", client=client).page_prompt == PAGE_PROMPT
     assert OCRProcessor(model="allenai/olmocr-2", client=client).page_prompt == OLMOCR_PAGE_PROMPT
     assert OCRProcessor(model="vision", client=client, page_prompt="custom").page_prompt == "custom"
+    native = OCRProcessor(model="vision", client=client, page_prompt="", crop_prompt="")
+    assert native.page_prompt == native.crop_prompt == ""
 
 
 async def test_completion_deadline_includes_sdk_retries():

@@ -140,11 +140,13 @@ class OpenAICompatibleClient:
     supports custom HTTP transports; it remains owned by the caller.
     """
 
-    def __init__(self, config: LLMConfig, *, sdk_client=None, generation_options=None):
+    def __init__(self, config: LLMConfig, *, sdk_client=None, generation_options=None,
+                 image_first: bool = False):
         self.config = config
         self._client = sdk_client
         self._owns_client = sdk_client is None
         self._structured_output_supported = True
+        self.image_first = image_first
         # Standard, optional sampling settings. Request identity and budgets
         # remain controlled by complete(), including for injected SDK clients.
         self.generation_options = dict(generation_options or {})
@@ -199,6 +201,13 @@ class OpenAICompatibleClient:
         timeout: float, max_tokens: int, temperature: float, response_format=None,
     ) -> str:
         mime_type = _image_mime_type(image_base64)
+        image_part = {"type": "image_url", "image_url": {
+            "url": f"data:{mime_type};base64,{image_base64}",
+        }}
+        text_part = {"type": "text", "text": prompt}
+        content = ([image_part, text_part] if self.image_first else [text_part, image_part])
+        if not prompt:
+            content = [image_part]
         try:
             response = await asyncio.wait_for(
                 self._get_client().with_options(timeout=timeout, max_retries=0).chat.completions.create(
@@ -207,12 +216,7 @@ class OpenAICompatibleClient:
                     **({"response_format": response_format} if response_format else {}),
                     messages=[{
                         "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {"type": "image_url", "image_url": {
-                                "url": f"data:{mime_type};base64,{image_base64}",
-                            }},
-                        ],
+                        "content": content,
                     }],
                 ), timeout=timeout,
             )

@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import base64
+import io
 from types import SimpleNamespace
 
 import pytest
+from PIL import Image, ImageDraw
 
 from pdf_ocr.core.ocr import (
     CROP_PROMPT,
@@ -46,6 +49,44 @@ async def test_crop_retry_discards_repeatedly_truncated_text():
     complete = AsyncMock(side_effect=IncompleteCompletionError("token limit"))
     processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=complete))
     assert await processor.perform_ocr_on_crop("image") == ""
+    assert complete.await_count == 2
+
+
+def _region_page():
+    image = Image.new("RGB", (800, 800), "white")
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((100, 390, 500, 410), fill="black")
+    buffer = io.BytesIO()
+    image.save(buffer, "PNG")
+    return base64.b64encode(buffer.getvalue()).decode()
+
+
+@pytest.mark.parametrize("text,retries", [("literal text", 0), (r"\( x \)", 1)])
+async def test_native_region_retries_formatting_without_changing_ordinary_crops(text, retries):
+    from unittest.mock import AsyncMock
+
+    complete = AsyncMock(side_effect=[text, "literal text"])
+    processor = OCRProcessor(model="olmocr", client=SimpleNamespace(complete=complete))
+    assert await processor.perform_ocr_on_region(_region_page(), [0.05, 0.47, 0.95, 0.53]) == "literal text"
+    assert complete.await_count == retries + 1
+    images = [Image.open(io.BytesIO(base64.b64decode(c.args[1]))) for c in complete.call_args_list]
+    assert images[0].width > images[0].height
+    if retries:
+        assert images[1].width == images[1].height <= 1024
+
+
+async def test_region_retry_has_one_total_deadline():
+    from unittest.mock import AsyncMock
+
+    async def respond(*args, **kwargs):
+        if complete.await_count == 1:
+            return r"\( x \)"
+        await asyncio.Event().wait()
+    complete = AsyncMock(side_effect=respond)
+    processor = OCRProcessor(model="olmocr", client=SimpleNamespace(complete=complete))
+    processor.CROP_TIMEOUT_S = 0.05
+    with pytest.raises(LLMCallError, match="Region OCR exceeded"):
+        await processor.perform_ocr_on_region(_region_page(), [0.05, 0.47, 0.95, 0.53])
     assert complete.await_count == 2
 
 

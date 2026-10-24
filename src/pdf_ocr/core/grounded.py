@@ -39,6 +39,7 @@ from pdf_ocr.inference import (
     ensure_model_available,
 )
 from pdf_ocr.utils.pages import select_pages
+from pdf_ocr.core.profiles import resolve_profile
 
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
@@ -94,6 +95,71 @@ _NON_CONTENT_LABELS = frozenset({
     "signature_line",  # form signature placeholder
     "list_marker",     # lone bullet/dash glyphs
 })
+
+
+def _parse_lighton_grounding(text: str, page_index: int) -> list[GroundedBlock]:
+    """Parse native LightOnOCR-3 block markers on its fixed 0–1000 grid.
+
+    Image/chart descriptions are generated visual interpretations, not OCR.
+    Keep their boundaries when splitting text but exclude them from output.
+    """
+    markers = list(re.finditer(
+        r"!\[([a-z_]+\+?)\]\((\d+(?:\s*,\s*\d+){3})\)", text,
+    ))
+    if not markers:
+        raise ValueError("LightOnOCR returned no native grounding markers")
+    if text[:markers[0].start()].strip():
+        raise ValueError("Unexpected text before LightOnOCR grounding markers")
+    blocks = []
+    for index, marker in enumerate(markers):
+        label = marker[1].removesuffix("+")
+        coordinates = [int(value) for value in marker[2].split(",")]
+        x0, y0, x1, y1 = coordinates
+        if not (0 <= x0 < x1 <= 1000 and 0 <= y0 < y1 <= 1000):
+            raise ValueError("Invalid LightOnOCR bounding box")
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(text)
+        content = text[marker.end():end].strip()
+        if re.search(r"!\[[a-z_]+\+?\]\(", content):
+            raise ValueError("Malformed LightOnOCR grounding marker")
+        if label in {"image", "header_image", "footer_image", "chart"} or not content:
+            continue
+        blocks.append(GroundedBlock(
+            bbox=[value / 1000 for value in coordinates], text=content,
+            page_index=page_index, label=label,
+        ))
+    return blocks
+
+
+def _parse_paddle_spotting(text: str, page_index: int) -> list[GroundedBlock]:
+    """Convert PaddleOCR-VL's eight location tokens into enclosing boxes."""
+    tokens = list(re.finditer(r"<\|LOC_(\d+)\|>", text))
+    if not tokens:
+        raise LLMCallError("Paddle spotting returned no location tokens; the server must "
+                           "preserve special tokens for Spotting mode.")
+    if len(tokens) % 8:
+        raise ValueError("Incomplete Paddle spotting polygon")
+    wrappers = r"<\|(?:TEXT_START|TEXT_END|LOC_BEGIN|LOC_END)\|>"
+    blocks = []
+    end = 0
+    for start in range(0, len(tokens), 8):
+        group = tokens[start:start + 8]
+        content = re.sub(wrappers, "", text[end:group[0].start()]).strip()
+        polygon = [int(token[1]) for token in group]
+        between = text[group[0].start():group[-1].end()]
+        if re.sub(r"<\|LOC_\d+\|>|\s+", "", between):
+            raise ValueError("Text interrupts a Paddle spotting polygon")
+        end = group[-1].end()
+        x0, y0 = min(polygon[::2]), min(polygon[1::2])
+        x1, y1 = max(polygon[::2]), max(polygon[1::2])
+        if not (0 <= x0 < x1 <= 1000 and 0 <= y0 < y1 <= 1000):
+            raise ValueError("Invalid Paddle spotting polygon")
+        if content:
+            blocks.append(GroundedBlock(
+                [x0 / 1000, y0 / 1000, x1 / 1000, y1 / 1000], content, page_index,
+            ))
+    if re.sub(wrappers, "", text[end:]).strip():
+        raise ValueError("Paddle spotting has trailing text without a polygon")
+    return blocks
 
 
 # --- parsers ---------------------------------------------------------------
@@ -307,8 +373,10 @@ DEFAULT_GROUNDING_PROMPT = (
     '{"bbox_2d":[x1,y1,x2,y2],"content":"text"}. '
     "Use coordinates from 0 to 1000 relative to this image, with each box "
     "tightly enclosing its line. Preserve separate lines, transcribe faithfully "
+    "with the original spelling and abbreviations, including errors, "
     "in reading order, and output each line once. Do not describe figures or "
-    "invent text in blank regions. Return only JSON."
+    "invent text in blank regions. Return only compact JSON, with no indentation "
+    "or whitespace outside strings."
 )
 
 _GROUNDING_SCHEMA = {
@@ -355,10 +423,11 @@ class PromptedGroundedOCR:
         dpi: int = 150,
         prompt: str | None = None,
         timeout_s: float = 240.0,
-        max_tokens: int = 4096,
+        max_tokens: int | None = None,
         concurrency: int = 1,
         *,
         client: VisionClient | None = None,
+        profile: str | None = None,
     ):
         config = LLMConfig.from_env(
             api_base=api_base, model=model, api_key=api_key,
@@ -367,22 +436,24 @@ class PromptedGroundedOCR:
         )
         self.api_base = config.api_base
         self.model = config.model
+        self.profile = resolve_profile(self.model, profile)
         self._owned_client: OpenAICompatibleClient | None = None
-        # Qwen3-VL's published sampling settings reduce greedy decoding loops.
-        # These are model settings, independent of the serving application.
-        qwen3 = "qwen3" in self.model.lower()
-        self.temperature = 0.7 if qwen3 else 0.0
+        self.temperature = self.profile.grounded_temperature
         if client is None:
             client = self._owned_client = OpenAICompatibleClient(
-                config, generation_options={"presence_penalty": 1.5, "top_p": 0.8} if qwen3 else None,
+                config, generation_options=dict(self.profile.grounded_sampling),
+                image_first=self.profile.image_first,
             )
         self.client = client
         self.max_image_dim = max_image_dim
         self.dpi = dpi
-        self.prompt = prompt or DEFAULT_GROUNDING_PROMPT
+        self.prompt = prompt if prompt is not None else (
+            self.profile.grounding_prompt or DEFAULT_GROUNDING_PROMPT
+        )
+        self.grounding_format = self.profile.grounding_format
         self.coordinate_space = "auto" if prompt else "normalized_1000"
         self.timeout_s = timeout_s
-        self.max_tokens = max_tokens
+        self.max_tokens = max_tokens if max_tokens is not None else self.profile.grounded_max_tokens
         self.concurrency = concurrency
 
     async def ensure_model_available(self) -> None:
@@ -421,7 +492,7 @@ class PromptedGroundedOCR:
             source_imgs[page_idx] = img.copy()
             img.thumbnail((self.max_image_dim, self.max_image_dim))
             buf = io.BytesIO()
-            img.save(buf, format="JPEG", quality=80)
+            img.save(buf, format="PNG")
             page_imgs[page_idx] = (
                 base64.b64encode(buf.getvalue()).decode(), img.width, img.height
             )
@@ -451,7 +522,8 @@ class PromptedGroundedOCR:
             b64, w, h = page_imgs[page_idx]
 
             async def recognize(image_b64, width, height, *, depth=0):
-                complete_json = getattr(self.client, "complete_json", None)
+                complete_json = (getattr(self.client, "complete_json", None)
+                                 if self.grounding_format == "json" else None)
                 # Optional capability keeps the small injectable client
                 # contract usable on endpoints without constrained decoding.
                 complete = complete_json or self.client.complete
@@ -462,9 +534,15 @@ class PromptedGroundedOCR:
                     temperature=self.temperature,
                     **({"schema": _GROUNDING_SCHEMA} if complete_json else {}),
                 )
-                blocks = _parse_grounded_json(
-                    text, page_idx, width, height, coordinate_space=self.coordinate_space, strict=True,
-                )
+                if self.grounding_format == "lighton":
+                    blocks = _parse_lighton_grounding(text, page_idx)
+                elif self.grounding_format == "paddle":
+                    blocks = _parse_paddle_spotting(text, page_idx)
+                else:
+                    blocks = _parse_grounded_json(
+                        text, page_idx, width, height,
+                        coordinate_space=self.coordinate_space, strict=True,
+                    )
                 if not blocks and not (depth and _is_empty_grounded_json(text)):
                     raise LLMCallError("model returned no usable grounded text")
                 return blocks
@@ -479,7 +557,7 @@ class PromptedGroundedOCR:
                     region = source.crop(bounds)
                     region.thumbnail((self.max_image_dim, self.max_image_dim))
                     buf = io.BytesIO()
-                    region.save(buf, format="JPEG", quality=90)
+                    region.save(buf, format="PNG")
                     image_b64 = base64.b64encode(buf.getvalue()).decode()
                     width, height = region.size
                 try:

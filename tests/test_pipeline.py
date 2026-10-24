@@ -59,6 +59,30 @@ class _StubAligner:
         return out
 
 
+@pytest.mark.parametrize("stage", ["dense", "refine"])
+async def test_region_ocr_uses_the_recognizers_canvas_preference(stage):
+    import asyncio
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+
+    recognize = AsyncMock(return_value="visible text")
+    processor = SimpleNamespace(perform_ocr_on_crop=recognize, crop_canvas_size=512)
+    pipe = OCRPipeline(ocr_processor=processor, pdf_handler=_StubPDF(n_pages=1))
+    boxes = [([0.1, 0.1, 0.9, 0.2], "")]
+    image = _make_tiny_b64_image()
+    semaphore = asyncio.Semaphore(1)
+    if stage == "dense":
+        result = await pipe._ocr_per_box(image, boxes, semaphore)
+    else:
+        pages = {0: boxes}
+        await pipe._refine_uncertain(pages, {0: image}, semaphore, None)
+        result = pages[0]
+    assert result[0][1] == "visible text"
+    sent_image = Image.open(io.BytesIO(base64.b64decode(recognize.call_args.args[0])))
+    assert sent_image.width == sent_image.height
+    assert sent_image.width <= 512
+
+
 class _StubPDF:
     def __init__(self, n_pages: int = 2):
         self.n_pages = n_pages
@@ -176,19 +200,28 @@ async def test_layout_hint_uses_crop_ocr_in_auto_mode(stub_ocr):
     assert all(text == "recovered" for _, text in pdf.last_pages[0])
 
 
-async def test_nonlinear_refinement_retains_an_isolated_page_heading(stub_ocr):
+@pytest.mark.parametrize("page_heading,crop_heading,expected", [
+    ("Chapter Four", "Chapter Faur", "Chapter Four"),
+    ("Chapter Four", "Chapter F0ur", "Chapter F0ur"),
+    ("HEALTH INTAKE FORM", "FakeDoc M.D.", "FakeDoc M.D."),
+])
+async def test_nonlinear_refinement_verifies_an_isolated_page_heading(
+    stub_ocr, page_heading, crop_heading, expected,
+):
     from pdf_ocr.core.ocr import OCRLines
     from unittest.mock import AsyncMock
 
     stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
-        ["Chapter Four", "diagram labels in reading order"], requires_region_ocr=True,
+        [page_heading, "diagram labels in reading order"], requires_region_ocr=True,
     ))
+    recognize = AsyncMock(side_effect=[crop_heading, "recovered", "recovered"])
+    stub_ocr.perform_ocr_on_crop = recognize
     pdf = _StubPDF(n_pages=1)
     pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
     await pipe.run("in.pdf", "out.pdf", concurrency=1)
-    assert pdf.last_pages[0][0][1] == "Chapter Four"
+    assert pdf.last_pages[0][0][1] == expected
     assert [text for _, text in pdf.last_pages[0][1:]] == ["recovered", "recovered"]
-    assert stub_ocr.crop_calls == 2
+    assert recognize.await_count == 3
 
 
 async def test_nonlinear_refinement_does_not_anchor_an_ambiguous_top_row(stub_ocr):
@@ -829,6 +862,41 @@ class TestDpConfidenceRetry:
         texts = [t for _b, t in pdf.last_pages[0]]
         assert texts == ["recovered"] * len(self.BOXES)
 
+    async def test_one_skipped_line_can_shift_an_otherwise_near_complete_alignment(self, stub_ocr):
+        def shifted(structured, lines):
+            return _FakeAlignment([(b, "wrong field") for b, _ in structured],
+                                  match_count=len(structured) - 1)
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_StubAligner(self.BOXES, shifted), stub_ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert stub_ocr.crop_calls == len(self.BOXES)
+        assert all(text == "recovered" for _, text in pdf.last_pages[0])
+
+    async def test_real_alignment_with_an_extra_line_rechecks_regions(self, make_stub_ocr):
+        from pdf_ocr.core.aligner import HybridAligner
+
+        align = HybridAligner.__new__(HybridAligner)
+        ocr = make_stub_ocr(page_lines=["a short logical line"] * 9, crop_text="region output")
+        result = align.align_text([(b, "") for b in self.BOXES], ocr.page_lines)
+        assert result.match_count == 8
+        assert result.unmatched_line_count == 1
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_StubAligner(self.BOXES, align.align_text), ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert ocr.crop_calls == 8
+
+    async def test_column_wrapping_keeps_page_context_when_alignment_is_good(self, stub_ocr):
+        def column_alignment(structured, lines):
+            result = _FakeAlignment([(b, "column text") for b, _ in structured],
+                                    match_count=len(structured) - 1)
+            result.multi_column = True
+            return result
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_StubAligner(self.BOXES, column_alignment), stub_ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert stub_ocr.crop_calls == 0
+        assert all(text == "column text" for _, text in pdf.last_pages[0])
+
     async def test_high_match_rate_keeps_dp_result(self, stub_ocr):
         pdf = _StubPDF(n_pages=1)
         aligner = _StubAligner(boxes_per_page=self.BOXES, alignment=self._high_confidence)
@@ -882,6 +950,40 @@ class _BoomAligner:
 
     def align_text(self, structured, lines):
         raise AssertionError("text-only must not run DP alignment")
+
+
+def test_page_context_is_bound_by_crop_words_not_line_position():
+    from pdf_ocr.pipeline import _restore_page_context
+
+    boxes = [[0.1, 0.1, 0.8, 0.2], [0.1, 0.3, 0.8, 0.4]]
+    crops = [(boxes[0], "Algarithms"), (boxes[1], "Holding: the procedure terminates")]
+    result = _restore_page_context(crops, [
+        "Masthead omitted from detection", "Algorithms", "Halting: the procedure terminates",
+    ])
+    assert result == [(boxes[0], "Algorithms"), (boxes[1], "Halting: the procedure terminates")]
+
+
+def test_crop_context_can_match_part_of_a_longer_page_line():
+    from pdf_ocr.pipeline import _restore_page_context
+
+    box = [0.1, 0.1, 0.8, 0.2]
+    assert _restore_page_context([(box, "The procedures terminates")], [
+        "The procedure terminates after reading the input data.",
+    ]) == [(box, "The procedure terminates")]
+
+
+@pytest.mark.parametrize("crop,lines", [
+    ("", ["An unlocated sentence"]),
+    ("ID", ["ED"]),
+    ("Account balance 1000", ["Account balance 1009"]),
+    ("Name: Jone Smith", ["Name: Jane Smith", "Name: John Smith"]),
+    ("Completely different words", ["A hallucinated page sentence"]),
+])
+def test_page_context_does_not_fill_blanks_or_resolve_ambiguous_matches(crop, lines):
+    from pdf_ocr.pipeline import _restore_page_context
+
+    regions = [([0.1, 0.1, 0.8, 0.2], crop)]
+    assert _restore_page_context(regions, lines) == regions
 
 
 class TestTextOnly:
