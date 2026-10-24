@@ -1,0 +1,2204 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.016,
+        0.016,
+        0.952,
+        0.11399999999999999
+      ],
+      "text": "- $f_u$ can have null value\n- I could modify my existing implementation of Project (.)",
+      "page_index": 0,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.026,
+        0.144,
+        0.61,
+        0.19799999999999998
+      ],
+      "text": "## Mapping Binary 1:1 Relationship Sets",
+      "page_index": 0,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.1,
+        0.2,
+        0.8860000000000001,
+        0.353
+      ],
+      "text": "- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)",
+      "page_index": 0,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.026,
+        0.37,
+        0.314,
+        0.43300000000000005
+      ],
+      "text": "### \u2460 F.U approach",
+      "page_index": 0,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.329,
+        0.4,
+        0.376,
+        0.427
+      ],
+      "text": "total",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.707,
+        0.324,
+        0.9219999999999999,
+        0.4139999999999999
+      ],
+      "text": "Cross Ref also applies here",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.68,
+        0.42,
+        0.9219999999999999,
+        0.524
+      ],
+      "text": "merge-rel can work here with P.U from total participation - not desirable",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.3,
+        0.574,
+        0.9219999999999999,
+        0.624
+      ],
+      "text": "$$\nS \\mid \\underline{PK(S)} \\mid \\ldots \\mid PK(T) \\mid a_1 \\mid \\ldots \\mid a_n\n$$",
+      "page_index": 0,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.094,
+        0.64,
+        0.284,
+        0.707
+      ],
+      "text": "### \u2461 merge-relation",
+      "page_index": 0,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.064,
+        0.794,
+        0.308,
+        0.957
+      ],
+      "text": "F.U applies to second case as well Cross Ref can also apply here",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.577,
+        0.82,
+        0.822,
+        0.8660000000000001
+      ],
+      "text": "P.U can be either one",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.347,
+        0.8660000000000001,
+        0.9219999999999999,
+        0.9270000000000002
+      ],
+      "text": "$$\nST \\mid \\underline{PK(S)} \\mid PK(T) \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$",
+      "page_index": 0,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.4,
+        0.92,
+        0.577,
+        0.964
+      ],
+      "text": "(since it's 1:1)",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.028,
+        0.018,
+        0.647,
+        0.068
+      ],
+      "text": "\u2462 When none is total (Cross-reference)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.649,
+        0.074,
+        0.9,
+        0.148
+      ],
+      "text": "F.N approach can also apply here",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.694,
+        0.20699999999999996,
+        0.974,
+        0.348
+      ],
+      "text": "can't have merge-relation here, could have null values from either S or T",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.078,
+        0.427,
+        0.205,
+        0.511
+      ],
+      "text": "either one can be unique",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.099,
+        0.514,
+        0.343,
+        0.574
+      ],
+      "text": "if combo is unique, either is unique",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.139,
+        0.577,
+        0.272,
+        0.611
+      ],
+      "text": "Since 1:1",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.078,
+        0.494,
+        0.205,
+        0.511
+      ],
+      "text": "$\\text{S} \\left[ \\text{PK(S)} \\right] \\ldots$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.1,
+        0.514,
+        0.343,
+        0.574
+      ],
+      "text": "$\\text{T} \\left[ \\text{PK(T)} \\right] \\ldots$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.139,
+        0.577,
+        0.272,
+        0.611
+      ],
+      "text": "$\\text{R} \\left[ \\text{PK(S)} \\mid \\text{PK(T)} \\mid a_1 \\mid \\ldots \\mid a_n \\right]$",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.0,
+        0.011,
+        0.772,
+        0.083
+      ],
+      "text": "# Mapping of Binary 1:N Relationship Sets",
+      "page_index": 2,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.48799999999999993,
+        0.82,
+        0.564
+      ],
+      "text": "# Mapping Binary M:N relationship sets",
+      "page_index": 2,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.162,
+        0.564,
+        0.9269999999999999,
+        0.724
+      ],
+      "text": "- always create separate table for relationship set if M:N\n- relationship attr can't be shifted",
+      "page_index": 2,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.23299999999999998,
+        0.84,
+        0.84,
+        0.964
+      ],
+      "text": "can't apply F-K approach here since it could create circular dependency",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.036,
+        0.014,
+        0.627,
+        0.068
+      ],
+      "text": "# Mapping of Multivalued Attributes",
+      "page_index": 3,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.472,
+        0.12,
+        0.621,
+        0.162
+      ],
+      "text": "Employee",
+      "page_index": 3,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.47,
+        0.19,
+        0.621,
+        0.23300000000000004
+      ],
+      "text": "Dependent",
+      "page_index": 3,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.822,
+        0.257,
+        0.945,
+        0.344
+      ],
+      "text": "Combination to form P.K",
+      "page_index": 3,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.407,
+        0.287,
+        0.568,
+        0.32
+      ],
+      "text": "*attentively,*",
+      "page_index": 3,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.325,
+        0.355,
+        0.868,
+        0.407
+      ],
+      "text": "E-D | SSN | n | y | Dependent Name",
+      "page_index": 3,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.44699999999999995,
+        0.4,
+        0.787,
+        0.501
+      ],
+      "text": "required to repeat n and y for each dependent, not ideal",
+      "page_index": 3,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.045,
+        0.49800000000000005,
+        0.727,
+        0.555
+      ],
+      "text": "# Mapping of N-any relationship sets",
+      "page_index": 3,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.022,
+        0.011,
+        0.43,
+        0.064
+      ],
+      "text": "- Mapping Aggregation",
+      "page_index": 4,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.184,
+        0.064,
+        0.79,
+        0.144
+      ],
+      "text": "- must have tables for each strong entity sets",
+      "page_index": 4,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.184,
+        0.142,
+        0.9040000000000001,
+        0.238
+      ],
+      "text": "- primarily creating the relationship set to a separate table",
+      "page_index": 4,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.674,
+        0.733,
+        0.952,
+        0.944
+      ],
+      "text": "If total participation between borrows and loan office, then can remove borrows for redundancy",
+      "page_index": 5,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.034,
+        0.044,
+        0.64,
+        0.094
+      ],
+      "text": "# Mapping of Specialization / Generalization",
+      "page_index": 6,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.162,
+        0.722,
+        0.605,
+        0.77
+      ],
+      "text": "Redundancy with option 2",
+      "page_index": 6,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.067,
+        0.007,
+        0.829,
+        0.111
+      ],
+      "text": "Option 3: works only with disjoint  \n- single relation with one type attribute",
+      "page_index": 7,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.305,
+        0.12,
+        0.742,
+        0.23699999999999996
+      ],
+      "text": "Review these slides...  \nlast concentration...",
+      "page_index": 7,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.142,
+        0.248,
+        0.588,
+        0.36800000000000005
+      ],
+      "text": "if total participation and disjoint, all options apply...",
+      "page_index": 7,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.031,
+        0.022,
+        0.705,
+        0.072
+      ],
+      "text": "Vehicle (VIN, Price, Model, Engine size ..., Type)",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.09200000000000001,
+        0.382,
+        0.137
+      ],
+      "text": "Sales Person (Sid, Name)",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.045,
+        0.144,
+        0.616,
+        0.19799999999999998
+      ],
+      "text": "Customer (SSN, Name, Street, City, State)",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.203,
+        0.43300000000000005,
+        0.248
+      ],
+      "text": "Sale (VIN, Sid, SSN)",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.278,
+        0.24399999999999997,
+        0.758,
+        0.32700000000000007
+      ],
+      "text": "\u2192 P.U. reduced to minimal set since it's not a tenary relationship",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.133,
+        0.337,
+        0.4620000000000001,
+        0.37699999999999995
+      ],
+      "text": "alternatively using option 2,",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10700000000000001,
+        0.37699999999999995,
+        0.738,
+        0.4139999999999999
+      ],
+      "text": "Car (VIN, Price, Model, Engine-size)",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.084,
+        0.7919999999999999,
+        0.852,
+        0.877
+      ],
+      "text": "we can convert it to binary relation. we can merge Vehicle and Sale since they share the same P.U.",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.704,
+        0.066,
+        0.863,
+        0.144
+      ],
+      "text": "*5th about option 2?",
+      "page_index": 8,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.025,
+        0.193,
+        0.056999999999999995
+      ],
+      "text": "# Lecture 6",
+      "page_index": 9,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.036,
+        0.083,
+        0.309,
+        0.12199999999999998
+      ],
+      "text": "## Relational Algebra",
+      "page_index": 9,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.056,
+        0.133,
+        0.814,
+        0.257
+      ],
+      "text": "- $\\sigma$ used to select tuples\n  - selecting tuples from relation $R$ that satisfy selection condition $C$",
+      "page_index": 9,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.313,
+        0.274,
+        0.453,
+        0.32200000000000006
+      ],
+      "text": "$\\sigma_C(R)$",
+      "page_index": 9,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.062,
+        0.34,
+        0.65,
+        0.38700000000000007
+      ],
+      "text": "*String constant written in single quotes*",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.073,
+        0.4,
+        0.127,
+        0.437
+      ],
+      "text": "e.g.",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.152,
+        0.427,
+        0.726,
+        0.4739999999999999
+      ],
+      "text": "$\\sigma(\\text{Dno}=4 \\text{ AND } \\text{Salary}>25000) \\text{ OR } (\\text{Dno}=5 \\text{ AND } \\text{Salary}>30000)$",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.073,
+        0.49,
+        0.426,
+        0.531
+      ],
+      "text": "- NOT > AND > OR \u2014 Precedence",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.056,
+        0.546,
+        0.366,
+        0.587
+      ],
+      "text": "- $\\sigma$ is commutative",
+      "page_index": 9,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.045,
+        0.633,
+        0.69,
+        0.688
+      ],
+      "text": "- Project used to SELECT attributes",
+      "page_index": 9,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.181,
+        0.692,
+        0.378,
+        0.74
+      ],
+      "text": "$\\pi_L(R)$",
+      "page_index": 9,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.382,
+        0.744,
+        0.626,
+        0.79
+      ],
+      "text": "$\\leftarrow$ list of attributes",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.112,
+        0.8,
+        0.403,
+        0.853
+      ],
+      "text": "$\\pi_{\\text{rid}, \\text{height}}(\\text{Players})$",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.247,
+        0.857,
+        0.745,
+        0.9069999999999999
+      ],
+      "text": "$\\rightarrow$ basically filtering by columns",
+      "page_index": 9,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.056,
+        0.011,
+        0.918,
+        0.101
+      ],
+      "text": "- in 'pure' relational algebra, selections should be sets, so no duplicates",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.103,
+        0.72,
+        0.157
+      ],
+      "text": "- But in SQL, it's a multiset",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.036,
+        0.164,
+        0.612,
+        0.224
+      ],
+      "text": "- $\\pi$ is unary, not commutative",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.187,
+        0.253,
+        0.652,
+        0.32
+      ],
+      "text": "$\\pi_{name, age} (6 \\text{ ages}, 30 \\text{ climbers})$",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.154,
+        0.333,
+        0.753,
+        0.427
+      ],
+      "text": "$\\downarrow$\n\nSELECT name, age FROM CLIMBERS WHERE age > 30",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.12,
+        0.462,
+        0.8860000000000001,
+        0.55
+      ],
+      "text": "- usually we apply the filter first and then project attributes",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.028,
+        0.568,
+        0.8380000000000001,
+        0.668
+      ],
+      "text": "Do we need to check union compatibility for Cartesian product?",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.067,
+        0.648,
+        0.94,
+        0.757
+      ],
+      "text": "- No, since it already returns all list of combination uniquely",
+      "page_index": 10,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.176,
+        0.12199999999999998,
+        0.459,
+        0.146
+      ],
+      "text": "Customer: $C\\_Name, C\\_Street, C\\_City$",
+      "page_index": 11,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.176,
+        0.15,
+        0.416,
+        0.17
+      ],
+      "text": "Depositor: $C\\_Name, Account\\#$",
+      "page_index": 11,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.175,
+        0.17700000000000002,
+        0.41900000000000004,
+        0.2
+      ],
+      "text": "Loan: $B\\_Name, Loan\\_N, Amount$",
+      "page_index": 11,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.174,
+        0.205,
+        0.416,
+        0.225
+      ],
+      "text": "Borrower: $C\\_Name, Loan\\#$",
+      "page_index": 11,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.224,
+        0.23300000000000004,
+        0.717,
+        0.257
+      ],
+      "text": "Select tuples of the loan relation where the branch name is \"GMU\"",
+      "page_index": 11,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.372,
+        0.257,
+        0.537,
+        0.281
+      ],
+      "text": "$\\sigma_{branch = 'GMU'} (Loan)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.22099999999999997,
+        0.288,
+        0.701,
+        0.312
+      ],
+      "text": "- Find all tuples in which the amount of loan is more than \\$12000.",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.276,
+        0.311,
+        0.444,
+        0.335
+      ],
+      "text": "$\\sigma_{amount > 12000} (Loan)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.21900000000000003,
+        0.344,
+        0.832,
+        0.37
+      ],
+      "text": "- Find those tuples pertaining to loans of more than \\$ 12000 made by \"GMU\" branch.",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.273,
+        0.37,
+        0.748,
+        0.39599999999999996
+      ],
+      "text": "$\\sigma_{amount > 12000 \\land branch = 'GMU'} (Loan)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.218,
+        0.4,
+        0.564,
+        0.422
+      ],
+      "text": "- List all loan numbers and the amount of loan.",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.276,
+        0.422,
+        0.467,
+        0.446
+      ],
+      "text": "$\\pi_{loan\\#, amount} (Loan)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.217,
+        0.455,
+        0.615,
+        0.477
+      ],
+      "text": "- Find the names of all customers who live in \"airfax\".",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.29,
+        0.477,
+        0.597,
+        0.503
+      ],
+      "text": "$\\pi_{name} (\\sigma_{city = 'airfax'} (Customer))$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.21599999999999997,
+        0.512,
+        0.8359999999999999,
+        0.535
+      ],
+      "text": "- Find the names of all bank customers who have either an account or a loan or both.",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.278,
+        0.535,
+        0.832,
+        0.561
+      ],
+      "text": "$\\pi_{name} (Depositor) \\cup \\pi_{name} (Borrower)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.21599999999999997,
+        0.569,
+        0.817,
+        0.588
+      ],
+      "text": "- Find the names of all customers of the bank who have an account but not a loan.",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.287,
+        0.588,
+        0.647,
+        0.62
+      ],
+      "text": "$\\pi_{name} (Depositor) - \\pi_{name} (Borrower)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.215,
+        0.625,
+        0.745,
+        0.6440000000000001
+      ],
+      "text": "- Find the names of all customers who have both a loan and an account.",
+      "page_index": 11,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.295,
+        0.642,
+        0.682,
+        0.681
+      ],
+      "text": "$\\pi_{name} (Depositor) \\cap \\pi_{name} (Borrower)$",
+      "page_index": 11,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.147,
+        0.14,
+        0.446,
+        0.162
+      ],
+      "text": "Customer: C_Name, C_Street, C_City",
+      "page_index": 12,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.146,
+        0.16800000000000004,
+        0.393,
+        0.188
+      ],
+      "text": "Depositor: C_Name, Account#",
+      "page_index": 12,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.144,
+        0.19799999999999998,
+        0.405,
+        0.218
+      ],
+      "text": "Loan: B_Name, Loan_#, Amount",
+      "page_index": 12,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.144,
+        0.227,
+        0.362,
+        0.246
+      ],
+      "text": "Borrower: C_Name, Loan#",
+      "page_index": 12,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.196,
+        0.257,
+        0.727,
+        0.281
+      ],
+      "text": "- Select tuples of the loan relation where the branch name is \u201cGMU\u201d.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.344,
+        0.283,
+        0.527,
+        0.307
+      ],
+      "text": "$\\sigma_{\\text{branch} = 'GMU'} (\\text{loan})$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.193,
+        0.316,
+        0.706,
+        0.339
+      ],
+      "text": "- Find all tuples in which the amount of loan is more than \\$12000.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.252,
+        0.338,
+        0.43,
+        0.364
+      ],
+      "text": "$\\sigma_{\\text{amount} > 12000} (\\text{loan})$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.191,
+        0.375,
+        0.8459999999999999,
+        0.4
+      ],
+      "text": "- Find those tuples pertaining to loans of more than \\$ 12000 made by \u201cGMU\u201d branch.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.247,
+        0.4010000000000001,
+        0.757,
+        0.429
+      ],
+      "text": "$\\sigma_{\\text{amount} > 12000 \\text{ AND } \\text{branch} = 'GMU'} (\\text{loan}) \\quad \\text{or} \\quad R_1 \\cap R_2$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.189,
+        0.435,
+        0.559,
+        0.455
+      ],
+      "text": "- List all loan numbers and the amount of loan.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.25,
+        0.457,
+        0.4620000000000001,
+        0.485
+      ],
+      "text": "$\\pi_{\\text{loan\\#}, \\text{amount}} \\quad \\text{loan}$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.189,
+        0.495,
+        0.614,
+        0.515
+      ],
+      "text": "- Find the names of all customers who live in \u201cFairfax\u201d.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.264,
+        0.516,
+        0.593,
+        0.546
+      ],
+      "text": "$\\pi_{\\text{name}} \\left( \\sigma_{\\text{city} = 'Fairfax'} \\right) (\\text{customers})$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.188,
+        0.555,
+        0.85,
+        0.575
+      ],
+      "text": "- Find the names of all bank customers who have either an account or a loan or both.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.254,
+        0.575,
+        0.67,
+        0.601
+      ],
+      "text": "$\\pi_{\\text{name}} (\\text{Depositor}) \\cup \\pi_{\\text{name}} (\\text{Borrower})$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.188,
+        0.616,
+        0.829,
+        0.635
+      ],
+      "text": "- Find the names of all customers of the bank who have an account but not a loan.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.264,
+        0.638,
+        0.647,
+        0.668
+      ],
+      "text": "$\\pi_{\\text{name}} (\\text{Depositor}) - \\pi_{\\text{name}} (\\text{Borrower})$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.187,
+        0.6770000000000002,
+        0.753,
+        0.694
+      ],
+      "text": "- Find the names of all customers who have both a loan and an account.",
+      "page_index": 12,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.274,
+        0.694,
+        0.682,
+        0.7309999999999999
+      ],
+      "text": "$\\pi_{\\text{name}} (\\text{Depositor}) \\cap \\pi_{\\text{name}} (\\text{Borrower})$",
+      "page_index": 12,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.031,
+        0.025,
+        0.272,
+        0.058
+      ],
+      "text": "- Cartesian Product",
+      "page_index": 13,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.102,
+        0.077,
+        0.612,
+        0.124
+      ],
+      "text": "$\\delta_{C1d.1} = C1d.2 \\ (Climbs \\times Climbers)$",
+      "page_index": 13,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.094,
+        0.133,
+        0.527,
+        0.183
+      ],
+      "text": "*In general, very expensive...*",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.088,
+        0.19799999999999998,
+        0.417,
+        0.23300000000000004
+      ],
+      "text": "Use JOIN instead",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.253,
+        0.358,
+        0.296
+      ],
+      "text": "- (THETA) JOIN",
+      "page_index": 13,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.125,
+        0.309,
+        0.458,
+        0.346
+      ],
+      "text": "- Join of two relations",
+      "page_index": 13,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.264,
+        0.361,
+        0.628,
+        0.411
+      ],
+      "text": "$R \\bowtie_c S = \\delta_c (R \\times S)$",
+      "page_index": 13,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.314,
+        0.4139999999999999,
+        0.875,
+        0.448
+      ],
+      "text": "$\\rightarrow c$ is called a JOIN condition",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.314,
+        0.4610000000000001,
+        0.552,
+        0.529
+      ],
+      "text": "\u2014 usually using full constraint.",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.684,
+        0.448,
+        0.9240000000000002,
+        0.544
+      ],
+      "text": "$\\rightarrow$ can only have attribute name",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.648,
+        0.54,
+        0.89,
+        0.642
+      ],
+      "text": "*this is different from SELECTION condition*",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.227,
+        0.6289999999999999,
+        0.681,
+        0.69
+      ],
+      "text": "$Climbs \\bowtie (C1d.1 = C1d.2) Climbers$",
+      "page_index": 13,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.053000000000000005,
+        0.694,
+        0.837,
+        0.7869999999999999
+      ],
+      "text": "\u2014 there should be fewer tuples in JOIN compared to PRODUCT",
+      "page_index": 13,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.026999999999999996,
+        0.027,
+        0.662,
+        0.144
+      ],
+      "text": "- Natural Join\n  - where the condition is *implied*\n  - *not* *knowledge* to use",
+      "page_index": 14,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.05,
+        0.224,
+        0.742,
+        0.274
+      ],
+      "text": "\u2460 Sailors \u00d7 Reserves (Cartesian, 6 tuples)",
+      "page_index": 14,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.274,
+        0.792,
+        0.353
+      ],
+      "text": "\u2461 Sailors \u22c8 Reserves (Theta Join) Sailors.sid < Reserves.sid",
+      "page_index": 14,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.153,
+        0.362,
+        0.727,
+        0.48799999999999993
+      ],
+      "text": "<table>\n  <tr>\n    <th>S.sid</th>\n    <th>...</th>\n    <th>R.sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>31</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n</table>",
+      "page_index": 14,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.037,
+        0.4739999999999999,
+        0.918,
+        0.574
+      ],
+      "text": "\u2462 Sailors \u22c8 Reserves (Equijoin) S.sid = R.sid (7 columns)",
+      "page_index": 14,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.153,
+        0.579,
+        0.727,
+        0.688
+      ],
+      "text": "<table>\n  <tr>\n    <th>S.sid</th>\n    <th>...</th>\n    <th>R.sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n    <td>22</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n</table>",
+      "page_index": 14,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.06,
+        0.679,
+        0.9219999999999999,
+        0.766
+      ],
+      "text": "\u2463 Sailors \u22c8 Reserves (Natural Join) (6 columns)",
+      "page_index": 14,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.153,
+        0.772,
+        0.537,
+        0.831
+      ],
+      "text": "<table>\n  <tr>\n    <th>Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n  </tr>\n</table>",
+      "page_index": 14,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.068,
+        0.001,
+        0.9269999999999999,
+        0.072
+      ],
+      "text": "$\\pi_{S.sname} \\left( \\sigma_{G.bid=103} \\left( Sailors \\bowtie_{S.sid=1.5} Reserves \\right) \\right)$",
+      "page_index": 15,
+      "label": "header"
+    },
+    {
+      "bbox": [
+        0.472,
+        0.20699999999999996,
+        0.567,
+        0.225
+      ],
+      "text": "**Exercise**",
+      "page_index": 15,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.351,
+        0.248,
+        0.518,
+        0.312
+      ],
+      "text": "<table>\n  <tr>\n    <th colspan=\"4\">Sailors</th>\n  </tr>\n  <tr>\n    <th>sid</th>\n    <th>sname</th>\n    <th>rating</th>\n    <th>age</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td>Dustin</td>\n    <td>7</td>\n    <td>45</td>\n  </tr>\n  <tr>\n    <td>31</td>\n    <td>Lubber</td>\n    <td>8</td>\n    <td>55</td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td>Rusty</td>\n    <td>10</td>\n    <td>35</td>\n  </tr>\n</table>",
+      "page_index": 15,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.531,
+        0.251,
+        0.681,
+        0.32
+      ],
+      "text": "<table>\n  <tr>\n    <th colspan=\"3\">Boats</th>\n  </tr>\n  <tr>\n    <th>bid</th>\n    <th>bname</th>\n    <th>color</th>\n  </tr>\n  <tr>\n    <td>101</td>\n    <td>Interlake</td>\n    <td>blue</td>\n  </tr>\n  <tr>\n    <td>102</td>\n    <td>Interlake</td>\n    <td>red</td>\n  </tr>\n  <tr>\n    <td>103</td>\n    <td>Clipper</td>\n    <td>green</td>\n  </tr>\n  <tr>\n    <td>104</td>\n    <td>Marine</td>\n    <td>red</td>\n  </tr>\n</table>",
+      "page_index": 15,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.351,
+        0.335,
+        0.48299999999999993,
+        0.38700000000000007
+      ],
+      "text": "<table>\n  <tr>\n    <th colspan=\"3\">Reserves</th>\n  </tr>\n  <tr>\n    <th>sid</th>\n    <th>bid</th>\n    <th>day</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td>101</td>\n    <td>10/10/96</td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td>103</td>\n    <td>11/12/96</td>\n  </tr>\n</table>",
+      "page_index": 15,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.431,
+        0.431,
+        0.606,
+        0.454
+      ],
+      "text": "**Exercise (Cont.)**",
+      "page_index": 15,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.352,
+        0.4610000000000001,
+        0.688,
+        0.596
+      ],
+      "text": "- Find the names of sailors who have reserved boat 103.\n- Find the names of sailors who have reserved a red boat.\n- Find the colors of boats reserved by Dustin.\n- Find the names of sailors who have reserved at least one boat.\n- Find the names of sailors who have reserved a red or a green boat.\n- Find the names of sailors who have reserved a red and a green boat.\n- Find the names of sailors with age over 20 who have",
+      "page_index": 15,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.598,
+        0.8120000000000002,
+        0.653
+      ],
+      "text": "\u2460 $\\pi_{sname} \\left( Sailors \\bowtie \\left( \\sigma_{bid=103} Reserves \\right) \\right)$",
+      "page_index": 15,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.011,
+        0.655,
+        0.933,
+        0.709
+      ],
+      "text": "\u2461 $\\pi_{sname} \\left( \\sigma_{color='red'} \\left( Sailors \\bowtie \\left( Boats \\bowtie Reserves \\right) \\right) \\right)$",
+      "page_index": 15,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.016,
+        0.712,
+        0.778,
+        0.777
+      ],
+      "text": "\u2462 $\\pi_{color} \\left( \\sigma_{sname} Sailors \\right) \\bowtie Reserves \\bowtie Boats$",
+      "page_index": 15,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.7919999999999999,
+        0.592,
+        0.8459999999999999
+      ],
+      "text": "\u2463 $\\pi_{sname} \\left( Sailors \\bowtie Reserves \\right)$",
+      "page_index": 15,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.052,
+        0.037,
+        0.962,
+        0.11399999999999999
+      ],
+      "text": "(5) $\\pi_{sname} \\left( \\left( \\sigma_{b.c = 'red'} \\text{ OR } \\sigma_{b.c = 'green'} \\text{ Boats} \\right) \\cap R \\cap B \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.177,
+        0.344,
+        0.8309999999999998,
+        0.4
+      ],
+      "text": "(5) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{s.sid = j.sid} \\left( \\text{Reserves} \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'red'} \\text{ OR } b.color = 'green' \\text{ Boats} \\right) \\right) \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.177,
+        0.398,
+        0.829,
+        0.453
+      ],
+      "text": "(6) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{\\pi_{sid}} \\left( R \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'red'} \\text{ Boats} \\right) \\right) \\cup \\pi_{sid} \\left( R \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'green'} \\text{ Boats} \\right) \\right) \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.177,
+        0.451,
+        0.829,
+        0.507
+      ],
+      "text": "(1) $\\pi_{s.name} \\left( \\sigma_{r.bid = 103} \\left( \\text{Sailors} \\bowtie_{s.sid = r.sid} \\text{Reserve} \\right) \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.177,
+        0.505,
+        0.829,
+        0.561
+      ],
+      "text": "(2) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{s.sid = j.sid} \\left( \\text{Reserves} \\bowtie_{r.bid = b.bid} \\left( \\sigma_{b.color = 'red'} \\text{ Boats} \\right) \\right) \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.177,
+        0.559,
+        0.829,
+        0.614
+      ],
+      "text": "(3) $\\pi_{b.color} \\left( \\text{Boats} \\bowtie_{b.bid = j.bid} \\left( \\text{Reserves} \\bowtie_{r.sid = s.sid} \\left( \\sigma_{s.name = 'John'} \\text{ Sailors} \\right) \\right) \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.177,
+        0.612,
+        0.829,
+        0.668
+      ],
+      "text": "(4) $\\pi_{s.name} \\left( \\text{Sailors} \\bowtie_{s.sid = r.sid} \\text{Reserves} \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.017,
+        0.744,
+        0.962,
+        0.82
+      ],
+      "text": "(6) $\\text{red} \\rightarrow \\pi_{s.b.name} \\left( S \\bowtie R \\bowtie \\left( \\sigma_{b.color = 'red'} B \\right) \\right) \\bowtie S$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.017,
+        0.744,
+        0.962,
+        0.82
+      ],
+      "text": "$\\text{green} \\rightarrow \\pi_{s.b.name} \\left( S \\bowtie R \\bowtie \\left( \\sigma_{b.color = 'green'} B \\right) \\right) \\bowtie S$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10700000000000001,
+        0.844,
+        0.829,
+        0.92
+      ],
+      "text": "$R \\cap B \\in \\pi_{sname} \\left( \\text{Red} \\cap \\text{Green} \\right)$",
+      "page_index": 16,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.016,
+        0.022,
+        0.784,
+        0.224
+      ],
+      "text": "\u2461 $R_1 \\leftarrow \\pi_{sid} \\left( \\text{6 edge} > 20 \\text{ sailors} \\right)$\n\n$R_2 \\leftarrow \\pi_{sid} \\left( R \\times \\left( \\text{6 color} = \\text{red} \\right) \\right)$\n\n$R \\leftarrow \\pi_{sname} \\left[ \\left( R_1 - R_2 \\right) \\times \\text{Sailors} \\right]$",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.026999999999999996,
+        0.277,
+        0.412,
+        0.351
+      ],
+      "text": "- Division in SQL query",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.12299999999999998,
+        0.372,
+        0.236,
+        0.411
+      ],
+      "text": "ClimbS",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.116,
+        0.4139999999999999,
+        0.288,
+        0.568
+      ],
+      "text": "<table>\n  <tr>\n    <th>cid</th>\n    <th>sid</th>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>B</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>A</td>\n  </tr>\n</table>",
+      "page_index": 17,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.383,
+        0.372,
+        0.4779999999999999,
+        0.411
+      ],
+      "text": "C \u00d7 R",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.383,
+        0.4139999999999999,
+        0.715,
+        0.627
+      ],
+      "text": "<table>\n  <tr>\n    <th>Cid</th>\n    <th>Rid</th>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>B</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>B</td>\n  </tr>\n</table>",
+      "page_index": 17,
+      "label": "table"
+    },
+    {
+      "bbox": [
+        0.17,
+        0.618,
+        0.61,
+        0.674
+      ],
+      "text": "C \u00d7 R - $\\pi_{cid, rid} \\text{ (Climbs)}$",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.102,
+        0.681,
+        0.152,
+        0.7180000000000001
+      ],
+      "text": "or,",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.162,
+        0.707,
+        0.805,
+        0.803
+      ],
+      "text": "$\\pi_{cid, rid} \\text{ (Climbs)} \\div \\left( \\pi_{rid} \\text{ Routes} \\right)$",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.194,
+        0.7869999999999999,
+        0.802,
+        0.827
+      ],
+      "text": "*Climbers who have climbed all routes*",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.078,
+        0.853,
+        0.8860000000000001,
+        0.931
+      ],
+      "text": "What about \"Routes that have been climbed by all climbs\"?",
+      "page_index": 17,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.077,
+        0.018,
+        0.507,
+        0.064
+      ],
+      "text": "Confused on division...",
+      "page_index": 18,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.127,
+        0.083,
+        0.55,
+        0.133
+      ],
+      "text": "- division keyword: $\\boxed{\\text{ALL}}$",
+      "page_index": 18,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.142,
+        0.174,
+        0.8280000000000001,
+        0.296
+      ],
+      "text": "\u2460 find names of sailors who have reserved all boats $\\Rightarrow$ denominator",
+      "page_index": 18,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.175,
+        0.353,
+        0.872,
+        0.4139999999999999
+      ],
+      "text": "$R_1 \\leftarrow \\pi_{sid, bid} (\\text{Reserves}) / \\pi_{sid} (\\text{Boots})$",
+      "page_index": 18,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.172,
+        0.438,
+        0.712,
+        0.49800000000000005
+      ],
+      "text": "$R \\leftarrow \\pi_{name} (R_1 \\bowtie \\text{Sailors})$",
+      "page_index": 18,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.037,
+        0.55,
+        0.9480000000000001,
+        0.635
+      ],
+      "text": "\u2461 $R_1 \\leftarrow (\\pi_{sid, bid} \\text{Reserves}) \\div \\pi_{bid} (\\text{Boots})$",
+      "page_index": 18,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.276,
+        0.668,
+        0.687,
+        0.7309999999999999
+      ],
+      "text": "Recap of Relational Algebra Operations",
+      "page_index": 18,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.268,
+        0.748,
+        0.696,
+        0.959
+      ],
+      "text": "- Select $\\sigma<\\text{selection condition}> R$\n- Project $\\pi<\\text{attribute list}> R$\n- Union $R \\cup S$\n- Intersection $R \\cap S$\n- Difference $R - S$\n- Cross product $R \\times S$\n- Join $R \\bowtie <\\text{join condition}> S$\n- Natural join $R \\bowtie S$\n- Division $R \\div S$\n- Rename $\\rho<\\text{new schema}> R$",
+      "page_index": 18,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.22799999999999998,
+        0.098,
+        0.436,
+        0.116
+      ],
+      "text": "Sailors (sid, sname, rating, age)",
+      "page_index": 19,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.22799999999999998,
+        0.12199999999999998,
+        0.386,
+        0.142
+      ],
+      "text": "Boats (bid, bname, color)",
+      "page_index": 19,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.22799999999999998,
+        0.148,
+        0.373,
+        0.166
+      ],
+      "text": "Reserves (sid, bid, day)",
+      "page_index": 19,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.268,
+        0.172,
+        0.6,
+        0.19
+      ],
+      "text": "- Find the names of sailors who have reserved all boats.",
+      "page_index": 19,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.24399999999999997,
+        0.196,
+        0.704,
+        0.266
+      ],
+      "text": "$$\nP(R1, \\pi_{\\text{bid}} \\text{Reserves} \\div \\pi_{\\text{bid}} \\text{Boats})) \\\\\n\\pi(R1 \\times \\text{Sailors})\n$$",
+      "page_index": 19,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.268,
+        0.268,
+        0.681,
+        0.287
+      ],
+      "text": "- Find the names of sailors who have reserved all boats called Interlake.",
+      "page_index": 19,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.262,
+        0.37,
+        0.698,
+        0.38700000000000007
+      ],
+      "text": "- Find the names of sailors who have reserved at least two different boats.",
+      "page_index": 19,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.3,
+        0.38700000000000007,
+        0.767,
+        0.468
+      ],
+      "text": "$$\nR1 \\times \\text{Reserves} \\\\\nR1.sid = \\text{Reserves}.sid \\text{ AND} \\\\\nR1.bid \\neq R2.bid\n$$",
+      "page_index": 19,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.256,
+        0.468,
+        0.705,
+        0.487
+      ],
+      "text": "- Find the names of sailors who have reserved the same boat at least twice.",
+      "page_index": 19,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.21,
+        0.48799999999999993,
+        0.715,
+        0.603
+      ],
+      "text": "$$\nP(R1, \\text{Reserves}) \\\\\nT \\leftarrow \\pi_{\\text{sid}}(R1 \\times \\text{Reserves}) \\\\\nR1.sid = \\text{Reserves}.sid \\text{ AND} \\\\\nR1.bid = \\text{Reserves}.bid \\text{ AND} \\\\\nR1.day \\neq \\text{Reserves}.day\n$$",
+      "page_index": 19,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.262,
+        0.607,
+        0.687,
+        0.7029999999999998
+      ],
+      "text": "$$\nR \\in \\pi_{\\text{name}}(T, \\times \\text{Sailors})\n$$",
+      "page_index": 19,
+      "label": "formula"
+    },
+    {
+      "bbox": [
+        0.797,
+        0.353,
+        0.969,
+        0.383
+      ],
+      "text": "$\\pi(R1, \\text{Reserve})$",
+      "page_index": 19,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.068,
+        0.738,
+        0.863,
+        0.811
+      ],
+      "text": "- essentially creating multiple names / aliases as needed",
+      "page_index": 19,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.115,
+        0.844,
+        0.527,
+        0.903
+      ],
+      "text": "- PREP for QUIZ",
+      "page_index": 19,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.026999999999999996,
+        0.022,
+        0.23700000000000002,
+        0.066
+      ],
+      "text": "$\\text{Project 1-3}$",
+      "page_index": 20,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ],
+    [
+      1275,
+      1650
+    ]
+  ],
+  "page_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "page_errors": {}
+}

@@ -1,0 +1,15 @@
+{
+  "mode": "grounded",
+  "model": "lightonai/LightOnOCR-3-4B",
+  "status_code": 200,
+  "explicit_model_argument": false,
+  "content_type": "application/pdf",
+  "output_pages": 2,
+  "text_characters_per_page": [
+    0,
+    718
+  ],
+  "elapsed_seconds": 5.58,
+  "output": "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\lighton-layout-20261024\\web-grounded-selected-page.pdf",
+  "passed": true
+}

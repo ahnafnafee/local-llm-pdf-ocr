@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 5.155999999988126,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-AGyJPvQqird5r5vhbOK2Zmtp7ptZekwe",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](47,27,227,85) # Algorithms\n\n![list](47,105,902,227)\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\n![text](202,235,590,298) mapped input $\\longleftrightarrow$ output\n\n![list](42,298,892,398)\n- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM\n\n![list](47,414,876,507)\n- post condition is a logical predicate for the input and output\n\n![list](47,501,887,592)\n- **Halting**: the algo needs to finish in finite time\n\n![list](139,588,673,633)\n- look into induction proofs\n\n![text](397,651,566,685) Correctness\n\n![text](262,742,412,792) $\\swarrow$ Validity\n\n![text](612,748,772,811) $\\searrow$ Halting\n\n![text](315,800,738,840) (Conjunction of both)\n\n![list](62,851,962,937)\n- if the algo has a strong post condition it makes it more useful",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844252,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 346,
+      "prompt_tokens": 3152,
+      "total_tokens": 3498,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1666.719,
+      "prompt_per_token_ms": 0.5287814086294417,
+      "prompt_per_second": 1891.140618184589,
+      "predicted_n": 346,
+      "predicted_ms": 3372.574,
+      "predicted_per_token_ms": 9.775576811594203,
+      "predicted_per_second": 102.29575392563663
+    }
+  }
+}

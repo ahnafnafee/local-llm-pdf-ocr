@@ -1,0 +1,2027 @@
+[
+  [
+    [
+      0.027,
+      0.018,
+      0.947,
+      0.057999999999999996
+    ],
+    "- FK can have null value"
+  ],
+  [
+    [
+      0.041692987997473153,
+      0.052734375,
+      0.9450410612760581,
+      0.103515625
+    ],
+    "- I could modify my existing implementation of Project (.)"
+  ],
+  [
+    [
+      0.0082122552116235,
+      0.1435546875,
+      0.6083385975994946,
+      0.1875
+    ],
+    "## Mapping Binary 1:1 Relationship Sets"
+  ],
+  [
+    [
+      0.1,
+      0.2,
+      0.91,
+      0.2885
+    ],
+    "- F.U approach"
+  ],
+  [
+    [
+      0.1,
+      0.2885,
+      0.91,
+      0.377
+    ],
+    "- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)"
+  ],
+  [
+    [
+      0.027,
+      0.377,
+      0.3,
+      0.444
+    ],
+    "### ① F.U approach"
+  ],
+  [
+    [
+      0.329,
+      0.387,
+      0.375,
+      0.414
+    ],
+    "total"
+  ],
+  [
+    [
+      0.7099999999999999,
+      0.377,
+      0.922,
+      0.474
+    ],
+    "Cross Ref also applies here"
+  ],
+  [
+    [
+      0.6683512318382817,
+      0.462890625,
+      0.9696778269109286,
+      0.5263671875
+    ],
+    "merge-rel can work here with P.U from total participation - not desirable"
+  ],
+  [
+    [
+      0.3,
+      0.574,
+      0.922,
+      0.5973333333333333
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.3,
+      0.5973333333333333,
+      0.922,
+      0.6206666666666667
+    ],
+    "S \\mid \\underline{P_k(S)} \\mid \\ldots \\mid \\underline{P_k(T)} \\mid a_1 \\mid \\ldots \\mid a_n"
+  ],
+  [
+    [
+      0.3,
+      0.6206666666666667,
+      0.922,
+      0.644
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.1,
+      0.724,
+      0.284,
+      0.781
+    ],
+    "### ② merge-relation"
+  ],
+  [
+    [
+      0.055999999999999994,
+      0.803,
+      0.3,
+      0.988
+    ],
+    "F.U applies to second case as well Cross Ref can also apply here"
+  ],
+  [
+    [
+      0.557,
+      0.803,
+      0.8,
+      0.853
+    ],
+    "P.U can be either one"
+  ],
+  [
+    [
+      0.347,
+      0.883,
+      0.922,
+      0.9026666666666666
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.347,
+      0.9026666666666666,
+      0.922,
+      0.9223333333333333
+    ],
+    "ST \\mid \\underline{P_k(S)} \\mid \\underline{P_k(T)} \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n"
+  ],
+  [
+    [
+      0.347,
+      0.9223333333333333,
+      0.922,
+      0.942
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.4,
+      0.942,
+      0.59,
+      0.981
+    ],
+    "(since it's 1:1)"
+  ],
+  [
+    [
+      0.02969046114971573,
+      0.01171875,
+      0.6493998736576121,
+      0.0791015625
+    ],
+    "③ When none is total (Cross-reference)"
+  ],
+  [
+    [
+      0.65,
+      0.077,
+      0.902,
+      0.15
+    ],
+    "F.N approach can also apply here"
+  ],
+  [
+    [
+      0.694,
+      0.207,
+      0.975,
+      0.357
+    ],
+    "can't have merge-relation here, could have null values from either S or T"
+  ],
+  [
+    [
+      0.078,
+      0.427,
+      0.342,
+      0.609
+    ],
+    "either one can be unique if combo is unique, either is unique since 1:1"
+  ],
+  [
+    [
+      0.078,
+      0.427,
+      0.342,
+      0.609
+    ],
+    "either one can be unique if combo is unique, either is unique since 1:1"
+  ],
+  [
+    [
+      0.04295641187618446,
+      0.00341796875,
+      0.5919140871762476,
+      0.072265625
+    ],
+    "# Mapping of Binary 1:N Relationship Sets"
+  ],
+  [
+    [
+      0.023999999999999997,
+      0.474,
+      0.742,
+      0.544
+    ],
+    "# Mapping Binary M:N relationship Sets"
+  ],
+  [
+    [
+      0.175,
+      0.544,
+      0.931,
+      0.609
+    ],
+    "- always create separate table for relationship set if $\\frac{M:N}{\\text{}}$"
+  ],
+  [
+    [
+      0.175,
+      0.609,
+      0.931,
+      0.674
+    ],
+    "- relationship attr can't be shifted"
+  ],
+  [
+    [
+      0.24200000000000002,
+      0.853,
+      0.842,
+      0.955
+    ],
+    "can't apply F-K approach here since it could create circular dependency"
+  ],
+  [
+    [
+      0.028427037271004423,
+      0.0166015625,
+      0.6266582438408086,
+      0.06494140625
+    ],
+    "# Mapping of Multivalued Attributes"
+  ],
+  [
+    [
+      0.41377132027795327,
+      0.29248046875,
+      0.5546430827542641,
+      0.31884765625
+    ],
+    "*attentively,*"
+  ],
+  [
+    [
+      0.37839545167403665,
+      0.3505859375,
+      0.8528111181301327,
+      0.400390625
+    ],
+    "E-D $\\boxed{\\text{SSN} \\mid n \\mid y \\mid \\text{Dependent Name}}$"
+  ],
+  [
+    [
+      0.40176879343019584,
+      0.39111328125,
+      0.8168035375868604,
+      0.47705078125
+    ],
+    "$\\boxed{\\times}$"
+  ],
+  [
+    [
+      0.42072015161086546,
+      0.46240234375,
+      0.7946936197094125,
+      0.50390625
+    ],
+    "*required to repeat n and y for each dependent, not ideal*"
+  ],
+  [
+    [
+      0.042,
+      0.52,
+      0.727,
+      0.583
+    ],
+    "# Mapping of N-any relationship sets"
+  ],
+  [
+    [
+      0.07264687302590019,
+      0.01708984375,
+      0.4238787113076437,
+      0.0556640625
+    ],
+    "- Mapping Aggregation"
+  ],
+  [
+    [
+      0.178,
+      0.066,
+      0.7900000000000001,
+      0.146
+    ],
+    "- must have tables for each strong entity sets"
+  ],
+  [
+    [
+      0.1831964624131396,
+      0.1298828125,
+      0.914087176247631,
+      0.2421875
+    ],
+    "- primarily creating the relationship set to a separate table"
+  ],
+  [
+    [
+      0.6443461781427668,
+      0.8017578125,
+      0.9892608970309539,
+      0.95458984375
+    ],
+    "If total participation between borrows and loan office, then can remove borrows for redundancy"
+  ],
+  [
+    [
+      0.15855969677826912,
+      0.046875,
+      0.6380290587492103,
+      0.087890625
+    ],
+    "# Mapping of Specialization / Generalization"
+  ],
+  [
+    [
+      0.13771320277953253,
+      0.7119140625,
+      0.6689829437776375,
+      0.78076171875
+    ],
+    "Redundancy with option 2"
+  ],
+  [
+    [
+      0.067,
+      0.011,
+      0.829,
+      0.0625
+    ],
+    "Option 3: works only with disjoint"
+  ],
+  [
+    [
+      0.067,
+      0.0625,
+      0.829,
+      0.114
+    ],
+    "- single relation with one type attribute"
+  ],
+  [
+    [
+      0.306,
+      0.122,
+      0.742,
+      0.1795
+    ],
+    "Review these slides --"
+  ],
+  [
+    [
+      0.306,
+      0.1795,
+      0.742,
+      0.237
+    ],
+    "last concertation ---"
+  ],
+  [
+    [
+      0.142,
+      0.253,
+      0.593,
+      0.3115
+    ],
+    "if total participation and disjoint,"
+  ],
+  [
+    [
+      0.142,
+      0.3115,
+      0.593,
+      0.37
+    ],
+    "all options apply --"
+  ],
+  [
+    [
+      0.027163613392293114,
+      0.02783203125,
+      0.7068856601389766,
+      0.0771484375
+    ],
+    "Vehicle (VIN, Price, Model, Engine size ..., Type)"
+  ],
+  [
+    [
+      0.04295641187618446,
+      0.08154296875,
+      0.3986102337334176,
+      0.1337890625
+    ],
+    "Sales Person (Sid, Name)"
+  ],
+  [
+    [
+      0.04232469993682881,
+      0.13525390625,
+      0.6190777005685407,
+      0.19482421875
+    ],
+    "Customer (SSN, Name, Street, City, State)"
+  ],
+  [
+    [
+      0.05559065066329753,
+      0.20751953125,
+      0.4327226784586229,
+      0.24658203125
+    ],
+    "Sale (VIN, Sid, SSN)"
+  ],
+  [
+    [
+      0.2621604548325963,
+      0.2744140625,
+      0.7637397346809854,
+      0.33154296875
+    ],
+    "→ P.U reduced to minimal set since it's not a ternary relationship"
+  ],
+  [
+    [
+      0.13076437144662034,
+      0.34130859375,
+      0.4756790903348073,
+      0.375
+    ],
+    "alternatively using option 2,"
+  ],
+  [
+    [
+      0.08085912823752368,
+      0.36474609375,
+      0.7428932406822489,
+      0.43017578125
+    ],
+    "Car (VIN, Price, Model, Engine-size)"
+  ],
+  [
+    [
+      0.731,
+      0.066,
+      0.8570000000000001,
+      0.138
+    ],
+    "> 5th about option 2?"
+  ],
+  [
+    [
+      0.09599999999999999,
+      0.777,
+      0.8570000000000001,
+      0.892
+    ],
+    "we can convert it to a binary relation. we can merge Vehicle and Sale since they share the same P.U."
+  ],
+  [
+    [
+      0.05369551484523057,
+      0.02880859375,
+      0.19772583701831964,
+      0.05908203125
+    ],
+    "# Lecture 6"
+  ],
+  [
+    [
+      0.036,
+      0.087,
+      0.312,
+      0.127
+    ],
+    "## Relational Algebra"
+  ],
+  [
+    [
+      0.052000000000000005,
+      0.137,
+      0.817,
+      0.197
+    ],
+    "- $\\sigma$ used to select tuples"
+  ],
+  [
+    [
+      0.17182564750473783,
+      0.18310546875,
+      0.815540113708149,
+      0.26025390625
+    ],
+    "- selecting tuples from relation $R$ that satisfy selection condition $c$"
+  ],
+  [
+    [
+      0.31017056222362605,
+      0.27734375,
+      0.4542008843967151,
+      0.322265625
+    ],
+    "$\\sigma_c(R)$"
+  ],
+  [
+    [
+      0.29248262792166774,
+      0.34716796875,
+      0.6493998736576121,
+      0.38232421875
+    ],
+    "String constant written in *single quotes*"
+  ],
+  [
+    [
+      0.074,
+      0.407,
+      0.91,
+      0.477
+    ],
+    "e.g. $\\sigma_{(Dno=4 \\text{ AND } Salary>25000) \\text{ OR } (Dno=5 \\text{ AND } Salary>30000)}$ (EMPLOYEE)"
+  ],
+  [
+    [
+      0.063,
+      0.488,
+      0.6879999999999998,
+      0.533
+    ],
+    "- NOT > AND > OR — Precedence"
+  ],
+  [
+    [
+      0.053,
+      0.551,
+      0.363,
+      0.587
+    ],
+    "- $\\sigma$ is commutative"
+  ],
+  [
+    [
+      0.045,
+      0.642,
+      0.69,
+      0.687
+    ],
+    "- Project used to SELECT attributes"
+  ],
+  [
+    [
+      0.142,
+      0.692,
+      0.376,
+      0.74
+    ],
+    "$\\pi_L(R)$"
+  ],
+  [
+    [
+      0.363,
+      0.748,
+      0.623,
+      0.79
+    ],
+    "$\\leftarrow$ list of attributes"
+  ],
+  [
+    [
+      0.056854074542008845,
+      0.80615234375,
+      0.4478837650031586,
+      0.857421875
+    ],
+    "$\\pi_{Rid, Height}(Flotes)$"
+  ],
+  [
+    [
+      0.25,
+      0.857,
+      0.747,
+      0.905
+    ],
+    "$\\rightarrow$ basically filtering by columns"
+  ],
+  [
+    [
+      0.056854074542008845,
+      0.01123046875,
+      0.9191408717624763,
+      0.060546875
+    ],
+    "- in 'pure' relational algebra, selections should be sets, so no duplicates"
+  ],
+  [
+    [
+      0.11813013265950727,
+      0.1064453125,
+      0.7586860391661402,
+      0.16259765625
+    ],
+    "- But in SQL, it's a multiset"
+  ],
+  [
+    [
+      0.03790271636133923,
+      0.16943359375,
+      0.622236260265319,
+      0.2216796875
+    ],
+    "- $\\pi$ is unary, not commutative"
+  ],
+  [
+    [
+      0.11244472520530638,
+      0.25244140625,
+      0.6576121288692356,
+      0.3310546875
+    ],
+    "$\\pi_{name, age} (6 \\text{ ages}, 30 \\text{ climbers})$"
+  ],
+  [
+    [
+      0.152,
+      0.337,
+      0.753,
+      0.383
+    ],
+    "$\\downarrow$"
+  ],
+  [
+    [
+      0.152,
+      0.383,
+      0.753,
+      0.429
+    ],
+    "SELECT name, age from CLIMBERS WHERE age > 30"
+  ],
+  [
+    [
+      0.10675931775110549,
+      0.44580078125,
+      0.8938723941882502,
+      0.560546875
+    ],
+    "- ideally we apply the filter first and then project attributes"
+  ],
+  [
+    [
+      0.027,
+      0.568,
+      0.837,
+      0.668
+    ],
+    "Do we need to check union compatibility for Cartesian product?"
+  ],
+  [
+    [
+      0.062,
+      0.651,
+      0.94,
+      0.757
+    ],
+    "- No, since it already returns all list of combination uniquely"
+  ],
+  [
+    [
+      0.17687934301958308,
+      0.1259765625,
+      0.4624131396083386,
+      0.14306640625
+    ],
+    "Customer: $C\\_Name, C\\_Street, C\\_City$"
+  ],
+  [
+    [
+      0.1749842072015161,
+      0.14892578125,
+      0.4068224889450411,
+      0.16845703125
+    ],
+    "Depositor: $C\\_Name, Account\\#$"
+  ],
+  [
+    [
+      0.1749842072015161,
+      0.177734375,
+      0.4200884396715098,
+      0.1982421875
+    ],
+    "Loan: $B\\_Name, Loan\\_N, Amount$"
+  ],
+  [
+    [
+      0.17435249526216046,
+      0.20751953125,
+      0.3746051800379027,
+      0.22216796875
+    ],
+    "Borrower: $C\\_Name, Loan\\#$"
+  ],
+  [
+    [
+      0.2255211623499684,
+      0.23583984375,
+      0.7182564750473784,
+      0.25439453125
+    ],
+    "Select tuples of the loan relation where the branch name is \"GMU\""
+  ],
+  [
+    [
+      0.361339229311434,
+      0.26220703125,
+      0.5337965887555275,
+      0.27880859375
+    ],
+    "$\\sigma_{branch = 'GMU'} (Loan)$"
+  ],
+  [
+    [
+      0.22362602653190145,
+      0.29150390625,
+      0.6999368288060644,
+      0.3095703125
+    ],
+    "- Find all tuples in which the amount of loan is more than \\$12000."
+  ],
+  [
+    [
+      0.27289955780164243,
+      0.31298828125,
+      0.44409349336702464,
+      0.33251953125
+    ],
+    "$\\sigma_{amount > 12000} (Loan)$"
+  ],
+  [
+    [
+      0.21099178774478838,
+      0.34765625,
+      0.8307012002526848,
+      0.3671875
+    ],
+    "- Find those tuples pertaining to loans of more than \\$ 12000 made by \"GMU\" branch."
+  ],
+  [
+    [
+      0.2703727100442198,
+      0.37109375,
+      0.591282375236892,
+      0.39404296875
+    ],
+    "$\\sigma_{amount > 12000 \\text{ and } branch = 'GMU'} (Loan)$"
+  ],
+  [
+    [
+      0.2204674668351232,
+      0.40283203125,
+      0.5634870499052432,
+      0.41943359375
+    ],
+    "- List all loan numbers and the amount of loan."
+  ],
+  [
+    [
+      0.275,
+      0.424,
+      0.474,
+      0.448
+    ],
+    "$\\pi_{loan\\_N, amount} (Loan)$"
+  ],
+  [
+    [
+      0.21857233101705623,
+      0.458984375,
+      0.6140240050536955,
+      0.47314453125
+    ],
+    "- Find the names of all customers who live in \"Fairfax\"."
+  ],
+  [
+    [
+      0.2861655085281112,
+      0.48046875,
+      0.591282375236892,
+      0.50732421875
+    ],
+    "$\\pi_{name} (\\sigma_{city = 'Fairfax'} (Customer))$"
+  ],
+  [
+    [
+      0.21794061907770057,
+      0.51611328125,
+      0.8344914718888187,
+      0.53125
+    ],
+    "- Find the names of all bank customers who have either an account or a loan or both."
+  ],
+  [
+    [
+      0.2804801010739103,
+      0.5341796875,
+      0.6645609602021478,
+      0.5595703125
+    ],
+    "$\\pi_{name} (Depositor) \\cup \\pi_{name} (Borrower)$"
+  ],
+  [
+    [
+      0.21794061907770057,
+      0.57177734375,
+      0.819330385344283,
+      0.5947265625
+    ],
+    "- Find the names of all customers of the bank who have an account but not a loan."
+  ],
+  [
+    [
+      0.28237523689197724,
+      0.5869140625,
+      0.6506632975363235,
+      0.626953125
+    ],
+    "$\\pi_{name} (Depositor) - \\pi_{name} (Borrower)$"
+  ],
+  [
+    [
+      0.18951358180669614,
+      0.62646484375,
+      0.9046114971572963,
+      0.64599609375
+    ],
+    "- Find the names of all customers who have both a loan and an account."
+  ],
+  [
+    [
+      0.2899557801642451,
+      0.6435546875,
+      0.6809854706253948,
+      0.69091796875
+    ],
+    "$\\pi_{name} (Depositor) \\cap \\pi_{name} (Borrower)$"
+  ],
+  [
+    [
+      0.14592545799115603,
+      0.140625,
+      0.4491471888818699,
+      0.16015625
+    ],
+    "Customer: $C\\_Name, C\\_Street, C\\_City$"
+  ],
+  [
+    [
+      0.14466203411244472,
+      0.1640625,
+      0.392293114339861,
+      0.1865234375
+    ],
+    "Depositor: $C\\_Name, Account\\#$"
+  ],
+  [
+    [
+      0.14466203411244472,
+      0.19921875,
+      0.4049273531269741,
+      0.216796875
+    ],
+    "Loan: $B\\_Name, Loan\\_\\#, Amount$"
+  ],
+  [
+    [
+      0.14466203411244472,
+      0.228515625,
+      0.3638660770688566,
+      0.24462890625
+    ],
+    "Borrower: $C\\_Name, Loan\\#$"
+  ],
+  [
+    [
+      0.19709412507896398,
+      0.25732421875,
+      0.7283638660770688,
+      0.27978515625
+    ],
+    "- Select tuples of the loan relation where the branch name is “GMU”."
+  ],
+  [
+    [
+      0.34365129500947567,
+      0.283203125,
+      0.5293746051800379,
+      0.306640625
+    ],
+    "$\\sigma_{Bname = 'GMU'} (Loan)$"
+  ],
+  [
+    [
+      0.19519898926089704,
+      0.318359375,
+      0.7075173720783323,
+      0.33740234375
+    ],
+    "- Find all tuples in which the amount of loan is more than \\$12000."
+  ],
+  [
+    [
+      0.25142135186355025,
+      0.341796875,
+      0.42830069488313327,
+      0.36181640625
+    ],
+    "$\\sigma_{amount > 12000} (Loan)$"
+  ],
+  [
+    [
+      0.19330385344283008,
+      0.37646484375,
+      0.848389134554643,
+      0.40087890625
+    ],
+    "- Find those tuples pertaining to loans of more than \\$ 12000 made by “GMU” branch."
+  ],
+  [
+    [
+      0.24573594440934934,
+      0.392578125,
+      0.7561591914087177,
+      0.4345703125
+    ],
+    "$\\sigma_{amount > 12000 \\text{ AND } Bname = 'GMU'} (Loan) \\quad \\text{or,} \\quad R1 \\cap R2$"
+  ],
+  [
+    [
+      0.1901452937460518,
+      0.4375,
+      0.5596967782691092,
+      0.4541015625
+    ],
+    "- List all loan numbers and the amount of loan."
+  ],
+  [
+    [
+      0.24899999999999997,
+      0.459,
+      0.462,
+      0.488
+    ],
+    "$\\Pi_{Loan\\#, Amount} \\quad Loan$"
+  ],
+  [
+    [
+      0.1901452937460518,
+      0.498046875,
+      0.6140240050536955,
+      0.513671875
+    ],
+    "- Find the names of all customers who live in “Fairfax”."
+  ],
+  [
+    [
+      0.262792166771952,
+      0.5185546875,
+      0.5900189513581807,
+      0.54833984375
+    ],
+    "$\\Pi_{name} \\left( \\sigma_{(-city = 'Fairfax')} (Customers) \\right)$"
+  ],
+  [
+    [
+      0.1901452937460518,
+      0.55810546875,
+      0.8540745420088439,
+      0.5751953125
+    ],
+    "- Find the names of all bank customers who have either an account or a loan or both."
+  ],
+  [
+    [
+      0.2545799115603285,
+      0.576171875,
+      0.6670878079595705,
+      0.6025390625
+    ],
+    "$\\Pi_{name} (Depositor) \\cup \\Pi_{name} (Borrower)$"
+  ],
+  [
+    [
+      0.18888186986734049,
+      0.6201171875,
+      0.8307012002526848,
+      0.63330078125
+    ],
+    "- Find the names of all customers of the bank who have an account but not a loan."
+  ],
+  [
+    [
+      0.26468730259001894,
+      0.64404296875,
+      0.6481364497789008,
+      0.66845703125
+    ],
+    "$\\Pi_{name} (Depositor) - \\Pi_{name} (Borrower)$"
+  ],
+  [
+    [
+      0.18825015792798483,
+      0.68115234375,
+      0.7530006317119393,
+      0.6943359375
+    ],
+    "- Find the names of all customers who have both a loan and an account."
+  ],
+  [
+    [
+      0.273,
+      0.692,
+      0.683,
+      0.731
+    ],
+    "$\\Pi_{name} (Depositor) \\cap \\Pi_{name} (Borrower)$"
+  ],
+  [
+    [
+      0.03790271636133923,
+      0.03173828125,
+      0.26910928616550855,
+      0.05517578125
+    ],
+    "- Cartesian Product"
+  ],
+  [
+    [
+      0.10486418193303854,
+      0.07958984375,
+      0.6165508528111181,
+      0.126953125
+    ],
+    "$\\delta_{Cid.1} = Cid.2 \\left( Climbs \\times Climbers \\right)$"
+  ],
+  [
+    [
+      0.07896399241945673,
+      0.13671875,
+      0.5287428932406822,
+      0.1806640625
+    ],
+    "*In general, very expensive...*"
+  ],
+  [
+    [
+      0.07833228048010107,
+      0.19970703125,
+      0.41882501579279846,
+      0.2392578125
+    ],
+    "Use JOIN instead"
+  ],
+  [
+    [
+      0.04990524320909665,
+      0.25732421875,
+      0.38787113076437146,
+      0.29638671875
+    ],
+    "- (THETA) JOIN"
+  ],
+  [
+    [
+      0.1244472520530638,
+      0.30517578125,
+      0.459886291850916,
+      0.35546875
+    ],
+    "- Join of two relations"
+  ],
+  [
+    [
+      0.24447252053063803,
+      0.36181640625,
+      0.6298168035375868,
+      0.41162109375
+    ],
+    "$R \\bowtie_c S = \\delta_c (R \\times S)$"
+  ],
+  [
+    [
+      0.3439999999999999,
+      0.416,
+      0.875,
+      0.451
+    ],
+    "$\\rightarrow c$ is called a Join condition"
+  ],
+  [
+    [
+      0.3145925457991156,
+      0.46484375,
+      0.5521162349968415,
+      0.4990234375
+    ],
+    "— usually using full constraint."
+  ],
+  [
+    [
+      0.682,
+      0.451,
+      0.925,
+      0.54
+    ],
+    "$\\rightarrow$ can only have attribute name"
+  ],
+  [
+    [
+      0.648,
+      0.538,
+      0.892,
+      0.64
+    ],
+    "*this is different from SELECTION condition*"
+  ],
+  [
+    [
+      0.227,
+      0.629,
+      0.682,
+      0.69
+    ],
+    "$Climbs \\bowtie (Cid.1 = Cid.2) Climbers$"
+  ],
+  [
+    [
+      0.05369551484523057,
+      0.68994140625,
+      1.0,
+      0.755859375
+    ],
+    "— there should be fewer tuples in JOIN compared to PRODUCT"
+  ],
+  [
+    [
+      0.03916614024005054,
+      0.0322265625,
+      0.29058749210360074,
+      0.0576171875
+    ],
+    "- Natural Join"
+  ],
+  [
+    [
+      0.12571067593177512,
+      0.06298828125,
+      0.6525584333543903,
+      0.09765625
+    ],
+    "- where the condition is *implied*"
+  ],
+  [
+    [
+      0.12381554011370816,
+      0.10888671875,
+      0.5192672141503475,
+      0.1376953125
+    ],
+    "- not *knowledges* to us"
+  ],
+  [
+    [
+      0.05053695514845231,
+      0.22216796875,
+      0.7454200884396716,
+      0.28759765625
+    ],
+    "① Sailors × Resources (Cartesian, 6 tuples)"
+  ],
+  [
+    [
+      0.030322173089071383,
+      0.2822265625,
+      0.7953253316487682,
+      0.36279296875
+    ],
+    "② Sailors ∞ Resources (Theta Join) Sailors.Sid < Resources.Sid"
+  ],
+  [
+    [
+      0.142,
+      0.372,
+      0.727,
+      0.481
+    ],
+    "<table>\n  <tr>\n    <th>S.Sid</th>\n    <th>...</th>\n    <th>R.Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>31</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.037,
+      0.479,
+      0.9179999999999999,
+      0.583
+    ],
+    "③ Sailors ⋈ Resources (Equijoin) S.Sid = R.Sid (7 columns)"
+  ],
+  [
+    [
+      0.131396083385976,
+      0.59423828125,
+      0.6727732154137713,
+      0.6640625
+    ],
+    "<table>\n  <tr>\n    <th>S.Sid</th>\n    <th>...</th>\n    <th>R.Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n    <td>22</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td></td>\n    <td>58</td>\n    <td></td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.17877447883765002,
+      0.67236328125,
+      0.9627289955780164,
+      0.75390625
+    ],
+    "④ Sailors → Resources (Natural Join) (6 columns)"
+  ],
+  [
+    [
+      0.142,
+      0.718,
+      0.532,
+      0.792
+    ],
+    "<table>\n  <tr>\n    <th>Sid</th>\n    <th>...</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td></td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.06696146557169931,
+      0.0205078125,
+      0.8888186986734049,
+      0.08154296875
+    ],
+    "$\\pi_{S.sname} \\left( \\sigma_{r,bw} = 103 \\left( Sailors \\bowtie_{S.sid} Reserves \\right) \\right)$"
+  ],
+  [
+    [
+      0.335,
+      0.172,
+      0.404,
+      0.181
+    ],
+    "11:10 AM Mon Mar 16"
+  ],
+  [
+    [
+      0.4718888186986734,
+      0.20849609375,
+      0.5647504737839545,
+      0.22216796875
+    ],
+    "## Exercise"
+  ],
+  [
+    [
+      0.351,
+      0.253,
+      0.517,
+      0.314
+    ],
+    "<table>\n  <tr>\n    <th>sid</th>\n    <th>sname</th>\n    <th>rating</th>\n    <th>age</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td>Dustin</td>\n    <td>7</td>\n    <td>45</td>\n  </tr>\n  <tr>\n    <td>31</td>\n    <td>Lubber</td>\n    <td>8</td>\n    <td>55</td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td>Rusty</td>\n    <td>10</td>\n    <td>35</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.531,
+      0.253,
+      0.681,
+      0.322
+    ],
+    "<table>\n  <tr>\n    <th>bid</th>\n    <th>bname</th>\n    <th>color</th>\n  </tr>\n  <tr>\n    <td>101</td>\n    <td>Interlake</td>\n    <td>blue</td>\n  </tr>\n  <tr>\n    <td>102</td>\n    <td>Interlake</td>\n    <td>red</td>\n  </tr>\n  <tr>\n    <td>103</td>\n    <td>Clipper</td>\n    <td>green</td>\n  </tr>\n  <tr>\n    <td>104</td>\n    <td>Marine</td>\n    <td>red</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.3487049905243209,
+      0.322265625,
+      0.41377132027795327,
+      0.33056640625
+    ],
+    "### Reserves"
+  ],
+  [
+    [
+      0.351,
+      0.34,
+      0.483,
+      0.387
+    ],
+    "<table>\n  <tr>\n    <th>sid</th>\n    <th>bid</th>\n    <th>day</th>\n  </tr>\n  <tr>\n    <td>22</td>\n    <td>101</td>\n    <td>10/10/96</td>\n  </tr>\n  <tr>\n    <td>58</td>\n    <td>103</td>\n    <td>11/12/96</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.4314592545799116,
+      0.435546875,
+      0.605811749842072,
+      0.45263671875
+    ],
+    "## Exercise (Cont.)"
+  ],
+  [
+    [
+      0.352,
+      0.462,
+      0.6879999999999998,
+      0.48085714285714287
+    ],
+    "- Find the names of sailors who have reserved boat 103."
+  ],
+  [
+    [
+      0.352,
+      0.48085714285714287,
+      0.6879999999999998,
+      0.4997142857142857
+    ],
+    "- Find the names of sailors who have reserved a red boat."
+  ],
+  [
+    [
+      0.352,
+      0.4997142857142857,
+      0.6879999999999998,
+      0.5185714285714286
+    ],
+    "- Find the colors of boats reserved by Dustin."
+  ],
+  [
+    [
+      0.352,
+      0.5185714285714286,
+      0.6879999999999998,
+      0.5374285714285714
+    ],
+    "- Find the names of sailors who have reserved at least one boat."
+  ],
+  [
+    [
+      0.352,
+      0.5374285714285714,
+      0.6879999999999998,
+      0.5562857142857143
+    ],
+    "- Find the names of sailors who have reserved a red or a green boat."
+  ],
+  [
+    [
+      0.352,
+      0.5562857142857143,
+      0.6879999999999998,
+      0.5751428571428572
+    ],
+    "- Find the names of sailors who have reserved a red and a green boat."
+  ],
+  [
+    [
+      0.352,
+      0.5751428571428572,
+      0.6879999999999998,
+      0.594
+    ],
+    "- Find the names of sailors with age over 20 who have"
+  ],
+  [
+    [
+      0.022741629816803537,
+      0.6005859375,
+      0.9406190777005685,
+      0.66748046875
+    ],
+    "① $\\pi_{sname} \\left( Sailors \\bowtie \\left( \\sigma_{bid=103} Reserves \\right) \\right)$"
+  ],
+  [
+    [
+      0.013265950726468731,
+      0.65087890625,
+      0.981680353758686,
+      0.72509765625
+    ],
+    "② $\\pi_{sname} \\left( \\sigma_{color='red'} \\left( Sailors \\bowtie \\left( Boats \\bowtie Reserves \\right) \\right) \\right)$"
+  ],
+  [
+    [
+      0.022741629816803537,
+      0.72998046875,
+      0.8294377763739734,
+      0.78173828125
+    ],
+    "③ $\\pi_{color} \\left( \\sigma_{sname} Sailors \\right) \\bowtie Reserves \\bowtie Boats$"
+  ],
+  [
+    [
+      0.025900189513581806,
+      0.79736328125,
+      0.9892608970309539,
+      0.84423828125
+    ],
+    "④ $\\pi_{sname} \\left( Sailors \\bowtie Reserves \\right)$"
+  ],
+  [
+    [
+      0.011,
+      0.037,
+      0.81,
+      0.103
+    ],
+    "(5) $\\pi_{sname} \\left( \\left( \\sigma_{b.color = 'red'} \\text{ OR } \\sigma_{b.color = 'green'} \\right) \\cap R \\cap B \\right)$"
+  ],
+  [
+    [
+      0.019,
+      0.503,
+      0.897,
+      0.605
+    ],
+    "(6) $\\text{red} \\rightarrow \\pi_{s.b.name} \\left( S \\cap R \\cap \\left( \\sigma_{b.color = 'red'} B \\right) \\cap S \\right)$"
+  ],
+  [
+    [
+      0.019,
+      0.605,
+      0.897,
+      0.707
+    ],
+    "$\\text{green} \\rightarrow \\pi_{s.b.name} \\left( S \\cap R \\cap \\left( \\sigma_{b.color = 'green'} B \\right) \\cap S \\right)$"
+  ],
+  [
+    [
+      0.107,
+      0.727,
+      0.6870000000000002,
+      0.803
+    ],
+    "$R \\cap G \\leftarrow \\pi_{sname} \\left( \\text{Red} \\cap \\text{Green} \\right)$"
+  ],
+  [
+    [
+      0.018,
+      0.022,
+      0.8,
+      0.068
+    ],
+    "② $R_1 \\leftarrow \\pi_{sid} \\left( \\text{6 edge} > 20 \\text{ sailors} \\right)$"
+  ],
+  [
+    [
+      0.35754895767530004,
+      0.095703125,
+      0.8382817435249527,
+      0.146484375
+    ],
+    "$R_2 \\leftarrow \\pi_{sid} \\left( R \\times \\left( \\text{6 color} = \\text{red} \\right) \\right)$"
+  ],
+  [
+    [
+      0.1244472520530638,
+      0.16748046875,
+      0.815540113708149,
+      0.23974609375
+    ],
+    "$R \\leftarrow \\pi_{sname} \\left( (R_1 - R_2) \\times \\text{Sailors} \\right)$"
+  ],
+  [
+    [
+      0.02337334175615919,
+      0.29638671875,
+      0.40998104864181933,
+      0.34375
+    ],
+    "- Division in SQL query"
+  ],
+  [
+    [
+      0.1231838281743525,
+      0.3955078125,
+      0.22236260265319013,
+      0.42041015625
+    ],
+    "ClimbS"
+  ],
+  [
+    [
+      0.1,
+      0.424,
+      0.277,
+      0.548
+    ],
+    "<table>\n  <tr>\n    <th>Cid</th>\n    <th>sid</th>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>B</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>A</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.3809222994314593,
+      0.38916015625,
+      0.46873025900189513,
+      0.41455078125
+    ],
+    "C × R"
+  ],
+  [
+    [
+      0.383,
+      0.424,
+      0.7099999999999999,
+      0.607
+    ],
+    "<table>\n  <tr>\n    <th>Cid</th>\n    <th>Rid</th>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>B</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>B</td>\n  </tr>\n</table>"
+  ],
+  [
+    [
+      0.163,
+      0.62,
+      0.613,
+      0.67
+    ],
+    "$C \\times R - \\pi_{Cid, Rid} \\left( \\text{Climbs} \\right)$"
+  ],
+  [
+    [
+      0.11054958938723942,
+      0.68408203125,
+      0.16298168035375868,
+      0.70849609375
+    ],
+    "or,"
+  ],
+  [
+    [
+      0.15161086544535693,
+      0.70703125,
+      0.8085912823752369,
+      0.7890625
+    ],
+    "$\\pi_{Cid, Rid} \\left( \\text{Climbs} \\right) \\div \\left( \\pi_{Rid} \\text{Routes} \\right)$"
+  ],
+  [
+    [
+      0.19583070120025267,
+      0.7978515625,
+      0.6304485154769425,
+      0.83642578125
+    ],
+    "*Climbers who have climbed all routes*"
+  ],
+  [
+    [
+      0.084,
+      0.851,
+      0.887,
+      0.931
+    ],
+    "What about \"Routes that have been climbed by all climbers\"?"
+  ],
+  [
+    [
+      0.08085912823752368,
+      0.0234375,
+      0.50726468730259,
+      0.0595703125
+    ],
+    "Confused on division..."
+  ],
+  [
+    [
+      0.12886923562855337,
+      0.0810546875,
+      0.5540113708149084,
+      0.134765625
+    ],
+    "- division keyword: $\\boxed{\\text{ALL}}$"
+  ],
+  [
+    [
+      0.12255211623499684,
+      0.15625,
+      0.8370183196462413,
+      0.27099609375
+    ],
+    "① find names of sailors who have reserved all boats $\\Rightarrow$ denominator"
+  ],
+  [
+    [
+      0.17877447883765002,
+      0.35546875,
+      0.8717624763108023,
+      0.42236328125
+    ],
+    "$R_1 \\leftarrow \\pi_{sid, bid} (\\text{Reserves}) / \\pi_{sid} (\\text{Boots})$"
+  ],
+  [
+    [
+      0.17687934301958308,
+      0.43994140625,
+      0.7144662034112444,
+      0.51220703125
+    ],
+    "$R \\leftarrow \\pi_{name} (R_1 \\bowtie \\text{Sailors})$"
+  ],
+  [
+    [
+      0.04295641187618446,
+      0.56103515625,
+      0.9475679090334808,
+      0.61328125
+    ],
+    "② $R_1 \\leftarrow (\\pi_{sid, bid} \\text{Reserves}) \\div \\pi_{bid} (\\text{Boots})$"
+  ],
+  [
+    [
+      0.275,
+      0.668,
+      0.6870000000000002,
+      0.729
+    ],
+    "Recap of Relational Algebra Operations"
+  ],
+  [
+    [
+      0.272,
+      0.748,
+      0.6960000000000001,
+      0.7693
+    ],
+    "- Select $\\sigma_{<selection\\ condition>} R$"
+  ],
+  [
+    [
+      0.272,
+      0.7693,
+      0.6960000000000001,
+      0.7906
+    ],
+    "- Project $\\pi_{<attribute\\ list>} R$"
+  ],
+  [
+    [
+      0.272,
+      0.7906,
+      0.6960000000000001,
+      0.8119
+    ],
+    "- Union $R \\cup S$"
+  ],
+  [
+    [
+      0.272,
+      0.8119,
+      0.6960000000000001,
+      0.8331999999999999
+    ],
+    "- Intersection $R \\cap S$"
+  ],
+  [
+    [
+      0.272,
+      0.8331999999999999,
+      0.6960000000000001,
+      0.8545
+    ],
+    "- Difference $R - S$"
+  ],
+  [
+    [
+      0.272,
+      0.8545,
+      0.6960000000000001,
+      0.8757999999999999
+    ],
+    "- Cross product $R \\times S$"
+  ],
+  [
+    [
+      0.272,
+      0.8757999999999999,
+      0.6960000000000001,
+      0.8971
+    ],
+    "- Join $R \\bowtie_{<join\\ condition>} S$"
+  ],
+  [
+    [
+      0.272,
+      0.8971,
+      0.6960000000000001,
+      0.9184
+    ],
+    "- Natural join $R \\bowtie S$"
+  ],
+  [
+    [
+      0.272,
+      0.9184,
+      0.6960000000000001,
+      0.9397
+    ],
+    "- Division $R \\div S$"
+  ],
+  [
+    [
+      0.272,
+      0.9397,
+      0.6960000000000001,
+      0.961
+    ],
+    "- Rename $\\rho_{<new\\ schema>} R$"
+  ],
+  [
+    [
+      0.2337334175615919,
+      0.10107421875,
+      0.42072015161086546,
+      0.11669921875
+    ],
+    "Sailors (sid, sname, rating, age)"
+  ],
+  [
+    [
+      0.2324699936828806,
+      0.12451171875,
+      0.38408085912823753,
+      0.1396484375
+    ],
+    "Boats (bid, bname, color)"
+  ],
+  [
+    [
+      0.23057485786481363,
+      0.14794921875,
+      0.3708149084017688,
+      0.16357421875
+    ],
+    "Reserves (sid, bid, day)"
+  ],
+  [
+    [
+      0.26910928616550855,
+      0.1728515625,
+      0.5906506632975363,
+      0.18994140625
+    ],
+    "- Find the names of sailors who have reserved all boats."
+  ],
+  [
+    [
+      0.243,
+      0.198,
+      0.704,
+      0.21550000000000002
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.243,
+      0.21550000000000002,
+      0.704,
+      0.233
+    ],
+    "P(R1, \\pi_{\\text{bid}} \\text{Reserves} \\div \\pi_{\\text{bid}} \\text{Boats}) \\\\"
+  ],
+  [
+    [
+      0.243,
+      0.233,
+      0.704,
+      0.2505
+    ],
+    "\\pi(R1 \\times \\text{Sailors})"
+  ],
+  [
+    [
+      0.243,
+      0.2505,
+      0.704,
+      0.268
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.26721415034744156,
+      0.26953125,
+      0.6822488945041061,
+      0.28662109375
+    ],
+    "- Find the names of sailors who have reserved all boats called Interlake."
+  ],
+  [
+    [
+      0.2621604548325963,
+      0.3671875,
+      0.6967782691092862,
+      0.384765625
+    ],
+    "- Find the names of sailors who have reserved at least two different boats."
+  ],
+  [
+    [
+      0.299,
+      0.388,
+      0.767,
+      0.4052
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.299,
+      0.4052,
+      0.767,
+      0.4224
+    ],
+    "R1 \\times \\text{Reserves} \\\\"
+  ],
+  [
+    [
+      0.299,
+      0.4224,
+      0.767,
+      0.4396
+    ],
+    "R1.sid = \\text{Reserves}.sid \\text{ AND} \\\\"
+  ],
+  [
+    [
+      0.299,
+      0.4396,
+      0.767,
+      0.4568
+    ],
+    "R1.bid \\neq R2.bid"
+  ],
+  [
+    [
+      0.299,
+      0.4568,
+      0.767,
+      0.474
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.25773847125710675,
+      0.4697265625,
+      0.7049905243209097,
+      0.4853515625
+    ],
+    "- Find the names of sailors who have reserved the same boat at least twice."
+  ],
+  [
+    [
+      0.218,
+      0.49,
+      0.717,
+      0.5058571428571429
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.218,
+      0.5058571428571429,
+      0.717,
+      0.5217142857142857
+    ],
+    "P(R1, \\text{Reserves}) \\\\"
+  ],
+  [
+    [
+      0.218,
+      0.5217142857142857,
+      0.717,
+      0.5375714285714286
+    ],
+    "T1 \\leftarrow \\pi_{\\text{sid}}(R1 \\times \\text{Reserves}) \\\\"
+  ],
+  [
+    [
+      0.218,
+      0.5375714285714286,
+      0.717,
+      0.5534285714285714
+    ],
+    "R1.sid = \\text{Reserves}.sid \\text{ AND} \\\\"
+  ],
+  [
+    [
+      0.218,
+      0.5534285714285714,
+      0.717,
+      0.5692857142857143
+    ],
+    "R1.bid = \\text{Reserves}.bid \\text{ AND} \\\\"
+  ],
+  [
+    [
+      0.218,
+      0.5692857142857143,
+      0.717,
+      0.5851428571428571
+    ],
+    "R1.day \\neq \\text{Reserves}.day"
+  ],
+  [
+    [
+      0.218,
+      0.5851428571428571,
+      0.717,
+      0.601
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.26,
+      0.607,
+      0.7180000000000001,
+      0.6373333333333333
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.26,
+      0.6373333333333333,
+      0.7180000000000001,
+      0.6676666666666666
+    ],
+    "R \\in \\pi_{\\text{name}}(T, \\times \\text{Sailors})"
+  ],
+  [
+    [
+      0.24447252053063803,
+      0.6630859375,
+      0.7157296272899558,
+      0.71435546875
+    ],
+    "$$"
+  ],
+  [
+    [
+      0.04990524320909665,
+      0.73486328125,
+      0.8660770688566014,
+      0.80224609375
+    ],
+    "- essentially creating multiple renames / aliases as needed"
+  ],
+  [
+    [
+      0.11181301326595072,
+      0.84716796875,
+      0.5287428932406822,
+      0.9169921875
+    ],
+    "- PREP for QUIZ"
+  ],
+  [
+    [
+      0.7972204674668352,
+      0.3720703125,
+      0.9639924194567278,
+      0.3955078125
+    ],
+    "$\\pi(R1, \\text{Reserve})$"
+  ],
+  [
+    [
+      0.029,
+      0.024,
+      0.238,
+      0.068
+    ],
+    "$\\text{Project 1-3}$"
+  ]
+]

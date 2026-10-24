@@ -100,3 +100,24 @@ An inline letter/subscript expression inside prose gets a second reading of the 
 Grounded backends accept the same `pages` keyword and select before rendering or inference. A `GroundedResponse` includes `page_indices`, aligned with `page_sizes`, for every selected page even when recognition fails. Its blocks use original source indices. This lets the pipeline distinguish an unselected page from a selected page with missing text; older full-document backends may leave `page_indices=None` to retain the contiguous-page contract. The experimental `ZAIHostedOCR` skeleton rejects page selections because its service-side selection API has not been implemented.
 
 PDF and HTML writers retain the complete document and render all background pages when writing output. Only selected pages receive new OCR text; Markdown and text writers include only processed pages. This preserves the existing output behavior while limiting OCR rendering, detection, and inference to the requested pages.
+
+## Optional layout experiments
+
+[PP-DocLayoutV3](https://huggingface.co/PaddlePaddle/PP-DocLayoutV3) predicts document
+regions, polygons and reading order. The [local evaluation](../evals/lighton-layout-2026-10-24.md)
+found no consistent line-placement improvement from using its regions to anchor
+LightOn text. It remains a diagnostic option; Surya supplies the production line
+anchors. A layout region detector does not itself transcribe text inside figures.
+
+Run the standalone probe in a separate environment with `transformers>=5.5,<6`,
+`torch`, `torchvision`, `Pillow` and `PyMuPDF`; the production Surya environment
+does not need an upgrade. The probe saves region coordinates, reading order and
+a PNG overlay without changing OCR output:
+
+```powershell
+python scripts/layout_probe.py examples/hybrid.pdf layout-results --page 1
+```
+
+The default weights are the official
+[safetensors conversion](https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors).
+Use `--model` for a downloaded directory and `--device` to change the default CPU.

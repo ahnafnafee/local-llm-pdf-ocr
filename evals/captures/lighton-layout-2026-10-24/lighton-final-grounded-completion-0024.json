@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 3.7189999999827705,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-RTcS0gulq8XxPdUdtZyGTN0rMu51wXmz",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](56,11,918,101) - in 'pure' relational algebra, selections should be sets, so no duplicates\n\n![text](118,103,720,157) - But in SQL, it's a multiset\n\n![text](36,164,612,224) - $\\pi$ is unary, not commutative\n\n![text](187,253,652,320) $\\pi_{name, age} (6 \\text{ ages}, 30 \\text{ climbers})$\n\n![text](154,333,753,427) $\\downarrow$\n\nSELECT name, age FROM CLIMBERS WHERE age > 30\n\n![text](120,462,886,550) - usually we apply the filter first and then project attributes\n\n![text](28,568,838,668) Do we need to check union compatibility for Cartesian product?\n\n![text](67,648,940,757) - No, since it already returns all list of combination uniquely",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844143,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 268,
+      "prompt_tokens": 2096,
+      "total_tokens": 2364,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 959.075,
+      "prompt_per_token_ms": 0.4575739503816794,
+      "prompt_per_second": 2185.4390949612907,
+      "predicted_n": 268,
+      "predicted_ms": 2616.919,
+      "predicted_per_token_ms": 9.801194756554306,
+      "predicted_per_second": 102.02837764562067
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 3.7809999999881256,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-sl5nEqg93Z7dxoNX45ChhZX2z63JyqoF",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](0,14,688,83) # Mapping of Binary 1:N Relationship Sets\n\n![image](107,64,963,466) Entity-relationship diagram showing Act, Branch, and their attributes with N:1 mapping.\n\n![title](24,474,742,544) # Mapping Binary M:N relationship Sets\n\n![list](175,544,931,674)\n- always create separate table for relationship set if $\\frac{M:N}{\\text{}}$\n- relationship attr can't be shifted\n\n![image](107,674,963,872) Entity-relationship diagram showing S, R, T with attributes and PKs, plus a note about circular dependency.\n\n![text](242,853,842,955) can't apply F-K approach here since it could create circular dependency",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844416,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 213,
+      "prompt_tokens": 3152,
+      "total_tokens": 3365,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1534.507,
+      "prompt_per_token_ms": 0.48683597715736043,
+      "prompt_per_second": 2054.079909703898,
+      "predicted_n": 213,
+      "predicted_ms": 2059.39,
+      "predicted_per_token_ms": 9.714103773584904,
+      "predicted_per_second": 102.94310451153012
+    }
+  }
+}

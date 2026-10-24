@@ -1,0 +1,36 @@
+[
+  {
+    "document": "hybrid",
+    "seconds": 3.5,
+    "lines": [
+      {
+        "text": "Runny nose, mucas in throat, weakness,",
+        "confidence": 0.9879549726843834
+      }
+    ]
+  },
+  {
+    "document": "notes",
+    "seconds": 1.8910000000032596,
+    "lines": [
+      {
+        "text": "- Fa can have null value",
+        "confidence": 0.9662357591665708
+      }
+    ]
+  },
+  {
+    "document": "handwritten",
+    "seconds": 6.2189999999827705,
+    "lines": [
+      {
+        "text": "Algorithms,",
+        "confidence": 0.962726157445174
+      },
+      {
+        "text": "- Holting: the algo reeds to finish in finite",
+        "confidence": 0.9582735934156053
+      }
+    ]
+  }
+]

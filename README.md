@@ -153,6 +153,8 @@ LightOnOCR-3 is the default recognition model. The local endpoint remains unchan
 The [October 2026 comparison](evals/model-comparison-2026-10.md) includes
 LightOnOCR-3, PaddleOCR-VL-1.6, Unlimited-OCR, Chandra OCR 2 and Qwen3.5-9B.
 Those results preserve the earlier configurations and their recognition errors.
+The [LightOnOCR-3 validation](evals/lighton-layout-2026-10-24.md) records the current
+native-layout pipeline, repeated live tests, and PP-DocLayoutV3 experiments.
 Model defaults can be overridden independently of the server application.
 
 For LightOnOCR-3, serve the [official chat template](https://huggingface.co/lightonai/LightOnOCR-3-4B/blob/main/chat_template.jinja)
@@ -390,10 +392,11 @@ Confidence evaluation (needs a live LLM endpoint):
 ```bash
 uv run scripts/confidence_eval.py --path both \
     --grounded-model lightonai/LightOnOCR-3-4B \
-    --hybrid-model lightonai/LightOnOCR-3-4B
+    --hybrid-model lightonai/LightOnOCR-3-4B \
+    --baseline-dir .cache/lightonocr-3-baselines
 ```
 
-Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document content checks. Runs append to `evals/history.csv` and compare compatible per-document baselines where available; missing baselines do not imply a regression pass. Failed content checks and missing pages return nonzero. The [latest live validation](evals/validation-2026-10-24.md) records remaining recognition failures separately from passing unit and workflow tests.
+Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document content checks. Runs append to `evals/history.csv` and compare compatible per-document baselines where available; missing baselines do not imply a regression pass. Failed content checks and missing pages return nonzero. The [latest live validation](evals/lighton-layout-2026-10-24.md) records the actual LightOnOCR-3 results and their limitations. The existing olmOCR controls are incompatible with this model; select a separate `--baseline-dir` for a content-check run without that cross-model comparison.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 

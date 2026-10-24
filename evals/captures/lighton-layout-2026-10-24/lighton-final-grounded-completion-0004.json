@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 32.15600000001723,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-AGeX5r2rZGBFXVmHX8TJ87aJ0K0TmAqt",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](14,14,136,33) SQL in Application Code\n\n![list](14,33,136,51)\n- Two main integration approaches\n\n![text](14,51,136,69) (SU) Statement level interface → embedded SQL\n\n![text](14,68,136,87) - embed SQL\n\n![text](14,86,136,104) (CU) - Call-level interface → JDBC\n\n![text](14,103,136,121) - special API to → ODBC\n\n![text](14,120,136,138) SQL commands\n\n![table](14,138,136,277) <table>\n  <tr>\n    <th rowspan=\"2\">SQL</th>\n    <th rowspan=\"2\">Precompiler</th>\n    <th rowspan=\"2\">Schema Info</th>\n    <th rowspan=\"2\">Adapter Info</th>\n    <th rowspan=\"2\">Multiple DB</th>\n    <th rowspan=\"2\">Storage</th>\n    <th rowspan=\"2\">DB</th>\n  </tr>\n  <tr>\n    <th>Yes</th>\n    <th>Yes</th>\n    <th>No</th>\n    <th>Higher</th>\n    <th>Lower</th>\n  </tr>\n  <tr>\n    <td>(CU)</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>Lower</td>\n    <td>Higher</td>\n  </tr>\n</table>\n\n![text](14,277,136,316) Schema of DB must be known at that program & written for embedded SQL\n\n![text](14,316,136,355) → can get info at runtime instead of compile time\n\n![list](14,355,136,373)\n- SALSTATE - common error var defined here\n\n![text](14,373,136,412) EXEC SQL SELECT S_name, S_age INTO :c-name, :c-age FROM SAILORS S WHERE S.SID = :c-SID\n\n![text](14,412,136,430) → in parameter\n\n![list](14,430,136,448)\n- for db, start index from 1\n\n![text](14,448,136,466) Project 2\n\n![list](14,466,136,484)\n- need to use LIKE for partial matching\n\n![list](14,484,136,501)\n- cross-check?\n\n![list](14,501,136,519)\n- program should NOT crash\n\n![list](14,519,136,558)\n- use grade for simplicity (cut that's what I know best)\n\n![list](14,558,136,576)\n- look out for redundancies in data instances\n\n![text](14,576,136,615) $t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]$\n\n![text](14,615,136,633) $t_1$ and $t_2$ → Any two rows in year table\n\n![text](14,633,136,651) $t_1[X]$ → look at the X columns of row 1\n\n![text](14,651,136,689) $t_1[X] = t_2[X]$ → row 1 and row 2 have same X values\n\n![text](14,689,136,707) $\\Rightarrow$ → forces\n\n![text](14,707,136,746) $t_1[Y] = t_2[Y]$ → row 1 and row 2 must also have same Y values\n\n![text](14,746,136,764) FD between non-key attributes is a RED FLAG that data is being repeatedly unnecessarily\n\n![list](14,764,136,803)\n- FD means one attr's value is completely controlled by another\n\n![text](14,803,136,842) - when controlling attr appears in multiple rows, its dependent value gets copied\n\n![text](14,842,136,860) passed → i.e. redundancy\n\n![list](14,860,136,878)\n- Impedance Mismatch problem\n\n![list](14,878,136,896)\n- fixed with cursor\n\n![text](14,896,136,914) OPEN: when SQL statement is executed\n\n![text](14,914,136,932) FETCH: when it moves to the next row\n\n![text](14,932,136,950) INSSENSITIVE cursor: cannot make changes to DB with cursor\n\n![text](14,950,136,968) If I want to update result, then declare sensitive cursor\n\n![text](14,968,136,986) → gives issue with collecting set of tuples\n\n![text](14,986,136,1003) CLOSE: closes the cursor\n\n![text](14,1003,136,1021) Cursor can be reopened when in variable is different\n\n![text](14,1021,136,1039) Note the poll !! question\n\n![list](14,1039,136,1057)\n- execute Update()\n\n![text](14,1057,136,1075) only returns number of rows (affected)\n\n![list](14,1075,136,1093)\n- see the comparison table for\n\n![text](14,1093,136,1111) JDBC vs SQLS\n\n![text](14,1111,136,1129) for managing complexity better\n\n![text](14,1129,136,1147) when to choose what?\n\n![text](14,1147,136,1165) L13: Functional Dependencies\n\n![text](14,1165,136,1183) Attribute Closure\n\n![text](14,1183,136,1201) L14: Normal Forms\n\n![text](14,1201,136,1219) Normalize\n\n![text](14,1219,136,1237) L15: Properties of Decomposition\n\n![text](14,1237,136,1255) Lossless Join + BD\n\n![text](14,1255,136,1273) Minimal Cover\n\n![text](14,1273,136,1291) L16: Decomposition Algorithms\n\n![list](14,1291,136,1309)\n- why repetition is problematic\n\n![list](14,1309,136,1327)\n- update anomaly\n\n![list](14,1327,136,1345)\n- insertion anomaly\n\n![list](14,1345,136,1363)\n- deletion anomaly\n\n![text](14,1363,136,1381) She is going way too fast for me to observe...\n\n![text](14,1381,136,1399) - see explanation in PRX\n\n![text](14,1399,136,1417) - $k = \\{A_1, A_2, \\ldots A_n\\}$ is a candidate key for relation R if\n\n![text](14,1417,136,1435) $K \\rightarrow$ all other attributes of R\n\n![text](14,1435,136,1453) AND\n\n![text](14,1453,136,1471) No attr in text of $k$ → all other attributes of R\n\n![list](14,1471,136,1489)\n- to make any changes, I need to declare a sensitive cursor\n\n![list](14,1489,136,1507)\n- embedded SQL recommended in systems that require high performance without JDBC overhead\n\n![list](14,1507,136,1525)\n- for dynamic SQL, we cannot reuse, since we need to prepare\n\n![text](14,1525,136,1543) JDBC/ODBC\n\n![text](14,1543,136,1561) JDBC does not require knowing details of schema info\n\n![list](14,1561,136,1579)\n- can connect to multiple DBs with multiple separate drivers\n\n![list](14,1579,136,1597)\n- all interactions with the DB performed via a connection object\n\n![text](14,1597,136,1637) Prepared Statement is more efficient to use since it's made to reuse as it is precompiled\n\n![list](14,1637,136,1655)\n- ? are placeholders\n\n![list](14,1655,136,1673)\n- Keyword → Redundancy\n\n![list](14,1673,136,1712)\n- FD: most important kind of constraint in the relational model\n\n![list](14,1712,136,1730)\n- associated with the schema, not the instance\n\n![list](14,1730,136,1748)\n- can I represent key constraint with FD?\n\n![text](14,1748,136,1766) $X \\rightarrow Y$\n\n![text](14,1766,136,1784) $X$ functionally determines $Y$\n\n![text](14,1784,136,1802) alternatively,\n\n![text](14,1802,136,1820) $Y$ is dependent on $X$\n\n![text](14,1820,136,1838) PhoneBook\n\n![table](14,1838,136,1977) <table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>2055550101</td>\n    <td>Alice</td>\n    <td>Fortex</td>\n  </tr>\n  <tr>\n    <td>3055550101</td>\n    <td>Alice</td>\n    <td>Fortex</td>\n  </tr>\n</table>\n\n![text](14,1977,136,2016) if I won someone's phone no, can I always figure out their name\n\n![text](14,2016,136,2034) Phone # → Name\n\n![list](14,2034,136,2052)\n- $X \\rightarrow Y2$\n\n![text](14,2052,136,2070) $\\sum X \\rightarrow Y$\n\n![text](14,2070,136,2088) $\\sum X \\rightarrow 2$\n\n![text](14,2088,136,2106) cannot decompose LHS\n\n![text](14,2106,136,2124) LHS is the determinant\n\n![text](14,2124,136,2142) - Closure of Attributes\n\n![list](14,2142,136,2160)\n- find all attributes dependent on $X$\n\n![text](14,2160,136,2178) if I know value of attr $X$ , what else can I figure out?\n\n![text](14,2178,136,2196) - i.e. closure of $X$\n\n![text](14,2196,136,2214) $AUA \\cdot X^+$\n\n![list](14,2214,136,2232)\n- think yourself as a detective\n\n![list](14,2232,136,2250)\n- start with one clue, let it lead to more clues",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792843904,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 3178,
+      "prompt_tokens": 2096,
+      "total_tokens": 5274,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 940.022,
+      "prompt_per_token_ms": 0.44848377862595423,
+      "prompt_per_second": 2229.7350487541776,
+      "predicted_n": 3178,
+      "predicted_ms": 31095.269,
+      "predicted_per_token_ms": 9.787620081838213,
+      "predicted_per_second": 102.16988314203037
+    }
+  }
+}

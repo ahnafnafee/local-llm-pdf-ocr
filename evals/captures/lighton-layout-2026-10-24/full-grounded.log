@@ -1,0 +1,134 @@
+
+>> digital.pdf  (GT: 16 blocks, 1700x2200)
+   grounded...
+request 1: 10.03s, finish=stop, tokens=888
+   digital.pdf          gt=16  pipeline=18  matched=13  recall=0.81 prec=0.72 
+hmean=0.76 iou_avg=0.75 text_sim_avg=1.00
+
+>> hybrid.pdf  (GT: 38 blocks, 1654x1962)
+   grounded...
+request 2: 5.50s, finish=stop, tokens=479
+   hybrid.pdf           gt=38  pipeline=14  matched=9   recall=0.24 prec=0.64 
+hmean=0.35 iou_avg=0.54 text_sim_avg=0.85
+
+>> handwritten.pdf  (GT: 14 blocks, 1654x2170)
+   grounded...
+request 3: 3.44s, finish=stop, tokens=257
+   handwritten.pdf      gt=14  pipeline=7   matched=6   recall=0.43 prec=0.86 
+hmean=0.57 iou_avg=0.63 text_sim_avg=0.81
+
+>> dense.pdf  (GT: 365 blocks, 612x792)
+   grounded...
+request 4: 32.06s, finish=stop, tokens=3178
+WARNING:root:Grounded page 1 region needs subdivision at depth 0 (Invalid LightOnOCR bounding box).
+request 5: 12.55s, finish=stop, tokens=1261
+WARNING:root:Grounded page 1 region needs subdivision at depth 1 (Invalid LightOnOCR bounding box).
+request 6: 19.98s, finish=length, tokens=2048
+WARNING:root:grounded OCR failed for page 1: IncompleteCompletionError: Vision response reached the 2048 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller regions.
+request 7: 41.36s, finish=length, tokens=4096
+WARNING:root:Grounded page 2 region needs subdivision at depth 0 (Vision response reached the 4096 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller regions.).
+WARNING:root:Grounded page 2 region needs subdivision at depth 1 (Vision response reached the 4096 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller regions.).
+request 8: 40.33s, finish=length, tokens=4096
+request 9: 5.58s, finish=stop, tokens=564
+request 10: 5.41s, finish=stop, tokens=544
+request 11: 3.94s, finish=stop, tokens=391
+request 12: 7.06s, finish=stop, tokens=686
+request 13: 8.75s, finish=stop, tokens=854
+request 14: 21.97s, finish=stop, tokens=2124
+   grounded failed: RuntimeError: Grounded OCR returned no text on source 
+page(s) [1]. page 1: IncompleteCompletionError: Vision response reached the 
+2048 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller 
+regions.
+
+>> notes.pdf  (GT: 467 blocks, 612x792)
+   grounded...
+request 15: 6.91s, finish=stop, tokens=492
+request 16: 5.67s, finish=stop, tokens=398
+request 17: 3.80s, finish=stop, tokens=241
+request 18: 4.30s, finish=stop, tokens=285
+request 19: 2.47s, finish=stop, tokens=120
+request 20: 2.69s, finish=stop, tokens=126
+request 21: 3.41s, finish=stop, tokens=192
+request 22: 2.26s, finish=stop, tokens=91
+request 23: 4.86s, finish=stop, tokens=324
+request 24: 6.11s, finish=stop, tokens=436
+request 25: 4.20s, finish=stop, tokens=268
+request 26: 9.02s, finish=stop, tokens=739
+request 27: 9.36s, finish=stop, tokens=846
+request 28: 4.84s, finish=stop, tokens=387
+request 29: 6.92s, finish=stop, tokens=599
+request 30: 12.02s, finish=stop, tokens=1119
+request 31: 9.17s, finish=stop, tokens=826
+request 32: 7.97s, finish=stop, tokens=679
+request 33: 5.20s, finish=stop, tokens=404
+request 34: 7.12s, finish=stop, tokens=611
+request 35: 1.34s, finish=stop, tokens=26
+   notes.pdf            gt=467 pipeline=190 matched=152 recall=0.33 prec=0.80 
+hmean=0.46 iou_avg=0.64 text_sim_avg=0.76
+
+                             Confidence evaluation                             
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│     │     │     │     │     │     │     │     │     │     │ BoW │     │     │
+│ do… │ pa… │  GT │ Pi… │ Re… │ R@… │ Hm… │ IoU │ Sim │ CER │  F1 │ Ch… │ Ch… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ di… │ gr… │  16 │  18 │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ hy… │ gr… │  38 │  14 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ ha… │ gr… │  14 │   7 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 10… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ no… │ gr… │ 467 │ 190 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 4/5 │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Unmatched GT blocks in digital.pdf (grounded):
+  - 'Student e-mail address: ___________________________________'  
+(best_iou=0.25)
+  - 'Student G#: ___________________________________'  (best_iou=0.13)
+  - 'Student: CS Faculty Supervisor: PhD CS Program Director:'  (best_iou=0.22)
+
+Unmatched GT blocks in hybrid.pdf (grounded):
+  - 'Date:'  (best_iou=0.07)
+  - 'Name:'  (best_iou=0.03)
+  - 'Sally Walker'  (best_iou=0.24)
+  - 'DOB:'  (best_iou=0.03)
+  - '09/04/1986'  (best_iou=0.15)
+  - 'Address:'  (best_iou=0.05)
+  ... and 23 more.
+
+Unmatched GT blocks in handwritten.pdf (grounded):
+  - '- computational procedure'  (best_iou=0.13)
+  - '- the input data needs to properly formatted'  (best_iou=0.12)
+  - '- ensures a CORRECT ALGORITHM'  (best_iou=0.12)
+  - '- post condition is a logical predicate for   the input and output'  
+(best_iou=0.24)
+  - '- Halting: the algo needs to finish in finite   time'  (best_iou=0.25)
+  - '- look into induction proofs'  (best_iou=0.04)
+  ... and 2 more.
+
+Unmatched GT blocks in notes.pdf (grounded):
+  - '- FK can have null value'  (best_iou=0.14)
+  - '- F.K approach'  (best_iou=0.04)
+  - '- Merged relation approach'  (best_iou=0.10)
+  - 'table'  (best_iou=0.02)
+  - 'Cross Ref also'  (best_iou=0.24)
+  - 'applies here'  (best_iou=0.32)
+  ... and 309 more.
+Failed checks in notes.pdf (grounded):
+  - missing: 'FK can have null value'
+digital.pdf/grounded: no baseline; content checks only, regression comparison 
+not run.
+hybrid.pdf/grounded: no baseline; content checks only, regression comparison 
+not run.
+handwritten.pdf/grounded: no baseline; content checks only, regression 
+comparison not run.
+notes.pdf/grounded: no baseline; content checks only, regression comparison not
+run.
+
+OCR FAILURES:
+  - dense.pdf/grounded: RuntimeError: Grounded OCR returned no text on source 
+page(s) [1]. page 1: IncompleteCompletionError: Vision response reached the 
+2048 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller 
+regions.
+  - notes.pdf/grounded: content check failed: missing: 'FK can have null value'
+Evaluation failed: a document failed or produced no recognized blocks.
+Grounded pages without recognized blocks: [{'document': 'dense.pdf', 'page_numbers': [1]}]

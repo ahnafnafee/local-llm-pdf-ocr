@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 8.875,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-HmHdnB8rhAPRDqNDWbB5APKPBsnlxQws",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](18,22,800,68) ② $R_1 \\leftarrow \\pi_{sid} \\left( \\text{6 edge} > 20 \\text{ sailors} \\right)$\n\n![text](117,92,832,144) $R_2 \\leftarrow \\pi_{sid} \\left( R \\times \\left( \\text{6 color} = \\text{red} \\right) \\right)$\n\n![text](118,172,798,231) $R \\leftarrow \\pi_{sname} \\left( (R_1 - R_2) \\times \\text{Sailors} \\right)$\n\n![text](31,292,412,351) - Division in SQL query\n\n![text](121,383,227,420) ClimbS\n\n![table](100,424,277,548) <table>\n  <tr>\n    <th>Cid</th>\n    <th>sid</th>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>B</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>A</td>\n  </tr>\n</table>\n\n![text](383,383,478,418) C × R\n\n![table](383,424,710,607) <table>\n  <tr>\n    <th>Cid</th>\n    <th>Rid</th>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td>B</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>A</td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td>B</td>\n  </tr>\n</table>\n\n![text](163,620,613,670) $C \\times R - \\pi_{Cid, Rid} \\left( \\text{Climbs} \\right)$\n\n![text](106,677,152,711) or,\n\n![text](157,698,804,770) $\\pi_{Cid, Rid} \\left( \\text{Climbs} \\right) \\div \\left( \\pi_{Rid} \\text{Routes} \\right)$\n\n![text](193,792,800,831) *Climbers who have climbed all routes*\n\n![text](84,851,887,931) What about \"Routes that have been climbed by all climbers\"?",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844507,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 725,
+      "prompt_tokens": 3152,
+      "total_tokens": 3877,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1558.812,
+      "prompt_per_token_ms": 0.4945469543147208,
+      "prompt_per_second": 2022.0526914085858,
+      "predicted_n": 725,
+      "predicted_ms": 7131.043,
+      "predicted_per_token_ms": 9.849506906077348,
+      "predicted_per_second": 101.52792515765225
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 5.703000000008615,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-1K0CGwrwD5PkPVBj5n5NAmIypM7Le745",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](50,27,197,61) # Lecture 6\n\n![title](36,87,312,127) ## Relational Algebra\n\n![list](52,137,817,257)\n- $\\sigma$ used to select tuples\n  - selecting tuples from relation $R$ that satisfy selection condition $c$\n\n![formula](318,274,453,320) $\\sigma_c(R)$\n\n![text](58,344,652,385) String constant written in *single quotes*\n\n![text](74,407,910,477) e.g. $\\sigma_{(Dno=4 \\text{ AND } Salary>25000) \\text{ OR } (Dno=5 \\text{ AND } Salary>30000)}$ (EMPLOYEE)\n\n![list](63,488,688,533)\n- NOT > AND > OR — Precedence\n\n![list](53,551,363,587)\n- $\\sigma$ is commutative\n\n![list](45,642,690,687)\n- Project used to SELECT attributes\n\n![formula](142,692,376,740) $\\pi_L(R)$\n\n![text](363,748,623,790) $\\leftarrow$ list of attributes\n\n![text](102,807,403,851) $\\pi_{Rid, Height}(Flotes)$\n\n![text](250,857,747,905) $\\rightarrow$ basically filtering by columns",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844444,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 405,
+      "prompt_tokens": 3152,
+      "total_tokens": 3557,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1561.707,
+      "prompt_per_token_ms": 0.4954654187817259,
+      "prompt_per_second": 2018.3043298134667,
+      "predicted_n": 405,
+      "predicted_ms": 3968.967,
+      "predicted_per_token_ms": 9.824175742574258,
+      "predicted_per_second": 101.78971001774518
+    }
+  }
+}

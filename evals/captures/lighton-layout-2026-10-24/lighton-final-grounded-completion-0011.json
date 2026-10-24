@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 36.562999999994645,
+  "max_tokens": 4096,
+  "temperature": 0.2,
+  "response": {
+    "id": "chatcmpl-QqBeLk3NZ9X7awz04sfi7cfbx7p3MmB8",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](17,14,149,33) - for example:\n\n![text](17,33,149,51) $R = \\{A, B, C, D, E, F\\}$\n\n![text](17,51,149,70) FDs: $AB \\rightarrow C$ , $BC \\rightarrow AD$ , $D \\rightarrow E$ , $CE \\rightarrow B$\n\n![text](17,70,149,90) $\\therefore \\{A, B\\}^+ ?$\n\n![text](17,90,149,108) - build a snowball...\n\n![table](17,90,327,322) <table>\n  <tr>\n    <th>Round</th>\n    <th></th>\n    <th>Snowball</th>\n  </tr>\n  <tr>\n    <td>Start</td>\n    <td>A and B</td>\n    <td> $\\{A, B\\}$ </td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td> $AB \\rightarrow C$ </td>\n    <td> $\\{A, B, C\\}$ </td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td> $BC \\rightarrow AD$ </td>\n    <td> $\\{A, B, C, D\\}$ </td>\n  </tr>\n  <tr>\n    <td>3</td>\n    <td> $D \\rightarrow E$ </td>\n    <td> $\\{A, B, C, E\\}$ </td>\n  </tr>\n  <tr>\n    <td>4</td>\n    <td>X</td>\n    <td>Done</td>\n  </tr>\n</table>\n\n![text](17,322,149,340) $\\therefore \\{A, B\\}^+ = \\{A, B, C, D, E\\}$\n\n![text](17,340,149,359) $G$ -as new: readnone\n\n![text](372,14,533,33) - what about $\\{C, D\\}^+$\n\n![text](372,33,533,51) $\\{C, D\\}^+ \\Rightarrow \\{C, D\\}$\n\n![text](372,51,533,70) $D \\rightarrow E$\n\n![text](372,70,533,90) $\\Rightarrow \\{C, D, E\\}$\n\n![text](372,90,533,108) $CE \\rightarrow B$\n\n![text](372,108,533,127) $\\Rightarrow \\{C, D, E, B\\}$\n\n![text](372,127,533,146) $BC \\rightarrow A$\n\n![text](372,146,533,164) $\\Rightarrow \\{A, B, C, D, E\\}$\n\n![text](372,164,533,183) $G$ still missing\n\n![text](372,183,533,202) $\\therefore \\{C, D\\}$ is NOT a candidate key\n\n![text](372,202,533,220) $\\Rightarrow \\{C, D, B\\}^+ = \\{A, B, C, D, E, G\\}$\n\n![text](372,220,533,238) $G$ is a superkey since it covers all attributes in $R$ .\n\n![text](372,238,533,257) $G$ is a candidate key too since is minimal - removing $G$ breaks the S.U. property.\n\n![text](372,257,533,275) same applies for:\n\n![text](372,275,533,294) $\\{A, B, G\\}^+$\n\n![text](551,14,711,33) Normalization\n\n![text](551,33,711,51) - INF: dissolves multi-valued attributes, composite attrs, and their combinations\n\n![text](551,51,711,70) - Prime vs. Nonprime Attrs\n\n![text](551,70,711,90) $\\{number of any candidate key\\} \\Rightarrow not a prime attr. (not a member of any C.U.)$\n\n![text](551,90,711,108) disjoint\n\n![text](551,108,711,127) - Full FD vs. Partial FD\n\n![text](551,127,711,146) $\\{removing a single attr breaks the dependency\\}$\n\n![text](551,146,711,164) $\\{removing some attr and dep still holds\\}$\n\n![text](551,164,711,183) e.g. EMP-PROS(SSN, Phone, Name, Grade)\n\n![text](551,183,711,202) $\\{SSN, Phone\\} \\rightarrow Name$ : full FD\n\n![text](551,202,711,220) (used both to determine Name values)\n\n![text](551,220,711,238) $\\{SSN, Phone\\} \\rightarrow Grade$ : partial FD\n\n![text](551,238,711,257) (SSN alone determines Grade)\n\n![text](551,257,711,275) e.g.\n\n![text](551,275,711,294) EMP-DEPT (Name, SSN, Date, Addr, Director, Dept, Dept-SSN)\n\n![text](551,294,711,312) FD chain: SSN $\\rightarrow$ Director\n\n![text](551,312,711,331) Director $\\rightarrow$ Name, Dept, SSN\n\n![text](551,331,711,349) (creates T.D)\n\n![text](551,349,711,368) ED (Name, SSN, Date, Address, Director)\n\n![text](551,368,711,387) ED2 (Director, Name, Dept, SSN)\n\n![text](551,387,711,405) $\\Rightarrow$ CUs of FD\n\n![text](551,405,711,424) - determinant: look at F.D set\n\n![text](551,424,711,442) - to determine if LUS is superkey\n\n![text](551,442,711,461) - compute attribute closure\n\n![text](17,387,149,405) - 2NF (Second Normal Form)\n\n![text](17,405,149,424) $\\Rightarrow$ already in INF\n\n![text](17,424,149,442) $\\Rightarrow$ every nonprime attr is fully FD on primary key\n\n![text](17,442,149,461) $\\therefore$ for INF $\\rightarrow$ 2NF\n\n![text](17,461,149,480) - find every partial dependencies\n\n![text](17,480,149,498) - move attr and partial key to new, separate relation\n\n![text](17,498,149,516) as partial dependencies cause redundancies\n\n![text](17,516,149,535) e.g. EMP-PROS(SSN, Phone, Name, Grade, Phone, Phone)\n\n![text](17,535,149,553) FD1: $\\{SSN, Phone\\} \\rightarrow Name$ (full)\n\n![text](17,553,149,572) FD2: $SSN \\rightarrow Grade$ (partial)\n\n![text](17,572,149,590) - grade depends only on SSN\n\n![text](17,590,149,609) FD3: $Phone \\rightarrow Name, Phone$ (partial)\n\n![text](17,609,149,627) - key depends on Phone\n\n![text](17,627,149,646) - 3NF (Third Normal Form)\n\n![text](17,646,149,664) - transitive dependency\n\n![text](17,664,149,683) e.g. $A \\rightarrow B$ , $B \\rightarrow C$\n\n![text](17,683,149,701) $C$ is transitively dependent on $A$ via $B$\n\n![text](17,701,149,720) - already 2NF\n\n![text](17,720,149,738) - no nonprime attr is transitively dependent on P.K.\n\n![text](17,738,149,757) for 2NF $\\rightarrow$ 3NF\n\n![text](17,757,149,775) - find transitive deps\n\n![text](17,775,149,794) - move T.D attrs to new relation along with copy of intermediate determinant (CD)\n\n![text](17,794,149,812) - BCNF (Boyce-Codd Normal Form)\n\n![text](17,812,149,831) stricter version of 3NF\n\n![text](17,831,149,850) e.g. I normalize to 3NF\n\n![text](17,850,149,868) does it always normalize to BCNF?\n\n![text](17,868,149,887) - if BCNF, no redundancies\n\n![text](17,887,149,905) e.g. for $X \\rightarrow Y$\n\n![text](17,905,149,924) $X$ is the determinant\n\n![text](17,924,149,942) (the thing doing the \"defining\")\n\n![text](17,942,149,961) - for every $X \\rightarrow Y$ in $R$ , $X$ must be superkey (uniquely identify every row)\n\n![text](17,961,149,979) - vs. 3NF\n\n![text](17,979,149,998) - 3NF says non-superkey determinant is okay as long as what it determines ( $Y$ ) is part of some C.U. (i.e. prime attr)\n\n![text](372,387,533,405) After 2NF $\\rightarrow$ 3 attrs\n\n![text](372,405,533,424) EP1 (SSN, Phone, Name) - full dep\n\n![text](372,424,533,442) EP2 (SSN, Name) - employee details\n\n![text](372,442,533,461) EP3 (Phone, Name, Location) - project details\n\n![text](372,461,533,480) Ex. 1\n\n![text](372,480,533,498) $\\Rightarrow$ Prime Attrs\n\n![text](372,498,533,516) - Property#\n\n![text](372,516,533,535) - County - name\n\n![text](372,535,533,553) - Lot#\n\n![text](372,553,533,572) - already INF\n\n![text](372,572,533,590) - for INF $\\rightarrow$ 2NF\n\n![text](372,590,533,609) FD2: $PID \\rightarrow$ all other attr\n\n![text](372,609,533,627) FD3: County - name $\\rightarrow$ Tax - rate\n\n![text](372,627,533,646) FD4: Area $\\rightarrow$ Price\n\n![text](372,646,533,664) 2NF\n\n![text](372,664,533,683) ① $PID\\#, CN, Lot\\#, Area, Price$\n\n![text](372,683,533,701) ② $CN, Tax - rate$\n\n![text](372,701,533,720) $\\Rightarrow$ Non prime Attrs\n\n![text](372,720,533,738) - Area\n\n![text](372,738,533,757) - Price\n\n![text](372,757,533,775) - Tax - rate\n\n![text](372,775,533,794) - for 2NF $\\rightarrow$ 3NF\n\n![text](372,794,533,812) - Area, Price are NP\n\n![text](372,812,533,831) $\\therefore$ ③ Area, Price\n\n![text](372,831,533,850) ① $PID\\#, County - name, Lot\\#, Area$\n\n![text](372,850,533,868) - verifying BCNF (W)\n\n![text](551,387,711,405) Ex. 2: $P\\#, Id, Lt, Pa, Co, St\\#, Sn, CR$\n\n![text](551,405,711,424) Prime Non prime\n\n![text](551,424,711,442) - P# - PA\n\n![text](551,442,711,461) - Id - Co\n\n![text](551,461,711,480) - Lt - St#\n\n![text](551,480,711,498) - CR - Sn\n\n![text](551,498,711,516) - already INF\n\n![text](551,516,711,535) $\\Rightarrow$ required for INF\n\n![text](551,535,711,553) $\\Rightarrow$ dependent on P#",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844070,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 3690,
+      "prompt_tokens": 2096,
+      "total_tokens": 5786,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2092
+      }
+    },
+    "timings": {
+      "cache_n": 2092,
+      "prompt_n": 4,
+      "prompt_ms": 33.987,
+      "prompt_per_token_ms": 8.49675,
+      "prompt_per_second": 117.6920587283373,
+      "predicted_n": 3690,
+      "predicted_ms": 36398.648,
+      "predicted_per_token_ms": 9.86680618053673,
+      "predicted_per_second": 101.34991827168965
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 3.89000000001397,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-YdePqeHDTArZgSSHdIcYZvywjD6xuhbN",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](36,14,627,68) # Mapping of Multivalued Attributes\n\n![image](102,77,450,283) Entity-relationship diagram showing Employee and Dependent entities with attributes SSN, n, y.\n\n![text](472,120,621,162) Employee\n\n![text](470,190,621,233) Dependent\n\n![text](822,257,945,344) Combination to form P.K\n\n![text](407,287,568,320) *attentively,*\n\n![text](325,355,868,407) E-D | SSN | n | y | Dependent Name\n\n![text](447,400,787,501) required to repeat n and y for each dependent, not ideal\n\n![title](45,498,727,555) # Mapping of N-any relationship sets\n\n![image](102,664,750,855) Entity-relationship diagram showing Supplier, Supply, Project, and Post entities with M:M relationships.",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844120,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 285,
+      "prompt_tokens": 2096,
+      "total_tokens": 2381,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 962.27,
+      "prompt_per_token_ms": 0.4590982824427481,
+      "prompt_per_second": 2178.182838496472,
+      "predicted_n": 285,
+      "predicted_ms": 2774.427,
+      "predicted_per_token_ms": 9.769109154929579,
+      "predicted_per_second": 102.36347901746919
+    }
+  }
+}

@@ -5,8 +5,10 @@ against a running vision server. Use `--path grounded` to exercise grounded OCR.
 These are actual model calls. Unit tests use injected transports and do not establish
 recognition quality. The image evaluator is `scripts/confidence_image.py`.
 
-The [October 24 validation](validation-2026-10-24.md) contains the latest default-model
-results and workflow checks. The [2026 model comparison](model-comparison-2026-10.md)
+The [LightOnOCR-3 validation](lighton-layout-2026-10-24.md) contains the current
+default-model results, repeated live tests, workflow checks and PP-DocLayoutV3
+experiments. The [earlier October 24 validation](validation-2026-10-24.md) preserves
+the preceding models' failures. The [2026 model comparison](model-comparison-2026-10.md)
 records modern candidates, native serving conventions and unsuccessful runs.
 
 The runners retain source page indices through matching and character coverage.
@@ -74,8 +76,8 @@ refuses to write when any document or content check fails.
 
 ## Repeated live recognition tests
 
-The opt-in pytest cases exercise the real pipeline on notebook, handwriting and
-form regressions, using seeds 0, 1 and 2. They skip without an explicit endpoint
+The 24 opt-in pytest cases exercise the real pipeline on notebook, handwriting,
+form and dense-page regressions, using seeds 0, 1 and 2. They skip without an explicit endpoint
 and mode; ordinary unit tests never start a model server.
 
 ```powershell

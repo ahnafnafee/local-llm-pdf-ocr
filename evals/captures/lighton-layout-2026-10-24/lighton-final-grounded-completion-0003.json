@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 3.484000000025844,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-LbSkhUymK8DPle1r4m7ePDFb6MMI14Ue",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](47,29,222,85) # Algorithms\n\n![list](47,105,902,227)\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\n![text](204,235,590,296) input $\\xleftarrow{\\text{mapped}}$ output\n\n![list](45,300,890,633)\n- the input data needs to properly formatted\n- ensures a CORRECT ALGORITHM\n- post condition is a logical predicate for the input and output\n- **Halting**: the algo needs to finish in finite time\n- look into induction proofs\n\n![text](397,655,567,687) Correctness\n\n![text](258,744,770,837) $\\swarrow$ $\\searrow$\n\nValidity $\\quad$ Halting\n\n(Conjunction of both)\n\n![list](47,853,962,937)\n- if the algo has a strong post condition it makes it more useful",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792843871,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 257,
+      "prompt_tokens": 2005,
+      "total_tokens": 2262,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2005,
+      "prompt_ms": 882.619,
+      "prompt_per_token_ms": 0.4402089775561097,
+      "prompt_per_second": 2271.6483556324984,
+      "predicted_n": 257,
+      "predicted_ms": 2491.734,
+      "predicted_per_token_ms": 9.7333359375,
+      "predicted_per_second": 102.73969853925018
+    }
+  }
+}

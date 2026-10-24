@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 13.062000000005355,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-0CeC9aT3QJ1vZfmfy1lwafFUNKAyqHCC",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](37,0,224,25) WHERE $SSD = C - Sid$\n\n![text](124,1,224,31) $\\rightarrow$ in parameter\n\n![list](12,71,118,162)\n- for db, start index from 1\n\n![text](12,162,100,212) Project 2\n\n![list](12,212,207,262)\n- need to use LIKE for partial matching\n\n![list](12,262,100,312)\n- cross-check?\n\n![list](12,312,198,362)\n- program should NOT crash\n\n![list](12,362,198,412)\n- use grade for simplicity\n\n![text](12,412,198,462) (use that's what I know best)\n\n![list](37,71,118,162)\n- execute Update()\n\n![text](37,162,224,212) only returns number of rows (affected)\n\n![list](37,212,224,262)\n- see the comparison table for $\\mathcal{L}$ so use\n\n![text](37,262,118,312) executeQuery()\n\n![text](37,312,118,362) instead\n\n![list](37,362,118,412)\n- JDBC vs SQLS\n\n![text](37,412,118,462) $\\mathcal{L}$ for managing\n\n![text](37,462,118,512) complexity\n\n![text](37,512,118,562) better\n\n![text](137,512,224,562) Lib: Functional Dependencies\n\n![text](137,562,224,612) Attribute Closure $\\times$\n\n![text](137,612,224,662) L14: Normal Forms\n\n![text](137,662,224,712) Normalize\n\n![text](137,712,224,762) L15: Properties of Decomposition\n\n![text](137,762,224,812) Lossless Join + DP\n\n![text](137,812,224,862) Minimal Cover $\\times$\n\n![text](137,862,224,912) L16: Decomposition Algorithms\n\n![list](37,712,118,762)\n- look out for redundancies in data\n\n![list](37,762,118,812)\n- why repetition is problematic\n\n![list](737,12,824,62)\n- ? are planaroids\n\n![list](737,71,824,122)\n- Keyword $\\rightarrow$ Redundancy\n\n![list](737,122,824,272)\n- FD: most important kind of constraint in the relational model\n\n![list](737,272,824,422)\n- associated with the schema, not the instance\n\n![list](737,422,824,472)\n- can I represent key constraint using FD?\n\n![text](737,472,753,512) $X \\rightarrow Y$\n\n![text](737,512,824,562) $X$ functionally determines $Y$\n\n![text](737,562,824,612) alternatively,\n\n![text](737,612,824,662) $Y$ is dependent on $X$\n\n![text](737,662,787,712) PhoneBook\n\n![table](737,712,824,862) <table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>3055550101</td>\n    <td>Alve</td>\n    <td>Fortex</td>\n  </tr>\n  <tr>\n    <td>3055550101</td>\n    <td>Alve</td>\n    <td>Fortex</td>\n  </tr>\n</table>\n\n![text](737,762,824,812) if I won someone's phone no,\n\n![text](737,812,824,862) can I always figure out their name\n\n![text](737,862,824,912) Phone # $\\rightarrow$ Name\n\n![text](924,712,974,762) $-X \\rightarrow Y2 \\quad \\mathcal{L} \\quad X \\rightarrow Y$\n\n![text](924,762,974,812) $\\mathcal{L}$\n\n![text](924,812,974,862) cannot decompose",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792843982,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 1306,
+      "prompt_tokens": 816,
+      "total_tokens": 2122,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 816,
+      "prompt_ms": 358.314,
+      "prompt_per_token_ms": 0.43911029411764707,
+      "prompt_per_second": 2277.332172340461,
+      "predicted_n": 1306,
+      "predicted_ms": 12626.753,
+      "predicted_per_token_ms": 9.675672796934867,
+      "predicted_per_second": 103.3519860569063
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 10.327999999979511,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-88ByKce0lgFHpeB0RFk24LvKZS0rbnE2",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](148,112,274,224) - look out for redundancies in data instances\n\n![formula](148,224,407,324) $f_1[X] = f_2[X] \\Rightarrow f_1[Y] = f_2[Y]$\n\n![text](148,324,274,374) $f_1$ and $f_2$ → Any two rows in your table\n\n![text](148,374,274,424) $f_1[X]$ → look at the $X$ columns of row 1\n\n![text](148,424,274,474) $f_1(X) = f_2(X)$ → row 1 or row 2 have same $X$ values\n\n![text](148,474,274,524) ⇒ → forces\n\n![text](148,524,274,624) $f_1(Y) = f_2(Y)$ → row 1 or row 2 must also have same $Y$ value\n\n![text](148,624,274,724) FD between non-key attributes is a RED FLAG that data is being repeatedly unnecessarily\n\n![text](148,724,274,824) - FD means one attr’s value is completely controlled by another\n\n![text](148,824,274,924) - when controlling attr appears in multiple rows, its dependent value gets copied\n\n![text](148,924,274,974) passed → i.e. redundancy\n\n![text](488,112,614,224) - why repetition is problematic\n\n![list](488,224,614,324)\n- update anomaly\n- insertion anomaly\n- deletion anomaly\n\n![text](374,224,488,324) She is being way too fast for me to observe...\n\n![text](518,224,614,324) didn’t understand this\n\n![text](488,324,614,374) - see explanation in PDX\n\n![text](488,374,614,474) - $k = \\{A_1, A_2, \\ldots A_n\\}$ is a candidate key for relation $R$ if\n\n![text](488,474,614,574) $K \\Rightarrow$ all other attributes of $R$\n\n![text](488,574,518,624) AND\n\n![text](488,624,614,724) no attr in text of $k$ → all other attributes of $R$\n\n![text](724,112,754,224) - $X \\rightarrow YZ$\n\n![text](724,224,754,324) $\\begin{cases} X \\rightarrow Y \\\\ X \\rightarrow Z \\end{cases}$\n\n![text](724,324,754,374) LHS is the determinant\n\n![text](850,112,924,224) cannot decompose LHS\n\n![text](850,224,924,324) $\\boxed{XY \\rightarrow YZ, X \\rightarrow Z}$\n\n![text](724,324,850,374) - Closure of Attributes\n\n![text](724,374,850,424) - find all attributes dependent on $X$\n\n![text](724,424,850,524) if I know value of attrs $X$ , what else can I figure out?\n\n![text](724,524,850,624) - i.e. closure of $X$\n\n![text](724,624,850,674) $AUA \\quad X^+$\n\n![text](724,674,850,724) - make yourself as a detective\n\n![text](724,724,850,824) - start with one clue, let it lead to more clues",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792843992,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 1028,
+      "prompt_tokens": 776,
+      "total_tokens": 1804,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 776,
+      "prompt_ms": 337.503,
+      "prompt_per_token_ms": 0.43492654639175254,
+      "prompt_per_second": 2299.2388215808455,
+      "predicted_n": 1028,
+      "predicted_ms": 9913.836,
+      "predicted_per_token_ms": 9.653199610516065,
+      "predicted_per_second": 103.59259523760531
+    }
+  }
+}

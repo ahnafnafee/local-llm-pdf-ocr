@@ -1,0 +1,65 @@
+{
+  "purpose": "Supplemental output-layer text scores only; raw primary metrics and gates are unchanged. HTML table rows decoded with the production output writer helper.",
+  "results": [
+    {
+      "document": "digital.pdf",
+      "mode": "hybrid",
+      "raw_word_f1": 0.997,
+      "visible_table_text_word_f1": 0.997
+    },
+    {
+      "document": "hybrid.pdf",
+      "mode": "hybrid",
+      "raw_word_f1": 1.0,
+      "visible_table_text_word_f1": 1.0
+    },
+    {
+      "document": "handwritten.pdf",
+      "mode": "hybrid",
+      "raw_word_f1": 0.9324,
+      "visible_table_text_word_f1": 0.9324
+    },
+    {
+      "document": "dense.pdf",
+      "mode": "hybrid",
+      "raw_word_f1": 0.6134,
+      "visible_table_text_word_f1": 0.6403
+    },
+    {
+      "document": "notes.pdf",
+      "mode": "hybrid",
+      "raw_word_f1": 0.5706,
+      "visible_table_text_word_f1": 0.6092
+    },
+    {
+      "document": "digital.pdf",
+      "mode": "grounded",
+      "raw_word_f1": 0.997,
+      "visible_table_text_word_f1": 0.997
+    },
+    {
+      "document": "hybrid.pdf",
+      "mode": "grounded",
+      "raw_word_f1": 1.0,
+      "visible_table_text_word_f1": 1.0
+    },
+    {
+      "document": "handwritten.pdf",
+      "mode": "grounded",
+      "raw_word_f1": 0.9324,
+      "visible_table_text_word_f1": 0.9324
+    },
+    {
+      "document": "dense.pdf",
+      "mode": "grounded",
+      "raw_word_f1": 0.6031,
+      "visible_table_text_word_f1": 0.6299
+    },
+    {
+      "document": "notes.pdf",
+      "mode": "grounded",
+      "raw_word_f1": 0.5612,
+      "visible_table_text_word_f1": 0.5988
+    }
+  ]
+}

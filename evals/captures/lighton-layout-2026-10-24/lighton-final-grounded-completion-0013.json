@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 6.10899999999674,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-SfisPXi3BAmABwTn4WGc1MlwCBzQLhq2",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![list](16,16,952,114)\n- $f_u$ can have null value\n- I could modify my existing implementation of Project (.)\n\n![title](26,144,610,198) ## Mapping Binary 1:1 Relationship Sets\n\n![list](100,200,886,353)\n- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n![title](26,370,314,433) ### ① F.U approach\n\n![text](329,400,376,427) total\n\n![text](707,324,922,414) Cross Ref also applies here\n\n![text](680,420,922,524) merge-rel can work here with P.U from total participation - not desirable\n\n![image](136,433,590,574) Entity-relationship diagram with sets S, R, T and attributes a₁...aₙ\n\n![formula](300,574,922,624) $$\nS \\mid \\underline{PK(S)} \\mid \\ldots \\mid PK(T) \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![title](94,640,284,707) ### ② merge-relation\n\n![text](64,794,308,957) F.U applies to second case as well Cross Ref can also apply here\n\n![text](577,820,822,866) P.U can be either one\n\n![formula](347,866,922,927) $$\nST \\mid \\underline{PK(S)} \\mid PK(T) \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![text](400,920,577,964) (since it's 1:1)",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844102,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 492,
+      "prompt_tokens": 2096,
+      "total_tokens": 2588,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 1156.34,
+      "prompt_per_token_ms": 0.5516889312977099,
+      "prompt_per_second": 1812.6156666724323,
+      "predicted_n": 492,
+      "predicted_ms": 4801.202,
+      "predicted_per_token_ms": 9.778415478615072,
+      "predicted_per_second": 102.26605754142399
+    }
+  }
+}

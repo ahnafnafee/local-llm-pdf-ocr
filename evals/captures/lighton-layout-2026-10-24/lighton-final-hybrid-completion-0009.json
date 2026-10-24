@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.203000000008615,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-MX2PRpbZa3YRuYAIiIyfxlHRC9VIRfXZ",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](27,16,650,72) ③ When none is total (Cross-reference)\n\n![text](650,77,902,150) F.N approach can also apply here\n\n![text](694,207,975,357) can't have merge-relation here, could have null values from either S or T\n\n![text](78,427,342,609) either one can be unique if combo is unique, either is unique since 1:1\n\n![image](117,112,547,242) Entity-relationship diagram with entities S, T, R and attributes a₁...aₙ\n\n![image](252,287,636,487) Hand-drawn diagram showing three horizontal bars labeled S, T, R with PK(S), PK(T), and PK(S)PK(T) columns, connected by arrows.\n\n![text](78,427,342,609) either one can be unique if combo is unique, either is unique since 1:1",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844412,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 258,
+      "prompt_tokens": 3152,
+      "total_tokens": 3410,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1538.665,
+      "prompt_per_token_ms": 0.4881551395939086,
+      "prompt_per_second": 2048.5290820289015,
+      "predicted_n": 258,
+      "predicted_ms": 2495.99,
+      "predicted_per_token_ms": 9.712023346303502,
+      "predicted_per_second": 102.9651561104011
+    }
+  }
+}

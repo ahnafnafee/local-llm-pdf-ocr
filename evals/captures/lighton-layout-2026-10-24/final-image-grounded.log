@@ -1,0 +1,21 @@
+image.avif           gt=23  pipeline=19  matched=6   recall=0.26 prec=0.32 hmean=0.29 iou_avg=0.52 text_sim_avg=0.92
+{
+  "document": "image.avif",
+  "mode": "grounded",
+  "model": "lightonai/LightOnOCR-3-4B",
+  "elapsed_seconds": 7.83,
+  "gt_count": 23,
+  "pipeline_count": 19,
+  "metrics": {
+    "recall": 0.2609,
+    "recall_at_05": 0.1304,
+    "precision": 0.3158,
+    "hmean": 0.2857,
+    "avg_iou": 0.5181,
+    "text_sim": 0.9242,
+    "avg_cer": 0.1553,
+    "bow_f1": 1.0,
+    "char_recall": 0.6639,
+    "char_precision": 0.3629
+  }
+}

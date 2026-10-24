@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.905999999988126,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-GXDbdR6qTQPpvJNOkakZXdrM7PplivUH",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](31,27,705,72) Vehicle (VIN, Price, Model, Engine size ..., Type)\n\n![text](47,92,382,137) Sales Person (Sid, Name)\n\n![text](45,144,617,203) Customer (SSN, Name, Street, City, State)\n\n![text](57,211,436,257) Sale (VIN, Sid, SSN)\n\n![text](278,257,760,327) → P.U reduced to minimal set since it's not a ternary relationship\n\n![text](129,335,473,375) alternatively using option 2,\n\n![text](107,370,740,420) Car (VIN, Price, Model, Engine-size)\n\n![text](731,66,857,138) > 5th about option 2?\n\n![image](247,474,805,766) Entity-relationship diagram showing VEHICLE, SALE, SALES PERSON, CUSTOMER, CAR, TRUCK, SUV with attributes and relationships.\n\n![text](96,777,857,892) we can convert it to a binary relation. we can merge Vehicle and Sale since they share the same P.U.",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844438,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 325,
+      "prompt_tokens": 3152,
+      "total_tokens": 3477,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1552.675,
+      "prompt_per_token_ms": 0.4925999365482233,
+      "prompt_per_second": 2030.0449224725073,
+      "predicted_n": 325,
+      "predicted_ms": 3148.456,
+      "predicted_per_token_ms": 9.717456790123457,
+      "predicted_per_second": 102.9075839077948
+    }
+  }
+}
