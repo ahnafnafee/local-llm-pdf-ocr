@@ -758,7 +758,9 @@ class PromptedGroundedOCR:
             async def recognize_page():
                 nonlocal source
                 if self._native_regions and min(source.size) >= 128:
-                    from pdf_ocr.core.native_regions import detect_missing_lines, recover_regions, repair_targets
+                    from pdf_ocr.core.native_regions import (
+                        detect_missing_lines, enhance_faint_ink, recover_regions, repair_targets,
+                    )
 
                     boxes = (detected_boxes[page_idx] if detected_boxes is not None else
                              [] if source.getextrema() == ((255, 255),) * 3 else
@@ -789,6 +791,7 @@ class PromptedGroundedOCR:
                         region = source.crop(tuple(round(v * source.size[i % 2])
                                                    for i, v in enumerate(bounds)))
                         region.thumbnail((self.max_image_dim, self.max_image_dim))
+                        region = enhance_faint_ink(region)
                         buffer = io.BytesIO()
                         region.save(buffer, format="PNG")
                         result = await recognize(base64.b64encode(buffer.getvalue()).decode(),

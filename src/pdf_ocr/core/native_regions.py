@@ -43,6 +43,36 @@ def has_ink(source, box, minimum=.004):
     return sum(histogram[:160]) / (crop.width * crop.height) >= minimum
 
 
+def enhance_faint_ink(image):
+    """Strengthen sparse, light colored strokes without changing geometry.
+
+    Minimum-channel contrast makes cyan/yellow handwriting legible while
+    leaving neutral pixels unchanged. Require a light background and thin,
+    sparse colored marks; filled highlights and colored panels stay intact.
+    Only regional inference views use this, never the document background.
+    """
+    from PIL import ImageChops, ImageFilter
+
+    gray = image.convert('L')
+    pixels = image.width * image.height
+    if not pixels or sum(gray.histogram()[220:]) / pixels < .85:
+        return image
+    red, green, blue = image.convert('RGB').split()
+    low = ImageChops.darker(ImageChops.darker(red, green), blue)
+    high = ImageChops.lighter(ImageChops.lighter(red, green), blue)
+    mask = ImageChops.multiply(
+        ImageChops.subtract(high, low).point(lambda value: 255 if value >= 60 else 0),
+        gray.point(lambda value: 255 if value >= 140 else 0))
+    colored = mask.histogram()[255]
+    if not .0005 <= colored / pixels <= .03:
+        return image
+    # Filled patches retain a substantial interior after erosion; pen strokes
+    # do not. Darkening a highlight would hide the black text underneath it.
+    if mask.filter(ImageFilter.MinFilter(5)).histogram()[255] / colored > .2:
+        return image
+    return low.convert('RGB')
+
+
 async def detect_missing_lines(source, boxes, detect):
     """Supplement dense-page geometry using four overlapping source views.
 
@@ -66,8 +96,12 @@ async def detect_missing_lines(source, boxes, detect):
             mapped = [region[i % 2] + box[i] * (region[2 + i % 2] - region[i % 2])
                       for i in range(4)]
             size = area(mapped)
+            # Reject rediscoveries that split or merge existing lines. A large
+            # merged box must not compete with the original precise anchors.
             if (size > 0 and has_ink(source, mapped)
-                    and not any(intersection(mapped, old) >= size * .5 for old in result)):
+                    and not any(area(old) > 0 and
+                                intersection(mapped, old) >= min(size, area(old)) * .5
+                                for old in result)):
                 result.append(mapped)
     return result
 

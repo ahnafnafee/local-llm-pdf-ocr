@@ -89,14 +89,14 @@ Both paths use an injectable `VisionClient` for inference. `OpenAICompatibleClie
 
 ```mermaid
 graph TD
-    A[Input: PDF / JPEG / PNG / TIFF / AVIF] --> B[Rasterize to images]
+    A[Input: PDF / JPEG / PNG / TIFF / AVIF] --> B[Render selected pages]
     B -->|--grounded| Z[Grounded VLM: text+bbox<br/>bounded region recovery]
     Z --> EMB
 
     B -->|default| C[Surya DetectionPredictor<br/>batch, detection-only]
     C --> NM{Native model coordinates?}
     NM -->|yes| NG[Page OCR with coordinates<br/>bounded recovery]
-    NG --> NA[Anchor unambiguous lines<br/>preserve native reading order]
+    NG --> NA[Anchor unambiguous lines<br/>retain text and table cells]
     NA --> EMB
     NM -->|no| DM{Dense?<br/>boxes/page > threshold}
     DM -->|sparse| D[LLM full-page OCR<br/>OlmOCR / GLM-OCR / etc.]
@@ -117,11 +117,11 @@ graph TD
 
 1. **Input** — PDFs *or* raw images. Multi-frame TIFFs expand to one page per frame. Images skip the PDF round-trip and feed straight into the pipeline.
 
-2. **Batch Layout Detection** *(hybrid path)* — Surya's `DetectionPredictor` processes all pages in one call, ~10-21× faster than running full recognition.
+2. **Batch Layout Detection** *(hybrid path)* — Surya's `DetectionPredictor` processes selected page images in one call, ~10-21× faster than running full recognition.
 
 3. **LLM Text Extraction** *(hybrid path)* — LightOnOCR-3 reads the page with native coordinates and bounded recovery, preserving the context around handwriting and form fields. Other presets use full-page transcription, with automatic per-box OCR for dense pages (> 60 detected boxes by default). On dense machine-print pages, crops mask neighboring boxes to prevent duplicated text. Handwriting retains neighboring strokes, and overlapping detections are deduplicated afterwards.
 
-4. **Text Placement** *(hybrid path)* — Native page coordinates anchor to Surya lines only when overlap is unambiguous; unmatched content keeps its native position and reading order. For recognizers without native coordinates, Needleman-Wunsch alignment compares character-count fit under row-major and column-major orderings. Unmatched lines attach to the nearest matched box, and uncertain alignments can request crop recognition.
+4. **Text Placement** *(hybrid path)* — Native page coordinates anchor to Surya lines only when overlap is unambiguous; unmatched content keeps its model coordinates. For recognizers without native coordinates, Needleman-Wunsch alignment compares character-count fit under row-major and column-major orderings. Unmatched lines attach to the nearest matched box, and uncertain alignments can request crop recognition.
 
 5. **Refine Fallback** *(hybrid path, optional)* — Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. A pre-OCR blank-crop check (pixel stddev) skips dotted notebook backgrounds to avoid the model's "The quick brown fox..." pangram fallback. Disable with `--no-refine`.
 
@@ -306,11 +306,12 @@ uv run local-llm-pdf-ocr scan.pdf --text-only --concurrency 8
 
 | Path | Flag | Detection | Text | Alignment | Refine | When to use |
 |------|------|-----------|------|-----------|--------|-------------|
-| **Hybrid** (default) | _none_ | Surya | LLM full-page | DP (auto row/column-major) | Per-box crop (with blank-skip) | Text-only VLMs (OlmOCR, GLM-OCR); max coverage |
+| **Hybrid / native** (default) | _none_ | Surya | Page and contextual regions | Native coordinates anchored to detected lines | Shared region recovery | LightOnOCR-3 |
+| **Hybrid / plain text** | `--model …` | Surya | LLM full-page | DP (auto row/column-major) | Per-box crop (with blank-skip) | Plain-text model profiles such as olmOCR and GLM-OCR |
 | **Hybrid + dense** (auto) | `--dense-mode` | Surya | LLM per-box (each Surya box → one crop call) | — | — | Dense handwriting / multi-column where full-page OCR loops or hallucinates |
-| **Grounded** | `--grounded` | — | Bbox-native VLM returns both | — | — | Qwen2.5/3-VL, MinerU, etc.; simpler, fewer moving parts |
+| **Grounded** | `--grounded` | Surya for native region recovery | VLM returns text and coordinates | Native coordinates | Bounded recovery | Supported JSON or native grounding models |
 
-The hybrid path accepts models that return plain text. Grounded mode obtains text and coordinates directly, without DP alignment, and requires a supported grounding format: prompted `{"bbox_2d": [...], "content": "..."}` JSON, LightOnOCR-3 grounding markers, or PaddleOCR-VL spotting tokens. Model profiles select those conventions independently of the serving application. See [inference configuration](docs/inference.md) for server requirements and bounded recovery when a response is truncated or malformed.
+LightOnOCR-3 uses native coordinates and shared source-region recovery in both paths; hybrid mode reuses its existing line detections. Other hybrid profiles accept plain text and use DP alignment. Grounded mode requires a supported grounding format: prompted `{"bbox_2d": [...], "content": "..."}` JSON, LightOnOCR-3 grounding markers, or PaddleOCR-VL spotting tokens. Model profiles select those conventions independently of the serving application. See [inference configuration](docs/inference.md) for server requirements and bounded recovery when a response is truncated or malformed.
 
 If any selected page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the original source page numbers. Ranges that select no valid pages fail before OCR rendering or inference. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
 

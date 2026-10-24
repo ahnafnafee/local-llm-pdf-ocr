@@ -28,6 +28,7 @@ async def test_zoomed_detection_recovers_small_print_and_deduplicates_tile_overl
     from pdf_ocr.core.native_regions import detect_missing_lines
 
     existing = [.10, .10, .30, .12]
+    merged_existing = [.05, .05, .40, .30]
     small = [.70, .05, .95, .058]
     repeated = [.48, .25, .51, .26]
     source = source_with_boxes([existing, small, repeated])
@@ -37,7 +38,7 @@ async def test_zoomed_detection_recovers_small_print_and_deduplicates_tile_overl
         calls.extend(images)
         regions = [[0,0,.55,.55], [.45,0,1,.55], [0,.45,.55,1], [.45,.45,1,1]]
         return [[[((box[i]-r[i%2])/(r[2+i%2]-r[i%2])) for i in range(4)]
-                 for box in [existing, small, repeated]
+                 for box in [existing, merged_existing, small, repeated]
                  if r[0] <= box[0] and r[1] <= box[1] and r[2] >= box[2] and r[3] >= box[3]]
                 for r in regions]
 
@@ -57,6 +58,34 @@ def test_region_padding_stops_in_the_gutter_before_neighboring_text():
     separate_column = [.8, .309, .9, .312]
     bounds = region_bounds([line], neighbors=[line, below, above, separate_column])
     assert bounds == pytest.approx([.192, .298, .608, .312])
+
+
+def test_sparse_faint_colored_strokes_gain_contrast_without_resizing():
+    from pdf_ocr.core.native_regions import enhance_faint_ink
+
+    image = Image.new('RGB', (800, 200), 'white')
+    ImageDraw.Draw(image).line((30, 50, 400, 50), fill=(0, 210, 235), width=2)
+    result = enhance_faint_ink(image)
+    assert result.size == image.size
+    assert result.getpixel((100, 50)) == (0, 0, 0)
+    assert result.getpixel((100, 100)) == (255, 255, 255)
+
+
+@pytest.mark.parametrize('background', ['white', 'black', (0, 210, 235)])
+def test_ink_contrast_preserves_monochrome_or_colored_backgrounds(background):
+    from pdf_ocr.core.native_regions import enhance_faint_ink
+
+    image = Image.new('RGB', (800, 200), background)
+    ImageDraw.Draw(image).text((20, 30), 'Source text', fill='black' if background != 'black' else 'white')
+    assert enhance_faint_ink(image).tobytes() == image.tobytes()
+
+
+def test_ink_contrast_does_not_blacken_small_filled_highlights():
+    from pdf_ocr.core.native_regions import enhance_faint_ink
+
+    image = Image.new('RGB', (800, 200), 'white')
+    ImageDraw.Draw(image).rectangle((30, 50, 80, 60), fill=(235, 230, 0))
+    assert enhance_faint_ink(image).tobytes() == image.tobytes()
 
 
 def test_visual_regions_recover_literal_labels_only():
