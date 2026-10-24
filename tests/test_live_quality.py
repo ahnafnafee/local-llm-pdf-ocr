@@ -73,7 +73,7 @@ async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
 
 
 @pytest.mark.parametrize('mode', ['hybrid', 'grounded'])
-@pytest.mark.parametrize('document,pages', [('dense', '2-3'), ('notes', '6,17,21')])
+@pytest.mark.parametrize('document,pages', [('dense', '2-3'), ('notes', '6,13,17,21')])
 async def test_live_complex_regions_remain_searchable_at_source_positions(mode, document, pages, tmp_path):
     """Exercise later pages, diagram fields, embedded photos and math export.
 
@@ -131,6 +131,9 @@ async def test_live_complex_regions_remain_searchable_at_source_positions(mode, 
             ]:
                 assert in_region(pdf[5], word, region), (word, pdf[5].get_text())
             assert len(pdf[5].search_for('SEX')) == 2
+            assert len(pdf[12].get_text()) > 500
+            assert in_region(pdf[12], 'Customer', [.13,.13,.5,.18])
+            assert in_region(pdf[12], 'Fairfax', [.17,.49,.85,.56])
             for word in ['Sailors', 'Reserves', 'Boats']:
                 assert in_region(pdf[16], word, [.17,.20,.85,.43]), word
             assert len(in_region(pdf[16], 'Sailors', [.17,.20,.85,.43])) >= 4

@@ -195,3 +195,46 @@ async def test_omitted_figure_labels_load_detailed_pixels_once():
     assert complete.await_count == 2
     assert [b.text for b in result.blocks] == ['Source label']
     assert result.blocks[0].bbox == box
+
+
+@pytest.mark.parametrize('regional_text,should_fail', [('', False), ('malformed nonempty text', True)])
+async def test_empty_native_regions_preserve_the_page_but_malformed_text_fails(regional_text, should_fail):
+    import base64
+    import io
+    from types import SimpleNamespace
+    from pdf_ocr.core.grounded import PromptedGroundedOCR
+
+    boxes = [[.1,.1,.4,.14], [.6,.6,.62,.62]]
+    buffer = io.BytesIO()
+    source_with_boxes(boxes).save(buffer, format='PNG')
+    calls = 0
+
+    async def complete(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            return '![text](100,100,400,140) Source words\n![image](590,590,630,630) Small dot'
+        return regional_text
+
+    backend = PromptedGroundedOCR(model='lightonai/LightOnOCR-3-4B',
+                                  client=SimpleNamespace(complete=complete))
+    result = await backend.ocr_image(base64.b64encode(buffer.getvalue()).decode(), detected_boxes=boxes)
+    assert bool(result.page_errors) == should_fail
+    assert [b.text for b in result.blocks] == ([] if should_fail else ['Source words'])
+    assert calls <= 4
+
+
+async def test_empty_native_page_is_not_accepted_as_success():
+    import base64
+    import io
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+    from pdf_ocr.core.grounded import PromptedGroundedOCR
+
+    box = [.1,.1,.4,.14]
+    buffer = io.BytesIO()
+    source_with_boxes([box]).save(buffer, format='PNG')
+    backend = PromptedGroundedOCR(model='lightonai/LightOnOCR-3-4B',
+                                  client=SimpleNamespace(complete=AsyncMock(return_value='')))
+    result = await backend.ocr_image(base64.b64encode(buffer.getvalue()).decode(), detected_boxes=[box])
+    assert result.page_errors and not result.blocks

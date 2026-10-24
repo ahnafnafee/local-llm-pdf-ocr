@@ -361,17 +361,19 @@ local-llm-pdf-ocr/
 
 ## ⚡ Performance
 
-Detection is no longer the bottleneck — full-page LLM OCR is. Rough per-page timings on a warm run (Surya loaded, LM Studio serving OlmOCR-2-7B on a single GPU):
+Timing depends on the model, page density and server capacity. LightOnOCR-3 reads each page and may make additional region calls for dense text or diagrams. Start with `--concurrency 1` on a server with one inference slot, and increase it only when the endpoint can process requests in parallel. The [current validation report](evals/dense-notebook-2026-10-24.md) records actual runs and their limits.
+
+The table below retains historical measurements with OlmOCR-2-7B on a single GPU and Surya already loaded. Its per-box strategy describes that earlier model profile.
 
 | Phase | Time / page | Notes |
 |---|---|---|
 | Rasterize PDF → image | ~0.3 s | Linear in pages |
 | Surya batch detection | ~0.5 s | Amortized across all pages in one call |
-| **LLM full-page OCR** *(sparse pages)* | **~2–4 s** | **Dominant cost on sparse pages.** Set `--concurrency 3` to parallelize on multi-page docs |
-| **Per-box OCR** *(dense pages, auto-mode)* | **~0.2–0.4 s × box count** | ~30 s for a 150-box page at `--concurrency 5`. Trades latency for accuracy on dense handwriting |
+| **LLM full-page OCR** *(sparse pages)* | **~2–4 s** | Dominant sparse-page cost in that run |
+| **Per-box OCR** *(dense pages, auto-mode)* | **~0.2–0.4 s × box count** | Historical 150-box run: ~30 s at concurrency 5 |
 | Per-box refine (sparse pages, if needed) | ~0.5–1 s × empty boxes | Typically 0–2 s; blank-crop check skips most empties; `--no-refine` to disable |
 | PDF assembly | ~0.2 s | Linear in pages |
-| Cold-start Surya load | +5–10 s (once) | Paid even on `--grounded` runs |
+| Cold-start Surya load | +5–10 s (once) | Hybrid and native LightOn grounding load a detector; other grounded profiles can skip it |
 
 On the three example PDFs (hybrid path, `allenai/olmocr-2-7b`, warm): digital ≈ 14 s, hybrid ≈ 5 s, handwritten ≈ 4 s.
 
@@ -382,8 +384,8 @@ On the three example PDFs (hybrid path, `allenai/olmocr-2-7b`, warm): digital �
 ## 🧪 Testing
 
 ```bash
-uv run pytest                      # full suite (~60s, loads Surya once)
-uv run pytest -m "not slow"        # fast tier (~17s, no model loads)
+uv run pytest -m "not live_llm"               # offline suite, including Surya integration
+uv run pytest -m "not slow and not live_llm"  # fast tier
 uv run pytest tests/test_aligner.py -v
 ```
 
@@ -396,7 +398,7 @@ uv run scripts/confidence_eval.py --path both \
     --baseline-dir .cache/lightonocr-3-baselines
 ```
 
-Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document content checks. Runs append to `evals/history.csv` and compare compatible per-document baselines where available; missing baselines do not imply a regression pass. Failed content checks and missing pages return nonzero. The [latest live validation](evals/lighton-layout-2026-10-24.md) records the actual LightOnOCR-3 results and their limitations. The existing olmOCR controls are incompatible with this model; select a separate `--baseline-dir` for a content-check run without that cross-model comparison.
+Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document content checks. Runs append to `evals/history.csv` and compare compatible per-document baselines where available; missing baselines do not imply a regression pass. Failed content checks and missing pages return nonzero. The [latest live validation](evals/dense-notebook-2026-10-24.md) records the actual LightOnOCR-3 results and their limitations. The existing olmOCR controls are incompatible with this model; select a separate `--baseline-dir` for a content-check run without that cross-model comparison.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 

@@ -639,8 +639,15 @@ class PromptedGroundedOCR:
                     temperature=temperature,
                     **({"schema": _GROUNDING_SCHEMA} if complete_json else {}),
                 )
+                empty_native_region = (depth > 0 and self.grounding_format == "lighton"
+                                       and not text.strip())
                 if self.grounding_format == "lighton":
-                    parsed = _parse_lighton_grounding(text, page_idx, include_visual=True)
+                    # A completed empty regional response means no text, just
+                    # like an empty JSON block array. Notebook dots and list
+                    # bullets can be detected as lines. An empty whole page
+                    # still fails, and nonempty malformed responses stay errors.
+                    parsed = ([] if empty_native_region else
+                              _parse_lighton_grounding(text, page_idx, include_visual=True))
                     visuals = [b for b in parsed if b.label in {"image", "chart", "header_image", "footer_image"}]
                     if depth == 0:
                         visual_regions.extend(b.bbox for b in visuals)
@@ -653,6 +660,7 @@ class PromptedGroundedOCR:
                         coordinate_space=self.coordinate_space, strict=True,
                     )
                 if (not blocks and not (depth and _is_empty_grounded_json(text))
+                        and not empty_native_region
                         and not (self._native_regions and self.grounding_format == "lighton" and visuals)):
                     raise LLMCallError("model returned no usable grounded text")
                 if depth == 0 and self._verify_inline_identifiers:

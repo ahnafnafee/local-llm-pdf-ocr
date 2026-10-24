@@ -75,7 +75,7 @@ Grounded OCR normally requests one page at a time with a 4096-token limit. The Q
 
 A valid JSON response can still stop after a small fragment of a page. With the default full-page JSON prompt, boxes covering less than 20% of the source's dark ink trigger the same bounded region recovery. A small box margin allows coordinate error; uniform backgrounds and pages with too little dark ink provide no evidence. This is a conservative omission check, not a recognition-confidence score: illustrations can also trigger another view. It applies only to the initial page request, and custom prompts and native model formats retain their own scope.
 
-Recovery regions may contain no text. Both an empty array and explicit blocks with only empty or whitespace text fields are accepted for those regions. Unrecognized objects or nonempty text are not treated as blank, and an entire selected page without recognized text still fails.
+Recovery regions may contain no text. Both an empty JSON array and explicit blocks with only empty or whitespace text fields are accepted for those regions. A completed empty LightOn native response is also valid for a recovery region: detectors can select notebook dots or list bullets. Nonempty malformed output, truncated responses and reasoning-only responses still fail. An entire selected page without recognized text also fails.
 
 An exactly white owned region is skipped before inference, even if its overlap contains a fragment from the adjacent region. Every nonwhite source pixel prevents this skip, including faint marks. This avoids requesting text from blank source areas that can otherwise produce long hallucinated repetitions; it does not apply a broad density threshold or make an empty selected page successful.
 
