@@ -1,0 +1,3482 @@
+[
+  {
+    "document": "digital",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.8,
+    "temperature": 0.7,
+    "presence_penalty": 1.5,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [175, 39, 408, 60], \"content\": \"GEORGE MASON\"},\n\t{\"bbox_2d\": [175, 64, 408, 83], \"content\": \"UNIVERSITY.\"},\n\t{\"bbox_2d\": [507, 9, 709, 24], \"content\": \"Department of Computer Science\"},\n\t{\"bbox_2d\": [507, 26, 781, 39], \"content\": \"College of Engineering and Computing\"},\n\t{\"bbox_2d\": [507, 40, 889, 54], \"content\": \"4400 University Drive, MS 4A5, Fairfax, Virginia 22030\"},\n\t{\"bbox_2d\": [507, 56, 781, 68], \"content\": \"Phone: 703-993-1530; Fax: 703-993-1710\"},\n\t{\"bbox_2d\": [507, 71, 747, 84], \"content\": \"www: http://www.cs.gmu.edu/\"},\n\t{\"bbox_2d\": [246, 103, 910, 120], \"content\": \"CS 701 - Research Experience in Computer Science – Spring'26\"},\n\t{\"bbox_2d\": [85, 148, 350, 163], \"content\": \"Student Name (Last, First):\"},\n\t{\"bbox_2d\": [85, 197, 324, 211], \"content\": \"Student e-mail address:\"},\n\t{\"bbox_2d\": [85, 246, 220, 260], \"content\": \"Student G#:\"},\n\t{\"bbox_2d\": [85, 293, 317, 310], \"content\": \"Name of the CS faculty member\"},\n\t{\"bbox_2d\": [145, 322, 469, 337], \"content\": \"to supervise the student in CS 701:\"},\n\t{\"bbox_2d\": [85, 366, 907, 384], \"content\": \"Description of the research activity (clarify the hands-on component explicitly in your description):\"},\n\t{\"bbox_2d\": [85, 469, 910, 487], \"content\": \"List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\"},\n\t{\"bbox_2d\": [85, 539, 175, 554], \"content\": \"Signatures\"},\n\t{\"bbox_2d\": [85, 563, 160, 578], \"content\": \"Student:\"},\n\t{\"bbox_2d\": [390, 563, 597, 578], \"content\": \"CS Faculty Supervisor:\"},\n\t{\"bbox_2d\": [662, 563, 881, 578], \"content\": \"PhD CS Program Director:\"},\n\t{\"bbox_2d\": [85, 649, 140, 664], \"content\": \"Notes\"},\n\t{\"bbox_2d\": [153, 672, 907, 687], \"content\": \"1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\"},\n\t{\"bbox_2d\": [153, 687, 907, 704], \"content\": \"2. A thorough literature review is likely to be part of most CS 701 research activities. However, the\"},\n\t{\"bbox_2d\": [153, 705, 907, 718], \"content\": \"CS 701 research activity should include a hands-on component (such as software development,\"},\n\t{\"bbox_2d\": [153, 720, 907, 734], \"content\": \"performing and analyzing experiments with existing techniques) beyond the literature review.\"},\n\t{\"bbox_2d\": [153, 736, 881, 749], \"content\": \"Specify the hands-on activity within the “description of the research activity” field above.\"},\n\t{\"bbox_2d\": [153, 751, 907, 765], \"content\": \"If necessary, you can attach an additional sheet to elaborate further on the description of the\"},\n\t{\"bbox_2d\": [153, 767, 401, 780], \"content\": \"research activity.\"},\n\t{\"bbox_2d\": [153, 781, 907, 795], \"content\": \"3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the\"},\n\t{\"bbox_2d\": [153, 797, 907, 811], \"content\": \"end of the semester. In addition, all CS 701 students are required to give a short talk to the\"},\n\t{\"bbox_2d\": [153, 813, 907, 826], \"content\": \"public about their research at the end of the semester. Logistics of that meeting will be\"},\n\t{\"bbox_2d\": [153, 828, 469, 841], \"content\": \"announced by the CS department.\"},\n\t{\"bbox_2d\": [153, 842, 907, 857], \"content\": \"4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be\"},\n\t{\"bbox_2d\": [153, 858, 684, 872], \"content\": \"indicated next to the “CS faculty member name” field above, and they should co-sign the form.\"},\n\t{\"bbox_2d\": [153, 874, 881, 888], \"content\": \"At the registrar level, the CS 701 registration will be made only under CS faculty names.\"},\n\t{\"bbox_2d\": [153, 889, 907, 903], \"content\": \"5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put\"},\n\t{\"bbox_2d\": [153, 906, 617, 918], \"content\": \"[CS701 form]” in the subject line) by November 21, 2025.\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.175,
+          0.039,
+          0.408,
+          0.06
+        ],
+        "GEORGE MASON"
+      ],
+      [
+        [
+          0.175,
+          0.064,
+          0.408,
+          0.083
+        ],
+        "UNIVERSITY."
+      ],
+      [
+        [
+          0.507,
+          0.009,
+          0.709,
+          0.024
+        ],
+        "Department of Computer Science"
+      ],
+      [
+        [
+          0.507,
+          0.026,
+          0.781,
+          0.039
+        ],
+        "College of Engineering and Computing"
+      ],
+      [
+        [
+          0.507,
+          0.04,
+          0.889,
+          0.054
+        ],
+        "4400 University Drive, MS 4A5, Fairfax, Virginia 22030"
+      ],
+      [
+        [
+          0.507,
+          0.056,
+          0.781,
+          0.068
+        ],
+        "Phone: 703-993-1530; Fax: 703-993-1710"
+      ],
+      [
+        [
+          0.507,
+          0.071,
+          0.747,
+          0.084
+        ],
+        "www: http://www.cs.gmu.edu/"
+      ],
+      [
+        [
+          0.246,
+          0.103,
+          0.91,
+          0.12
+        ],
+        "CS 701 - Research Experience in Computer Science – Spring'26"
+      ],
+      [
+        [
+          0.085,
+          0.148,
+          0.35,
+          0.163
+        ],
+        "Student Name (Last, First):"
+      ],
+      [
+        [
+          0.085,
+          0.197,
+          0.324,
+          0.211
+        ],
+        "Student e-mail address:"
+      ],
+      [
+        [
+          0.085,
+          0.246,
+          0.22,
+          0.26
+        ],
+        "Student G#:"
+      ],
+      [
+        [
+          0.085,
+          0.293,
+          0.317,
+          0.31
+        ],
+        "Name of the CS faculty member"
+      ],
+      [
+        [
+          0.145,
+          0.322,
+          0.469,
+          0.337
+        ],
+        "to supervise the student in CS 701:"
+      ],
+      [
+        [
+          0.085,
+          0.366,
+          0.907,
+          0.384
+        ],
+        "Description of the research activity (clarify the hands-on component explicitly in your description):"
+      ],
+      [
+        [
+          0.085,
+          0.469,
+          0.91,
+          0.487
+        ],
+        "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+      ],
+      [
+        [
+          0.085,
+          0.539,
+          0.175,
+          0.554
+        ],
+        "Signatures"
+      ],
+      [
+        [
+          0.085,
+          0.563,
+          0.16,
+          0.578
+        ],
+        "Student:"
+      ],
+      [
+        [
+          0.39,
+          0.563,
+          0.597,
+          0.578
+        ],
+        "CS Faculty Supervisor:"
+      ],
+      [
+        [
+          0.662,
+          0.563,
+          0.881,
+          0.578
+        ],
+        "PhD CS Program Director:"
+      ],
+      [
+        [
+          0.085,
+          0.649,
+          0.14,
+          0.664
+        ],
+        "Notes"
+      ],
+      [
+        [
+          0.153,
+          0.672,
+          0.907,
+          0.687
+        ],
+        "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701."
+      ],
+      [
+        [
+          0.153,
+          0.687,
+          0.907,
+          0.704
+        ],
+        "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the"
+      ],
+      [
+        [
+          0.153,
+          0.705,
+          0.907,
+          0.718
+        ],
+        "CS 701 research activity should include a hands-on component (such as software development,"
+      ],
+      [
+        [
+          0.153,
+          0.72,
+          0.907,
+          0.734
+        ],
+        "performing and analyzing experiments with existing techniques) beyond the literature review."
+      ],
+      [
+        [
+          0.153,
+          0.736,
+          0.881,
+          0.749
+        ],
+        "Specify the hands-on activity within the “description of the research activity” field above."
+      ],
+      [
+        [
+          0.153,
+          0.751,
+          0.907,
+          0.765
+        ],
+        "If necessary, you can attach an additional sheet to elaborate further on the description of the"
+      ],
+      [
+        [
+          0.153,
+          0.767,
+          0.401,
+          0.78
+        ],
+        "research activity."
+      ],
+      [
+        [
+          0.153,
+          0.781,
+          0.907,
+          0.795
+        ],
+        "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the"
+      ],
+      [
+        [
+          0.153,
+          0.797,
+          0.907,
+          0.811
+        ],
+        "end of the semester. In addition, all CS 701 students are required to give a short talk to the"
+      ],
+      [
+        [
+          0.153,
+          0.813,
+          0.907,
+          0.826
+        ],
+        "public about their research at the end of the semester. Logistics of that meeting will be"
+      ],
+      [
+        [
+          0.153,
+          0.828,
+          0.469,
+          0.841
+        ],
+        "announced by the CS department."
+      ],
+      [
+        [
+          0.153,
+          0.842,
+          0.907,
+          0.857
+        ],
+        "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be"
+      ],
+      [
+        [
+          0.153,
+          0.858,
+          0.684,
+          0.872
+        ],
+        "indicated next to the “CS faculty member name” field above, and they should co-sign the form."
+      ],
+      [
+        [
+          0.153,
+          0.874,
+          0.881,
+          0.888
+        ],
+        "At the registrar level, the CS 701 registration will be made only under CS faculty names."
+      ],
+      [
+        [
+          0.153,
+          0.889,
+          0.907,
+          0.903
+        ],
+        "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put"
+      ],
+      [
+        [
+          0.153,
+          0.906,
+          0.617,
+          0.918
+        ],
+        "[CS701 form]” in the subject line) by November 21, 2025."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0625,
+      "recall_at_05": 0.0,
+      "precision": 0.0278,
+      "hmean": 0.0385,
+      "avg_iou": 0.3958,
+      "text_sim": 0.2338,
+      "avg_cer": 0.7606,
+      "bow_f1": 0.9879,
+      "char_recall": 0.5031,
+      "char_precision": 0.7374
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 22.781
+  },
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.8,
+    "temperature": 0.7,
+    "presence_penalty": 1.5,
+    "raw": "```json\n[\n\t{\"bbox_2d\":[114, 20, 230, 34], \"content\": \"FakeDoc M.D.\"},\n\t{\"bbox_2d\":[358, 42, 644, 61], \"content\": \"HEALTH INTAKE FORM\"},\n\t{\"bbox_2d\":[114, 70, 859, 87], \"content\": \"Please fill out the questionnaire carefully. The information you provide will be used to complete\"},\n\t{\"bbox_2d\": [113, 92, 483, 108], \"content\": \"your health profile and will be kept confidential.\"},\n\t{\"bbox_2d\": [114, 136, 167, 153], \"content\": \"Date:\"},\n\t{\"bbox_2d\": [195, 121, 338, 159], \"content\": \"9/14/19\"},\n\t{\"bbox_2d\": [114, 178, 176, 196], \"content\": \"Name:\"},\n\t{\"bbox_2d\": [197, 167, 430, 215], \"content\": \"Sally Walker\"},\n\t{\"bbox_2d\": [648, 178, 706, 196], \"content\": \"DOB:\"},\n\t{\"bbox_2d\": [727, 163, 921, 199], \"content\": \"09/04/1986\"},\n\t{\"bbox_2d\": [114, 225, 188, 242], \"content\": \"Address:\"},\n\t{\"bbox_2d\": [207, 219, 415, 250], \"content\": \"24 Barney Lane\"},\n\t{\"bbox_2d\": [453, 226, 507, 242], \"content\": \"City:\"},\n\t{\"bbox_2d\": [505, 219, 608, 246], \"content\": \"Towaco\"},\n\t{\"bbox_2d\": [643, 226, 697, 242], \"content\": \"State:\"},\n\t{\"bbox_2d\": [705, 219, 757, 246], \"content\": \"NJ\"},\n\t{\"bbox_2d\": [773, 226, 810, 242], \"content\": \"Zip:\"},\n\t{\"bbox_2d\": [819, 220, 904, 245], \"content\": \"07082\"},\n\t{\"bbox_2d\": [113, 269, 176, 287], \"content\": \"Email:\"},\n\t{\"bbox_2d\": [179, 262, 514, 290], \"content\": \"sally.walker@gmail.com\"},\n\t{\"bbox_2d\": [543, 268, 626, 287], \"content\": \"Phone #:\"},\n\t{\"bbox_2d\": [658, 256, 891, 290], \"content\": \"(906) 917-3486\"},\n\t{\"bbox_2d\": [114, 315, 188, 332], \"content\": \"Gender:\"},\n\t{\"bbox_2d\": [226, 305, 251, 334], \"content\": \"F\"},\n\t{\"bbox_2d\": [302, 315, 439, 332], \"content\": \"Marital Status:\"},\n\t{\"bbox_2d\": [447, 302, 532, 346], \"content\": \"Single\"},\n\t{\"bbox_2d\": [548, 315, 666, 332], \"content\": \"Occupation:\"},\n\t{\"bbox_2d\": [674, 302, 938, 349], \"content\": \"Software Engineer\"},\n\t{\"bbox_2d\": [114, 359, 232, 377], \"content\": \"Referred By:\"},\n\t{\"bbox_2d\": [251, 351, 340, 378], \"content\": \"None\"},\n\t{\"bbox_2d\": [114, 403, 312, 420], \"content\": \"Emergency Contact:\"},\n\t{\"bbox_2d\": [320, 397, 468, 423], \"content\": \"Eva Walker\"},\n\t{\"bbox_2d\": [480, 401, 745, 420], \"content\": \"Emergency Contact Phone:\"},\n\t{\"bbox_2d\": [752, 391, 966, 423], \"content\": \"(906) 334-8926\"},\n\t{\"bbox_2d\": [114, 449, 729, 466], \"content\": \"Describe your medical concerns (symptoms, diagnoses, etc):\"},\n\t{\"bbox_2d\": [156, 483, 816, 520], \"content\": \"Runny nose, mucus in throat, weakness,\"},\n\t{\"bbox_2d\": [160, 527, 507, 566], \"content\": \"aches, chills, tired\"},\n\t{\"bbox_2d\": [114, 759, 786, 778], \"content\": \"Are you currently taking any medication? (If yes, please describe):\"},\n\t{\"bbox_2d\": [163, 790, 734, 838], \"content\": \"Vyvanse (25mg) daily for attention\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.114,
+          0.02,
+          0.23,
+          0.034
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.358,
+          0.042,
+          0.644,
+          0.061
+        ],
+        "HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.114,
+          0.07,
+          0.859,
+          0.087
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete"
+      ],
+      [
+        [
+          0.113,
+          0.092,
+          0.483,
+          0.108
+        ],
+        "your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.114,
+          0.136,
+          0.167,
+          0.153
+        ],
+        "Date:"
+      ],
+      [
+        [
+          0.195,
+          0.121,
+          0.338,
+          0.159
+        ],
+        "9/14/19"
+      ],
+      [
+        [
+          0.114,
+          0.178,
+          0.176,
+          0.196
+        ],
+        "Name:"
+      ],
+      [
+        [
+          0.197,
+          0.167,
+          0.43,
+          0.215
+        ],
+        "Sally Walker"
+      ],
+      [
+        [
+          0.648,
+          0.178,
+          0.706,
+          0.196
+        ],
+        "DOB:"
+      ],
+      [
+        [
+          0.727,
+          0.163,
+          0.921,
+          0.199
+        ],
+        "09/04/1986"
+      ],
+      [
+        [
+          0.114,
+          0.225,
+          0.188,
+          0.242
+        ],
+        "Address:"
+      ],
+      [
+        [
+          0.207,
+          0.219,
+          0.415,
+          0.25
+        ],
+        "24 Barney Lane"
+      ],
+      [
+        [
+          0.453,
+          0.226,
+          0.507,
+          0.242
+        ],
+        "City:"
+      ],
+      [
+        [
+          0.505,
+          0.219,
+          0.608,
+          0.246
+        ],
+        "Towaco"
+      ],
+      [
+        [
+          0.643,
+          0.226,
+          0.697,
+          0.242
+        ],
+        "State:"
+      ],
+      [
+        [
+          0.705,
+          0.219,
+          0.757,
+          0.246
+        ],
+        "NJ"
+      ],
+      [
+        [
+          0.773,
+          0.226,
+          0.81,
+          0.242
+        ],
+        "Zip:"
+      ],
+      [
+        [
+          0.819,
+          0.22,
+          0.904,
+          0.245
+        ],
+        "07082"
+      ],
+      [
+        [
+          0.113,
+          0.269,
+          0.176,
+          0.287
+        ],
+        "Email:"
+      ],
+      [
+        [
+          0.179,
+          0.262,
+          0.514,
+          0.29
+        ],
+        "sally.walker@gmail.com"
+      ],
+      [
+        [
+          0.543,
+          0.268,
+          0.626,
+          0.287
+        ],
+        "Phone #:"
+      ],
+      [
+        [
+          0.658,
+          0.256,
+          0.891,
+          0.29
+        ],
+        "(906) 917-3486"
+      ],
+      [
+        [
+          0.114,
+          0.315,
+          0.188,
+          0.332
+        ],
+        "Gender:"
+      ],
+      [
+        [
+          0.226,
+          0.305,
+          0.251,
+          0.334
+        ],
+        "F"
+      ],
+      [
+        [
+          0.302,
+          0.315,
+          0.439,
+          0.332
+        ],
+        "Marital Status:"
+      ],
+      [
+        [
+          0.447,
+          0.302,
+          0.532,
+          0.346
+        ],
+        "Single"
+      ],
+      [
+        [
+          0.548,
+          0.315,
+          0.666,
+          0.332
+        ],
+        "Occupation:"
+      ],
+      [
+        [
+          0.674,
+          0.302,
+          0.938,
+          0.349
+        ],
+        "Software Engineer"
+      ],
+      [
+        [
+          0.114,
+          0.359,
+          0.232,
+          0.377
+        ],
+        "Referred By:"
+      ],
+      [
+        [
+          0.251,
+          0.351,
+          0.34,
+          0.378
+        ],
+        "None"
+      ],
+      [
+        [
+          0.114,
+          0.403,
+          0.312,
+          0.42
+        ],
+        "Emergency Contact:"
+      ],
+      [
+        [
+          0.32,
+          0.397,
+          0.468,
+          0.423
+        ],
+        "Eva Walker"
+      ],
+      [
+        [
+          0.48,
+          0.401,
+          0.745,
+          0.42
+        ],
+        "Emergency Contact Phone:"
+      ],
+      [
+        [
+          0.752,
+          0.391,
+          0.966,
+          0.423
+        ],
+        "(906) 334-8926"
+      ],
+      [
+        [
+          0.114,
+          0.449,
+          0.729,
+          0.466
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.156,
+          0.483,
+          0.816,
+          0.52
+        ],
+        "Runny nose, mucus in throat, weakness,"
+      ],
+      [
+        [
+          0.16,
+          0.527,
+          0.507,
+          0.566
+        ],
+        "aches, chills, tired"
+      ],
+      [
+        [
+          0.114,
+          0.759,
+          0.786,
+          0.778
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.163,
+          0.79,
+          0.734,
+          0.838
+        ],
+        "Vyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.7895,
+      "recall_at_05": 0.3684,
+      "precision": 0.7692,
+      "hmean": 0.7792,
+      "avg_iou": 0.4963,
+      "text_sim": 0.924,
+      "avg_cer": 0.0805,
+      "bow_f1": 0.9808,
+      "char_recall": 0.6691,
+      "char_precision": 0.9024
+    },
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ],
+    "seconds": 18.75
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.8,
+    "temperature": 0.7,
+    "presence_penalty": 1.5,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [50, 41, 238, 89], \"content\": \"Algorithms,\"},\n\t{\"bbox_2d\": [79, 114, 286, 145], \"content\": \"-computational\"},\n\t{\"bbox_2d\": [320, 106, 492, 155], \"content\": \"procedure\"},\n\t{\"bbox_2d\": [94, 155, 227, 189], \"content\": \"-processes\"},\n\t{\"bbox_2d\": [282, 155, 386, 185], \"content\": \"are finite\"},\n\t{\"bbox_2d\": [407, 150, 455, 183], \"content\": \",but\"},\n\t{\"bbox_2d\": [491, 148, 561, 180], \"content\": \"the\"},\n\t{\"bbox_2d\": [587, 145, 657, 177], \"content\": \"data\"},\n\t{\"bbox_2d\": [684, 143, 801, 172], \"content\": \"does not\"},\n\t{\"bbox_2d\": [95, 192, 179, 224], \"content\": \"have an\"},\n\t{\"bbox_2d\": [212, 189, 334, 229], \"content\": \"upper\"},\n\t{\"bbox_2d\": [357, 187, 464, 224], \"content\": \"bound.\"},\n\t{\"bbox_2d\": [338, 238, 430, 268], \"content\": \"mapped\"},\n\t{\"bbox_2d\": [219, 272, 307, 298], \"content\": \"input\"},\n\t{\"bbox_2d\": [484, 262, 585, 289], \"content\": \"output\"},\n\t{\"bbox_2d\": [51, 306, 347, 356], \"content\": \"-the input data needs to properly\"},\n\t{\"bbox_2d\": [697, 301, 884, 341], \"content\": \"formatted\"},\n\t{\"bbox_2d\": [129, 371, 257, 396], \"content\": \"-ensures a\"},\n\t{\"bbox_2d\": [399, 368, 548, 400], \"content\": \"CORRECT\"},\n\t{\"bbox_2d\": [571, 364, 758, 398], \"content\": \"ALGORITHM\"},\n\t{\"bbox_2d\": [51, 431, 127, 464], \"content\": \"-post condition\"},\n\t{\"bbox_2d\": [150, 428, 222, 460], \"content\": \"is a logical\"},\n\t{\"bbox_2d\": [341, 428, 409, 460], \"content\": \"predicate\"},\n\t{\"bbox_2d\": [567, 423, 737, 458], \"content\": \"for\"},\n\t{\"bbox_2d\": [88, 469, 140, 503], \"content\": \"the\"},\n\t{\"bbox_2d\": [186, 464, 272, 500], \"content\": \"input\"},\n\t{\"bbox_2d\": [331, 464, 396, 495], \"content\": \"and\"},\n\t{\"bbox_2d\": [443, 462, 548, 495], \"content\": \"output\"},\n\t{\"bbox_2d\": [50, 518, 117, 550], \"content\": \"-Halting\"},\n\t{\"bbox_2d\": [124, 520, 222, 548], \"content\": \"the algo needs\"},\n\t{\"bbox_2d\": [263, 510, 317, 545], \"content\": \"to finish\"},\n\t{\"bbox_2d\": [351, 510, 399, 543], \"content\": \"in finite\"},\n\t{\"bbox_2d\": [86, 560, 157, 590], \"content\": \"time.\"},\n\t{\"bbox_2d\": [165, 621, 242, 648], \"content\": \"-look into\"},\n\t{\"bbox_2d\": [297, 616, 391, 640], \"content\": \"induction proofs\"},\n\t{\"bbox_2d\": [395, 653, 561, 688], \"content\": \"Correctness\"},\n\t{\"bbox_2d\": [267, 741, 404, 793], \"content\": \"Validity\"},\n\t{\"bbox_2d\": [626, 758, 758, 816], \"content\": \"Halting\"},\n\t{\"bbox_2d\": [322, 801, 494, 841], \"content\": \"(conjunction of both)\"},\n\t{\"bbox_2d\": [122, 870, 219, 896], \"content\": \"-if the algo has a strong\"},\n\t{\"bbox_2d\": [515, 863, 643, 895], \"content\": \"post condition\"},\n\t{\"bbox_2d\": [707, 863, 781, 893], \"content\": \"it makes\"},\n\t{\"bbox_2d\": [812, 863, 894, 893], \"content\": \"more useful\"},\n\t{\"bbox_2d\": [170, 905, 205, 933], \"content\": \"it makes it\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.05,
+          0.041,
+          0.238,
+          0.089
+        ],
+        "Algorithms,"
+      ],
+      [
+        [
+          0.079,
+          0.114,
+          0.286,
+          0.145
+        ],
+        "-computational"
+      ],
+      [
+        [
+          0.32,
+          0.106,
+          0.492,
+          0.155
+        ],
+        "procedure"
+      ],
+      [
+        [
+          0.094,
+          0.155,
+          0.227,
+          0.189
+        ],
+        "-processes"
+      ],
+      [
+        [
+          0.282,
+          0.155,
+          0.386,
+          0.185
+        ],
+        "are finite"
+      ],
+      [
+        [
+          0.407,
+          0.15,
+          0.455,
+          0.183
+        ],
+        ",but"
+      ],
+      [
+        [
+          0.491,
+          0.148,
+          0.561,
+          0.18
+        ],
+        "the"
+      ],
+      [
+        [
+          0.587,
+          0.145,
+          0.657,
+          0.177
+        ],
+        "data"
+      ],
+      [
+        [
+          0.684,
+          0.143,
+          0.801,
+          0.172
+        ],
+        "does not"
+      ],
+      [
+        [
+          0.095,
+          0.192,
+          0.179,
+          0.224
+        ],
+        "have an"
+      ],
+      [
+        [
+          0.212,
+          0.189,
+          0.334,
+          0.229
+        ],
+        "upper"
+      ],
+      [
+        [
+          0.357,
+          0.187,
+          0.464,
+          0.224
+        ],
+        "bound."
+      ],
+      [
+        [
+          0.338,
+          0.238,
+          0.43,
+          0.268
+        ],
+        "mapped"
+      ],
+      [
+        [
+          0.219,
+          0.272,
+          0.307,
+          0.298
+        ],
+        "input"
+      ],
+      [
+        [
+          0.484,
+          0.262,
+          0.585,
+          0.289
+        ],
+        "output"
+      ],
+      [
+        [
+          0.051,
+          0.306,
+          0.347,
+          0.356
+        ],
+        "-the input data needs to properly"
+      ],
+      [
+        [
+          0.697,
+          0.301,
+          0.884,
+          0.341
+        ],
+        "formatted"
+      ],
+      [
+        [
+          0.129,
+          0.371,
+          0.257,
+          0.396
+        ],
+        "-ensures a"
+      ],
+      [
+        [
+          0.399,
+          0.368,
+          0.548,
+          0.4
+        ],
+        "CORRECT"
+      ],
+      [
+        [
+          0.571,
+          0.364,
+          0.758,
+          0.398
+        ],
+        "ALGORITHM"
+      ],
+      [
+        [
+          0.051,
+          0.431,
+          0.127,
+          0.464
+        ],
+        "-post condition"
+      ],
+      [
+        [
+          0.15,
+          0.428,
+          0.222,
+          0.46
+        ],
+        "is a logical"
+      ],
+      [
+        [
+          0.341,
+          0.428,
+          0.409,
+          0.46
+        ],
+        "predicate"
+      ],
+      [
+        [
+          0.567,
+          0.423,
+          0.737,
+          0.458
+        ],
+        "for"
+      ],
+      [
+        [
+          0.088,
+          0.469,
+          0.14,
+          0.503
+        ],
+        "the"
+      ],
+      [
+        [
+          0.186,
+          0.464,
+          0.272,
+          0.5
+        ],
+        "input"
+      ],
+      [
+        [
+          0.331,
+          0.464,
+          0.396,
+          0.495
+        ],
+        "and"
+      ],
+      [
+        [
+          0.443,
+          0.462,
+          0.548,
+          0.495
+        ],
+        "output"
+      ],
+      [
+        [
+          0.05,
+          0.518,
+          0.117,
+          0.55
+        ],
+        "-Halting"
+      ],
+      [
+        [
+          0.124,
+          0.52,
+          0.222,
+          0.548
+        ],
+        "the algo needs"
+      ],
+      [
+        [
+          0.263,
+          0.51,
+          0.317,
+          0.545
+        ],
+        "to finish"
+      ],
+      [
+        [
+          0.351,
+          0.51,
+          0.399,
+          0.543
+        ],
+        "in finite"
+      ],
+      [
+        [
+          0.086,
+          0.56,
+          0.157,
+          0.59
+        ],
+        "time."
+      ],
+      [
+        [
+          0.165,
+          0.621,
+          0.242,
+          0.648
+        ],
+        "-look into"
+      ],
+      [
+        [
+          0.297,
+          0.616,
+          0.391,
+          0.64
+        ],
+        "induction proofs"
+      ],
+      [
+        [
+          0.395,
+          0.653,
+          0.561,
+          0.688
+        ],
+        "Correctness"
+      ],
+      [
+        [
+          0.267,
+          0.741,
+          0.404,
+          0.793
+        ],
+        "Validity"
+      ],
+      [
+        [
+          0.626,
+          0.758,
+          0.758,
+          0.816
+        ],
+        "Halting"
+      ],
+      [
+        [
+          0.322,
+          0.801,
+          0.494,
+          0.841
+        ],
+        "(conjunction of both)"
+      ],
+      [
+        [
+          0.122,
+          0.87,
+          0.219,
+          0.896
+        ],
+        "-if the algo has a strong"
+      ],
+      [
+        [
+          0.515,
+          0.863,
+          0.643,
+          0.895
+        ],
+        "post condition"
+      ],
+      [
+        [
+          0.707,
+          0.863,
+          0.781,
+          0.893
+        ],
+        "it makes"
+      ],
+      [
+        [
+          0.812,
+          0.863,
+          0.894,
+          0.893
+        ],
+        "more useful"
+      ],
+      [
+        [
+          0.17,
+          0.905,
+          0.205,
+          0.933
+        ],
+        "it makes it"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.4286,
+      "recall_at_05": 0.2143,
+      "precision": 0.1364,
+      "hmean": 0.2069,
+      "avg_iou": 0.484,
+      "text_sim": 0.9312,
+      "avg_cer": 0.1121,
+      "bow_f1": 0.9178,
+      "char_recall": 0.4761,
+      "char_precision": 0.9642
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 19.5
+  },
+  {
+    "document": "dense",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.8,
+    "temperature": 0.7,
+    "presence_penalty": 1.5,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [16, 7, 104, 25], \"content\": \"SQL in Application Code\"},\n\t{\"bbox_2d\": [18, 31, 236, 49], \"content\": \"- Two main integration approaches\"},\n\t{\"bbox_2d\": [16, 53, 370, 71], \"content\": \"(SU) Statement level interface -> embedded SQL\"},\n\t{\"bbox_2d\": [28, 77, 96, 92], \"content\": \"-embed SQL\"},\n\t{\"bbox_2d\": [22, 97, 302, 115], \"content\": \"(CU) Call-level interface -> JDBC\"},\n\t{\"bbox_2d\": [22, 120, 286, 140], \"content\": \"-special API to -> ODBC\"},\n\t{\"bbox_2d\": [39, 143, 136, 157], \"content\": \"SQL commands\"},\n\t{\"bbox_2d\": [14, 166, 48, 181], \"content\": \"SU\"},\n\t{\"bbox_2d\": [10, 185, 39, 200], \"content\": \"(CU)\"},\n\t{\"bbox_2d\": [117, 166, 204, 180], \"content\": \"Precompiler\"},\n\t{\"bbox_2d\": [218, 166, 309, 180], \"content\": \"Schema_info\"},\n\t{\"bbox_2d\": [327, 165, 400, 180], \"content\": \"datatype\"},\n\t{\"bbox_2d\": [418, 166, 495, 181], \"content\": \"multiple\"},\n\t{\"bbox_2d\": [510, 167, 573, 181], \"content\": \"efficient\"},\n\t{\"bbox_2d\": [593, 167, 654, 181], \"content\": \"to expand\"},\n\t{\"bbox_2d\": [591, 186, 637, 201], \"content\": \"SQL\"},\n\t{\"bbox_2d\": [115, 186, 147, 200], \"content\": \"static\"},\n\t{\"bbox_2d\": [219, 186, 253, 201], \"content\": \"Yes\"},\n\t{\"bbox_2d\": [326, 186, 359, 201], \"content\": \"yes\"},\n\t{\"bbox_2d\": [417, 187, 446, 201], \"content\": \"Yes\"},\n\t{\"bbox_2d\": [510, 187, 537, 201], \"content\": \"No\"},\n\t{\"bbox_2d\": [593, 187, 630, 201], \"content\": \"lower\"},\n\t{\"bbox_2d\": [114, 206, 147, 221], \"content\": \"dynamic\"},\n\t{\"bbox_2d\": [219, 205, 253, 220], \"content\": \"No\"},\n\t{\"bbox_2d\": [326, 205, 348, 220], \"content\": \"No\"},\n\t{\"bbox_2d\": [417, 205, 446, 221], \"content\": \"Yes\"},\n\t{\"bbox_2d\": [509, 205, 538, 221], \"content\": \"lower\"},\n\t{\"bbox_2d\": [593, 205, 631, 220], \"content\": \"higher\"},\n\t{\"bbox_2d\": [11, 227, 40, 242], \"content\": \"(CU)\"},\n\t{\"bbox_2d\": [115, 228, 136, 242], \"content\": \"No\"},\n\t{\"bbox_2d\": [219, 227, 250, 242], \"content\": \"No\"},\n\t{\"bbox_2d\": [326, 228, 348, 243], \"content\": \"No\"},\n\t{\"bbox_2d\": [417, 228, 447, 243], \"content\": \"Yes\"},\n\t{\"bbox_2d\": [509, 228, 536, 243], \"content\": \"lower\"},\n\t{\"bbox_2d\": [593, 227, 642, 242], \"content\": \"prepared\"},\n\t{\"bbox_2d\": [591, 247, 640, 262], \"content\": \"statement\"},\n\t{\"bbox_2d\": [593, 267, 626, 280], \"content\": \"lower\"},\n\t{\"bbox_2d\": [14, 270, 374, 289], \"content\": \"Schema of DB must be known at\"},\n\t{\"bbox_2d\": [22, 296, 295, 313], \"content\": \"time program is written for embedded SQL\"},\n\t{\"bbox_2d\": [20, 327, 281, 347], \"content\": \"- can get info at runtime\"},\n\t{\"bbox_2d\": [19, 351, 151, 368], \"content\": \"instead of compile time.\"},\n\t{\"bbox_2d\": [15, 382, 400, 397], \"content\": \"- SQLSTATE - common error vars defined here\"},\n\t{\"bbox_2d\": [36, 406, 260, 423], \"content\": \"EXEC SQL SELECT S.sname, S.age\"},\n\t{\"bbox_2d\": [36, 427, 251, 446], \"content\": \"INTO :c-name, :c-age -> out parameters\"},\n\t{\"bbox_2d\": [37, 450, 189, 468], \"content\": \"FROM sailors S\"},\n\t{\"bbox_2d\": [37, 473, 170, 490], \"content\": \"WHERE S.sid = :c-sid\"},\n\t{\"bbox_2d\": [205, 481, 262, 502], \"content\": \"-> in parameter\"},\n\t{\"bbox_2d\": [13, 507, 198, 525], \"content\": \"- for db, start index from 1.\"},\n\t{\"bbox_2d\": [14, 536, 67, 552], \"content\": \"Project ?\"},\n\t{\"bbox_2d\": [15, 560, 389, 578], \"content\": \"- need to use LIKE for partial matching\"},\n\t{\"bbox_2d\": [15, 584, 118, 598], \"content\": \"- cross-check ?\"},\n\t{\"bbox_2d\": [15, 607, 389, 627], \"content\": \"- program should NOT crash\"},\n\t{\"bbox_2d\": [14, 638, 281, 657], \"content\": \"- use grade for simplicity\"},\n\t{\"bbox_2d\": [20, 662, 225, 679], \"content\": \"( cuz that's what I know best)\"},\n\t{\"bbox_2d\": [13, 704, 381, 723], \"content\": \"- look out for redundancies in data\"},\n\t{\"bbox_2d\": [16, 729, 135, 745], \"content\": \"instances\"},\n\t{\"bbox_2d\": [16, 751, 280, 770], \"content\": \"t₁[X] = t₂[X] ⇒ t₁[Y] = t₂[Y]\"},\n\t{\"bbox_2d\": [15, 779, 354, 796], \"content\": \"t₁ and t₂ -> Any two rows in your table\"},\n\t{\"bbox_2d\": [16, 801, 306, 819], \"content\": \"t₁[X] -> look at the X columns of row 1\"},\n\t{\"bbox_2d\": [17, 824, 355, 842], \"content\": \"t₁(X) = t₂(X) -> row 1 and row 2 have same X values.\"},\n\t{\"bbox_2d\": [20, 850, 68, 867], \"content\": \"⇒\"},\n\t{\"bbox_2d\": [39, 869, 124, 887], \"content\": \"-> forces\"},\n\t{\"bbox_2d\": [18, 892, 350, 910], \"content\": \"t₁(Y) = t₂(Y) -> row 1 and row 2 must also have\"},\n\t{\"bbox_2d\": [19, 917, 116, 934], \"content\": \"same Y value.\"},\n\t{\"bbox_2d\": [15, 948, 390, 968], \"content\": \"FD between non-key attributes is a\"},\n\t{\"bbox_2d\": [17, 973, 390, 992], \"content\": \"RED FLAG that data is being repeatedly\"},\n\t{\"bbox_2d\": [17, 996, 181, 1015], \"content\": \"unnecessarily\"},\n\t{\"bbox_2d\": [16, 1023, 427, 1043], \"content\": \"- FD means one attr's value is completely\"},\n\t{\"bbox_2d\": [18, 1050, 249, 1068], \"content\": \"controlled by another\"},\n\t{\"bbox_2d\": [17, 1073, 375, 1091], \"content\": \"-when controlling attr appears in multiple\"},\n\t{\"bbox_2d\": [18, 1096, 348, 1114], \"content\": \"rows, its dependent value gets copy\"},\n\t{\"bbox_2d\": [17, 1119, 158, 1138], \"content\": \"pasted -> ie. redundancy\"},\n\t{\"bbox_2d\": [360, 14, 560, 36], \"content\": \"- Impedance Mismatch problem\"},\n\t{\"bbox_2d\": [360, 41, 479, 58], \"content\": \"-fixed with cursor\"},\n\t{\"bbox_2d\": [358, 77, 403, 93], \"content\": \"OPEN:\"},\n\t{\"bbox_2d\": [359, 100, 606, 119], \"content\": \"FETCH: when it moves to the next row\"},\n\t{\"bbox_2d\": [360, 134, 738, 155], \"content\": \"INSENSITIVE cursor: cannot make changes to\"},\n\t{\"bbox_2d\": [360, 159, 630, 177], \"content\": \"DB with cursor.\"},\n\t{\"bbox_2d\": [358, 184, 457, 201], \"content\": \"If I want to update result,\"},\n\t{\"bbox_2d\": [360, 209, 422, 225], \"content\": \"then declare\"},\n\t{\"bbox_2d\": [360, 231, 472, 248], \"content\": \"sensitive cursor\"},\n\t{\"bbox_2d\": [359, 260, 746, 280], \"content\": \"-> gives issue with collecting set of tuples\"},\n\t{\"bbox_2d\": [360, 312, 594, 331], \"content\": \"CLOSE: closes the cursor\"},\n\t{\"bbox_2d\": [357, 336, 686, 355], \"content\": \"Cursor can be reopened when in variable\"},\n\t{\"bbox_2d\": [359, 360, 444, 376], \"content\": \"is different\"},\n\t{\"bbox_2d\": [358, 388, 512, 407], \"content\": \"Note the poll !!\"},\n\t{\"bbox_2d\": [358, 413, 461, 431], \"content\": \"question\"},\n\t{\"bbox_2d\": [359, 454, 570, 474], \"content\": \"- execute Update ()\"},\n\t{\"bbox_2d\": [358, 479, 668, 499], \"content\": \"only returns number of rows affected\"},\n\t{\"bbox_2d\": [358, 506, 610, 526], \"content\": \"- see the comparison table for.\"},\n\t{\"bbox_2d\": [551, 529, 647, 546], \"content\": \"-> so use\"},\n\t{\"bbox_2d\": [548, 550, 679, 567], \"content\": \"executeQuery() instead\"},\n\t{\"bbox_2d\": [359, 578, 471, 595], \"content\": \"- JDBC vs SQLS\"},\n\t{\"bbox_2d\": [359, 604, 512, 622], \"content\": \"-> for managing\"},\n\t{\"bbox_2d\": [358, 627, 493, 644], \"content\": \"complexity better\"},\n\t{\"bbox_2d\": [495, 605, 571, 623], \"content\": \"when to\"},\n\t{\"bbox_2d\": [495, 628, 593, 644], \"content\": \"choose what?\"},\n\t{\"bbox_2d\": [359, 661, 574, 677], \"content\": \"LIB: Functional Dependencies\"},\n\t{\"bbox_2d\": [360, 686, 512, 702], \"content\": \"Attribute Closure\"},\n\t{\"bbox_2d\": [360, 714, 444, 729], \"content\": \"L14: Normal forms\"},\n\t{\"bbox_2d\": [359, 738, 450, 754], \"content\": \"Normalize\"},\n\t{\"bbox_2d\": [358, 761, 585, 780], \"content\": \"L15: Properties of Decomposition\"},\n\t{\"bbox_2d\": [360, 786, 545, 802], \"content\": \"Lossless Join + DP\"},\n\t{\"bbox_2d\": [359, 810, 487, 828], \"content\": \"Minimal Cover\"},\n\t{\"bbox_2d\": [360, 835, 586, 854], \"content\": \"L16: Decomposition Algorithms\"},\n\t{\"bbox_2d\": [719, 11, 981, 34], \"content\": \"- to make any changes , I need to declare\"},\n\t{\"bbox_2d\": [718, 37, 866, 54], \"content\": \"a sensitive cursor\"},\n\t{\"bbox_2d\": [719, 60, 981, 81], \"content\": \"- embedded SQL recommended in systems\"},\n\t{\"bbox_2d\": [718, 86, 980, 104], \"content\": \"that require high performance without\"},\n\t{\"bbox_2d\": [719, 111, 865, 127], \"content\": \"SDBC overhead\"},\n\t{\"bbox_2d\": [719, 136, 940, 154], \"content\": \"- for dynamic SQL, we cannot reuse, since\"},\n\t{\"bbox_2d\": [718, 161, 858, 177], \"content\": \"we need to prepare.\"},\n\t{\"bbox_2d\": [719, 180, 844, 199], \"content\": \"JDBC/ODBC\"},\n\t{\"bbox_2d\": [719, 206, 981, 226], \"content\": \"JDBC does not require knowing dinfo or\"},\n\t{\"bbox_2d\": [719, 232, 845, 247], \"content\": \"schema info.\"},\n\t{\"bbox_2d\": [718, 256, 980, 275], \"content\": \"- can connect to multiple DBs with multiple\"},\n\t{\"bbox_2d\": [718, 281, 865, 297], \"content\": \"separate drivers\"},\n\t{\"bbox_2d\": [718, 304, 981, 325], \"content\": \"- all interactions with the DB performed via\"},\n\t{\"bbox_2d\": [719, 331, 866, 350], \"content\": \"a connection Object\"},\n\t{\"bbox_2d\": [718, 361, 981, 380], \"content\": \"Prepared Statement is more efficient to use\"},\n\t{\"bbox_2d\": [718, 385, 944, 405], \"content\": \"since it's made to reuse as it is precompiled\"},\n\t{\"bbox_2d\": [718, 410, 864, 428], \"content\": \"- ? are placeholders.\"},\n\t{\"bbox_2d\": [719, 453, 901, 471], \"content\": \"- Keyword -> Redundancy\"},\n\t{\"bbox_2d\": [718, 476, 981, 496], \"content\": \"- FD: most important kind of constraint\"},\n\t{\"bbox_2d\": [718, 501, 913, 519], \"content\": \"in the relational model\"},\n\t{\"bbox_2d\": [718, 526, 981, 544], \"content\": \"- associated with the schema, not\"},\n\t{\"bbox_2d\": [718, 550, 832, 566], \"content\": \"the instance\"},\n\t{\"bbox_2d\": [719, 575, 945, 594], \"content\": \"- can I represent key constraint with FD?\"},\n\t{\"bbox_2d\": [483, 607, 502, 622], \"content\": \"X\"},\n\t{\"bbox_2d\": [512, 607, 530, 622], \"content\": \"->\"},\n\t{\"bbox_2d\": [543, 608, 561, 622], \"content\": \"Y\"},\n\t{\"bbox_2d\": [482, 634, 502, 647], \"content\": \"X\"},\n\t{\"bbox_2d\": [511, 633, 695, 650], \"content\": \"functionally determines\"},\n\t{\"bbox_2d\": [708, 633, 726, 648], \"content\": \"Y\"},\n\t{\"bbox_2d\": [481, 659, 606, 677], \"content\": \"alternatively,\"},\n\t{\"bbox_2d\": [483, 684, 527, 698], \"content\": \"y is\"},\n\t{\"bbox_2d\": [539, 683, 630, 700], \"content\": \"dependent on x\"},\n\t{\"bbox_2d\": [419, 709, 504, 723], \"content\": \"Phonebook\"},\n\t{\"bbox_2d\": [432, 726, 515, 742], \"content\": \"Phone #\"},\n\t{\"bbox_2d\": [529, 727, 570, 742], \"content\": \"Name\"},\n\t{\"bbox_2d\": [584, 727, 616, 743], \"content\": \"City\"},\n\t{\"bbox_2d\": [432, 744, 519, 757], \"content\": \"3035550101\"},\n\t{\"bbox_2d\": [529, 744, 568, 757], \"content\": \"Alice\"},\n\t{\"bbox_2d\": [584, 744, 630, 757], \"content\": \"Fairfax\"},\n\t{\"bbox_2d\": [431, 761, 520, 774], \"content\": \"3035550101\"},\n\t{\"bbox_2d\": [528, 762, 568, 775], \"content\": \"Alice\"},\n\t{\"bbox_2d\": [585, 762, 630, 775], \"content\": \"Fairfax\"},\n\t{\"bbox_2d\": [419, 780, 684, 802], \"content\": \"If I know someone's phone no.\"},\n\t{\"bbox_2d\": [418, 803, 685, 824], \"content\": \"can I always figure out their name.\"},\n\t{\"bbox_2d\": [427, 828, 579, 846], \"content\": \"Phone # -> Name\"},\n\t{\"bbox_2d\": [719, 803, 752, 821], \"content\": \"- X -> Y Z\"},\n\t{\"bbox_2d\": [762, 803, 774, 821], \"content\": \"{\"},\n\t{\"bbox_2d\": [782, 803, 831, 819], \"content\": \"X -> Y\"},\n\t{\"bbox_2d\": [846, 804, 859, 821], \"content\": \"Z\"},\n\t{\"bbox_2d\": [719, 832, 752, 850], \"content\": \"->\"},\n\t{\"bbox_2d\": [761, 832, 774, 850], \"content\": \"{\"},\n\t{\"bbox_2d\": [782, 832, 832, 847], \"content\": \"X -> Y\"},\n\t{\"bbox_2d\": [846, 831, 859, 850], \"content\": \"Z\"},\n\t{\"bbox_2d\": [760, 856, 809, 873], \"content\": \"LHS is the\"},\n\t{\"bbox_2d\": [761, 876, 874, 894], \"content\": \"determinant\"},\n\t{\"bbox_2d\": [815, 806, 930, 824], \"content\": \"cannot decompose\"},\n\t{\"bbox_2d\": [815, 830, 867, 847], \"content\": \"LHS\"},\n\t{\"bbox_2d\": [750, 898, 981, 917], \"content\": \"- Closure of Attributes\"},\n\t{\"bbox_2d\": [750, 924, 980, 943], \"content\": \"- find all attributes dependent on ?(X)?\"},\n\t{\"bbox_2d\": [750, 951, 980, 969], \"content\": \"if I know value of attr X, what\"},\n\t{\"bbox_2d\": [750, 974, 908, 993], \"content\": \"else can I figure out?\"},\n\t{\"bbox_2d\": [751, 999, 886, 1017], \"content\": \"- ie. closure of X\"},\n\t{\"bbox_2d\": [751, 1024, 783, 1039], \"content\": \"AUX.\"},\n\t{\"bbox_2d\": [796, 1023, 818, 1039], \"content\": \"X+\"},\n\t{\"bbox_2d\": [750, 1047, 980, 1066], \"content\": \"- think yourself as a detective\"},\n\t{\"bbox_2d\": [751, 1072, 930, 1089], \"content\": \"- start with one clue, let it lead\"},\n\t{\"bbox_2d\": [751, 1096, 815, 1114], \"content\": \"to more clues\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.016,
+          0.007,
+          0.104,
+          0.025
+        ],
+        "SQL in Application Code"
+      ],
+      [
+        [
+          0.018,
+          0.031,
+          0.236,
+          0.049
+        ],
+        "- Two main integration approaches"
+      ],
+      [
+        [
+          0.016,
+          0.053,
+          0.37,
+          0.071
+        ],
+        "(SU) Statement level interface -> embedded SQL"
+      ],
+      [
+        [
+          0.028,
+          0.077,
+          0.096,
+          0.092
+        ],
+        "-embed SQL"
+      ],
+      [
+        [
+          0.022,
+          0.097,
+          0.302,
+          0.115
+        ],
+        "(CU) Call-level interface -> JDBC"
+      ],
+      [
+        [
+          0.022,
+          0.12,
+          0.286,
+          0.14
+        ],
+        "-special API to -> ODBC"
+      ],
+      [
+        [
+          0.039,
+          0.143,
+          0.136,
+          0.157
+        ],
+        "SQL commands"
+      ],
+      [
+        [
+          0.014,
+          0.166,
+          0.048,
+          0.181
+        ],
+        "SU"
+      ],
+      [
+        [
+          0.01,
+          0.185,
+          0.039,
+          0.2
+        ],
+        "(CU)"
+      ],
+      [
+        [
+          0.117,
+          0.166,
+          0.204,
+          0.18
+        ],
+        "Precompiler"
+      ],
+      [
+        [
+          0.218,
+          0.166,
+          0.309,
+          0.18
+        ],
+        "Schema_info"
+      ],
+      [
+        [
+          0.327,
+          0.165,
+          0.4,
+          0.18
+        ],
+        "datatype"
+      ],
+      [
+        [
+          0.418,
+          0.166,
+          0.495,
+          0.181
+        ],
+        "multiple"
+      ],
+      [
+        [
+          0.51,
+          0.167,
+          0.573,
+          0.181
+        ],
+        "efficient"
+      ],
+      [
+        [
+          0.593,
+          0.167,
+          0.654,
+          0.181
+        ],
+        "to expand"
+      ],
+      [
+        [
+          0.591,
+          0.186,
+          0.637,
+          0.201
+        ],
+        "SQL"
+      ],
+      [
+        [
+          0.115,
+          0.186,
+          0.147,
+          0.2
+        ],
+        "static"
+      ],
+      [
+        [
+          0.219,
+          0.186,
+          0.253,
+          0.201
+        ],
+        "Yes"
+      ],
+      [
+        [
+          0.326,
+          0.186,
+          0.359,
+          0.201
+        ],
+        "yes"
+      ],
+      [
+        [
+          0.417,
+          0.187,
+          0.446,
+          0.201
+        ],
+        "Yes"
+      ],
+      [
+        [
+          0.51,
+          0.187,
+          0.537,
+          0.201
+        ],
+        "No"
+      ],
+      [
+        [
+          0.593,
+          0.187,
+          0.63,
+          0.201
+        ],
+        "lower"
+      ],
+      [
+        [
+          0.114,
+          0.206,
+          0.147,
+          0.221
+        ],
+        "dynamic"
+      ],
+      [
+        [
+          0.219,
+          0.205,
+          0.253,
+          0.22
+        ],
+        "No"
+      ],
+      [
+        [
+          0.326,
+          0.205,
+          0.348,
+          0.22
+        ],
+        "No"
+      ],
+      [
+        [
+          0.417,
+          0.205,
+          0.446,
+          0.221
+        ],
+        "Yes"
+      ],
+      [
+        [
+          0.509,
+          0.205,
+          0.538,
+          0.221
+        ],
+        "lower"
+      ],
+      [
+        [
+          0.593,
+          0.205,
+          0.631,
+          0.22
+        ],
+        "higher"
+      ],
+      [
+        [
+          0.011,
+          0.227,
+          0.04,
+          0.242
+        ],
+        "(CU)"
+      ],
+      [
+        [
+          0.115,
+          0.228,
+          0.136,
+          0.242
+        ],
+        "No"
+      ],
+      [
+        [
+          0.219,
+          0.227,
+          0.25,
+          0.242
+        ],
+        "No"
+      ],
+      [
+        [
+          0.326,
+          0.228,
+          0.348,
+          0.243
+        ],
+        "No"
+      ],
+      [
+        [
+          0.417,
+          0.228,
+          0.447,
+          0.243
+        ],
+        "Yes"
+      ],
+      [
+        [
+          0.509,
+          0.228,
+          0.536,
+          0.243
+        ],
+        "lower"
+      ],
+      [
+        [
+          0.593,
+          0.227,
+          0.642,
+          0.242
+        ],
+        "prepared"
+      ],
+      [
+        [
+          0.591,
+          0.247,
+          0.64,
+          0.262
+        ],
+        "statement"
+      ],
+      [
+        [
+          0.593,
+          0.267,
+          0.626,
+          0.28
+        ],
+        "lower"
+      ],
+      [
+        [
+          0.014,
+          0.27,
+          0.374,
+          0.289
+        ],
+        "Schema of DB must be known at"
+      ],
+      [
+        [
+          0.022,
+          0.296,
+          0.295,
+          0.313
+        ],
+        "time program is written for embedded SQL"
+      ],
+      [
+        [
+          0.02,
+          0.327,
+          0.281,
+          0.347
+        ],
+        "- can get info at runtime"
+      ],
+      [
+        [
+          0.019,
+          0.351,
+          0.151,
+          0.368
+        ],
+        "instead of compile time."
+      ],
+      [
+        [
+          0.015,
+          0.382,
+          0.4,
+          0.397
+        ],
+        "- SQLSTATE - common error vars defined here"
+      ],
+      [
+        [
+          0.036,
+          0.406,
+          0.26,
+          0.423
+        ],
+        "EXEC SQL SELECT S.sname, S.age"
+      ],
+      [
+        [
+          0.036,
+          0.427,
+          0.251,
+          0.446
+        ],
+        "INTO :c-name, :c-age -> out parameters"
+      ],
+      [
+        [
+          0.037,
+          0.45,
+          0.189,
+          0.468
+        ],
+        "FROM sailors S"
+      ],
+      [
+        [
+          0.037,
+          0.473,
+          0.17,
+          0.49
+        ],
+        "WHERE S.sid = :c-sid"
+      ],
+      [
+        [
+          0.205,
+          0.481,
+          0.262,
+          0.502
+        ],
+        "-> in parameter"
+      ],
+      [
+        [
+          0.013,
+          0.507,
+          0.198,
+          0.525
+        ],
+        "- for db, start index from 1."
+      ],
+      [
+        [
+          0.014,
+          0.536,
+          0.067,
+          0.552
+        ],
+        "Project ?"
+      ],
+      [
+        [
+          0.015,
+          0.56,
+          0.389,
+          0.578
+        ],
+        "- need to use LIKE for partial matching"
+      ],
+      [
+        [
+          0.015,
+          0.584,
+          0.118,
+          0.598
+        ],
+        "- cross-check ?"
+      ],
+      [
+        [
+          0.015,
+          0.607,
+          0.389,
+          0.627
+        ],
+        "- program should NOT crash"
+      ],
+      [
+        [
+          0.014,
+          0.638,
+          0.281,
+          0.657
+        ],
+        "- use grade for simplicity"
+      ],
+      [
+        [
+          0.02,
+          0.662,
+          0.225,
+          0.679
+        ],
+        "( cuz that's what I know best)"
+      ],
+      [
+        [
+          0.013,
+          0.704,
+          0.381,
+          0.723
+        ],
+        "- look out for redundancies in data"
+      ],
+      [
+        [
+          0.016,
+          0.729,
+          0.135,
+          0.745
+        ],
+        "instances"
+      ],
+      [
+        [
+          0.016,
+          0.751,
+          0.28,
+          0.77
+        ],
+        "t₁[X] = t₂[X] ⇒ t₁[Y] = t₂[Y]"
+      ],
+      [
+        [
+          0.015,
+          0.779,
+          0.354,
+          0.796
+        ],
+        "t₁ and t₂ -> Any two rows in your table"
+      ],
+      [
+        [
+          0.016,
+          0.801,
+          0.306,
+          0.819
+        ],
+        "t₁[X] -> look at the X columns of row 1"
+      ],
+      [
+        [
+          0.017,
+          0.824,
+          0.355,
+          0.842
+        ],
+        "t₁(X) = t₂(X) -> row 1 and row 2 have same X values."
+      ],
+      [
+        [
+          0.02,
+          0.85,
+          0.068,
+          0.867
+        ],
+        "⇒"
+      ],
+      [
+        [
+          0.039,
+          0.869,
+          0.124,
+          0.887
+        ],
+        "-> forces"
+      ],
+      [
+        [
+          0.018,
+          0.892,
+          0.35,
+          0.91
+        ],
+        "t₁(Y) = t₂(Y) -> row 1 and row 2 must also have"
+      ],
+      [
+        [
+          0.019,
+          0.917,
+          0.116,
+          0.934
+        ],
+        "same Y value."
+      ],
+      [
+        [
+          0.015,
+          0.948,
+          0.39,
+          0.968
+        ],
+        "FD between non-key attributes is a"
+      ],
+      [
+        [
+          0.017,
+          0.973,
+          0.39,
+          0.992
+        ],
+        "RED FLAG that data is being repeatedly"
+      ],
+      [
+        [
+          0.017,
+          0.996,
+          0.181,
+          1.0
+        ],
+        "unnecessarily"
+      ],
+      [
+        [
+          0.016,
+          1.0,
+          0.427,
+          1.0
+        ],
+        "- FD means one attr's value is completely"
+      ],
+      [
+        [
+          0.018,
+          1.0,
+          0.249,
+          1.0
+        ],
+        "controlled by another"
+      ],
+      [
+        [
+          0.017,
+          1.0,
+          0.375,
+          1.0
+        ],
+        "-when controlling attr appears in multiple"
+      ],
+      [
+        [
+          0.018,
+          1.0,
+          0.348,
+          1.0
+        ],
+        "rows, its dependent value gets copy"
+      ],
+      [
+        [
+          0.017,
+          1.0,
+          0.158,
+          1.0
+        ],
+        "pasted -> ie. redundancy"
+      ],
+      [
+        [
+          0.36,
+          0.014,
+          0.56,
+          0.036
+        ],
+        "- Impedance Mismatch problem"
+      ],
+      [
+        [
+          0.36,
+          0.041,
+          0.479,
+          0.058
+        ],
+        "-fixed with cursor"
+      ],
+      [
+        [
+          0.358,
+          0.077,
+          0.403,
+          0.093
+        ],
+        "OPEN:"
+      ],
+      [
+        [
+          0.359,
+          0.1,
+          0.606,
+          0.119
+        ],
+        "FETCH: when it moves to the next row"
+      ],
+      [
+        [
+          0.36,
+          0.134,
+          0.738,
+          0.155
+        ],
+        "INSENSITIVE cursor: cannot make changes to"
+      ],
+      [
+        [
+          0.36,
+          0.159,
+          0.63,
+          0.177
+        ],
+        "DB with cursor."
+      ],
+      [
+        [
+          0.358,
+          0.184,
+          0.457,
+          0.201
+        ],
+        "If I want to update result,"
+      ],
+      [
+        [
+          0.36,
+          0.209,
+          0.422,
+          0.225
+        ],
+        "then declare"
+      ],
+      [
+        [
+          0.36,
+          0.231,
+          0.472,
+          0.248
+        ],
+        "sensitive cursor"
+      ],
+      [
+        [
+          0.359,
+          0.26,
+          0.746,
+          0.28
+        ],
+        "-> gives issue with collecting set of tuples"
+      ],
+      [
+        [
+          0.36,
+          0.312,
+          0.594,
+          0.331
+        ],
+        "CLOSE: closes the cursor"
+      ],
+      [
+        [
+          0.357,
+          0.336,
+          0.686,
+          0.355
+        ],
+        "Cursor can be reopened when in variable"
+      ],
+      [
+        [
+          0.359,
+          0.36,
+          0.444,
+          0.376
+        ],
+        "is different"
+      ],
+      [
+        [
+          0.358,
+          0.388,
+          0.512,
+          0.407
+        ],
+        "Note the poll !!"
+      ],
+      [
+        [
+          0.358,
+          0.413,
+          0.461,
+          0.431
+        ],
+        "question"
+      ],
+      [
+        [
+          0.359,
+          0.454,
+          0.57,
+          0.474
+        ],
+        "- execute Update ()"
+      ],
+      [
+        [
+          0.358,
+          0.479,
+          0.668,
+          0.499
+        ],
+        "only returns number of rows affected"
+      ],
+      [
+        [
+          0.358,
+          0.506,
+          0.61,
+          0.526
+        ],
+        "- see the comparison table for."
+      ],
+      [
+        [
+          0.551,
+          0.529,
+          0.647,
+          0.546
+        ],
+        "-> so use"
+      ],
+      [
+        [
+          0.548,
+          0.55,
+          0.679,
+          0.567
+        ],
+        "executeQuery() instead"
+      ],
+      [
+        [
+          0.359,
+          0.578,
+          0.471,
+          0.595
+        ],
+        "- JDBC vs SQLS"
+      ],
+      [
+        [
+          0.359,
+          0.604,
+          0.512,
+          0.622
+        ],
+        "-> for managing"
+      ],
+      [
+        [
+          0.358,
+          0.627,
+          0.493,
+          0.644
+        ],
+        "complexity better"
+      ],
+      [
+        [
+          0.495,
+          0.605,
+          0.571,
+          0.623
+        ],
+        "when to"
+      ],
+      [
+        [
+          0.495,
+          0.628,
+          0.593,
+          0.644
+        ],
+        "choose what?"
+      ],
+      [
+        [
+          0.359,
+          0.661,
+          0.574,
+          0.677
+        ],
+        "LIB: Functional Dependencies"
+      ],
+      [
+        [
+          0.36,
+          0.686,
+          0.512,
+          0.702
+        ],
+        "Attribute Closure"
+      ],
+      [
+        [
+          0.36,
+          0.714,
+          0.444,
+          0.729
+        ],
+        "L14: Normal forms"
+      ],
+      [
+        [
+          0.359,
+          0.738,
+          0.45,
+          0.754
+        ],
+        "Normalize"
+      ],
+      [
+        [
+          0.358,
+          0.761,
+          0.585,
+          0.78
+        ],
+        "L15: Properties of Decomposition"
+      ],
+      [
+        [
+          0.36,
+          0.786,
+          0.545,
+          0.802
+        ],
+        "Lossless Join + DP"
+      ],
+      [
+        [
+          0.359,
+          0.81,
+          0.487,
+          0.828
+        ],
+        "Minimal Cover"
+      ],
+      [
+        [
+          0.36,
+          0.835,
+          0.586,
+          0.854
+        ],
+        "L16: Decomposition Algorithms"
+      ],
+      [
+        [
+          0.719,
+          0.011,
+          0.981,
+          0.034
+        ],
+        "- to make any changes , I need to declare"
+      ],
+      [
+        [
+          0.718,
+          0.037,
+          0.866,
+          0.054
+        ],
+        "a sensitive cursor"
+      ],
+      [
+        [
+          0.719,
+          0.06,
+          0.981,
+          0.081
+        ],
+        "- embedded SQL recommended in systems"
+      ],
+      [
+        [
+          0.718,
+          0.086,
+          0.98,
+          0.104
+        ],
+        "that require high performance without"
+      ],
+      [
+        [
+          0.719,
+          0.111,
+          0.865,
+          0.127
+        ],
+        "SDBC overhead"
+      ],
+      [
+        [
+          0.719,
+          0.136,
+          0.94,
+          0.154
+        ],
+        "- for dynamic SQL, we cannot reuse, since"
+      ],
+      [
+        [
+          0.718,
+          0.161,
+          0.858,
+          0.177
+        ],
+        "we need to prepare."
+      ],
+      [
+        [
+          0.719,
+          0.18,
+          0.844,
+          0.199
+        ],
+        "JDBC/ODBC"
+      ],
+      [
+        [
+          0.719,
+          0.206,
+          0.981,
+          0.226
+        ],
+        "JDBC does not require knowing dinfo or"
+      ],
+      [
+        [
+          0.719,
+          0.232,
+          0.845,
+          0.247
+        ],
+        "schema info."
+      ],
+      [
+        [
+          0.718,
+          0.256,
+          0.98,
+          0.275
+        ],
+        "- can connect to multiple DBs with multiple"
+      ],
+      [
+        [
+          0.718,
+          0.281,
+          0.865,
+          0.297
+        ],
+        "separate drivers"
+      ],
+      [
+        [
+          0.718,
+          0.304,
+          0.981,
+          0.325
+        ],
+        "- all interactions with the DB performed via"
+      ],
+      [
+        [
+          0.719,
+          0.331,
+          0.866,
+          0.35
+        ],
+        "a connection Object"
+      ],
+      [
+        [
+          0.718,
+          0.361,
+          0.981,
+          0.38
+        ],
+        "Prepared Statement is more efficient to use"
+      ],
+      [
+        [
+          0.718,
+          0.385,
+          0.944,
+          0.405
+        ],
+        "since it's made to reuse as it is precompiled"
+      ],
+      [
+        [
+          0.718,
+          0.41,
+          0.864,
+          0.428
+        ],
+        "- ? are placeholders."
+      ],
+      [
+        [
+          0.719,
+          0.453,
+          0.901,
+          0.471
+        ],
+        "- Keyword -> Redundancy"
+      ],
+      [
+        [
+          0.718,
+          0.476,
+          0.981,
+          0.496
+        ],
+        "- FD: most important kind of constraint"
+      ],
+      [
+        [
+          0.718,
+          0.501,
+          0.913,
+          0.519
+        ],
+        "in the relational model"
+      ],
+      [
+        [
+          0.718,
+          0.526,
+          0.981,
+          0.544
+        ],
+        "- associated with the schema, not"
+      ],
+      [
+        [
+          0.718,
+          0.55,
+          0.832,
+          0.566
+        ],
+        "the instance"
+      ],
+      [
+        [
+          0.719,
+          0.575,
+          0.945,
+          0.594
+        ],
+        "- can I represent key constraint with FD?"
+      ],
+      [
+        [
+          0.483,
+          0.607,
+          0.502,
+          0.622
+        ],
+        "X"
+      ],
+      [
+        [
+          0.512,
+          0.607,
+          0.53,
+          0.622
+        ],
+        "->"
+      ],
+      [
+        [
+          0.543,
+          0.608,
+          0.561,
+          0.622
+        ],
+        "Y"
+      ],
+      [
+        [
+          0.482,
+          0.634,
+          0.502,
+          0.647
+        ],
+        "X"
+      ],
+      [
+        [
+          0.511,
+          0.633,
+          0.695,
+          0.65
+        ],
+        "functionally determines"
+      ],
+      [
+        [
+          0.708,
+          0.633,
+          0.726,
+          0.648
+        ],
+        "Y"
+      ],
+      [
+        [
+          0.481,
+          0.659,
+          0.606,
+          0.677
+        ],
+        "alternatively,"
+      ],
+      [
+        [
+          0.483,
+          0.684,
+          0.527,
+          0.698
+        ],
+        "y is"
+      ],
+      [
+        [
+          0.539,
+          0.683,
+          0.63,
+          0.7
+        ],
+        "dependent on x"
+      ],
+      [
+        [
+          0.419,
+          0.709,
+          0.504,
+          0.723
+        ],
+        "Phonebook"
+      ],
+      [
+        [
+          0.432,
+          0.726,
+          0.515,
+          0.742
+        ],
+        "Phone #"
+      ],
+      [
+        [
+          0.529,
+          0.727,
+          0.57,
+          0.742
+        ],
+        "Name"
+      ],
+      [
+        [
+          0.584,
+          0.727,
+          0.616,
+          0.743
+        ],
+        "City"
+      ],
+      [
+        [
+          0.432,
+          0.744,
+          0.519,
+          0.757
+        ],
+        "3035550101"
+      ],
+      [
+        [
+          0.529,
+          0.744,
+          0.568,
+          0.757
+        ],
+        "Alice"
+      ],
+      [
+        [
+          0.584,
+          0.744,
+          0.63,
+          0.757
+        ],
+        "Fairfax"
+      ],
+      [
+        [
+          0.431,
+          0.761,
+          0.52,
+          0.774
+        ],
+        "3035550101"
+      ],
+      [
+        [
+          0.528,
+          0.762,
+          0.568,
+          0.775
+        ],
+        "Alice"
+      ],
+      [
+        [
+          0.585,
+          0.762,
+          0.63,
+          0.775
+        ],
+        "Fairfax"
+      ],
+      [
+        [
+          0.419,
+          0.78,
+          0.684,
+          0.802
+        ],
+        "If I know someone's phone no."
+      ],
+      [
+        [
+          0.418,
+          0.803,
+          0.685,
+          0.824
+        ],
+        "can I always figure out their name."
+      ],
+      [
+        [
+          0.427,
+          0.828,
+          0.579,
+          0.846
+        ],
+        "Phone # -> Name"
+      ],
+      [
+        [
+          0.719,
+          0.803,
+          0.752,
+          0.821
+        ],
+        "- X -> Y Z"
+      ],
+      [
+        [
+          0.762,
+          0.803,
+          0.774,
+          0.821
+        ],
+        "{"
+      ],
+      [
+        [
+          0.782,
+          0.803,
+          0.831,
+          0.819
+        ],
+        "X -> Y"
+      ],
+      [
+        [
+          0.846,
+          0.804,
+          0.859,
+          0.821
+        ],
+        "Z"
+      ],
+      [
+        [
+          0.719,
+          0.832,
+          0.752,
+          0.85
+        ],
+        "->"
+      ],
+      [
+        [
+          0.761,
+          0.832,
+          0.774,
+          0.85
+        ],
+        "{"
+      ],
+      [
+        [
+          0.782,
+          0.832,
+          0.832,
+          0.847
+        ],
+        "X -> Y"
+      ],
+      [
+        [
+          0.846,
+          0.831,
+          0.859,
+          0.85
+        ],
+        "Z"
+      ],
+      [
+        [
+          0.76,
+          0.856,
+          0.809,
+          0.873
+        ],
+        "LHS is the"
+      ],
+      [
+        [
+          0.761,
+          0.876,
+          0.874,
+          0.894
+        ],
+        "determinant"
+      ],
+      [
+        [
+          0.815,
+          0.806,
+          0.93,
+          0.824
+        ],
+        "cannot decompose"
+      ],
+      [
+        [
+          0.815,
+          0.83,
+          0.867,
+          0.847
+        ],
+        "LHS"
+      ],
+      [
+        [
+          0.75,
+          0.898,
+          0.981,
+          0.917
+        ],
+        "- Closure of Attributes"
+      ],
+      [
+        [
+          0.75,
+          0.924,
+          0.98,
+          0.943
+        ],
+        "- find all attributes dependent on ?(X)?"
+      ],
+      [
+        [
+          0.75,
+          0.951,
+          0.98,
+          0.969
+        ],
+        "if I know value of attr X, what"
+      ],
+      [
+        [
+          0.75,
+          0.974,
+          0.908,
+          0.993
+        ],
+        "else can I figure out?"
+      ],
+      [
+        [
+          0.751,
+          0.999,
+          0.886,
+          1.0
+        ],
+        "- ie. closure of X"
+      ],
+      [
+        [
+          0.751,
+          1.0,
+          0.783,
+          1.0
+        ],
+        "AUX."
+      ],
+      [
+        [
+          0.796,
+          1.0,
+          0.818,
+          1.0
+        ],
+        "X+"
+      ],
+      [
+        [
+          0.75,
+          1.0,
+          0.98,
+          1.0
+        ],
+        "- think yourself as a detective"
+      ],
+      [
+        [
+          0.751,
+          1.0,
+          0.93,
+          1.0
+        ],
+        "- start with one clue, let it lead"
+      ],
+      [
+        [
+          0.751,
+          1.0,
+          0.815,
+          1.0
+        ],
+        "to more clues"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2643,
+      "recall_at_05": 0.0571,
+      "precision": 0.2151,
+      "hmean": 0.2372,
+      "avg_iou": 0.4254,
+      "text_sim": 0.2813,
+      "avg_cer": 0.802,
+      "bow_f1": 0.7856,
+      "char_recall": 0.4516,
+      "char_precision": 0.4364
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 81.141
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.8,
+    "temperature": 0.7,
+    "presence_penalty": 1.5,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [27, 19, 305, 60], \"content\": \"- FK can have null value\"},\n\t{\"bbox_2d\": [24, 82, 967, 139], \"content\": \"- I could modify my existing implementation of project (.)\"},\n\t{\"bbox_2d\": [25, 160, 869, 222], \"content\": \"# Mapping Binary 1:1 Relationship Sets\"},\n\t{\"bbox_2d\": [73, 242, 236, 283], \"content\": \"- FK approach\"},\n\t{\"bbox_2d\": [70, 305, 491, 355], \"content\": \"- Merged relation approach\"},\n\t{\"bbox_2d\": [172, 326, 877, 385], \"content\": \"(if both participations are total, merge\"},\n\t{\"bbox_2d\": [169, 354, 905, 409], \"content\": \"2 entity sets and relationship set into single\"},\n\t{\"bbox_2d\": [185, 387, 294, 435], \"content\": \"table)\"},\n\t{\"bbox_2d\": [33, 436, 265, 491], \"content\": \"(1 FK approach\"},\n\t{\"bbox_2d\": [408, 427, 485, 463], \"content\": \"total\"},\n\t{\"bbox_2d\": [705, 383, 958, 433], \"content\": \"Cross Ref also\"},\n\t{\"bbox_2d\": [713, 420, 862, 462], \"content\": \"applies here\"},\n\t{\"bbox_2d\": [695, 475, 965, 522], \"content\": \"merge-rel can work\"},\n\t{\"bbox_2d\": [695, 507, 918, 553], \"content\": \"here with PK from\"},\n\t{\"bbox_2d\": [697, 543, 960, 587], \"content\": \"both participations\"},\n\t{\"bbox_2d\": [705, 578, 916, 624], \"content\": \"- not desirable\"},\n\t{\"bbox_2d\": [263, 607, 971, 657], \"content\": \"PK(S) ... PK(T) a1 ... an\"},\n\t{\"bbox_2d\": [24, 680, 263, 734], \"content\": \"(2 merge-relation\"},\n\t{\"bbox_2d\": [592, 675, 952, 724], \"content\": \"PK can be either one\"},\n\t{\"bbox_2d\": [28, 753, 201, 800], \"content\": \"FK applies\"},\n\t{\"bbox_2d\": [16, 792, 222, 840], \"content\": \"to second case\"},\n\t{\"bbox_2d\": [153, 824, 245, 866], \"content\": \"as well\"},\n\t{\"bbox_2d\": [17, 856, 290, 907], \"content\": \"Cross Ref can also\"},\n\t{\"bbox_2d\": [32, 894, 176, 939], \"content\": \"apply here\"},\n\t{\"bbox_2d\": [518, 903, 743, 952], \"content\": \"a1 | ... | an\"},\n\t{\"bbox_2d\": [255, 925, 644, 974], \"content\": \"ST | PK(S) | PK(T) | ...\"},\n\t{\"bbox_2d\": [260, 953, 481, 999], \"content\": \"(since it's 1:1)\"},\n\t{\"bbox_2d\": [171, 449, 205, 481], \"content\": \"R\"},\n\t{\"bbox_2d\": [136, 479, 175, 520], \"content\": \"S\"},\n\t{\"bbox_2d\": [465, 479, 505, 521], \"content\": \"T\"},\n\t{\"bbox_2d\": [238, 528, 310, 567], \"content\": \"PK(S)\"},\n\t{\"bbox_2d\": [634, 531, 705, 569], \"content\": \"PK(T)\"},\n\t{\"bbox_2d\": [388, 579, 430, 614], \"content\": \"PK(T)\"},\n\t{\"bbox_2d\": [203, 619, 238, 652], \"content\": \"T\"},\n\t{\"bbox_2d\": [169, 653, 204, 687], \"content\": \"S\"},\n\t{\"bbox_2d\": [167, 704, 204, 737], \"content\": \"a1... an\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.027,
+          0.019,
+          0.305,
+          0.06
+        ],
+        "- FK can have null value"
+      ],
+      [
+        [
+          0.024,
+          0.082,
+          0.967,
+          0.139
+        ],
+        "- I could modify my existing implementation of project (.)"
+      ],
+      [
+        [
+          0.025,
+          0.16,
+          0.869,
+          0.222
+        ],
+        "# Mapping Binary 1:1 Relationship Sets"
+      ],
+      [
+        [
+          0.073,
+          0.242,
+          0.236,
+          0.283
+        ],
+        "- FK approach"
+      ],
+      [
+        [
+          0.07,
+          0.305,
+          0.491,
+          0.355
+        ],
+        "- Merged relation approach"
+      ],
+      [
+        [
+          0.172,
+          0.326,
+          0.877,
+          0.385
+        ],
+        "(if both participations are total, merge"
+      ],
+      [
+        [
+          0.169,
+          0.354,
+          0.905,
+          0.409
+        ],
+        "2 entity sets and relationship set into single"
+      ],
+      [
+        [
+          0.185,
+          0.387,
+          0.294,
+          0.435
+        ],
+        "table)"
+      ],
+      [
+        [
+          0.033,
+          0.436,
+          0.265,
+          0.491
+        ],
+        "(1 FK approach"
+      ],
+      [
+        [
+          0.408,
+          0.427,
+          0.485,
+          0.463
+        ],
+        "total"
+      ],
+      [
+        [
+          0.705,
+          0.383,
+          0.958,
+          0.433
+        ],
+        "Cross Ref also"
+      ],
+      [
+        [
+          0.713,
+          0.42,
+          0.862,
+          0.462
+        ],
+        "applies here"
+      ],
+      [
+        [
+          0.695,
+          0.475,
+          0.965,
+          0.522
+        ],
+        "merge-rel can work"
+      ],
+      [
+        [
+          0.695,
+          0.507,
+          0.918,
+          0.553
+        ],
+        "here with PK from"
+      ],
+      [
+        [
+          0.697,
+          0.543,
+          0.96,
+          0.587
+        ],
+        "both participations"
+      ],
+      [
+        [
+          0.705,
+          0.578,
+          0.916,
+          0.624
+        ],
+        "- not desirable"
+      ],
+      [
+        [
+          0.263,
+          0.607,
+          0.971,
+          0.657
+        ],
+        "PK(S) ... PK(T) a1 ... an"
+      ],
+      [
+        [
+          0.024,
+          0.68,
+          0.263,
+          0.734
+        ],
+        "(2 merge-relation"
+      ],
+      [
+        [
+          0.592,
+          0.675,
+          0.952,
+          0.724
+        ],
+        "PK can be either one"
+      ],
+      [
+        [
+          0.028,
+          0.753,
+          0.201,
+          0.8
+        ],
+        "FK applies"
+      ],
+      [
+        [
+          0.016,
+          0.792,
+          0.222,
+          0.84
+        ],
+        "to second case"
+      ],
+      [
+        [
+          0.153,
+          0.824,
+          0.245,
+          0.866
+        ],
+        "as well"
+      ],
+      [
+        [
+          0.017,
+          0.856,
+          0.29,
+          0.907
+        ],
+        "Cross Ref can also"
+      ],
+      [
+        [
+          0.032,
+          0.894,
+          0.176,
+          0.939
+        ],
+        "apply here"
+      ],
+      [
+        [
+          0.518,
+          0.903,
+          0.743,
+          0.952
+        ],
+        "a1 | ... | an"
+      ],
+      [
+        [
+          0.255,
+          0.925,
+          0.644,
+          0.974
+        ],
+        "ST | PK(S) | PK(T) | ..."
+      ],
+      [
+        [
+          0.26,
+          0.953,
+          0.481,
+          0.999
+        ],
+        "(since it's 1:1)"
+      ],
+      [
+        [
+          0.171,
+          0.449,
+          0.205,
+          0.481
+        ],
+        "R"
+      ],
+      [
+        [
+          0.136,
+          0.479,
+          0.175,
+          0.52
+        ],
+        "S"
+      ],
+      [
+        [
+          0.465,
+          0.479,
+          0.505,
+          0.521
+        ],
+        "T"
+      ],
+      [
+        [
+          0.238,
+          0.528,
+          0.31,
+          0.567
+        ],
+        "PK(S)"
+      ],
+      [
+        [
+          0.634,
+          0.531,
+          0.705,
+          0.569
+        ],
+        "PK(T)"
+      ],
+      [
+        [
+          0.388,
+          0.579,
+          0.43,
+          0.614
+        ],
+        "PK(T)"
+      ],
+      [
+        [
+          0.203,
+          0.619,
+          0.238,
+          0.652
+        ],
+        "T"
+      ],
+      [
+        [
+          0.169,
+          0.653,
+          0.204,
+          0.687
+        ],
+        "S"
+      ],
+      [
+        [
+          0.167,
+          0.704,
+          0.204,
+          0.737
+        ],
+        "a1... an"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.3226,
+      "recall_at_05": 0.2581,
+      "precision": 0.2778,
+      "hmean": 0.2985,
+      "avg_iou": 0.5428,
+      "text_sim": 0.5478,
+      "avg_cer": 0.6118,
+      "bow_f1": 0.7895,
+      "char_recall": 0.4973,
+      "char_precision": 0.455
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 16.781
+  },
+  {
+    "document": "image",
+    "mode": "grounded",
+    "model": "Qwen/Qwen3.5-9B",
+    "profile": "generic",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.8,
+    "temperature": 0.7,
+    "presence_penalty": 1.5,
+    "raw": "```json\n[\n\t{\"bbox_2d\": [57, 30, 126, 68], \"content\": \"Fr\"},\n\t{\"bbox_2d\": [179, 34, 433, 67], \"content\": \"10.4.2026\"},\n\t{\"bbox_2d\": [748, 25, 835, 47], \"content\": \"1000\"},\n\t{\"bbox_2d\": [59, 135, 279, 165], \"content\": \"Neurotiker\"},\n\t{\"bbox_2d\": [58, 198, 181, 242], \"content\": \"Tyren\"},\n\t{\"bbox_2d\": [223, 206, 273, 229], \"content\": \"23\"},\n\t{\"bbox_2d\": [56, 284, 206, 317], \"content\": \"schwache\"},\n\t{\"bbox_2d\": [236, 286, 368, 317], \"content\": \"Grenzen\"},\n\t{\"bbox_2d\": [148, 319, 203, 345], \"content\": \"im\"},\n\t{\"bbox_2d\": [238, 322, 326, 352], \"content\": \"Kopff\"},\n\t{\"bbox_2d\": [97, 381, 248, 416], \"content\": \"Linke\"},\n\t{\"bbox_2d\": [80, 420, 255, 461], \"content\": \"weiblich\"},\n\t{\"bbox_2d\": [43, 514, 255, 549], \"content\": \"verwechseln\"},\n\t{\"bbox_2d\": [307, 514, 393, 541], \"content\": \"viel\"},\n\t{\"bbox_2d\": [60, 603, 148, 631], \"content\": \"\\\"Alles\"},\n\t{\"bbox_2d\": [219, 602, 275, 634], \"content\": \"ist\"},\n\t{\"bbox_2d\": [301, 608, 377, 631], \"content\": \"eins\\\"\"},\n\t{\"bbox_2d\": [62, 676, 191, 704], \"content\": \"denken\"},\n\t{\"bbox_2d\": [235, 675, 465, 704], \"content\": \"verschwommen\"},\n\t{\"bbox_2d\": [68, 736, 331, 783], \"content\": \"Schwammkopf\"},\n\t{\"bbox_2d\": [70, 789, 359, 834], \"content\": \"schwachkopf\"},\n\t{\"bbox_2d\": [82, 846, 321, 890], \"content\": \"Mystiker\"},\n\t{\"bbox_2d\": [612, 125, 888, 171], \"content\": \"Psychotiker\"},\n\t{\"bbox_2d\": [620, 198, 787, 245], \"content\": \"Tyren\"},\n\t{\"bbox_2d\": [833, 206, 888, 231], \"content\": \"14\"},\n\t{\"bbox_2d\": [545, 290, 700, 321], \"content\": \"starke\"},\n\t{\"bbox_2d\": [726, 291, 902, 321], \"content\": \"Grenzen\"},\n\t{\"bbox_2d\": [695, 324, 759, 348], \"content\": \"im\"},\n\t{\"bbox_2d\": [805, 323, 927, 361], \"content\": \"Kopf\"},\n\t{\"bbox_2d\": [647, 376, 817, 412], \"content\": \"Redhte\"},\n\t{\"bbox_2d\": [620, 425, 844, 455], \"content\": \"mannlich\"},\n\t{\"bbox_2d\": [560, 509, 781, 543], \"content\": \"verwechseln\"},\n\t{\"bbox_2d\": [822, 506, 925, 551], \"content\": \"wenig\"},\n\t{\"bbox_2d\": [546, 658, 679, 698], \"content\": \"denken\"},\n\t{\"bbox_2d\": [710, 657, 853, 701], \"content\": \"scharf\"},\n\t{\"bbox_2d\": [560, 843, 842, 879], \"content\": \"Gnostiker\"}\n]\n```",
+    "blocks": [
+      [
+        [
+          0.057,
+          0.03,
+          0.126,
+          0.068
+        ],
+        "Fr"
+      ],
+      [
+        [
+          0.179,
+          0.034,
+          0.433,
+          0.067
+        ],
+        "10.4.2026"
+      ],
+      [
+        [
+          0.748,
+          0.025,
+          0.835,
+          0.047
+        ],
+        "1000"
+      ],
+      [
+        [
+          0.059,
+          0.135,
+          0.279,
+          0.165
+        ],
+        "Neurotiker"
+      ],
+      [
+        [
+          0.058,
+          0.198,
+          0.181,
+          0.242
+        ],
+        "Tyren"
+      ],
+      [
+        [
+          0.223,
+          0.206,
+          0.273,
+          0.229
+        ],
+        "23"
+      ],
+      [
+        [
+          0.056,
+          0.284,
+          0.206,
+          0.317
+        ],
+        "schwache"
+      ],
+      [
+        [
+          0.236,
+          0.286,
+          0.368,
+          0.317
+        ],
+        "Grenzen"
+      ],
+      [
+        [
+          0.148,
+          0.319,
+          0.203,
+          0.345
+        ],
+        "im"
+      ],
+      [
+        [
+          0.238,
+          0.322,
+          0.326,
+          0.352
+        ],
+        "Kopff"
+      ],
+      [
+        [
+          0.097,
+          0.381,
+          0.248,
+          0.416
+        ],
+        "Linke"
+      ],
+      [
+        [
+          0.08,
+          0.42,
+          0.255,
+          0.461
+        ],
+        "weiblich"
+      ],
+      [
+        [
+          0.043,
+          0.514,
+          0.255,
+          0.549
+        ],
+        "verwechseln"
+      ],
+      [
+        [
+          0.307,
+          0.514,
+          0.393,
+          0.541
+        ],
+        "viel"
+      ],
+      [
+        [
+          0.06,
+          0.603,
+          0.148,
+          0.631
+        ],
+        "\"Alles"
+      ],
+      [
+        [
+          0.219,
+          0.602,
+          0.275,
+          0.634
+        ],
+        "ist"
+      ],
+      [
+        [
+          0.301,
+          0.608,
+          0.377,
+          0.631
+        ],
+        "eins\""
+      ],
+      [
+        [
+          0.062,
+          0.676,
+          0.191,
+          0.704
+        ],
+        "denken"
+      ],
+      [
+        [
+          0.235,
+          0.675,
+          0.465,
+          0.704
+        ],
+        "verschwommen"
+      ],
+      [
+        [
+          0.068,
+          0.736,
+          0.331,
+          0.783
+        ],
+        "Schwammkopf"
+      ],
+      [
+        [
+          0.07,
+          0.789,
+          0.359,
+          0.834
+        ],
+        "schwachkopf"
+      ],
+      [
+        [
+          0.082,
+          0.846,
+          0.321,
+          0.89
+        ],
+        "Mystiker"
+      ],
+      [
+        [
+          0.612,
+          0.125,
+          0.888,
+          0.171
+        ],
+        "Psychotiker"
+      ],
+      [
+        [
+          0.62,
+          0.198,
+          0.787,
+          0.245
+        ],
+        "Tyren"
+      ],
+      [
+        [
+          0.833,
+          0.206,
+          0.888,
+          0.231
+        ],
+        "14"
+      ],
+      [
+        [
+          0.545,
+          0.29,
+          0.7,
+          0.321
+        ],
+        "starke"
+      ],
+      [
+        [
+          0.726,
+          0.291,
+          0.902,
+          0.321
+        ],
+        "Grenzen"
+      ],
+      [
+        [
+          0.695,
+          0.324,
+          0.759,
+          0.348
+        ],
+        "im"
+      ],
+      [
+        [
+          0.805,
+          0.323,
+          0.927,
+          0.361
+        ],
+        "Kopf"
+      ],
+      [
+        [
+          0.647,
+          0.376,
+          0.817,
+          0.412
+        ],
+        "Redhte"
+      ],
+      [
+        [
+          0.62,
+          0.425,
+          0.844,
+          0.455
+        ],
+        "mannlich"
+      ],
+      [
+        [
+          0.56,
+          0.509,
+          0.781,
+          0.543
+        ],
+        "verwechseln"
+      ],
+      [
+        [
+          0.822,
+          0.506,
+          0.925,
+          0.551
+        ],
+        "wenig"
+      ],
+      [
+        [
+          0.546,
+          0.658,
+          0.679,
+          0.698
+        ],
+        "denken"
+      ],
+      [
+        [
+          0.71,
+          0.657,
+          0.853,
+          0.701
+        ],
+        "scharf"
+      ],
+      [
+        [
+          0.56,
+          0.843,
+          0.842,
+          0.879
+        ],
+        "Gnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2609,
+      "recall_at_05": 0.1304,
+      "precision": 0.1667,
+      "hmean": 0.2034,
+      "avg_iou": 0.4676,
+      "text_sim": 0.8903,
+      "avg_cer": 0.1672,
+      "bow_f1": 0.8611,
+      "char_recall": 0.2869,
+      "char_precision": 0.3793
+    },
+    "seconds": 15.985
+  }
+]

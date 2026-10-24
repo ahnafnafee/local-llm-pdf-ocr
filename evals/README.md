@@ -5,6 +5,10 @@ against a running vision server. Use `--path grounded` to exercise grounded OCR.
 These are actual model calls. Unit tests use injected transports and do not establish
 recognition quality. The image evaluator is `scripts/confidence_image.py`.
 
+The [October 24 validation](validation-2026-10-24.md) contains the latest default-model
+results and workflow checks. The [2026 model comparison](model-comparison-2026-10.md)
+records modern candidates, native serving conventions and unsuccessful runs.
+
 The runners retain source page indices through matching and character coverage.
 Boxes on different pages cannot match, even when their normalized coordinates are
 identical. `compute_report(..., pipeline_page_indices=None)` retains pooled matching

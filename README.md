@@ -52,7 +52,7 @@ Connect any OpenAI-compatible vision server. Run it locally to keep documents on
 - **🧠 AI-Powered Vision** — Advanced VLMs transcribe text with high accuracy, even on complex layouts or noisy scans.
 - **🎛️ Fully Configurable — CLI *and* Web** — Pick the **engine**, choose the **model** (auto-discovered from your running server), point at any **endpoint**, and tune every advanced knob. The web UI now exposes the same surface the CLI does ([#21](https://github.com/ahnafnafee/local-llm-pdf-ocr/issues/21)).
 - **🤝 DP-Based Text↔Box Alignment** — **Surya** detects layout boxes; a **local LLM** transcribes the whole page; a Needleman–Wunsch dynamic-programming aligner binds LLM lines to the correct boxes in reading order, with a per-box crop re-OCR fallback for boxes the DP can't confidently populate.
-- **🛰️ Grounded Path (opt-in)** — Point at a bbox-native VLM (Qwen2.5-VL, Qwen3-VL, MinerU, Florence-2, …) and it skips Surya/DP/refine entirely — the model returns text + coordinates in a single call.
+- **🛰️ Grounded Path (opt-in)** — Use a vision model with a supported grounding format to obtain text and coordinates without Surya or DP alignment. Incomplete or malformed responses receive bounded recovery on smaller source regions.
 - **⚡ Text-Only Fast Path (opt-in)** — OCRs each page's full text and dumps it as plain text: no Surya, no alignment, no detection-model load. Trades searchable-PDF positioning for raw text at a fraction of the time.
 - **🖼️ PDF or Raw Image Input** — Accepts **`.pdf`, `.jpg`, `.jpeg`, `.png`, `.bmp`, `.webp`, `.tif`/`.tiff`, `.avif`** — in *both* the CLI and the web UI. Multi-frame TIFFs become multi-page output.
 - **🔒 Local & Private** — Run offline with your own vision model server. [Ollama](https://ollama.com), vLLM, llama.cpp, and other servers can provide the OpenAI-compatible API; no particular application is required.
@@ -83,14 +83,14 @@ The web UI stays clean by default — drop a file, pick an engine, run — with 
 
 ## 🏗️ Architecture
 
-The tool has two execution paths behind a single `OCRPipeline` seam (`src/pdf_ocr/pipeline.py`). The default **hybrid path** works with any OCR-capable VLM; the opt-in **grounded path** collapses the whole flow into one call for VLMs that emit text+bbox natively.
+The tool has two execution paths behind `OCRPipeline` (`src/pdf_ocr/pipeline.py`). The default **hybrid path** combines layout detection with vision transcription; the opt-in **grounded path** requests text and coordinates together, with bounded region recovery when needed.
 
 Both paths use an injectable `VisionClient` for inference. `OpenAICompatibleClient` owns the HTTP/SDK integration, while `OCRProcessor` and `PromptedGroundedOCR` own prompts and response parsing. `LLMConfig` resolves endpoint, model, and authentication consistently for the CLI, web UI, and model discovery. See [inference configuration and extension points](docs/inference.md).
 
 ```mermaid
 graph TD
     A[Input: PDF / JPEG / PNG / TIFF / AVIF] --> B[Rasterize to images]
-    B -->|--grounded| Z[Grounded VLM: text+bbox in one call]
+    B -->|--grounded| Z[Grounded VLM: text+bbox<br/>bounded region recovery]
     Z --> EMB
 
     B -->|default| C[Surya DetectionPredictor<br/>batch, detection-only]
@@ -121,7 +121,7 @@ graph TD
 
 5. **Refine Fallback** *(hybrid path, optional)* — Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. A pre-OCR blank-crop check (pixel stddev) skips dotted notebook backgrounds to avoid the model's "The quick brown fox..." pangram fallback. Disable with `--no-refine`.
 
-6. **Grounded Path** *(opt-in alternative)* — A bbox-native VLM returns text and boxes without Surya or DP. Malformed or truncated responses are retried on smaller source regions within the page deadline. Supported endpoints use JSON schema constraints; other endpoints retain validated JSON prompting. See [generation limits and recovery](docs/inference.md#generation-limits-and-grounded-recovery).
+6. **Grounded Path** *(opt-in alternative)* — A vision model returns text and boxes without Surya or DP. Malformed, truncated or severely incomplete default JSON responses are retried on smaller source regions within the page deadline. Model profiles select JSON prompting or supported native grounding formats. See [generation limits and recovery](docs/inference.md#generation-limits-and-grounded-recovery).
 
 7. **Sandwich PDF** — The page is rasterized as a background image and invisible text is overlaid with horizontal-scale matrices so glyph bboxes span the full width of each source box — selection in a PDF viewer correctly covers the whole region.
 
@@ -145,6 +145,11 @@ Existing defaults are preserved; no configuration change is needed when your ser
 | API base URL | `http://localhost:1234/v1` |
 | Hybrid and text-only model | `allenai/olmocr-2-7b` |
 | Grounded model | `qwen/qwen3-vl-8b` |
+
+The [October 2026 comparison](evals/model-comparison-2026-10.md) includes
+LightOnOCR-3, PaddleOCR-VL-1.6, Unlimited-OCR, Chandra OCR 2 and Qwen3.5-9B.
+None cleared the complete recognition checks, so these compatibility defaults
+have not been replaced. They are not a guarantee of error-free transcription.
 
 These are configurable connection settings, with no dependency on a particular server application. To use another endpoint or model, copy `.env.example` to `.env` and uncomment the relevant overrides. For example, a local Ollama configuration is:
 
@@ -242,9 +247,10 @@ uv run local-llm-pdf-ocr input.pdf output_ocr.pdf
 | `--dense-threshold <int>` | In `auto` dense-mode, pages with more than this many detected boxes use per-box OCR (default: 60). |
 | `--min-box-confidence <float>` | Drop detected layout boxes below this confidence before alignment and per-box OCR (hybrid path only; default: keep all). Surya's confidence is normalized per page. Cuts junk detections that mislead alignment and burn LLM calls in dense mode. |
 | `--preprocess {auto,always,never}` | Photo rectification (hybrid path). `auto` (default): pages with a confidently-detected tilted page outline are perspective-corrected and illumination-flattened for recognition, then mapped back onto the original photo for output. `always` rectifies whenever a page outline is found; `never` disables. |
-| `--grounded`              | Use a bbox-native VLM that returns text + coordinates in one call (skips Surya, DP, refine). Requires a grounding-capable model via `--model`. |
+| `--grounded`              | Request text and coordinates together, skipping Surya and DP. Uses bounded source-region recovery when needed. Requires a supported grounding format via `--model`. |
 | `--api-base <url>`        | Override LLM API base URL                                             |
 | `--model <name>`          | Override LLM model name                                               |
+| `--model-profile <name>`  | Select native prompt/output conventions for a custom server alias: `auto`, `generic`, `olmocr`, `qwen3-vl`, `qwen3.5`, `lightonocr-3`, or `paddleocr-vl`. Also available under Advanced → Model preset. |
 | `--no-verify-model`       | Skip checking the server's advertised model catalog. Use when the server lacks `/models` or does not advertise every usable model. |
 
 **Examples**:
@@ -289,7 +295,7 @@ uv run local-llm-pdf-ocr scan.pdf --text-only --concurrency 8
 | **Hybrid + dense** (auto) | `--dense-mode` | Surya | LLM per-box (each Surya box → one crop call) | — | — | Dense handwriting / multi-column where full-page OCR loops or hallucinates |
 | **Grounded** | `--grounded` | — | Bbox-native VLM returns both | — | — | Qwen2.5/3-VL, MinerU, etc.; simpler, fewer moving parts |
 
-The hybrid path is the safe default: it works with *any* OCR-capable VLM, including models that can only return plain text. The grounded path is faster and eliminates the DP-alignment class of bugs entirely, but requires a VLM that emits `{"bbox_2d": [...], "content": "..."}` JSON when asked (Qwen2.5-VL / Qwen3-VL confirmed working).
+The hybrid path accepts models that return plain text. Grounded mode obtains text and coordinates directly, without DP alignment, and requires a supported grounding format: prompted `{"bbox_2d": [...], "content": "..."}` JSON, LightOnOCR-3 grounding markers, or PaddleOCR-VL spotting tokens. Model profiles select those conventions independently of the serving application. See [inference configuration](docs/inference.md) for server requirements and bounded recovery when a response is truncated or malformed.
 
 If any selected page returns no grounded text blocks, processing stops with an error before writing output. This includes empty or unparseable model responses and blank pages, so an empty grounded result cannot silently produce an image-only PDF. The error lists the original source page numbers. Ranges that select no valid pages fail before OCR rendering or inference. For models that return only plain text or Markdown, use hybrid mode: omit `--grounded` in the CLI, select **Hybrid** in the web UI, or send `engine=hybrid` to `/process`.
 
@@ -374,7 +380,7 @@ uv run scripts/confidence_eval.py --path both \
     --hybrid-model allenai/olmocr-2-7b
 ```
 
-Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis so improvements stay attributable: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document binary checks. Every run appends to `evals/history.csv` and compares against committed per-document baselines.
+Scores either path against the fixtures in `tests/fixtures/ground_truth_*.json`, decomposed by axis: geometry (block recall/precision/hmean via optimal Hungarian matching), text (per-match CER + assignment-free bag-of-words F1), structure (split/merge-tolerant pseudo-character coverage), and per-document content checks. Runs append to `evals/history.csv` and compare compatible per-document baselines where available; missing baselines do not imply a regression pass. Failed content checks and missing pages return nonzero. The [latest live validation](evals/validation-2026-10-24.md) records remaining recognition failures separately from passing unit and workflow tests.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 

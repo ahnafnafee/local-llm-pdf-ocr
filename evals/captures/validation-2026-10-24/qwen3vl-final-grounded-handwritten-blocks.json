@@ -1,0 +1,179 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.049,
+        0.037,
+        0.216,
+        0.08500000000000002
+      ],
+      "text": "Algorithms",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.054,
+        0.10799999999999998,
+        0.49499999999999994,
+        0.151
+      ],
+      "text": "- computational procedure",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.055999999999999994,
+        0.151,
+        0.879,
+        0.203
+      ],
+      "text": "- processes are finite, but the data does not have an upper bound.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.349,
+        0.23699999999999996,
+        0.436,
+        0.27
+      ],
+      "text": "mapped",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.218,
+        0.265,
+        0.569,
+        0.307
+      ],
+      "text": "input <\u2014> output",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.054,
+        0.314,
+        0.876,
+        0.359
+      ],
+      "text": "- the input data needs to properly formatted",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.129,
+        0.359,
+        0.79,
+        0.397
+      ],
+      "text": "- ensures a CORRECT ALGORITHM",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.054,
+        0.406,
+        0.817,
+        0.453
+      ],
+      "text": "- post condition is a logical predicate for the input and output",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.054,
+        0.469,
+        0.879,
+        0.518
+      ],
+      "text": "- Halting: the algo needs to finish in finite time.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.173,
+        0.54,
+        0.625,
+        0.576
+      ],
+      "text": "- look into induction proofs",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.339,
+        0.628,
+        0.484,
+        0.668
+      ],
+      "text": "Correctness",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.211,
+        0.71,
+        0.336,
+        0.7550000000000001
+      ],
+      "text": "Validity",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.566,
+        0.697,
+        0.761,
+        0.748
+      ],
+      "text": "Halting",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.288,
+        0.774,
+        0.63,
+        0.809
+      ],
+      "text": "(Conjunction of both)",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.054,
+        0.835,
+        0.817,
+        0.8800000000000001
+      ],
+      "text": "- if the algo has a strong post condition it makes it more useful",
+      "page_index": 0,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      781,
+      1024
+    ]
+  ],
+  "page_indices": [
+    0
+  ],
+  "page_errors": {}
+}

@@ -1,0 +1,1968 @@
+[
+  {
+    "document": "digital",
+    "mode": "text",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "<div style=\"display: flex; justify-content: space-between; align-items: flex-start;\">\n\n<div style=\"flex: 1;\">\n\n![image](image_1.png)\n\n**GEORGE MASON UNIVERSITY®**\n\n</div>\n\n<div style=\"flex: 1; text-align: right;\">\n\nDepartment of Computer Science  \nCollege of Engineering and Computing  \n4400 University Drive, MS 4A5, Fairfax, Virginia 22030  \nPhone: 703-993-1530; Fax: 703-993-1710  \nwww: http://www.cs.gmu.edu/\n\n</div>\n\n</div>\n\n# CS 701 - Research Experience in Computer Science – Spring’26\n\nStudent Name (Last, First): _________________________________________________________\n\nStudent e-mail address: _________________________________________________________\n\nStudent G#: _________________________________________________________\n\nName of the CS faculty member  \nto supervise the student in CS 701: _________________________________________________________\n\nDescription of the research activity (clarify the **hands-on** component explicitly in your description):\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\nList of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\n## Signatures\n\nStudent: _______________________________  \nCS Faculty Supervisor: _______________________________  \nPhD CS Program Director: _______________________________\n\n## Notes\n\n1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\n\n2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.\n\n3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.\n\n4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.\n\n5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by **November 21, 2025**.",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "<div style=\"display: flex; justify-content: space-between; align-items: flex-start;\">\n\n<div style=\"flex: 1;\">\n\n![image](image_1.png)\n\n**GEORGE MASON UNIVERSITY®**\n\n</div>\n\n<div style=\"flex: 1; text-align: right;\">\n\nDepartment of Computer Science  \nCollege of Engineering and Computing  \n4400 University Drive, MS 4A5, Fairfax, Virginia 22030  \nPhone: 703-993-1530; Fax: 703-993-1710  \nwww: http://www.cs.gmu.edu/\n\n</div>\n\n</div>\n\n# CS 701 - Research Experience in Computer Science – Spring’26\n\nStudent Name (Last, First): _________________________________________________________\n\nStudent e-mail address: _________________________________________________________\n\nStudent G#: _________________________________________________________\n\nName of the CS faculty member  \nto supervise the student in CS 701: _________________________________________________________\n\nDescription of the research activity (clarify the **hands-on** component explicitly in your description):\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\nList of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\n_________________________________________________________________________________________\n\n## Signatures\n\nStudent: _______________________________  \nCS Faculty Supervisor: _______________________________  \nPhD CS Program Director: _______________________________\n\n## Notes\n\n1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\n\n2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.\n\n3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.\n\n4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.\n\n5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by **November 21, 2025**."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9564,
+      "char_recall": 1.0,
+      "char_precision": 0.0853
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 8.359
+  },
+  {
+    "document": "digital",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "![header_image](75,12,407,77) logo \"GM GEORGE MASON UNIVERSITY\"\n\n![header](488,12,807,75) Department of Computer Science College of Engineering and Computing 4400 University Drive, MS 4A5, Fairfax, Virginia 22030 Phone: 703-993-1530; Fax: 703-993-1710 www: http://www.cs.gmu.edu/\n\n![title](210,81,802,101) # CS 701 - Research Experience in Computer Science – Spring’26\n\n![text](93,124,306,140) Student Name (Last, First): _________________________________\n\n![text](93,162,284,177) Student e-mail address: _________________________________\n\n![text](93,200,190,213) Student G#: _________________________________\n\n![text](93,237,372,269) Name of the CS faculty member to supervise the student in CS 701: _________________________________\n\n![text](94,291,878,306) Description of the research activity (clarify the *hands-on* component explicitly in your description):\n\n![text](93,400,890,416) List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\n\n![title](92,491,182,509) ## Signatures\n\n![text](92,509,164,527) Student: _________________________________\n\n![text](392,511,569,526) CS Faculty Supervisor: _________________________________\n\n![text](633,511,838,525) PhD CS Program Director: _________________________________\n\n![title](92,582,144,598) ## Notes\n\n![list](120,600,847,618)\n1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\n\n![list](120,618,915,729)\n2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.\n\n![list](120,729,907,801)\n3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.\n\n![list](120,801,909,857)\n4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.\n\n![list](120,856,864,893)\n5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by **November 21, 2025**.",
+    "blocks": [
+      [
+        [
+          0.488,
+          0.012,
+          0.807,
+          0.075
+        ],
+        "Department of Computer Science College of Engineering and Computing 4400 University Drive, MS 4A5, Fairfax, Virginia 22030 Phone: 703-993-1530; Fax: 703-993-1710 www: http://www.cs.gmu.edu/"
+      ],
+      [
+        [
+          0.21,
+          0.081,
+          0.802,
+          0.101
+        ],
+        "# CS 701 - Research Experience in Computer Science – Spring’26"
+      ],
+      [
+        [
+          0.093,
+          0.124,
+          0.306,
+          0.14
+        ],
+        "Student Name (Last, First): _________________________________"
+      ],
+      [
+        [
+          0.093,
+          0.162,
+          0.284,
+          0.177
+        ],
+        "Student e-mail address: _________________________________"
+      ],
+      [
+        [
+          0.093,
+          0.2,
+          0.19,
+          0.213
+        ],
+        "Student G#: _________________________________"
+      ],
+      [
+        [
+          0.093,
+          0.237,
+          0.372,
+          0.269
+        ],
+        "Name of the CS faculty member to supervise the student in CS 701: _________________________________"
+      ],
+      [
+        [
+          0.094,
+          0.291,
+          0.878,
+          0.306
+        ],
+        "Description of the research activity (clarify the *hands-on* component explicitly in your description):"
+      ],
+      [
+        [
+          0.093,
+          0.4,
+          0.89,
+          0.416
+        ],
+        "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+      ],
+      [
+        [
+          0.092,
+          0.491,
+          0.182,
+          0.509
+        ],
+        "## Signatures"
+      ],
+      [
+        [
+          0.092,
+          0.509,
+          0.164,
+          0.527
+        ],
+        "Student: _________________________________"
+      ],
+      [
+        [
+          0.392,
+          0.511,
+          0.569,
+          0.526
+        ],
+        "CS Faculty Supervisor: _________________________________"
+      ],
+      [
+        [
+          0.633,
+          0.511,
+          0.838,
+          0.525
+        ],
+        "PhD CS Program Director: _________________________________"
+      ],
+      [
+        [
+          0.092,
+          0.582,
+          0.144,
+          0.598
+        ],
+        "## Notes"
+      ],
+      [
+        [
+          0.12,
+          0.6,
+          0.847,
+          0.618
+        ],
+        "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701."
+      ],
+      [
+        [
+          0.12,
+          0.618,
+          0.915,
+          0.729
+        ],
+        "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity."
+      ],
+      [
+        [
+          0.12,
+          0.729,
+          0.907,
+          0.801
+        ],
+        "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department."
+      ],
+      [
+        [
+          0.12,
+          0.801,
+          0.909,
+          0.857
+        ],
+        "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names."
+      ],
+      [
+        [
+          0.12,
+          0.856,
+          0.864,
+          0.893
+        ],
+        "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by **November 21, 2025**."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.8125,
+      "recall_at_05": 0.6875,
+      "precision": 0.7222,
+      "hmean": 0.7647,
+      "avg_iou": 0.7391,
+      "text_sim": 0.9987,
+      "avg_cer": 0.0013,
+      "bow_f1": 0.997,
+      "char_recall": 0.9048,
+      "char_precision": 0.9937
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 11.031
+  },
+  {
+    "document": "hybrid",
+    "mode": "text",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "FakeDoc M.D.\n\n# HEALTH INTAKE FORM\n\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\nDate: 9/14/19\n\nName: Sally Walker  \nDOB: 09/04/1986\n\nAddress: 24 Barney Lane  \nCity: Towaco  \nState: NJ  \nZip: 07082\n\nEmail: Sally.walker@cmail.com  \nPhone #: (906) 917-3486\n\nGender: F  \nMarital Status: Single  \nOccupation: Software Engineer\n\nReferred By: None\n\nEmergency Contact: Eva Walker  \nEmergency Contact Phone: (906) 334-8926\n\nDescribe your medical concerns (symptoms, diagnoses, etc):\n\nRunny nose, mucus in throat, weakness, aches, chills, tired\n\nAre you currently taking any medication? (If yes, please describe):\n\nVyvanse (25mg) daily for attention",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "FakeDoc M.D.\n\n# HEALTH INTAKE FORM\n\nPlease fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\nDate: 9/14/19\n\nName: Sally Walker  \nDOB: 09/04/1986\n\nAddress: 24 Barney Lane  \nCity: Towaco  \nState: NJ  \nZip: 07082\n\nEmail: Sally.walker@cmail.com  \nPhone #: (906) 917-3486\n\nGender: F  \nMarital Status: Single  \nOccupation: Software Engineer\n\nReferred By: None\n\nEmergency Contact: Eva Walker  \nEmergency Contact Phone: (906) 334-8926\n\nDescribe your medical concerns (symptoms, diagnoses, etc):\n\nRunny nose, mucus in throat, weakness, aches, chills, tired\n\nAre you currently taking any medication? (If yes, please describe):\n\nVyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9904,
+      "char_recall": 1.0,
+      "char_precision": 0.7477
+    },
+    "checks": [
+      12,
+      13,
+      [
+        "missing: 'mucas in throat'"
+      ]
+    ],
+    "seconds": 4.187
+  },
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "![header](110,16,229,33) FakeDoc M.D.\n\n![title](355,38,646,61) # HEALTH INTAKE FORM\n\n![text](110,68,859,108) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](105,116,344,162) Date: 9/14/19\n\n![text](105,162,922,204) Name: Sally Walker DOB: 09/04/1986\n\n![text](108,217,906,247) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](108,257,893,292) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](105,301,940,344) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](108,351,343,381) Referred By: None\n\n![text](108,388,968,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](110,446,728,468) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](149,482,817,564) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](110,757,786,779) Are you currently taking any medication? (If yes, please describe):\n\n![text](153,788,739,837) Vyvanse (25mg) daily for attention",
+    "blocks": [
+      [
+        [
+          0.11,
+          0.016,
+          0.229,
+          0.033
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.355,
+          0.038,
+          0.646,
+          0.061
+        ],
+        "# HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.11,
+          0.068,
+          0.859,
+          0.108
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.105,
+          0.116,
+          0.344,
+          0.162
+        ],
+        "Date: 9/14/19"
+      ],
+      [
+        [
+          0.105,
+          0.162,
+          0.922,
+          0.204
+        ],
+        "Name: Sally Walker DOB: 09/04/1986"
+      ],
+      [
+        [
+          0.108,
+          0.217,
+          0.906,
+          0.247
+        ],
+        "Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082"
+      ],
+      [
+        [
+          0.108,
+          0.257,
+          0.893,
+          0.292
+        ],
+        "Email: Sally.walker@cmail.com Phone #: (906) 917-3486"
+      ],
+      [
+        [
+          0.105,
+          0.301,
+          0.94,
+          0.344
+        ],
+        "Gender: F Marital Status: Single Occupation: Software Engineer"
+      ],
+      [
+        [
+          0.108,
+          0.351,
+          0.343,
+          0.381
+        ],
+        "Referred By: None"
+      ],
+      [
+        [
+          0.108,
+          0.388,
+          0.968,
+          0.425
+        ],
+        "Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926"
+      ],
+      [
+        [
+          0.11,
+          0.446,
+          0.728,
+          0.468
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.149,
+          0.482,
+          0.817,
+          0.564
+        ],
+        "Runny nose, mucas in throat, weakness, aches, chills, tired"
+      ],
+      [
+        [
+          0.11,
+          0.757,
+          0.786,
+          0.779
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.153,
+          0.788,
+          0.739,
+          0.837
+        ],
+        "Vyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2368,
+      "recall_at_05": 0.1316,
+      "precision": 0.6429,
+      "hmean": 0.3462,
+      "avg_iou": 0.5527,
+      "text_sim": 0.8528,
+      "avg_cer": 0.3175,
+      "bow_f1": 1.0,
+      "char_recall": 0.9468,
+      "char_precision": 0.8065
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 6.688
+  },
+  {
+    "document": "handwritten",
+    "mode": "text",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "# Algorithms\n\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\n  input $\\xleftarrow{\\text{mapped}}$ output\n\n- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM\n\n- post condition is a logical predicate for the input and output\n\n- **Halting**: the algo needs to finish in finite time\n\n- look into induction proofs\n\n  Correctness\n  /       \\\nValidity   Halting\n  (Conjunction of both)\n\n- if the algo has a strong post condition it makes it more useful",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "# Algorithms\n\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\n  input $\\xleftarrow{\\text{mapped}}$ output\n\n- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM\n\n- post condition is a logical predicate for the input and output\n\n- **Halting**: the algo needs to finish in finite time\n\n- look into induction proofs\n\n  Correctness\n  /       \\\nValidity   Halting\n  (Conjunction of both)\n\n- if the algo has a strong post condition it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9388,
+      "char_recall": 1.0,
+      "char_precision": 0.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 1.484
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "![title](48,27,227,85) # Algorithms\n\n![list](46,103,900,227)\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\n![text](200,233,590,298) mapped input $\\longleftrightarrow$ output\n\n![list](42,298,892,398)\n- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM\n\n![list](47,414,876,506)\n- post condition is a logical predicate for the input and output\n\n![list](47,501,887,592)\n- **Halting**: the algo needs to finish in finite time\n\n![list](138,587,673,635)\n- look into induction proofs\n\n![text](396,650,567,685) Correctness\n\n![text](262,742,412,792) $\\swarrow$ Validity\n\n![text](619,746,773,811) $\\searrow$ Halting\n\n![text](315,796,743,842) (Conjunction of both)\n\n![list](61,850,962,937)\n- if the algo has a strong post condition it makes it more useful",
+    "blocks": [
+      [
+        [
+          0.048,
+          0.027,
+          0.227,
+          0.085
+        ],
+        "# Algorithms"
+      ],
+      [
+        [
+          0.046,
+          0.103,
+          0.9,
+          0.227
+        ],
+        "- computational procedure\n- processes are finite, but the data does not have an upper bound."
+      ],
+      [
+        [
+          0.2,
+          0.233,
+          0.59,
+          0.298
+        ],
+        "mapped input $\\longleftrightarrow$ output"
+      ],
+      [
+        [
+          0.042,
+          0.298,
+          0.892,
+          0.398
+        ],
+        "- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM"
+      ],
+      [
+        [
+          0.047,
+          0.414,
+          0.876,
+          0.506
+        ],
+        "- post condition is a logical predicate for the input and output"
+      ],
+      [
+        [
+          0.047,
+          0.501,
+          0.887,
+          0.592
+        ],
+        "- **Halting**: the algo needs to finish in finite time"
+      ],
+      [
+        [
+          0.138,
+          0.587,
+          0.673,
+          0.635
+        ],
+        "- look into induction proofs"
+      ],
+      [
+        [
+          0.396,
+          0.65,
+          0.567,
+          0.685
+        ],
+        "Correctness"
+      ],
+      [
+        [
+          0.262,
+          0.742,
+          0.412,
+          0.792
+        ],
+        "$\\swarrow$ Validity"
+      ],
+      [
+        [
+          0.619,
+          0.746,
+          0.773,
+          0.811
+        ],
+        "$\\searrow$ Halting"
+      ],
+      [
+        [
+          0.315,
+          0.796,
+          0.743,
+          0.842
+        ],
+        "(Conjunction of both)"
+      ],
+      [
+        [
+          0.061,
+          0.85,
+          0.962,
+          0.937
+        ],
+        "- if the algo has a strong post condition it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.8571,
+      "recall_at_05": 0.6429,
+      "precision": 1.0,
+      "hmean": 0.9231,
+      "avg_iou": 0.6322,
+      "text_sim": 0.8437,
+      "avg_cer": 0.3461,
+      "bow_f1": 0.9324,
+      "char_recall": 0.9891,
+      "char_precision": 0.9361
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 5.282
+  },
+  {
+    "document": "dense",
+    "mode": "text",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "error": "IncompleteCompletionError: Vision response reached the 8192 token limit (model='lightonai/LightOnOCR-3-4B'); retry with smaller regions.",
+    "seconds": 89.5
+  },
+  {
+    "document": "dense",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "![text](10,12,143,33) SQL in Application Code\n\n![list](12,33,232,53)\n- Two main integration approaches\n\n![list](12,53,237,73)\n- Statement level interface → embedded SQL\n\n![list](12,72,104,88)\n- embed SQL →\n\n![list](12,88,227,108)\n- Call-level interface → JDBC\n\n![list](12,107,227,127)\n- special API to → JDBC\n\n![text](12,127,104,143) SQL commands\n\n![table](12,143,227,266) <table>\n  <tr>\n    <th rowspan=\"2\">SQL</th>\n    <th rowspan=\"2\">Precompiler</th>\n    <th rowspan=\"2\">Schema Info</th>\n    <th rowspan=\"2\">Database Info</th>\n    <th rowspan=\"2\">Multiple DBs</th>\n    <th rowspan=\"2\">Efficiency</th>\n    <th rowspan=\"2\">DB</th>\n  </tr>\n  <tr>\n    <th>Static</th>\n    <th>Dynamic</th>\n  </tr>\n  <tr>\n    <td>SQL</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>No</td>\n    <td>Higher</td>\n    <td>Lower</td>\n  </tr>\n  <tr>\n    <td>CL</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>Lower</td>\n    <td>Higher</td>\n  </tr>\n</table>\n\n![text](12,266,227,296) Schema of DB must be known at first program is written for embedded SQL\n\n![text](12,296,227,326) → can get info at runtime instead of compile time.\n\n![list](12,326,227,346)\n- SQLSTATE - common error was defined here\n\n![text](12,346,227,375) EXEC SQL SELECT S-name, S-age INTO :c-name, :c-age FROM S:oids S WHERE S.sid = :c-sid\n\n![text](12,375,104,391) → in parameter\n\n![list](12,391,104,407)\n- for db, start index from 1\n\n![text](12,407,104,423) Project 2\n\n![list](12,423,227,443)\n- need to use LIKE for partial matching\n\n![list](12,443,104,459)\n- cross-check?\n\n![list](12,459,227,479)\n- program should NOT crash\n\n![list](12,479,227,509)\n- use gtable for simplicity (use that's what I know best)\n\n![list](12,509,227,529)\n- look out for redundancies in data instances\n\n![text](12,529,227,549) $t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]$\n\n![text](12,549,227,569) $t_1$ and $t_2$ → Any two rows in year table\n\n![text](12,569,227,589) $t_1[X]$ → row at the x columns of row 1\n\n![text](12,589,227,609) $t_1[X] = t_2[X]$ → row 1 and row 2 have same X values\n\n![text](12,609,104,625) ⇒ → forces\n\n![text](12,625,227,645) $t_1[Y] = t_2[Y]$ → row 1 and row 2 must also have same Y values\n\n![text](12,645,227,665) FD between non-key attributes is a RED FLAG that data is being repeatedly unnecessarily\n\n![list](12,665,227,695)\n- FD means one attr's value is completely controlled by another\n\n![text](12,695,227,725) - when controlling attr appears in multiple rows, its dependent value gets copied\n\n![text](12,725,104,741) posed → i.e. redundancy\n\n![list](12,741,227,761)\n- Impedance Mismatch problem\n\n![list](12,761,227,781)\n- fixed with Cursor\n\n![text](12,781,227,801) OPEN: when SQL statement is executed\n\n![text](12,801,227,821) FETCH: when it moves to the next row\n\n![text](12,821,227,841) INSENSITIVE Cursor: cannot make changes to DB with cursor\n\n![text](12,841,227,871) If I want to update result, then declare sensitive cursor\n\n![text](12,871,227,891) → fixes issue with collecting set of tuples\n\n![text](12,891,227,911) CLOSE: closes the cursor\n\n![text](12,911,227,931) Cursor can be reopened when in variable is different\n\n![text](12,931,227,951) Note the poll !! question\n\n![text](12,951,227,971) - execute Update()\n\n![text](12,971,227,991) only returns number of rows (affected)\n\n![text](12,991,227,1011) - see the comparison table for\n\n![text](12,1011,227,1031) - JDBC vs SQLS\n\n![text](12,1031,227,1051) for managing complexity better\n\n![text](12,1051,227,1071) L13: Functional Dependencies\n\n![text](12,1071,227,1091) Attribute Closure\n\n![text](12,1091,227,1111) L14: Normal Forms\n\n![text](12,1111,227,1131) Normalize\n\n![text](12,1131,227,1151) L15: Properties of Decomposition\n\n![text](12,1151,227,1171) Lossless Join + DP\n\n![text](12,1171,227,1191) Minimal Cover\n\n![text](12,1191,227,1211) L16: Decomposition Algorithms\n\n![list](12,1211,227,1231)\n- why repetition is problematic\n\n![list](12,1231,227,1251)\n- update anomaly\n\n![list](12,1251,227,1271)\n- insertion anomaly\n\n![list](12,1271,227,1291)\n- deletion anomaly\n\n![text](12,1291,227,1311) She is going way too fast for me to observe...\n\n![text](12,1311,227,1331) - see explanation in PDX\n\n![text](12,1331,227,1351) - $k = \\{A_1, A_2, ..., A_n\\}$ is a candidate key for relation R if\n\n![text](12,1351,227,1371) $K \\rightarrow$ all other attributes of R\n\n![text](12,1371,227,1391) AND\n\n![text](12,1391,227,1411) No other subset of $k \\rightarrow$ all other attributes of R\n\n![list](12,1411,227,1431)\n- to make any changes, I need to declare a sensitive cursor\n\n![list](12,1431,227,1451)\n- embedded SQL recommended in systems that require high performance without JDBC overhead\n\n![list](12,1451,227,1471)\n- for dynamic SQL, we cannot reuse, since we need to prepare\n\n![text](12,1471,227,1491) JDBC/JDBC\n\n![text](12,1491,227,1511) JDBC does not require training domain or schema info\n\n![list](12,1511,227,1531)\n- can connect to multiple DBs with multiple separate drivers\n\n![list](12,1531,227,1551)\n- all interactions with the DB performed via a connection object\n\n![text](12,1551,227,1571) Prepared statement is more efficient to use since its made to reuse as it is precompiled\n\n![list](12,1571,227,1591)\n- ? are placeholders\n\n![text](12,1591,227,1611) - Keyword → Redundancy\n\n![text](12,1611,227,1631) - FD: most important kind of constraint in the relational model\n\n![list](12,1631,227,1651)\n- associated with the schema, not the instance\n\n![text](12,1651,227,1671) - can I represent key constraint using FD?\n\n![text](12,1671,227,1691) $X \\rightarrow Y$\n\n![text](12,1691,227,1711) $X$ functionally determines $Y$\n\n![text](12,1711,227,1731) alternatively,\n\n![text](12,1731,227,1751) $Y$ is dependent on $X$\n\n![text](12,1751,227,1771) Phonebook\n\n![table](12,1771,227,1894) <table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n</table>\n\n![text](12,1894,227,1914) If I know someone's phone no, can I always figure out their name?\n\n![text](12,1914,227,1934) Phone # → Name\n\n![text](12,1934,227,1954) - $X \\rightarrow Y2$\n\n![text](12,1954,227,1974) $X \\rightarrow Y$\n\n![text](12,1974,227,1994) $X \\rightarrow Z$\n\n![text](12,1994,227,2014) LHS is the determinant\n\n![text](12,2014,227,2034) cannot decompose LHS\n\n![text](12,2034,227,2054) $XY \\rightarrow Y2$\n\n![text](12,2054,227,2074) $X \\rightarrow Y$\n\n![text](12,2074,227,2094) - Closure of Attributes\n\n![text](12,2094,227,2114) - find all attributes dependent on $X$\n\n![text](12,2114,227,2134) if I know value of attr $X$ , what else can I figure out?\n\n![text](12,2134,227,2154) - i.e. closure of $X$\n\n![text](12,2154,227,2174) AND $X^+$\n\n![text](12,2174,227,2194) - think yourself as a detective\n\n![text](12,2194,227,2214) - start with one clue, let it lead to more clues",
+    "blocks": [
+      [
+        [
+          0.01,
+          0.012,
+          0.143,
+          0.033
+        ],
+        "SQL in Application Code"
+      ],
+      [
+        [
+          0.012,
+          0.033,
+          0.232,
+          0.053
+        ],
+        "- Two main integration approaches"
+      ],
+      [
+        [
+          0.012,
+          0.053,
+          0.237,
+          0.073
+        ],
+        "- Statement level interface → embedded SQL"
+      ],
+      [
+        [
+          0.012,
+          0.072,
+          0.104,
+          0.088
+        ],
+        "- embed SQL →"
+      ],
+      [
+        [
+          0.012,
+          0.088,
+          0.227,
+          0.108
+        ],
+        "- Call-level interface → JDBC"
+      ],
+      [
+        [
+          0.012,
+          0.107,
+          0.227,
+          0.127
+        ],
+        "- special API to → JDBC"
+      ],
+      [
+        [
+          0.012,
+          0.127,
+          0.104,
+          0.143
+        ],
+        "SQL commands"
+      ],
+      [
+        [
+          0.012,
+          0.143,
+          0.227,
+          0.266
+        ],
+        "<table>\n  <tr>\n    <th rowspan=\"2\">SQL</th>\n    <th rowspan=\"2\">Precompiler</th>\n    <th rowspan=\"2\">Schema Info</th>\n    <th rowspan=\"2\">Database Info</th>\n    <th rowspan=\"2\">Multiple DBs</th>\n    <th rowspan=\"2\">Efficiency</th>\n    <th rowspan=\"2\">DB</th>\n  </tr>\n  <tr>\n    <th>Static</th>\n    <th>Dynamic</th>\n  </tr>\n  <tr>\n    <td>SQL</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>No</td>\n    <td>Higher</td>\n    <td>Lower</td>\n  </tr>\n  <tr>\n    <td>CL</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>Lower</td>\n    <td>Higher</td>\n  </tr>\n</table>"
+      ],
+      [
+        [
+          0.012,
+          0.266,
+          0.227,
+          0.296
+        ],
+        "Schema of DB must be known at first program is written for embedded SQL"
+      ],
+      [
+        [
+          0.012,
+          0.296,
+          0.227,
+          0.326
+        ],
+        "→ can get info at runtime instead of compile time."
+      ],
+      [
+        [
+          0.012,
+          0.326,
+          0.227,
+          0.346
+        ],
+        "- SQLSTATE - common error was defined here"
+      ],
+      [
+        [
+          0.012,
+          0.346,
+          0.227,
+          0.375
+        ],
+        "EXEC SQL SELECT S-name, S-age INTO :c-name, :c-age FROM S:oids S WHERE S.sid = :c-sid"
+      ],
+      [
+        [
+          0.012,
+          0.375,
+          0.104,
+          0.391
+        ],
+        "→ in parameter"
+      ],
+      [
+        [
+          0.012,
+          0.391,
+          0.104,
+          0.407
+        ],
+        "- for db, start index from 1"
+      ],
+      [
+        [
+          0.012,
+          0.407,
+          0.104,
+          0.423
+        ],
+        "Project 2"
+      ],
+      [
+        [
+          0.012,
+          0.423,
+          0.227,
+          0.443
+        ],
+        "- need to use LIKE for partial matching"
+      ],
+      [
+        [
+          0.012,
+          0.443,
+          0.104,
+          0.459
+        ],
+        "- cross-check?"
+      ],
+      [
+        [
+          0.012,
+          0.459,
+          0.227,
+          0.479
+        ],
+        "- program should NOT crash"
+      ],
+      [
+        [
+          0.012,
+          0.479,
+          0.227,
+          0.509
+        ],
+        "- use gtable for simplicity (use that's what I know best)"
+      ],
+      [
+        [
+          0.012,
+          0.509,
+          0.227,
+          0.529
+        ],
+        "- look out for redundancies in data instances"
+      ],
+      [
+        [
+          0.012,
+          0.529,
+          0.227,
+          0.549
+        ],
+        "$t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]$"
+      ],
+      [
+        [
+          0.012,
+          0.549,
+          0.227,
+          0.569
+        ],
+        "$t_1$ and $t_2$ → Any two rows in year table"
+      ],
+      [
+        [
+          0.012,
+          0.569,
+          0.227,
+          0.589
+        ],
+        "$t_1[X]$ → row at the x columns of row 1"
+      ],
+      [
+        [
+          0.012,
+          0.589,
+          0.227,
+          0.609
+        ],
+        "$t_1[X] = t_2[X]$ → row 1 and row 2 have same X values"
+      ],
+      [
+        [
+          0.012,
+          0.609,
+          0.104,
+          0.625
+        ],
+        "⇒ → forces"
+      ],
+      [
+        [
+          0.012,
+          0.625,
+          0.227,
+          0.645
+        ],
+        "$t_1[Y] = t_2[Y]$ → row 1 and row 2 must also have same Y values"
+      ],
+      [
+        [
+          0.012,
+          0.645,
+          0.227,
+          0.665
+        ],
+        "FD between non-key attributes is a RED FLAG that data is being repeatedly unnecessarily"
+      ],
+      [
+        [
+          0.012,
+          0.665,
+          0.227,
+          0.695
+        ],
+        "- FD means one attr's value is completely controlled by another"
+      ],
+      [
+        [
+          0.012,
+          0.695,
+          0.227,
+          0.725
+        ],
+        "- when controlling attr appears in multiple rows, its dependent value gets copied"
+      ],
+      [
+        [
+          0.012,
+          0.725,
+          0.104,
+          0.741
+        ],
+        "posed → i.e. redundancy"
+      ],
+      [
+        [
+          0.012,
+          0.741,
+          0.227,
+          0.761
+        ],
+        "- Impedance Mismatch problem"
+      ],
+      [
+        [
+          0.012,
+          0.761,
+          0.227,
+          0.781
+        ],
+        "- fixed with Cursor"
+      ],
+      [
+        [
+          0.012,
+          0.781,
+          0.227,
+          0.801
+        ],
+        "OPEN: when SQL statement is executed"
+      ],
+      [
+        [
+          0.012,
+          0.801,
+          0.227,
+          0.821
+        ],
+        "FETCH: when it moves to the next row"
+      ],
+      [
+        [
+          0.012,
+          0.821,
+          0.227,
+          0.841
+        ],
+        "INSENSITIVE Cursor: cannot make changes to DB with cursor"
+      ],
+      [
+        [
+          0.012,
+          0.841,
+          0.227,
+          0.871
+        ],
+        "If I want to update result, then declare sensitive cursor"
+      ],
+      [
+        [
+          0.012,
+          0.871,
+          0.227,
+          0.891
+        ],
+        "→ fixes issue with collecting set of tuples"
+      ],
+      [
+        [
+          0.012,
+          0.891,
+          0.227,
+          0.911
+        ],
+        "CLOSE: closes the cursor"
+      ],
+      [
+        [
+          0.012,
+          0.911,
+          0.227,
+          0.931
+        ],
+        "Cursor can be reopened when in variable is different"
+      ],
+      [
+        [
+          0.012,
+          0.931,
+          0.227,
+          0.951
+        ],
+        "Note the poll !! question"
+      ],
+      [
+        [
+          0.012,
+          0.951,
+          0.227,
+          0.971
+        ],
+        "- execute Update()"
+      ],
+      [
+        [
+          0.012,
+          0.971,
+          0.227,
+          0.991
+        ],
+        "only returns number of rows (affected)"
+      ],
+      [
+        [
+          0.012,
+          0.991,
+          0.227,
+          1.011
+        ],
+        "- see the comparison table for"
+      ],
+      [
+        [
+          0.012,
+          1.011,
+          0.227,
+          1.031
+        ],
+        "- JDBC vs SQLS"
+      ],
+      [
+        [
+          0.012,
+          1.031,
+          0.227,
+          1.051
+        ],
+        "for managing complexity better"
+      ],
+      [
+        [
+          0.012,
+          1.051,
+          0.227,
+          1.071
+        ],
+        "L13: Functional Dependencies"
+      ],
+      [
+        [
+          0.012,
+          1.071,
+          0.227,
+          1.091
+        ],
+        "Attribute Closure"
+      ],
+      [
+        [
+          0.012,
+          1.091,
+          0.227,
+          1.111
+        ],
+        "L14: Normal Forms"
+      ],
+      [
+        [
+          0.012,
+          1.111,
+          0.227,
+          1.131
+        ],
+        "Normalize"
+      ],
+      [
+        [
+          0.012,
+          1.131,
+          0.227,
+          1.151
+        ],
+        "L15: Properties of Decomposition"
+      ],
+      [
+        [
+          0.012,
+          1.151,
+          0.227,
+          1.171
+        ],
+        "Lossless Join + DP"
+      ],
+      [
+        [
+          0.012,
+          1.171,
+          0.227,
+          1.191
+        ],
+        "Minimal Cover"
+      ],
+      [
+        [
+          0.012,
+          1.191,
+          0.227,
+          1.211
+        ],
+        "L16: Decomposition Algorithms"
+      ],
+      [
+        [
+          0.012,
+          1.211,
+          0.227,
+          1.231
+        ],
+        "- why repetition is problematic"
+      ],
+      [
+        [
+          0.012,
+          1.231,
+          0.227,
+          1.251
+        ],
+        "- update anomaly"
+      ],
+      [
+        [
+          0.012,
+          1.251,
+          0.227,
+          1.271
+        ],
+        "- insertion anomaly"
+      ],
+      [
+        [
+          0.012,
+          1.271,
+          0.227,
+          1.291
+        ],
+        "- deletion anomaly"
+      ],
+      [
+        [
+          0.012,
+          1.291,
+          0.227,
+          1.311
+        ],
+        "She is going way too fast for me to observe..."
+      ],
+      [
+        [
+          0.012,
+          1.311,
+          0.227,
+          1.331
+        ],
+        "- see explanation in PDX"
+      ],
+      [
+        [
+          0.012,
+          1.331,
+          0.227,
+          1.351
+        ],
+        "- $k = \\{A_1, A_2, ..., A_n\\}$ is a candidate key for relation R if"
+      ],
+      [
+        [
+          0.012,
+          1.351,
+          0.227,
+          1.371
+        ],
+        "$K \\rightarrow$ all other attributes of R"
+      ],
+      [
+        [
+          0.012,
+          1.371,
+          0.227,
+          1.391
+        ],
+        "AND"
+      ],
+      [
+        [
+          0.012,
+          1.391,
+          0.227,
+          1.411
+        ],
+        "No other subset of $k \\rightarrow$ all other attributes of R"
+      ],
+      [
+        [
+          0.012,
+          1.411,
+          0.227,
+          1.431
+        ],
+        "- to make any changes, I need to declare a sensitive cursor"
+      ],
+      [
+        [
+          0.012,
+          1.431,
+          0.227,
+          1.451
+        ],
+        "- embedded SQL recommended in systems that require high performance without JDBC overhead"
+      ],
+      [
+        [
+          0.012,
+          1.451,
+          0.227,
+          1.471
+        ],
+        "- for dynamic SQL, we cannot reuse, since we need to prepare"
+      ],
+      [
+        [
+          0.012,
+          1.471,
+          0.227,
+          1.491
+        ],
+        "JDBC/JDBC"
+      ],
+      [
+        [
+          0.012,
+          1.491,
+          0.227,
+          1.511
+        ],
+        "JDBC does not require training domain or schema info"
+      ],
+      [
+        [
+          0.012,
+          1.511,
+          0.227,
+          1.531
+        ],
+        "- can connect to multiple DBs with multiple separate drivers"
+      ],
+      [
+        [
+          0.012,
+          1.531,
+          0.227,
+          1.551
+        ],
+        "- all interactions with the DB performed via a connection object"
+      ],
+      [
+        [
+          0.012,
+          1.551,
+          0.227,
+          1.571
+        ],
+        "Prepared statement is more efficient to use since its made to reuse as it is precompiled"
+      ],
+      [
+        [
+          0.012,
+          1.571,
+          0.227,
+          1.591
+        ],
+        "- ? are placeholders"
+      ],
+      [
+        [
+          0.012,
+          1.591,
+          0.227,
+          1.611
+        ],
+        "- Keyword → Redundancy"
+      ],
+      [
+        [
+          0.012,
+          1.611,
+          0.227,
+          1.631
+        ],
+        "- FD: most important kind of constraint in the relational model"
+      ],
+      [
+        [
+          0.012,
+          1.631,
+          0.227,
+          1.651
+        ],
+        "- associated with the schema, not the instance"
+      ],
+      [
+        [
+          0.012,
+          1.651,
+          0.227,
+          1.671
+        ],
+        "- can I represent key constraint using FD?"
+      ],
+      [
+        [
+          0.012,
+          1.671,
+          0.227,
+          1.691
+        ],
+        "$X \\rightarrow Y$"
+      ],
+      [
+        [
+          0.012,
+          1.691,
+          0.227,
+          1.711
+        ],
+        "$X$ functionally determines $Y$"
+      ],
+      [
+        [
+          0.012,
+          1.711,
+          0.227,
+          1.731
+        ],
+        "alternatively,"
+      ],
+      [
+        [
+          0.012,
+          1.731,
+          0.227,
+          1.751
+        ],
+        "$Y$ is dependent on $X$"
+      ],
+      [
+        [
+          0.012,
+          1.751,
+          0.227,
+          1.771
+        ],
+        "Phonebook"
+      ],
+      [
+        [
+          0.012,
+          1.771,
+          0.227,
+          1.894
+        ],
+        "<table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n</table>"
+      ],
+      [
+        [
+          0.012,
+          1.894,
+          0.227,
+          1.914
+        ],
+        "If I know someone's phone no, can I always figure out their name?"
+      ],
+      [
+        [
+          0.012,
+          1.914,
+          0.227,
+          1.934
+        ],
+        "Phone # → Name"
+      ],
+      [
+        [
+          0.012,
+          1.934,
+          0.227,
+          1.954
+        ],
+        "- $X \\rightarrow Y2$"
+      ],
+      [
+        [
+          0.012,
+          1.954,
+          0.227,
+          1.974
+        ],
+        "$X \\rightarrow Y$"
+      ],
+      [
+        [
+          0.012,
+          1.974,
+          0.227,
+          1.994
+        ],
+        "$X \\rightarrow Z$"
+      ],
+      [
+        [
+          0.012,
+          1.994,
+          0.227,
+          2.014
+        ],
+        "LHS is the determinant"
+      ],
+      [
+        [
+          0.012,
+          2.014,
+          0.227,
+          2.034
+        ],
+        "cannot decompose LHS"
+      ],
+      [
+        [
+          0.012,
+          2.034,
+          0.227,
+          2.054
+        ],
+        "$XY \\rightarrow Y2$"
+      ],
+      [
+        [
+          0.012,
+          2.054,
+          0.227,
+          2.074
+        ],
+        "$X \\rightarrow Y$"
+      ],
+      [
+        [
+          0.012,
+          2.074,
+          0.227,
+          2.094
+        ],
+        "- Closure of Attributes"
+      ],
+      [
+        [
+          0.012,
+          2.094,
+          0.227,
+          2.114
+        ],
+        "- find all attributes dependent on $X$"
+      ],
+      [
+        [
+          0.012,
+          2.114,
+          0.227,
+          2.134
+        ],
+        "if I know value of attr $X$ , what else can I figure out?"
+      ],
+      [
+        [
+          0.012,
+          2.134,
+          0.227,
+          2.154
+        ],
+        "- i.e. closure of $X$"
+      ],
+      [
+        [
+          0.012,
+          2.154,
+          0.227,
+          2.174
+        ],
+        "AND $X^+$"
+      ],
+      [
+        [
+          0.012,
+          2.174,
+          0.227,
+          2.194
+        ],
+        "- think yourself as a detective"
+      ],
+      [
+        [
+          0.012,
+          2.194,
+          0.227,
+          2.214
+        ],
+        "- start with one clue, let it lead to more clues"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.1286,
+      "recall_at_05": 0.0357,
+      "precision": 0.1837,
+      "hmean": 0.1513,
+      "avg_iou": 0.4531,
+      "text_sim": 0.2552,
+      "avg_cer": 0.8709,
+      "bow_f1": 0.7598,
+      "char_recall": 0.2775,
+      "char_precision": 0.3184
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 36.235
+  },
+  {
+    "document": "notes",
+    "mode": "text",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "- F.U can have null value\n- I could modify my existing implementation of Project 1.1\n\n---\n\n### Mapping Binary 1:1 Relationship Sets\n\n- F.U approach\n- Merged relation approach  \n  (if both participations are total, merge  \n  2 entity sets and relationship set into single  \n  table)\n\n---\n\n#### ① F.U approach\n\n![Diagram: S — R — T with attributes a₁, ..., aₙ]\n\n- **Cross Ref also applies here**\n- **merge-rel can work here with P.U from total participation — not desirable**\n\n<table>\n  <thead>\n    <tr>\n      <th>S</th>\n      <th>Pk(S)</th>\n      <th>...</th>\n      <th>Pk(T)</th>\n      <th>a₁</th>\n      <th>...</th>\n      <th>aₙ</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>T</td>\n      <td>Pk(T)</td>\n      <td>...</td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n    </tr>\n  </tbody>\n</table>\n\n\n---\n\n#### ② Merge-relation\n\n![Diagram: S — R — T with attributes a₁, ..., aₙ]\n\n- **F.U applies to second case as well**\n- **Cross Ref can also apply here**\n- **P.U can be either one**\n\n<table>\n  <thead>\n    <tr>\n      <th>ST</th>\n      <th>Pk(S)</th>\n      <th>Pk(T)</th>\n      <th>...</th>\n      <th>a₁</th>\n      <th>...</th>\n      <th>aₙ</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n    </tr>\n  </tbody>\n</table>\n\n\n*(since it's 1:1)*",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "- F.U can have null value\n- I could modify my existing implementation of Project 1.1\n\n---\n\n### Mapping Binary 1:1 Relationship Sets\n\n- F.U approach\n- Merged relation approach  \n  (if both participations are total, merge  \n  2 entity sets and relationship set into single  \n  table)\n\n---\n\n#### ① F.U approach\n\n![Diagram: S — R — T with attributes a₁, ..., aₙ]\n\n- **Cross Ref also applies here**\n- **merge-rel can work here with P.U from total participation — not desirable**\n\n<table>\n  <thead>\n    <tr>\n      <th>S</th>\n      <th>Pk(S)</th>\n      <th>...</th>\n      <th>Pk(T)</th>\n      <th>a₁</th>\n      <th>...</th>\n      <th>aₙ</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>T</td>\n      <td>Pk(T)</td>\n      <td>...</td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n    </tr>\n  </tbody>\n</table>\n\n\n---\n\n#### ② Merge-relation\n\n![Diagram: S — R — T with attributes a₁, ..., aₙ]\n\n- **F.U applies to second case as well**\n- **Cross Ref can also apply here**\n- **P.U can be either one**\n\n<table>\n  <thead>\n    <tr>\n      <th>ST</th>\n      <th>Pk(S)</th>\n      <th>Pk(T)</th>\n      <th>...</th>\n      <th>a₁</th>\n      <th>...</th>\n      <th>aₙ</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n      <td></td>\n    </tr>\n  </tbody>\n</table>\n\n\n*(since it's 1:1)*"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.5556,
+      "char_recall": 1.0,
+      "char_precision": 0.4201
+    },
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 7.563
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "![list](30,18,946,101)\n- $f_k$ can have null value\n- I could modify my existing implementation of Project (.)\n\n![title](3,151,612,209) ## Mapping Binary 1:1 Relationship Sets\n\n![list](104,206,913,368)\n- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n![title](27,375,313,442) ### ① F.U approach\n\n![text](711,377,926,483) Cross Ref also applies here\n\n![text](671,468,966,598) merge-rel can work here with P.U from total participation - not desirable\n\n![image](133,378,598,555) Entity-Relationship diagram with entities S and T, relationship R, and attributes a₁ to aₙ.\n\n![text](306,555,913,622) S | PK(S) | ... | PK(T) | a₁ | ... | aₙ\n\n![title](100,644,285,722) ### ② merge-relation\n\n![text](55,807,324,987) F.U applies to second case as well Cross Ref can also apply here\n\n![text](556,807,926,862) P.U can be either one\n\n![image](100,674,493,853) Entity-Relationship diagram with entities S and T, relationship R, and attributes a₁ to aₙ.\n\n![text](354,887,913,974) ST | PK(S) | PK(T) | ... | a₁ | ... | aₙ (since it's 1:1)",
+    "blocks": [
+      [
+        [
+          0.03,
+          0.018,
+          0.946,
+          0.101
+        ],
+        "- $f_k$ can have null value\n- I could modify my existing implementation of Project (.)"
+      ],
+      [
+        [
+          0.003,
+          0.151,
+          0.612,
+          0.209
+        ],
+        "## Mapping Binary 1:1 Relationship Sets"
+      ],
+      [
+        [
+          0.104,
+          0.206,
+          0.913,
+          0.368
+        ],
+        "- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)"
+      ],
+      [
+        [
+          0.027,
+          0.375,
+          0.313,
+          0.442
+        ],
+        "### ① F.U approach"
+      ],
+      [
+        [
+          0.711,
+          0.377,
+          0.926,
+          0.483
+        ],
+        "Cross Ref also applies here"
+      ],
+      [
+        [
+          0.671,
+          0.468,
+          0.966,
+          0.598
+        ],
+        "merge-rel can work here with P.U from total participation - not desirable"
+      ],
+      [
+        [
+          0.306,
+          0.555,
+          0.913,
+          0.622
+        ],
+        "S | PK(S) | ... | PK(T) | a₁ | ... | aₙ"
+      ],
+      [
+        [
+          0.1,
+          0.644,
+          0.285,
+          0.722
+        ],
+        "### ② merge-relation"
+      ],
+      [
+        [
+          0.055,
+          0.807,
+          0.324,
+          0.987
+        ],
+        "F.U applies to second case as well Cross Ref can also apply here"
+      ],
+      [
+        [
+          0.556,
+          0.807,
+          0.926,
+          0.862
+        ],
+        "P.U can be either one"
+      ],
+      [
+        [
+          0.354,
+          0.887,
+          0.913,
+          0.974
+        ],
+        "ST | PK(S) | PK(T) | ... | a₁ | ... | aₙ (since it's 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2258,
+      "recall_at_05": 0.0645,
+      "precision": 0.6364,
+      "hmean": 0.3333,
+      "avg_iou": 0.4398,
+      "text_sim": 0.8081,
+      "avg_cer": 0.4773,
+      "bow_f1": 0.8584,
+      "char_recall": 0.931,
+      "char_precision": 0.8379
+    },
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 6.687
+  },
+  {
+    "document": "image",
+    "mode": "text",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "Fr 10.4.2026 1000\n\nNeurotiker\nTypen 23\nschwache Grenzen im Kopf\nLinke weiblich\nverwechseln viel\n\"Alles ist eins\"\ndenken verschwommen\nSchwammkopf\nSchwackkopf\nMystiker\n\nPsychotiker\nTypen 14\nstarke Grenzen im Kopf\nRechte männlich\nverwechseln wenig\ndenken scharf\nGnostiker",
+    "blocks": [
+      [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        "Fr 10.4.2026 1000\n\nNeurotiker\nTypen 23\nschwache Grenzen im Kopf\nLinke weiblich\nverwechseln viel\n\"Alles ist eins\"\ndenken verschwommen\nSchwammkopf\nSchwackkopf\nMystiker\n\nPsychotiker\nTypen 14\nstarke Grenzen im Kopf\nRechte männlich\nverwechseln wenig\ndenken scharf\nGnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.0,
+      "recall_at_05": 0.0,
+      "precision": 0.0,
+      "hmean": 0.0,
+      "avg_iou": 0.0,
+      "text_sim": 0.0,
+      "avg_cer": 1.0,
+      "bow_f1": 0.9722,
+      "char_recall": 1.0,
+      "char_precision": 0.7015
+    },
+    "seconds": 2.844
+  },
+  {
+    "document": "image",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "raw": "![text](51,25,436,68) Fr 10.4.2026\n\n![text](51,127,281,170) Neurotiker\n\n![text](46,188,284,244) Typen 23\n\n![text](49,280,373,355) schwache Grenzen im Kopf\n\n![text](78,377,321,466) Linke weiblich\n\n![text](37,496,398,550) Verwechseln viel\n\n![text](42,583,397,644) \"Alles ist eins\"\n\n![text](56,666,468,709) denken verschwommen\n\n![text](67,727,358,783) Schwammkopf\n\n![text](68,787,366,833) Schwarkopf\n\n![text](78,840,328,896) Mystiker\n\n![text](742,18,840,50) 1000\n\n![text](607,120,891,175) Psychotiker\n\n![text](613,192,898,250) Typen 14\n\n![text](537,281,929,364) starke Grenzen im Kopf\n\n![text](617,370,842,459) Rechte männlich\n\n![text](554,492,931,553) Verwechseln wenig\n\n![text](537,650,858,707) denken scharf\n\n![text](555,838,844,888) Gnostiker",
+    "blocks": [
+      [
+        [
+          0.051,
+          0.025,
+          0.436,
+          0.068
+        ],
+        "Fr 10.4.2026"
+      ],
+      [
+        [
+          0.051,
+          0.127,
+          0.281,
+          0.17
+        ],
+        "Neurotiker"
+      ],
+      [
+        [
+          0.046,
+          0.188,
+          0.284,
+          0.244
+        ],
+        "Typen 23"
+      ],
+      [
+        [
+          0.049,
+          0.28,
+          0.373,
+          0.355
+        ],
+        "schwache Grenzen im Kopf"
+      ],
+      [
+        [
+          0.078,
+          0.377,
+          0.321,
+          0.466
+        ],
+        "Linke weiblich"
+      ],
+      [
+        [
+          0.037,
+          0.496,
+          0.398,
+          0.55
+        ],
+        "Verwechseln viel"
+      ],
+      [
+        [
+          0.042,
+          0.583,
+          0.397,
+          0.644
+        ],
+        "\"Alles ist eins\""
+      ],
+      [
+        [
+          0.056,
+          0.666,
+          0.468,
+          0.709
+        ],
+        "denken verschwommen"
+      ],
+      [
+        [
+          0.067,
+          0.727,
+          0.358,
+          0.783
+        ],
+        "Schwammkopf"
+      ],
+      [
+        [
+          0.068,
+          0.787,
+          0.366,
+          0.833
+        ],
+        "Schwarkopf"
+      ],
+      [
+        [
+          0.078,
+          0.84,
+          0.328,
+          0.896
+        ],
+        "Mystiker"
+      ],
+      [
+        [
+          0.742,
+          0.018,
+          0.84,
+          0.05
+        ],
+        "1000"
+      ],
+      [
+        [
+          0.607,
+          0.12,
+          0.891,
+          0.175
+        ],
+        "Psychotiker"
+      ],
+      [
+        [
+          0.613,
+          0.192,
+          0.898,
+          0.25
+        ],
+        "Typen 14"
+      ],
+      [
+        [
+          0.537,
+          0.281,
+          0.929,
+          0.364
+        ],
+        "starke Grenzen im Kopf"
+      ],
+      [
+        [
+          0.617,
+          0.37,
+          0.842,
+          0.459
+        ],
+        "Rechte männlich"
+      ],
+      [
+        [
+          0.554,
+          0.492,
+          0.931,
+          0.553
+        ],
+        "Verwechseln wenig"
+      ],
+      [
+        [
+          0.537,
+          0.65,
+          0.858,
+          0.707
+        ],
+        "denken scharf"
+      ],
+      [
+        [
+          0.555,
+          0.838,
+          0.844,
+          0.888
+        ],
+        "Gnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2609,
+      "recall_at_05": 0.1304,
+      "precision": 0.3158,
+      "hmean": 0.2857,
+      "avg_iou": 0.5162,
+      "text_sim": 0.9242,
+      "avg_cer": 0.1553,
+      "bow_f1": 0.9722,
+      "char_recall": 0.6475,
+      "char_precision": 0.3482
+    },
+    "seconds": 6.484
+  }
+]

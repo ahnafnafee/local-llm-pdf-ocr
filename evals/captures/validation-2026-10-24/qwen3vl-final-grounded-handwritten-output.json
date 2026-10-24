@@ -1,0 +1,137 @@
+[
+  [
+    [
+      0.049,
+      0.037,
+      0.216,
+      0.08500000000000002
+    ],
+    "Algorithms"
+  ],
+  [
+    [
+      0.054,
+      0.10799999999999998,
+      0.49499999999999994,
+      0.151
+    ],
+    "- computational procedure"
+  ],
+  [
+    [
+      0.055999999999999994,
+      0.151,
+      0.879,
+      0.203
+    ],
+    "- processes are finite, but the data does not have an upper bound."
+  ],
+  [
+    [
+      0.349,
+      0.23699999999999996,
+      0.436,
+      0.27
+    ],
+    "mapped"
+  ],
+  [
+    [
+      0.218,
+      0.265,
+      0.569,
+      0.307
+    ],
+    "input <—> output"
+  ],
+  [
+    [
+      0.054,
+      0.314,
+      0.876,
+      0.359
+    ],
+    "- the input data needs to properly formatted"
+  ],
+  [
+    [
+      0.129,
+      0.359,
+      0.79,
+      0.397
+    ],
+    "- ensures a CORRECT ALGORITHM"
+  ],
+  [
+    [
+      0.054,
+      0.406,
+      0.817,
+      0.453
+    ],
+    "- post condition is a logical predicate for the input and output"
+  ],
+  [
+    [
+      0.054,
+      0.469,
+      0.879,
+      0.518
+    ],
+    "- Halting: the algo needs to finish in finite time."
+  ],
+  [
+    [
+      0.173,
+      0.54,
+      0.625,
+      0.576
+    ],
+    "- look into induction proofs"
+  ],
+  [
+    [
+      0.339,
+      0.628,
+      0.484,
+      0.668
+    ],
+    "Correctness"
+  ],
+  [
+    [
+      0.211,
+      0.71,
+      0.336,
+      0.7550000000000001
+    ],
+    "Validity"
+  ],
+  [
+    [
+      0.566,
+      0.697,
+      0.761,
+      0.748
+    ],
+    "Halting"
+  ],
+  [
+    [
+      0.288,
+      0.774,
+      0.63,
+      0.809
+    ],
+    "(Conjunction of both)"
+  ],
+  [
+    [
+      0.054,
+      0.835,
+      0.817,
+      0.8800000000000001
+    ],
+    "- if the algo has a strong post condition it makes it more useful"
+  ]
+]

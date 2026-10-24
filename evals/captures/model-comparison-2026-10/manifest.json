@@ -1,0 +1,173 @@
+{
+  "description": "Actual native HTTP model comparisons. First-page screens are not full-document E2E passes.",
+  "hardware": "RTX 3080 10 GiB",
+  "server": "llama.cpp CUDA 10735 / 842b18804, except Unlimited-OCR official Transformers runner",
+  "base_commit": "1cb795df731986fe93f0a2cc57ba290b302e4ea6",
+  "screen_input": "First page of each PDF at 200 dpi, resized to 2048 pixels and encoded as PNG; image.avif uses source pixels.",
+  "limits": "Screens: 8192 output tokens and 180 seconds per request. Production LightOn: 4096 output tokens; later Qwen3.5 run: 8192. Both use a 240-second page deadline including bounded recovery.",
+  "full_run_input": "LightOn full run used production 150 dpi/JPEG80, max dimension 2048, before lossless input correction.",
+  "files": {
+    "lighton3-native-screen.json": {
+      "sha256": "6c8d3b08013849e5dfe505b1405eb96cd5386fb82045fde21f05aa5cfbadd4ca"
+    },
+    "lighton3-grounded-full-results.json": {
+      "sha256": "e56a6702ab262451067d6fcfd493757cbe6cfa77b508b1eb2adc7649463f46fb"
+    },
+    "lighton3-png-greedy-screen.json": {
+      "sha256": "40589bf19ea99e4f071bfab987ceab252447b5e176b3856b717ac06ef3f1b51d"
+    },
+    "paddle16-spotting-screen.json": {
+      "sha256": "731e371211b37e029bb0987891f737af663c4daf9a4981b79c5d10da3f0b670f"
+    },
+    "unlimited-screen.json": {
+      "sha256": "7a729fd04b0a9f8b07c16c285534f2e7de1f553e834d0c2ff5b77e97da99c827"
+    },
+    "qwen35-screen.json": {
+      "sha256": "b90a82aa836e6e37f806e0909853843880c4f339125a9053771ce695a942c368"
+    },
+    "qwen35-sampled-screen.json": {
+      "sha256": "efb37d27f8c7beccfc6dd45b3aaf2dc89db5d35ed8463b26718a677ead087a1b"
+    },
+    "chandra2-screen.json": {
+      "sha256": "1e82359076d767e80315fbd399cdda3ef2da6537df6dc64445e2eaf3c2a47437"
+    },
+    "qwen35-compact-grounded-full-results.json": {
+      "sha256": "a1dfdc128301fd6d7853dc217fdf451fbaa35edc1ad6fa8de01194a80fe3f5fb"
+    },
+    "qwen35-compact-grounded-full-dense-blocks.json": {
+      "sha256": "a22a0fb505f67c1a5fdd96a6f37eacea23888282c956a5aef8bba014da8f628a"
+    },
+    "qwen35-q6-focused.json": {
+      "sha256": "877ce1863462c034b4afa948c9f3c348041fcc79fee9e2cefeaf1d8222080978"
+    },
+    "qwen3vl-before-coverage-results.json": {
+      "sha256": "21581c7f9fedf0423bb8af5aac642cdfd3ef010c358611dd8a4dc28fe6594cb8"
+    },
+    "qwen3vl-before-coverage-dense-blocks.json": {
+      "sha256": "9af6b37783acbb868870ee4dbdf41d6108f6b0278ef010de81df2be9bc00fc67"
+    },
+    "qwen3vl-coverage-dense-results.json": {
+      "sha256": "8cb503201f783c1807cb2ff0a655aa061d2c626d0cea78a1c8d1dc387ce7de4a"
+    },
+    "qwen3vl-coverage-dense-dense-blocks.json": {
+      "sha256": "96c4a16563c53897d755c2a515db9803ece3d3d430fc787a13c5e3fa342e9778"
+    },
+    "qwen3vl-empty-block-failure-results.json": {
+      "sha256": "5e4bcab391016ed964cbbb31a8c0f8bd06fcd278023d93c7ebb157acd0b367f5"
+    },
+    "qwen3vl-empty-block-failure-dense-blocks.json": {
+      "sha256": "b45aa63e3b74dd524186d373633079390db3524b2e87a94020db4e14eafc49a7"
+    },
+    "qwen3vl-white-band-failure-results.json": {
+      "sha256": "3e14026d186a3b1c38f0561a3b398bbc79739a067240e6c829850594e2192802"
+    },
+    "qwen3vl-white-band-failure-dense-blocks.json": {
+      "sha256": "223f9604f1759c19bae0b6f4a59d9d3e8effc76ad9a264c318ec1c1a5cd16dda"
+    },
+    "qwen3vl-white-band-failure-completion-0012.json": {
+      "sha256": "8d364de6879468a2ec84b9cb5e8da49b618348d3f0a7898b4763a4c10ad7dbfd"
+    },
+    "qwen3vl-white-band-failure-completion-0013.json": {
+      "sha256": "426bc205a850c14595c01bdf51d5c9edfabc88b819053684e63e43184cc5a07b"
+    }
+  },
+  "models": {
+    "lighton3": {
+      "id": "richardyoung/LightOnOCR-3-4B-GGUF",
+      "sha": "8406c78c9f35b0a4d6c9cc5f69dff0e14e93ce01",
+      "safetensors": null,
+      "repository_created_at": "2026-10-15T15:21:06+00:00"
+    },
+    "paddle16": {
+      "id": "PaddlePaddle/PaddleOCR-VL-1.6-GGUF",
+      "sha": "511b09642bb324401f15f97cc23bc67e8f0a291d",
+      "safetensors": null,
+      "repository_created_at": "2026-05-29T09:33:38+00:00"
+    },
+    "qwen35": {
+      "id": "unsloth/Qwen3.5-9B-GGUF",
+      "sha": "3885219b6810b007914f3a7950a8d1b469d598a5",
+      "safetensors": null,
+      "repository_created_at": "2026-02-28T14:04:29+00:00"
+    },
+    "chandra2": {
+      "id": "datalab-to/chandra-ocr-2",
+      "sha": "af93b47dba1b47b6640c86ccf487ed2260ab9a09",
+      "safetensors": {
+        "parameters": {
+          "BF16": 5295564288
+        },
+        "total": 5295564288
+      },
+      "repository_created_at": "2026-03-16T20:47:07+00:00"
+    },
+    "unlimited-official": {
+      "id": "baidu/Unlimited-OCR",
+      "sha": "8249d20b2822a7d8a4c22c8d8c9069b5ac36bda3",
+      "safetensors": {
+        "parameters": {
+          "BF16": 3336106240
+        },
+        "total": 3336106240
+      },
+      "repository_created_at": "2026-06-19T09:40:33+00:00"
+    }
+  },
+  "weight_sha256": {
+    "LightOnOCR-3-4B-Q8_0.gguf": "51e2913cad715f2516a7ab1a6f7677ebc6122361b80ba21bffc490198621ec0a",
+    "mmproj-LightOnOCR-3-4B-F16.gguf": "21eae623f60580f19ae4f04716292cd76ad36b420ee01e761254c8b1ec966321",
+    "PaddleOCR-VL-1.6-GGUF.gguf": "f3ae46ec885050acf4b3d31944431e1fd90d50664fb09126af4a3c050ba14ee8",
+    "PaddleOCR-VL-1.6-GGUF-mmproj.gguf": "204d757d7610d9b3faab10d506d69e5b244e32bf765e2bab2d0167e65e0a058a",
+    "Unlimited-OCR/model.safetensors": "2bc48a7a110061ea58fff65d3169367eebe3aee371ca6968dc2219c1b2855fc6",
+    "Qwen3.5-9B-Q4_K_M.gguf": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "Qwen3.5-9B-Q6_K.gguf": "91898433cf5ce0a8f45516a4cc3e9343b6e01d052d01f684309098c66a326c59",
+    "Qwen3.5-9B/mmproj-F16.gguf": "f70dc3509053962b0d0d3ee8a7eacebf5d60aa560cad78254ae8698516ae029f",
+    "chandra-ocr-2.Q8_0.gguf": "6b9ae4e33d7272496267dc957158098b97988fe66198e762e0a60ed76eb4b281",
+    "chandra-ocr-2.mmproj-f16.gguf": "a270372d5d47a36be9fc8bd9b4ef1cd9333a4b2599b21ece9480934d055ae57f",
+    "PaddleOCR-VL-1.6/mmproj-spotting.gguf": "8e011479092c5e82c8c1c2d85d52b9ac48df12183c5c7bc3190190732259db09",
+    "Qwen3-VL-8B-Instruct-Q4_K_M.gguf": "43e5606b05c5df8dfad9894cf631045b395f605c8181fbdd074dc4e7c59d09a0",
+    "Qwen3-VL-8B-Instruct-mmproj-F16.gguf": "30cc93c7375b529b2abe165d1597e12f6717bf87565655a546727c4bd2bb5ada"
+  },
+  "paddle_projector_adjustment": "Tested a separate copy with clip.vision.image_max_pixels=1605632, retaining original weights and projector.",
+  "qwen35_full_run": {
+    "code_commit": "08b0d1a",
+    "quantization": "Q4_K_M",
+    "encoding": "PNG",
+    "render_dpi": 150,
+    "max_image_dim": 2048,
+    "max_tokens": 8192,
+    "page_deadline_seconds": 240,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "presence_penalty": 1.5,
+    "seed": null,
+    "server_top_k": 40,
+    "server_min_p": 0.05,
+    "outcome": "Failed: dense page 2 exceeded page deadline; all other 26 pages returned blocks. Only four document reports exist because dense failed as a complete document."
+  },
+  "qwen3vl_recovery_validation": {
+    "before_commit": "e115f6a",
+    "after_commit": "55c782f",
+    "model": "qwen/qwen3-vl-8b",
+    "encoding": "PNG",
+    "render_dpi": 150,
+    "max_image_dim": 1024,
+    "image_min_tokens": 1024,
+    "max_tokens": 4096,
+    "page_deadline_seconds": 240,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "presence_penalty": 1.5,
+    "seed": null,
+    "concurrency": 1,
+    "comparison": "Unseeded before/after observations, plus deterministic unit coverage tests; the focused dense replay is not a full-corpus pass."
+  },
+  "empty_band_failure": {
+    "code_commit": "55c782f",
+    "outcome": "Dense page 3 failed when a recovery band returned a block with empty content instead of an empty array. The final validation reruns the corpus after accepting explicit empty-text recovery blocks."
+  },
+  "white_band_failure": {
+    "code_commit": "eb26a1e",
+    "outcome": "Dense page 3 failed with repeated bullet output and token-limit exhaustion in a blank recovery band. At 150 dpi, its owned source region [0,1100,1275,1650] is exactly RGB white. Final validation skips exactly white owned cores before inference."
+  }
+}

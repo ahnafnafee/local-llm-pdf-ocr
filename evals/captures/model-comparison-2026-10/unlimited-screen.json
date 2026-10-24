@@ -1,0 +1,1071 @@
+[
+  {
+    "document": "digital",
+    "mode": "grounded",
+    "model": "baidu/Unlimited-OCR",
+    "profile": "unlimited",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "<|det|>header [75, 8, 177, 69]<|/det|>GM\n<|det|>header [184, 31, 406, 51]<|/det|>GEORGE MASON\n<|det|>header [185, 52, 353, 71]<|/det|>UNIVERSITY®\n<|det|>header [486, 8, 710, 22]<|/det|>Department of Computer Science\n<|det|>header [487, 23, 749, 36]<|/det|>College of Engineering and Computing\n<|det|>header [487, 36, 807, 48]<|/det|>4400 University Drive, MS 4A5, Fairfax, Virginia 22030\n<|det|>header [487, 48, 735, 60]<|/det|>Phone: 703-993-1530; Fax: 703-993-1710\n<|det|>header [487, 61, 663, 73]<|/det|>www: http://www.cs.gmu.edu/\n<|det|>title [209, 79, 802, 99]<|/det|>CS 701 - Research Experience in Computer Science – Spring'26\n<|det|>text [90, 121, 308, 139]<|/det|>Student Name (Last, First):\n<|det|>text [90, 159, 285, 175]<|/det|>Student e-mail address:\n<|det|>text [90, 196, 191, 212]<|/det|>Student G#:\n<|det|>text [90, 233, 350, 250]<|/det|>Name of the CS faculty member\n<|det|>text [90, 252, 728, 270]<|/det|>to supervise the student in CS 701: ____\n<|det|>text [90, 287, 880, 305]<|/det|>Description of the research activity (clarify the hands-on component explicitly in your description):\n<|det|>text [90, 399, 892, 417]<|/det|>List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):\n<|det|>title [90, 492, 182, 509]<|/det|>Signatures\n<|det|>text [90, 511, 165, 527]<|/det|>Student:\n<|det|>text [390, 511, 570, 528]<|/det|>CS Faculty Supervisor:\n<|det|>text [632, 511, 840, 528]<|/det|>PhD CS Program Director:\n<|det|>title [90, 585, 143, 600]<|/det|>Notes\n<|det|>text [120, 603, 848, 619]<|/det|>1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.\n<|det|>text [119, 621, 916, 731]<|/det|>2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity.\n<|det|>text [119, 733, 908, 805]<|/det|>3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department.\n<|det|>text [119, 806, 910, 861]<|/det|>4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names.\n<|det|>text [119, 862, 865, 898]<|/det|>5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by November 21, 2025.",
+    "blocks": [
+      [
+        [
+          0.07507507507507508,
+          0.008008008008008008,
+          0.17717717717717718,
+          0.06906906906906907
+        ],
+        "GM"
+      ],
+      [
+        [
+          0.1841841841841842,
+          0.031031031031031032,
+          0.4064064064064064,
+          0.05105105105105105
+        ],
+        "GEORGE MASON"
+      ],
+      [
+        [
+          0.18518518518518517,
+          0.05205205205205205,
+          0.3533533533533533,
+          0.07107107107107107
+        ],
+        "UNIVERSITY®"
+      ],
+      [
+        [
+          0.4864864864864865,
+          0.008008008008008008,
+          0.7107107107107107,
+          0.022022022022022022
+        ],
+        "Department of Computer Science"
+      ],
+      [
+        [
+          0.4874874874874875,
+          0.023023023023023025,
+          0.7497497497497497,
+          0.036036036036036036
+        ],
+        "College of Engineering and Computing"
+      ],
+      [
+        [
+          0.4874874874874875,
+          0.036036036036036036,
+          0.8078078078078078,
+          0.04804804804804805
+        ],
+        "4400 University Drive, MS 4A5, Fairfax, Virginia 22030"
+      ],
+      [
+        [
+          0.4874874874874875,
+          0.04804804804804805,
+          0.7357357357357357,
+          0.06006006006006006
+        ],
+        "Phone: 703-993-1530; Fax: 703-993-1710"
+      ],
+      [
+        [
+          0.4874874874874875,
+          0.06106106106106106,
+          0.6636636636636637,
+          0.07307307307307308
+        ],
+        "www: http://www.cs.gmu.edu/"
+      ],
+      [
+        [
+          0.2092092092092092,
+          0.07907907907907907,
+          0.8028028028028028,
+          0.0990990990990991
+        ],
+        "CS 701 - Research Experience in Computer Science – Spring'26"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.12112112112112113,
+          0.3083083083083083,
+          0.13913913913913914
+        ],
+        "Student Name (Last, First):"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.15915915915915915,
+          0.2852852852852853,
+          0.17517517517517517
+        ],
+        "Student e-mail address:"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.1961961961961962,
+          0.19119119119119118,
+          0.2122122122122122
+        ],
+        "Student G#:"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.23323323323323322,
+          0.35035035035035034,
+          0.2502502502502503
+        ],
+        "Name of the CS faculty member"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.25225225225225223,
+          0.7287287287287287,
+          0.2702702702702703
+        ],
+        "to supervise the student in CS 701: ____"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.2872872872872873,
+          0.8808808808808809,
+          0.3053053053053053
+        ],
+        "Description of the research activity (clarify the hands-on component explicitly in your description):"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.3993993993993994,
+          0.8928928928928929,
+          0.4174174174174174
+        ],
+        "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.4924924924924925,
+          0.18218218218218218,
+          0.5095095095095095
+        ],
+        "Signatures"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.5115115115115115,
+          0.16516516516516516,
+          0.5275275275275275
+        ],
+        "Student:"
+      ],
+      [
+        [
+          0.39039039039039036,
+          0.5115115115115115,
+          0.5705705705705706,
+          0.5285285285285285
+        ],
+        "CS Faculty Supervisor:"
+      ],
+      [
+        [
+          0.6326326326326326,
+          0.5115115115115115,
+          0.8408408408408409,
+          0.5285285285285285
+        ],
+        "PhD CS Program Director:"
+      ],
+      [
+        [
+          0.09009009009009009,
+          0.5855855855855856,
+          0.14314314314314314,
+          0.6006006006006006
+        ],
+        "Notes"
+      ],
+      [
+        [
+          0.12012012012012012,
+          0.6036036036036037,
+          0.8488488488488488,
+          0.6196196196196196
+        ],
+        "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701."
+      ],
+      [
+        [
+          0.11911911911911911,
+          0.6216216216216216,
+          0.9169169169169169,
+          0.7317317317317318
+        ],
+        "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the CS 701 research activity should include a hands-on component (such as software development, performing and analyzing experiments with existing techniques) beyond the literature review. Specify the hands-on activity within the “description of the research activity” field above. If necessary, you can attach an additional sheet to elaborate further on the description of the research activity."
+      ],
+      [
+        [
+          0.11911911911911911,
+          0.7337337337337337,
+          0.908908908908909,
+          0.8058058058058059
+        ],
+        "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the end of the semester. In addition, all CS 701 students are required to give a short talk to the public about their research at the end of the semester. Logistics of that meeting will be announced by the CS department."
+      ],
+      [
+        [
+          0.11911911911911911,
+          0.8068068068068068,
+          0.9109109109109109,
+          0.8618618618618619
+        ],
+        "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be indicated next to the “CS faculty member name” field above, and they should co-sign the form. At the registrar level, the CS 701 registration will be made only under CS faculty names."
+      ],
+      [
+        [
+          0.11911911911911911,
+          0.8628628628628628,
+          0.8658658658658659,
+          0.8988988988988988
+        ],
+        "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put “[CS701 form]” in the subject line) by November 21, 2025."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.75,
+      "recall_at_05": 0.625,
+      "precision": 0.4615,
+      "hmean": 0.5714,
+      "avg_iou": 0.7965,
+      "text_sim": 0.9747,
+      "avg_cer": 0.039,
+      "bow_f1": 0.9894,
+      "char_recall": 0.9321,
+      "char_precision": 0.9775
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 33.015
+  },
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "baidu/Unlimited-OCR",
+    "profile": "unlimited",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "<|det|>header [104, 18, 228, 35]<|/det|>FakeDoc M.D.\n<|det|>title [352, 40, 651, 63]<|/det|>HEALTH INTAKE FORM\n<|det|>text [102, 69, 867, 110]<|/det|>Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n<|det|>text [104, 123, 344, 165]<|/det|>Date: 9/14/19\n<|det|>text [104, 168, 928, 221]<|/det|>Name: Sally Walker DOB: 09/04/1986\n<|det|>text [104, 221, 913, 251]<|/det|>Address: 24 Barney Lane City: Towato State: NJ Zip: 07082\n<|det|>text [104, 258, 898, 293]<|/det|>Email: Sally. walker@cmail.com Phone #: (906) 917-3486\n<|det|>text [104, 303, 945, 351]<|/det|>Gender: F Marital Status: Single Occupation: Software Engineer\n<|det|>text [104, 356, 474, 382]<|/det|>Referred By: None\n<|det|>text [102, 392, 976, 427]<|/det|>Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n<|det|>text [102, 447, 735, 470]<|/det|>Describe your medical concerns (symptoms, diagnoses, etc):\n<|det|>text [102, 488, 899, 573]<|/det|>Ramy nose, mucus in throat, weakness, aches, chills, tired\n<|det|>text [102, 757, 792, 781]<|/det|>Are you currently taking any medication? (If yes, please describe):\n<|det|>text [102, 789, 901, 840]<|/det|>(25mg) daily for attention",
+    "blocks": [
+      [
+        [
+          0.1041041041041041,
+          0.018018018018018018,
+          0.22822822822822822,
+          0.035035035035035036
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.35235235235235235,
+          0.04004004004004004,
+          0.6516516516516516,
+          0.06306306306306306
+        ],
+        "HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.1021021021021021,
+          0.06906906906906907,
+          0.8678678678678678,
+          0.11011011011011011
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.1041041041041041,
+          0.12312312312312312,
+          0.34434434434434436,
+          0.16516516516516516
+        ],
+        "Date: 9/14/19"
+      ],
+      [
+        [
+          0.1041041041041041,
+          0.16816816816816818,
+          0.928928928928929,
+          0.22122122122122123
+        ],
+        "Name: Sally Walker DOB: 09/04/1986"
+      ],
+      [
+        [
+          0.1041041041041041,
+          0.22122122122122123,
+          0.913913913913914,
+          0.25125125125125125
+        ],
+        "Address: 24 Barney Lane City: Towato State: NJ Zip: 07082"
+      ],
+      [
+        [
+          0.1041041041041041,
+          0.25825825825825827,
+          0.8988988988988988,
+          0.2932932932932933
+        ],
+        "Email: Sally. walker@cmail.com Phone #: (906) 917-3486"
+      ],
+      [
+        [
+          0.1041041041041041,
+          0.3033033033033033,
+          0.9459459459459459,
+          0.35135135135135137
+        ],
+        "Gender: F Marital Status: Single Occupation: Software Engineer"
+      ],
+      [
+        [
+          0.1041041041041041,
+          0.3563563563563564,
+          0.4744744744744745,
+          0.38238238238238237
+        ],
+        "Referred By: None"
+      ],
+      [
+        [
+          0.1021021021021021,
+          0.3923923923923924,
+          0.9769769769769769,
+          0.42742742742742745
+        ],
+        "Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926"
+      ],
+      [
+        [
+          0.1021021021021021,
+          0.44744744744744747,
+          0.7357357357357357,
+          0.47047047047047047
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.1021021021021021,
+          0.48848848848848847,
+          0.8998998998998999,
+          0.5735735735735735
+        ],
+        "Ramy nose, mucus in throat, weakness, aches, chills, tired"
+      ],
+      [
+        [
+          0.1021021021021021,
+          0.7577577577577578,
+          0.7927927927927928,
+          0.7817817817817818
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.1021021021021021,
+          0.7897897897897898,
+          0.9019019019019019,
+          0.8408408408408409
+        ],
+        "(25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2105,
+      "recall_at_05": 0.1316,
+      "precision": 0.5714,
+      "hmean": 0.3077,
+      "avg_iou": 0.6097,
+      "text_sim": 0.8942,
+      "avg_cer": 0.2616,
+      "bow_f1": 0.9519,
+      "char_recall": 0.9764,
+      "char_precision": 0.7922
+    },
+    "checks": [
+      11,
+      13,
+      [
+        "missing: 'mucas in throat'",
+        "missing: 'Vyvanse (25mg)'"
+      ]
+    ],
+    "seconds": 28.39
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "baidu/Unlimited-OCR",
+    "profile": "unlimited",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "<|det|>header [50, 32, 224, 82]<|/det|>Algorithm\n<|det|>text [62, 109, 485, 149]<|/det|>- computational procedure\n<|det|>text [48, 149, 904, 225]<|/det|>- processes are finite, but the does not have an upper bound.\n<|det|>text [346, 235, 445, 263]<|/det|>mapped\n<|det|>text [211, 263, 590, 301]<|/det|>input ← → output\n<|det|>text [44, 304, 893, 358]<|/det|>- the input data reads to properly formatted\n<|det|>text [128, 368, 815, 400]<|/det|>- ensures a CORRECT ALGORITHM\n<|det|>text [48, 425, 873, 466]<|/det|>- post condition is a logical predicate for\n<|det|>text [82, 468, 562, 509]<|/det|>the input and output\n<|det|>text [24, 508, 888, 556]<|/det|>- Hoating: the algo. needs to finish in finie\n<|det|>text [72, 564, 147, 590]<|/det|>time\n<|det|>text [138, 594, 672, 631]<|/det|>- look into induction proofs\n<|det|>text [398, 655, 565, 684]<|/det|>Correctness\n<|det|>text [264, 748, 400, 791]<|/det|>Validity\n<|det|>text [626, 752, 770, 808]<|/det|>Hoffing\n<|det|>text [316, 801, 737, 843]<|/det|>Conjunction Of both\n<|det|>text [62, 858, 960, 898]<|/det|>- if the algo hms a strong post condition\n<|det|>text [119, 904, 590, 935]<|/det|>it makes it more useful",
+    "blocks": [
+      [
+        [
+          0.05005005005005005,
+          0.03203203203203203,
+          0.22422422422422422,
+          0.08208208208208208
+        ],
+        "Algorithm"
+      ],
+      [
+        [
+          0.062062062062062065,
+          0.1091091091091091,
+          0.4854854854854855,
+          0.14914914914914915
+        ],
+        "- computational procedure"
+      ],
+      [
+        [
+          0.04804804804804805,
+          0.14914914914914915,
+          0.9049049049049049,
+          0.22522522522522523
+        ],
+        "- processes are finite, but the does not have an upper bound."
+      ],
+      [
+        [
+          0.34634634634634637,
+          0.23523523523523523,
+          0.44544544544544545,
+          0.26326326326326327
+        ],
+        "mapped"
+      ],
+      [
+        [
+          0.21121121121121122,
+          0.26326326326326327,
+          0.5905905905905906,
+          0.3013013013013013
+        ],
+        "input ← → output"
+      ],
+      [
+        [
+          0.044044044044044044,
+          0.30430430430430433,
+          0.8938938938938938,
+          0.35835835835835833
+        ],
+        "- the input data reads to properly formatted"
+      ],
+      [
+        [
+          0.12812812812812813,
+          0.3683683683683684,
+          0.8158158158158159,
+          0.4004004004004004
+        ],
+        "- ensures a CORRECT ALGORITHM"
+      ],
+      [
+        [
+          0.04804804804804805,
+          0.42542542542542544,
+          0.8738738738738738,
+          0.46646646646646645
+        ],
+        "- post condition is a logical predicate for"
+      ],
+      [
+        [
+          0.08208208208208208,
+          0.46846846846846846,
+          0.5625625625625625,
+          0.5095095095095095
+        ],
+        "the input and output"
+      ],
+      [
+        [
+          0.024024024024024024,
+          0.5085085085085085,
+          0.8888888888888888,
+          0.5565565565565566
+        ],
+        "- Hoating: the algo. needs to finish in finie"
+      ],
+      [
+        [
+          0.07207207207207207,
+          0.5645645645645646,
+          0.14714714714714713,
+          0.5905905905905906
+        ],
+        "time"
+      ],
+      [
+        [
+          0.13813813813813813,
+          0.5945945945945946,
+          0.6726726726726727,
+          0.6316316316316316
+        ],
+        "- look into induction proofs"
+      ],
+      [
+        [
+          0.3983983983983984,
+          0.6556556556556556,
+          0.5655655655655656,
+          0.6846846846846847
+        ],
+        "Correctness"
+      ],
+      [
+        [
+          0.26426426426426425,
+          0.7487487487487487,
+          0.4004004004004004,
+          0.7917917917917918
+        ],
+        "Validity"
+      ],
+      [
+        [
+          0.6266266266266266,
+          0.7527527527527528,
+          0.7707707707707707,
+          0.8088088088088088
+        ],
+        "Hoffing"
+      ],
+      [
+        [
+          0.3163163163163163,
+          0.8018018018018018,
+          0.7377377377377378,
+          0.8438438438438438
+        ],
+        "Conjunction Of both"
+      ],
+      [
+        [
+          0.062062062062062065,
+          0.8588588588588588,
+          0.960960960960961,
+          0.8988988988988988
+        ],
+        "- if the algo hms a strong post condition"
+      ],
+      [
+        [
+          0.11911911911911911,
+          0.9049049049049049,
+          0.5905905905905906,
+          0.9359359359359359
+        ],
+        "it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 1.0,
+      "recall_at_05": 0.6429,
+      "precision": 0.7778,
+      "hmean": 0.875,
+      "avg_iou": 0.5737,
+      "text_sim": 0.8887,
+      "avg_cer": 0.1564,
+      "bow_f1": 0.8414,
+      "char_recall": 0.9826,
+      "char_precision": 0.9385
+    },
+    "checks": [
+      7,
+      10,
+      [
+        "missing: 'Algorithms'",
+        "missing: 'Halting'",
+        "order rule operand missing: 'Algorithms' / 'Correctness'"
+      ]
+    ],
+    "seconds": 12.641
+  },
+  {
+    "document": "dense",
+    "mode": "grounded",
+    "model": "baidu/Unlimited-OCR",
+    "profile": "unlimited",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "<|det|>image [0, 0, 999, 999]<|/det|>",
+    "error": "ValueError: No Unlimited grounding markers",
+    "seconds": 1.343
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "baidu/Unlimited-OCR",
+    "profile": "unlimited",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "<|det|>text [33, 17, 448, 50]<|/det|>- fu can have null value\n<|det|>text [41, 54, 945, 102]<|/det|>- I could modify my existing implementation of Project (1)\n<|det|>text [6, 142, 611, 185]<|/det|>8 Mapping Pinaly 1:1 Relationship Sets\n<|det|>text [67, 188, 309, 226]<|/det|>- P. X approach\n<|det|>text [82, 230, 900, 376]<|/det|>- Merged relation approach\n(if tooth participations are total, merge\n2 entity sets and relationship set in single\ntable)\n<|det|>text [27, 385, 387, 429]<|/det|>① F.U. approach total\n<|det|>image [151, 421, 592, 560]<|/det|>\n<|det|>text [711, 388, 900, 420]<|/det|>Cross Ref 950\n<|det|>text [728, 422, 925, 456]<|/det|>oppies here\n<|det|>text [669, 468, 938, 493]<|/det|>merge-nl even more\n<|det|>text [676, 493, 970, 520]<|/det|>more with PLU than\n<|det|>text [676, 519, 935, 551]<|/det|>+ptol postrecipot of\n<|det|>text [746, 548, 953, 571]<|/det|>-not desirable\n<|det|>text [297, 580, 920, 635]<|/det|>\\( \\leq \\left| \\frac{P_{U}(s)}{1} \\right| \\ldots \\left| \\frac{P_{U}(t)}{1} \\right| a_{1} \\ldots \\left| a_{n} \\right| \\)\n<|det|>text [98, 711, 280, 755]<|/det|>moge-relation\n<|det|>image [36, 744, 467, 858]<|/det|>\n<|det|>text [549, 788, 892, 820]<|/det|>P.U. can be either one\n<|det|>text [58, 842, 282, 989]<|/det|>fu applies\nto second case\nas well\nCross refs on also\napply well\n<|det|>text [348, 888, 904, 933]<|/det|>ST | Pk(S) | Pk(T) | ... | a, | ... | a,n\n<|det|>text [393, 945, 612, 978]<|/det|>(sinc it 1:1)",
+    "blocks": [
+      [
+        [
+          0.03303303303303303,
+          0.01701701701701702,
+          0.44844844844844844,
+          0.05005005005005005
+        ],
+        "- fu can have null value"
+      ],
+      [
+        [
+          0.04104104104104104,
+          0.05405405405405406,
+          0.9459459459459459,
+          0.1021021021021021
+        ],
+        "- I could modify my existing implementation of Project (1)"
+      ],
+      [
+        [
+          0.006006006006006006,
+          0.14214214214214213,
+          0.6116116116116116,
+          0.18518518518518517
+        ],
+        "8 Mapping Pinaly 1:1 Relationship Sets"
+      ],
+      [
+        [
+          0.06706706706706707,
+          0.1881881881881882,
+          0.30930930930930933,
+          0.22622622622622623
+        ],
+        "- P. X approach"
+      ],
+      [
+        [
+          0.08208208208208208,
+          0.23023023023023023,
+          0.9009009009009009,
+          0.3763763763763764
+        ],
+        "- Merged relation approach\n(if tooth participations are total, merge\n2 entity sets and relationship set in single\ntable)"
+      ],
+      [
+        [
+          0.02702702702702703,
+          0.38538538538538536,
+          0.38738738738738737,
+          0.4294294294294294
+        ],
+        "① F.U. approach total"
+      ],
+      [
+        [
+          0.7117117117117117,
+          0.3883883883883884,
+          0.9009009009009009,
+          0.42042042042042044
+        ],
+        "Cross Ref 950"
+      ],
+      [
+        [
+          0.7287287287287287,
+          0.42242242242242245,
+          0.9259259259259259,
+          0.45645645645645644
+        ],
+        "oppies here"
+      ],
+      [
+        [
+          0.6696696696696697,
+          0.46846846846846846,
+          0.938938938938939,
+          0.4934934934934935
+        ],
+        "merge-nl even more"
+      ],
+      [
+        [
+          0.6766766766766766,
+          0.4934934934934935,
+          0.970970970970971,
+          0.5205205205205206
+        ],
+        "more with PLU than"
+      ],
+      [
+        [
+          0.6766766766766766,
+          0.5195195195195195,
+          0.9359359359359359,
+          0.5515515515515516
+        ],
+        "+ptol postrecipot of"
+      ],
+      [
+        [
+          0.7467467467467468,
+          0.5485485485485485,
+          0.953953953953954,
+          0.5715715715715716
+        ],
+        "-not desirable"
+      ],
+      [
+        [
+          0.2972972972972973,
+          0.5805805805805806,
+          0.9209209209209209,
+          0.6356356356356356
+        ],
+        "\\( \\leq \\left| \\frac{P_{U}(s)}{1} \\right| \\ldots \\left| \\frac{P_{U}(t)}{1} \\right| a_{1} \\ldots \\left| a_{n} \\right| \\)"
+      ],
+      [
+        [
+          0.0980980980980981,
+          0.7117117117117117,
+          0.2802802802802803,
+          0.7557557557557557
+        ],
+        "moge-relation"
+      ],
+      [
+        [
+          0.5495495495495496,
+          0.7887887887887888,
+          0.8928928928928929,
+          0.8208208208208209
+        ],
+        "P.U. can be either one"
+      ],
+      [
+        [
+          0.05805805805805806,
+          0.8428428428428428,
+          0.2822822822822823,
+          0.98998998998999
+        ],
+        "fu applies\nto second case\nas well\nCross refs on also\napply well"
+      ],
+      [
+        [
+          0.3483483483483483,
+          0.8888888888888888,
+          0.9049049049049049,
+          0.933933933933934
+        ],
+        "ST | Pk(S) | Pk(T) | ... | a, | ... | a,n"
+      ],
+      [
+        [
+          0.3933933933933934,
+          0.9459459459459459,
+          0.6126126126126126,
+          0.978978978978979
+        ],
+        "(sinc it 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.5161,
+      "recall_at_05": 0.3871,
+      "precision": 0.8889,
+      "hmean": 0.6531,
+      "avg_iou": 0.6831,
+      "text_sim": 0.7383,
+      "avg_cer": 0.3953,
+      "bow_f1": 0.5897,
+      "char_recall": 0.9469,
+      "char_precision": 0.9454
+    },
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 17.547
+  },
+  {
+    "document": "image",
+    "mode": "grounded",
+    "model": "baidu/Unlimited-OCR",
+    "profile": "unlimited",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "<|det|>header [50, 28, 438, 69]<|/det|>Fr 10,4.2026\n<|det|>header [748, 23, 843, 48]<|/det|>1000\n<|det|>text [48, 132, 281, 169]<|/det|>Neurotiker\n<|det|>text [48, 196, 273, 243]<|/det|>Typen 23\n<|det|>text [46, 283, 370, 356]<|/det|>schwabe Grenzen\nim Kopf\n<|det|>text [94, 382, 250, 414]<|/det|>Linke\n<|det|>text [76, 416, 316, 464]<|/det|>weibild\n<|det|>text [37, 505, 396, 551]<|/det|>verwedseln viel\n<|det|>text [44, 594, 401, 636]<|/det|>\"Alles ist eins\"\n<|det|>text [55, 668, 467, 715]<|/det|>denken verschwommen\n<|det|>text [64, 731, 350, 788]<|/det|>Schwammkopf\n<|det|>text [66, 789, 361, 838]<|/det|>Schwarchopf\n<|det|>text [77, 844, 325, 892]<|/det|>Hystiker\n<|det|>text [609, 120, 893, 171]<|/det|>Psychotiker\n<|det|>text [620, 196, 896, 248]<|/det|>Typen 14\n<|det|>text [542, 286, 932, 363]<|/det|>starke Grenzen\nim Kopf\n<|det|>text [646, 373, 824, 414]<|/det|>Redte\n<|det|>text [621, 420, 850, 458]<|/det|>manlio\n<|det|>text [559, 503, 933, 553]<|/det|>verweiseln wenig\n<|det|>text [544, 655, 860, 704]<|/det|>denken scharf\n<|det|>text [558, 840, 846, 881]<|/det|>Gnostiker",
+    "blocks": [
+      [
+        [
+          0.05005005005005005,
+          0.028028028028028028,
+          0.43843843843843844,
+          0.06906906906906907
+        ],
+        "Fr 10,4.2026"
+      ],
+      [
+        [
+          0.7487487487487487,
+          0.023023023023023025,
+          0.8438438438438438,
+          0.04804804804804805
+        ],
+        "1000"
+      ],
+      [
+        [
+          0.04804804804804805,
+          0.13213213213213212,
+          0.28128128128128127,
+          0.16916916916916916
+        ],
+        "Neurotiker"
+      ],
+      [
+        [
+          0.04804804804804805,
+          0.1961961961961962,
+          0.2732732732732733,
+          0.24324324324324326
+        ],
+        "Typen 23"
+      ],
+      [
+        [
+          0.04604604604604605,
+          0.2832832832832833,
+          0.37037037037037035,
+          0.3563563563563564
+        ],
+        "schwabe Grenzen\nim Kopf"
+      ],
+      [
+        [
+          0.0940940940940941,
+          0.38238238238238237,
+          0.2502502502502503,
+          0.4144144144144144
+        ],
+        "Linke"
+      ],
+      [
+        [
+          0.07607607607607608,
+          0.4164164164164164,
+          0.3163163163163163,
+          0.4644644644644645
+        ],
+        "weibild"
+      ],
+      [
+        [
+          0.037037037037037035,
+          0.5055055055055055,
+          0.3963963963963964,
+          0.5515515515515516
+        ],
+        "verwedseln viel"
+      ],
+      [
+        [
+          0.044044044044044044,
+          0.5945945945945946,
+          0.4014014014014014,
+          0.6366366366366366
+        ],
+        "\"Alles ist eins\""
+      ],
+      [
+        [
+          0.055055055055055056,
+          0.6686686686686687,
+          0.4674674674674675,
+          0.7157157157157157
+        ],
+        "denken verschwommen"
+      ],
+      [
+        [
+          0.06406406406406406,
+          0.7317317317317318,
+          0.35035035035035034,
+          0.7887887887887888
+        ],
+        "Schwammkopf"
+      ],
+      [
+        [
+          0.06606606606606606,
+          0.7897897897897898,
+          0.3613613613613614,
+          0.8388388388388388
+        ],
+        "Schwarchopf"
+      ],
+      [
+        [
+          0.07707707707707707,
+          0.8448448448448449,
+          0.3253253253253253,
+          0.8928928928928929
+        ],
+        "Hystiker"
+      ],
+      [
+        [
+          0.6096096096096096,
+          0.12012012012012012,
+          0.8938938938938938,
+          0.17117117117117117
+        ],
+        "Psychotiker"
+      ],
+      [
+        [
+          0.6206206206206206,
+          0.1961961961961962,
+          0.8968968968968969,
+          0.24824824824824826
+        ],
+        "Typen 14"
+      ],
+      [
+        [
+          0.5425425425425425,
+          0.2862862862862863,
+          0.9329329329329329,
+          0.3633633633633634
+        ],
+        "starke Grenzen\nim Kopf"
+      ],
+      [
+        [
+          0.6466466466466466,
+          0.3733733733733734,
+          0.8248248248248248,
+          0.4144144144144144
+        ],
+        "Redte"
+      ],
+      [
+        [
+          0.6216216216216216,
+          0.42042042042042044,
+          0.8508508508508509,
+          0.45845845845845845
+        ],
+        "manlio"
+      ],
+      [
+        [
+          0.5595595595595596,
+          0.5035035035035035,
+          0.933933933933934,
+          0.5535535535535535
+        ],
+        "verweiseln wenig"
+      ],
+      [
+        [
+          0.5445445445445446,
+          0.6556556556556556,
+          0.8608608608608609,
+          0.7047047047047047
+        ],
+        "denken scharf"
+      ],
+      [
+        [
+          0.5585585585585585,
+          0.8408408408408409,
+          0.8468468468468469,
+          0.8818818818818819
+        ],
+        "Gnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.3043,
+      "recall_at_05": 0.1304,
+      "precision": 0.3333,
+      "hmean": 0.3182,
+      "avg_iou": 0.4916,
+      "text_sim": 0.8017,
+      "avg_cer": 0.2343,
+      "bow_f1": 0.75,
+      "char_recall": 0.4754,
+      "char_precision": 0.3766
+    },
+    "seconds": 14.282
+  }
+]
