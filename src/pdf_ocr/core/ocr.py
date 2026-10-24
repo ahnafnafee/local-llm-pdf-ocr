@@ -192,7 +192,8 @@ class OCRProcessor:
         ))
         return OCRLines(_strip_runaway_repetition(lines), requires_region_ocr=region_layout)
 
-    async def perform_ocr_with_layout(self, image_base64: str) -> list[str]:
+    async def perform_ocr_with_layout(self, image_base64: str, *, detected_boxes=None,
+                                      max_image_dim=None, source_loader=None) -> list[str]:
         """Preserve native page geometry when the model supports it.
 
         Generic recognizers retain the text-only interface. Native page models
@@ -205,10 +206,12 @@ class OCRProcessor:
 
         backend = PromptedGroundedOCR(
             api_base=self.api_base, model=self.model, client=self.client,
-            profile=self.profile.name, max_image_dim=4096,
-            timeout_s=self.PAGE_TIMEOUT_S, max_tokens=self.PAGE_MAX_TOKENS,
+            profile=self.profile.name, max_image_dim=max_image_dim or self.profile.max_image_dim,
+            timeout_s=self.PAGE_TIMEOUT_S,
+            max_tokens=min(self.PAGE_MAX_TOKENS, self.profile.grounded_max_tokens),
         )
-        response = await backend.ocr_image(image_base64)
+        response = await backend.ocr_image(image_base64, detected_boxes=detected_boxes,
+                                          source_loader=source_loader)
         if response.page_errors or not response.blocks:
             raise LLMCallError("Native page OCR failed: " + "; ".join(response.page_errors.values()))
         return OCRLines([block.text for block in response.blocks],

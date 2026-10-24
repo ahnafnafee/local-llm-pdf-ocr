@@ -15,7 +15,7 @@ from pathlib import Path
 import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
-from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox, searchable_text
+from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox, searchable_text, table_cell_segments
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 from pdf_ocr.utils.pages import select_pages
 
@@ -27,6 +27,19 @@ IMAGE_EXTENSIONS = frozenset({
 
 def _is_image_path(path: str | Path) -> bool:
     return Path(path).suffix.lower() in IMAGE_EXTENSIONS
+
+
+def _insert_searchable_line(page, origin, text, fontsize, morph):
+    if text.isascii():
+        page.insert_text(origin, text, fontsize=fontsize, fontname="helv",
+                         render_mode=3, color=(0, 0, 0), morph=morph)
+    else:
+        # insert_text's built-in Helvetica encoding replaces unsupported
+        # characters with dots. TextWriter embeds Unicode fallback fonts,
+        # preserving Greek letters, mathematical operators and subscripts.
+        writer = fitz.TextWriter(page.rect)
+        writer.append(origin, text, font=fitz.Font("helv"), fontsize=fontsize)
+        writer.write_text(page, render_mode=3, color=(0, 0, 0), morph=morph)
 
 
 class PDFHandler:
@@ -100,18 +113,24 @@ class PDFHandler:
         coordinates still map to this image, without enlarging JPEG artifacts
         from the context-limited full-page image.
         """
+        image = self.render_page_source(path, page_index, dpi, max_image_dim=2048)
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue()).decode()
+
+    def render_page_source(self, path, page_index: int, dpi: int = 400,
+                           *, max_image_dim: int = 4096) -> Image.Image:
+        """Load one selected page's detailed canvas only when recovery needs it."""
         if _is_image_path(path):
             with Image.open(path) as src:
                 src.seek(page_index)
                 image = src.convert("RGB")
         else:
             with fitz.open(path) as doc:
-                pix = doc[page_index].get_pixmap(dpi=dpi)
+                pix = doc[page_index].get_pixmap(dpi=dpi, colorspace=fitz.csRGB, alpha=False)
                 image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-        image.thumbnail((2048, 2048))
-        buffer = io.BytesIO()
-        image.save(buffer, format="PNG")
-        return base64.b64encode(buffer.getvalue()).decode()
+        image.thumbnail((max_image_dim, max_image_dim))
+        return image
 
     @staticmethod
     def _images_from_image_file(
@@ -235,6 +254,11 @@ class PDFHandler:
         the two axes: height fits, width fills, neither constraint is
         violated.
         """
+        cells = table_cell_segments(rect_coords, text or "")
+        if cells:
+            for cell_box, cell_text in cells:
+                PDFHandler._draw_invisible_text(page, cell_box, cell_text, page_width, page_height)
+            return
         text = searchable_text(text or "").strip()
         if not text:
             return  # empty box — nothing to embed
@@ -247,11 +271,17 @@ class PDFHandler:
         # core/_layout.py for the rationale.)
         if is_full_page_fallback(rect_coords, text):
             fallback_rect = fitz.Rect(10, 10, page_width - 10, page_height - 10)
-            page.insert_textbox(
-                fallback_rect, text,
-                fontsize=6, fontname="helv",
-                render_mode=3, color=(0, 0, 0), align=0,
-            )
+            if text.isascii():
+                page.insert_textbox(
+                    fallback_rect, text,
+                    fontsize=6, fontname="helv",
+                    render_mode=3, color=(0, 0, 0), align=0,
+                )
+            else:
+                writer = fitz.TextWriter(page.rect)
+                writer.fill_textbox(fallback_rect, text, font=fitz.Font("helv"),
+                                    fontsize=6, align=0, warn=False)
+                writer.write_text(page, render_mode=3, color=(0, 0, 0))
             return
 
         # A real bbox with multi-line content (grounded-VLM joined visual
@@ -322,12 +352,7 @@ class PDFHandler:
             # the negation. Scale composes before rotation so the
             # horizontal stretch happens along the text run.
             morph = (origin, fitz.Matrix(scale_x, 1.0) * fitz.Matrix(-angle))
-            page.insert_text(
-                origin, text,
-                fontsize=fontsize, fontname="helv",
-                render_mode=3, color=(0, 0, 0),
-                morph=morph,
-            )
+            _insert_searchable_line(page, origin, text, fontsize, morph)
             return
 
         fontsize = max(3.0, min(72.0, box_height / extent_em))
@@ -390,9 +415,4 @@ class PDFHandler:
         # the text's starting x stays at pdf_rect.x0 and the end x lands
         # at pdf_rect.x0 + target_width.
         morph = (baseline, fitz.Matrix(scale_x, 1.0))
-        page.insert_text(
-            baseline, text,
-            fontsize=fontsize, fontname="helv",
-            render_mode=3, color=(0, 0, 0),
-            morph=morph,
-        )
+        _insert_searchable_line(page, baseline, text, fontsize, morph)

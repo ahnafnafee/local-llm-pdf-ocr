@@ -190,6 +190,9 @@ class OCRPipeline:
             )
 
         native_layout = bool(getattr(self.ocr_processor, "native_layout", False))
+        profile = getattr(self.ocr_processor, "profile", None)
+        source_dim = getattr(profile, "source_image_dim", None) if native_layout else None
+        source_dpi = getattr(profile, "source_dpi", None) if native_layout else None
         await _notify(progress, "convert", 0, 1, "Converting PDF to images...")
         images_dict = await asyncio.to_thread(
             self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim,
@@ -311,7 +314,15 @@ class OCRPipeline:
                 async with semaphore:
                     recognize = (self.ocr_processor.perform_ocr_with_layout if native_layout
                                  else self.ocr_processor.perform_ocr)
-                    llm_lines = await recognize(images_dict[p_num])
+                    native_options = {}
+                    if native_layout:
+                        native_options = {"detected_boxes": [b for b, _ in pages_structured[p_num]],
+                                          "max_image_dim": max_image_dim}
+                        renderer = getattr(self.pdf_handler, "render_page_source", None)
+                        if renderer is not None and p_num not in rect_maps and source_dim:
+                            native_options["source_loader"] = lambda: renderer(
+                                input_path, p_num, max(dpi, source_dpi or dpi), max_image_dim=source_dim)
+                    llm_lines = await recognize(images_dict[p_num], **native_options)
             except IncompleteCompletionError:
                 if dense_mode != "auto":
                     raise

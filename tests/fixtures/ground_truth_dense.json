@@ -4747,6 +4747,214 @@
         "page_index": 2,
         "block_label": "text",
         "score": 1.0
+      },
+      {
+        "block_content": "1. Consider a relation R with five attributes ABCDE. You are given the following",
+        "bbox": [
+          22.8,
+          445.92,
+          27.24,
+          573.12
+        ],
+        "block_id": 365,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "dependencies: A→B, BC→E, and ED→A.",
+        "bbox": [
+          27.6,
+          451.8,
+          32.16,
+          519.0
+        ],
+        "block_id": 366,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a) List all candidate keys for R.",
+        "bbox": [
+          32.28,
+          451.8,
+          36.36,
+          502.32
+        ],
+        "block_id": 367,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "b) Is R in 3NF?",
+        "bbox": [
+          36.36,
+          451.8,
+          40.56,
+          478.92
+        ],
+        "block_id": 368,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "c) Is R in BCNF?",
+        "bbox": [
+          40.56,
+          451.8,
+          44.76,
+          482.16
+        ],
+        "block_id": 369,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "2. Suppose that we have the following three tuples in a legal instance of a relation",
+        "bbox": [
+          48.6,
+          445.68,
+          53.16,
+          575.52
+        ],
+        "block_id": 370,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "schema S with three attributes ABC (listed in order): (1, 2, 3), (4, 2, 3), and (5, 3,",
+        "bbox": [
+          53.28,
+          451.2,
+          57.72,
+          577.92
+        ],
+        "block_id": 371,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3).",
+        "bbox": [
+          57.96,
+          451.2,
+          61.8,
+          456.12
+        ],
+        "block_id": 372,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a) Which of the following dependencies can you infer does not hold over schema",
+        "bbox": [
+          62.04,
+          451.2,
+          66.48,
+          580.32
+        ],
+        "block_id": 373,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "S? A→B, BC→A, B→C",
+        "bbox": [
+          66.6,
+          456.72,
+          70.8,
+          497.52
+        ],
+        "block_id": 374,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "b) Can you identify any dependencies that hold over S?",
+        "bbox": [
+          70.8,
+          450.96,
+          75.6,
+          540.96
+        ],
+        "block_id": 375,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "3. Suppose you are given a relation R with four attributes, ABCD. For the following",
+        "bbox": [
+          79.8,
+          444.72,
+          84.24,
+          580.32
+        ],
+        "block_id": 376,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "sets of FDs: C→D, C→A, B→C, assuming those are the only dependencies that",
+        "bbox": [
+          84.6,
+          450.6,
+          89.04,
+          580.92
+        ],
+        "block_id": 377,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "hold for R.",
+        "bbox": [
+          89.28,
+          450.6,
+          93.48,
+          468.24
+        ],
+        "block_id": 378,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "a) Identify the candidate key(s) for R.",
+        "bbox": [
+          93.72,
+          450.6,
+          97.92,
+          510.84
+        ],
+        "block_id": 379,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
+      },
+      {
+        "block_content": "b) Identify the best normal form that R satisfies (1NF, 2NF, 3NF, or BCNF).",
+        "bbox": [
+          98.28,
+          450.6,
+          102.6,
+          573.0
+        ],
+        "block_id": 380,
+        "page_index": 2,
+        "block_label": "text",
+        "score": 1.0
       }
     ],
     "data_info": {
@@ -4768,10 +4976,11 @@
     }
   },
   "reference_verification": {
-    "version": 2,
+    "version": 3,
     "source": "examples/dense.pdf",
     "source_sha256": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
     "audit": "evals/reference-corrections.json",
-    "scope": "Source-verified text corrections; original coordinates retained. Ambiguous readings not silently replaced."
+    "scope": "Source-verified text corrections; original coordinates retained. Ambiguous readings not silently replaced. Version 3 adds the previously omitted printed panel on page 3, verified from the source.",
+    "additions": "evals/reference-additions-2026-10-24.json"
   }
 }

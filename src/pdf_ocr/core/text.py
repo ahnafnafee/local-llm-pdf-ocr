@@ -9,6 +9,8 @@ no layout binding), but works with any ``(bbox, text)`` page data.
 
 from __future__ import annotations
 
+from pdf_ocr.core._layout import searchable_text
+
 
 class TextHandler:
     """Output writer mirroring ``PDFHandler.embed_structured_text``.
@@ -28,7 +30,7 @@ class TextHandler:
         pages: list[str] = []
         for page_num in sorted(pages_data.keys()):
             blocks = [
-                (text or "").strip()
+                searchable_text(text or "").strip()
                 for _, text in (pages_data.get(page_num) or [])
             ]
             page_text = "\n".join(b for b in blocks if b)

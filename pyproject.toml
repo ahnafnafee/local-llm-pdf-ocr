@@ -38,6 +38,7 @@ dependencies = [
     "requests>=2.31",
     "scipy>=1.15.3",
     "jiwer>=4.0.0",
+    "pylatexenc>=2.10,<3",
 ]
 
 [project.optional-dependencies]

@@ -5,9 +5,10 @@ against a running vision server. Use `--path grounded` to exercise grounded OCR.
 These are actual model calls. Unit tests use injected transports and do not establish
 recognition quality. The image evaluator is `scripts/confidence_image.py`.
 
-The [LightOnOCR-3 validation](lighton-layout-2026-10-24.md) contains the current
-default-model results, repeated live tests, workflow checks and PP-DocLayoutV3
-experiments. The [earlier October 24 validation](validation-2026-10-24.md) preserves
+The [dense and notebook validation](dense-notebook-2026-10-24.md) contains the current
+regional recovery results, repeated live tests and workflow checks. The preceding
+[LightOnOCR-3 validation](lighton-layout-2026-10-24.md) retains the default-model
+migration and PP-DocLayoutV3 experiments. The [earlier October 24 validation](validation-2026-10-24.md) preserves
 the preceding models' failures. The [2026 model comparison](model-comparison-2026-10.md)
 records modern candidates, native serving conventions and unsuccessful runs.
 
@@ -45,6 +46,14 @@ The red rectangle marks the original annotation region. The notes content check 
 requires `FK can have null value`, as written on page 1; its former `PK` reading was
 false. Model text must satisfy the corrected fact without the former edit allowance.
 
+Dense reference version 3 adds the previously omitted printed exercise panel on
+source page 3. Its 16 lines and source-pixel coordinates were transcribed from a
+600 dpi rendering and are recorded in
+[reference-additions-2026-10-24.json](reference-additions-2026-10-24.json).
+All existing reference text and coordinates are retained. The old dense control is
+archived in `baselines/previous-reference-v2/`; the active control rescores the same
+frozen predictions against the expanded reference without changing tolerances.
+
 ## Comparable regression controls
 
 The old numbers remain unchanged in `baselines/legacy-pooled-v1/`. They used earlier
@@ -76,8 +85,11 @@ refuses to write when any document or content check fails.
 
 ## Repeated live recognition tests
 
-The 24 opt-in pytest cases exercise the real pipeline on notebook, handwriting,
-form and dense-page regressions, using seeds 0, 1 and 2. They skip without an explicit endpoint
+The 28 opt-in pytest cases exercise the real pipeline on notebook, handwriting,
+form and dense-page regressions. Twenty-four repeat first-page cases with seeds
+0, 1 and 2; four inspect later dense and notebook pages, including diagram fields,
+embedded photo text, mathematical extraction and source positions in actual PDFs.
+They skip without an explicit endpoint
 and mode; ordinary unit tests never start a model server.
 
 ```powershell

@@ -76,7 +76,7 @@ def anchor_native_blocks(blocks, detected_boxes):
     result = []
     used = set()
     for bbox, text in blocks:
-        lines = ([(bbox, text)] if "<table" in text.lower()
+        lines = ([(bbox, text)] if "<table" in text.lower() or '$$' in text or r'\[' in text
                  else split_multi_line_bbox(bbox, text))
         for line_box, line in lines:
             ranked = sorted(((_iou(line_box, box), i) for i, box in enumerate(detected_boxes)

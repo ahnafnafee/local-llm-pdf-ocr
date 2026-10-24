@@ -18,6 +18,8 @@ class ModelProfile:
     native_layout: bool = False
     verify_inline_identifiers: bool = False
     max_image_dim: int = 1024
+    source_image_dim: int | None = None
+    source_dpi: int | None = None
     sampling: tuple[tuple[str, float], ...] = ()
     grounded_sampling: tuple[tuple[str, float], ...] = ()
     grounded_max_tokens: int = 4096
@@ -42,7 +44,7 @@ _PROFILES = {
         temperature=0.0, grounded_temperature=0.0,
         grounded_retry_temperature=0.2, native_layout=True,
         verify_inline_identifiers=True,
-        max_image_dim=2048,
+        max_image_dim=2048, source_image_dim=4096, source_dpi=400,
         sampling=(("top_p", 0.9),), grounded_sampling=(("top_p", 0.9),),
     ),
     "paddleocr-vl": ModelProfile(

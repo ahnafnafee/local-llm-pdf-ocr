@@ -97,7 +97,7 @@ _NON_CONTENT_LABELS = frozenset({
 })
 
 
-def _parse_lighton_grounding(text: str, page_index: int) -> list[GroundedBlock]:
+def _parse_lighton_grounding(text: str, page_index: int, *, include_visual=False) -> list[GroundedBlock]:
     """Parse native LightOnOCR-3 block markers on its fixed 0–1000 grid.
 
     Image/chart descriptions are generated visual interpretations, not OCR.
@@ -121,7 +121,7 @@ def _parse_lighton_grounding(text: str, page_index: int) -> list[GroundedBlock]:
         content = text[marker.end():end].strip()
         if re.search(r"!\[[a-z_]+\+?\]\(", content):
             raise ValueError("Malformed LightOnOCR grounding marker")
-        if label in {"image", "header_image", "footer_image", "chart"} or not content:
+        if (not include_visual and label in {"image", "header_image", "footer_image", "chart"}) or not content:
             continue
         blocks.append(GroundedBlock(
             bbox=[value / 1000 for value in coordinates], text=content,
@@ -469,6 +469,7 @@ class PromptedGroundedOCR:
         *,
         client: VisionClient | None = None,
         profile: str | None = None,
+        layout_detector=None,
     ):
         config = LLMConfig.from_env(
             api_base=api_base, model=model, api_key=api_key,
@@ -498,6 +499,9 @@ class PromptedGroundedOCR:
         self.timeout_s = timeout_s
         self.max_tokens = max_tokens if max_tokens is not None else self.profile.grounded_max_tokens
         self.concurrency = concurrency
+        self._native_regions = prompt is None and self.profile.native_layout
+        self._layout_detector = layout_detector
+        self._detector_lock = asyncio.Lock()
 
     async def ensure_model_available(self) -> None:
         """Verify the server advertises the configured model ID."""
@@ -522,7 +526,7 @@ class PromptedGroundedOCR:
         import fitz
         from PIL import Image
 
-        from pdf_ocr.core.pdf import _is_image_path
+        from pdf_ocr.core.pdf import _is_image_path, PDFHandler
 
         # 1. Rasterize selected pages, remembering original indices and sizes.
         # For image inputs (JPEG/PNG/TIFF) skip the PDF round-trip and read
@@ -550,14 +554,21 @@ class PromptedGroundedOCR:
             try:
                 for page_idx in select_pages(pages, len(doc)):
                     page = doc[page_idx]
-                    pix = page.get_pixmap(dpi=self.dpi)
+                    pix = page.get_pixmap(dpi=self.dpi, colorspace=fitz.csRGB, alpha=False)
                     _emit(page_idx, Image.frombytes("RGB", (pix.width, pix.height), pix.samples))
             finally:
                 doc.close()
 
-        return await self._ocr_images(page_imgs, source_imgs, progress)
+        def load_source(page_idx):
+            return PDFHandler().render_page_source(
+                pdf_path, page_idx, max(self.dpi, self.profile.source_dpi or self.dpi),
+                max_image_dim=self.profile.source_image_dim or self.max_image_dim,
+            )
 
-    async def ocr_image(self, image_base64: str) -> GroundedResponse:
+        return await self._ocr_images(page_imgs, source_imgs, progress,
+                                      source_loader=load_source if self._native_regions else None)
+
+    async def ocr_image(self, image_base64: str, *, detected_boxes=None, source_loader=None) -> GroundedResponse:
         """Recognize an already-rendered page with the same bounded recovery.
 
         Hybrid callers can reuse native model coordinates without rendering a
@@ -573,9 +584,21 @@ class PromptedGroundedOCR:
         image.save(buffer, format="PNG")
         return await self._ocr_images(
             {0: (base64.b64encode(buffer.getvalue()).decode(), *image.size)}, {0: source},
+            detected_boxes=({0: detected_boxes} if detected_boxes is not None else None),
+            source_loader=(lambda _: source_loader()) if source_loader is not None else None,
         )
 
-    async def _ocr_images(self, page_imgs, source_imgs, progress=None) -> GroundedResponse:
+    async def _detect_native_boxes(self, image_bytes):
+        async with self._detector_lock:
+            if self._layout_detector is None:
+                from pdf_ocr.core.aligner import HybridAligner
+
+                aligner = await asyncio.to_thread(HybridAligner)
+                self._layout_detector = aligner.get_detected_boxes_batch
+            return (await asyncio.to_thread(self._layout_detector, [image_bytes]))[0]
+
+    async def _ocr_images(self, page_imgs, source_imgs, progress=None, *, detected_boxes=None,
+                          source_loader=None) -> GroundedResponse:
         # Call the VLM per page, streaming progress and collecting failures
         # as empty pages. The pipeline validates all pages before writing output.
         sem = asyncio.Semaphore(max(1, self.concurrency))
@@ -584,14 +607,15 @@ class PromptedGroundedOCR:
 
         async def run_one(page_idx: int) -> tuple[int, list[GroundedBlock]]:
             b64, w, h = page_imgs[page_idx]
+            visual_regions = []
 
-            async def recognize(image_b64, width, height, *, depth=0, temperature=None):
+            async def recognize(image_b64, width, height, *, depth=0, temperature=None, token_budget=None):
                 if temperature is None:
                     temperature = self.temperature
                     if self.profile.grounded_retry_temperature is not None:
                         try:
                             return await recognize(image_b64, width, height, depth=depth,
-                                                   temperature=temperature)
+                                                   temperature=temperature, token_budget=token_budget)
                         except (ValueError, IncompleteCompletionError):
                             # Greedy decoding retains source spelling on forms,
                             # but can collapse dense layouts or repeat table
@@ -600,7 +624,8 @@ class PromptedGroundedOCR:
                             # page deadline bounds both attempts together.
                             logging.info("Retrying native page %d with sampled decoding.", page_idx + 1)
                             return await recognize(image_b64, width, height, depth=depth,
-                                                   temperature=self.profile.grounded_retry_temperature)
+                                                   temperature=self.profile.grounded_retry_temperature,
+                                                   token_budget=token_budget)
                 complete_json = (getattr(self.client, "complete_json", None)
                                  if self.grounding_format == "json" else None)
                 # Optional capability keeps the small injectable client
@@ -609,12 +634,17 @@ class PromptedGroundedOCR:
                 text = await complete(
                     (self.prompt + '\nWrap the array in an object with a "blocks" key.'
                      if complete_json else self.prompt), image_b64, model=self.model,
-                    timeout=self.timeout_s, max_tokens=min(self.max_tokens, 2048) if depth == 2 else self.max_tokens,
+                    timeout=self.timeout_s, max_tokens=min(self.max_tokens, token_budget or
+                                                          (2048 if depth == 2 else self.max_tokens)),
                     temperature=temperature,
                     **({"schema": _GROUNDING_SCHEMA} if complete_json else {}),
                 )
                 if self.grounding_format == "lighton":
-                    blocks = _parse_lighton_grounding(text, page_idx)
+                    parsed = _parse_lighton_grounding(text, page_idx, include_visual=True)
+                    visuals = [b for b in parsed if b.label in {"image", "chart", "header_image", "footer_image"}]
+                    if depth == 0:
+                        visual_regions.extend(b.bbox for b in visuals)
+                    blocks = [b for b in parsed if b not in visuals]
                 elif self.grounding_format == "paddle":
                     blocks = _parse_paddle_spotting(text, page_idx)
                 else:
@@ -622,7 +652,8 @@ class PromptedGroundedOCR:
                         text, page_idx, width, height,
                         coordinate_space=self.coordinate_space, strict=True,
                     )
-                if not blocks and not (depth and _is_empty_grounded_json(text)):
+                if (not blocks and not (depth and _is_empty_grounded_json(text))
+                        and not (self._native_regions and self.grounding_format == "lighton" and visuals)):
                     raise LLMCallError("model returned no usable grounded text")
                 if depth == 0 and self._verify_inline_identifiers:
                     from pdf_ocr.core.native_layout import has_inline_identifier, restore_literal_identifiers
@@ -645,6 +676,10 @@ class PromptedGroundedOCR:
                             f"Grounded boxes cover only {coverage:.1%} of source ink; "
                             "retrying source regions to check for omitted text"
                         )
+                if self.grounding_format == "lighton":
+                    from pdf_ocr.core.native_regions import RegionBlocks
+
+                    return RegionBlocks(blocks, visual_regions=[b.bbox for b in visuals])
                 return blocks
 
             source = source_imgs[page_idx]
@@ -709,7 +744,52 @@ class PromptedGroundedOCR:
                 return recovered
 
             async def recognize_page():
-                blocks = await recognize_region((0, 0, source.width, source.height))
+                nonlocal source
+                if self._native_regions and min(source.size) >= 128:
+                    from pdf_ocr.core.native_regions import recover_regions, repair_targets
+
+                    boxes = (detected_boxes[page_idx] if detected_boxes is not None else
+                             [] if source.getextrema() == ((255, 255),) * 3 else
+                             await self._detect_native_boxes(base64.b64decode(b64)))
+                    try:
+                        # A looping full-page response is already evidence to
+                        # change the view. Use the detector's source regions
+                        # immediately rather than spending another full-page
+                        # generation followed by blind overlapping bands.
+                        blocks = await recognize(b64, w, h, temperature=self.temperature,
+                                                 token_budget=max(2048, len(boxes) * 96))
+                    except (IncompleteCompletionError, ValueError):
+                        if not boxes:
+                            blocks = await recognize(b64, w, h,
+                                temperature=self.profile.grounded_retry_temperature,
+                                token_budget=2048)
+                        else:
+                            blocks = []
+                            visual_regions.append([0, 0, 1, 1])
+
+                    if source_loader is not None and repair_targets(blocks, boxes, source, visual_regions)[1]:
+                        source = await asyncio.to_thread(source_loader, page_idx)
+
+                    async def read_crop(bounds, budget):
+                        region = source.crop(tuple(round(v * source.size[i % 2])
+                                                   for i, v in enumerate(bounds)))
+                        region.thumbnail((self.max_image_dim, self.max_image_dim))
+                        buffer = io.BytesIO()
+                        region.save(buffer, format="PNG")
+                        result = await recognize(base64.b64encode(buffer.getvalue()).decode(),
+                                                 *region.size, depth=1, token_budget=budget)
+                        for block in result:
+                            block.bbox = [bounds[i % 2] + block.bbox[i] *
+                                          (bounds[2 + i % 2] - bounds[i % 2]) for i in range(4)]
+                        if hasattr(result, "visual_regions"):
+                            result.visual_regions = [[bounds[i % 2] + b[i] *
+                                (bounds[2 + i % 2] - bounds[i % 2]) for i in range(4)]
+                                for b in result.visual_regions]
+                        return result
+
+                    blocks = await recover_regions(source, blocks, boxes, visual_regions, read_crop)
+                else:
+                    blocks = await recognize_region((0, 0, source.width, source.height))
                 if not blocks:
                     raise LLMCallError("model returned no usable grounded text")
                 return blocks
@@ -728,6 +808,10 @@ class PromptedGroundedOCR:
                     page_errors[page_idx] = reason
                     logging.warning("grounded OCR failed for page %d: %s", page_idx + 1, reason)
                     return page_idx, []
+                finally:
+                    # Regional source canvases are much larger than request
+                    # thumbnails; release each one as its page completes.
+                    source_imgs.pop(page_idx, None)
 
         tasks = [asyncio.create_task(run_one(i)) for i in page_imgs]
         blocks_by_page: dict[int, list[GroundedBlock]] = {}

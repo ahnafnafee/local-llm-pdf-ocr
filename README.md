@@ -83,7 +83,7 @@ The web UI stays clean by default — drop a file, pick an engine, run — with 
 
 ## 🏗️ Architecture
 
-The tool has two execution paths behind `OCRPipeline` (`src/pdf_ocr/pipeline.py`). The default **hybrid path** combines layout detection with vision transcription; the opt-in **grounded path** requests text and coordinates together, with bounded region recovery when needed. LightOnOCR-3 supplies native coordinates in both paths. Hybrid mode anchors unambiguous lines to detected ink while retaining page context, original spelling and reading order. Other model presets retain text-to-box alignment and crop refinement.
+The tool has two execution paths behind `OCRPipeline` (`src/pdf_ocr/pipeline.py`). The default **hybrid path** combines layout detection with vision transcription; the opt-in **grounded path** requests text and coordinates together, with bounded region recovery when needed. LightOnOCR-3 shares a source-region recovery layer across both paths: detector-guided crops recover dense handwriting and text inside diagrams, while local coordinates anchor to detected lines. Other model presets retain their existing alignment and recovery strategies.
 
 Both paths use an injectable `VisionClient` for inference. `OpenAICompatibleClient` owns the HTTP/SDK integration, while `OCRProcessor` and `PromptedGroundedOCR` own prompts and response parsing. `LLMConfig` resolves endpoint, model, and authentication consistently for the CLI, web UI, and model discovery. See [inference configuration and extension points](docs/inference.md).
 
@@ -125,9 +125,9 @@ graph TD
 
 5. **Refine Fallback** *(hybrid path, optional)* — Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. A pre-OCR blank-crop check (pixel stddev) skips dotted notebook backgrounds to avoid the model's "The quick brown fox..." pangram fallback. Disable with `--no-refine`.
 
-6. **Grounded Path** *(opt-in alternative)* — A vision model returns text and boxes without Surya or DP. Malformed, truncated or severely incomplete default JSON responses are retried on smaller source regions within the page deadline. Model profiles select JSON prompting or supported native grounding formats. See [generation limits and recovery](docs/inference.md#generation-limits-and-grounded-recovery).
+6. **Grounded Path** *(opt-in alternative)* — A vision model returns text and boxes without DP alignment. LightOnOCR-3 also uses Surya line geometry to select and place recovery regions. Other grounded profiles do not require a detector. Malformed, truncated or severely incomplete responses are retried on smaller source regions within the page deadline. See [generation limits and recovery](docs/inference.md#generation-limits-and-grounded-recovery).
 
-7. **Sandwich PDF** — The page is rasterized as a background image and invisible text is overlaid with horizontal-scale matrices so glyph bboxes span the full width of each source box — selection in a PDF viewer correctly covers the whole region.
+7. **Sandwich PDF** — The page is rasterized as a background image and invisible text is overlaid at the recognized positions. Table cells retain separate columns, and supported LaTeX expressions become searchable Unicode text. Font fallback preserves Greek letters and mathematical operators during PDF extraction.
 
 <div align="right"><sub><a href="#top">↑ back to top</a></sub></div>
 

@@ -2,7 +2,7 @@
   "context": {
     "protocol": "page-aware-v2",
     "document_sha256": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
-    "fixture_sha256": "247cc228ced67ea853eacc10b0dcee7dfa9ab585ac5b983aff865ecfbcd7f7ba",
+    "fixture_sha256": "e04ffd9a20e71e62cbb73ab51037b49fa1972c6276e324b4a5492c786f83fff3",
     "checks_sha256": "c996935c2629fd99094570df9241fede2aa08cb11bb4029001be768caff603ae",
     "model": "allenai/olmocr-2-7b",
     "max_image_dim": 1024,
@@ -10,15 +10,15 @@
     "matching": "hungarian"
   },
   "metrics": {
-    "recall": 0.9644,
-    "recall_at_05": 0.9644,
+    "recall": 0.9239,
+    "recall_at_05": 0.9239,
     "precision": 0.9915,
-    "hmean": 0.9778,
+    "hmean": 0.9565,
     "avg_iou": 0.9243,
     "text_sim": 0.753,
     "avg_cer": 0.4194,
-    "bow_f1": 0.6507,
-    "char_recall": 0.9833,
+    "bow_f1": 0.6414,
+    "char_recall": 0.8909,
     "char_precision": 0.9696,
     "checks_pass_rate": 1.0
   },
@@ -34,6 +34,7 @@
       "temperature": 0.1,
       "seed": null,
       "concurrency": 1
-    }
+    },
+    "reference_rescore": "Source reference v3 adds the verified printed panel; original model predictions and checks are unchanged. Prior metrics: evals/baselines/previous-reference-v2/dense__hybrid.json."
   }
 }

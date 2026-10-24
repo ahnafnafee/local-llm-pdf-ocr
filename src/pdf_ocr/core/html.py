@@ -22,7 +22,7 @@ from typing import Iterator
 import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
-from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox, searchable_text
+from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox, searchable_text, table_cell_segments
 from pdf_ocr.core.geometry import (
     ANGLE_FLATTEN_DEG,
     quad_affine_components,
@@ -431,6 +431,11 @@ class HTMLHandler:
         out.write("</div>\n")
 
     def _render_box(self, out, rect_coords, text, page_width, page_height, features):
+        cells = table_cell_segments(rect_coords, text)
+        if cells:
+            for cell_box, cell_text in cells:
+                self._render_box(out, cell_box, cell_text, page_width, page_height, features)
+            return
         text = searchable_text(text).strip()
         if not text:
             return

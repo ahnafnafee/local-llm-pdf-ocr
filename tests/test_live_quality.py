@@ -6,6 +6,7 @@ the normal mode default. These tests never run on an implicit endpoint.
 """
 
 import os
+import re
 from pathlib import Path
 
 import pytest
@@ -69,3 +70,68 @@ async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
     checks = run_doc_checks(text,
                             load_doc_checks(ROOT / f"evals/checks/{document}.jsonl"))
     assert checks[0] == checks[1], checks[2]
+
+
+@pytest.mark.parametrize('mode', ['hybrid', 'grounded'])
+@pytest.mark.parametrize('document,pages', [('dense', '2-3'), ('notes', '6,17,21')])
+async def test_live_complex_regions_remain_searchable_at_source_positions(mode, document, pages, tmp_path):
+    """Exercise later pages, diagram fields, embedded photos and math export.
+
+    These assertions were checked against source pixels, independently of
+    model outputs. The former whole-page implementation omits the diagram and
+    photo text and displaces the dense-page lines.
+    """
+    endpoint = os.environ.get('OCR_LIVE_API_BASE')
+    if not endpoint or os.environ.get('OCR_LIVE_MODE') != mode:
+        pytest.skip('Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference')
+    model = os.environ.get('OCR_LIVE_MODEL') or (
+        DEFAULT_MODEL if mode == 'hybrid' else DEFAULT_GROUNDED_MODEL)
+    max_dim = int(os.environ.get('OCR_LIVE_MAX_IMAGE_DIM', '2048'))
+    component = (OCRProcessor if mode == 'hybrid' else PromptedGroundedOCR)(
+        api_base=endpoint, model=model, api_key=os.environ.get('OCR_LIVE_API_KEY'),
+        **({'max_image_dim': max_dim} if mode == 'grounded' else {}))
+    component.client.generation_options['seed'] = 0
+    output = tmp_path / f'{document}-{mode}.pdf'
+    pipe = OCRPipeline(
+        aligner=HybridAligner() if mode == 'hybrid' else None,
+        ocr_processor=component if mode == 'hybrid' else None,
+        grounded_backend=component if mode == 'grounded' else None,
+        pdf_handler=PDFHandler(),
+    )
+    try:
+        await pipe.run(str(ROOT / f'examples/{document}.pdf'), str(output), pages=pages,
+                       concurrency=1, max_image_dim=max_dim)
+    finally:
+        await component.aclose()
+
+    def in_region(page, word, region):
+        x0, y0, x1, y1 = region
+        return [r for r in page.search_for(word)
+                if x0 <= (r.x0+r.x1)/2/page.rect.width <= x1
+                and y0 <= (r.y0+r.y1)/2/page.rect.height <= y1]
+
+    with fitz.open(output) as pdf:
+        if document == 'dense':
+            assert in_region(pdf[1], 'Snowball', [.15,.06,.33,.13])
+            assert in_region(pdf[1], 'reachable', [.07,.18,.32,.26])
+            assert in_region(pdf[2], 'BCNF', [.02,.28,.32,.34])
+            assert in_region(pdf[2], 'candidate keys', [.70,.01,.98,.14])
+        else:
+            words = set(re.findall(r'\w+', pdf[5].get_text().casefold()))
+            printed = ('EMPLOYEE FNAME MINIT LNAME SSN BDATE ADDRESS SEX SALARY SUPERSSN DNO '
+                       'DEPARTMENT DNAME DNUMBER MGRSSN MGRSTARTDATE DEPT_LOCATIONS DLOCATION '
+                       'PROJECT PNAME PNUMBER PLOCATION DNUM WORKS_ON ESSN PNO HOURS '
+                       'DEPENDENT DEPENDENT_NAME RELATIONSHIP')
+            assert set(printed.casefold().split()) <= words
+            for word, region in [
+                ('FNAME', [.15,.10,.24,.145]), ('MINIT', [.22,.10,.30,.145]),
+                ('LNAME', [.28,.10,.36,.145]), ('DLOCATION', [.42,.22,.55,.27]),
+                ('SEX', [.52,.39,.56,.43]),
+                ('Name', [.32,.49,.49,.57]), ('Amount', [.31,.57,.48,.64]),
+            ]:
+                assert in_region(pdf[5], word, region), (word, pdf[5].get_text())
+            assert len(pdf[5].search_for('SEX')) == 2
+            for word in ['Sailors', 'Reserves', 'Boats']:
+                assert in_region(pdf[16], word, [.17,.20,.85,.43]), word
+            assert len(in_region(pdf[16], 'Sailors', [.17,.20,.85,.43])) >= 4
+            assert pdf[20].get_text().strip() == 'Project 1-3'
