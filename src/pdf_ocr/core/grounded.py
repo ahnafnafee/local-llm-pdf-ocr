@@ -651,6 +651,7 @@ class PromptedGroundedOCR:
                     # still fails, and nonempty malformed responses stay errors.
                     parsed = ([] if empty_native_region else
                               _parse_lighton_grounding(text, page_idx, include_visual=True))
+                    empty_native_region = depth > 0 and not parsed
                     visuals = [b for b in parsed if b.label in {"image", "chart", "header_image", "footer_image"}]
                     if depth == 0:
                         visual_regions.extend(b.bbox for b in visuals)

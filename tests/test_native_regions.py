@@ -232,7 +232,11 @@ async def test_omitted_figure_labels_load_detailed_pixels_once():
     assert result.blocks[0].bbox == box
 
 
-@pytest.mark.parametrize('regional_text,should_fail', [('', False), ('malformed nonempty text', True)])
+@pytest.mark.parametrize('regional_text,should_fail', [
+    ('', False), ('![text](10,10,1000,1000)', False),
+    ('![text](10,10,1000,1000) \n ![text](20,20,100,100)  ', False),
+    ('![text](10,10,10,1000)', True), ('malformed nonempty text', True),
+])
 async def test_empty_native_regions_preserve_the_page_but_malformed_text_fails(regional_text, should_fail):
     import base64
     import io
@@ -259,7 +263,8 @@ async def test_empty_native_regions_preserve_the_page_but_malformed_text_fails(r
     assert calls <= 4
 
 
-async def test_empty_native_page_is_not_accepted_as_success():
+@pytest.mark.parametrize('content', ['', '![text](10,10,1000,1000)'])
+async def test_empty_native_page_is_not_accepted_as_success(content):
     import base64
     import io
     from types import SimpleNamespace
@@ -270,6 +275,6 @@ async def test_empty_native_page_is_not_accepted_as_success():
     buffer = io.BytesIO()
     source_with_boxes([box]).save(buffer, format='PNG')
     backend = PromptedGroundedOCR(model='lightonai/LightOnOCR-3-4B',
-                                  client=SimpleNamespace(complete=AsyncMock(return_value='')))
+                                  client=SimpleNamespace(complete=AsyncMock(return_value=content)))
     result = await backend.ocr_image(base64.b64encode(buffer.getvalue()).decode(), detected_boxes=[box])
     assert result.page_errors and not result.blocks
