@@ -121,7 +121,7 @@ graph TD
 
 3. **LLM Text Extraction** *(hybrid path)* — LightOnOCR-3 reads the page with native coordinates and bounded recovery, preserving the context around handwriting and form fields. Other presets use full-page transcription, with automatic per-box OCR for dense pages (> 60 detected boxes by default). On dense machine-print pages, crops mask neighboring boxes to prevent duplicated text. Handwriting retains neighboring strokes, and overlapping detections are deduplicated afterwards.
 
-4. **Text Placement** *(hybrid path)* — Native page coordinates anchor to Surya lines only when overlap is unambiguous; unmatched content keeps its model coordinates. For recognizers without native coordinates, Needleman-Wunsch alignment compares character-count fit under row-major and column-major orderings. Unmatched lines attach to the nearest matched box, and uncertain alignments can request crop recognition.
+4. **Text Placement** *(hybrid path)* — Native page coordinates anchor to Surya lines when overlap or nearby single-column row order is unambiguous; unmatched content keeps its model coordinates. For recognizers without native coordinates, Needleman-Wunsch alignment compares character-count fit under row-major and column-major orderings. Unmatched lines attach to the nearest matched box, and uncertain alignments can request crop recognition.
 
 5. **Refine Fallback** *(hybrid path, optional)* — Any sizeable box the DP couldn't populate gets its image crop re-OCR'd individually. A pre-OCR blank-crop check (pixel stddev) skips dotted notebook backgrounds to avoid the model's "The quick brown fox..." pangram fallback. Disable with `--no-refine`.
 

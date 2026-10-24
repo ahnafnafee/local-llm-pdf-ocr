@@ -113,11 +113,11 @@ async def test_live_complex_regions_remain_searchable_at_source_positions(mode, 
     with fitz.open(output) as pdf:
         if document == 'dense':
             assert in_region(pdf[1], 'Snowball', [.15,.06,.33,.13])
-            assert in_region(pdf[1], 'reachable', [.07,.18,.32,.26])
+            assert in_region(pdf[1], 'reachable', [.07,.223,.32,.235])
             assert in_region(pdf[2], 'BCNF', [.02,.28,.32,.34])
-            assert in_region(pdf[2], 'candidate keys', [.70,.01,.98,.14])
-            assert in_region(pdf[2], 'three tuples', [.70,.01,.98,.14])
-            assert in_region(pdf[2], 'best normal form', [.70,.01,.98,.14])
+            assert in_region(pdf[2], 'candidate keys', [.70,.039,.98,.045])
+            assert in_region(pdf[2], 'three tuples', [.70,.060,.98,.067])
+            assert in_region(pdf[2], 'best normal form', [.70,.123,.98,.130])
             assert not in_region(pdf[2], 'Value', [.70,.01,.98,.14])
         else:
             words = set(re.findall(r'\w+', pdf[5].get_text().casefold()))

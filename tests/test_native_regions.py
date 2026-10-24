@@ -113,6 +113,52 @@ def test_isolated_label_uses_its_source_box_despite_crop_coordinate_drift():
     assert result[0].bbox == box
 
 
+def test_ordered_lines_retain_their_source_rows_despite_upward_native_drift():
+    boxes = [[.05,.20,.29,.224], [.11,.223,.26,.235]]
+    blocks = [GroundedBlock([.08,.202,.26,.212], '$$x+y$$', 0),
+              GroundedBlock([.11,.213,.26,.222], 'Faint annotation', 0)]
+    result = anchor_local_blocks(blocks, boxes)
+    assert [b.bbox for b in result] == boxes
+
+
+def test_ordered_line_recovery_rejects_distant_rows_and_multiple_columns():
+    boxes = [[.05,.20,.29,.224], [.11,.223,.26,.235]]
+    distant = [GroundedBlock([.05,.10,.29,.124], 'First', 0),
+               GroundedBlock([.11,.123,.26,.135], 'Second', 0)]
+    assert anchor_local_blocks(distant, boxes) == distant
+    columns = [[.1,.2,.3,.22], [.6,.22,.8,.24]]
+    displaced = [GroundedBlock([.1,.2,.3,.22], 'First column', 0),
+                 GroundedBlock([.1,.23,.3,.25], 'Different column', 0)]
+    assert anchor_local_blocks(displaced, columns) == displaced
+
+
+def test_joined_paragraph_restores_source_rows_without_losing_words_or_inline_math():
+    boxes = [[.1,.2,.6,.21], [.1,.212,.4,.222], [.1,.23,.4,.24]]
+    text = r'An example relation with a dependency $A \rightarrow B$ and several words'
+    blocks = [GroundedBlock([.1,.2,.6,.222], text, 0),
+              GroundedBlock([.1,.23,.4,.24], 'The next question', 0)]
+    result = anchor_local_blocks(blocks, boxes)
+    assert [b.bbox for b in result] == boxes
+    assert ' '.join(b.text for b in result) == text + ' The next question'
+    assert any(r'$A \rightarrow B$' in b.text for b in result)
+
+
+@pytest.mark.parametrize('text', ['$$x+y$$', '<table><tr><td>Cell</td></tr></table>', '```code```', '`inline code`'])
+def test_paragraph_rows_do_not_reflow_display_math_tables_or_code(text):
+    from pdf_ocr.core.native_regions import _expand_paragraph_rows
+
+    boxes = [[.1,.2,.6,.21], [.1,.212,.4,.222]]
+    assert _expand_paragraph_rows([GroundedBlock([.1,.2,.6,.222], text, 0)], boxes) is None
+
+
+def test_paragraph_rows_reject_multiple_columns_and_irregular_source_heights():
+    from pdf_ocr.core.native_regions import _expand_paragraph_rows
+
+    block = GroundedBlock([.1,.2,.8,.25], 'A paragraph with enough words for two lines', 0)
+    assert _expand_paragraph_rows([block], [[.1,.2,.3,.21], [.6,.23,.8,.24]]) is None
+    assert _expand_paragraph_rows([block], [[.1,.2,.3,.21], [.1,.22,.8,.27]]) is None
+
+
 def test_display_math_is_not_split_into_delimiters_and_body():
     text = '$$\n\\boxed{X \\mid Y}\n$$'
     block = GroundedBlock([.1, .1, .5, .2], text, 0)

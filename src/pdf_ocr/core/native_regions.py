@@ -170,6 +170,74 @@ def repair_targets(blocks, boxes, source, visual_regions):
     return False, targets
 
 
+def _stacked_rows(rectangles):
+    """Recognize one column, including short rows with a hanging indent."""
+    return ((max(b[0] for b in rectangles) < min(b[2] for b in rectangles)
+             or max(b[0] for b in rectangles)-min(b[0] for b in rectangles)
+                <= .15 * max(b[2]-b[0] for b in rectangles))
+            and all(a[3]-b[1] <= .25 * min(a[3]-a[1], b[3]-b[1])
+                    for a, b in zip(rectangles, rectangles[1:])))
+
+
+def _expand_paragraph_rows(lines, boxes):
+    """Restore source rows when a native paragraph joins several print lines.
+
+    Require a regular column and nearby ordered blocks. Relative block heights
+    allocate the detected rows; their widths distribute the unchanged words.
+    Inline math stays atomic, and display math/tables/code keep native layout.
+    """
+    if not 0 < len(lines) < len(boxes):
+        return None
+    ordered = sorted(lines, key=lambda b: b.bbox[1]+b.bbox[3])
+    boxes = sorted(boxes, key=lambda b: b[1]+b[3])
+    heights = [b[3]-b[1] for b in boxes]
+    if (min(heights) <= 0 or max(heights) > 2 * min(heights)
+            or not _stacked_rows(boxes) or not _stacked_rows([b.bbox for b in ordered])
+            or any(re.search(r'<table|\$\$|\\\[|`', b.text, re.I) for b in ordered)):
+        return None
+    weights = [b.bbox[3]-b.bbox[1] for b in ordered]
+    if min(weights) <= 0:
+        return None
+    ideal = [weight/sum(weights)*len(boxes) for weight in weights]
+    counts = [max(1, int(value)) for value in ideal]
+    if sum(counts) > len(boxes):
+        return None
+    while sum(counts) < len(boxes):
+        index = max(range(len(counts)), key=lambda i: ideal[i]-counts[i])
+        counts[index] += 1
+    import fitz
+
+    font = fitz.Font('tiro')
+    result, start = [], 0
+    for block, count in zip(ordered, counts):
+        rows = boxes[start:start+count]
+        start += count
+        native = block.bbox
+        target = region_bounds(rows, padding=0)
+        if (abs(native[1]+native[3]-target[1]-target[3])/2
+                > max(native[3]-native[1], target[3]-target[1])
+                or min(native[2], target[2]) <= max(native[0], target[0])):
+            return None
+        words = re.findall(r'(?<!\\)\$(?!\$)[^$]+?(?<!\\)\$|\\\([^)]*?\\\)|\S+', block.text)
+        if len(words) < count:
+            return None
+        lengths = [font.text_length(searchable_text(word)+' ', fontsize=1) for word in words]
+        widths = [b[2]-b[0] for b in rows]
+        total_width, total_length = sum(widths), sum(lengths)
+        consumed, end_width = 0, 0
+        for index, row in enumerate(rows):
+            end_width += widths[index]
+            if index == count-1:
+                end = len(words)
+            else:
+                target_length = total_length * end_width / total_width
+                end = min(range(consumed+1, len(words)-(count-index-1)+1),
+                          key=lambda j: abs(sum(lengths[:j])-target_length))
+            result.append(replace(block, bbox=row, text=' '.join(words[consumed:end])))
+            consumed = end
+    return result
+
+
 def anchor_local_blocks(blocks, boxes):
     """Use nearby detected lines to correct coarse local model rectangles."""
     from scipy.optimize import linear_sum_assignment
@@ -183,11 +251,34 @@ def anchor_local_blocks(blocks, boxes):
         lines.extend(replace(block, bbox=b, text=t) for b, t in parts)
     if not lines or not boxes:
         return lines
+    expanded = _expand_paragraph_rows(lines, boxes)
+    if expanded is not None:
+        return expanded
     if len(lines) == len(boxes) == 1 and '<table' not in lines[0].text.lower():
         # An isolated source line has no competing placement. Tiny padded
         # crops can shift native coordinates above the ink, so overlap alone
         # would reject the very detection that selected this crop.
         return [replace(lines[0], bbox=boxes[0])]
+    if len(lines) == len(boxes) and all('<table' not in line.text.lower() for line in lines):
+        ordered_lines = sorted(range(len(lines)), key=lambda i: sum(lines[i].bbox[1::2]))
+        ordered_boxes = sorted(boxes, key=lambda b: b[1] + b[3])
+
+        ordered_native = [lines[i].bbox for i in ordered_lines]
+        if _stacked_rows(ordered_native) and _stacked_rows(ordered_boxes):
+            # Native crop coordinates can drift upward by one line height.
+            # Equal counts in one clearly ordered column identify the rows
+            # even when the last native rectangle misses its own source ink.
+            # Require nearby centers and horizontal overlap for every pair;
+            # columns, missing rows and distant text keep spatial matching.
+            nearby = all(
+                abs(a[1]+a[3]-b[1]-b[3])/2 <= max(a[3]-a[1], b[3]-b[1])
+                and max(0, min(a[2], b[2])-max(a[0], b[0]))
+                    >= .25 * min(a[2]-a[0], b[2]-b[0])
+                for a, b in zip(ordered_native, ordered_boxes))
+            if nearby:
+                for index, box in zip(ordered_lines, ordered_boxes):
+                    lines[index] = replace(lines[index], bbox=box)
+                return lines
     scores = []
     for block in lines:
         row = []
