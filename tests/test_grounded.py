@@ -448,7 +448,13 @@ async def test_grounded_enforces_deadline_for_injected_clients(tmp_path):
     assert "deadline" in response.page_errors[0]
 
 
-@pytest.mark.parametrize("empty_band", ['{\n  "blocks": [ ]\n}', '```json\n[]\n```'])
+@pytest.mark.parametrize("empty_band", [
+    '{\n  "blocks": [ ]\n}',
+    '```json\n[]\n```',
+    '{"blocks":[{"bbox_2d":[0,0,1000,10],"content":""}]}',
+    '[{"bbox_2d":[0,0,1000,10],"text":"  \\n"}]',
+    '{"blocks":[{"content":"","text_content":" "}]}',
+])
 async def test_grounded_recovery_accepts_formatted_empty_bands(tmp_path, empty_band):
     from pdf_ocr.inference import IncompleteCompletionError
 
@@ -463,6 +469,20 @@ async def test_grounded_recovery_accepts_formatted_empty_bands(tmp_path, empty_b
     assert len(response.blocks) == 2
     assert not response.page_errors
     assert complete.await_count == 4
+
+
+@pytest.mark.parametrize("response", [
+    '{"blocks":[{"content":"","text":"visible text"}]}',
+    '{"blocks":[{"bbox_2d":[0,0,1000,10]}]}',
+    '{"blocks":[{"content":null}]}',
+    '{"blocks":[null]}',
+    '{}',
+    'not JSON',
+])
+def test_empty_band_detection_rejects_nonempty_or_unrecognized_data(response):
+    from pdf_ocr.core.grounded import _is_empty_grounded_json
+
+    assert not _is_empty_grounded_json(response)
 
 
 async def test_grounded_pipeline_reports_failure_cause_on_the_source_page(tmp_path):

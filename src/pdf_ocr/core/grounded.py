@@ -756,7 +756,16 @@ def _is_empty_grounded_json(text: str) -> bool:
         payload = json.loads(raw)
     except json.JSONDecodeError:
         return False
-    return payload == [] or payload == {"blocks": []}
+    blocks = payload.get("blocks") if isinstance(payload, dict) else payload
+    if not isinstance(blocks, list):
+        return False
+    for block in blocks:
+        if not isinstance(block, dict):
+            return False
+        values = [block[key] for key in ("content", "text", "text_content") if key in block]
+        if not values or any(not isinstance(value, str) or value.strip() for value in values):
+            return False
+    return True
 
 
 def _parse_grounded_json(
