@@ -1,0 +1,102 @@
+[
+  {
+    "document": "digital.pdf",
+    "mode": "grounded",
+    "gt_count": 16,
+    "pipeline_count": 34,
+    "metrics": {
+      "recall": 0.3125,
+      "recall_at_05": 0.0625,
+      "precision": 0.1471,
+      "hmean": 0.2,
+      "avg_iou": 0.419,
+      "text_sim": 0.5619,
+      "avg_cer": 0.4754,
+      "bow_f1": 0.9924,
+      "char_recall": 0.3352,
+      "char_precision": 0.7328,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "hybrid.pdf",
+    "mode": "grounded",
+    "gt_count": 38,
+    "pipeline_count": 36,
+    "metrics": {
+      "recall": 0.7105,
+      "recall_at_05": 0.3947,
+      "precision": 0.75,
+      "hmean": 0.7297,
+      "avg_iou": 0.5025,
+      "text_sim": 0.9536,
+      "avg_cer": 0.0896,
+      "bow_f1": 0.9808,
+      "char_recall": 0.675,
+      "char_precision": 0.894,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "handwritten.pdf",
+    "mode": "grounded",
+    "gt_count": 14,
+    "pipeline_count": 23,
+    "metrics": {
+      "recall": 0.3571,
+      "recall_at_05": 0.1429,
+      "precision": 0.2174,
+      "hmean": 0.2703,
+      "avg_iou": 0.522,
+      "text_sim": 0.6496,
+      "avg_cer": 0.4338,
+      "bow_f1": 0.9722,
+      "char_recall": 0.5717,
+      "char_precision": 0.5297,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "notes.pdf",
+    "mode": "grounded",
+    "gt_count": 467,
+    "pipeline_count": 528,
+    "metrics": {
+      "recall": 0.167,
+      "recall_at_05": 0.0493,
+      "precision": 0.1477,
+      "hmean": 0.1568,
+      "avg_iou": 0.4504,
+      "text_sim": 0.5167,
+      "avg_cer": 0.5982,
+      "bow_f1": 0.7224,
+      "char_recall": 0.4806,
+      "char_precision": 0.4371,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  }
+]

@@ -55,6 +55,29 @@ def test_crop_captures_painted_region():
     assert r > 150 and g < 100 and b < 100, f"expected red-ish, got {(r,g,b)}"
 
 
+def test_page_canvas_keeps_a_thin_regions_ink_at_source_scale():
+    # Enlarging a whole strip until its height is 256 distorts the visual
+    # context for a page-trained recognizer. Padding must keep ink unchanged.
+    page = _make_image_b64(size=(1000, 1000))
+    out = _decode_b64_image(crop_for_ocr(
+        page, [0.1, 0.4, 0.9, 0.45], padding=0, canvas_size=1024,
+    ))
+    assert out.size == (800, 800)
+    assert out.getpixel((100, 400))[0] > 150
+    assert out.getpixel((100, 400))[1] < 100
+    assert min(out.getpixel((100, 350))) > 240
+    assert min(out.getpixel((250, 400))) > 240
+
+
+def test_page_canvas_limits_large_regions_and_still_skips_blank_ink():
+    page = _make_image_b64(size=(3000, 1000))
+    out = _decode_b64_image(crop_for_ocr(
+        page, [0, 0.4, 1, 0.6], padding=0, canvas_size=1024,
+    ))
+    assert out.size == (1024, 1024)
+    assert crop_for_ocr(page, [0.5, 0, 1, 0.1], canvas_size=1024) is None
+
+
 def test_crop_clamps_out_of_range_bbox():
     page = _make_image_b64()
     # Negative + >1 coords: helper must clamp without crashing.

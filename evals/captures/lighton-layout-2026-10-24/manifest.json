@@ -1,0 +1,770 @@
+{
+  "description": "Actual local LightOnOCR-3 inference, full documents and production workflows; no fixture or baseline changes.",
+  "code_commit": "6ec5cc7fbe8bd0dd483d72f0ffe32aa2cb7c1f0e",
+  "text_hash_convention": "SHA-256 of UTF-8 bytes with CRLF normalized to LF; binary files hashed verbatim.",
+  "runtime": {
+    "python": "3.12.2",
+    "packages": {
+      "torch": "2.9.1",
+      "transformers": "4.57.3",
+      "surya-ocr": "0.17.0",
+      "openai": "2.11.0",
+      "Pillow": "12.2.0",
+      "PyMuPDF": "1.26.7"
+    },
+    "server_sampling_defaults": {
+      "temperature": 0.800000011920929,
+      "top_k": 40,
+      "top_p": 0.949999988079071,
+      "min_p": 0.05000000074505806,
+      "repeat_penalty": 1.0,
+      "presence_penalty": 0.0,
+      "frequency_penalty": 0.0,
+      "seed": 4294967295
+    },
+    "api_base": "http://127.0.0.1:28127/v1",
+    "model_alias": "lightonai/LightOnOCR-3-4B",
+    "code_commit": "6ec5cc7fbe8bd0dd483d72f0ffe32aa2cb7c1f0e",
+    "weight_hashes": {
+      "LightOnOCR-3-4B-Q8_0.gguf": {
+        "sha256": "51e2913cad715f2516a7ab1a6f7677ebc6122361b80ba21bffc490198621ec0a",
+        "bytes": 4482403296
+      },
+      "mmproj-LightOnOCR-3-4B-F16.gguf": {
+        "sha256": "21eae623f60580f19ae4f04716292cd76ad36b420ee01e761254c8b1ec966321",
+        "bytes": 672423200
+      },
+      "model.safetensors": {
+        "sha256": "5ea422c6cc5fe759a47e1357c35639b58173508e025a3131cbe4b6ac59e2b85e",
+        "bytes": 133270468
+      },
+      "chat_template.jinja": {
+        "sha256": "d5ddb788d5f3df12e32244954037eb535409d24eeb48c2429d7588af4e7b69a7",
+        "bytes": 7759
+      }
+    }
+  },
+  "hardware": "RTX 3080 10 GiB, Surya and PP-DocLayoutV3 on CPU",
+  "server": {
+    "build": "llama.cpp CUDA 10735 / 842b18804",
+    "arguments": "--ctx-size 8192 --parallel 1 --gpu-layers 99 --flash-attn on --cache-type-k q8_0 --cache-type-v q8_0 --batch-size 256 --ubatch-size 128 --cache-ram 256 --chat-template-file <official LightOn chat_template.jinja> --reasoning off",
+    "model_repository": "richardyoung/LightOnOCR-3-4B-GGUF",
+    "model_revision": "8406c78c9f35b0a4d6c9cc5f69dff0e14e93ce01"
+  },
+  "inference": {
+    "primary_temperature": 0,
+    "native_retry_temperature": 0.2,
+    "top_p": 0.9,
+    "full_run_seed": null,
+    "focused_seeds": [
+      0,
+      1,
+      2
+    ],
+    "image_max_dimension": 2048,
+    "image_encoding": "PNG",
+    "grounded_render_dpi": 150,
+    "hybrid_render_dpi": 200,
+    "grounded_max_tokens": 4096,
+    "hybrid_max_tokens": 6144,
+    "page_deadline_seconds": 240,
+    "concurrency": 1,
+    "notes": "Server top-k 40 and min-p 0.05 apply to sampled retries; greedy requests override temperature. All recovery and literal verification share the page deadline."
+  },
+  "layout_probe": {
+    "model": "PaddlePaddle/PP-DocLayoutV3_safetensors",
+    "revision": "e4f489dc536556fc1be02b973ba06756e0d4a2ac",
+    "transformers": "5.20.2",
+    "device": "cpu",
+    "input": "First page of form, notes, handwriting and dense PDFs; 200 dpi, max 2048 pixels.",
+    "detection_threshold": 0.3,
+    "anchoring_threshold": 0.5,
+    "comparison": "Fixed final grounded text and source page, split multiline native boxes, then the production one-to-one overlap anchoring rule. Image-class regions excluded. No PP-driven reordering or new recognition in this geometry comparison.",
+    "earlier_comparison": "layout-comparison.json uses the older sampled LightOn capture before the PNG/native-layout fixes and a simpler snap rule; it is not the final comparison."
+  },
+  "controls": {
+    "references": "Source-audited version 2 fixtures unchanged.",
+    "baselines": "Separate empty directory; no compatible LightOn baseline exists. Content checks passed; cross-model metric regression gates were not run. Existing controls and tolerances unchanged.",
+    "negative_runs": "lighton-native-grounded: before sampled retry and literal verification; lighton-native-hybrid: after sampled retry, before literal verification. These are preserved failures, not replacement final results.",
+    "harnesses": "Sources are archived verbatim apart from line endings. They ran under .cache/lighton-layout-20261024; copy harnesses to that directory to preserve their relative project-root assumptions."
+  },
+  "sources": {
+    "examples/dense.pdf": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
+    "examples/digital.pdf": "a1441b8ebc564a3d25c56ed9642ed67dfb767a25bf18dfc3e24b70e321bd5e5a",
+    "examples/handwritten.pdf": "d2183248339fbc4ca9fede5ab20ad5a6a4cf55684dac9ee1f82e6c73f2230c92",
+    "examples/hybrid.pdf": "57e8087e3e2e0c0937a2f911edd30eff9011b463fc4c8295cb4489c9f7ba860c",
+    "examples/multipage.pdf": "2a0e37c98b4f03621c5001cdc37b04ae8c892ba4a345ea3229f99d2634739243",
+    "examples/notes.pdf": "9f8b51474d5a8fef1745d6754f803e5879fb81f308d741e080e3ea3441f6e442",
+    "examples/output_dense.pdf": "6e8249eb884828cb4e98462b890ef7a1f4bbefc7be782db953506b0101d83022",
+    "examples/output_digital.pdf": "d7671cf4ccf0bb471aeee2ba94c48b6f64d66bdd4bd42e47da18c37e80ac7089",
+    "examples/output_handwritten.pdf": "5979beb2ea6d7fd4cf73c3c074f8e3a8b6b25396be7bfd2f12eb2ba7157dc0e4",
+    "examples/output_hybrid.pdf": "5ff4b7b409f055d34f379e0e20a97069531c396bf72e2ba3c7bbe7947ec3daac",
+    "examples/output_image.pdf": "ec50db0e34ec59b099f02caf50b1a986cbf21bc4c2d6bb43ddbd5956b1552db2",
+    "examples/output_image_grounded.pdf": "6a8fa999d571f643374957a693fd0b951af36f23ecfc6f1c76357cf282018f80",
+    "examples/output_image_hybrid.pdf": "15d6bc2ac98de0ea4a16396bd3d414832389dbbe6375f267d111d1f26aff7f41",
+    "examples/output_notes.pdf": "0738d828133ff67d1f5f56c1c52ddc38990dab39703b53a3fa28c6f55fe2c979",
+    "examples/output_photo.pdf": "bab0d6bb267af06e5cb65af04a2339e465c064cf4887330b3cd336ee01151ab9",
+    "examples/image.avif": "b8b80fd66fe4261a6d47efa81abd583087163619bb10bd100c677b304b8e0cf7",
+    "tests/fixtures/ground_truth_dense.json": "247cc228ced67ea853eacc10b0dcee7dfa9ab585ac5b983aff865ecfbcd7f7ba",
+    "tests/fixtures/ground_truth_digital.json": "557d6c88ccfdb678d232b0cb0e7612a8f931e5d5584d4b3d5e04d3a3c5454062",
+    "tests/fixtures/ground_truth_handwritten.json": "41373e81bf07f03df5372083ec20d5c8b50096586ba374b0bc753f765223a194",
+    "tests/fixtures/ground_truth_hybrid.json": "0fbbc7d4efe0584cf84d58e7cde6b02d4feeffcd75ec5e1db231fab31046d2a4",
+    "tests/fixtures/ground_truth_image.json": "7355067e793a984c8e410f58a23b675eea40d46aeca575e884402b7ba3bdb03a",
+    "tests/fixtures/ground_truth_notes.json": "d5bb5fd8ddb584264e488a47f0491df9b408e7b922da2e9bc34cec5e45c7b5f6",
+    "evals/checks/dense.jsonl": "c996935c2629fd99094570df9241fede2aa08cb11bb4029001be768caff603ae",
+    "evals/checks/digital.jsonl": "c4da6665e8949c972f22066994ff2ae804551dc0ae2d53f9ed3ba3f255f5ce8e",
+    "evals/checks/handwritten.jsonl": "b2d02c7f83c0d7cec84cc8950cd04e63aa65fb8a1f6f6968e983d7f7fc8e1f51",
+    "evals/checks/hybrid.jsonl": "89a6bc91d873868a6aec8b0debcc6ea40785297c43ca730d06dae84f8f2b4139",
+    "evals/checks/notes.jsonl": "b3db26b81525e44af35094d895dd22d241fa9527a69624a57594893a1ccebf15"
+  },
+  "files": {
+    "baseline-notes.log": {
+      "sha256": "04f7069b6258c158d41057b14af38b731b094d2234c019ed982c2afc6f90f06b",
+      "bytes": 6731
+    },
+    "build.log": {
+      "sha256": "1193f2426f34d34125bb7fd31ac75ccceb9190837e45f04d67e51d918e605a25",
+      "bytes": 195
+    },
+    "current-raw-raw.json": {
+      "sha256": "fc710701b5829992747b5e3e9220f7d285d08b4a449ce7d9588de30090e9a7e1",
+      "bytes": 2653
+    },
+    "dense-layout.json": {
+      "sha256": "b7dad16fe51b956f817968202ff84e3f98164a7f487183322a2cfbefe53224c8",
+      "bytes": 27924
+    },
+    "dense-layout.png": {
+      "sha256": "4f574814b145c3aaff50d24cf9bb0583a8bc88400307c67caac71baff4284fde",
+      "bytes": 1229640
+    },
+    "final-full-exit-codes.json": {
+      "sha256": "f153f168b40fba3a1aef49944c8adb83d64390c306989af3f8ce69481e60397e",
+      "bytes": 45
+    },
+    "final-full-grounded.log": {
+      "sha256": "6e80d2b825d00159daf2ed58c3db6a3098905daac2c1c5e7278e3c8addda4302",
+      "bytes": 7233
+    },
+    "final-full-hybrid.log": {
+      "sha256": "18077e9f2fc99248c8618def78349dedbc52b3ecd3f4ef227a03e79ac10d3dca",
+      "bytes": 6494
+    },
+    "final-grounded-dense-live.log": {
+      "sha256": "8f501847f30017d0dd19c46cbf99da4866300efcb58b6c5edb3e35f5926a1c1f",
+      "bytes": 125
+    },
+    "final-grounded-live.log": {
+      "sha256": "7c9ff3c6568d1ed6bcc91cae63077f4ba6349592c9b182cf459ae33f293c8f4d",
+      "bytes": 123
+    },
+    "final-hybrid-dense-live.log": {
+      "sha256": "0f5373d404aafb653e9a245d355f9ddbf7fc277d4b3a7b26cd29aaf53b7387b5",
+      "bytes": 125
+    },
+    "final-hybrid-live.log": {
+      "sha256": "53751d53fb227d27ff7fd04cc096fa11403f5c9f4001a9b385aef301bdc099a9",
+      "bytes": 123
+    },
+    "final-image-grounded.log": {
+      "sha256": "b344cd4c91553e76b367ddcab9f6732522c0d640e49665ace0ba9d2c40d7d9f0",
+      "bytes": 540
+    },
+    "final-image-hybrid.log": {
+      "sha256": "5a9d71211eb83817ad2a6b89ebc6b395865a7c905037ad6181e32ced7b70445a",
+      "bytes": 537
+    },
+    "final-selection-grounded.log": {
+      "sha256": "fc35e5799c3967ffc7f51bb005404c1fc2f7b190f1f36aece8d5eb48d60fc76e",
+      "bytes": 1358
+    },
+    "final-selection-hybrid.log": {
+      "sha256": "15154b9782ce7a8bd74d5de7c6b51fc472a1ed7b591d1c4bacd168696873abc0",
+      "bytes": 1512
+    },
+    "final-selection-text.log": {
+      "sha256": "387eef8b3bcc0c069c007da6bcf0147ef1937177e2f9ba0f0717dca571963fb0",
+      "bytes": 1426
+    },
+    "final-web-grounded.log": {
+      "sha256": "2d863a17e5fe7cca83a2c7e2b73dec4ba9f740113dbfca579408d0de53b2a839",
+      "bytes": 388
+    },
+    "final-web-hybrid.log": {
+      "sha256": "9e01da4f3c3659ce3ae6f2623b736009b85598bb5320bfc254d5e44f0a392764",
+      "bytes": 384
+    },
+    "final-workflow-exit-codes.json": {
+      "sha256": "ebbbb1ef8c4a92d19727be5315714c6379629d2875fc4febb9c8f10a36a3d3fc",
+      "bytes": 162
+    },
+    "full-grounded.log": {
+      "sha256": "5f5c543b7dfcb15c9940bbb9d97ecf9f4498bd6e585e7e03d942bd2ff9b88271",
+      "bytes": 7749
+    },
+    "full-hybrid.log": {
+      "sha256": "5d816a5ce3a6a98d30cb79ec67bff17476caf6770d635bc369dd7e4b75aa6227",
+      "bytes": 6619
+    },
+    "handwritten-layout.json": {
+      "sha256": "e06023da980a8b2e15f0fff71676b625da5b34346c28364a54ad9970f160e0c2",
+      "bytes": 17373
+    },
+    "handwritten-layout.png": {
+      "sha256": "de5e6c8a162dbf03cbeabfee55f1125a74bc76057c30c6caae32581bfc30de81",
+      "bytes": 717627
+    },
+    "hybrid-layout.json": {
+      "sha256": "4a6852e80cf0b569dbfc01aa211f7e92d0a31792465e20f836efdf444b744b7c",
+      "bytes": 6915
+    },
+    "hybrid-layout.png": {
+      "sha256": "cfe6a683aab808f6c9a552cf54cb63865f55817e3dbd56f6e1b9c8f25739e8a1",
+      "bytes": 162319
+    },
+    "image-grounded.json": {
+      "sha256": "6f7591b2c5e55dcf949b27f579f7e50c43e0a7b94d21956725575b1d5485cbf4",
+      "bytes": 2711
+    },
+    "image-hybrid.json": {
+      "sha256": "79637ce77ad9ee364c74083e69c391e0e1f6fe7cc1593911a7a63691ecaeb0e3",
+      "bytes": 3192
+    },
+    "layout-comparison.json": {
+      "sha256": "2984c90de5b5acc8724510dac0f5184262227f53351c59a8dd390bffead14865",
+      "bytes": 2445
+    },
+    "layout-final-comparison.json": {
+      "sha256": "785386d8f2c97576511e8813f4367fd41131230329d389b3fe1641bd7a92cc57",
+      "bytes": 4233
+    },
+    "lighton-final-grounded-completion-0001.json": {
+      "sha256": "cc4978f1c09ad88458d68a64226d87042c4f9395feffe58ca535ba6ad85d5a9e",
+      "bytes": 4105
+    },
+    "lighton-final-grounded-completion-0002.json": {
+      "sha256": "aa98c45f35276374f277204538e9627bc53f52021f383de22aca6a9be90bc7be",
+      "bytes": 2368
+    },
+    "lighton-final-grounded-completion-0003.json": {
+      "sha256": "49ab2908f1b6281ff52b9a362cd697875302758437c7be72813b2e18a410be53",
+      "bytes": 2000
+    },
+    "lighton-final-grounded-completion-0004.json": {
+      "sha256": "6510d867c7d5229297767488b07e4fa9bbd4c1249052206182e88e741c6508b6",
+      "bytes": 8366
+    },
+    "lighton-final-grounded-completion-0005.json": {
+      "sha256": "01f99fbc6a67c7bf7a5732f1bfdcf21564fc44269ed379d948ea53163e3a2030",
+      "bytes": 9628
+    },
+    "lighton-final-grounded-completion-0006.json": {
+      "sha256": "210509e36c1e79618d9240fbf1b90ccfdf8ba12899db4a15808821d248e6820c",
+      "bytes": 4274
+    },
+    "lighton-final-grounded-completion-0007.json": {
+      "sha256": "29e3bac80a55a93b726ff7d730468320340f7b1858918faad0aaf89397543ef9",
+      "bytes": 4218
+    },
+    "lighton-final-grounded-completion-0008.json": {
+      "sha256": "855ac1ed2116e21fc1fd11c408816f693dfd4a45e90e64d81d423e7f645723a4",
+      "bytes": 3962
+    },
+    "lighton-final-grounded-completion-0009.json": {
+      "sha256": "938fb95ab0d3b2799c6785d82700297dcba8821b999d42507dccf94bd3a01197",
+      "bytes": 3557
+    },
+    "lighton-final-grounded-completion-0010.json": {
+      "sha256": "0478eabb5628e395093537c10e0881c015dad254ba0a4cfbb9a97317d81dd26b",
+      "bytes": 9401
+    },
+    "lighton-final-grounded-completion-0011.json": {
+      "sha256": "29df62fc7f64b1d8f2b4aefef209a6d08ea5849668228b97c5290ce4a914008a",
+      "bytes": 8797
+    },
+    "lighton-final-grounded-completion-0012.json": {
+      "sha256": "4d24ba12de449d8b9ed26501b0a7b806659a3511f3af359239b4f9f9658a51bf",
+      "bytes": 5648
+    },
+    "lighton-final-grounded-completion-0013.json": {
+      "sha256": "478ac8c5ea5894681246d2a5c44467b91e12e9c482accd14941d0824eff61464",
+      "bytes": 2459
+    },
+    "lighton-final-grounded-completion-0014.json": {
+      "sha256": "ffb517cc4959a7601630617a13e2d2ff15758a7d9e3deda61c85b6b7b763d176",
+      "bytes": 2540
+    },
+    "lighton-final-grounded-completion-0015.json": {
+      "sha256": "9bdf99a59b238e136d854dbc294cb881edab50e35e152351ad952d426d791200",
+      "bytes": 2196
+    },
+    "lighton-final-grounded-completion-0016.json": {
+      "sha256": "2725e2122a9535641befdf0722d4f28ffbf1e08f38621b044fba0983fb397812",
+      "bytes": 2007
+    },
+    "lighton-final-grounded-completion-0017.json": {
+      "sha256": "54b148622994e63b463e671ef36ddfb87d55d0eab922440a0b921da2dcde5cf8",
+      "bytes": 1975
+    },
+    "lighton-final-grounded-completion-0018.json": {
+      "sha256": "cffabcba48b40194add151b4b6b97da0ec6dba1f1d87870ddc2ed9ae3afc306f",
+      "bytes": 1626
+    },
+    "lighton-final-grounded-completion-0019.json": {
+      "sha256": "04789c0e250ba20c5dfe0e116f446b96aec5b419111bab54938a526eafc00937",
+      "bytes": 1687
+    },
+    "lighton-final-grounded-completion-0020.json": {
+      "sha256": "437936a19f54713439123c7c901c99f719134e8a9a9e0abfe307927c27875175",
+      "bytes": 1775
+    },
+    "lighton-final-grounded-completion-0021.json": {
+      "sha256": "316671bcf0f6f83f657a54589234d3c63cb5ea5e05d5ec4f0f7be15f3a0775eb",
+      "bytes": 1539
+    },
+    "lighton-final-grounded-completion-0022.json": {
+      "sha256": "0ffcba87e4fcbb463a835f7c219bd3a0089bf70532fe6d9907b546dcb6c40591",
+      "bytes": 2056
+    },
+    "lighton-final-grounded-completion-0023.json": {
+      "sha256": "80b70abcfadb19aaccf2e0e76891e6715875b385e621fa601465a35552d732b9",
+      "bytes": 2241
+    },
+    "lighton-final-grounded-completion-0024.json": {
+      "sha256": "c3ea96b5fc9d74896f2e52292829d2a792d1bcd050f8c4b15e9a549203d6d2a9",
+      "bytes": 1950
+    },
+    "lighton-final-grounded-completion-0025.json": {
+      "sha256": "b520526584cf8e03e439fcd3263d0a7c2aebfbcbe2f61dd15f687c9198ab6205",
+      "bytes": 2947
+    },
+    "lighton-final-grounded-completion-0026.json": {
+      "sha256": "e2281680d735baa2f3813f7a7a5f96b5d8ddedc05677ec2df5b29af8200f7ce3",
+      "bytes": 3225
+    },
+    "lighton-final-grounded-completion-0027.json": {
+      "sha256": "ae737e25de4d5f1d8954029f068c21dddb8fef4fc90b9b65f153a525f297a2f8",
+      "bytes": 2120
+    },
+    "lighton-final-grounded-completion-0028.json": {
+      "sha256": "a65549d641378539857ac0edd1e2d3d84d5acc8e84b91f4609c24f0c5102bcc7",
+      "bytes": 2474
+    },
+    "lighton-final-grounded-completion-0029.json": {
+      "sha256": "bb4b68e15e22d9dee3d6cbc61d45830a60dcc2e6dc2960194b8e06c74fc08ca6",
+      "bytes": 3723
+    },
+    "lighton-final-grounded-completion-0030.json": {
+      "sha256": "26775edb448b9a5689403dcae5888ec9639426ed8ab24c950b3c60852fcee091",
+      "bytes": 3199
+    },
+    "lighton-final-grounded-completion-0031.json": {
+      "sha256": "56ee1b5c213a8f686900d781b5f33bcb7c8e804f57ad28337fdea2bd9535175d",
+      "bytes": 2633
+    },
+    "lighton-final-grounded-completion-0032.json": {
+      "sha256": "8c35c5ae7e0bd2e2ef8da01332f693ff4bf0f410a44b5be40504afb76e502ad6",
+      "bytes": 2262
+    },
+    "lighton-final-grounded-completion-0033.json": {
+      "sha256": "fa9914f44081ae0f44d99c711f2be302f5fab4ec158355530c55cfc2153962a2",
+      "bytes": 2694
+    },
+    "lighton-final-grounded-completion-0034.json": {
+      "sha256": "b6422992a4b27b6ba529fdb5cfa9a38f9645f09f61b838305aaad33c5c9af7dd",
+      "bytes": 1311
+    },
+    "lighton-final-grounded-dense-blocks.json": {
+      "sha256": "7d9c6a3a47e806da4c92d7f84ed5e1fcd70492d58fb0e315530d0abc32a9e662",
+      "bytes": 61838
+    },
+    "lighton-final-grounded-dense-output.json": {
+      "sha256": "49cbe676211efdb6f100910cc190b7e1b3d49e55d1a80ee29ee8a902215709e4",
+      "bytes": 38635
+    },
+    "lighton-final-grounded-dense-page-indices.json": {
+      "sha256": "ad4da7eece7bb95ea94a3773b9ed25fe7d4b0b772cb56641ae8fc1082cea4e52",
+      "bytes": 859
+    },
+    "lighton-final-grounded-digital-blocks.json": {
+      "sha256": "eaa94f9d99b653df8ea7c198603111ded3d79f3b9f915e0ae56dec11064af8ad",
+      "bytes": 5378
+    },
+    "lighton-final-grounded-digital-output.json": {
+      "sha256": "1da4951e0ace4fc450a5ece7c5b26de2557fcce6389453e5462cb59e09a9a474",
+      "bytes": 3781
+    },
+    "lighton-final-grounded-digital-page-indices.json": {
+      "sha256": "f04cd8c1a0d6949380d3bb4e0e43aff8acbf1886871ad1fccbeced5838c7085e",
+      "bytes": 55
+    },
+    "lighton-final-grounded-handwritten-blocks.json": {
+      "sha256": "4a4d694ceee85e6bf61599ff7d3695ea8c42267813b439881ac63223f8849fb4",
+      "bytes": 1842
+    },
+    "lighton-final-grounded-handwritten-output.json": {
+      "sha256": "726b997a846443d3a78d02c51d7723955c73a5e9a485ccc57a9ab28baeac0e49",
+      "bytes": 1153
+    },
+    "lighton-final-grounded-handwritten-page-indices.json": {
+      "sha256": "0e1be0e26be8cce5889ff39bed0ff841f6be1c788f9624453421e22f1a6bba9a",
+      "bytes": 22
+    },
+    "lighton-final-grounded-history.csv": {
+      "sha256": "c073a123ac1c8662645c6b980d136b0b2a7ddfcc0d8a9d70f4e2a35d4cb53af0",
+      "bytes": 698
+    },
+    "lighton-final-grounded-hybrid-blocks.json": {
+      "sha256": "1493a0874363fa1071c058275786fde98b0a657250ee693219ef98f692496d56",
+      "bytes": 3291
+    },
+    "lighton-final-grounded-hybrid-output.json": {
+      "sha256": "4b0059a1171f1914240926f95e463d4487a83804d5893f14c5951928f5854a10",
+      "bytes": 2040
+    },
+    "lighton-final-grounded-hybrid-page-indices.json": {
+      "sha256": "c0a639242496ae509fa2c725a4693b238c9de6e035328cca54103adc477d748c",
+      "bytes": 43
+    },
+    "lighton-final-grounded-notes-blocks.json": {
+      "sha256": "fbbd5fdc2b946160fc0f28f81fdf8c76daaecdd5dd58db2f6606e7fa8d1f4061",
+      "bytes": 46887
+    },
+    "lighton-final-grounded-notes-output.json": {
+      "sha256": "a99d19cf0384a88911490b2ea41db78c559149b4728a72369f8e461ba74f9f17",
+      "bytes": 30346
+    },
+    "lighton-final-grounded-notes-page-indices.json": {
+      "sha256": "3e305698e7635638eb266ac45d0d27c7985e6e341eb19f8f916fa5fa96a83015",
+      "bytes": 695
+    },
+    "lighton-final-grounded-results.json": {
+      "sha256": "c54ab616fee96f71e613661b4d9ddc5eeda8ac5ad94bb2d454b32ac07122c652",
+      "bytes": 2504
+    },
+    "lighton-final-hybrid-completion-0001.json": {
+      "sha256": "1eb233bb38a80452bfe27f7578a6f7f03b6ab122ba7792601d34d10b2a0bf082",
+      "bytes": 4108
+    },
+    "lighton-final-hybrid-completion-0002.json": {
+      "sha256": "27dd7e3689bd77f86b8831b2d1d471582a787b9e697ca9d3201cc05e548d7e1a",
+      "bytes": 2383
+    },
+    "lighton-final-hybrid-completion-0003.json": {
+      "sha256": "27c5664434d9f19ec8033a95dff8f6541e05cbc671fdf2061c13ecefcb28014a",
+      "bytes": 2129
+    },
+    "lighton-final-hybrid-completion-0004.json": {
+      "sha256": "ca9ea726dafe57b28f6590eb7f40014eabb0c6fcff6ee067087edea1dcaca9fc",
+      "bytes": 8860
+    },
+    "lighton-final-hybrid-completion-0005.json": {
+      "sha256": "5767004d24d34b00e74123f0eaaf7db8ade28c56927b69871b98f05559380989",
+      "bytes": 8575
+    },
+    "lighton-final-hybrid-completion-0006.json": {
+      "sha256": "7ddd2acb012dbd2f7fc13f7a62deb5214b650e51b0f77860c9ebfebe6c26e581",
+      "bytes": 5730
+    },
+    "lighton-final-hybrid-completion-0007.json": {
+      "sha256": "e50f93f08924bf5d9dd3e6f63172b6909f165a09128c8ea7025b8d92051920a2",
+      "bytes": 2530
+    },
+    "lighton-final-hybrid-completion-0008.json": {
+      "sha256": "c2c44414da62665767469430c33da4be0f8616361e3833f288737e489245eee1",
+      "bytes": 2448
+    },
+    "lighton-final-hybrid-completion-0009.json": {
+      "sha256": "925cb8ebba8d243d0850e9cf0273815e3bf9786e21b30c361432eb584be174b9",
+      "bytes": 1966
+    },
+    "lighton-final-hybrid-completion-0010.json": {
+      "sha256": "9b1c59d222e0de20c28f2fece53df096e071d454d0b4678b28222e69acc78309",
+      "bytes": 1910
+    },
+    "lighton-final-hybrid-completion-0011.json": {
+      "sha256": "ecc39586efd5a6915900609dd69c27750deaccedca20cfe313a11090a11efcdf",
+      "bytes": 2110
+    },
+    "lighton-final-hybrid-completion-0012.json": {
+      "sha256": "c29c4df9846c1a69a0fbf81a8b72067dac6cdef8e9d9909516853a586dd3e531",
+      "bytes": 1628
+    },
+    "lighton-final-hybrid-completion-0013.json": {
+      "sha256": "028316535283c8a7ad324fe39e6b3bc6327c9ac06a4ebbef773b3e12376ee9e9",
+      "bytes": 1689
+    },
+    "lighton-final-hybrid-completion-0014.json": {
+      "sha256": "375df79f3b1f41dd0a30b8b31beb785050e82a1ad64f17e673361dc6d46f9d1f",
+      "bytes": 1607
+    },
+    "lighton-final-hybrid-completion-0015.json": {
+      "sha256": "465098921869d0ddf01fe2e710e1cbf3f4418224ea705637e9e8a3c4507e6185",
+      "bytes": 1533
+    },
+    "lighton-final-hybrid-completion-0016.json": {
+      "sha256": "0f6492127c310651391d77564da0bd7e28c76b006f98d380e2f1e763d7fe0fc6",
+      "bytes": 2072
+    },
+    "lighton-final-hybrid-completion-0017.json": {
+      "sha256": "4bd1c3fb85e83864044da549fadf5881103dc54cc7b1305466516550426098ae",
+      "bytes": 2171
+    },
+    "lighton-final-hybrid-completion-0018.json": {
+      "sha256": "8b4033bfa51323cffac80bf92f680b4bfb2f882cd798d89f97c5ccf56a35c9e7",
+      "bytes": 1950
+    },
+    "lighton-final-hybrid-completion-0019.json": {
+      "sha256": "44816d3b9e4ec392ac81cc8bfe7ca4e0d05b8219ab50903ffe824aa7d70b10e3",
+      "bytes": 2956
+    },
+    "lighton-final-hybrid-completion-0020.json": {
+      "sha256": "e6af6b2bf49ffd02444b1afa21b957e53f04b06dae078a201b7f0f6d0fb19db9",
+      "bytes": 3073
+    },
+    "lighton-final-hybrid-completion-0021.json": {
+      "sha256": "20b1df54ce8e766e5323d53055283ed9cd5d64cf4e8b6eaab017efeebc0ba18e",
+      "bytes": 2135
+    },
+    "lighton-final-hybrid-completion-0022.json": {
+      "sha256": "ba0a2a53662c9c167beeb0bd285910af3cb71f1892d0a608d5e58e69dfbc5484",
+      "bytes": 2529
+    },
+    "lighton-final-hybrid-completion-0023.json": {
+      "sha256": "09de7a02abc8c58b496f686ca6fff51c07f7e3a67b275d9c070b5e665313da28",
+      "bytes": 3639
+    },
+    "lighton-final-hybrid-completion-0024.json": {
+      "sha256": "fd8cc0f52bec9901a259c5c70e5794fde9b5e49e3105f173a880a136e351bb41",
+      "bytes": 1964
+    },
+    "lighton-final-hybrid-completion-0025.json": {
+      "sha256": "cfd5d8c8d92333a062e0e005fbe82072d52873fb9d2ba6630f1ca59578affb4e",
+      "bytes": 2688
+    },
+    "lighton-final-hybrid-completion-0026.json": {
+      "sha256": "8807b3793de853a74109c1b2c42adacabeef0a174b041ed77c7e0d8901b4be0b",
+      "bytes": 2250
+    },
+    "lighton-final-hybrid-completion-0027.json": {
+      "sha256": "aeffeb02b19d83c44672f6f9d027752f0068baeadc726d8a56505b38ea779356",
+      "bytes": 2685
+    },
+    "lighton-final-hybrid-completion-0028.json": {
+      "sha256": "1633f9b0b06c5db4e6a514e9bfe56a93b198df96ab3bcdb60d1116af6ce8573c",
+      "bytes": 1322
+    },
+    "lighton-final-hybrid-dense-output.json": {
+      "sha256": "82108a9a6b59f28d238dc82d527c3442601bf4cefe7f0e56561117f160285fcc",
+      "bytes": 36047
+    },
+    "lighton-final-hybrid-dense-page-indices.json": {
+      "sha256": "8906182c5df9024bae728c51fab2b376423c715f7ba6597da84c94863e6eb8b9",
+      "bytes": 889
+    },
+    "lighton-final-hybrid-digital-output.json": {
+      "sha256": "b40894581e7069edb52c7680a3eb9225842b58616a699471b7c1e2c558c0d52f",
+      "bytes": 4264
+    },
+    "lighton-final-hybrid-digital-page-indices.json": {
+      "sha256": "f04cd8c1a0d6949380d3bb4e0e43aff8acbf1886871ad1fccbeced5838c7085e",
+      "bytes": 55
+    },
+    "lighton-final-hybrid-handwritten-output.json": {
+      "sha256": "e1fd4b84fb1236121a2fc9cf1892b13498904da7ff9a15f853327ebe5d6bf1bb",
+      "bytes": 2026
+    },
+    "lighton-final-hybrid-handwritten-page-indices.json": {
+      "sha256": "c0a639242496ae509fa2c725a4693b238c9de6e035328cca54103adc477d748c",
+      "bytes": 43
+    },
+    "lighton-final-hybrid-history.csv": {
+      "sha256": "b194f4f0c45049b776b81541629b495011f1989d980be41e0be62000b1783eda",
+      "bytes": 691
+    },
+    "lighton-final-hybrid-hybrid-output.json": {
+      "sha256": "eeaa00fa0d7bc0bfa5b231efc0edf30d6875c7e40536c2538c2c9c313a6c055c",
+      "bytes": 2415
+    },
+    "lighton-final-hybrid-hybrid-page-indices.json": {
+      "sha256": "c0a639242496ae509fa2c725a4693b238c9de6e035328cca54103adc477d748c",
+      "bytes": 43
+    },
+    "lighton-final-hybrid-notes-output.json": {
+      "sha256": "d7e02e8414b6a493195efd3cd956c7fdfa9cb2051d5204336bd8f3d59849bf65",
+      "bytes": 35959
+    },
+    "lighton-final-hybrid-notes-page-indices.json": {
+      "sha256": "d8f47c7cf16d5974b007c14a96debea6d2bf8d1a75abaf14d0816af341b15a69",
+      "bytes": 831
+    },
+    "lighton-final-hybrid-results.json": {
+      "sha256": "b22b19b1eeff0b79ea1287dff42fab1900d1091c5f073091d82e86954b89b84d",
+      "bytes": 2498
+    },
+    "lighton-native-grounded-dense-blocks.json": {
+      "sha256": "9e60aa63d9663f22d6436622c5f1695ed42148070fbed15d553f173dc03b55ff",
+      "bytes": 32822
+    },
+    "lighton-native-grounded-digital-blocks.json": {
+      "sha256": "eaa94f9d99b653df8ea7c198603111ded3d79f3b9f915e0ae56dec11064af8ad",
+      "bytes": 5378
+    },
+    "lighton-native-grounded-handwritten-blocks.json": {
+      "sha256": "4a4d694ceee85e6bf61599ff7d3695ea8c42267813b439881ac63223f8849fb4",
+      "bytes": 1842
+    },
+    "lighton-native-grounded-hybrid-blocks.json": {
+      "sha256": "1493a0874363fa1071c058275786fde98b0a657250ee693219ef98f692496d56",
+      "bytes": 3291
+    },
+    "lighton-native-grounded-notes-blocks.json": {
+      "sha256": "3cf0c6e0e531f453497bfa0c2c8be833d451eaceb0c4334fd83e061d6c202227",
+      "bytes": 46890
+    },
+    "lighton-native-grounded-results.json": {
+      "sha256": "1fd0a1ef8f33387259c38aa01d1ae536aa99af2adbe6907c52384f46ce774a67",
+      "bytes": 2054
+    },
+    "lighton-native-hybrid-results.json": {
+      "sha256": "a09da510ef444ea0601549030b3e59bef075bbad0199c4f943ecf0d09371d76d",
+      "bytes": 2549
+    },
+    "native-hybrid-live.log": {
+      "sha256": "bc407bfd0a457712f4d2a8d6fde57f081f188b9e5570dc15d424ef9d3dd06be6",
+      "bytes": 10068
+    },
+    "native-retry-red.log": {
+      "sha256": "c50cd8d9d60b699b1af8f2c06eb860c3e2421655269c8961702f29e33f313fa4",
+      "bytes": 1813
+    },
+    "notes-layout.json": {
+      "sha256": "0ee0b1ac9d669a4de330628f063640ab857f1eb9a86991ccf216d46468400917",
+      "bytes": 11685
+    },
+    "notes-layout.png": {
+      "sha256": "41e55c46c389993603961f9cd4a05cd5b8b75a36f84109829f7bf5409fa65288",
+      "bytes": 1664058
+    },
+    "off-grounded-live.log": {
+      "sha256": "6223c5fd067c6d5c86d7b100cf9c6204f78fb67ca40ccb79e70d0a02dd8683f0",
+      "bytes": 6724
+    },
+    "offline-final.log": {
+      "sha256": "1a97e8e80db14405588d67929263376e0e02c628be9de80c116ea1e517548102",
+      "bytes": 836
+    },
+    "package-verification.log": {
+      "sha256": "6ec7f26e7e69fe75a610deb51675feb9336915f2ec96fe7ccac9ad95afdb6318",
+      "bytes": 67
+    },
+    "page-text-results.json": {
+      "sha256": "3be61cc05867b9311673c916f405d8104a62bac0c688099e7094b179726f0fdb",
+      "bytes": 18217
+    },
+    "preprocess-results.json": {
+      "sha256": "1d294782b9bde105c5fdb15f0721803e456946c44dc2a8508fd16044ad3e6c06",
+      "bytes": 12105
+    },
+    "region-results.json": {
+      "sha256": "ef3670af6362391d30b8f61d903c55bc1420c80c29098a2a3525bcc1c7fd510d",
+      "bytes": 5230
+    },
+    "rendering-results.json": {
+      "sha256": "d62180e3a88a0ccf78185b5400decf7c181f609a89f69b60442f500f28f1f762",
+      "bytes": 45823
+    },
+    "runtime-provenance.json": {
+      "sha256": "6259a8b3909e0dd95153821a747d3e91e9543a099e23198509791638fb45a6ba",
+      "bytes": 1231
+    },
+    "selection-grounded.json": {
+      "sha256": "6db01e61e575cd5fcf8611c60646474f61fb970487150bb1b4a887dee42f14b0",
+      "bytes": 981
+    },
+    "selection-grounded.md": {
+      "sha256": "10e36d6cbfe311831a35fe31adb4b785fc29ba4898dcc83409ce00a53aed0fba",
+      "bytes": 4624
+    },
+    "selection-hybrid.json": {
+      "sha256": "3541bb2e891dc31dd2b894b4461c99553b3f8d411b64630f3deba6129da086a8",
+      "bytes": 977
+    },
+    "selection-hybrid.md": {
+      "sha256": "10e36d6cbfe311831a35fe31adb4b785fc29ba4898dcc83409ce00a53aed0fba",
+      "bytes": 4624
+    },
+    "selection-text.json": {
+      "sha256": "57c9c3894753ffcb40887c1d61fc059097ff4b7ecdcbe68a73bd14dcee38dc5f",
+      "bytes": 973
+    },
+    "selection-text.md": {
+      "sha256": "0ef8b1baf5910159010021ed3e61a1a1ced20393b65f2a72fc116735c799430a",
+      "bytes": 6566
+    },
+    "surya-recognition-results.json": {
+      "sha256": "41073c0354ab2ecfd457f93111ebf44366e64a1da9024953e5a1e3f00bec6fc3",
+      "bytes": 690
+    },
+    "visible-table-text-supplement.json": {
+      "sha256": "c9560be7a5b568e6b913b778255d3f454a1f0e5e2680d27a546a7c378c99d309",
+      "bytes": 1605
+    },
+    "web-grounded-selected-page.pdf": {
+      "sha256": "86fc007ecf1557541f8c475b263f501846f5eaaef72d02bb3f2fcfad02f84c72",
+      "bytes": 129719
+    },
+    "web-grounded.json": {
+      "sha256": "2d863a17e5fe7cca83a2c7e2b73dec4ba9f740113dbfca579408d0de53b2a839",
+      "bytes": 388
+    },
+    "web-hybrid-selected-page.pdf": {
+      "sha256": "80547eefbc9fdd3d00f047bfff67bb0783bdb083205d30dfcbe6a762199673f3",
+      "bytes": 129720
+    },
+    "web-hybrid.json": {
+      "sha256": "9e01da4f3c3659ce3ae6f2623b736009b85598bb5320bfc254d5e44f0a392764",
+      "bytes": 384
+    },
+    "harnesses/run_confidence.py": {
+      "sha256": "f756cd491f4b0f911446273e098f9d0e55fb7f00b3938fb840c8c7ed84e1b7ac",
+      "bytes": 5362,
+      "original_path": ".cache/lighton-layout-20261024/run_confidence.py"
+    },
+    "harnesses/page_selection_e2e.py": {
+      "sha256": "7f032cbe292539dcc32cd08bb290530741f76c6be97bc247e870753160bb8e9b",
+      "bytes": 4535,
+      "original_path": ".cache/lighton-layout-20261024/page_selection_e2e.py"
+    },
+    "harnesses/web_e2e.py": {
+      "sha256": "f817a694825409f062701964aa5d216dc99603ac0c8c248481d2fb380dab31db",
+      "bytes": 2397,
+      "original_path": ".cache/lighton-layout-20261024/web_e2e.py"
+    },
+    "harnesses/image_confidence.py": {
+      "sha256": "8bfdbe01c2a9de4ec66e0c26c7b881b8d84f88fbe0b554eb2ba93b4cea9c4e5a",
+      "bytes": 1798,
+      "original_path": ".cache/lighton-layout-20261024/image_confidence.py"
+    },
+    "harnesses/probe_layout.py": {
+      "sha256": "f8a502a631b438d6d0fe9071b0dfca457c97fe591eadc396df820c31f1369cb4",
+      "bytes": 1726,
+      "original_path": ".cache/lighton-layout-20261024/probe_layout.py"
+    },
+    "harnesses/probe_regions.py": {
+      "sha256": "b3e96090e729d5ffcfb5eebd6bac3436740686f47c30fc40d5513d9a50a38764",
+      "bytes": 1476,
+      "original_path": ".cache/lighton-layout-20261024/probe_regions.py"
+    },
+    "harnesses/probe_page_text.py": {
+      "sha256": "22a007f01875181d9caf43213359194e25570f0fb31e4df5413b1b03e5e64dee",
+      "bytes": 1416,
+      "original_path": ".cache/lighton-layout-20261024/probe_page_text.py"
+    },
+    "harnesses/compare_final_layout.py": {
+      "sha256": "8dcc9c940d1a0fa8c7556619acead0eec8789a1960245fe887a2d8c33f8bb1db",
+      "bytes": 1482,
+      "original_path": ".cache/lighton-layout-20261024/compare_final_layout.py"
+    }
+  }
+}

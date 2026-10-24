@@ -59,16 +59,70 @@ class _StubAligner:
         return out
 
 
+@pytest.mark.parametrize("stage", ["dense", "refine"])
+async def test_region_ocr_uses_the_recognizers_canvas_preference(stage):
+    import asyncio
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+
+    recognize = AsyncMock(return_value="visible text")
+    processor = SimpleNamespace(perform_ocr_on_crop=recognize, crop_canvas_size=512)
+    pipe = OCRPipeline(ocr_processor=processor, pdf_handler=_StubPDF(n_pages=1))
+    boxes = [([0.1, 0.1, 0.9, 0.2], "")]
+    image = _make_tiny_b64_image()
+    semaphore = asyncio.Semaphore(1)
+    if stage == "dense":
+        result = await pipe._ocr_per_box(image, boxes, semaphore)
+    else:
+        pages = {0: boxes}
+        await pipe._refine_uncertain(pages, {0: image}, semaphore, None)
+        result = pages[0]
+    assert result[0][1] == "visible text"
+    sent_image = Image.open(io.BytesIO(base64.b64decode(recognize.call_args.args[0])))
+    assert sent_image.width == sent_image.height
+    assert sent_image.width <= 512
+
+
 class _StubPDF:
     def __init__(self, n_pages: int = 2):
         self.n_pages = n_pages
         self.last_pages = None
 
-    def convert_to_images(self, path, dpi=150, max_image_dim=1024):
-        return {i: _make_tiny_b64_image() for i in range(self.n_pages)}
+    def convert_to_images(self, path, dpi=150, max_image_dim=1024, *, pages=None):
+        from pdf_ocr.utils.pages import select_pages
+
+        return {i: _make_tiny_b64_image() for i in select_pages(pages, self.n_pages)}
 
     def embed_structured_text(self, inp, out, pages, dpi):
         self.last_pages = dict(pages)
+
+
+async def test_native_page_coordinates_bypass_dense_crops_and_dp(tmp_path):
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock, Mock
+    from pdf_ocr.core.ocr import OCRLines
+
+    boxes = [[.1,.2,.9,.3], [.1,.7,.9,.8]]
+    processor = SimpleNamespace(
+        native_layout=True,
+        perform_ocr_with_layout=AsyncMock(return_value=OCRLines(
+            ["First", "Last"], grounded_blocks=[(boxes[0], "First"), (boxes[1], "Last")],
+        )),
+        perform_ocr_on_crop=AsyncMock(side_effect=AssertionError("must retain page context")),
+    )
+    aligner = SimpleNamespace(
+        get_detected_boxes_batch=Mock(return_value=[boxes]),
+        align_text=Mock(side_effect=AssertionError("native geometry must bypass DP")),
+    )
+    handler = _StubPDF(n_pages=1)
+    handler.convert_to_images = Mock(return_value={3: _make_tiny_b64_image()})
+    pipe = OCRPipeline(aligner=aligner, ocr_processor=processor, pdf_handler=handler)
+    await pipe.run("source.pdf", str(tmp_path/"out.pdf"), pages="4", dense_threshold=1,
+                   preprocess="never")
+    assert handler.last_pages == {3: [(boxes[0], "First"), (boxes[1], "Last")]}
+    assert handler.convert_to_images.call_args.kwargs == {"pages": "4", "lossless": True}
+    assert processor.perform_ocr_with_layout.await_count == 1
+    processor.perform_ocr_on_crop.assert_not_awaited()
 
 
 class TestMinBoxConfidence:
@@ -119,6 +173,98 @@ class TestMinBoxConfidence:
         )
         await pipeline.run("in.pdf", "out.pdf", refine=False)
         assert seen == [3]
+
+
+@pytest.mark.parametrize("dense_mode", ["auto", "never"])
+async def test_incomplete_page_retries_per_box_only_in_auto_mode(dense_mode):
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    ocr = SimpleNamespace(
+        perform_ocr=AsyncMock(side_effect=IncompleteCompletionError("token limit")),
+        perform_ocr_on_crop=AsyncMock(return_value="recovered line"),
+    )
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=ocr, pdf_handler=pdf)
+    if dense_mode == "never":
+        with pytest.raises(IncompleteCompletionError):
+            await pipe.run("in.pdf", "out.pdf", dense_mode=dense_mode)
+        assert pdf.last_pages is None
+        ocr.perform_ocr_on_crop.assert_not_awaited()
+    else:
+        await pipe.run("in.pdf", "out.pdf", concurrency=1, dense_mode=dense_mode)
+        assert [t for _, t in pdf.last_pages[0]] == ["recovered line"] * 3
+        assert ocr.perform_ocr_on_crop.await_count == 3
+
+
+async def test_native_crop_images_are_lazy_and_only_render_selected_pages(stub_ocr):
+    from unittest.mock import Mock
+
+    pdf = _StubPDF(n_pages=130)
+    pdf.render_page_for_crops = Mock(return_value=_make_tiny_b64_image())
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", pages="2,4", dense_mode="always")
+    assert sorted(call.args for call in pdf.render_page_for_crops.call_args_list) == [
+        ("in.pdf", 1, 200), ("in.pdf", 3, 200),
+    ]
+    assert stub_ocr.crop_calls == 6
+    pdf.render_page_for_crops.reset_mock()
+    await pipe.run("in.pdf", "out.pdf", pages="2,4", dense_mode="never", refine=False)
+    pdf.render_page_for_crops.assert_not_called()
+
+
+async def test_layout_hint_uses_crop_ocr_in_auto_mode(stub_ocr):
+    from pdf_ocr.core.ocr import OCRLines
+    from unittest.mock import AsyncMock
+
+    stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
+        ["a diagram whose label order cannot be inferred"], requires_region_ocr=True,
+    ))
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", concurrency=1)
+    assert stub_ocr.crop_calls == 3
+    assert all(text == "recovered" for _, text in pdf.last_pages[0])
+
+
+@pytest.mark.parametrize("page_heading,crop_heading,expected", [
+    ("Chapter Four", "Chapter Faur", "Chapter Four"),
+    ("Chapter Four", "Chapter F0ur", "Chapter F0ur"),
+    ("HEALTH INTAKE FORM", "FakeDoc M.D.", "FakeDoc M.D."),
+])
+async def test_nonlinear_refinement_verifies_an_isolated_page_heading(
+    stub_ocr, page_heading, crop_heading, expected,
+):
+    from pdf_ocr.core.ocr import OCRLines
+    from unittest.mock import AsyncMock
+
+    stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
+        [page_heading, "diagram labels in reading order"], requires_region_ocr=True,
+    ))
+    recognize = AsyncMock(side_effect=[crop_heading, "recovered", "recovered"])
+    stub_ocr.perform_ocr_on_crop = recognize
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", concurrency=1)
+    assert pdf.last_pages[0][0][1] == expected
+    assert [text for _, text in pdf.last_pages[0][1:]] == ["recovered", "recovered"]
+    assert recognize.await_count == 3
+
+
+async def test_nonlinear_refinement_does_not_anchor_an_ambiguous_top_row(stub_ocr):
+    from pdf_ocr.core.ocr import OCRLines
+    from unittest.mock import AsyncMock
+
+    stub_ocr.perform_ocr = AsyncMock(return_value=OCRLines(
+        ["reading order is ambiguous", "other labels"], requires_region_ocr=True,
+    ))
+    boxes = [[0.1, 0.1, 0.4, 0.15], [0.6, 0.1, 0.9, 0.15], [0.1, 0.2, 0.9, 0.25]]
+    pdf = _StubPDF(n_pages=1)
+    pipe = OCRPipeline(aligner=_StubAligner(boxes), ocr_processor=stub_ocr, pdf_handler=pdf)
+    await pipe.run("in.pdf", "out.pdf", concurrency=1)
+    assert stub_ocr.crop_calls == 3
+    assert [text for _, text in pdf.last_pages[0]] == ["recovered"] * 3
 
 
 class TestParsePageRange:
@@ -744,6 +890,41 @@ class TestDpConfidenceRetry:
         texts = [t for _b, t in pdf.last_pages[0]]
         assert texts == ["recovered"] * len(self.BOXES)
 
+    async def test_one_skipped_line_can_shift_an_otherwise_near_complete_alignment(self, stub_ocr):
+        def shifted(structured, lines):
+            return _FakeAlignment([(b, "wrong field") for b, _ in structured],
+                                  match_count=len(structured) - 1)
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_StubAligner(self.BOXES, shifted), stub_ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert stub_ocr.crop_calls == len(self.BOXES)
+        assert all(text == "recovered" for _, text in pdf.last_pages[0])
+
+    async def test_real_alignment_with_an_extra_line_rechecks_regions(self, make_stub_ocr):
+        from pdf_ocr.core.aligner import HybridAligner
+
+        align = HybridAligner.__new__(HybridAligner)
+        ocr = make_stub_ocr(page_lines=["a short logical line"] * 9, crop_text="region output")
+        result = align.align_text([(b, "") for b in self.BOXES], ocr.page_lines)
+        assert result.match_count == 8
+        assert result.unmatched_line_count == 1
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_StubAligner(self.BOXES, align.align_text), ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert ocr.crop_calls == 8
+
+    async def test_column_wrapping_keeps_page_context_when_alignment_is_good(self, stub_ocr):
+        def column_alignment(structured, lines):
+            result = _FakeAlignment([(b, "column text") for b, _ in structured],
+                                    match_count=len(structured) - 1)
+            result.multi_column = True
+            return result
+        pdf = _StubPDF(n_pages=1)
+        pipe = OCRPipeline(_StubAligner(self.BOXES, column_alignment), stub_ocr, pdf)
+        await pipe.run("in.pdf", "out.pdf", dense_mode="auto")
+        assert stub_ocr.crop_calls == 0
+        assert all(text == "column text" for _, text in pdf.last_pages[0])
+
     async def test_high_match_rate_keeps_dp_result(self, stub_ocr):
         pdf = _StubPDF(n_pages=1)
         aligner = _StubAligner(boxes_per_page=self.BOXES, alignment=self._high_confidence)
@@ -797,6 +978,40 @@ class _BoomAligner:
 
     def align_text(self, structured, lines):
         raise AssertionError("text-only must not run DP alignment")
+
+
+def test_page_context_is_bound_by_crop_words_not_line_position():
+    from pdf_ocr.pipeline import _restore_page_context
+
+    boxes = [[0.1, 0.1, 0.8, 0.2], [0.1, 0.3, 0.8, 0.4]]
+    crops = [(boxes[0], "Algarithms"), (boxes[1], "Holding: the procedure terminates")]
+    result = _restore_page_context(crops, [
+        "Masthead omitted from detection", "Algorithms", "Halting: the procedure terminates",
+    ])
+    assert result == [(boxes[0], "Algorithms"), (boxes[1], "Halting: the procedure terminates")]
+
+
+def test_crop_context_can_match_part_of_a_longer_page_line():
+    from pdf_ocr.pipeline import _restore_page_context
+
+    box = [0.1, 0.1, 0.8, 0.2]
+    assert _restore_page_context([(box, "The procedures terminates")], [
+        "The procedure terminates after reading the input data.",
+    ]) == [(box, "The procedure terminates")]
+
+
+@pytest.mark.parametrize("crop,lines", [
+    ("", ["An unlocated sentence"]),
+    ("ID", ["ED"]),
+    ("Account balance 1000", ["Account balance 1009"]),
+    ("Name: Jone Smith", ["Name: Jane Smith", "Name: John Smith"]),
+    ("Completely different words", ["A hallucinated page sentence"]),
+])
+def test_page_context_does_not_fill_blanks_or_resolve_ambiguous_matches(crop, lines):
+    from pdf_ocr.pipeline import _restore_page_context
+
+    regions = [([0.1, 0.1, 0.8, 0.2], crop)]
+    assert _restore_page_context(regions, lines) == regions
 
 
 class TestTextOnly:

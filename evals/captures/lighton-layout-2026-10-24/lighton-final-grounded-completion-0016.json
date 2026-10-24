@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 3.452999999979511,
+  "max_tokens": 4096,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-YIp1D9m7XLqYlIiw9NOFOtQmtjlCVkJy",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](0,11,772,83) # Mapping of Binary 1:N Relationship Sets\n\n![image](147,62,712,268) Entity-relationship diagram showing Act, Branch, and City entities with 1:N relationship.\n\n![image](136,274,857,474) Entity-relationship diagram showing Act and Branch tables with attributes and a note 'since N:1'.\n\n![title](25,488,820,564) # Mapping Binary M:N relationship sets\n\n![list](162,564,927,724)\n- always create separate table for relationship set if M:N\n- relationship attr can't be shifted\n\n![image](102,574,963,872) Entity-relationship diagram showing S, R, T with attributes and table structure for M:N mapping.\n\n![text](233,840,840,964) can't apply F-K approach here since it could create circular dependency",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844116,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 241,
+      "prompt_tokens": 2096,
+      "total_tokens": 2337,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 2096,
+      "prompt_ms": 956.369,
+      "prompt_per_token_ms": 0.45628291984732827,
+      "prompt_per_second": 2191.622689568566,
+      "predicted_n": 241,
+      "predicted_ms": 2357.657,
+      "predicted_per_token_ms": 9.823570833333333,
+      "predicted_per_second": 101.79597795608097
+    }
+  }
+}

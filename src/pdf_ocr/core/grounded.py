@@ -29,14 +29,17 @@ import base64
 import io
 import json
 import logging
-import os
 import re
 from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Optional, Protocol
 
-from dotenv import load_dotenv
-
-load_dotenv()
+from pdf_ocr.inference import (
+    DEFAULT_GROUNDED_MODEL, IncompleteCompletionError, LLMCallError, LLMConfig,
+    OpenAICompatibleClient, VisionClient,
+    ensure_model_available,
+)
+from pdf_ocr.utils.pages import select_pages
+from pdf_ocr.core.profiles import resolve_profile
 
 
 ProgressCallback = Callable[[str, int, int, str], Awaitable[None]]
@@ -54,6 +57,10 @@ class GroundedBlock:
 class GroundedResponse:
     blocks: list[GroundedBlock]
     page_sizes: list[tuple[int, int]] = field(default_factory=list)  # (w, h) per page
+    # Source indices corresponding to page_sizes, including pages with no
+    # recognized blocks. None preserves the legacy contiguous-page contract.
+    page_indices: list[int] | None = None
+    page_errors: dict[int, str] = field(default_factory=dict)
 
 
 class GroundedOCRBackend(Protocol):
@@ -63,12 +70,16 @@ class GroundedOCRBackend(Protocol):
     can omit it. Backends SHOULD emit the `"ocr"` stage with (current,
     total) set to pages-completed / total-pages so the pipeline's progress
     adapter stays aligned with the documented stage set.
+    `pages` is an optional 1-indexed range; select before rendering/inference
+    and return original source indices in blocks and response.page_indices.
     """
 
     async def ocr_document(
         self,
         pdf_path: str,
         progress: Optional[ProgressCallback] = None,
+        *,
+        pages: str | None = None,
     ) -> GroundedResponse: ...
 
 
@@ -84,6 +95,71 @@ _NON_CONTENT_LABELS = frozenset({
     "signature_line",  # form signature placeholder
     "list_marker",     # lone bullet/dash glyphs
 })
+
+
+def _parse_lighton_grounding(text: str, page_index: int) -> list[GroundedBlock]:
+    """Parse native LightOnOCR-3 block markers on its fixed 0–1000 grid.
+
+    Image/chart descriptions are generated visual interpretations, not OCR.
+    Keep their boundaries when splitting text but exclude them from output.
+    """
+    markers = list(re.finditer(
+        r"!\[([a-z_]+\+?)\]\((\d+(?:\s*,\s*\d+){3})\)", text,
+    ))
+    if not markers:
+        raise ValueError("LightOnOCR returned no native grounding markers")
+    if text[:markers[0].start()].strip():
+        raise ValueError("Unexpected text before LightOnOCR grounding markers")
+    blocks = []
+    for index, marker in enumerate(markers):
+        label = marker[1].removesuffix("+")
+        coordinates = [int(value) for value in marker[2].split(",")]
+        x0, y0, x1, y1 = coordinates
+        if not (0 <= x0 < x1 <= 1000 and 0 <= y0 < y1 <= 1000):
+            raise ValueError("Invalid LightOnOCR bounding box")
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(text)
+        content = text[marker.end():end].strip()
+        if re.search(r"!\[[a-z_]+\+?\]\(", content):
+            raise ValueError("Malformed LightOnOCR grounding marker")
+        if label in {"image", "header_image", "footer_image", "chart"} or not content:
+            continue
+        blocks.append(GroundedBlock(
+            bbox=[value / 1000 for value in coordinates], text=content,
+            page_index=page_index, label=label,
+        ))
+    return blocks
+
+
+def _parse_paddle_spotting(text: str, page_index: int) -> list[GroundedBlock]:
+    """Convert PaddleOCR-VL's eight location tokens into enclosing boxes."""
+    tokens = list(re.finditer(r"<\|LOC_(\d+)\|>", text))
+    if not tokens:
+        raise LLMCallError("Paddle spotting returned no location tokens; the server must "
+                           "preserve special tokens for Spotting mode.")
+    if len(tokens) % 8:
+        raise ValueError("Incomplete Paddle spotting polygon")
+    wrappers = r"<\|(?:TEXT_START|TEXT_END|LOC_BEGIN|LOC_END)\|>"
+    blocks = []
+    end = 0
+    for start in range(0, len(tokens), 8):
+        group = tokens[start:start + 8]
+        content = re.sub(wrappers, "", text[end:group[0].start()]).strip()
+        polygon = [int(token[1]) for token in group]
+        between = text[group[0].start():group[-1].end()]
+        if re.sub(r"<\|LOC_\d+\|>|\s+", "", between):
+            raise ValueError("Text interrupts a Paddle spotting polygon")
+        end = group[-1].end()
+        x0, y0 = min(polygon[::2]), min(polygon[1::2])
+        x1, y1 = max(polygon[::2]), max(polygon[1::2])
+        if not (0 <= x0 < x1 <= 1000 and 0 <= y0 < y1 <= 1000):
+            raise ValueError("Invalid Paddle spotting polygon")
+        if content:
+            blocks.append(GroundedBlock(
+                [x0 / 1000, y0 / 1000, x1 / 1000, y1 / 1000], content, page_index,
+            ))
+    if re.sub(wrappers, "", text[end:]).strip():
+        raise ValueError("Paddle spotting has trailing text without a polygon")
+    return blocks
 
 
 # --- parsers ---------------------------------------------------------------
@@ -201,6 +277,47 @@ def _clamp(v: float) -> float:
     return max(0.0, min(1.0, v))
 
 
+def _text_ink_coverage(image, blocks: list[GroundedBlock]) -> float | None:
+    """Conservative evidence for a response confined to a small page fragment.
+
+    Count dark source pixels under the reported boxes, allowing a small margin
+    for imperfect coordinates. This is not an OCR confidence score: pictures
+    also contain ink. It is only used to request a second view after a severely
+    incomplete full-page response, never to infer words from the pixels itself.
+    Uniform backgrounds and pages with too little dark ink provide no evidence.
+    """
+    from PIL import Image, ImageChops, ImageDraw
+
+    gray = image.convert("L")
+    histogram = gray.histogram()
+    target = gray.width * gray.height * 0.9
+    count = 0
+    background = 255
+    for value, frequency in enumerate(histogram):
+        count += frequency
+        if count >= target:
+            background = value
+            break
+    threshold = min(160, background - 40)
+    if threshold <= 0:
+        return None
+    ink = gray.point(lambda value: 255 if value < threshold else 0)
+    total = ink.histogram()[255]
+    if total < max(64, gray.width * gray.height * 0.0001):
+        return None
+    covered = Image.new("L", gray.size, 0)
+    draw = ImageDraw.Draw(covered)
+    for block in blocks:
+        x0, y0, x1, y1 = block.bbox
+        draw.rectangle((
+            max(0, int((x0 - 0.01) * gray.width)),
+            max(0, int((y0 - 0.01) * gray.height)),
+            min(gray.width - 1, int((x1 + 0.01) * gray.width)),
+            min(gray.height - 1, int((y1 + 0.01) * gray.height)),
+        ), fill=255)
+    return ImageChops.multiply(ink, covered).histogram()[255] / total
+
+
 # --- reference backend: Z.AI hosted (HTTP, async task polling) -------------
 
 
@@ -247,9 +364,14 @@ class ZAIHostedOCR:
         self,
         pdf_path: str,
         progress: Optional[ProgressCallback] = None,
+        *,
+        pages: str | None = None,
     ) -> GroundedResponse:
         import asyncio
         import httpx
+
+        if pages:
+            raise NotImplementedError("ZAIHostedOCR does not support page selection.")
 
         headers = {"Authorization": f"Bearer {self.api_key}"}
 
@@ -287,38 +409,28 @@ class ZAIHostedOCR:
 
 
 DEFAULT_GROUNDING_PROMPT = (
-    "You are an exhaustive OCR engine. Output a JSON array covering EVERY "
-    "VISUAL LINE of text on this page: headers, form labels, field names, "
-    "body paragraphs, numbered items, signatures, footnotes — all of it.\n"
-    "\n"
-    "CRITICAL — line segmentation: emit ONE element PER VISUAL LINE. If a "
-    "phrase wraps onto two lines on the page, that is TWO elements, not "
-    "one — even if the lines belong to the same sentence, paragraph, or "
-    "phrase. Never join lines together. Never collapse a line break into "
-    "a space. Hand-written notes especially have line breaks that printed "
-    "text wouldn't — preserve every one of them. Each bbox must tightly "
-    "enclose a SINGLE line.\n"
-    "\n"
-    "Worked example — if the page contains the four visual lines:\n"
-    "  schwache Grenzen\n"
-    "  im Kopf\n"
-    "  Linke\n"
-    "  weiblich\n"
-    "emit FOUR elements, one per line. Do NOT emit one element with "
-    "content \"schwache Grenzen im Kopf\" and another with \"Linke "
-    "weiblich\" — joining lines is wrong even when the resulting phrase "
-    "reads naturally.\n"
-    "\n"
-    "Each element must have this exact shape: "
-    "{\"bbox_2d\": [x1, y1, x2, y2], \"content\": \"<text of that one line>\"} "
-    "where bbox_2d is pixel coordinates in the image (x1<x2, y1<y2). The "
-    "bbox height must match a single line of text. If your bbox is tall "
-    "enough to contain two lines, you have joined two lines — split it "
-    "into two elements.\n"
-    "\n"
-    "Do not skip small labels. Do not summarize. Do not paraphrase. "
-    "No markdown fences, no prose — only the raw JSON array."
+    "Read all text in the image, including small labels and handwritten notes. "
+    "Return a compact JSON array with one entry per visual text line: "
+    '{"bbox_2d":[x1,y1,x2,y2],"content":"text"}. '
+    "Use coordinates from 0 to 1000 relative to this image, with each box "
+    "tightly enclosing its line. Preserve separate lines, transcribe faithfully "
+    "with the original spelling and abbreviations, including errors, "
+    "in reading order, and output each line once. Do not describe figures or "
+    "invent text in blank regions. Return only compact JSON, with no indentation "
+    "or whitespace outside strings."
 )
+
+_GROUNDING_SCHEMA = {
+    "type": "object", "additionalProperties": False, "required": ["blocks"],
+    "properties": {"blocks": {"type": "array", "items": {
+        "type": "object", "additionalProperties": False,
+        "required": ["bbox_2d", "content"], "properties": {
+            "bbox_2d": {"type": "array", "minItems": 4, "maxItems": 4,
+                        "items": {"type": "number"}},
+            "content": {"type": "string"},
+        },
+    }}},
+}
 
 
 class PromptedGroundedOCR:
@@ -329,14 +441,15 @@ class PromptedGroundedOCR:
     confirmed for Qwen2.5-VL (line-level, wrapped in fences) and Qwen3-VL
     (line-level, bare JSON). Should also work for MiniCPM-V, InternVL, etc.
 
-    The backend rasterizes each PDF page itself (one call per page), so it
+    The backend rasterizes each selected PDF page itself and retries
+    truncated or malformed responses on smaller source regions, so it
     doubles as its own PDF handler — the OCRPipeline will use its
     `ocr_document(pdf_path)` method directly.
 
     Usage:
         backend = PromptedGroundedOCR(
-            api_base="http://localhost:1234/v1",
-            model="qwen/qwen3-vl-8b",
+            api_base="http://localhost:8000/v1",
+            model="your-vision-model",
         )
         pipe = OCRPipeline(pdf_handler=PDFHandler(), grounded_backend=backend)
         await pipe.run("in.pdf", "out.pdf")
@@ -346,145 +459,305 @@ class PromptedGroundedOCR:
         self,
         api_base: str | None = None,
         model: str | None = None,
-        api_key: str = "lm-studio",
-        max_image_dim: int = 1024,
+        api_key: str | None = None,
+        max_image_dim: int | None = None,
         dpi: int = 150,
         prompt: str | None = None,
         timeout_s: float = 240.0,
-        max_tokens: int = 8192,
+        max_tokens: int | None = None,
         concurrency: int = 1,
+        *,
+        client: VisionClient | None = None,
+        profile: str | None = None,
     ):
-        # Honor .env / environment overrides the same way OCRProcessor does,
-        # so a user with `LLM_API_BASE` set in .env doesn't have to also pass
-        # `--api-base` when switching to --grounded.
-        self.api_base = api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
-        self.model = model or os.getenv("LLM_MODEL", "qwen/qwen3-vl-8b")
-        self.api_key = api_key
-        self.max_image_dim = max_image_dim
+        config = LLMConfig.from_env(
+            api_base=api_base, model=model, api_key=api_key,
+            require_endpoint=client is None,
+            default_model=DEFAULT_GROUNDED_MODEL,
+        )
+        self.api_base = config.api_base
+        self.model = config.model
+        self.profile = resolve_profile(self.model, profile)
+        self._owned_client: OpenAICompatibleClient | None = None
+        self.temperature = self.profile.grounded_temperature
+        if client is None:
+            client = self._owned_client = OpenAICompatibleClient(
+                config, generation_options=dict(self.profile.grounded_sampling),
+                image_first=self.profile.image_first,
+            )
+        self.client = client
+        self.max_image_dim = max_image_dim if max_image_dim is not None else self.profile.max_image_dim
         self.dpi = dpi
-        self.prompt = prompt or DEFAULT_GROUNDING_PROMPT
+        self.prompt = prompt if prompt is not None else (
+            self.profile.grounding_prompt or DEFAULT_GROUNDING_PROMPT
+        )
+        self.grounding_format = self.profile.grounding_format
+        self._check_full_page_coverage = prompt is None and self.grounding_format == "json"
+        self._verify_inline_identifiers = prompt is None and self.profile.verify_inline_identifiers
+        self.coordinate_space = "auto" if prompt else "normalized_1000"
         self.timeout_s = timeout_s
-        self.max_tokens = max_tokens
+        self.max_tokens = max_tokens if max_tokens is not None else self.profile.grounded_max_tokens
         self.concurrency = concurrency
 
+    async def ensure_model_available(self) -> None:
+        """Verify the server advertises the configured model ID."""
+        await ensure_model_available(self.client, self.model)
+
     async def ensure_model_loaded(self) -> None:
-        """Pre-flight check that ``self.model`` is loaded on the server.
+        """Compatibility alias; availability does not imply memory residency."""
+        await self.ensure_model_available()
 
-        Mirrors :meth:`OCRProcessor.ensure_model_loaded` so users on
-        ``--grounded`` get the same fail-fast safety net. The grounded
-        path is in fact the path that originally surfaced this bug
-        (issue #7) — the user had OlmOCR loaded but requested Qwen3-VL,
-        and LM Studio silently served bad OCR from the wrong model.
-        """
-        from openai import AsyncOpenAI
-
-        from pdf_ocr.core.ocr import (
-            ModelNotLoadedError,
-            _format_model_not_loaded,
-            _list_loaded_model_ids,
-            _model_in_loaded,
-        )
-
-        client = AsyncOpenAI(base_url=self.api_base, api_key=self.api_key)
-        loaded = await _list_loaded_model_ids(client, self.api_base)
-        if not _model_in_loaded(self.model, loaded):
-            raise ModelNotLoadedError(
-                _format_model_not_loaded(self.api_base, self.model, loaded)
-            )
+    async def aclose(self) -> None:
+        """Close an internally created adapter; injected clients stay open."""
+        if self._owned_client is not None:
+            await self._owned_client.aclose()
 
     async def ocr_document(
         self,
         pdf_path: str,
         progress: Optional[ProgressCallback] = None,
+        *,
+        pages: str | None = None,
     ) -> GroundedResponse:
         import fitz
-        from PIL import Image, ImageSequence
-        from openai import AsyncOpenAI
+        from PIL import Image
 
         from pdf_ocr.core.pdf import _is_image_path
 
-        # 1. Rasterize every page, remembering dimensions.
+        # 1. Rasterize selected pages, remembering original indices and sizes.
         # For image inputs (JPEG/PNG/TIFF) skip the PDF round-trip and read
         # pixels directly — this both saves work and supports multi-frame TIFF.
-        page_imgs: list[tuple[str, int, int]] = []  # (b64, width, height)
+        page_imgs: dict[int, tuple[str, int, int]] = {}  # source index -> (b64, w, h)
+        source_imgs: dict[int, Image.Image] = {}
 
-        def _emit(img: Image.Image) -> None:
+        def _emit(page_idx: int, img: Image.Image) -> None:
             img = img.convert("RGB")
+            source_imgs[page_idx] = img.copy()
             img.thumbnail((self.max_image_dim, self.max_image_dim))
             buf = io.BytesIO()
-            img.save(buf, format="JPEG", quality=80)
-            page_imgs.append(
-                (base64.b64encode(buf.getvalue()).decode(), img.width, img.height)
+            img.save(buf, format="PNG")
+            page_imgs[page_idx] = (
+                base64.b64encode(buf.getvalue()).decode(), img.width, img.height
             )
 
         if _is_image_path(pdf_path):
             with Image.open(pdf_path) as src:
-                for frame in ImageSequence.Iterator(src):
-                    _emit(frame.copy())
+                for page_idx in select_pages(pages, getattr(src, "n_frames", 1)):
+                    src.seek(page_idx)
+                    _emit(page_idx, src.copy())
         else:
             doc = fitz.open(pdf_path)
             try:
-                for page in doc:
+                for page_idx in select_pages(pages, len(doc)):
+                    page = doc[page_idx]
                     pix = page.get_pixmap(dpi=self.dpi)
-                    _emit(Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=70))))
+                    _emit(page_idx, Image.frombytes("RGB", (pix.width, pix.height), pix.samples))
             finally:
                 doc.close()
 
-        # 2. Call the VLM per page, streaming progress and collecting failures
+        return await self._ocr_images(page_imgs, source_imgs, progress)
+
+    async def ocr_image(self, image_base64: str) -> GroundedResponse:
+        """Recognize an already-rendered page with the same bounded recovery.
+
+        Hybrid callers can reuse native model coordinates without rendering a
+        PDF again or losing page context through independent line crops.
+        """
+        from PIL import Image
+
+        with Image.open(io.BytesIO(base64.b64decode(image_base64))) as image:
+            source = image.convert("RGB")
+        image = source.copy()
+        image.thumbnail((self.max_image_dim, self.max_image_dim))
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+        return await self._ocr_images(
+            {0: (base64.b64encode(buffer.getvalue()).decode(), *image.size)}, {0: source},
+        )
+
+    async def _ocr_images(self, page_imgs, source_imgs, progress=None) -> GroundedResponse:
+        # Call the VLM per page, streaming progress and collecting failures
         # as empty pages. The pipeline validates all pages before writing output.
-        client = AsyncOpenAI(base_url=self.api_base, api_key=self.api_key, timeout=self.timeout_s)
         sem = asyncio.Semaphore(max(1, self.concurrency))
         total_pages = len(page_imgs)
+        page_errors: dict[int, str] = {}
 
         async def run_one(page_idx: int) -> tuple[int, list[GroundedBlock]]:
             b64, w, h = page_imgs[page_idx]
+
+            async def recognize(image_b64, width, height, *, depth=0, temperature=None):
+                if temperature is None:
+                    temperature = self.temperature
+                    if self.profile.grounded_retry_temperature is not None:
+                        try:
+                            return await recognize(image_b64, width, height, depth=depth,
+                                                   temperature=temperature)
+                        except (ValueError, IncompleteCompletionError):
+                            # Greedy decoding retains source spelling on forms,
+                            # but can collapse dense layouts or repeat table
+                            # markup. Retry this same view with native sampling
+                            # before paying for region subdivision. The outer
+                            # page deadline bounds both attempts together.
+                            logging.info("Retrying native page %d with sampled decoding.", page_idx + 1)
+                            return await recognize(image_b64, width, height, depth=depth,
+                                                   temperature=self.profile.grounded_retry_temperature)
+                complete_json = (getattr(self.client, "complete_json", None)
+                                 if self.grounding_format == "json" else None)
+                # Optional capability keeps the small injectable client
+                # contract usable on endpoints without constrained decoding.
+                complete = complete_json or self.client.complete
+                text = await complete(
+                    (self.prompt + '\nWrap the array in an object with a "blocks" key.'
+                     if complete_json else self.prompt), image_b64, model=self.model,
+                    timeout=self.timeout_s, max_tokens=min(self.max_tokens, 2048) if depth == 2 else self.max_tokens,
+                    temperature=temperature,
+                    **({"schema": _GROUNDING_SCHEMA} if complete_json else {}),
+                )
+                if self.grounding_format == "lighton":
+                    blocks = _parse_lighton_grounding(text, page_idx)
+                elif self.grounding_format == "paddle":
+                    blocks = _parse_paddle_spotting(text, page_idx)
+                else:
+                    blocks = _parse_grounded_json(
+                        text, page_idx, width, height,
+                        coordinate_space=self.coordinate_space, strict=True,
+                    )
+                if not blocks and not (depth and _is_empty_grounded_json(text)):
+                    raise LLMCallError("model returned no usable grounded text")
+                if depth == 0 and self._verify_inline_identifiers:
+                    from pdf_ocr.core.native_layout import has_inline_identifier, restore_literal_identifiers
+
+                    if any(has_inline_identifier(block.text) for block in blocks):
+                        try:
+                            literal = await self.client.complete(
+                                self.profile.page_prompt, image_b64, model=self.model,
+                                timeout=self.timeout_s, max_tokens=self.max_tokens, temperature=0,
+                            )
+                        except LLMCallError as exc:
+                            logging.warning("Literal page verification unavailable: %s", exc)
+                        else:
+                            for block in blocks:
+                                block.text = restore_literal_identifiers(block.text, literal)
+                if depth == 0 and self._check_full_page_coverage:
+                    coverage = _text_ink_coverage(source_imgs[page_idx], blocks)
+                    if coverage is not None and coverage < 0.20:
+                        raise ValueError(
+                            f"Grounded boxes cover only {coverage:.1%} of source ink; "
+                            "retrying source regions to check for omitted text"
+                        )
+                return blocks
+
+            source = source_imgs[page_idx]
+
+            async def recognize_region(bounds, depth=0):
+                left, top, right, bottom = bounds
+                if depth == 0:
+                    image_b64, width, height = b64, w, h
+                else:
+                    region = source.crop(bounds)
+                    region.thumbnail((self.max_image_dim, self.max_image_dim))
+                    buf = io.BytesIO()
+                    region.save(buf, format="PNG")
+                    image_b64 = base64.b64encode(buf.getvalue()).decode()
+                    width, height = region.size
+                try:
+                    blocks = await recognize(image_b64, width, height, depth=depth)
+                    for block in blocks:
+                        x0, y0, x1, y1 = block.bbox
+                        block.bbox = [
+                            (left + x0 * (right - left)) / source.width,
+                            (top + y0 * (bottom - top)) / source.height,
+                            (left + x1 * (right - left)) / source.width,
+                            (top + y1 * (bottom - top)) / source.height,
+                        ]
+                    return blocks
+                except (IncompleteCompletionError, ValueError) as exc:
+                    if depth >= 2:
+                        raise
+                    logging.warning(
+                        "Grounded page %d region needs subdivision at depth %d (%s).",
+                        page_idx + 1, depth, exc,
+                    )
+                # Split the longer edge into overlapping thirds, using source
+                # pixels. A second split can isolate dense columns. Accept only
+                # centers owned by each core, avoiding duplicate seam lines.
+                axis = 0 if right - left > bottom - top else 1
+                start, end = bounds[axis], bounds[axis + 2]
+                span = end - start
+                recovered = []
+                for part in range(3):
+                    core_start = start + part * span / 3
+                    core_end = start + (part + 1) * span / 3
+                    # Only the owned core contributes output. A fragment in
+                    # its overlapping margin can make an otherwise blank band
+                    # hallucinate indefinitely. Skip an exactly white core;
+                    # even a faint nonwhite source pixel retains recognition.
+                    core = list(bounds)
+                    core[axis] = int(core_start)
+                    core[axis + 2] = min(end, int(core_end) + 1)
+                    if source.crop(tuple(core)).getextrema() == ((255, 255),) * 3:
+                        continue
+                    child = list(bounds)
+                    child[axis] = max(start, int(core_start - 0.025 * span))
+                    child[axis + 2] = min(end, int(core_end + 0.025 * span))
+                    blocks = await recognize_region(tuple(child), depth + 1)
+                    for block in blocks:
+                        center = (block.bbox[axis] + block.bbox[axis + 2]) / 2
+                        center *= source.size[axis]
+                        if core_start <= center < core_end or (part == 2 and center == end):
+                            recovered.append(block)
+                return recovered
+
+            async def recognize_page():
+                blocks = await recognize_region((0, 0, source.width, source.height))
+                if not blocks:
+                    raise LLMCallError("model returned no usable grounded text")
+                return blocks
+
             async with sem:
                 try:
-                    resp = await client.chat.completions.create(
-                        model=self.model, temperature=0.0, max_tokens=self.max_tokens,
-                        messages=[{
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": self.prompt},
-                                {"type": "image_url", "image_url": {
-                                    "url": f"data:image/jpeg;base64,{b64}",
-                                }},
-                            ],
-                        }],
-                    )
-                    text = (resp.choices[0].message.content or "").strip()
-                    return page_idx, _parse_grounded_json(text, page_idx, w, h)
+                    # Bound the whole page, including recovery and clients
+                    # that do not enforce their own request timeout.
+                    return page_idx, await asyncio.wait_for(recognize_page(), self.timeout_s)
                 except Exception as e:
                     # Retain successful pages in the response for callers that
                     # inspect partial results; the pipeline rejects empty pages.
-                    logging.warning(
-                        f"grounded OCR failed for page {page_idx}: "
-                        f"{type(e).__name__}: {e}"
-                    )
+                    reason = (f"Page exceeded its {self.timeout_s:g}s deadline, including recovery."
+                              if isinstance(e, asyncio.TimeoutError)
+                              else f"{type(e).__name__}: {e}")
+                    page_errors[page_idx] = reason
+                    logging.warning("grounded OCR failed for page %d: %s", page_idx + 1, reason)
                     return page_idx, []
 
-        tasks = [asyncio.create_task(run_one(i)) for i in range(total_pages)]
+        tasks = [asyncio.create_task(run_one(i)) for i in page_imgs]
         blocks_by_page: dict[int, list[GroundedBlock]] = {}
         completed = 0
-        if progress is not None:
-            await progress("ocr", 0, total_pages, f"Grounded OCR (0/{total_pages})...")
-        for fut in asyncio.as_completed(tasks):
-            page_idx, blocks = await fut
-            blocks_by_page[page_idx] = blocks
-            completed += 1
+        try:
             if progress is not None:
-                await progress(
-                    "ocr", completed, total_pages,
-                    f"Grounded OCR ({completed}/{total_pages})",
-                )
+                await progress("ocr", 0, total_pages, f"Grounded OCR (0/{total_pages})...")
+            for fut in asyncio.as_completed(tasks):
+                page_idx, blocks = await fut
+                blocks_by_page[page_idx] = blocks
+                completed += 1
+                if progress is not None:
+                    await progress(
+                        "ocr", completed, total_pages,
+                        f"Grounded OCR ({completed}/{total_pages})",
+                    )
+        finally:
+            for task in tasks:
+                task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
 
         # Flatten in page order for a stable, deterministic output.
         flat_blocks: list[GroundedBlock] = []
-        for page_idx in range(total_pages):
+        for page_idx in page_imgs:
             flat_blocks.extend(blocks_by_page.get(page_idx, []))
         return GroundedResponse(
             blocks=flat_blocks,
-            page_sizes=[(w, h) for (_, w, h) in page_imgs],
+            page_sizes=[(w, h) for (_, w, h) in page_imgs.values()],
+            page_indices=list(page_imgs),
+            page_errors=page_errors,
         )
 
 
@@ -516,7 +789,7 @@ def _bbox_scale_denominators(
       in BOTH axes would mean full-page text confined to the top-left
       1000px corner — implausible, treat as grid.
 
-    Images near the grid size (the default ``max_image_dim=1024``
+    Images near the grid size (for example a ``max_image_dim=1024``
     thumbnail) are inherently ambiguous, but there the two readings
     differ by under 3% so either divisor places boxes acceptably.
     """
@@ -533,8 +806,31 @@ def _bbox_scale_denominators(
     return float(img_w), float(img_h), False
 
 
+def _is_empty_grounded_json(text: str) -> bool:
+    """Accept explicit empty recovery bands, independently of JSON formatting."""
+    raw = text.strip()
+    fence = _JSON_FENCE.search(raw)
+    if fence:
+        raw = fence.group(1)
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError:
+        return False
+    blocks = payload.get("blocks") if isinstance(payload, dict) else payload
+    if not isinstance(blocks, list):
+        return False
+    for block in blocks:
+        if not isinstance(block, dict):
+            return False
+        values = [block[key] for key in ("content", "text", "text_content") if key in block]
+        if not values or any(not isinstance(value, str) or value.strip() for value in values):
+            return False
+    return True
+
+
 def _parse_grounded_json(
     text: str, page_idx: int, img_w: int, img_h: int,
+    *, coordinate_space: str = "auto", strict: bool = False,
 ) -> list[GroundedBlock]:
     """
     Extract a JSON array of `{bbox_2d, content}` blocks from a VLM response.
@@ -568,6 +864,8 @@ def _parse_grounded_json(
         try:
             data = json.loads(m2.group(1))
         except json.JSONDecodeError as e:
+            if strict:
+                raise ValueError("model returned malformed grounded JSON") from e
             logging.debug(f"grounded parse failed: {e} — raw={raw[:200]!r}")
             return []
 
@@ -580,6 +878,8 @@ def _parse_grounded_json(
         else:
             data = [data]  # single object → one-element list
 
+    if not isinstance(data, list):
+        return []
     parsed: list[tuple[tuple[float, float, float, float], str]] = []
     for item in data:
         if not isinstance(item, dict):
@@ -601,9 +901,12 @@ def _parse_grounded_json(
 
     # Convention detection needs the whole page's boxes, so normalization
     # happens after the collection pass.
-    den_x, den_y, is_grid = _bbox_scale_denominators(
-        [p[0] for p in parsed], img_w, img_h,
-    )
+    if coordinate_space == "normalized_1000":
+        den_x, den_y, is_grid = _GRID_MAX, _GRID_MAX, False
+    else:
+        den_x, den_y, is_grid = _bbox_scale_denominators(
+            [p[0] for p in parsed], img_w, img_h,
+        )
     if is_grid:
         logging.warning(
             f"grounded parse: page {page_idx} bbox coordinates fit the "

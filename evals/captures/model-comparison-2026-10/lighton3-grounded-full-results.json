@@ -1,0 +1,129 @@
+[
+  {
+    "document": "digital.pdf",
+    "mode": "grounded",
+    "gt_count": 16,
+    "pipeline_count": 18,
+    "metrics": {
+      "recall": 0.75,
+      "recall_at_05": 0.6875,
+      "precision": 0.6667,
+      "hmean": 0.7059,
+      "avg_iou": 0.7873,
+      "text_sim": 0.9986,
+      "avg_cer": 0.0014,
+      "bow_f1": 0.997,
+      "char_recall": 0.9048,
+      "char_precision": 0.9924,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "hybrid.pdf",
+    "mode": "grounded",
+    "gt_count": 38,
+    "pipeline_count": 14,
+    "metrics": {
+      "recall": 0.2368,
+      "recall_at_05": 0.1316,
+      "precision": 0.6429,
+      "hmean": 0.3462,
+      "avg_iou": 0.543,
+      "text_sim": 0.8528,
+      "avg_cer": 0.3175,
+      "bow_f1": 1.0,
+      "char_recall": 0.9586,
+      "char_precision": 0.8108,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "handwritten.pdf",
+    "mode": "grounded",
+    "gt_count": 14,
+    "pipeline_count": 12,
+    "metrics": {
+      "recall": 0.8571,
+      "recall_at_05": 0.6429,
+      "precision": 1.0,
+      "hmean": 0.9231,
+      "avg_iou": 0.6229,
+      "text_sim": 0.8567,
+      "avg_cer": 0.3425,
+      "bow_f1": 0.9388,
+      "char_recall": 0.9913,
+      "char_precision": 0.9319,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "dense.pdf",
+    "mode": "grounded",
+    "gt_count": 365,
+    "pipeline_count": 269,
+    "metrics": {
+      "recall": 0.126,
+      "recall_at_05": 0.0137,
+      "precision": 0.171,
+      "hmean": 0.1451,
+      "avg_iou": 0.4143,
+      "text_sim": 0.4291,
+      "avg_cer": 0.7687,
+      "bow_f1": 0.6021,
+      "char_recall": 0.4371,
+      "char_precision": 0.4648,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "notes.pdf",
+    "mode": "grounded",
+    "gt_count": 467,
+    "pipeline_count": 180,
+    "metrics": {
+      "recall": 0.3276,
+      "recall_at_05": 0.2334,
+      "precision": 0.85,
+      "hmean": 0.473,
+      "avg_iou": 0.6424,
+      "text_sim": 0.775,
+      "avg_cer": 0.4486,
+      "bow_f1": 0.5929,
+      "char_recall": 0.7973,
+      "char_precision": 0.7322,
+      "checks_pass_rate": 0.8
+    },
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "regressions": []
+  }
+]

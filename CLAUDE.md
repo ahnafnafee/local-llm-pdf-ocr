@@ -58,22 +58,23 @@ Fixture axis-order is auto-detected (`src/pdf_ocr/evaluation.py::_detect_bbox_ax
 
 ## Configuration
 
-LLM endpoint is read from `.env` (or CLI overrides `--api-base` / `--model`). LM Studio must be running locally and serving the vision model.
+The endpoint defaults to `http://localhost:1234/v1`; the model defaults to `allenai/olmocr-2-7b` for hybrid/text-only OCR and `qwen/qwen3-vl-8b` for grounded OCR. Override these through `.env`, environment variables, or CLI options `--api-base` / `--model` (explicit options take precedence). A configured `LLM_MODEL` applies to every mode. Any server exposing OpenAI-compatible vision chat completions can be used. `LLMConfig` in `inference.py` is the shared configuration source; `VisionClient` is the injectable transport contract for both OCR paths.
 
 ```
-LLM_API_BASE=http://localhost:1234/v1
-LLM_MODEL=allenai/olmocr-2-7b
-OCR_CONCURRENCY=2          # server.py — in-flight LLM requests (KV-cache VRAM on parallel-slot servers; queued for free on LM Studio/Ollama defaults)
+# LLM_API_BASE=http://localhost:1234/v1  # optional endpoint override
+# LLM_MODEL=your-served-vision-model    # optional override for every mode
+# LLM_API_KEY=your-server-key  # optional bearer authentication
+OCR_CONCURRENCY=2          # server.py — in-flight LLM requests (KV-cache VRAM on parallel-slot servers; queued by servers that serialize inference)
 OCR_VERIFY_MODEL=0         # server.py — opt out of pre-flight model check (default: on)
 ```
 
 ### Pre-flight model verification (issue #7)
 
-Both entry points hit `GET /v1/models` before any OCR work to confirm the configured model is loaded, raising `ModelNotLoadedError` (subclass of `LLMCallError`) on mismatch. LM Studio otherwise silently falls back to whatever model is loaded, producing subtly wrong OCR with no error to flag the mismatch. Implementation lives on the backends — `OCRProcessor.ensure_model_loaded()` and `PromptedGroundedOCR.ensure_model_loaded()` — both reusing the same `_list_loaded_model_ids` / `_format_model_not_loaded` helpers in `core/ocr.py`. Disable per-call with CLI `--no-verify-model` or env `OCR_VERIFY_MODEL=0` (server only).
+Both entry points verify the advertised model catalog before loading Surya or rendering pages. `ensure_model_available()` delegates to the shared `VisionClient`; missing IDs raise `ModelNotAvailableError`, also exported under the compatibility name `ModelNotLoadedError`. Catalog membership does not imply loaded weights. Disable verification with `--no-verify-model` or `OCR_VERIFY_MODEL=0` (server only) when a server has no usable model catalog. Both entry points close their owned adapters after each run. Injected clients remain caller-owned. Web endpoint overrides never receive the configured endpoint's environment key.
 
 ## Architecture
 
-Hybrid pipeline: **Surya** does fast layout *detection only* (no recognition), a **local vision LLM** (OlmOCR via LM Studio) produces text content, and a **Needleman-Wunsch DP** binds LLM lines to detected boxes. Boxes the DP cannot confidently populate are re-OCR'd individually via per-box image crops. **Dense pages** (>`dense_threshold` detected boxes, default 60) skip the full-page LLM call entirely and OCR each Surya box individually — bypasses the loop / hallucination failure modes that full-page OCR exhibits on dense handwritten content. PyMuPDF writes a "sandwich" PDF (rasterized page image + invisible selectable text).
+Hybrid pipeline: **Surya** does fast layout *detection only* (no recognition), a **local vision LLM** (served through the configured vision client) produces text content, and a **Needleman-Wunsch DP** binds LLM lines to detected boxes. Boxes the DP cannot confidently populate are re-OCR'd individually via per-box image crops. **Dense pages** (>`dense_threshold` detected boxes, default 60) skip the full-page LLM call entirely and OCR each Surya box individually — bypasses the loop / hallucination failure modes that full-page OCR exhibits on dense handwritten content. PyMuPDF writes a "sandwich" PDF (rasterized page image + invisible selectable text).
 
 ```
                 ┌── (sparse) ── LLM full-page OCR ── DP line→box alignment ── crop re-OCR for gaps ──┐
@@ -95,7 +96,7 @@ After DP, any empty box passing `_is_refinable` (~40pt × 6pt at 200 DPI) is cro
 
 ### Dense-page detection / per-box OCR
 
-When `dense_mode` is `"auto"` (default) and a page exceeds `dense_threshold` boxes (default 60), `OCRPipeline._ocr_per_box` skips full-page OCR for that page and feeds each Surya box individually through `perform_ocr_on_crop`. Refine is also skipped for those pages — every box was already individually transcribed. `dense_mode="always"` forces this on every page (recommended for handwriting); `"never"` keeps the original full-page path. In `"auto"`, a sparse page is also **retried per-box** when the DP's real match count lands under half its boxes (`pipeline.py::_DP_RETRY_*`) — the aligner reports it via `AlignmentResult.match_count`. Forms are the canonical trigger: many label boxes with near-identical DP match costs bind text to the wrong fields, and the retry replaces guessed bindings with per-region transcriptions. This bypasses the failure modes that full-page OCR exhibits on dense content (the model loops on `<th>Java</th>`-style runaway, or just fails to track the volume of content). Cost: N times more LLM calls per dense page, mitigated by `--concurrency`.
+When `dense_mode` is `"auto"` (default) and a page exceeds `dense_threshold` boxes (default 60), `OCRPipeline._ocr_per_box` skips full-page OCR and reads each detected region. Table/diagram front matter also selects this path. On single-column pages with at least eight boxes, any skipped line or box triggers region OCR: even a nearly complete alignment can shift all later form fields. Multi-column layouts retain page context unless fewer than half the boxes match. `AlignmentResult.match_count`, `unmatched_line_count` and `multi_column` expose this evidence. An isolated heading retains page context only after its crop agrees with the candidate text. OlmOCR retries unexpected mathematics/code formatting on a source-pixel square canvas capped at 1024 pixels; ordinary crops retain strip detail. Refine skips pages already read per region. `dense_mode="always"` forces region OCR; `"never"` retains full-page alignment. Region OCR costs more requests, bounded by `--concurrency`.
 
 Per-box results then pass through `_drop_overlap_duplicates`: Surya sometimes emits the same region at two granularities (a paragraph box plus its line boxes, a table-row box plus its cell boxes), and transcribing each independently puts the same content in the text layer twice at the same position — PDF text extraction then interleaves the copies word-by-word into muddle. When two boxes overlap ≥30% of the smaller and one's normalized text contains the other's, the contained copy is cleared (identical reads keep the tighter box). Containment-only, never fuzzy similarity: dense forms legitimately repeat near-identical labels at different positions, and those must survive.
 
@@ -115,7 +116,7 @@ Local VLMs occasionally fall into runaway-generation loops on dense or unusual p
 
 ### OlmOCR prompt / YAML parsing
 
-`OCRProcessor.perform_ocr` uses the canonical `build_no_anchoring_v4_yaml_prompt()` string from `olmocr.prompts` (the model is RL-trained on that exact prompt). Responses are markdown with YAML front matter (`primary_language`, `is_rotation_valid`, ...); `_strip_yaml_front_matter` removes the front matter before returning the body. `perform_ocr_on_crop` uses a distinct minimal prompt since per-region metadata is nonsensical.
+`OCRProcessor.perform_ocr` selects a general transcription prompt, or for model IDs containing `olmocr`, the canonical `build_no_anchoring_v4_yaml_prompt()` string from `olmocr.prompts` (the model is RL-trained on that exact prompt). Responses are markdown with YAML front matter (`primary_language`, `is_rotation_valid`, ...); `_strip_yaml_front_matter` removes the front matter before returning the body. `perform_ocr_on_crop` uses a distinct minimal prompt since per-region metadata is nonsensical.
 
 ### The orchestration seam: `src/pdf_ocr/pipeline.py`
 
@@ -131,7 +132,7 @@ Both paths take the same **injected components** so extensions can swap any phas
 |-----------------|------------------------------------------------------------------------|---------------------------------------|
 | `aligner`       | `get_detected_boxes_batch(list[bytes])` + `align_text(structured, text)` | `HybridAligner` (Surya-only)          |
 | `ocr_processor` | async `perform_ocr(image_base64) -> list[str]`                         | `OCRProcessor` (OpenAI-compat LLM)    |
-| `pdf_handler`   | `convert_to_images(path, dpi) -> dict[int, b64]`                       | `PDFHandler`                          |
+| `pdf_handler`   | `convert_to_images(path, dpi, max_image_dim, *, pages=None) -> dict[int, b64]`                       | `PDFHandler`                          |
 | `output_writer` | `callable(input_path, output_path, pages_data, dpi) -> None`           | resolved from output extension via `pdf_ocr.output.resolve_output_writer` (`.pdf` → `PDFHandler`, `.html`/`.htm` → `HTMLHandler`, `.md`/`.markdown` → `MarkdownHandler`, `.txt` → `TextHandler`); falls back to `pdf_handler.embed_structured_text` |
 
 `OCRPipeline.run(...)` is async, uses `asyncio.as_completed` + a `Semaphore(concurrency)` for per-page LLM work (so `concurrency=1` is the degenerate sequential case), and drives an optional progress callback:
@@ -142,6 +143,8 @@ async def progress(stage: str, current: int, total: int, message: str) -> None
 ```
 
 The `"ocr"` stage label is suffixed with a dense/sparse split when both kinds of pages exist on a run (`OCR (3 dense / 17 sparse)`) so the user can see which pages took the per-box path. `main.py` maps this callback onto Rich progress tasks; `server.py` maps it onto WebSocket percent updates via `_STAGE_WEIGHTS`.
+
+Page selections are resolved before OCR rendering in every path, including multi-frame image inputs. Images and grounded blocks retain original zero-based source indices. `GroundedResponse.page_indices` aligns with `page_sizes` and includes selected pages with empty results so validation reports the original page numbers. PDF/HTML writers retain the full source document; Markdown/text include only selected pages. See `docs/inference.md` for client ownership and extension contracts.
 
 ### Core classes (`src/pdf_ocr/core/`)
 

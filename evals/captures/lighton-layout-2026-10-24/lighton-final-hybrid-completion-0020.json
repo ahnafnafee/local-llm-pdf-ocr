@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 9.5,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-31JtoLDXx6DjM2X3xpHhQb1rGTSL5T0d",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](146,142,446,164) Customer: $C\\_Name, C\\_Street, C\\_City$\n\n![text](146,170,393,190) Depositor: $C\\_Name, Account\\#$\n\n![text](145,200,404,220) Loan: $B\\_Name, Loan\\_\\#, Amount$\n\n![text](145,229,359,248) Borrower: $C\\_Name, Loan\\#$\n\n![list](194,259,727,283)\n- Select tuples of the loan relation where the branch name is “GMU”.\n\n![formula](343,285,528,309) $\\sigma_{Bname = 'GMU'} (Loan)$\n\n![list](193,318,706,342)\n- Find all tuples in which the amount of loan is more than \\$12000.\n\n![formula](250,340,430,366) $\\sigma_{amount > 12000} (Loan)$\n\n![list](191,377,847,401)\n- Find those tuples pertaining to loans of more than \\$ 12000 made by “GMU” branch.\n\n![formula](245,401,757,431) $\\sigma_{amount > 12000 \\text{ AND } Bname = 'GMU'} (Loan) \\quad \\text{or,} \\quad R1 \\cap R2$\n\n![list](188,437,559,457)\n- List all loan numbers and the amount of loan.\n\n![formula](249,459,462,488) $\\Pi_{Loan\\#, Amount} \\quad Loan$\n\n![list](188,496,614,516)\n- Find the names of all customers who live in “Fairfax”.\n\n![formula](264,516,594,551) $\\Pi_{name} \\left( \\sigma_{(-city = 'Fairfax')} (Customers) \\right)$\n\n![list](188,557,850,575)\n- Find the names of all bank customers who have either an account or a loan or both.\n\n![formula](253,574,670,605) $\\Pi_{name} (Depositor) \\cup \\Pi_{name} (Borrower)$\n\n![list](188,616,829,635)\n- Find the names of all customers of the bank who have an account but not a loan.\n\n![formula](264,637,648,668) $\\Pi_{name} (Depositor) - \\Pi_{name} (Borrower)$\n\n![list](187,675,753,694)\n- Find the names of all customers who have both a loan and an account.\n\n![formula](273,692,683,731) $\\Pi_{name} (Depositor) \\cap \\Pi_{name} (Borrower)$\n\n![image](755,770,808,805) scribbled signature or doodle",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844467,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 797,
+      "prompt_tokens": 3152,
+      "total_tokens": 3949,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1547.865,
+      "prompt_per_token_ms": 0.49107392131979694,
+      "prompt_per_second": 2036.353299544857,
+      "predicted_n": 797,
+      "predicted_ms": 7749.46,
+      "predicted_per_token_ms": 9.735502512562814,
+      "predicted_per_second": 102.71683446330454
+    }
+  }
+}

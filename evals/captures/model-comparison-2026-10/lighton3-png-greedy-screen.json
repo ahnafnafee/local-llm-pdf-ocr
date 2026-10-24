@@ -1,0 +1,463 @@
+[
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.9,
+    "temperature": 0.0,
+    "presence_penalty": 0,
+    "raw": "![header](110,16,229,34) FakeDoc M.D.\n\n![title](355,38,646,61) # HEALTH INTAKE FORM\n\n![text](110,67,859,109) Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential.\n\n![text](105,116,344,162) Date: 9/14/19\n\n![text](105,162,922,203) Name: Sally Walker DOB: 09/04/1986\n\n![text](108,216,906,248) Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082\n\n![text](108,257,893,292) Email: Sally.walker@cmail.com Phone #: (906) 917-3486\n\n![text](105,301,939,344) Gender: F Marital Status: Single Occupation: Software Engineer\n\n![text](108,351,343,381) Referred By: None\n\n![text](108,388,968,425) Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926\n\n![text](110,446,728,468) Describe your medical concerns (symptoms, diagnoses, etc):\n\n![text](149,483,818,566) Runny nose, mucas in throat, weakness, aches, chills, tired\n\n![text](110,757,786,780) Are you currently taking any medication? (If yes, please describe):\n\n![text](154,787,740,837) Vyvanse (25mg) daily for attention",
+    "blocks": [
+      [
+        [
+          0.11,
+          0.016,
+          0.229,
+          0.034
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.355,
+          0.038,
+          0.646,
+          0.061
+        ],
+        "# HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.11,
+          0.067,
+          0.859,
+          0.109
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.105,
+          0.116,
+          0.344,
+          0.162
+        ],
+        "Date: 9/14/19"
+      ],
+      [
+        [
+          0.105,
+          0.162,
+          0.922,
+          0.203
+        ],
+        "Name: Sally Walker DOB: 09/04/1986"
+      ],
+      [
+        [
+          0.108,
+          0.216,
+          0.906,
+          0.248
+        ],
+        "Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082"
+      ],
+      [
+        [
+          0.108,
+          0.257,
+          0.893,
+          0.292
+        ],
+        "Email: Sally.walker@cmail.com Phone #: (906) 917-3486"
+      ],
+      [
+        [
+          0.105,
+          0.301,
+          0.939,
+          0.344
+        ],
+        "Gender: F Marital Status: Single Occupation: Software Engineer"
+      ],
+      [
+        [
+          0.108,
+          0.351,
+          0.343,
+          0.381
+        ],
+        "Referred By: None"
+      ],
+      [
+        [
+          0.108,
+          0.388,
+          0.968,
+          0.425
+        ],
+        "Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926"
+      ],
+      [
+        [
+          0.11,
+          0.446,
+          0.728,
+          0.468
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.149,
+          0.483,
+          0.818,
+          0.566
+        ],
+        "Runny nose, mucas in throat, weakness, aches, chills, tired"
+      ],
+      [
+        [
+          0.11,
+          0.757,
+          0.786,
+          0.78
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.154,
+          0.787,
+          0.74,
+          0.837
+        ],
+        "Vyvanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2368,
+      "recall_at_05": 0.1316,
+      "precision": 0.6429,
+      "hmean": 0.3462,
+      "avg_iou": 0.5531,
+      "text_sim": 0.8528,
+      "avg_cer": 0.3175,
+      "bow_f1": 1.0,
+      "char_recall": 0.9468,
+      "char_precision": 0.8065
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 12.734
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.9,
+    "temperature": 0.0,
+    "presence_penalty": 0,
+    "raw": "![title](47,27,227,85) # Algorithms\n\n![list](47,105,902,227)\n- computational procedure\n- processes are finite, but the data does not have an upper bound.\n\n![text](202,235,590,298) mapped input $\\longleftrightarrow$ output\n\n![list](42,298,892,398)\n- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM\n\n![list](47,414,876,507)\n- post condition is a logical predicate for the input and output\n\n![list](47,501,887,592)\n- **Halting**: the algo needs to finish in finite time\n\n![list](139,588,673,633)\n- look into induction proofs\n\n![text](397,651,566,685) Correctness\n\n![text](262,742,412,792) $\\swarrow$ Validity\n\n![text](612,748,772,811) $\\searrow$ Halting\n\n![text](315,800,738,840) (Conjunction of both)\n\n![list](62,851,962,937)\n- if the algo has a strong post condition it makes it more useful",
+    "blocks": [
+      [
+        [
+          0.047,
+          0.027,
+          0.227,
+          0.085
+        ],
+        "# Algorithms"
+      ],
+      [
+        [
+          0.047,
+          0.105,
+          0.902,
+          0.227
+        ],
+        "- computational procedure\n- processes are finite, but the data does not have an upper bound."
+      ],
+      [
+        [
+          0.202,
+          0.235,
+          0.59,
+          0.298
+        ],
+        "mapped input $\\longleftrightarrow$ output"
+      ],
+      [
+        [
+          0.042,
+          0.298,
+          0.892,
+          0.398
+        ],
+        "- the input data needs to properly formatted\n  - ensures a CORRECT ALGORITHM"
+      ],
+      [
+        [
+          0.047,
+          0.414,
+          0.876,
+          0.507
+        ],
+        "- post condition is a logical predicate for the input and output"
+      ],
+      [
+        [
+          0.047,
+          0.501,
+          0.887,
+          0.592
+        ],
+        "- **Halting**: the algo needs to finish in finite time"
+      ],
+      [
+        [
+          0.139,
+          0.588,
+          0.673,
+          0.633
+        ],
+        "- look into induction proofs"
+      ],
+      [
+        [
+          0.397,
+          0.651,
+          0.566,
+          0.685
+        ],
+        "Correctness"
+      ],
+      [
+        [
+          0.262,
+          0.742,
+          0.412,
+          0.792
+        ],
+        "$\\swarrow$ Validity"
+      ],
+      [
+        [
+          0.612,
+          0.748,
+          0.772,
+          0.811
+        ],
+        "$\\searrow$ Halting"
+      ],
+      [
+        [
+          0.315,
+          0.8,
+          0.738,
+          0.84
+        ],
+        "(Conjunction of both)"
+      ],
+      [
+        [
+          0.062,
+          0.851,
+          0.962,
+          0.937
+        ],
+        "- if the algo has a strong post condition it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.8571,
+      "recall_at_05": 0.6429,
+      "precision": 1.0,
+      "hmean": 0.9231,
+      "avg_iou": 0.63,
+      "text_sim": 0.8437,
+      "avg_cer": 0.3461,
+      "bow_f1": 0.9324,
+      "char_recall": 0.9913,
+      "char_precision": 0.9401
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "seconds": 5.515
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "lightonai/LightOnOCR-3-4B",
+    "profile": "lighton",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 0.9,
+    "temperature": 0.0,
+    "presence_penalty": 0,
+    "raw": "![list](27,18,947,98)\n- $f_u$ can have null value\n- I could modify my existing implementation of Project (.)\n\n![title](1,155,613,200) ## Mapping Binary 1:1 Relationship Sets\n\n![list](100,200,910,377)\n- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)\n\n![title](27,377,300,444) ### ① F.U approach\n\n![text](329,387,375,414) total\n\n![text](710,377,922,474) Cross Ref also applies here\n\n![text](670,453,967,574) merge-rel can work here with P.U from total participation - not desirable\n\n![image](136,420,595,574) Entity-Relationship diagram with entities S, T and relationship R, labeled 'total'\n\n![formula](300,574,922,644) $$\nS \\mid \\underline{P_k(S)} \\mid \\ldots \\mid \\underline{P_k(T)} \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![image](300,648,600,724) T [P_k(T)] ...\n\n![title](100,724,284,781) ### ② merge-relation\n\n![text](56,803,300,988) F.U applies to second case as well Cross Ref can also apply here\n\n![text](557,803,800,853) P.U can be either one\n\n![formula](347,883,922,942) $$\nST \\mid \\underline{P_k(S)} \\mid \\underline{P_k(T)} \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$\n\n![text](400,942,590,981) (since it's 1:1)",
+    "blocks": [
+      [
+        [
+          0.027,
+          0.018,
+          0.947,
+          0.098
+        ],
+        "- $f_u$ can have null value\n- I could modify my existing implementation of Project (.)"
+      ],
+      [
+        [
+          0.001,
+          0.155,
+          0.613,
+          0.2
+        ],
+        "## Mapping Binary 1:1 Relationship Sets"
+      ],
+      [
+        [
+          0.1,
+          0.2,
+          0.91,
+          0.377
+        ],
+        "- F.U approach\n- Merged relation approach (if both participations are total, merge 2 entity sets and relationship set into single table)"
+      ],
+      [
+        [
+          0.027,
+          0.377,
+          0.3,
+          0.444
+        ],
+        "### ① F.U approach"
+      ],
+      [
+        [
+          0.329,
+          0.387,
+          0.375,
+          0.414
+        ],
+        "total"
+      ],
+      [
+        [
+          0.71,
+          0.377,
+          0.922,
+          0.474
+        ],
+        "Cross Ref also applies here"
+      ],
+      [
+        [
+          0.67,
+          0.453,
+          0.967,
+          0.574
+        ],
+        "merge-rel can work here with P.U from total participation - not desirable"
+      ],
+      [
+        [
+          0.3,
+          0.574,
+          0.922,
+          0.644
+        ],
+        "$$\nS \\mid \\underline{P_k(S)} \\mid \\ldots \\mid \\underline{P_k(T)} \\mid a_1 \\mid \\ldots \\mid a_n\n$$"
+      ],
+      [
+        [
+          0.1,
+          0.724,
+          0.284,
+          0.781
+        ],
+        "### ② merge-relation"
+      ],
+      [
+        [
+          0.056,
+          0.803,
+          0.3,
+          0.988
+        ],
+        "F.U applies to second case as well Cross Ref can also apply here"
+      ],
+      [
+        [
+          0.557,
+          0.803,
+          0.8,
+          0.853
+        ],
+        "P.U can be either one"
+      ],
+      [
+        [
+          0.347,
+          0.883,
+          0.922,
+          0.942
+        ],
+        "$$\nST \\mid \\underline{P_k(S)} \\mid \\underline{P_k(T)} \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n\n$$"
+      ],
+      [
+        [
+          0.4,
+          0.942,
+          0.59,
+          0.981
+        ],
+        "(since it's 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.2903,
+      "recall_at_05": 0.129,
+      "precision": 0.6923,
+      "hmean": 0.4091,
+      "avg_iou": 0.4824,
+      "text_sim": 0.7108,
+      "avg_cer": 0.5537,
+      "bow_f1": 0.6276,
+      "char_recall": 0.9327,
+      "char_precision": 0.9057
+    },
+    "checks": [
+      4,
+      5,
+      [
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 7.453
+  }
+]

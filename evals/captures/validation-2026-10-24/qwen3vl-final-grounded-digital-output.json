@@ -1,0 +1,308 @@
+[
+  [
+    [
+      0.516,
+      0.01,
+      0.798,
+      0.034
+    ],
+    "Department of Computer Science"
+  ],
+  [
+    [
+      0.516,
+      0.034,
+      0.798,
+      0.053
+    ],
+    "College of Engineering and Computing"
+  ],
+  [
+    [
+      0.516,
+      0.053,
+      0.798,
+      0.068
+    ],
+    "4400 University Drive, MS 4A5, Fairfax, Virginia 22030"
+  ],
+  [
+    [
+      0.516,
+      0.068,
+      0.732,
+      0.08
+    ],
+    "Phone: 703-993-1530; Fax: 703-993-1710"
+  ],
+  [
+    [
+      0.516,
+      0.08,
+      0.74,
+      0.093
+    ],
+    "www: http://www.cs.gmu.edu/"
+  ],
+  [
+    [
+      0.21400000000000002,
+      0.083,
+      0.798,
+      0.106
+    ],
+    "CS 701 - Research Experience in Computer Science – Spring’26"
+  ],
+  [
+    [
+      0.105,
+      0.13,
+      0.321,
+      0.148
+    ],
+    "Student Name (Last, First):"
+  ],
+  [
+    [
+      0.105,
+      0.169,
+      0.307,
+      0.186
+    ],
+    "Student e-mail address:"
+  ],
+  [
+    [
+      0.105,
+      0.204,
+      0.218,
+      0.222
+    ],
+    "Student G#:"
+  ],
+  [
+    [
+      0.105,
+      0.243,
+      0.769,
+      0.261
+    ],
+    "Name of the CS faculty member"
+  ],
+  [
+    [
+      0.105,
+      0.261,
+      0.769,
+      0.278
+    ],
+    "to supervise the student in CS 701:"
+  ],
+  [
+    [
+      0.105,
+      0.3,
+      0.844,
+      0.318
+    ],
+    "Description of the research activity (clarify the hands-on component explicitly in your description):"
+  ],
+  [
+    [
+      0.105,
+      0.37699999999999995,
+      0.936,
+      0.39599999999999996
+    ],
+    "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+  ],
+  [
+    [
+      0.105,
+      0.48,
+      0.21400000000000002,
+      0.49800000000000005
+    ],
+    "Signatures"
+  ],
+  [
+    [
+      0.105,
+      0.5,
+      0.267,
+      0.517
+    ],
+    "Student:"
+  ],
+  [
+    [
+      0.383,
+      0.5,
+      0.603,
+      0.517
+    ],
+    "CS Faculty Supervisor:"
+  ],
+  [
+    [
+      0.683,
+      0.5,
+      0.893,
+      0.517
+    ],
+    "PhD CS Program Director:"
+  ],
+  [
+    [
+      0.105,
+      0.583,
+      0.174,
+      0.599
+    ],
+    "Notes"
+  ],
+  [
+    [
+      0.105,
+      0.6,
+      0.85,
+      0.618
+    ],
+    "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701."
+  ],
+  [
+    [
+      0.105,
+      0.618,
+      0.936,
+      0.635
+    ],
+    "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the"
+  ],
+  [
+    [
+      0.105,
+      0.635,
+      0.844,
+      0.652
+    ],
+    "CS 701 research activity should include a hands-on component (such as software development,"
+  ],
+  [
+    [
+      0.105,
+      0.652,
+      0.936,
+      0.669
+    ],
+    "performing and analyzing experiments with existing techniques) beyond the literature review."
+  ],
+  [
+    [
+      0.105,
+      0.669,
+      0.844,
+      0.687
+    ],
+    "Specify the hands-on activity within the “description of the research activity” field above."
+  ],
+  [
+    [
+      0.105,
+      0.687,
+      0.844,
+      0.704
+    ],
+    "If necessary, you can attach an additional sheet to elaborate further on the description of"
+  ],
+  [
+    [
+      0.105,
+      0.704,
+      0.389,
+      0.7209999999999999
+    ],
+    "the research activity."
+  ],
+  [
+    [
+      0.105,
+      0.7209999999999999,
+      0.936,
+      0.739
+    ],
+    "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at"
+  ],
+  [
+    [
+      0.105,
+      0.739,
+      0.844,
+      0.756
+    ],
+    "the end of the semester. In addition, all CS 701 students are required to give a short talk to"
+  ],
+  [
+    [
+      0.105,
+      0.756,
+      0.511,
+      0.773
+    ],
+    "the public about their research at the end of the semester. Logistics of that meeting will be"
+  ],
+  [
+    [
+      0.105,
+      0.773,
+      0.489,
+      0.79
+    ],
+    "announced by the CS department."
+  ],
+  [
+    [
+      0.105,
+      0.79,
+      0.936,
+      0.8070000000000002
+    ],
+    "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be"
+  ],
+  [
+    [
+      0.105,
+      0.8070000000000002,
+      0.844,
+      0.824
+    ],
+    "indicated next to the “CS faculty member name” field above, and they should co-sign the form."
+  ],
+  [
+    [
+      0.105,
+      0.824,
+      0.844,
+      0.842
+    ],
+    "At the registrar level, the CS 701 registration will be made only under CS faculty names."
+  ],
+  [
+    [
+      0.105,
+      0.842,
+      0.936,
+      0.859
+    ],
+    "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put"
+  ],
+  [
+    [
+      0.105,
+      0.859,
+      0.703,
+      0.876
+    ],
+    "\"[CS701 form]\" in the subject line) by November 21, 2025."
+  ]
+]

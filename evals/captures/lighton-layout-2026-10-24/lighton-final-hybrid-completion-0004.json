@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 35.84399999998277,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-tL4Gdz1o61VaKCzuJ5WQfD97zz41G7ou",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](12,12,127,33) SQL in Application Code\n\n![list](12,33,227,53)\n- Two main integration approaches\n\n![list](12,53,227,73)\n- Statement level interface → embedded SQL\n\n![list](12,73,127,92)\n- embedded SQL →\n\n![list](12,92,227,112)\n- Call-level interface → JDBC\n\n![list](12,112,227,132)\n- special API to → JDBC\n\n![text](12,132,127,151) SQL commands\n\n![table](12,151,227,311) <table>\n  <tr>\n    <th rowspan=\"2\">SQL</th>\n    <th rowspan=\"2\">Precompiler</th>\n    <th rowspan=\"2\">Schema Info</th>\n    <th rowspan=\"2\">Database Info</th>\n    <th rowspan=\"2\">Multiple DBs</th>\n    <th rowspan=\"2\">Efficiency</th>\n    <th rowspan=\"2\">DB System</th>\n  </tr>\n  <tr>\n    <th>Static</th>\n    <th>Dynamic</th>\n  </tr>\n  <tr>\n    <td>SQL</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>Yes</td>\n    <td>No</td>\n    <td>Higher</td>\n    <td>Lower</td>\n  </tr>\n  <tr>\n    <td>(C)</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>Lower</td>\n    <td>Higher</td>\n  </tr>\n</table>\n\n![text](12,311,227,331) Schema of DB must be known at\n\n![text](12,331,227,351) first program is written for embedded SQL\n\n![text](12,351,227,371) → can get info at runtime instead of compile time.\n\n![list](12,371,227,391)\n- SQLSTATE - common error was defined here\n\n![text](12,391,227,411) EXEC SQL SELECT S-name, S-age\n\n![text](12,411,227,431) INTO :c-name, :c-age → out parameters\n\n![text](12,431,227,451) FROM S, S1, S2\n\n![text](12,451,227,471) WHERE S.Sid = :c-Sid\n\n![text](12,471,227,491) → in parameter\n\n![list](12,491,227,511)\n- for db, start index from 1\n\n![text](12,511,227,531) Project 2\n\n![list](12,531,227,551)\n- need to use LIKE for partial matching\n\n![list](12,551,227,571)\n- cross-check?\n\n![list](12,571,227,591)\n- program should NOT crash\n\n![list](12,591,227,611)\n- use gtable for simplicity\n\n![text](12,611,227,631) (use that's what I know best)\n\n![list](12,631,227,651)\n- look out for redundancies in data instances\n\n![text](12,651,227,671) $t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]$\n\n![text](12,671,227,691) $t_1$ and $t_2$ → Any two rows in year table\n\n![text](12,691,227,711) $t_1[X]$ → row at the x columns of row 1\n\n![text](12,711,227,731) $t_1[X] = t_2[X]$ → row 1 and row 2 have same x values\n\n![text](12,731,227,751) ⇒ → forces\n\n![text](12,751,227,771) $t_1[Y] = t_2[Y]$ → row 1 and row 2 must also have same y values\n\n![text](12,771,227,791) FD between non-key attributes is a\n\n![text](12,791,227,811) RED FLAG that data is being repeatedly unnecessarily\n\n![list](12,811,227,831)\n- FD means one attr's value is completely controlled by another\n\n![text](12,831,227,851) - when controlling attr appears in multiple rows, its dependent value gets copied\n\n![text](12,851,227,871) passed → i.e. redundancy\n\n![list](371,12,581,32)\n- Impedance Mismatch problem\n\n![list](371,32,581,52)\n- fixed with Cursor\n\n![text](371,52,581,72) OPEN: when SQL statement is executed\n\n![text](371,72,581,92) FETCH: when it moves to the next row\n\n![text](371,92,581,112) INSENSITIVE Cursor: cannot make changes to DB with cursor\n\n![text](371,112,581,132) If I want to update result, then declare sensitive cursor\n\n![text](371,132,581,151) → fixes issue with collecting set of tuples\n\n![text](371,151,581,171) CLOSE: closes the cursor\n\n![text](371,171,581,191) Cursor can be reopened when in variable is different\n\n![text](371,191,581,211) Note the poll !!\n\n![text](371,211,581,231) Question\n\n![list](371,231,581,251)\n- execute Update()\n\n![text](371,251,581,271) only returns number of rows (affected)\n\n![list](371,271,581,291)\n- see the comparison table for\n\n![text](371,291,581,311) also use executeQuery() instead\n\n![list](371,311,581,331)\n- JDBC vs SQLS\n\n![text](371,331,581,351) for managing complexity better\n\n![text](371,351,581,371) when to choose what?\n\n![text](371,371,581,391) L13: Functional Dependencies\n\n![text](371,391,581,411) Attribute Closure\n\n![text](371,411,581,431) L14: Normal Forms\n\n![text](371,431,581,451) Normalize\n\n![text](371,451,581,471) L15: Properties of Decomposition\n\n![text](371,471,581,491) Lossless Join + BP\n\n![text](371,491,581,511) Minimal Cover\n\n![text](371,511,581,531) L16: Decomposition Algorithms\n\n![list](12,531,227,551)\n- why repetition is problematic\n\n![list](371,551,581,571)\n- update anomaly\n\n![list](371,571,581,591)\n- insertion anomaly\n\n![list](371,591,581,611)\n- deletion anomaly\n\n![text](371,611,581,631) She is going way too fast for me to observe...\n\n![text](371,631,581,651) didn't understand this\n\n![text](371,651,581,671) - see explanation in PDX\n\n![list](371,671,581,691)\n- $k = \\{A_1, A_2, ..., A_n\\}$ is a candidate key for relation R if\n\n![text](371,691,581,711) $K \\rightarrow$ all other attributes of R\n\n![text](371,711,581,731) AND\n\n![text](371,731,581,751) No other subset of $k \\rightarrow$ all other attributes of R\n\n![list](771,12,981,32)\n- to make any changes, I need to declare a sensitive cursor\n\n![list](771,32,981,52)\n- embedded SQL recommended in systems that require high performance without JDBC overhead\n\n![list](771,52,981,72)\n- for dynamic SQL, we cannot reuse, since we need to prepare\n\n![text](771,72,981,92) JDBC/JDBC\n\n![text](771,92,981,112) JDBC does not require training domain or schema info\n\n![list](771,112,981,132)\n- can connect to multiple DBs with multiple separate drivers\n\n![list](771,132,981,151)\n- all interactions with the DB performed via a connection object\n\n![text](771,151,981,171) Prepared statement is more efficient to use since it's made to reuse as it is precompiled\n\n![list](771,171,981,191)\n- ? are placeholders\n\n![list](771,191,981,211)\n- Keyword → Redundancy\n\n![list](771,211,981,231)\n- FD: most important kind of constraint in the relational model\n\n![list](771,231,981,251)\n- associated with the schema, not the instance\n\n![list](771,251,981,271)\n- can I represent key constraint using FD?\n\n![text](771,271,981,291) $X \\rightarrow Y$\n\n![text](771,291,981,311) $X$ functionally determines $Y$\n\n![text](771,311,981,331) alternatively,\n\n![text](771,331,981,351) $Y$ is dependent on $X$\n\n![text](771,351,981,371) Phonebook\n\n![table](771,371,981,431) <table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n  <tr>\n    <td>3035550101</td>\n    <td>Alice</td>\n    <td>Fortox</td>\n  </tr>\n</table>\n\n![text](771,431,981,451) If I know someone's phone no, can I always figure out their name?\n\n![text](771,451,981,471) Phone # → Name\n\n![list](771,471,981,491)\n- $X \\rightarrow Y_2$\n\n![text](771,491,981,511) $X \\rightarrow Y$\n\n![text](771,511,981,531) $X \\rightarrow Z$\n\n![text](771,531,981,551) LHS is the determinant\n\n![text](771,551,981,571) cannot decompose LHS\n\n![text](771,571,981,591) $XY \\rightarrow YZ$\n\n![text](771,591,981,611) $X \\rightarrow Y$\n\n![text](771,611,981,631) $X \\rightarrow Z$\n\n![list](771,631,981,651)\n- Closure of Attributes\n\n![list](771,651,981,671)\n- find all attributes dependent on $A_1$\n\n![text](771,671,981,691) if I know value of attr $X$ , what else can I figure out?\n\n![list](771,691,981,711)\n- i.e. closure of $X$\n\n![text](771,711,981,731) $AUA$ $X^+$\n\n![list](771,731,981,751)\n- think yourself as a detective\n\n![list](771,751,981,771)\n- start with one clue, let it lead to more clues",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844294,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 3427,
+      "prompt_tokens": 3152,
+      "total_tokens": 6579,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1824.966,
+      "prompt_per_token_ms": 0.5789866751269035,
+      "prompt_per_second": 1727.1554648141391,
+      "predicted_n": 3427,
+      "predicted_ms": 33831.594,
+      "predicted_per_token_ms": 9.874954465849386,
+      "predicted_per_second": 101.26628972906214
+    }
+  }
+}

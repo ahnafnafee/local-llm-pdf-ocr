@@ -17,7 +17,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Trichone Winding problem",
+        "block_content": "- Impedance Mismatch problem",
         "bbox": [
           6,
           213,
@@ -30,7 +30,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- to hold my energy, I need to believe",
+        "block_content": "- to make any changes, I need to declare",
         "bbox": [
           6,
           419,
@@ -43,7 +43,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Test main integration of flows",
+        "block_content": "- Two main integration approaches",
         "bbox": [
           15,
           19,
@@ -56,7 +56,7 @@
         "score": 1.0
       },
       {
-        "block_content": "D with cursor",
+        "block_content": "a sensitive cursor",
         "bbox": [
           17,
           423,
@@ -69,7 +69,7 @@
         "score": 1.0
       },
       {
-        "block_content": "not routine",
+        "block_content": "at runtime",
         "bbox": [
           19,
           361,
@@ -82,7 +82,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- speed with cursor",
+        "block_content": "- fixed with cursor",
         "bbox": [
           22,
           227,
@@ -95,7 +95,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- main integration of modules - (SU) statement level interface - embedded SQL - embedded SQL",
+        "block_content": "(SU) Statement level interface → embedded SQL\n- embed SQL →",
         "bbox": [
           23,
           24,
@@ -108,7 +108,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\"edicated so screwed in visions",
+        "block_content": "- Embedded SQL recommended in systems",
         "bbox": [
           38,
           419,
@@ -121,7 +121,7 @@
         "score": 1.0
       },
       {
-        "block_content": "OPEN: when Sal Vincent is excited",
+        "block_content": "OPEN: when SQL statement is executed",
         "bbox": [
           48,
           258,
@@ -147,7 +147,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- (coh. rev.) - & Haue · SDBC",
+        "block_content": "- Call-level interface → JDBC",
         "bbox": [
           56,
           36,
@@ -160,7 +160,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Let us who in wars to be not now",
+        "block_content": "FETCH: when it moves to the next row",
         "bbox": [
           60,
           245,
@@ -173,7 +173,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- (oh - even) - make · 366C (su) - special AP1 to · 006C",
+        "block_content": "(CU) - special API to → ODBC",
         "bbox": [
           63,
           9,
@@ -186,7 +186,7 @@
         "score": 1.0
       },
       {
-        "block_content": "50% overhead",
+        "block_content": "JDBC overhead",
         "bbox": [
           67,
           422,
@@ -199,7 +199,7 @@
         "score": 1.0
       },
       {
-        "block_content": "See commands",
+        "block_content": "SQL commands",
         "bbox": [
           77,
           53,
@@ -212,7 +212,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Inseminative Lungs cannot make charges to",
+        "block_content": "INSENSITIVE cursor: cannot make changes to",
         "bbox": [
           79,
           233,
@@ -225,7 +225,7 @@
         "score": 1.0
       },
       {
-        "block_content": "So columns Personal | Scan Info | engine Info | machine Doc | driving | - info - info | - info | - info | - info | - info | - info",
+        "block_content": "Precompiler | Schema Info | Database Info | Multiple DBC | Efficiency | SQL Injection Risk",
         "bbox": [
           85,
           31,
@@ -238,7 +238,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- for dynamic S3k, we cannot read, shu",
+        "block_content": "- for dynamic SQL, we cannot use, since",
         "bbox": [
           88,
           419,
@@ -251,7 +251,7 @@
         "score": 1.0
       },
       {
-        "block_content": "New York, Lewis, and Pine",
+        "block_content": "DB with cursor",
         "bbox": [
           89,
           253,
@@ -264,7 +264,7 @@
         "score": 1.0
       },
       {
-        "block_content": "For dynamic jobs, we need to prepare",
+        "block_content": "we need to prepare",
         "bbox": [
           96,
           426,
@@ -277,7 +277,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·",
+        "block_content": "No",
         "bbox": [
           98,
           36,
@@ -290,7 +290,7 @@
         "score": 1.0
       },
       {
-        "block_content": "1/2",
+        "block_content": "Yes\nNo",
         "bbox": [
           100,
           74,
@@ -303,7 +303,7 @@
         "score": 1.0
       },
       {
-        "block_content": "It isn't a joke, it's",
+        "block_content": "If I want to update result;",
         "bbox": [
           103,
           231,
@@ -316,7 +316,7 @@
         "score": 1.0
       },
       {
-        "block_content": "sugar james",
+        "block_content": "lower",
         "bbox": [
           104,
           158,
@@ -329,7 +329,7 @@
         "score": 1.0
       },
       {
-        "block_content": "when outside, sensitive, cool",
+        "block_content": "then declare sensitive cursor",
         "bbox": [
           116,
           232,
@@ -342,7 +342,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\frac{\\partial \\mathcal{L}}{\\partial \\dot{\\mathbf{q}}}\\)",
+        "block_content": "JDBC / ODBC",
         "bbox": [
           116,
           415,
@@ -355,7 +355,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Squash",
+        "block_content": "Prepared Statement lower",
         "bbox": [
           126,
           178,
@@ -368,7 +368,7 @@
         "score": 1.0
       },
       {
-        "block_content": "This does not require training. No info at",
+        "block_content": "JDBC does not require knowing dbinfo or",
         "bbox": [
           129,
           422,
@@ -381,7 +381,7 @@
         "score": 1.0
       },
       {
-        "block_content": "gives me with checking set of triples",
+        "block_content": "fixes issue with collecting set of tuples",
         "bbox": [
           135,
           236,
@@ -394,7 +394,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Schema of DB will be known",
+        "block_content": "Schema of DB must be known",
         "bbox": [
           145,
           18,
@@ -407,7 +407,7 @@
         "score": 1.0
       },
       {
-        "block_content": "stung",
+        "block_content": "Schema",
         "bbox": [
           146,
           426,
@@ -420,7 +420,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Schema of DB will be known at the program is written for embedded SQL",
+        "block_content": "Schema of DB must be known at time program is written for embedded SQL",
         "bbox": [
           149,
           18,
@@ -446,7 +446,7 @@
         "score": 1.0
       },
       {
-        "block_content": "lose clawing over",
+        "block_content": "CLOSE: closes the cursor",
         "bbox": [
           158,
           246,
@@ -459,7 +459,7 @@
         "score": 1.0
       },
       {
-        "block_content": "on air info or written instead of complete info",
+        "block_content": "can get info at runtime instead of compile time",
         "bbox": [
           166,
           26,
@@ -472,7 +472,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Close can and cover Can be reused when in use",
+        "block_content": "Cursor can be reopened when in variable",
         "bbox": [
           169,
           233,
@@ -485,7 +485,7 @@
         "score": 1.0
       },
       {
-        "block_content": "sepunk divers",
+        "block_content": "separate drivers",
         "bbox": [
           174,
           429,
@@ -498,7 +498,7 @@
         "score": 1.0
       },
       {
-        "block_content": "separate drivers - all interaction with the DB performed via a compatibility object",
+        "block_content": "- all interactions with the DB performed via",
         "bbox": [
           179,
           421,
@@ -511,7 +511,7 @@
         "score": 1.0
       },
       {
-        "block_content": "3. Let it flow",
+        "block_content": "can be different",
         "bbox": [
           179,
           259,
@@ -537,7 +537,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- SQLSTATE - common error we might see",
+        "block_content": "- SQLSTATE - common error var defined here",
         "bbox": [
           200,
           5,
@@ -550,7 +550,7 @@
         "score": 1.0
       },
       {
-        "block_content": "We are all in",
+        "block_content": "Note the poll !!",
         "bbox": [
           202,
           224,
@@ -563,7 +563,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Prepared statement is more efficient to use you as made to reuse & it is precompiled",
+        "block_content": "Prepared statement is more efficient to use since its made to reuse & it is precompiled",
         "bbox": [
           211,
           424,
@@ -576,7 +576,7 @@
         "score": 1.0
       },
       {
-        "block_content": "The world is a book and those who do not travel read only one page.",
+        "block_content": "Question",
         "bbox": [
           213,
           234,
@@ -589,7 +589,7 @@
         "score": 1.0
       },
       {
-        "block_content": "FREE JAL SELECT SINGAPORE SAGE",
+        "block_content": "EXEC SQL SELECT S.name, S.age",
         "bbox": [
           214,
           33,
@@ -602,7 +602,7 @@
         "score": 1.0
       },
       {
-        "block_content": "exec spal select s.idno, s.age into t-view c-obj from stuas s where s.id = t-sid",
+        "block_content": "EXEC SQL SELECT S.name, S.age\nINTO :c-name, :c-age → out parameters\nFROM Sailors S\nWHERE S.sid = :c_sid",
         "bbox": [
           220,
           33,
@@ -615,7 +615,7 @@
         "score": 1.0
       },
       {
-        "block_content": "FROM sales WHERE ssd = (c - sgd) -> in parens",
+        "block_content": "FROM Sailors S\nWHERE S.sid = :c_sid → in parameter",
         "bbox": [
           239,
           29,
@@ -628,7 +628,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- ? are globules",
+        "block_content": "- ? are placeholders",
         "bbox": [
           241,
           420,
@@ -641,7 +641,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- create Update",
+        "block_content": "- executeUpdate()",
         "bbox": [
           266,
           216,
@@ -654,7 +654,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Vagueness · Redundancy",
+        "block_content": "- Keyword → Redundancy",
         "bbox": [
           267,
           413,
@@ -667,7 +667,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- for db, set index from 1",
+        "block_content": "- for db, start index from 1",
         "bbox": [
           268,
           9,
@@ -680,7 +680,7 @@
         "score": 1.0
       },
       {
-        "block_content": "make update() only returns number of runs (skipped)",
+        "block_content": "executeUpdate() only returns number of rows (affected)",
         "bbox": [
           270,
           228,
@@ -693,7 +693,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- keyword - CD: most important kind of constraint in the relational model",
+        "block_content": "- FD: most important kind of constraint in the relational model",
         "bbox": [
           277,
           415,
@@ -706,7 +706,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- see the confusion table for",
+        "block_content": "- see the comparison table for",
         "bbox": [
           289,
           211,
@@ -732,7 +732,7 @@
         "score": 1.0
       },
       {
-        "block_content": "by me",
+        "block_content": "so use",
         "bbox": [
           292,
           340,
@@ -745,7 +745,7 @@
         "score": 1.0
       },
       {
-        "block_content": "most important and at (on) mood",
+        "block_content": "in the relational model",
         "bbox": [
           292,
           449,
@@ -758,7 +758,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Project 2 - we to use LIKE for partial matching",
+        "block_content": "- need to use LIKE for partial matching",
         "bbox": [
           295,
           11,
@@ -771,7 +771,7 @@
         "score": 1.0
       },
       {
-        "block_content": "in the abnormal mood, associated with the swarm, not",
+        "block_content": "- associated with the schema, not",
         "bbox": [
           302,
           440,
@@ -784,7 +784,7 @@
         "score": 1.0
       },
       {
-        "block_content": "executively",
+        "block_content": "executeQuery()",
         "bbox": [
           305,
           345,
@@ -810,7 +810,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- associated w the instance",
+        "block_content": "the instance",
         "bbox": [
           316,
           435,
@@ -823,7 +823,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- JOSCE vs SALVS",
+        "block_content": "- JDBC vs SQLJ",
         "bbox": [
           319,
           214,
@@ -836,7 +836,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Chose one?",
+        "block_content": "- Cross-check?",
         "bbox": [
           320,
           14,
@@ -849,7 +849,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Can I update the constraint laws for?",
+        "block_content": "- can I represent key constraint using FD?",
         "bbox": [
           329,
           429,
@@ -862,7 +862,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- plagiar should NOT wish",
+        "block_content": "- program should NOT crash",
         "bbox": [
           332,
           15,
@@ -875,7 +875,7 @@
         "score": 1.0
       },
       {
-        "block_content": "win ap",
+        "block_content": "when to",
         "bbox": [
           337,
           308,
@@ -888,7 +888,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Let's manage",
+        "block_content": "for managing",
         "bbox": [
           339,
           234,
@@ -901,7 +901,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Can we choose?",
+        "block_content": "choose what?",
         "bbox": [
           343,
           306,
@@ -927,7 +927,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- use grade for simplicity",
+        "block_content": "- Use grade for simplicity",
         "bbox": [
           354,
           16,
@@ -940,7 +940,7 @@
         "score": 1.0
       },
       {
-        "block_content": "x · y",
+        "block_content": "X →",
         "bbox": [
           356,
           435,
@@ -953,7 +953,7 @@
         "score": 1.0
       },
       {
-        "block_content": "explain better",
+        "block_content": "better",
         "bbox": [
           358,
           246,
@@ -966,7 +966,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Use Steve as a synonym (what he's what I was lost)",
+        "block_content": "(cuz that's what I know best)",
         "bbox": [
           368,
           23,
@@ -979,7 +979,7 @@
         "score": 1.0
       },
       {
-        "block_content": "functionally determines",
+        "block_content": "X functionally determines",
         "bbox": [
           375,
           433,
@@ -992,7 +992,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Lib: functional Dependencies",
+        "block_content": "L13: Functional Dependencies",
         "bbox": [
           379,
           213,
@@ -1005,7 +1005,7 @@
         "score": 1.0
       },
       {
-        "block_content": "3: functional Attributes Dependencies Closure",
+        "block_content": "Attribute Closure",
         "bbox": [
           387,
           224,
@@ -1018,7 +1018,7 @@
         "score": 1.0
       },
       {
-        "block_content": "often chintzy,",
+        "block_content": "alternatively,",
         "bbox": [
           393,
           438,
@@ -1031,7 +1031,7 @@
         "score": 1.0
       },
       {
-        "block_content": "L14: Normal fare",
+        "block_content": "L14: Normal forms",
         "bbox": [
           406,
           213,
@@ -1044,7 +1044,7 @@
         "score": 1.0
       },
       {
-        "block_content": "y = dependent on x",
+        "block_content": "Y is dependent on X",
         "bbox": [
           406,
           461,
@@ -1057,7 +1057,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Aber ist normal",
+        "block_content": "Normalize",
         "bbox": [
           418,
           235,
@@ -1070,7 +1070,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Normalise L15: Properties of Decomposition labelled J0n + D0",
+        "block_content": "L15: Properties of Decomposition",
         "bbox": [
           425,
           212,
@@ -1096,7 +1096,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Properties of Damping Lossless J001 + DD",
+        "block_content": "Lossless Join + DP",
         "bbox": [
           437,
           234,
@@ -1109,7 +1109,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Phone Home # | New | (PG) 3055950101 | Ave | forbox 3055950101 | Ave | Coles",
+        "block_content": "Phone # | Name | City\n7035550101 | Alice | Fairfax\n7035550101 | Alice | Fairfax",
         "bbox": [
           444,
           440,
@@ -1135,7 +1135,7 @@
         "score": 1.0
       },
       {
-        "block_content": "for the soul",
+        "block_content": "Fairfax",
         "bbox": [
           459,
           528,
@@ -1148,7 +1148,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Minimal Cost Lib: Decomposability Algorithms",
+        "block_content": "L16: Decomposition Algorithms",
         "bbox": [
           463,
           212,
@@ -1161,7 +1161,7 @@
         "score": 1.0
       },
       {
-        "block_content": "If I won some money,",
+        "block_content": "if I know someone's phone no.,",
         "bbox": [
           479,
           439,
@@ -1174,7 +1174,7 @@
         "score": 1.0
       },
       {
-        "block_content": "I won sometimes but I never sign on her name",
+        "block_content": "can I always figure out their name",
         "bbox": [
           487,
           439,
@@ -1200,7 +1200,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-x \\rightarrow \\gamma_2 \\quad \\sum_{x \\rightarrow \\gamma} \\varphi",
+        "block_content": "- X → YZ { X → Y, X → Z }",
         "bbox": [
           528,
           415,
@@ -1213,7 +1213,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- look out for advantages in data",
+        "block_content": "- look out for redundancies in data",
         "bbox": [
           531,
           31,
@@ -1226,7 +1226,7 @@
         "score": 1.0
       },
       {
-        "block_content": "my nephew is pedantic",
+        "block_content": "- why repetition is problematic",
         "bbox": [
           534,
           217,
@@ -1239,7 +1239,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Cont de mps",
+        "block_content": "cannot decompose",
         "bbox": [
           534,
           531,
@@ -1252,7 +1252,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Bold - DN - instances",
+        "block_content": "instances",
         "bbox": [
           544,
           32,
@@ -1278,7 +1278,7 @@
         "score": 1.0
       },
       {
-        "block_content": "upside and malay",
+        "block_content": "- update anomaly",
         "bbox": [
           549,
           238,
@@ -1291,7 +1291,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ C_{k}^{n} = C_{n}^{k} \\implies C_{x}^{y} = C_{y}^{x} \\]",
+        "block_content": "t₁[X] = t₂[X] ⇒ t₁[Y] = t₂[Y]",
         "bbox": [
           558,
           29,
@@ -1317,7 +1317,7 @@
         "score": 1.0
       },
       {
-        "block_content": "the SM",
+        "block_content": "LHS is the",
         "bbox": [
           561,
           427,
@@ -1330,7 +1330,7 @@
         "score": 1.0
       },
       {
-        "block_content": "······",
+        "block_content": "X Y",
         "bbox": [
           563,
           533,
@@ -1343,7 +1343,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is this the decision?",
+        "block_content": "determinant",
         "bbox": [
           565,
           436,
@@ -1356,7 +1356,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-deletion  onceonly",
+        "block_content": "- deletion anomaly",
         "bbox": [
           573,
           239,
@@ -1369,7 +1369,7 @@
         "score": 1.0
       },
       {
-        "block_content": "I, and it's · Any two cars in your local",
+        "block_content": "t₁ and t₂ → Any two rows in your rel",
         "bbox": [
           576,
           24,
@@ -1382,7 +1382,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(100% Organic)",
+        "block_content": "understand",
         "bbox": [
           582,
           350,
@@ -1395,7 +1395,7 @@
         "score": 1.0
       },
       {
-        "block_content": "d_1 and d_2 · Any two out of your choice d_1[x] · You or it × whom of now!",
+        "block_content": "t₁[X] → look at the X columns of row",
         "bbox": [
           587,
           21,
@@ -1408,7 +1408,7 @@
         "score": 1.0
       },
       {
-        "block_content": "click",
+        "block_content": "didn't",
         "bbox": [
           592,
           313,
@@ -1421,7 +1421,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-Closure of Authorities-",
+        "block_content": "- Closure of Attributes",
         "bbox": [
           594,
           417,
@@ -1434,7 +1434,7 @@
         "score": 1.0
       },
       {
-        "block_content": "She is going to get a new car.",
+        "block_content": "She is going way",
         "bbox": [
           597,
           219,
@@ -1447,7 +1447,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f_1(x) \\rightarrow \\text{low order} \\quad \\text{for smal values of x} \\\\ f_1(x) = h(x) \\rightarrow \\text{low order for large values of x}",
+        "block_content": "t₁(X) = t₂(X) → Row 1 and Row 2 have same X values",
         "bbox": [
           603,
           20,
@@ -1460,7 +1460,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- find all attributes dependent on entity",
+        "block_content": "- find all attributes dependent on {A₁, B₂}",
         "bbox": [
           605,
           442,
@@ -1473,7 +1473,7 @@
         "score": 1.0
       },
       {
-        "block_content": "so sorry, sorry for you for me",
+        "block_content": "too fast for me",
         "bbox": [
           606,
           221,
@@ -1486,7 +1486,7 @@
         "score": 1.0
       },
       {
-        "block_content": "the ocean",
+        "block_content": "to digest...",
         "bbox": [
           619,
           221,
@@ -1499,7 +1499,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-see expansion in appx",
+        "block_content": "- see explanation in Appx",
         "bbox": [
           620,
           265,
@@ -1512,7 +1512,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- find all solutions - if I know value of sin x, what",
+        "block_content": "if I know value of attrs X, what",
         "bbox": [
           620,
           439,
@@ -1525,7 +1525,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·   ·   504",
+        "block_content": "⇒ → F",
         "bbox": [
           628,
           25,
@@ -1538,7 +1538,7 @@
         "score": 1.0
       },
       {
-        "block_content": "If I know what all sins & evil are I figure out",
+        "block_content": "else can I figure out?",
         "bbox": [
           635,
           443,
@@ -1551,7 +1551,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f(-y) = f(y) \\Rightarrow \\text{even 1 or even 2 must also be even.}",
+        "block_content": "t₁(Y) = t₂(Y) → Row 1 and Row 2 must also have",
         "bbox": [
           640,
           19,
@@ -1564,7 +1564,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- \\( k = \\{ A_1, A_2, \\ldots, A_r \\} \\) is a codimension",
+        "block_content": "- K = {A₁, A₂, ... Aₙ} is a candidate key",
         "bbox": [
           650,
           224,
@@ -1590,7 +1590,7 @@
         "score": 1.0
       },
       {
-        "block_content": "4 years",
+        "block_content": "Y values",
         "bbox": [
           655,
           110,
@@ -1603,7 +1603,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Van zond",
+        "block_content": "same",
         "bbox": [
           656,
           84,
@@ -1616,7 +1616,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\mu_A = \\frac{1}{n} \\sum_{i=1}^n X_i \\]",
+        "block_content": "AKA X⁺",
         "bbox": [
           664,
           468,
@@ -1629,7 +1629,7 @@
         "score": 1.0
       },
       {
-        "block_content": "65 relation & 4",
+        "block_content": "for relation R if",
         "bbox": [
           668,
           236,
@@ -1642,7 +1642,7 @@
         "score": 1.0
       },
       {
-        "block_content": "F0  Lefevre  von Lutz  d'Hauteville",
+        "block_content": "FD between non-key attributes is a",
         "bbox": [
           676,
           15,
@@ -1655,7 +1655,7 @@
         "score": 1.0
       },
       {
-        "block_content": "relates R K \\Rightarrow M our attributes of R",
+        "block_content": "K → All other attributes of R",
         "bbox": [
           678,
           252,
@@ -1668,7 +1668,7 @@
         "score": 1.0
       },
       {
-        "block_content": "frame yourself as a desirable entity in one circle, ie",
+        "block_content": "think yourself as a detective",
         "bbox": [
           679,
           439,
@@ -1681,7 +1681,7 @@
         "score": 1.0
       },
       {
-        "block_content": "you get as a dreamer start with one circle, let it lead to more circles",
+        "block_content": "start with one clue, let it lead to more clues",
         "bbox": [
           682,
           463,
@@ -1694,7 +1694,7 @@
         "score": 1.0
       },
       {
-        "block_content": "PO between reality and dreams is a red flag with the idea of being rejected",
+        "block_content": "RED FLAG that data is being repeated",
         "bbox": [
           686,
           15,
@@ -1720,7 +1720,7 @@
         "score": 1.0
       },
       {
-        "block_content": "AND No SW in text of k · all over occupancy of R",
+        "block_content": "No other subset of K → all other attributes of R",
         "bbox": [
           702,
           252,
@@ -1733,7 +1733,7 @@
         "score": 1.0
       },
       {
-        "block_content": "smilessonly",
+        "block_content": "unnecessarily",
         "bbox": [
           705,
           16,
@@ -1746,7 +1746,7 @@
         "score": 1.0
       },
       {
-        "block_content": "No sir",
+        "block_content": "No other",
         "bbox": [
           708,
           251,
@@ -1759,7 +1759,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- FO means one ATM's value is completely",
+        "block_content": "- FD means one attr's value is completely",
         "bbox": [
           718,
           17,
@@ -1772,7 +1772,7 @@
         "score": 1.0
       },
       {
-        "block_content": "so means one of its value is completely controled by another controling one appears in multiple rows, its dependent value gets copied · ie redundancy",
+        "block_content": "controlled by another\n- when controlling attr appears in multiple rows, its dependent value gets copy pasted → i.e. redundancy",
         "bbox": [
           732,
           32,
@@ -1785,7 +1785,7 @@
         "score": 1.0
       },
       {
-        "block_content": "go means one continued by",
+        "block_content": "controlled by",
         "bbox": [
           736,
           28,
@@ -1798,7 +1798,7 @@
         "score": 1.0
       },
       {
-        "block_content": "dependent · ie. relationship",
+        "block_content": "→ i.e. redundancy",
         "bbox": [
           763,
           69,
@@ -1811,7 +1811,7 @@
         "score": 1.0
       },
       {
-        "block_content": "pachad",
+        "block_content": "pasted",
         "bbox": [
           768,
           34,
@@ -1837,7 +1837,7 @@
         "score": 1.0
       },
       {
-        "block_content": "what about \\( \\Sigma C, D_3^+ \\)",
+        "block_content": "- what about {C,D}⁺",
         "bbox": [
           2,
           216,
@@ -1850,7 +1850,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Navigation",
+        "block_content": "Normalization",
         "bbox": [
           4,
           415,
@@ -1863,7 +1863,7 @@
         "score": 1.0
       },
       {
-        "block_content": "example R = (A, B, C, D, \\pi, \\theta)",
+        "block_content": "example: R = (A, B, C, D, E, G)",
         "bbox": [
           8,
           29,
@@ -1876,7 +1876,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Normalization - INF: disallowed attributes, empty cells, and no",
+        "block_content": "- 1NF: disallows multivalued attributes,",
         "bbox": [
           12,
           418,
@@ -1889,7 +1889,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R = (A, B, C, D, E, G) fD3: AB \\rightarrow C, BC \\rightarrow AD, D \\rightarrow E, CE \\rightarrow B",
+        "block_content": "FDs: AB → C, BC → AD, D → E, CE → B",
         "bbox": [
           15,
           17,
@@ -1902,7 +1902,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\xi \\in \\Omega^+ \\Rightarrow \\xi \\in \\Omega \\)",
+        "block_content": "{C,D}⁺ ⇒ {C,D}",
         "bbox": [
           18,
           225,
@@ -1915,7 +1915,7 @@
         "score": 1.0
       },
       {
-        "block_content": "tradition, mathematics, and composition.",
+        "block_content": "composite attrs, and their",
         "bbox": [
           26,
           451,
@@ -1928,7 +1928,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f_0 : A \\to \\mathbb{C} \\\\ \\{A, \\theta_5\\} ?",
+        "block_content": "{A,B}⁺ ?",
         "bbox": [
           33,
           22,
@@ -1941,7 +1941,7 @@
         "score": 1.0
       },
       {
-        "block_content": "comics",
+        "block_content": "combinations",
         "bbox": [
           36,
           449,
@@ -1954,7 +1954,7 @@
         "score": 1.0
       },
       {
-        "block_content": "D \\rightarrow E \\implies \\xi \\in (0, \\xi_0)",
+        "block_content": "D → E ⇒ {C,D,E}",
         "bbox": [
           39,
           254,
@@ -1967,7 +1967,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Prime vs. Nonprime Prime",
+        "block_content": "- Prime vs. Nonprime Attrs",
         "bbox": [
           55,
           415,
@@ -1980,7 +1980,7 @@
         "score": 1.0
       },
       {
-        "block_content": "& 3rdworld!",
+        "block_content": "a snowball...",
         "bbox": [
           56,
           53,
@@ -1993,7 +1993,7 @@
         "score": 1.0
       },
       {
-        "block_content": "bold",
+        "block_content": "- build",
         "bbox": [
           62,
           19,
@@ -2006,7 +2006,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\Rightarrow \\sum \\theta, c, d, \\beta\\)",
+        "block_content": "CE → B ⇒ {B,C,D,E}",
         "bbox": [
           65,
           249,
@@ -2019,7 +2019,7 @@
         "score": 1.0
       },
       {
-        "block_content": "not a pine tree. Got a memory of any guy",
+        "block_content": "not a prime attr (not a member of any C.K.)",
         "bbox": [
           65,
           487,
@@ -2058,7 +2058,7 @@
         "score": 1.0
       },
       {
-        "block_content": "number of any cardlike key",
+        "block_content": "member of any candidate key",
         "bbox": [
           73,
           439,
@@ -2071,7 +2071,7 @@
         "score": 1.0
       },
       {
-        "block_content": "not a pin or not a memory or only a cup",
+        "block_content": "not a prime attr (not a member of any C.K.)",
         "bbox": [
           75,
           515,
@@ -2084,7 +2084,7 @@
         "score": 1.0
       },
       {
-        "block_content": "p and b",
+        "block_content": "A and B",
         "bbox": [
           82,
           57,
@@ -2097,7 +2097,7 @@
         "score": 1.0
       },
       {
-        "block_content": "5A 25",
+        "block_content": "{A,B}",
         "bbox": [
           84,
           135,
@@ -2110,7 +2110,7 @@
         "score": 1.0
       },
       {
-        "block_content": "BC·A",
+        "block_content": "BC →",
         "bbox": [
           90,
           241,
@@ -2123,7 +2123,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\Rightarrow \\{A, B, C, D, E\\}\\)",
+        "block_content": "⇒ {A,B,C,D,E}",
         "bbox": [
           91,
           261,
@@ -2136,7 +2136,7 @@
         "score": 1.0
       },
       {
-        "block_content": "AB·C",
+        "block_content": "AB → C",
         "bbox": [
           94,
           56,
@@ -2149,7 +2149,7 @@
         "score": 1.0
       },
       {
-        "block_content": "q1, q2, q3",
+        "block_content": "{A,B,C}",
         "bbox": [
           95,
           133,
@@ -2162,7 +2162,7 @@
         "score": 1.0
       },
       {
-        "block_content": "fol · AD",
+        "block_content": "BC → AD",
         "bbox": [
           105,
           56,
@@ -2175,7 +2175,7 @@
         "score": 1.0
       },
       {
-        "block_content": "q_{A,B,C,D}",
+        "block_content": "{A,B,C,D}",
         "bbox": [
           106,
           133,
@@ -2188,7 +2188,7 @@
         "score": 1.0
       },
       {
-        "block_content": "G SAI NING",
+        "block_content": "G still missing",
         "bbox": [
           114,
           255,
@@ -2214,7 +2214,7 @@
         "score": 1.0
       },
       {
-        "block_content": "D · E",
+        "block_content": "D →",
         "bbox": [
           119,
           58,
@@ -2227,7 +2227,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S, A, B, C, E, F, y",
+        "block_content": "{A,B,C,E}",
         "bbox": [
           122,
           132,
@@ -2240,7 +2240,7 @@
         "score": 1.0
       },
       {
-        "block_content": "G (small)  NOT  contable lay",
+        "block_content": "∴ {C,D} is NOT a candidate key",
         "bbox": [
           122,
           240,
@@ -2253,7 +2253,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- fun CD vs.",
+        "block_content": "- full FD vs.",
         "bbox": [
           135,
           423,
@@ -2305,7 +2305,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\Rightarrow \\xi_{(B,43)} = \\xi_{A,B, C,D,E,43} \\]",
+        "block_content": "→ {C,D,G}⁺ = {A,B,C,D,E,G}",
         "bbox": [
           144,
           216,
@@ -2318,7 +2318,7 @@
         "score": 1.0
       },
       {
-        "block_content": "By removing a single letter",
+        "block_content": "removing a single attr",
         "bbox": [
           148,
           435,
@@ -2331,7 +2331,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Do (no very good nic and op",
+        "block_content": "removing some attr and dep",
         "bbox": [
           149,
           518,
@@ -2344,7 +2344,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\mathcal{A}_1, \\mathcal{B}_2^+ = \\mathcal{A}_1, \\mathcal{B}_2, \\mathcal{C}_1, \\mathcal{D}_1, \\mathcal{E}_1\\)",
+        "block_content": "{A,B}⁺ = {A,B,C,D,E}",
         "bbox": [
           157,
           43,
@@ -2357,7 +2357,7 @@
         "score": 1.0
       },
       {
-        "block_content": "D (no cry) & still holds",
+        "block_content": "still holds",
         "bbox": [
           158,
           530,
@@ -2370,7 +2370,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is a survey since it covers",
+        "block_content": "is a superkey since it covers",
         "bbox": [
           161,
           248,
@@ -2383,7 +2383,7 @@
         "score": 1.0
       },
       {
-        "block_content": "unveil the lessons he",
+        "block_content": "breaks the",
         "bbox": [
           166,
           438,
@@ -2396,7 +2396,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is a surjective function on chow's in R",
+        "block_content": "all attributes in R",
         "bbox": [
           173,
           258,
@@ -2409,7 +2409,7 @@
         "score": 1.0
       },
       {
-        "block_content": "means for degrading",
+        "block_content": "dependency",
         "bbox": [
           174,
           435,
@@ -2422,7 +2422,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Gone's red, green.",
+        "block_content": "G was never reachable",
         "bbox": [
           176,
           63,
@@ -2435,7 +2435,7 @@
         "score": 1.0
       },
       {
-        "block_content": "object eg. EMP-PROJSSN, PrinS, Hous, God",
+        "block_content": "e.g. EMP-PROJ(SSN, Pnumber, Hours, Ename)",
         "bbox": [
           183,
           435,
@@ -2448,7 +2448,7 @@
         "score": 1.0
       },
       {
-        "block_content": "LJ is a candidate they told me",
+        "block_content": "is a candidate key too since",
         "bbox": [
           186,
           249,
@@ -2461,7 +2461,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is minimal - removing 6 bonds",
+        "block_content": "is minimal - removing G breaks",
         "bbox": [
           197,
           259,
@@ -2474,7 +2474,7 @@
         "score": 1.0
       },
       {
-        "block_content": "e.g. EMI-PRO-3, MNO, MNO - ESSM, PROX/3 -> WAS : full PD (need both to",
+        "block_content": "{SSN,Pnumber} → Hours: full FD",
         "bbox": [
           200,
           434,
@@ -2487,7 +2487,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is minimal · (unknown) for s,u, proper",
+        "block_content": "the S.K. property",
         "bbox": [
           207,
           255,
@@ -2500,7 +2500,7 @@
         "score": 1.0
       },
       {
-        "block_content": "but I had (was) both to own -",
+        "block_content": "(need both to determine",
         "bbox": [
           213,
           532,
@@ -2513,7 +2513,7 @@
         "score": 1.0
       },
       {
-        "block_content": "some copies for:",
+        "block_content": "same applies for:",
         "bbox": [
           221,
           225,
@@ -2526,7 +2526,7 @@
         "score": 1.0
       },
       {
-        "block_content": "was now",
+        "block_content": "Hours worked)",
         "bbox": [
           222,
           543,
@@ -2539,7 +2539,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· a, b, c, d",
+        "block_content": "{A,B,G}",
         "bbox": [
           234,
           244,
@@ -2552,7 +2552,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\mathbb{E}_{\\mathbb{N}}, \\mathbb{P}_{\\mathbb{N}} \\rightarrow \\mathbb{E}_{\\mathbb{N}} \\quad \\text{periodic} \\quad f \\Omega\\)",
+        "block_content": "{SSN,Pnumber} → Ename: partial FD",
         "bbox": [
           235,
           429,
@@ -2565,7 +2565,7 @@
         "score": 1.0
       },
       {
-        "block_content": "periods + B (see more detailed form)",
+        "block_content": "(SSN alone determines",
         "bbox": [
           244,
           521,
@@ -2578,7 +2578,7 @@
         "score": 1.0
       },
       {
-        "block_content": "EN a Eme",
+        "block_content": "Ename)",
         "bbox": [
           252,
           528,
@@ -2591,7 +2591,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\forall x \\in S \\quad \\exists y \\in F \\implies x \\in B \\implies \\text{some}\\)",
+        "block_content": "∴ After 2NF → 3 tables",
         "bbox": [
           266,
           224,
@@ -2617,7 +2617,7 @@
         "score": 1.0
       },
       {
-        "block_content": "ex. exp-dept (emp, SSN, OAK, ABL, Dovler, Doc, Dov-25)",
+        "block_content": "e.g. EMP-DEPT(Ename, SSN, Bdate, Add, Dnumber, Dname, Dmgr_ssn)",
         "bbox": [
           273,
           427,
@@ -2630,7 +2630,7 @@
         "score": 1.0
       },
       {
-        "block_content": "EP1 (SSN, Primes, Vars) - for dcp",
+        "block_content": "EP1 (SSN, Pnumber, Hours) - full dep",
         "bbox": [
           280,
           225,
@@ -2656,7 +2656,7 @@
         "score": 1.0
       },
       {
-        "block_content": "FD chain: \\( \\mathbb{SN} \\to \\mathbb{D}_{\\text{numbers}} \\)",
+        "block_content": "FD chain: SSN → Dnumber",
         "bbox": [
           291,
           427,
@@ -2669,7 +2669,7 @@
         "score": 1.0
       },
       {
-        "block_content": "every nonprime odd is fully AD",
+        "block_content": "every nonprime attr is fully FD",
         "bbox": [
           299,
           39,
@@ -2682,7 +2682,7 @@
         "score": 1.0
       },
       {
-        "block_content": "E02 (SSN, Ename) - employee detail",
+        "block_content": "EP2 (SSN, Ename) - employee details",
         "bbox": [
           300,
           223,
@@ -2695,7 +2695,7 @@
         "score": 1.0
       },
       {
-        "block_content": "SSN · Dummied Dummied · Dummie, Dummie-SSN",
+        "block_content": "Dnumber → Dname, Dmgr_ss.",
         "bbox": [
           302,
           471,
@@ -2721,7 +2721,7 @@
         "score": 1.0
       },
       {
-        "block_content": "EP3 (Prunus, Prae, Plurion) - project detail",
+        "block_content": "EP3 (Pnumber, Pname, Plocation) - project details",
         "bbox": [
           316,
           223,
@@ -2734,7 +2734,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(0005 T.D)",
+        "block_content": "(breaks T.D)",
         "bbox": [
           317,
           448,
@@ -2747,7 +2747,7 @@
         "score": 1.0
       },
       {
-        "block_content": "projekt elektrik",
+        "block_content": "details",
         "bbox": [
           328,
           363,
@@ -2760,7 +2760,7 @@
         "score": 1.0
       },
       {
-        "block_content": "EDI (Final, SSN, DOB, address, Contact)",
+        "block_content": "ED1 (Ename, SSN, Bdate, Address, Dnumber)",
         "bbox": [
           334,
           453,
@@ -2773,7 +2773,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\vdash_{\\text{Gödel}} 1\\text{NF} \\rightarrow 2\\text{NF}\\)",
+        "block_content": "∴ for 1NF → 2NF",
         "bbox": [
           336,
           18,
@@ -2786,7 +2786,7 @@
         "score": 1.0
       },
       {
-        "block_content": "INF \\rightarrow 2NT - find every partial order on S",
+        "block_content": "- find every partial dependencies",
         "bbox": [
           343,
           42,
@@ -2812,7 +2812,7 @@
         "score": 1.0
       },
       {
-        "block_content": "ED1 (Phases, OAR, NAR, NAR, NAR) ED2 (Dumbel, Door, Dog-SSN)",
+        "block_content": "ED2 (Dnumber, Dname, Dmgr_ssn)",
         "bbox": [
           348,
           451,
@@ -2825,7 +2825,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-find every partial repeating -move over and press left -",
+        "block_content": "- move attr and partial key",
         "bbox": [
           355,
           46,
@@ -2838,7 +2838,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- seasonal dependency",
+        "block_content": "- transitive dependency",
         "bbox": [
           357,
           231,
@@ -2851,7 +2851,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- move over and press to new, sep one relation",
+        "block_content": "to new, separate relation",
         "bbox": [
           367,
           49,
@@ -2864,7 +2864,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·, ·, ·, ·, ·, ·",
+        "block_content": "e.g. A → B,",
         "bbox": [
           374,
           245,
@@ -2877,7 +2877,7 @@
         "score": 1.0
       },
       {
-        "block_content": "a \\rightarrow b, \\quad b \\rightarrow c c \\text{ is transitively dependent on } a \\text{ via } b",
+        "block_content": "B → C ∴ C is transitively dependent",
         "bbox": [
           380,
           261,
@@ -2890,7 +2890,7 @@
         "score": 1.0
       },
       {
-        "block_content": "as part of precedence due tendencies",
+        "block_content": "as partial dependencies cause redundancies",
         "bbox": [
           381,
           26,
@@ -2903,7 +2903,7 @@
         "score": 1.0
       },
       {
-        "block_content": "as part of precedence (see below) eg. EMP-PROS(SSN, Phn#, name, email, phone, Practitioner) Maxs (full)",
+        "block_content": "e.g. EMP-PROJ(SSN, Pnumber, Hours, Ename, Pname, Plocation)",
         "bbox": [
           395,
           12,
@@ -2916,7 +2916,7 @@
         "score": 1.0
       },
       {
-        "block_content": "c is on A vs C",
+        "block_content": "on A via B",
         "bbox": [
           395,
           278,
@@ -2942,7 +2942,7 @@
         "score": 1.0
       },
       {
-        "block_content": "eg. EMP.PROC(SSN, Phone, Name, Email, Home) FD1: SSN, Phone3· Name (ful) FD2: SSN, Phone· Name (partial)",
+        "block_content": "FD1: {SSN,Pnumber} → Hours (full)",
         "bbox": [
           408,
           15,
@@ -2968,7 +2968,7 @@
         "score": 1.0
       },
       {
-        "block_content": "already not - no nonprime odd > 1 exist",
+        "block_content": "- no nonprime attr is transitively",
         "bbox": [
           416,
           242,
@@ -2981,7 +2981,7 @@
         "score": 1.0
       },
       {
-        "block_content": "for: SSN, name for: SSN -> name (partial) - engine",
+        "block_content": "FD2: SSN → Ename (partial)",
         "bbox": [
           428,
           15,
@@ -2994,7 +2994,7 @@
         "score": 1.0
       },
       {
-        "block_content": "no nonprime on p.v",
+        "block_content": "dependent on P.K.",
         "bbox": [
           431,
           247,
@@ -3007,7 +3007,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- seminot: look at fD set",
+        "block_content": "- determinant: look at F.D set",
         "bbox": [
           438,
           412,
@@ -3020,7 +3020,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- error depends",
+        "block_content": "- Ename depends",
         "bbox": [
           439,
           135,
@@ -3046,7 +3046,7 @@
         "score": 1.0
       },
       {
-        "block_content": "mass & gnu",
+        "block_content": "only on SSN",
         "bbox": [
           449,
           135,
@@ -3059,7 +3059,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- \\(\\frac{\\partial \\mathcal{L}{\\partial \\dot{q}_i} = \\frac{\\partial \\mathcal{L}{\\partial q_i}\\) - \\(\\dot{q}_i = \\frac{\\partial \\mathcal{L}{\\partial \\dot{q}_i}\\)",
+        "block_content": "to determine",
         "bbox": [
           455,
           405,
@@ -3072,7 +3072,7 @@
         "score": 1.0
       },
       {
-        "block_content": "if LNS is survey",
+        "block_content": "if LHS is superkey",
         "bbox": [
           455,
           471,
@@ -3085,7 +3085,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(03): P_{mov} \\rightarrow \\text{Some, Boston} (partial)",
+        "block_content": "FD3: Pnumber → Pname, Plocation (partial)",
         "bbox": [
           457,
           17,
@@ -3111,7 +3111,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- compose - contribute",
+        "block_content": "- Composite Attribute",
         "bbox": [
           466,
           445,
@@ -3124,7 +3124,7 @@
         "score": 1.0
       },
       {
-        "block_content": "closely",
+        "block_content": "closure",
         "bbox": [
           468,
           550,
@@ -3137,7 +3137,7 @@
         "score": 1.0
       },
       {
-        "block_content": "they depend on",
+        "block_content": "- they depend only",
         "bbox": [
           469,
           137,
@@ -3150,7 +3150,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- find furniture - move to this to new (location) - work with some of it",
+        "block_content": "- move T.D attrs to new relation",
         "bbox": [
           473,
           269,
@@ -3163,7 +3163,7 @@
         "score": 1.0
       },
       {
-        "block_content": "on prompt",
+        "block_content": "on Pnumber",
         "bbox": [
           481,
           143,
@@ -3176,7 +3176,7 @@
         "score": 1.0
       },
       {
-        "block_content": "move to this along with copy of invoice",
+        "block_content": "along with copy of intermediate",
         "bbox": [
           488,
           275,
@@ -3189,7 +3189,7 @@
         "score": 1.0
       },
       {
-        "block_content": "determined",
+        "block_content": "determinant (B)",
         "bbox": [
           500,
           272,
@@ -3215,7 +3215,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- 2NF · 3NF",
+        "block_content": "- for 2NF → 3NF",
         "bbox": [
           533,
           436,
@@ -3228,7 +3228,7 @@
         "score": 1.0
       },
       {
-        "block_content": "E4 = 1",
+        "block_content": "Ex.1",
         "bbox": [
           538,
           216,
@@ -3241,7 +3241,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\frac{1}{2} \\sin \\theta \\rightarrow \\sin \\theta \\] \\[ = \\text{area} \\quad , \\quad \\text{side} \\quad \\text{of} \\quad \\text{NP} \\]",
+        "block_content": "- Area, Price are NP",
         "bbox": [
           544,
           456,
@@ -3254,7 +3254,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Article version of the",
+        "block_content": "- stricter version of 3NF",
         "bbox": [
           546,
           21,
@@ -3267,7 +3267,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Non prime pms",
+        "block_content": "Non prime Attrs",
         "bbox": [
           547,
           327,
@@ -3280,7 +3280,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· \\( p_{MN} = \\frac{p_{MNS}}{p_{MM}} \\)",
+        "block_content": "⇒ Prime Attrs",
         "bbox": [
           551,
           216,
@@ -3293,7 +3293,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Photo's Property",
+        "block_content": "- Property#",
         "bbox": [
           558,
           249,
@@ -3306,7 +3306,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- pila",
+        "block_content": "- Area",
         "bbox": [
           562,
           331,
@@ -3332,7 +3332,7 @@
         "score": 1.0
       },
       {
-        "block_content": "infor 2019/2020 to BNF 2020/2021",
+        "block_content": "when I normalize to 3NF",
         "bbox": [
           568,
           60,
@@ -3345,7 +3345,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Pope - County - none",
+        "block_content": "- County-name",
         "bbox": [
           569,
           241,
@@ -3358,7 +3358,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- price - price",
+        "block_content": "- Price",
         "bbox": [
           571,
           328,
@@ -3371,7 +3371,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· AREA, Price · PID#, Comty, one, Lot#, Area",
+        "block_content": "① PID#, County-name, Lot#, A",
         "bbox": [
           572,
           460,
@@ -3384,7 +3384,7 @@
         "score": 1.0
       },
       {
-        "block_content": "does it work",
+        "block_content": "does it always",
         "bbox": [
           581,
           63,
@@ -3397,7 +3397,7 @@
         "score": 1.0
       },
       {
-        "block_content": "go up normalize",
+        "block_content": "normalize",
         "bbox": [
           581,
           135,
@@ -3410,7 +3410,7 @@
         "score": 1.0
       },
       {
-        "block_content": "= p112 = Tan -1 9/4e",
+        "block_content": "- Tax_rate",
         "bbox": [
           581,
           334,
@@ -3423,7 +3423,7 @@
         "score": 1.0
       },
       {
-        "block_content": "= (50+2)",
+        "block_content": "- Lot#",
         "bbox": [
           584,
           232,
@@ -3436,7 +3436,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·····",
+        "block_content": "to BC",
         "bbox": [
           592,
           63,
@@ -3449,7 +3449,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- writing BCNF",
+        "block_content": "- Verifying BCNF",
         "bbox": [
           596,
           435,
@@ -3462,7 +3462,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- directly INF",
+        "block_content": "- already 1NF",
         "bbox": [
           603,
           230,
@@ -3475,7 +3475,7 @@
         "score": 1.0
       },
       {
-        "block_content": "if you're interested",
+        "block_content": "- if BCNF, no redundancies",
         "bbox": [
           611,
           28,
@@ -3488,7 +3488,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- for INF · 2NF",
+        "block_content": "- for 1NF → 2NF",
         "bbox": [
           616,
           228,
@@ -3501,7 +3501,7 @@
         "score": 1.0
       },
       {
-        "block_content": "e.g.  65  ×  ·  y",
+        "block_content": "e.g. for X → Y",
         "bbox": [
           630,
           28,
@@ -3514,7 +3514,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\frac{E_{t+2}}{} : \\quad \\rho_{t+1}, \\ell_t, \\ell_t, \\rho_0, \\ell_0, s_{t+2}, s_n, \\ell \\]",
+        "block_content": "Ex.2: R#, Id, Lt, Ra, ip, S#, Sn, Ck",
         "bbox": [
           630,
           416,
@@ -3527,7 +3527,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f02. D1D \\rightarrow m \\circ \\sigma \\circ \\sigma \\circ \\sigma",
+        "block_content": "FD2: PID → all other attrs",
         "bbox": [
           633,
           221,
@@ -3540,7 +3540,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f02  D1D ·  m  D0.  D1K f03  Comty-mpc ·  Tax-10K",
+        "block_content": "FD3: County-name → Tax-rate",
         "bbox": [
           646,
           223,
@@ -3553,7 +3553,7 @@
         "score": 1.0
       },
       {
-        "block_content": "x^3 + x^2 + x + 1",
+        "block_content": "X is the determinant",
         "bbox": [
           647,
           54,
@@ -3566,7 +3566,7 @@
         "score": 1.0
       },
       {
-        "block_content": "non pire",
+        "block_content": "Nonprime",
         "bbox": [
           647,
           477,
@@ -3579,7 +3579,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Picard",
+        "block_content": "Prime",
         "bbox": [
           653,
           419,
@@ -3592,7 +3592,7 @@
         "score": 1.0
       },
       {
-        "block_content": "3 required for INF",
+        "block_content": "required for 1NF",
         "bbox": [
           655,
           528,
@@ -3605,7 +3605,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Like being sorry for",
+        "block_content": "the thing doing the",
         "bbox": [
           659,
           98,
@@ -3618,7 +3618,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- \\( \\rho_C \\)",
+        "block_content": "- Pa",
         "bbox": [
           661,
           477,
@@ -3631,7 +3631,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f_03: \\mathcal{C} \\to \\mathcal{A} f_{04}: \\rho_{03} \\to \\rho_{12}",
+        "block_content": "FD4: Area → Price",
         "bbox": [
           663,
           223,
@@ -3644,7 +3644,7 @@
         "score": 1.0
       },
       {
-        "block_content": "= p * b",
+        "block_content": "- P#",
         "bbox": [
           663,
           421,
@@ -3657,7 +3657,7 @@
         "score": 1.0
       },
       {
-        "block_content": "= \\frac{p_2}{c_0}",
+        "block_content": "- Co",
         "bbox": [
           671,
           480,
@@ -3670,7 +3670,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\"deaths\"",
+        "block_content": "determining",
         "bbox": [
           674,
           110,
@@ -3683,7 +3683,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- 10",
+        "block_content": "- Id",
         "bbox": [
           675,
           422,
@@ -3696,7 +3696,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\"deforming\" - to every \\( x \\to y \\) in \\( \\beta \\), \\( x \\) must",
+        "block_content": "- for every X → Y in R, X must",
         "bbox": [
           682,
           34,
@@ -3709,7 +3709,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\frac{\\partial}{\\partial t} - \\mathcal{S} \\mathcal{H}\\)",
+        "block_content": "- S#",
         "bbox": [
           682,
           480,
@@ -3722,7 +3722,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-20 -1t",
+        "block_content": "- It",
         "bbox": [
           685,
           423,
@@ -3748,7 +3748,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-5",
+        "block_content": "- Sn",
         "bbox": [
           693,
           481,
@@ -3761,7 +3761,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·  P10#, CN, Lot#, Area, Price",
+        "block_content": "① PID#, CN, Lot#, Area, Price",
         "bbox": [
           695,
           231,
@@ -3774,7 +3774,7 @@
         "score": 1.0
       },
       {
-        "block_content": "be super easy (using identity",
+        "block_content": "be superkey (uniquely identify",
         "bbox": [
           696,
           43,
@@ -3800,7 +3800,7 @@
         "score": 1.0
       },
       {
-        "block_content": "On the edge of the world",
+        "block_content": "every row)",
         "bbox": [
           708,
           42,
@@ -3826,7 +3826,7 @@
         "score": 1.0
       },
       {
-        "block_content": "···· ······",
+        "block_content": "T.D",
         "bbox": [
           711,
           352,
@@ -3839,7 +3839,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· CN, CN, CN · CN, TOX, CN",
+        "block_content": "② CN, Tax-rate",
         "bbox": [
           713,
           237,
@@ -3852,7 +3852,7 @@
         "score": 1.0
       },
       {
-        "block_content": "dineoby",
+        "block_content": "- already",
         "bbox": [
           715,
           426,
@@ -3865,7 +3865,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Locksmith on Pif",
+        "block_content": "dependent on PID#",
         "bbox": [
           722,
           357,
@@ -3878,7 +3878,7 @@
         "score": 1.0
       },
       {
-        "block_content": "vs. BNF",
+        "block_content": "- vs. 3NF",
         "bbox": [
           725,
           26,
@@ -3891,7 +3891,7 @@
         "score": 1.0
       },
       {
-        "block_content": "BNF - BNF says non-expanding determinant is okay as long as it",
+        "block_content": "- 3NF says non-superkey determinant is okay as long as what",
         "bbox": [
           729,
           39,
@@ -3904,7 +3904,7 @@
         "score": 1.0
       },
       {
-        "block_content": "non-exposure",
+        "block_content": "as long as what",
         "bbox": [
           741,
           93,
@@ -3917,7 +3917,7 @@
         "score": 1.0
       },
       {
-        "block_content": "SNF L4 is away",
+        "block_content": "is okay",
         "bbox": [
           747,
           52,
@@ -3930,7 +3930,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is only as long as the sum in detemn (4) is part of",
+        "block_content": "it determines (Y) is part of",
         "bbox": [
           753,
           50,
@@ -3943,7 +3943,7 @@
         "score": 1.0
       },
       {
-        "block_content": "4. delete (y) is to som (u) (ie. pine (u))",
+        "block_content": "some C.K. (i.e. prime attr)",
         "bbox": [
           766,
           53,
@@ -3956,7 +3956,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· \\( \\xi \\in \\mathbb{T}_d, \\mathbb{Z}^d, (\\mathbb{R}^*)^d \\)",
+        "block_content": "④ {Id, S#, CR}",
         "bbox": [
           0,
           241,
@@ -3982,7 +3982,7 @@
         "score": 1.0
       },
       {
-        "block_content": "fD2 : \\( p_{\\#} \\to p_{\\#} \\)",
+        "block_content": "FD2: P# → Pa",
         "bbox": [
           17,
           27,
@@ -3995,7 +3995,7 @@
         "score": 1.0
       },
       {
-        "block_content": "p# · pA position up · 2NF solution (creat the ful 5 Oct table?)",
+        "block_content": "partial dep → 2NF violation",
         "bbox": [
           19,
           67,
@@ -4008,7 +4008,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· 3, p#, Sd, J+, (0, S#)",
+        "block_content": "② {P#, Id, It, Co, S#}",
         "bbox": [
           22,
           241,
@@ -4021,7 +4021,7 @@
         "score": 1.0
       },
       {
-        "block_content": "for: to in p.l.",
+        "block_content": "both NP, so TD on P.K.",
         "bbox": [
           27,
           7,
@@ -4034,7 +4034,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(Not all will get, look?)",
+        "block_content": "(not the full {P#, Id})",
         "bbox": [
           49,
           68,
@@ -4060,7 +4060,7 @@
         "score": 1.0
       },
       {
-        "block_content": "e nek",
+        "block_content": "3NF",
         "bbox": [
           54,
           327,
@@ -4073,7 +4073,7 @@
         "score": 1.0
       },
       {
-        "block_content": "FOB: S# 35n · 7L",
+        "block_content": "FD3: S# → Sn",
         "bbox": [
           63,
           33,
@@ -4086,7 +4086,7 @@
         "score": 1.0
       },
       {
-        "block_content": "fD  A · B",
+        "block_content": "FD: A → B",
         "bbox": [
           65,
           213,
@@ -4099,7 +4099,7 @@
         "score": 1.0
       },
       {
-        "block_content": "A \\rightarrow B \\int B \\text{ is prime} \\text{with a word}",
+        "block_content": "B is prime",
         "bbox": [
           70,
           233,
@@ -4112,7 +4112,7 @@
         "score": 1.0
       },
       {
-        "block_content": "flowed",
+        "block_content": "Allowed",
         "bbox": [
           77,
           326,
@@ -4125,7 +4125,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Vibration",
+        "block_content": "Violation",
         "bbox": [
           77,
           368,
@@ -4138,7 +4138,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\mu_3 : S^1 \\to S^1 \\\\ \\mathrm{cod}_u : \\{1, d, s, \\#3\\} \\to \\mathbb{C}R \\]",
+        "block_content": "FD4: {Id,S#} → CR",
         "bbox": [
           81,
           28,
@@ -4151,7 +4151,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Be not a snob",
+        "block_content": "A not a superkey",
         "bbox": [
           87,
           238,
@@ -4164,7 +4164,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· ·····",
+        "block_content": "∴ ①",
         "bbox": [
           108,
           19,
@@ -4177,7 +4177,7 @@
         "score": 1.0
       },
       {
-        "block_content": "fD: fA·fB",
+        "block_content": "FD: A → B",
         "bbox": [
           111,
           213,
@@ -4190,7 +4190,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R · {A, B, C, D, E, Z}",
+        "block_content": "R {A,B,C,D,E}",
         "bbox": [
           114,
           439,
@@ -4203,7 +4203,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· ····· · ··p#·T#·t#·c#·s#·s#·s#·c#",
+        "block_content": "② {P#,Id,It,Co}",
         "bbox": [
           121,
           29,
@@ -4216,7 +4216,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·",
+        "block_content": "Violation",
         "bbox": [
           122,
           371,
@@ -4229,7 +4229,7 @@
         "score": 1.0
       },
       {
-        "block_content": "If B is negative it is not asymptotic",
+        "block_content": "B is nonprime; A is not a superkey",
         "bbox": [
           123,
           234,
@@ -4242,7 +4242,7 @@
         "score": 1.0
       },
       {
-        "block_content": "VieYak.com",
+        "block_content": "Violation",
         "bbox": [
           125,
           326,
@@ -4255,7 +4255,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f_{D1} : A \\longrightarrow B",
+        "block_content": "FD1: A → B",
         "bbox": [
           133,
           432,
@@ -4268,7 +4268,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- \\( \\forall x \\) \\( 2NF \\rightarrow 3NF \\)",
+        "block_content": "- for 2NF → 3NF",
         "bbox": [
           142,
           19,
@@ -4281,7 +4281,7 @@
         "score": 1.0
       },
       {
-        "block_content": "fD2   BC · G",
+        "block_content": "FD2: BC →",
         "bbox": [
           147,
           433,
@@ -4294,7 +4294,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· ···3n^3",
+        "block_content": "③ {S#}",
         "bbox": [
           161,
           29,
@@ -4307,7 +4307,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f_{03} : \\mathbb{E} \\rightarrow \\mathbb{A}",
+        "block_content": "FD3: ED → A",
         "bbox": [
           161,
           434,
@@ -4320,7 +4320,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· 5#, 5n3 · 5, p#, I, 14, C#, 5#, CRS",
+        "block_content": "③ {S#,Sn}; ② {P#,Id,It,Co,S#,CR}",
         "bbox": [
           170,
           27,
@@ -4333,7 +4333,7 @@
         "score": 1.0
       },
       {
-        "block_content": ") Chique Ahi Cosele",
+        "block_content": "a) Utilize Attr. Closure",
         "bbox": [
           174,
           437,
@@ -4346,7 +4346,7 @@
         "score": 1.0
       },
       {
-        "block_content": "p q",
+        "block_content": "P P",
         "bbox": [
           175,
           245,
@@ -4359,7 +4359,7 @@
         "score": 1.0
       },
       {
-        "block_content": "RIP ND",
+        "block_content": "NP NP",
         "bbox": [
           175,
           265,
@@ -4385,7 +4385,7 @@
         "score": 1.0
       },
       {
-        "block_content": "2NF · (removes partial/true functional dependency)",
+        "block_content": "(requires partial check",
         "bbox": [
           185,
           320,
@@ -4398,7 +4398,7 @@
         "score": 1.0
       },
       {
-        "block_content": "KP KP C D A",
+        "block_content": "C D",
         "bbox": [
           186,
           271,
@@ -4411,7 +4411,7 @@
         "score": 1.0
       },
       {
-        "block_content": "p m",
+        "block_content": "A B",
         "bbox": [
           188,
           242,
@@ -4424,7 +4424,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- for 3NF · BCNF",
+        "block_content": "- for 3NF → BCNF",
         "bbox": [
           192,
           25,
@@ -4437,7 +4437,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Creating a new work of art",
+        "block_content": "for subset of prime",
         "bbox": [
           196,
           321,
@@ -4450,7 +4450,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\rightarrow \\mathbb{R}^n: \\xi, \\alpha, \\beta, \\varepsilon \\in \\mathbb{S}\\)",
+        "block_content": "RHS: {A,B,E}",
         "bbox": [
           198,
           457,
@@ -4463,7 +4463,7 @@
         "score": 1.0
       },
       {
-        "block_content": "for 3NF · BCNF i.e. , S#3 · not a superkey 3NF violation",
+        "block_content": "{Id,S#} → not a superkey",
         "bbox": [
           201,
           36,
@@ -4476,7 +4476,7 @@
         "score": 1.0
       },
       {
-        "block_content": "6 (without a)",
+        "block_content": "attributes)",
         "bbox": [
           205,
           327,
@@ -4489,7 +4489,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- as invited",
+        "block_content": "∴ not included",
         "bbox": [
           212,
           477,
@@ -4502,7 +4502,7 @@
         "score": 1.0
       },
       {
-        "block_content": ", S#3 · not a type BNF union",
+        "block_content": "∴ BCNF violation",
         "bbox": [
           217,
           66,
@@ -4515,7 +4515,7 @@
         "score": 1.0
       },
       {
-        "block_content": "x",
+        "block_content": "3NF ✗",
         "bbox": [
           217,
           319,
@@ -4528,7 +4528,7 @@
         "score": 1.0
       },
       {
-        "block_content": "benf uioeetn L> she ras ri p pokas NP otus",
+        "block_content": "since RHS is P",
         "bbox": [
           223,
           80,
@@ -4541,7 +4541,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\sum \\in \\{ \\mathbb{D} \\}^*\\)",
+        "block_content": "{C,D}⁺",
         "bbox": [
           224,
           511,
@@ -4554,7 +4554,7 @@
         "score": 1.0
       },
       {
-        "block_content": "BnF and NP other",
+        "block_content": "3NF only protects NP attrs",
         "bbox": [
           241,
           38,
@@ -4567,7 +4567,7 @@
         "score": 1.0
       },
       {
-        "block_content": "needs to be included for us",
+        "block_content": "needs to be included for CK",
         "bbox": [
           262,
           64,
@@ -4580,7 +4580,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\xi_{A,\\ell,B}^3 \\Rightarrow \\eta_{A,\\ell,\\psi}\\)",
+        "block_content": "{A,C,D}⁺ ⇒ {A,B,C,D}",
         "bbox": [
           284,
           32,
@@ -4593,7 +4593,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· {A, ·, c, 0, E3}",
+        "block_content": "⇒ {A,B,C,D,E}",
         "bbox": [
           304,
           69,
@@ -4606,7 +4606,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\{ \\hat{\\xi}_B, \\hat{\\epsilon}_D \\} \\Rightarrow \\hat{\\xi}_B, \\hat{\\epsilon}_D, \\hat{\\xi}_B",
+        "block_content": "{B,C,D}⁺ ⇒ {B,C,D,E}",
         "bbox": [
           323,
           26,
@@ -4619,7 +4619,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·  \\( \\exists A, B, C, D, E \\)",
+        "block_content": "⇒ {A,B,C,D,E}",
         "bbox": [
           343,
           76,
@@ -4632,7 +4632,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\int_{z \\in C, D, E} \\)",
+        "block_content": "{C,D,E}",
         "bbox": [
           377,
           28,
@@ -4645,7 +4645,7 @@
         "score": 1.0
       },
       {
-        "block_content": "io el ours quel pain",
+        "block_content": "b) All attrs are prime",
         "bbox": [
           399,
           26,
@@ -4658,7 +4658,7 @@
         "score": 1.0
       },
       {
-        "block_content": "has not been : already in BNF",
+        "block_content": "∴ already in 3NF",
         "bbox": [
           407,
           47,
@@ -4684,7 +4684,7 @@
         "score": 1.0
       },
       {
-        "block_content": "p -> b",
+        "block_content": "A → B",
         "bbox": [
           441,
           59,
@@ -4697,7 +4697,7 @@
         "score": 1.0
       },
       {
-        "block_content": "is not a superior",
+        "block_content": "not a superkey",
         "bbox": [
           453,
           61,
@@ -4710,7 +4710,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\partial_0 \\mathcal{C} \\rightarrow \\mathcal{C} \\]",
+        "block_content": "BC → E",
         "bbox": [
           466,
           62,
@@ -4723,7 +4723,7 @@
         "score": 1.0
       },
       {
-        "block_content": "··",
+        "block_content": "→",
         "bbox": [
           480,
           67,
@@ -4736,7 +4736,7 @@
         "score": 1.0
       },
       {
-        "block_content": "ED · A",
+        "block_content": "ED → A",
         "bbox": [
           490,
           67,
@@ -4766,5 +4766,12 @@
       ],
       "num_pages": 3
     }
+  },
+  "reference_verification": {
+    "version": 2,
+    "source": "examples/dense.pdf",
+    "source_sha256": "0622485943433383f7aafb00aca852c72ccca230c471e3d767a3c5fd6a044100",
+    "audit": "evals/reference-corrections.json",
+    "scope": "Source-verified text corrections; original coordinates retained. Ambiguous readings not silently replaced."
   }
 }

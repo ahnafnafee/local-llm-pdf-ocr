@@ -74,6 +74,7 @@ def crop_for_ocr(
     quality: int = 85,
     std_threshold: float = 12.0,
     mask_boxes: list[list[float]] | None = None,
+    canvas_size: int | None = None,
 ) -> str | None:
     """
     Decode the page image once, extract the padded bbox region —
@@ -96,6 +97,10 @@ def crop_for_ocr(
     the line's own quad and the masks' axis-aligned geometry doesn't
     map into that frame.
 
+    ``canvas_size`` optionally centers native-size ink on a square paper
+    canvas for page-trained models, capping both edges at this size. Other
+    callers retain the original strip-upscaling behavior.
+
     Combining the operations matters in dense-mode: a 150-box page that
     called :func:`is_blank_crop` and :func:`crop_box_to_base64`
     separately would decode the full-page image 300 times. Here we
@@ -110,6 +115,8 @@ def crop_for_ocr(
         return None
     if ImageStat.Stat(crop.convert("L")).stddev[0] < std_threshold:
         return None
+    if canvas_size is not None:
+        return _encode_page_canvas(crop, min_dim, canvas_size)
     return _encode_upscaled(crop, min_dim, quality)
 
 
@@ -141,6 +148,26 @@ def crop_box_to_base64(
 
 
 # --- internals ---------------------------------------------------------------
+
+
+def _encode_page_canvas(crop: Image.Image, min_dim: int, max_dim: int) -> str:
+    """Give page-trained recognizers a bounded canvas, retaining native ink.
+
+    Stretching a thin line to a 256px short edge can create a several-thousand
+    pixel strip. Its aspect ratio and resampling make handwriting look like
+    mathematical symbols to page-trained models. Center the original region
+    on paper instead; shrink only when the source exceeds the image budget.
+    Blank detection must happen before padding dilutes the ink variance.
+    """
+    if max_dim < 1:
+        raise ValueError("canvas_size must be positive")
+    crop.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+    side = min(max_dim, max(min_dim, *crop.size))
+    canvas = Image.new("RGB", (side, side), "white")
+    canvas.paste(crop, ((side - crop.width) // 2, (side - crop.height) // 2))
+    buffer = io.BytesIO()
+    canvas.save(buffer, format="JPEG", quality=95)
+    return base64.b64encode(buffer.getvalue()).decode()
 
 
 def _extract_region(

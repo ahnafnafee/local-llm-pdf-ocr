@@ -15,8 +15,9 @@ from pathlib import Path
 import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
-from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
+from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox, searchable_text
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
+from pdf_ocr.utils.pages import select_pages
 
 
 IMAGE_EXTENSIONS = frozenset({
@@ -33,7 +34,7 @@ class PDFHandler:
     PDF processing handler for OCR workflows.
 
     Handles:
-    - Converting PDF pages to base64 PNG images
+    - Converting selected pages to base64 images
     - Embedding an invisible text layer to produce a "sandwich" PDF
       (image background + selectable/searchable text overlay)
     """
@@ -43,9 +44,12 @@ class PDFHandler:
         pdf_path,
         dpi: int = 150,
         max_image_dim: int = 1024,
+        *,
+        pages: str | None = None,
+        lossless: bool = False,
     ) -> dict[int, str]:
         """
-        Render every page to a base64-encoded JPEG, capped at `max_image_dim`
+        Render selected pages to base64 images, capped at `max_image_dim`
         pixels on the longest edge so the image fits the VLM's context window.
 
         Accepts either a PDF or a raw image file
@@ -54,40 +58,74 @@ class PDFHandler:
         is used at its native resolution, capped by `max_image_dim`.
 
         Smaller caps are required by some local VLMs:
-          - OlmOCR-2 (Qwen2.5-VL base): 1024 is fine (default)
+          - OlmOCR-2 (Qwen2.5-VL base): 1024 is sufficient
           - GLM-OCR:1.1B (Ollama): ~640 — larger images crash the runner
           - Florence-2 / MinerU: see their docs
 
-        Returns a dict of {page_num: base64_str}.
+        `pages` is a 1-indexed range (e.g. "1-3,5"); None selects all pages.
+        Returns {source_page_index: base64_str}, keeping original 0-based
+        indices even for noncontiguous selections. Unselected pages are
+        never rasterized for OCR.
+
+        By default, PDF thumbnails retain the established JPEG preprocessing used by
+        layout detection and full-page transcription. Region OCR has a
+        separate lossless source renderer; changing detection pixels also
+        changes its boxes and must be validated independently. Native page
+        recognizers can request `lossless=True` to retain fine image detail.
         """
         if _is_image_path(pdf_path):
-            return self._images_from_image_file(pdf_path, max_image_dim)
+            return self._images_from_image_file(pdf_path, max_image_dim, pages=pages)
 
         images: dict[int, str] = {}
         doc = fitz.open(pdf_path)
         try:
-            for page_num, page in enumerate(doc):
+            for page_num in select_pages(pages, len(doc)):
+                page = doc[page_num]
                 pix = page.get_pixmap(dpi=dpi)
-                img = Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50)))
+                img = (Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+                       if lossless else Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50))))
                 img.thumbnail((max_image_dim, max_image_dim))
 
                 buffer = io.BytesIO()
-                img.save(buffer, format="JPEG", quality=50)
+                img.save(buffer, format="PNG" if lossless else "JPEG", quality=50)
                 images[page_num] = base64.b64encode(buffer.getvalue()).decode("utf-8")
         finally:
             doc.close()
         return images
 
+    def render_page_for_crops(self, path, page_index: int, dpi: int = 200) -> str:
+        """Retain source detail for region OCR, independently of thumbnails.
+
+        Called lazily for processed pages needing crops. Normalized detection
+        coordinates still map to this image, without enlarging JPEG artifacts
+        from the context-limited full-page image.
+        """
+        if _is_image_path(path):
+            with Image.open(path) as src:
+                src.seek(page_index)
+                image = src.convert("RGB")
+        else:
+            with fitz.open(path) as doc:
+                pix = doc[page_index].get_pixmap(dpi=dpi)
+                image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+        image.thumbnail((2048, 2048))
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue()).decode()
+
     @staticmethod
-    def _images_from_image_file(path, max_image_dim: int) -> dict[int, str]:
+    def _images_from_image_file(
+        path, max_image_dim: int, *, pages: str | None = None,
+    ) -> dict[int, str]:
         """Load a JPEG/PNG/TIFF/BMP; multi-frame TIFFs become multiple pages."""
         images: dict[int, str] = {}
         with Image.open(path) as src:
-            for page_num, frame in enumerate(ImageSequence.Iterator(src)):
-                img = frame.convert("RGB").copy()
+            for page_num in select_pages(pages, getattr(src, "n_frames", 1)):
+                src.seek(page_num)
+                img = src.convert("RGB").copy()
                 img.thumbnail((max_image_dim, max_image_dim))
                 buffer = io.BytesIO()
-                img.save(buffer, format="JPEG", quality=80)
+                img.save(buffer, format="PNG")
                 images[page_num] = base64.b64encode(buffer.getvalue()).decode("utf-8")
         return images
 
@@ -197,7 +235,7 @@ class PDFHandler:
         the two axes: height fits, width fills, neither constraint is
         violated.
         """
-        text = (text or "").strip()
+        text = searchable_text(text or "").strip()
         if not text:
             return  # empty box — nothing to embed
 

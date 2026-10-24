@@ -6,8 +6,8 @@ on a single image input, scored against a hand-built ground-truth fixture.
 Usage:
     uv run scripts/confidence_image.py
     uv run scripts/confidence_image.py --image examples/image.avif
-    uv run scripts/confidence_image.py --hybrid-model allenai/olmocr-2-7b \
-        --grounded-model qwen/qwen3-vl-4b
+    uv run scripts/confidence_image.py --hybrid-model your-served-model \
+        --grounded-model your-served-model
 
 Reports per-path block recall (matched GT blocks at IoU >= threshold),
 average IoU of matched pairs, and average text similarity. Prints the
@@ -24,7 +24,8 @@ import sys
 from pathlib import Path
 
 os.environ.setdefault("TQDM_DISABLE", "1")
-sys.stdout.reconfigure(encoding="utf-8")  # Windows console safety
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")  # Windows console safety
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -32,54 +33,17 @@ sys.path.insert(0, str(ROOT))
 from rich.console import Console  # noqa: E402
 from rich.table import Table  # noqa: E402
 
-from pdf_ocr import (  # noqa: E402
-    HybridAligner,
-    OCRPipeline,
-    OCRProcessor,
-    PDFHandler,
-    PromptedGroundedOCR,
-)
 from pdf_ocr.evaluation import (  # noqa: E402
     compute_report,
     load_ground_truth,
 )
+from pdf_ocr.inference import DEFAULT_API_BASE, DEFAULT_MODEL, DEFAULT_GROUNDED_MODEL  # noqa: E402
 
 
-async def run_grounded(image: Path, api_base: str, model: str, max_dim: int):
-    backend = PromptedGroundedOCR(
-        api_base=api_base, model=model,
-        max_image_dim=max_dim, max_tokens=8192,
-    )
-    response = await backend.ocr_document(str(image))
-    return [(b.bbox, b.text) for b in response.blocks]
+from scripts.confidence_eval import run_grounded, run_hybrid  # noqa: E402
 
 
-async def run_hybrid(image: Path, api_base: str, model: str, max_dim: int):
-    captured: dict = {}
-
-    def capture(_in, _out, pages_data, _dpi):
-        captured["pages_data"] = pages_data
-
-    pipe = OCRPipeline(
-        aligner=HybridAligner(),
-        ocr_processor=OCRProcessor(api_base=api_base, model=model),
-        pdf_handler=PDFHandler(),
-        output_writer=capture,
-    )
-    # Throwaway output path — we use the captured in-memory data.
-    await pipe.run(
-        str(image), str(image.with_suffix(".scoring.pdf")),
-        max_image_dim=max_dim, concurrency=3, refine=True,
-    )
-    blocks = []
-    for _page_num, page_blocks in captured.get("pages_data", {}).items():
-        for bbox, text in page_blocks:
-            if text.strip():
-                blocks.append((bbox, text))
-    return blocks
-
-
-async def main() -> None:
+async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", default=str(ROOT / "examples" / "image.avif"))
     parser.add_argument(
@@ -88,15 +52,15 @@ async def main() -> None:
     )
     parser.add_argument(
         "--api-base", default=None,
-        help="Defaults to LLM_API_BASE env var, then localhost:1234",
+        help=f"API base URL; defaults to LLM_API_BASE or {DEFAULT_API_BASE}",
     )
-    parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
-    parser.add_argument("--grounded-model", default="qwen/qwen3-vl-4b")
-    parser.add_argument("--max-image-dim", type=int, default=1024)
+    parser.add_argument("--hybrid-model", default=DEFAULT_MODEL)
+    parser.add_argument("--grounded-model", default=DEFAULT_GROUNDED_MODEL)
+    parser.add_argument("--max-image-dim", type=int, default=2048)
     parser.add_argument("--iou-threshold", type=float, default=0.3)
     args = parser.parse_args()
 
-    api_base = args.api_base or os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+    api_base = args.api_base or os.getenv("LLM_API_BASE", DEFAULT_API_BASE)
     image = Path(args.image)
     fixture = Path(args.fixture)
     console = Console()
@@ -110,28 +74,37 @@ async def main() -> None:
     )
 
     reports: list[tuple[str, object]] = []
+    failures = False
 
     console.print("[cyan]hybrid (no --grounded)...[/]")
     try:
         out = await run_hybrid(image, api_base, args.hybrid_model, args.max_image_dim)
-        report = compute_report(image.name, gt, out, iou_threshold=args.iou_threshold)
+        if not out:
+            raise RuntimeError("OCR returned no text blocks")
+        report = compute_report(image.name, gt, out, iou_threshold=args.iou_threshold,
+                                pipeline_page_indices=getattr(out, "page_indices", None))
         reports.append(("hybrid", report))
         console.print(f"   {report.summary_line()}")
     except Exception as e:
+        failures = True
         console.print(f"   [red]hybrid failed: {type(e).__name__}: {e}[/]")
 
     console.print("\n[cyan]grounded (--grounded)...[/]")
     try:
         out = await run_grounded(image, api_base, args.grounded_model, args.max_image_dim)
-        report = compute_report(image.name, gt, out, iou_threshold=args.iou_threshold)
+        if not out:
+            raise RuntimeError("OCR returned no text blocks")
+        report = compute_report(image.name, gt, out, iou_threshold=args.iou_threshold,
+                                pipeline_page_indices=getattr(out, "page_indices", None))
         reports.append(("grounded", report))
         console.print(f"   {report.summary_line()}")
     except Exception as e:
+        failures = True
         console.print(f"   [red]grounded failed: {type(e).__name__}: {e}[/]")
 
     if not reports:
         console.print("[red]Both paths failed; nothing to report.[/]")
-        return
+        return 1
 
     table = Table(title="Confidence: hybrid vs grounded on " + image.name, show_lines=True)
     table.add_column("path")
@@ -166,6 +139,8 @@ async def main() -> None:
         if len(unmatched) > 10:
             console.print(f"  ... and {len(unmatched) - 10} more.")
 
+    return 1 if failures else 0
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    raise SystemExit(asyncio.run(main()))

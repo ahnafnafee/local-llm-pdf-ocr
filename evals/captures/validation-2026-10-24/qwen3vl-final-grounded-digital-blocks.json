@@ -1,0 +1,388 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.516,
+        0.01,
+        0.798,
+        0.034
+      ],
+      "text": "Department of Computer Science",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.516,
+        0.034,
+        0.798,
+        0.053
+      ],
+      "text": "College of Engineering and Computing",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.516,
+        0.053,
+        0.798,
+        0.068
+      ],
+      "text": "4400 University Drive, MS 4A5, Fairfax, Virginia 22030",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.516,
+        0.068,
+        0.732,
+        0.08
+      ],
+      "text": "Phone: 703-993-1530; Fax: 703-993-1710",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.516,
+        0.08,
+        0.74,
+        0.093
+      ],
+      "text": "www: http://www.cs.gmu.edu/",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.21400000000000002,
+        0.083,
+        0.798,
+        0.106
+      ],
+      "text": "CS 701 - Research Experience in Computer Science \u2013 Spring\u201926",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.13,
+        0.321,
+        0.148
+      ],
+      "text": "Student Name (Last, First):",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.169,
+        0.307,
+        0.186
+      ],
+      "text": "Student e-mail address:",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.204,
+        0.218,
+        0.222
+      ],
+      "text": "Student G#:",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.243,
+        0.769,
+        0.261
+      ],
+      "text": "Name of the CS faculty member",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.261,
+        0.769,
+        0.278
+      ],
+      "text": "to supervise the student in CS 701:",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.3,
+        0.844,
+        0.318
+      ],
+      "text": "Description of the research activity (clarify the hands-on component explicitly in your description):",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.37699999999999995,
+        0.936,
+        0.39599999999999996
+      ],
+      "text": "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.48,
+        0.21400000000000002,
+        0.49800000000000005
+      ],
+      "text": "Signatures",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.5,
+        0.267,
+        0.517
+      ],
+      "text": "Student:",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.383,
+        0.5,
+        0.603,
+        0.517
+      ],
+      "text": "CS Faculty Supervisor:",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.683,
+        0.5,
+        0.893,
+        0.517
+      ],
+      "text": "PhD CS Program Director:",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.583,
+        0.174,
+        0.599
+      ],
+      "text": "Notes",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.6,
+        0.85,
+        0.618
+      ],
+      "text": "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.618,
+        0.936,
+        0.635
+      ],
+      "text": "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.635,
+        0.844,
+        0.652
+      ],
+      "text": "CS 701 research activity should include a hands-on component (such as software development,",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.652,
+        0.936,
+        0.669
+      ],
+      "text": "performing and analyzing experiments with existing techniques) beyond the literature review.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.669,
+        0.844,
+        0.687
+      ],
+      "text": "Specify the hands-on activity within the \u201cdescription of the research activity\u201d field above.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.687,
+        0.844,
+        0.704
+      ],
+      "text": "If necessary, you can attach an additional sheet to elaborate further on the description of",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.704,
+        0.389,
+        0.7209999999999999
+      ],
+      "text": "the research activity.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.7209999999999999,
+        0.936,
+        0.739
+      ],
+      "text": "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.739,
+        0.844,
+        0.756
+      ],
+      "text": "the end of the semester. In addition, all CS 701 students are required to give a short talk to",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.756,
+        0.511,
+        0.773
+      ],
+      "text": "the public about their research at the end of the semester. Logistics of that meeting will be",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.773,
+        0.489,
+        0.79
+      ],
+      "text": "announced by the CS department.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.79,
+        0.936,
+        0.8070000000000002
+      ],
+      "text": "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.8070000000000002,
+        0.844,
+        0.824
+      ],
+      "text": "indicated next to the \u201cCS faculty member name\u201d field above, and they should co-sign the form.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.824,
+        0.844,
+        0.842
+      ],
+      "text": "At the registrar level, the CS 701 registration will be made only under CS faculty names.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.842,
+        0.936,
+        0.859
+      ],
+      "text": "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.105,
+        0.859,
+        0.703,
+        0.876
+      ],
+      "text": "\"[CS701 form]\" in the subject line) by November 21, 2025.",
+      "page_index": 0,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      791,
+      1024
+    ]
+  ],
+  "page_indices": [
+    0
+  ],
+  "page_errors": {}
+}

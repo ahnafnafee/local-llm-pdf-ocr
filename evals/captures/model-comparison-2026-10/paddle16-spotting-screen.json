@@ -1,0 +1,2941 @@
+[
+  {
+    "document": "digital",
+    "mode": "grounded",
+    "model": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "profile": "paddle",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "GEORGE MASON<|LOC_186|><|LOC_37|><|LOC_404|><|LOC_37|><|LOC_404|><|LOC_55|><|LOC_186|><|LOC_55|>\nUNIVERSITY<|LOC_186|><|LOC_57|><|LOC_351|><|LOC_57|><|LOC_351|><|LOC_75|><|LOC_186|><|LOC_75|>\nDepartment of Computer Science<|LOC_488|><|LOC_14|><|LOC_711|><|LOC_14|><|LOC_711|><|LOC_25|><|LOC_488|><|LOC_25|>\nCollege of Engineering and Computing<|LOC_489|><|LOC_28|><|LOC_748|><|LOC_28|><|LOC_748|><|LOC_40|><|LOC_489|><|LOC_40|>\n4400 University Drive, MS 4A5, Fairfax, Virginia 22030<|LOC_489|><|LOC_41|><|LOC_805|><|LOC_41|><|LOC_805|><|LOC_52|><|LOC_489|><|LOC_52|>\nPhone: 703-993-1530; Fax: 703-993-1710<|LOC_489|><|LOC_53|><|LOC_735|><|LOC_53|><|LOC_735|><|LOC_64|><|LOC_489|><|LOC_64|>\nwww: http://www.cs.gmu.edu/<|LOC_489|><|LOC_65|><|LOC_664|><|LOC_65|><|LOC_664|><|LOC_76|><|LOC_489|><|LOC_76|>\nCS 701- Research Experience in Computer Science-Spring'26<|LOC_212|><|LOC_85|><|LOC_799|><|LOC_85|><|LOC_799|><|LOC_102|><|LOC_212|><|LOC_102|>\nStudent Name (Last, First):<|LOC_93|><|LOC_126|><|LOC_306|><|LOC_126|><|LOC_306|><|LOC_142|><|LOC_93|><|LOC_142|>\nStudent e-mail address:<|LOC_94|><|LOC_163|><|LOC_282|><|LOC_163|><|LOC_282|><|LOC_177|><|LOC_94|><|LOC_177|>\nStudent G#:<|LOC_94|><|LOC_201|><|LOC_189|><|LOC_201|><|LOC_189|><|LOC_214|><|LOC_94|><|LOC_214|>\nName of the CS faculty member<|LOC_94|><|LOC_237|><|LOC_349|><|LOC_237|><|LOC_349|><|LOC_251|><|LOC_94|><|LOC_251|>\nto supervise the student in CS 701:<|LOC_94|><|LOC_256|><|LOC_371|><|LOC_256|><|LOC_371|><|LOC_269|><|LOC_94|><|LOC_269|>\nDescription of the research activity (clarify the hands-on component explicitly in your description):<|LOC_94|><|LOC_291|><|LOC_879|><|LOC_291|><|LOC_879|><|LOC_308|><|LOC_94|><|LOC_308|>\nList of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):<|LOC_94|><|LOC_401|><|LOC_894|><|LOC_401|><|LOC_894|><|LOC_418|><|LOC_94|><|LOC_418|>\nSignatures<|LOC_94|><|LOC_494|><|LOC_181|><|LOC_494|><|LOC_181|><|LOC_508|><|LOC_94|><|LOC_508|>\nStudent:<|LOC_94|><|LOC_512|><|LOC_162|><|LOC_512|><|LOC_162|><|LOC_525|><|LOC_94|><|LOC_525|>\nCS Faculty Supervisor:<|LOC_392|><|LOC_512|><|LOC_568|><|LOC_512|><|LOC_568|><|LOC_526|><|LOC_392|><|LOC_526|>\nPhD CS Program Director:<|LOC_634|><|LOC_512|><|LOC_839|><|LOC_512|><|LOC_839|><|LOC_526|><|LOC_634|><|LOC_526|>\nNotes<|LOC_94|><|LOC_585|><|LOC_142|><|LOC_585|><|LOC_142|><|LOC_597|><|LOC_94|><|LOC_597|>\n1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701.<|LOC_123|><|LOC_602|><|LOC_848|><|LOC_602|><|LOC_848|><|LOC_618|><|LOC_123|><|LOC_618|>\n2. A thorough literature review is likely to be part of most CS 701 research activities. However, the<|LOC_122|><|LOC_621|><|LOC_915|><|LOC_621|><|LOC_915|><|LOC_635|><|LOC_122|><|LOC_635|>\nCS 701 research activity should include a hands-on component (such as software development,<|LOC_151|><|LOC_640|><|LOC_911|><|LOC_640|><|LOC_911|><|LOC_654|><|LOC_151|><|LOC_654|>\nperforming and analyzing experiments with existing techniques) beyond the literature review.<|LOC_151|><|LOC_658|><|LOC_902|><|LOC_658|><|LOC_902|><|LOC_672|><|LOC_151|><|LOC_672|>\nSpecify the hands-on activity within the\"description of the research activity\" field above.<|LOC_151|><|LOC_676|><|LOC_862|><|LOC_676|><|LOC_862|><|LOC_691|><|LOC_151|><|LOC_691|>\nIf necessary, you can attach an additional sheet to elaborate further on the description of the<|LOC_151|><|LOC_695|><|LOC_896|><|LOC_695|><|LOC_896|><|LOC_709|><|LOC_151|><|LOC_709|>\nresearch activity.<|LOC_151|><|LOC_714|><|LOC_288|><|LOC_714|><|LOC_288|><|LOC_727|><|LOC_151|><|LOC_727|>\n3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the<|LOC_122|><|LOC_731|><|LOC_908|><|LOC_731|><|LOC_908|><|LOC_745|><|LOC_122|><|LOC_745|>\nend of the semester. In addition, all CS 701 students are required to give a short talk to the<|LOC_151|><|LOC_750|><|LOC_876|><|LOC_750|><|LOC_876|><|LOC_764|><|LOC_151|><|LOC_764|>\npublic about their research at the end of the semester. Logistics of that meeting will be<|LOC_151|><|LOC_768|><|LOC_846|><|LOC_768|><|LOC_846|><|LOC_782|><|LOC_151|><|LOC_782|>\nannounced by the CS department.<|LOC_151|><|LOC_787|><|LOC_425|><|LOC_787|><|LOC_425|><|LOC_800|><|LOC_151|><|LOC_800|>\n4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be<|LOC_122|><|LOC_804|><|LOC_908|><|LOC_804|><|LOC_908|><|LOC_818|><|LOC_122|><|LOC_818|>\nindicated next to the \"CS faculty member name\" field above, and they should co-sign the form.<|LOC_151|><|LOC_823|><|LOC_909|><|LOC_823|><|LOC_909|><|LOC_837|><|LOC_151|><|LOC_837|>\nAt the registrar level, the CS 701 registration will be made only under CS faculty names.<|LOC_151|><|LOC_841|><|LOC_848|><|LOC_841|><|LOC_848|><|LOC_855|><|LOC_151|><|LOC_855|>\n5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put<|LOC_122|><|LOC_859|><|LOC_862|><|LOC_859|><|LOC_862|><|LOC_874|><|LOC_122|><|LOC_874|>\n\"[CS701 form]\" in the subject line) by November 21, 2025.<|LOC_152|><|LOC_877|><|LOC_618|><|LOC_877|><|LOC_618|><|LOC_891|><|LOC_152|><|LOC_891|></s>",
+    "blocks": [
+      [
+        [
+          0.186,
+          0.037,
+          0.404,
+          0.055
+        ],
+        "GEORGE MASON"
+      ],
+      [
+        [
+          0.186,
+          0.057,
+          0.351,
+          0.075
+        ],
+        "UNIVERSITY"
+      ],
+      [
+        [
+          0.488,
+          0.014,
+          0.711,
+          0.025
+        ],
+        "Department of Computer Science"
+      ],
+      [
+        [
+          0.489,
+          0.028,
+          0.748,
+          0.04
+        ],
+        "College of Engineering and Computing"
+      ],
+      [
+        [
+          0.489,
+          0.041,
+          0.805,
+          0.052
+        ],
+        "4400 University Drive, MS 4A5, Fairfax, Virginia 22030"
+      ],
+      [
+        [
+          0.489,
+          0.053,
+          0.735,
+          0.064
+        ],
+        "Phone: 703-993-1530; Fax: 703-993-1710"
+      ],
+      [
+        [
+          0.489,
+          0.065,
+          0.664,
+          0.076
+        ],
+        "www: http://www.cs.gmu.edu/"
+      ],
+      [
+        [
+          0.212,
+          0.085,
+          0.799,
+          0.102
+        ],
+        "CS 701- Research Experience in Computer Science-Spring'26"
+      ],
+      [
+        [
+          0.093,
+          0.126,
+          0.306,
+          0.142
+        ],
+        "Student Name (Last, First):"
+      ],
+      [
+        [
+          0.094,
+          0.163,
+          0.282,
+          0.177
+        ],
+        "Student e-mail address:"
+      ],
+      [
+        [
+          0.094,
+          0.201,
+          0.189,
+          0.214
+        ],
+        "Student G#:"
+      ],
+      [
+        [
+          0.094,
+          0.237,
+          0.349,
+          0.251
+        ],
+        "Name of the CS faculty member"
+      ],
+      [
+        [
+          0.094,
+          0.256,
+          0.371,
+          0.269
+        ],
+        "to supervise the student in CS 701:"
+      ],
+      [
+        [
+          0.094,
+          0.291,
+          0.879,
+          0.308
+        ],
+        "Description of the research activity (clarify the hands-on component explicitly in your description):"
+      ],
+      [
+        [
+          0.094,
+          0.401,
+          0.894,
+          0.418
+        ],
+        "List of deliverables due at the end of the semester and other requirements (e.g., periodic meetings):"
+      ],
+      [
+        [
+          0.094,
+          0.494,
+          0.181,
+          0.508
+        ],
+        "Signatures"
+      ],
+      [
+        [
+          0.094,
+          0.512,
+          0.162,
+          0.525
+        ],
+        "Student:"
+      ],
+      [
+        [
+          0.392,
+          0.512,
+          0.568,
+          0.526
+        ],
+        "CS Faculty Supervisor:"
+      ],
+      [
+        [
+          0.634,
+          0.512,
+          0.839,
+          0.526
+        ],
+        "PhD CS Program Director:"
+      ],
+      [
+        [
+          0.094,
+          0.585,
+          0.142,
+          0.597
+        ],
+        "Notes"
+      ],
+      [
+        [
+          0.123,
+          0.602,
+          0.848,
+          0.618
+        ],
+        "1. Successful completion of CS 700 with a grade of B or better is a prerequisite for CS 701."
+      ],
+      [
+        [
+          0.122,
+          0.621,
+          0.915,
+          0.635
+        ],
+        "2. A thorough literature review is likely to be part of most CS 701 research activities. However, the"
+      ],
+      [
+        [
+          0.151,
+          0.64,
+          0.911,
+          0.654
+        ],
+        "CS 701 research activity should include a hands-on component (such as software development,"
+      ],
+      [
+        [
+          0.151,
+          0.658,
+          0.902,
+          0.672
+        ],
+        "performing and analyzing experiments with existing techniques) beyond the literature review."
+      ],
+      [
+        [
+          0.151,
+          0.676,
+          0.862,
+          0.691
+        ],
+        "Specify the hands-on activity within the\"description of the research activity\" field above."
+      ],
+      [
+        [
+          0.151,
+          0.695,
+          0.896,
+          0.709
+        ],
+        "If necessary, you can attach an additional sheet to elaborate further on the description of the"
+      ],
+      [
+        [
+          0.151,
+          0.714,
+          0.288,
+          0.727
+        ],
+        "research activity."
+      ],
+      [
+        [
+          0.122,
+          0.731,
+          0.908,
+          0.745
+        ],
+        "3. The CS 701 student will submit a professionally typed report to the CS faculty supervisor at the"
+      ],
+      [
+        [
+          0.151,
+          0.75,
+          0.876,
+          0.764
+        ],
+        "end of the semester. In addition, all CS 701 students are required to give a short talk to the"
+      ],
+      [
+        [
+          0.151,
+          0.768,
+          0.846,
+          0.782
+        ],
+        "public about their research at the end of the semester. Logistics of that meeting will be"
+      ],
+      [
+        [
+          0.151,
+          0.787,
+          0.425,
+          0.8
+        ],
+        "announced by the CS department."
+      ],
+      [
+        [
+          0.122,
+          0.804,
+          0.908,
+          0.818
+        ],
+        "4. If there is a CS-affiliated faculty who will co-supervise the CS 701 project, their name should be"
+      ],
+      [
+        [
+          0.151,
+          0.823,
+          0.909,
+          0.837
+        ],
+        "indicated next to the \"CS faculty member name\" field above, and they should co-sign the form."
+      ],
+      [
+        [
+          0.151,
+          0.841,
+          0.848,
+          0.855
+        ],
+        "At the registrar level, the CS 701 registration will be made only under CS faculty names."
+      ],
+      [
+        [
+          0.122,
+          0.859,
+          0.862,
+          0.874
+        ],
+        "5. Submit the completed form to both csphd@gmu.edu and aydin@gmu.edu by e-mail (put"
+      ],
+      [
+        [
+          0.152,
+          0.877,
+          0.618,
+          0.891
+        ],
+        "\"[CS701 form]\" in the subject line) by November 21, 2025."
+      ]
+    ],
+    "metrics": {
+      "recall": 0.375,
+      "recall_at_05": 0.375,
+      "precision": 0.1667,
+      "hmean": 0.2308,
+      "avg_iou": 0.7798,
+      "text_sim": 0.9971,
+      "avg_cer": 0.0057,
+      "bow_f1": 0.9697,
+      "char_recall": 0.7251,
+      "char_precision": 0.9889
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 5.906
+  },
+  {
+    "document": "hybrid",
+    "mode": "grounded",
+    "model": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "profile": "paddle",
+    "image_size": [
+      1654,
+      1962
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "FakeDoc M.D.<|LOC_107|><|LOC_22|><|LOC_227|><|LOC_22|><|LOC_227|><|LOC_37|><|LOC_107|><|LOC_37|>\nHEALTH INTAKE FORM<|LOC_356|><|LOC_45|><|LOC_648|><|LOC_45|><|LOC_648|><|LOC_65|><|LOC_356|><|LOC_65|>\nPlease fill out the questionnaire carefully. The information you provide will be used to complete<|LOC_108|><|LOC_74|><|LOC_865|><|LOC_74|><|LOC_865|><|LOC_90|><|LOC_108|><|LOC_90|>\nyour health profile and will be kept confidential.<|LOC_107|><|LOC_96|><|LOC_483|><|LOC_96|><|LOC_483|><|LOC_112|><|LOC_107|><|LOC_112|>\nDate:<|LOC_109|><|LOC_140|><|LOC_161|><|LOC_140|><|LOC_161|><|LOC_156|><|LOC_109|><|LOC_156|>\n9/14/19<|LOC_199|><|LOC_125|><|LOC_340|><|LOC_125|><|LOC_340|><|LOC_166|><|LOC_199|><|LOC_166|>\nName:<|LOC_108|><|LOC_184|><|LOC_173|><|LOC_184|><|LOC_173|><|LOC_201|><|LOC_108|><|LOC_201|>\nSally Walker<|LOC_199|><|LOC_169|><|LOC_430|><|LOC_169|><|LOC_430|><|LOC_218|><|LOC_199|><|LOC_218|>\nDOB:<|LOC_654|><|LOC_183|><|LOC_707|><|LOC_183|><|LOC_707|><|LOC_200|><|LOC_654|><|LOC_200|>\n09/04/1986<|LOC_736|><|LOC_169|><|LOC_928|><|LOC_169|><|LOC_928|><|LOC_201|><|LOC_736|><|LOC_201|>\nAddress:<|LOC_108|><|LOC_228|><|LOC_195|><|LOC_228|><|LOC_195|><|LOC_245|><|LOC_108|><|LOC_245|>\n24 Barney Lane City: Towaco State: NJ Zip: 07082<|LOC_208|><|LOC_223|><|LOC_913|><|LOC_223|><|LOC_913|><|LOC_249|><|LOC_208|><|LOC_249|>\nEmail:<|LOC_108|><|LOC_272|><|LOC_169|><|LOC_272|><|LOC_169|><|LOC_289|><|LOC_108|><|LOC_289|>\nSally.waller@cmail.com Phone #: (906)917-3486<|LOC_179|><|LOC_259|><|LOC_896|><|LOC_259|><|LOC_896|><|LOC_295|><|LOC_179|><|LOC_295|>\nGender:<|LOC_109|><|LOC_316|><|LOC_188|><|LOC_316|><|LOC_188|><|LOC_333|><|LOC_109|><|LOC_333|>\nF<|LOC_229|><|LOC_306|><|LOC_251|><|LOC_306|><|LOC_251|><|LOC_332|><|LOC_229|><|LOC_332|>\nMarital Status:<|LOC_298|><|LOC_316|><|LOC_439|><|LOC_316|><|LOC_439|><|LOC_333|><|LOC_298|><|LOC_333|>\nSingle Occupation: Software Engineer<|LOC_449|><|LOC_306|><|LOC_943|><|LOC_306|><|LOC_943|><|LOC_345|><|LOC_449|><|LOC_345|>\nReferred By:<|LOC_109|><|LOC_359|><|LOC_232|><|LOC_359|><|LOC_232|><|LOC_379|><|LOC_109|><|LOC_379|>\nNone<|LOC_258|><|LOC_356|><|LOC_339|><|LOC_356|><|LOC_339|><|LOC_378|><|LOC_258|><|LOC_378|>\nEmergency Contact:<|LOC_109|><|LOC_405|><|LOC_308|><|LOC_405|><|LOC_308|><|LOC_424|><|LOC_109|><|LOC_424|>\nEva Walker Emergency Contact Phone:<|LOC_320|><|LOC_401|><|LOC_752|><|LOC_401|><|LOC_752|><|LOC_425|><|LOC_320|><|LOC_425|>\n(906)334-8926<|LOC_763|><|LOC_391|><|LOC_973|><|LOC_391|><|LOC_973|><|LOC_423|><|LOC_763|><|LOC_423|>\nDescribe your medical concerns (symptoms, diagnoses, etc):<|LOC_108|><|LOC_448|><|LOC_732|><|LOC_448|><|LOC_732|><|LOC_469|><|LOC_108|><|LOC_469|>\nPanny nose, mucas in throat, weakness,<|LOC_151|><|LOC_489|><|LOC_822|><|LOC_489|><|LOC_822|><|LOC_521|><|LOC_151|><|LOC_521|>\naches, chills, tired<|LOC_156|><|LOC_529|><|LOC_511|><|LOC_529|><|LOC_511|><|LOC_566|><|LOC_156|><|LOC_566|>\nAre you currently taking any medication? (If yes, please describe):<|LOC_108|><|LOC_757|><|LOC_791|><|LOC_757|><|LOC_791|><|LOC_779|><|LOC_108|><|LOC_779|>\nYuanse (25mg) daily for attention<|LOC_158|><|LOC_791|><|LOC_737|><|LOC_791|><|LOC_737|><|LOC_835|><|LOC_158|><|LOC_835|></s>",
+    "blocks": [
+      [
+        [
+          0.107,
+          0.022,
+          0.227,
+          0.037
+        ],
+        "FakeDoc M.D."
+      ],
+      [
+        [
+          0.356,
+          0.045,
+          0.648,
+          0.065
+        ],
+        "HEALTH INTAKE FORM"
+      ],
+      [
+        [
+          0.108,
+          0.074,
+          0.865,
+          0.09
+        ],
+        "Please fill out the questionnaire carefully. The information you provide will be used to complete"
+      ],
+      [
+        [
+          0.107,
+          0.096,
+          0.483,
+          0.112
+        ],
+        "your health profile and will be kept confidential."
+      ],
+      [
+        [
+          0.109,
+          0.14,
+          0.161,
+          0.156
+        ],
+        "Date:"
+      ],
+      [
+        [
+          0.199,
+          0.125,
+          0.34,
+          0.166
+        ],
+        "9/14/19"
+      ],
+      [
+        [
+          0.108,
+          0.184,
+          0.173,
+          0.201
+        ],
+        "Name:"
+      ],
+      [
+        [
+          0.199,
+          0.169,
+          0.43,
+          0.218
+        ],
+        "Sally Walker"
+      ],
+      [
+        [
+          0.654,
+          0.183,
+          0.707,
+          0.2
+        ],
+        "DOB:"
+      ],
+      [
+        [
+          0.736,
+          0.169,
+          0.928,
+          0.201
+        ],
+        "09/04/1986"
+      ],
+      [
+        [
+          0.108,
+          0.228,
+          0.195,
+          0.245
+        ],
+        "Address:"
+      ],
+      [
+        [
+          0.208,
+          0.223,
+          0.913,
+          0.249
+        ],
+        "24 Barney Lane City: Towaco State: NJ Zip: 07082"
+      ],
+      [
+        [
+          0.108,
+          0.272,
+          0.169,
+          0.289
+        ],
+        "Email:"
+      ],
+      [
+        [
+          0.179,
+          0.259,
+          0.896,
+          0.295
+        ],
+        "Sally.waller@cmail.com Phone #: (906)917-3486"
+      ],
+      [
+        [
+          0.109,
+          0.316,
+          0.188,
+          0.333
+        ],
+        "Gender:"
+      ],
+      [
+        [
+          0.229,
+          0.306,
+          0.251,
+          0.332
+        ],
+        "F"
+      ],
+      [
+        [
+          0.298,
+          0.316,
+          0.439,
+          0.333
+        ],
+        "Marital Status:"
+      ],
+      [
+        [
+          0.449,
+          0.306,
+          0.943,
+          0.345
+        ],
+        "Single Occupation: Software Engineer"
+      ],
+      [
+        [
+          0.109,
+          0.359,
+          0.232,
+          0.379
+        ],
+        "Referred By:"
+      ],
+      [
+        [
+          0.258,
+          0.356,
+          0.339,
+          0.378
+        ],
+        "None"
+      ],
+      [
+        [
+          0.109,
+          0.405,
+          0.308,
+          0.424
+        ],
+        "Emergency Contact:"
+      ],
+      [
+        [
+          0.32,
+          0.401,
+          0.752,
+          0.425
+        ],
+        "Eva Walker Emergency Contact Phone:"
+      ],
+      [
+        [
+          0.763,
+          0.391,
+          0.973,
+          0.423
+        ],
+        "(906)334-8926"
+      ],
+      [
+        [
+          0.108,
+          0.448,
+          0.732,
+          0.469
+        ],
+        "Describe your medical concerns (symptoms, diagnoses, etc):"
+      ],
+      [
+        [
+          0.151,
+          0.489,
+          0.822,
+          0.521
+        ],
+        "Panny nose, mucas in throat, weakness,"
+      ],
+      [
+        [
+          0.156,
+          0.529,
+          0.511,
+          0.566
+        ],
+        "aches, chills, tired"
+      ],
+      [
+        [
+          0.108,
+          0.757,
+          0.791,
+          0.779
+        ],
+        "Are you currently taking any medication? (If yes, please describe):"
+      ],
+      [
+        [
+          0.158,
+          0.791,
+          0.737,
+          0.835
+        ],
+        "Yuanse (25mg) daily for attention"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.6316,
+      "recall_at_05": 0.3158,
+      "precision": 0.8571,
+      "hmean": 0.7273,
+      "avg_iou": 0.5129,
+      "text_sim": 0.9479,
+      "avg_cer": 0.1244,
+      "bow_f1": 0.9417,
+      "char_recall": 0.6987,
+      "char_precision": 0.8933
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "seconds": 2.672
+  },
+  {
+    "document": "handwritten",
+    "mode": "grounded",
+    "model": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "profile": "paddle",
+    "image_size": [
+      1561,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "Algorithms,<|LOC_56|><|LOC_30|><|LOC_222|><|LOC_30|><|LOC_222|><|LOC_83|><|LOC_56|><|LOC_83|>\n- computational procedure<|LOC_66|><|LOC_111|><|LOC_485|><|LOC_111|><|LOC_485|><|LOC_149|><|LOC_66|><|LOC_149|>\n- processes are finite, but the data does not<|LOC_56|><|LOC_151|><|LOC_902|><|LOC_151|><|LOC_902|><|LOC_183|><|LOC_56|><|LOC_183|>\nhave an upper bound.<|LOC_88|><|LOC_191|><|LOC_514|><|LOC_191|><|LOC_514|><|LOC_223|><|LOC_88|><|LOC_223|>\nmapped<|LOC_348|><|LOC_236|><|LOC_446|><|LOC_236|><|LOC_446|><|LOC_263|><|LOC_348|><|LOC_263|>\ninput $\\longleftrightarrow$ output<|LOC_208|><|LOC_263|><|LOC_588|><|LOC_263|><|LOC_588|><|LOC_297|><|LOC_208|><|LOC_297|>\n- the input data needs to properly formatted.<|LOC_52|><|LOC_308|><|LOC_891|><|LOC_308|><|LOC_891|><|LOC_356|><|LOC_52|><|LOC_356|>\n- ensures a<|LOC_121|><|LOC_372|><|LOC_324|><|LOC_372|><|LOC_324|><|LOC_394|><|LOC_121|><|LOC_394|>\nCORRECT ALGORITHM<|LOC_401|><|LOC_363|><|LOC_813|><|LOC_363|><|LOC_813|><|LOC_400|><|LOC_401|><|LOC_400|>\n- post condition is a logical predicate for<|LOC_56|><|LOC_421|><|LOC_871|><|LOC_421|><|LOC_871|><|LOC_463|><|LOC_56|><|LOC_463|>\nthe input and output<|LOC_88|><|LOC_467|><|LOC_563|><|LOC_467|><|LOC_563|><|LOC_505|><|LOC_88|><|LOC_505|>\n- blotting: the algo needs to finish in finite<|LOC_32|><|LOC_508|><|LOC_885|><|LOC_508|><|LOC_885|><|LOC_565|><|LOC_32|><|LOC_565|>\ntime.<|LOC_76|><|LOC_565|><|LOC_148|><|LOC_565|><|LOC_148|><|LOC_588|><|LOC_76|><|LOC_588|>\n- look into induction proofs<|LOC_137|><|LOC_591|><|LOC_672|><|LOC_591|><|LOC_672|><|LOC_632|><|LOC_137|><|LOC_632|>\nCorrected<|LOC_399|><|LOC_656|><|LOC_565|><|LOC_656|><|LOC_565|><|LOC_684|><|LOC_399|><|LOC_684|>\nValidity<|LOC_265|><|LOC_744|><|LOC_401|><|LOC_744|><|LOC_401|><|LOC_790|><|LOC_265|><|LOC_790|>\n(Conjunction (of both))<|LOC_318|><|LOC_799|><|LOC_736|><|LOC_799|><|LOC_736|><|LOC_840|><|LOC_318|><|LOC_840|>\n- if the algo has a strong post condition<|LOC_66|><|LOC_859|><|LOC_959|><|LOC_859|><|LOC_959|><|LOC_900|><|LOC_66|><|LOC_900|>\nit makes it more useful<|LOC_118|><|LOC_901|><|LOC_588|><|LOC_901|><|LOC_588|><|LOC_936|><|LOC_118|><|LOC_936|></s>",
+    "blocks": [
+      [
+        [
+          0.056,
+          0.03,
+          0.222,
+          0.083
+        ],
+        "Algorithms,"
+      ],
+      [
+        [
+          0.066,
+          0.111,
+          0.485,
+          0.149
+        ],
+        "- computational procedure"
+      ],
+      [
+        [
+          0.056,
+          0.151,
+          0.902,
+          0.183
+        ],
+        "- processes are finite, but the data does not"
+      ],
+      [
+        [
+          0.088,
+          0.191,
+          0.514,
+          0.223
+        ],
+        "have an upper bound."
+      ],
+      [
+        [
+          0.348,
+          0.236,
+          0.446,
+          0.263
+        ],
+        "mapped"
+      ],
+      [
+        [
+          0.208,
+          0.263,
+          0.588,
+          0.297
+        ],
+        "input $\\longleftrightarrow$ output"
+      ],
+      [
+        [
+          0.052,
+          0.308,
+          0.891,
+          0.356
+        ],
+        "- the input data needs to properly formatted."
+      ],
+      [
+        [
+          0.121,
+          0.372,
+          0.324,
+          0.394
+        ],
+        "- ensures a"
+      ],
+      [
+        [
+          0.401,
+          0.363,
+          0.813,
+          0.4
+        ],
+        "CORRECT ALGORITHM"
+      ],
+      [
+        [
+          0.056,
+          0.421,
+          0.871,
+          0.463
+        ],
+        "- post condition is a logical predicate for"
+      ],
+      [
+        [
+          0.088,
+          0.467,
+          0.563,
+          0.505
+        ],
+        "the input and output"
+      ],
+      [
+        [
+          0.032,
+          0.508,
+          0.885,
+          0.565
+        ],
+        "- blotting: the algo needs to finish in finite"
+      ],
+      [
+        [
+          0.076,
+          0.565,
+          0.148,
+          0.588
+        ],
+        "time."
+      ],
+      [
+        [
+          0.137,
+          0.591,
+          0.672,
+          0.632
+        ],
+        "- look into induction proofs"
+      ],
+      [
+        [
+          0.399,
+          0.656,
+          0.565,
+          0.684
+        ],
+        "Corrected"
+      ],
+      [
+        [
+          0.265,
+          0.744,
+          0.401,
+          0.79
+        ],
+        "Validity"
+      ],
+      [
+        [
+          0.318,
+          0.799,
+          0.736,
+          0.84
+        ],
+        "(Conjunction (of both))"
+      ],
+      [
+        [
+          0.066,
+          0.859,
+          0.959,
+          0.9
+        ],
+        "- if the algo has a strong post condition"
+      ],
+      [
+        [
+          0.118,
+          0.901,
+          0.588,
+          0.936
+        ],
+        "it makes it more useful"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.9286,
+      "recall_at_05": 0.5714,
+      "precision": 0.6842,
+      "hmean": 0.7879,
+      "avg_iou": 0.5724,
+      "text_sim": 0.8664,
+      "avg_cer": 0.2205,
+      "bow_f1": 0.8889,
+      "char_recall": 0.8957,
+      "char_precision": 0.9478
+    },
+    "checks": [
+      7,
+      10,
+      [
+        "missing: 'Correctness'",
+        "missing: 'Halting'",
+        "order rule operand missing: 'Algorithms' / 'Correctness'"
+      ]
+    ],
+    "seconds": 2.109
+  },
+  {
+    "document": "dense",
+    "mode": "grounded",
+    "model": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "profile": "paddle",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "SOL in Application Code<|LOC_15|><|LOC_10|><|LOC_169|><|LOC_10|><|LOC_169|><|LOC_23|><|LOC_15|><|LOC_23|>\n- Improve Mismotion problem<|LOC_362|><|LOC_13|><|LOC_544|><|LOC_13|><|LOC_544|><|LOC_29|><|LOC_362|><|LOC_29|>\n- to make any changes, I need to value<|LOC_681|><|LOC_12|><|LOC_956|><|LOC_10|><|LOC_956|><|LOC_25|><|LOC_681|><|LOC_27|>\n- two main integration of products<|LOC_19|><|LOC_27|><|LOC_217|><|LOC_25|><|LOC_217|><|LOC_38|><|LOC_19|><|LOC_40|>\n- fixed with Cursor<|LOC_373|><|LOC_32|><|LOC_510|><|LOC_32|><|LOC_510|><|LOC_47|><|LOC_373|><|LOC_47|>\na sensitive Cusor<|LOC_689|><|LOC_29|><|LOC_819|><|LOC_27|><|LOC_819|><|LOC_40|><|LOC_689|><|LOC_42|>\n(su) Statement level interface → embedded sol<|LOC_44|><|LOC_44|><|LOC_310|><|LOC_38|><|LOC_311|><|LOC_54|><|LOC_45|><|LOC_60|>\npost-runtime<|LOC_591|><|LOC_44|><|LOC_662|><|LOC_36|><|LOC_665|><|LOC_51|><|LOC_594|><|LOC_59|>\n- enabled SOL<|LOC_76|><|LOC_56|><|LOC_159|><|LOC_56|><|LOC_159|><|LOC_69|><|LOC_76|><|LOC_69|>\n- enabled sol recommended in systems<|LOC_684|><|LOC_56|><|LOC_951|><|LOC_51|><|LOC_951|><|LOC_66|><|LOC_684|><|LOC_71|>\n(Cu) - special A) to → DDC<|LOC_44|><|LOC_86|><|LOC_252|><|LOC_86|><|LOC_252|><|LOC_102|><|LOC_44|><|LOC_102|>\n- Call-level interface → SDBC<|LOC_56|><|LOC_76|><|LOC_256|><|LOC_76|><|LOC_256|><|LOC_89|><|LOC_56|><|LOC_89|>\nSET(U): when it comes to the next row<|LOC_412|><|LOC_79|><|LOC_648|><|LOC_79|><|LOC_648|><|LOC_95|><|LOC_412|><|LOC_95|>\nOPEN: when sol statement is executed<|LOC_419|><|LOC_65|><|LOC_636|><|LOC_65|><|LOC_636|><|LOC_79|><|LOC_419|><|LOC_79|>\nthat require high performance without<|LOC_691|><|LOC_71|><|LOC_956|><|LOC_69|><|LOC_956|><|LOC_85|><|LOC_691|><|LOC_87|>\nSOBC overhead<|LOC_694|><|LOC_89|><|LOC_803|><|LOC_89|><|LOC_803|><|LOC_103|><|LOC_694|><|LOC_103|>\nSDCV<|LOC_0|><|LOC_105|><|LOC_14|><|LOC_105|><|LOC_14|><|LOC_135|><|LOC_0|><|LOC_135|>\nPreempiper<|LOC_51|><|LOC_116|><|LOC_105|><|LOC_116|><|LOC_105|><|LOC_126|><|LOC_51|><|LOC_126|>\nSol commands<|LOC_98|><|LOC_102|><|LOC_175|><|LOC_102|><|LOC_175|><|LOC_114|><|LOC_98|><|LOC_114|>\nINSENSITIVE Censor: cannot make changes to<|LOC_380|><|LOC_104|><|LOC_648|><|LOC_104|><|LOC_648|><|LOC_117|><|LOC_380|><|LOC_117|>\nDB with Cusor.<|LOC_511|><|LOC_116|><|LOC_619|><|LOC_116|><|LOC_619|><|LOC_128|><|LOC_511|><|LOC_128|>\n- for dynamic Sol, we cannot release, since<|LOC_681|><|LOC_113|><|LOC_944|><|LOC_113|><|LOC_944|><|LOC_128|><|LOC_681|><|LOC_128|>\n(C)<|LOC_13|><|LOC_151|><|LOC_34|><|LOC_151|><|LOC_34|><|LOC_162|><|LOC_13|><|LOC_162|>\nsystems<|LOC_16|><|LOC_130|><|LOC_40|><|LOC_130|><|LOC_40|><|LOC_139|><|LOC_16|><|LOC_139|>\ndynamics<|LOC_17|><|LOC_138|><|LOC_40|><|LOC_138|><|LOC_40|><|LOC_147|><|LOC_17|><|LOC_147|>\nYes.<|LOC_66|><|LOC_131|><|LOC_88|><|LOC_131|><|LOC_88|><|LOC_141|><|LOC_66|><|LOC_141|>\nNo<|LOC_69|><|LOC_149|><|LOC_90|><|LOC_149|><|LOC_90|><|LOC_159|><|LOC_69|><|LOC_159|>\nNo<|LOC_122|><|LOC_150|><|LOC_141|><|LOC_150|><|LOC_141|><|LOC_160|><|LOC_122|><|LOC_160|>\nYes.<|LOC_181|><|LOC_130|><|LOC_202|><|LOC_130|><|LOC_202|><|LOC_140|><|LOC_181|><|LOC_140|>\nNo.<|LOC_222|><|LOC_131|><|LOC_240|><|LOC_131|><|LOC_240|><|LOC_141|><|LOC_222|><|LOC_141|>\nYes.<|LOC_222|><|LOC_151|><|LOC_242|><|LOC_151|><|LOC_242|><|LOC_162|><|LOC_222|><|LOC_162|>\nlower.<|LOC_269|><|LOC_153|><|LOC_294|><|LOC_153|><|LOC_294|><|LOC_163|><|LOC_269|><|LOC_163|>\nlower.<|LOC_271|><|LOC_131|><|LOC_296|><|LOC_131|><|LOC_296|><|LOC_141|><|LOC_271|><|LOC_141|>\nlower.<|LOC_271|><|LOC_143|><|LOC_296|><|LOC_143|><|LOC_296|><|LOC_152|><|LOC_271|><|LOC_152|>\nlower.<|LOC_272|><|LOC_151|><|LOC_296|><|LOC_151|><|LOC_296|><|LOC_160|><|LOC_272|><|LOC_160|>\nlower.<|LOC_273|><|LOC_131|><|LOC_297|><|LOC_131|><|LOC_297|><|LOC_140|><|LOC_273|><|LOC_140|>\nlower.<|LOC_274|><|LOC_143|><|LOC_299|><|LOC_143|><|LOC_299|><|LOC_152|><|LOC_274|><|LOC_152|>\nlower.<|LOC_275|><|LOC_151|><|LOC_299|><|LOC_151|><|LOC_299|><|LOC_160|><|LOC_275|><|LOC_160|>\nwhen declare sensitive Censor<|LOC_392|><|LOC_151|><|LOC_571|><|LOC_151|><|LOC_571|><|LOC_164|><|LOC_392|><|LOC_164|>\nIf I want to update result:<|LOC_398|><|LOC_134|><|LOC_561|><|LOC_134|><|LOC_561|><|LOC_148|><|LOC_398|><|LOC_148|>\n- we need to prepare<|LOC_689|><|LOC_128|><|LOC_832|><|LOC_128|><|LOC_832|><|LOC_144|><|LOC_689|><|LOC_144|>\nJDC/DDAC<|LOC_679|><|LOC_150|><|LOC_769|><|LOC_149|><|LOC_769|><|LOC_165|><|LOC_679|><|LOC_166|>\nSDCA of DB must be known at<|LOC_28|><|LOC_184|><|LOC_231|><|LOC_184|><|LOC_231|><|LOC_198|><|LOC_28|><|LOC_198|>\njust program & written for embedded Sol<|LOC_31|><|LOC_197|><|LOC_299|><|LOC_194|><|LOC_299|><|LOC_212|><|LOC_31|><|LOC_215|>\nclosed: closes The cursor<|LOC_411|><|LOC_206|><|LOC_561|><|LOC_206|><|LOC_561|><|LOC_219|><|LOC_411|><|LOC_219|>\nGoes issue with collecting set of tuples<|LOC_412|><|LOC_178|><|LOC_658|><|LOC_174|><|LOC_658|><|LOC_194|><|LOC_413|><|LOC_198|>\n- all interactions with the Ds performed via<|LOC_685|><|LOC_236|><|LOC_951|><|LOC_229|><|LOC_952|><|LOC_245|><|LOC_686|><|LOC_252|>\n- can connect to multiple DBs with multiple<|LOC_688|><|LOC_210|><|LOC_976|><|LOC_202|><|LOC_977|><|LOC_217|><|LOC_689|><|LOC_225|>\nJDB does not require training data.<|LOC_688|><|LOC_169|><|LOC_959|><|LOC_166|><|LOC_959|><|LOC_185|><|LOC_688|><|LOC_188|>\nachure info.<|LOC_692|><|LOC_188|><|LOC_776|><|LOC_185|><|LOC_777|><|LOC_198|><|LOC_693|><|LOC_201|>\nseparate dives<|LOC_698|><|LOC_224|><|LOC_800|><|LOC_222|><|LOC_800|><|LOC_236|><|LOC_698|><|LOC_238|>\ninstead of complete time.<|LOC_56|><|LOC_229|><|LOC_206|><|LOC_222|><|LOC_208|><|LOC_239|><|LOC_57|><|LOC_246|>\nCensor can be repeated when in variable<|LOC_381|><|LOC_219|><|LOC_640|><|LOC_215|><|LOC_640|><|LOC_231|><|LOC_381|><|LOC_235|>\nis different<|LOC_385|><|LOC_231|><|LOC_465|><|LOC_231|><|LOC_465|><|LOC_245|><|LOC_385|><|LOC_245|>\na connection object<|LOC_694|><|LOC_251|><|LOC_826|><|LOC_247|><|LOC_827|><|LOC_261|><|LOC_694|><|LOC_265|>\n- SOLSTATE - common error was defined here<|LOC_10|><|LOC_258|><|LOC_285|><|LOC_255|><|LOC_285|><|LOC_272|><|LOC_10|><|LOC_275|>\nNote the poll<|LOC_366|><|LOC_259|><|LOC_461|><|LOC_259|><|LOC_461|><|LOC_277|><|LOC_366|><|LOC_277|>\nEXEC SOL SELECT S-now, S-ase<|LOC_56|><|LOC_277|><|LOC_244|><|LOC_276|><|LOC_244|><|LOC_290|><|LOC_56|><|LOC_291|>\nquestion<|LOC_381|><|LOC_275|><|LOC_430|><|LOC_274|><|LOC_430|><|LOC_288|><|LOC_381|><|LOC_289|>\nPrepared statement is more effective to use<|LOC_694|><|LOC_279|><|LOC_944|><|LOC_274|><|LOC_944|><|LOC_290|><|LOC_694|><|LOC_295|>\nINTRO to C-name C-case on power's<|LOC_57|><|LOC_290|><|LOC_281|><|LOC_286|><|LOC_281|><|LOC_301|><|LOC_57|><|LOC_305|>\nPROM. Solutions S<|LOC_57|><|LOC_301|><|LOC_169|><|LOC_301|><|LOC_169|><|LOC_312|><|LOC_57|><|LOC_312|>\nshe is made to reuse its it is prepleted<|LOC_697|><|LOC_293|><|LOC_980|><|LOC_287|><|LOC_980|><|LOC_302|><|LOC_697|><|LOC_307|>\nWHERE SEE SSD =: C-Sd<|LOC_49|><|LOC_310|><|LOC_189|><|LOC_310|><|LOC_189|><|LOC_323|><|LOC_49|><|LOC_323|>\n- in parameter<|LOC_175|><|LOC_321|><|LOC_258|><|LOC_321|><|LOC_258|><|LOC_333|><|LOC_175|><|LOC_333|>\n- ? are planolodes<|LOC_681|><|LOC_310|><|LOC_812|><|LOC_309|><|LOC_812|><|LOC_324|><|LOC_681|><|LOC_325|>\n- for ob, short index from 1.<|LOC_10|><|LOC_337|><|LOC_238|><|LOC_340|><|LOC_238|><|LOC_360|><|LOC_10|><|LOC_357|>\n- execute Update ()<|LOC_344|><|LOC_339|><|LOC_456|><|LOC_336|><|LOC_457|><|LOC_355|><|LOC_345|><|LOC_358|>\nonly returns number of runs (deleted)<|LOC_373|><|LOC_356|><|LOC_613|><|LOC_343|><|LOC_615|><|LOC_362|><|LOC_375|><|LOC_375|>\n- Keyword → Redundancy<|LOC_677|><|LOC_341|><|LOC_831|><|LOC_340|><|LOC_831|><|LOC_359|><|LOC_677|><|LOC_360|>\nProject 2<|LOC_19|><|LOC_367|><|LOC_83|><|LOC_367|><|LOC_83|><|LOC_386|><|LOC_19|><|LOC_386|>\n- need to use LIKE for pairs) not thing<|LOC_19|><|LOC_381|><|LOC_288|><|LOC_378|><|LOC_288|><|LOC_398|><|LOC_19|><|LOC_401|>\n- see the comparison table for.<|LOC_342|><|LOC_378|><|LOC_538|><|LOC_370|><|LOC_539|><|LOC_387|><|LOC_343|><|LOC_395|>\nexecutivequery()<|LOC_563|><|LOC_388|><|LOC_644|><|LOC_385|><|LOC_645|><|LOC_402|><|LOC_564|><|LOC_405|>\nLso use<|LOC_569|><|LOC_367|><|LOC_632|><|LOC_367|><|LOC_632|><|LOC_386|><|LOC_569|><|LOC_386|>\n- CD: most important kind of constraint<|LOC_681|><|LOC_363|><|LOC_939|><|LOC_356|><|LOC_940|><|LOC_373|><|LOC_681|><|LOC_380|>\n- associated with the svera, not<|LOC_724|><|LOC_390|><|LOC_973|><|LOC_383|><|LOC_974|><|LOC_399|><|LOC_725|><|LOC_406|>\nin the relation model)<|LOC_735|><|LOC_376|><|LOC_905|><|LOC_372|><|LOC_906|><|LOC_386|><|LOC_736|><|LOC_390|>\n- cross-access?<|LOC_19|><|LOC_407|><|LOC_120|><|LOC_407|><|LOC_120|><|LOC_421|><|LOC_19|><|LOC_421|>\n- JDBC vs SolCS<|LOC_349|><|LOC_407|><|LOC_501|><|LOC_405|><|LOC_501|><|LOC_420|><|LOC_349|><|LOC_422|>\ninstead<|LOC_583|><|LOC_402|><|LOC_622|><|LOC_401|><|LOC_622|><|LOC_414|><|LOC_583|><|LOC_415|>\nthe instance<|LOC_734|><|LOC_404|><|LOC_828|><|LOC_403|><|LOC_828|><|LOC_416|><|LOC_734|><|LOC_417|>\n- prograr should NOT wash<|LOC_24|><|LOC_426|><|LOC_262|><|LOC_422|><|LOC_263|><|LOC_442|><|LOC_25|><|LOC_446|>\nL for managing<|LOC_381|><|LOC_423|><|LOC_458|><|LOC_423|><|LOC_458|><|LOC_444|><|LOC_381|><|LOC_444|>\ncomplexity<|LOC_404|><|LOC_442|><|LOC_459|><|LOC_442|><|LOC_459|><|LOC_456|><|LOC_404|><|LOC_456|>\nWhen to<|LOC_509|><|LOC_427|><|LOC_544|><|LOC_427|><|LOC_544|><|LOC_439|><|LOC_509|><|LOC_439|>\nCheese what?<|LOC_511|><|LOC_436|><|LOC_594|><|LOC_434|><|LOC_594|><|LOC_449|><|LOC_512|><|LOC_451|>\n- can I represent any constraint with FD?<|LOC_702|><|LOC_424|><|LOC_990|><|LOC_418|><|LOC_991|><|LOC_436|><|LOC_702|><|LOC_442|>\n- Use grade for simplicity.<|LOC_25|><|LOC_452|><|LOC_202|><|LOC_451|><|LOC_202|><|LOC_471|><|LOC_25|><|LOC_472|>\nbottv<|LOC_412|><|LOC_456|><|LOC_442|><|LOC_456|><|LOC_442|><|LOC_469|><|LOC_412|><|LOC_469|>\n\\( x \\rightarrow y \\)<|LOC_738|><|LOC_452|><|LOC_821|><|LOC_451|><|LOC_821|><|LOC_464|><|LOC_738|><|LOC_465|>\n(use this) what I know best?<|LOC_40|><|LOC_469|><|LOC_244|><|LOC_467|><|LOC_244|><|LOC_486|><|LOC_40|><|LOC_488|>\nL13: Functional Dependencies<|LOC_347|><|LOC_483|><|LOC_510|><|LOC_478|><|LOC_511|><|LOC_493|><|LOC_348|><|LOC_498|>\nX functionally determines y<|LOC_707|><|LOC_475|><|LOC_910|><|LOC_475|><|LOC_910|><|LOC_494|><|LOC_707|><|LOC_494|>\nAttitude Cusure<|LOC_374|><|LOC_497|><|LOC_507|><|LOC_492|><|LOC_508|><|LOC_507|><|LOC_375|><|LOC_512|>\nalternatively,<|LOC_714|><|LOC_500|><|LOC_781|><|LOC_500|><|LOC_781|><|LOC_515|><|LOC_714|><|LOC_515|>\nL14: Normal forms<|LOC_347|><|LOC_519|><|LOC_461|><|LOC_514|><|LOC_462|><|LOC_529|><|LOC_348|><|LOC_534|>\nNormalize<|LOC_385|><|LOC_533|><|LOC_440|><|LOC_531|><|LOC_441|><|LOC_544|><|LOC_386|><|LOC_546|>\ny is dependent on x<|LOC_754|><|LOC_516|><|LOC_900|><|LOC_512|><|LOC_901|><|LOC_528|><|LOC_755|><|LOC_532|>\nL15: Properties of Decomposition<|LOC_347|><|LOC_551|><|LOC_541|><|LOC_538|><|LOC_543|><|LOC_554|><|LOC_349|><|LOC_567|>\nPhoneme<|LOC_724|><|LOC_548|><|LOC_777|><|LOC_548|><|LOC_777|><|LOC_562|><|LOC_724|><|LOC_562|>\nLossless Join + DD<|LOC_385|><|LOC_564|><|LOC_506|><|LOC_556|><|LOC_508|><|LOC_571|><|LOC_387|><|LOC_579|>\nMinimal Cover<|LOC_386|><|LOC_579|><|LOC_482|><|LOC_572|><|LOC_484|><|LOC_587|><|LOC_388|><|LOC_594|>\n305550101<|LOC_723|><|LOC_581|><|LOC_784|><|LOC_581|><|LOC_784|><|LOC_591|><|LOC_723|><|LOC_591|>\nNone #<|LOC_732|><|LOC_567|><|LOC_783|><|LOC_567|><|LOC_783|><|LOC_579|><|LOC_732|><|LOC_579|>\nAVUe<|LOC_802|><|LOC_582|><|LOC_829|><|LOC_582|><|LOC_829|><|LOC_592|><|LOC_802|><|LOC_592|>\nNow<|LOC_803|><|LOC_566|><|LOC_830|><|LOC_566|><|LOC_830|><|LOC_577|><|LOC_803|><|LOC_577|>\nforfox<|LOC_866|><|LOC_583|><|LOC_901|><|LOC_583|><|LOC_901|><|LOC_594|><|LOC_866|><|LOC_594|>\n\\( C_{10} \\)<|LOC_866|><|LOC_567|><|LOC_891|><|LOC_567|><|LOC_891|><|LOC_580|><|LOC_866|><|LOC_580|>\nL16: Decomposition Algorithms<|LOC_347|><|LOC_599|><|LOC_529|><|LOC_591|><|LOC_531|><|LOC_609|><|LOC_348|><|LOC_617|>\nif I won't sentence's phone no.<|LOC_718|><|LOC_603|><|LOC_963|><|LOC_603|><|LOC_963|><|LOC_618|><|LOC_718|><|LOC_618|>\n305550101<|LOC_723|><|LOC_592|><|LOC_785|><|LOC_592|><|LOC_785|><|LOC_603|><|LOC_723|><|LOC_603|>\nAVUe<|LOC_808|><|LOC_594|><|LOC_839|><|LOC_594|><|LOC_839|><|LOC_604|><|LOC_808|><|LOC_604|>\nL16: Decomposition Algorithms<|LOC_347|><|LOC_601|><|LOC_531|><|LOC_591|><|LOC_533|><|LOC_609|><|LOC_349|><|LOC_619|>\ncan I always figure out their name<|LOC_719|><|LOC_617|><|LOC_954|><|LOC_616|><|LOC_954|><|LOC_630|><|LOC_719|><|LOC_631|>\nPhone # → Name<|LOC_764|><|LOC_631|><|LOC_896|><|LOC_633|><|LOC_896|><|LOC_648|><|LOC_764|><|LOC_646|>\n- look out for redundancies in data.<|LOC_49|><|LOC_672|><|LOC_266|><|LOC_668|><|LOC_266|><|LOC_684|><|LOC_49|><|LOC_688|>\n- why repetition is problematic.<|LOC_350|><|LOC_675|><|LOC_558|><|LOC_671|><|LOC_559|><|LOC_689|><|LOC_351|><|LOC_693|>\n- update and may<|LOC_388|><|LOC_694|><|LOC_491|><|LOC_693|><|LOC_491|><|LOC_708|><|LOC_388|><|LOC_709|>\n- x → y2<|LOC_679|><|LOC_675|><|LOC_752|><|LOC_674|><|LOC_752|><|LOC_691|><|LOC_679|><|LOC_692|>\n\\( x \\rightarrow y \\)<|LOC_755|><|LOC_670|><|LOC_826|><|LOC_668|><|LOC_827|><|LOC_683|><|LOC_756|><|LOC_685|>\ncannot deperforme<|LOC_879|><|LOC_675|><|LOC_978|><|LOC_674|><|LOC_978|><|LOC_689|><|LOC_879|><|LOC_690|>\ninstances<|LOC_66|><|LOC_686|><|LOC_118|><|LOC_686|><|LOC_118|><|LOC_699|><|LOC_66|><|LOC_699|>\n- insertion anomaly<|LOC_391|><|LOC_707|><|LOC_511|><|LOC_706|><|LOC_511|><|LOC_722|><|LOC_391|><|LOC_723|>\nLHS<|LOC_887|><|LOC_690|><|LOC_919|><|LOC_690|><|LOC_919|><|LOC_703|><|LOC_887|><|LOC_703|>\n\\( t_i[x] = t_i [x] \\Rightarrow t_i [y] = t_i [y] \\)<|LOC_49|><|LOC_705|><|LOC_306|><|LOC_701|><|LOC_306|><|LOC_721|><|LOC_49|><|LOC_725|>\n- deletion anomaly<|LOC_392|><|LOC_721|><|LOC_505|><|LOC_721|><|LOC_505|><|LOC_738|><|LOC_392|><|LOC_738|>\nLWS is the<|LOC_702|><|LOC_709|><|LOC_781|><|LOC_708|><|LOC_781|><|LOC_723|><|LOC_702|><|LOC_724|>\ndetermination<|LOC_722|><|LOC_722|><|LOC_784|><|LOC_720|><|LOC_784|><|LOC_734|><|LOC_722|><|LOC_736|>\n\\( x_i \\rightarrow y_i \\)<|LOC_879|><|LOC_714|><|LOC_981|><|LOC_714|><|LOC_981|><|LOC_734|><|LOC_879|><|LOC_734|>\n\\( t_i \\) and \\( t_2 \\) → Any two laws in year-label<|LOC_40|><|LOC_731|><|LOC_293|><|LOC_726|><|LOC_294|><|LOC_744|><|LOC_40|><|LOC_749|>\n\\( t_i[x] \\rightarrow \\) low at the x columns of low l<|LOC_36|><|LOC_751|><|LOC_306|><|LOC_744|><|LOC_306|><|LOC_761|><|LOC_37|><|LOC_768|>\nS is going easy<|LOC_355|><|LOC_754|><|LOC_445|><|LOC_752|><|LOC_446|><|LOC_767|><|LOC_356|><|LOC_769|>\nJohn + lobster<|LOC_532|><|LOC_747|><|LOC_639|><|LOC_735|><|LOC_642|><|LOC_752|><|LOC_535|><|LOC_764|>\nthis<|LOC_555|><|LOC_758|><|LOC_584|><|LOC_756|><|LOC_586|><|LOC_769|><|LOC_556|><|LOC_771|>\n- Closure of Attributes<|LOC_681|><|LOC_750|><|LOC_837|><|LOC_748|><|LOC_837|><|LOC_767|><|LOC_681|><|LOC_769|>\n\\( t_i(x) = t_i(x) \\rightarrow low \\mid low \\mid low \\mid low \\)<|LOC_36|><|LOC_770|><|LOC_321|><|LOC_762|><|LOC_322|><|LOC_781|><|LOC_37|><|LOC_789|>\ntoo fast for at<|LOC_358|><|LOC_767|><|LOC_451|><|LOC_765|><|LOC_451|><|LOC_779|><|LOC_358|><|LOC_781|>\n- find all attributes dependent on \\( \\text{ID} \\)<|LOC_721|><|LOC_770|><|LOC_996|><|LOC_766|><|LOC_996|><|LOC_785|><|LOC_721|><|LOC_789|>\nto object.<|LOC_358|><|LOC_781|><|LOC_410|><|LOC_780|><|LOC_410|><|LOC_793|><|LOC_358|><|LOC_794|>\n→ forces<|LOC_44|><|LOC_791|><|LOC_158|><|LOC_791|><|LOC_158|><|LOC_807|><|LOC_44|><|LOC_807|>\n- see explanation in APP<|LOC_448|><|LOC_789|><|LOC_601|><|LOC_784|><|LOC_602|><|LOC_802|><|LOC_449|><|LOC_807|>\nif I know value of atts x, what<|LOC_716|><|LOC_794|><|LOC_952|><|LOC_785|><|LOC_953|><|LOC_802|><|LOC_717|><|LOC_811|>\n\\( t_i(y) = t_i(y) \\rightarrow \\) low 1 and low 2 must also have<|LOC_33|><|LOC_811|><|LOC_319|><|LOC_804|><|LOC_320|><|LOC_822|><|LOC_34|><|LOC_829|>\nest. can I figure out?<|LOC_722|><|LOC_809|><|LOC_917|><|LOC_800|><|LOC_918|><|LOC_816|><|LOC_723|><|LOC_825|>\nsome y value.<|LOC_141|><|LOC_826|><|LOC_244|><|LOC_823|><|LOC_245|><|LOC_837|><|LOC_142|><|LOC_840|>\n- k = {A, A_2, A_N} is a codebook.<|LOC_365|><|LOC_824|><|LOC_656|><|LOC_817|><|LOC_657|><|LOC_836|><|LOC_366|><|LOC_843|>\n- ie Closure of x.<|LOC_724|><|LOC_827|><|LOC_872|><|LOC_821|><|LOC_873|><|LOC_837|><|LOC_725|><|LOC_843|>\nfor relation R if<|LOC_384|><|LOC_841|><|LOC_511|><|LOC_839|><|LOC_511|><|LOC_855|><|LOC_384|><|LOC_857|>\nAXA \\( x^+ \\)<|LOC_765|><|LOC_839|><|LOC_841|><|LOC_837|><|LOC_842|><|LOC_853|><|LOC_766|><|LOC_855|>\nFO between non-less attributes is a<|LOC_24|><|LOC_856|><|LOC_271|><|LOC_851|><|LOC_271|><|LOC_867|><|LOC_24|><|LOC_872|>\nRED FLAs that data x being repeatedly<|LOC_24|><|LOC_871|><|LOC_310|><|LOC_862|><|LOC_311|><|LOC_881|><|LOC_25|><|LOC_890|>\nK → All dur abilities of R<|LOC_412|><|LOC_861|><|LOC_626|><|LOC_852|><|LOC_627|><|LOC_869|><|LOC_413|><|LOC_878|>\nAND<|LOC_454|><|LOC_878|><|LOC_492|><|LOC_877|><|LOC_492|><|LOC_891|><|LOC_454|><|LOC_892|>\n- think yourself as a detective<|LOC_705|><|LOC_863|><|LOC_901|><|LOC_853|><|LOC_902|><|LOC_869|><|LOC_706|><|LOC_879|>\n- start with one clue, let it lead<|LOC_736|><|LOC_873|><|LOC_962|><|LOC_865|><|LOC_963|><|LOC_881|><|LOC_737|><|LOC_889|>\nto more lines<|LOC_752|><|LOC_884|><|LOC_849|><|LOC_881|><|LOC_850|><|LOC_894|><|LOC_753|><|LOC_897|>\ninconcessively<|LOC_24|><|LOC_888|><|LOC_106|><|LOC_888|><|LOC_106|><|LOC_904|><|LOC_24|><|LOC_904|>\nNo star<|LOC_411|><|LOC_896|><|LOC_451|><|LOC_895|><|LOC_452|><|LOC_908|><|LOC_412|><|LOC_909|>\n- FD means one after's value is completely<|LOC_30|><|LOC_913|><|LOC_299|><|LOC_906|><|LOC_300|><|LOC_923|><|LOC_31|><|LOC_930|>\nso best of us → all other attitudes<|LOC_411|><|LOC_905|><|LOC_651|><|LOC_888|><|LOC_653|><|LOC_905|><|LOC_413|><|LOC_922|>\nof R<|LOC_556|><|LOC_906|><|LOC_595|><|LOC_905|><|LOC_595|><|LOC_920|><|LOC_556|><|LOC_921|>\ncontrolled by order<|LOC_46|><|LOC_927|><|LOC_176|><|LOC_923|><|LOC_177|><|LOC_938|><|LOC_47|><|LOC_942|>\n- when controlling after appears in multiple<|LOC_49|><|LOC_938|><|LOC_299|><|LOC_930|><|LOC_300|><|LOC_947|><|LOC_50|><|LOC_955|>\nlong, its dependent value gets copy<|LOC_61|><|LOC_950|><|LOC_301|><|LOC_943|><|LOC_302|><|LOC_960|><|LOC_62|><|LOC_967|>\npased → ie redundancy<|LOC_58|><|LOC_964|><|LOC_241|><|LOC_961|><|LOC_242|><|LOC_981|><|LOC_59|><|LOC_984|></s>",
+    "blocks": [
+      [
+        [
+          0.015,
+          0.01,
+          0.169,
+          0.023
+        ],
+        "SOL in Application Code"
+      ],
+      [
+        [
+          0.362,
+          0.013,
+          0.544,
+          0.029
+        ],
+        "- Improve Mismotion problem"
+      ],
+      [
+        [
+          0.681,
+          0.01,
+          0.956,
+          0.027
+        ],
+        "- to make any changes, I need to value"
+      ],
+      [
+        [
+          0.019,
+          0.025,
+          0.217,
+          0.04
+        ],
+        "- two main integration of products"
+      ],
+      [
+        [
+          0.373,
+          0.032,
+          0.51,
+          0.047
+        ],
+        "- fixed with Cursor"
+      ],
+      [
+        [
+          0.689,
+          0.027,
+          0.819,
+          0.042
+        ],
+        "a sensitive Cusor"
+      ],
+      [
+        [
+          0.044,
+          0.038,
+          0.311,
+          0.06
+        ],
+        "(su) Statement level interface → embedded sol"
+      ],
+      [
+        [
+          0.591,
+          0.036,
+          0.665,
+          0.059
+        ],
+        "post-runtime"
+      ],
+      [
+        [
+          0.076,
+          0.056,
+          0.159,
+          0.069
+        ],
+        "- enabled SOL"
+      ],
+      [
+        [
+          0.684,
+          0.051,
+          0.951,
+          0.071
+        ],
+        "- enabled sol recommended in systems"
+      ],
+      [
+        [
+          0.044,
+          0.086,
+          0.252,
+          0.102
+        ],
+        "(Cu) - special A) to → DDC"
+      ],
+      [
+        [
+          0.056,
+          0.076,
+          0.256,
+          0.089
+        ],
+        "- Call-level interface → SDBC"
+      ],
+      [
+        [
+          0.412,
+          0.079,
+          0.648,
+          0.095
+        ],
+        "SET(U): when it comes to the next row"
+      ],
+      [
+        [
+          0.419,
+          0.065,
+          0.636,
+          0.079
+        ],
+        "OPEN: when sol statement is executed"
+      ],
+      [
+        [
+          0.691,
+          0.069,
+          0.956,
+          0.087
+        ],
+        "that require high performance without"
+      ],
+      [
+        [
+          0.694,
+          0.089,
+          0.803,
+          0.103
+        ],
+        "SOBC overhead"
+      ],
+      [
+        [
+          0.0,
+          0.105,
+          0.014,
+          0.135
+        ],
+        "SDCV"
+      ],
+      [
+        [
+          0.051,
+          0.116,
+          0.105,
+          0.126
+        ],
+        "Preempiper"
+      ],
+      [
+        [
+          0.098,
+          0.102,
+          0.175,
+          0.114
+        ],
+        "Sol commands"
+      ],
+      [
+        [
+          0.38,
+          0.104,
+          0.648,
+          0.117
+        ],
+        "INSENSITIVE Censor: cannot make changes to"
+      ],
+      [
+        [
+          0.511,
+          0.116,
+          0.619,
+          0.128
+        ],
+        "DB with Cusor."
+      ],
+      [
+        [
+          0.681,
+          0.113,
+          0.944,
+          0.128
+        ],
+        "- for dynamic Sol, we cannot release, since"
+      ],
+      [
+        [
+          0.013,
+          0.151,
+          0.034,
+          0.162
+        ],
+        "(C)"
+      ],
+      [
+        [
+          0.016,
+          0.13,
+          0.04,
+          0.139
+        ],
+        "systems"
+      ],
+      [
+        [
+          0.017,
+          0.138,
+          0.04,
+          0.147
+        ],
+        "dynamics"
+      ],
+      [
+        [
+          0.066,
+          0.131,
+          0.088,
+          0.141
+        ],
+        "Yes."
+      ],
+      [
+        [
+          0.069,
+          0.149,
+          0.09,
+          0.159
+        ],
+        "No"
+      ],
+      [
+        [
+          0.122,
+          0.15,
+          0.141,
+          0.16
+        ],
+        "No"
+      ],
+      [
+        [
+          0.181,
+          0.13,
+          0.202,
+          0.14
+        ],
+        "Yes."
+      ],
+      [
+        [
+          0.222,
+          0.131,
+          0.24,
+          0.141
+        ],
+        "No."
+      ],
+      [
+        [
+          0.222,
+          0.151,
+          0.242,
+          0.162
+        ],
+        "Yes."
+      ],
+      [
+        [
+          0.269,
+          0.153,
+          0.294,
+          0.163
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.271,
+          0.131,
+          0.296,
+          0.141
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.271,
+          0.143,
+          0.296,
+          0.152
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.272,
+          0.151,
+          0.296,
+          0.16
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.273,
+          0.131,
+          0.297,
+          0.14
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.274,
+          0.143,
+          0.299,
+          0.152
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.275,
+          0.151,
+          0.299,
+          0.16
+        ],
+        "lower."
+      ],
+      [
+        [
+          0.392,
+          0.151,
+          0.571,
+          0.164
+        ],
+        "when declare sensitive Censor"
+      ],
+      [
+        [
+          0.398,
+          0.134,
+          0.561,
+          0.148
+        ],
+        "If I want to update result:"
+      ],
+      [
+        [
+          0.689,
+          0.128,
+          0.832,
+          0.144
+        ],
+        "- we need to prepare"
+      ],
+      [
+        [
+          0.679,
+          0.149,
+          0.769,
+          0.166
+        ],
+        "JDC/DDAC"
+      ],
+      [
+        [
+          0.028,
+          0.184,
+          0.231,
+          0.198
+        ],
+        "SDCA of DB must be known at"
+      ],
+      [
+        [
+          0.031,
+          0.194,
+          0.299,
+          0.215
+        ],
+        "just program & written for embedded Sol"
+      ],
+      [
+        [
+          0.411,
+          0.206,
+          0.561,
+          0.219
+        ],
+        "closed: closes The cursor"
+      ],
+      [
+        [
+          0.412,
+          0.174,
+          0.658,
+          0.198
+        ],
+        "Goes issue with collecting set of tuples"
+      ],
+      [
+        [
+          0.685,
+          0.229,
+          0.952,
+          0.252
+        ],
+        "- all interactions with the Ds performed via"
+      ],
+      [
+        [
+          0.688,
+          0.202,
+          0.977,
+          0.225
+        ],
+        "- can connect to multiple DBs with multiple"
+      ],
+      [
+        [
+          0.688,
+          0.166,
+          0.959,
+          0.188
+        ],
+        "JDB does not require training data."
+      ],
+      [
+        [
+          0.692,
+          0.185,
+          0.777,
+          0.201
+        ],
+        "achure info."
+      ],
+      [
+        [
+          0.698,
+          0.222,
+          0.8,
+          0.238
+        ],
+        "separate dives"
+      ],
+      [
+        [
+          0.056,
+          0.222,
+          0.208,
+          0.246
+        ],
+        "instead of complete time."
+      ],
+      [
+        [
+          0.381,
+          0.215,
+          0.64,
+          0.235
+        ],
+        "Censor can be repeated when in variable"
+      ],
+      [
+        [
+          0.385,
+          0.231,
+          0.465,
+          0.245
+        ],
+        "is different"
+      ],
+      [
+        [
+          0.694,
+          0.247,
+          0.827,
+          0.265
+        ],
+        "a connection object"
+      ],
+      [
+        [
+          0.01,
+          0.255,
+          0.285,
+          0.275
+        ],
+        "- SOLSTATE - common error was defined here"
+      ],
+      [
+        [
+          0.366,
+          0.259,
+          0.461,
+          0.277
+        ],
+        "Note the poll"
+      ],
+      [
+        [
+          0.056,
+          0.276,
+          0.244,
+          0.291
+        ],
+        "EXEC SOL SELECT S-now, S-ase"
+      ],
+      [
+        [
+          0.381,
+          0.274,
+          0.43,
+          0.289
+        ],
+        "question"
+      ],
+      [
+        [
+          0.694,
+          0.274,
+          0.944,
+          0.295
+        ],
+        "Prepared statement is more effective to use"
+      ],
+      [
+        [
+          0.057,
+          0.286,
+          0.281,
+          0.305
+        ],
+        "INTRO to C-name C-case on power's"
+      ],
+      [
+        [
+          0.057,
+          0.301,
+          0.169,
+          0.312
+        ],
+        "PROM. Solutions S"
+      ],
+      [
+        [
+          0.697,
+          0.287,
+          0.98,
+          0.307
+        ],
+        "she is made to reuse its it is prepleted"
+      ],
+      [
+        [
+          0.049,
+          0.31,
+          0.189,
+          0.323
+        ],
+        "WHERE SEE SSD =: C-Sd"
+      ],
+      [
+        [
+          0.175,
+          0.321,
+          0.258,
+          0.333
+        ],
+        "- in parameter"
+      ],
+      [
+        [
+          0.681,
+          0.309,
+          0.812,
+          0.325
+        ],
+        "- ? are planolodes"
+      ],
+      [
+        [
+          0.01,
+          0.337,
+          0.238,
+          0.36
+        ],
+        "- for ob, short index from 1."
+      ],
+      [
+        [
+          0.344,
+          0.336,
+          0.457,
+          0.358
+        ],
+        "- execute Update ()"
+      ],
+      [
+        [
+          0.373,
+          0.343,
+          0.615,
+          0.375
+        ],
+        "only returns number of runs (deleted)"
+      ],
+      [
+        [
+          0.677,
+          0.34,
+          0.831,
+          0.36
+        ],
+        "- Keyword → Redundancy"
+      ],
+      [
+        [
+          0.019,
+          0.367,
+          0.083,
+          0.386
+        ],
+        "Project 2"
+      ],
+      [
+        [
+          0.019,
+          0.378,
+          0.288,
+          0.401
+        ],
+        "- need to use LIKE for pairs) not thing"
+      ],
+      [
+        [
+          0.342,
+          0.37,
+          0.539,
+          0.395
+        ],
+        "- see the comparison table for."
+      ],
+      [
+        [
+          0.563,
+          0.385,
+          0.645,
+          0.405
+        ],
+        "executivequery()"
+      ],
+      [
+        [
+          0.569,
+          0.367,
+          0.632,
+          0.386
+        ],
+        "Lso use"
+      ],
+      [
+        [
+          0.681,
+          0.356,
+          0.94,
+          0.38
+        ],
+        "- CD: most important kind of constraint"
+      ],
+      [
+        [
+          0.724,
+          0.383,
+          0.974,
+          0.406
+        ],
+        "- associated with the svera, not"
+      ],
+      [
+        [
+          0.735,
+          0.372,
+          0.906,
+          0.39
+        ],
+        "in the relation model)"
+      ],
+      [
+        [
+          0.019,
+          0.407,
+          0.12,
+          0.421
+        ],
+        "- cross-access?"
+      ],
+      [
+        [
+          0.349,
+          0.405,
+          0.501,
+          0.422
+        ],
+        "- JDBC vs SolCS"
+      ],
+      [
+        [
+          0.583,
+          0.401,
+          0.622,
+          0.415
+        ],
+        "instead"
+      ],
+      [
+        [
+          0.734,
+          0.403,
+          0.828,
+          0.417
+        ],
+        "the instance"
+      ],
+      [
+        [
+          0.024,
+          0.422,
+          0.263,
+          0.446
+        ],
+        "- prograr should NOT wash"
+      ],
+      [
+        [
+          0.381,
+          0.423,
+          0.458,
+          0.444
+        ],
+        "L for managing"
+      ],
+      [
+        [
+          0.404,
+          0.442,
+          0.459,
+          0.456
+        ],
+        "complexity"
+      ],
+      [
+        [
+          0.509,
+          0.427,
+          0.544,
+          0.439
+        ],
+        "When to"
+      ],
+      [
+        [
+          0.511,
+          0.434,
+          0.594,
+          0.451
+        ],
+        "Cheese what?"
+      ],
+      [
+        [
+          0.702,
+          0.418,
+          0.991,
+          0.442
+        ],
+        "- can I represent any constraint with FD?"
+      ],
+      [
+        [
+          0.025,
+          0.451,
+          0.202,
+          0.472
+        ],
+        "- Use grade for simplicity."
+      ],
+      [
+        [
+          0.412,
+          0.456,
+          0.442,
+          0.469
+        ],
+        "bottv"
+      ],
+      [
+        [
+          0.738,
+          0.451,
+          0.821,
+          0.465
+        ],
+        "\\( x \\rightarrow y \\)"
+      ],
+      [
+        [
+          0.04,
+          0.467,
+          0.244,
+          0.488
+        ],
+        "(use this) what I know best?"
+      ],
+      [
+        [
+          0.347,
+          0.478,
+          0.511,
+          0.498
+        ],
+        "L13: Functional Dependencies"
+      ],
+      [
+        [
+          0.707,
+          0.475,
+          0.91,
+          0.494
+        ],
+        "X functionally determines y"
+      ],
+      [
+        [
+          0.374,
+          0.492,
+          0.508,
+          0.512
+        ],
+        "Attitude Cusure"
+      ],
+      [
+        [
+          0.714,
+          0.5,
+          0.781,
+          0.515
+        ],
+        "alternatively,"
+      ],
+      [
+        [
+          0.347,
+          0.514,
+          0.462,
+          0.534
+        ],
+        "L14: Normal forms"
+      ],
+      [
+        [
+          0.385,
+          0.531,
+          0.441,
+          0.546
+        ],
+        "Normalize"
+      ],
+      [
+        [
+          0.754,
+          0.512,
+          0.901,
+          0.532
+        ],
+        "y is dependent on x"
+      ],
+      [
+        [
+          0.347,
+          0.538,
+          0.543,
+          0.567
+        ],
+        "L15: Properties of Decomposition"
+      ],
+      [
+        [
+          0.724,
+          0.548,
+          0.777,
+          0.562
+        ],
+        "Phoneme"
+      ],
+      [
+        [
+          0.385,
+          0.556,
+          0.508,
+          0.579
+        ],
+        "Lossless Join + DD"
+      ],
+      [
+        [
+          0.386,
+          0.572,
+          0.484,
+          0.594
+        ],
+        "Minimal Cover"
+      ],
+      [
+        [
+          0.723,
+          0.581,
+          0.784,
+          0.591
+        ],
+        "305550101"
+      ],
+      [
+        [
+          0.732,
+          0.567,
+          0.783,
+          0.579
+        ],
+        "None #"
+      ],
+      [
+        [
+          0.802,
+          0.582,
+          0.829,
+          0.592
+        ],
+        "AVUe"
+      ],
+      [
+        [
+          0.803,
+          0.566,
+          0.83,
+          0.577
+        ],
+        "Now"
+      ],
+      [
+        [
+          0.866,
+          0.583,
+          0.901,
+          0.594
+        ],
+        "forfox"
+      ],
+      [
+        [
+          0.866,
+          0.567,
+          0.891,
+          0.58
+        ],
+        "\\( C_{10} \\)"
+      ],
+      [
+        [
+          0.347,
+          0.591,
+          0.531,
+          0.617
+        ],
+        "L16: Decomposition Algorithms"
+      ],
+      [
+        [
+          0.718,
+          0.603,
+          0.963,
+          0.618
+        ],
+        "if I won't sentence's phone no."
+      ],
+      [
+        [
+          0.723,
+          0.592,
+          0.785,
+          0.603
+        ],
+        "305550101"
+      ],
+      [
+        [
+          0.808,
+          0.594,
+          0.839,
+          0.604
+        ],
+        "AVUe"
+      ],
+      [
+        [
+          0.347,
+          0.591,
+          0.533,
+          0.619
+        ],
+        "L16: Decomposition Algorithms"
+      ],
+      [
+        [
+          0.719,
+          0.616,
+          0.954,
+          0.631
+        ],
+        "can I always figure out their name"
+      ],
+      [
+        [
+          0.764,
+          0.631,
+          0.896,
+          0.648
+        ],
+        "Phone # → Name"
+      ],
+      [
+        [
+          0.049,
+          0.668,
+          0.266,
+          0.688
+        ],
+        "- look out for redundancies in data."
+      ],
+      [
+        [
+          0.35,
+          0.671,
+          0.559,
+          0.693
+        ],
+        "- why repetition is problematic."
+      ],
+      [
+        [
+          0.388,
+          0.693,
+          0.491,
+          0.709
+        ],
+        "- update and may"
+      ],
+      [
+        [
+          0.679,
+          0.674,
+          0.752,
+          0.692
+        ],
+        "- x → y2"
+      ],
+      [
+        [
+          0.755,
+          0.668,
+          0.827,
+          0.685
+        ],
+        "\\( x \\rightarrow y \\)"
+      ],
+      [
+        [
+          0.879,
+          0.674,
+          0.978,
+          0.69
+        ],
+        "cannot deperforme"
+      ],
+      [
+        [
+          0.066,
+          0.686,
+          0.118,
+          0.699
+        ],
+        "instances"
+      ],
+      [
+        [
+          0.391,
+          0.706,
+          0.511,
+          0.723
+        ],
+        "- insertion anomaly"
+      ],
+      [
+        [
+          0.887,
+          0.69,
+          0.919,
+          0.703
+        ],
+        "LHS"
+      ],
+      [
+        [
+          0.049,
+          0.701,
+          0.306,
+          0.725
+        ],
+        "\\( t_i[x] = t_i [x] \\Rightarrow t_i [y] = t_i [y] \\)"
+      ],
+      [
+        [
+          0.392,
+          0.721,
+          0.505,
+          0.738
+        ],
+        "- deletion anomaly"
+      ],
+      [
+        [
+          0.702,
+          0.708,
+          0.781,
+          0.724
+        ],
+        "LWS is the"
+      ],
+      [
+        [
+          0.722,
+          0.72,
+          0.784,
+          0.736
+        ],
+        "determination"
+      ],
+      [
+        [
+          0.879,
+          0.714,
+          0.981,
+          0.734
+        ],
+        "\\( x_i \\rightarrow y_i \\)"
+      ],
+      [
+        [
+          0.04,
+          0.726,
+          0.294,
+          0.749
+        ],
+        "\\( t_i \\) and \\( t_2 \\) → Any two laws in year-label"
+      ],
+      [
+        [
+          0.036,
+          0.744,
+          0.306,
+          0.768
+        ],
+        "\\( t_i[x] \\rightarrow \\) low at the x columns of low l"
+      ],
+      [
+        [
+          0.355,
+          0.752,
+          0.446,
+          0.769
+        ],
+        "S is going easy"
+      ],
+      [
+        [
+          0.532,
+          0.735,
+          0.642,
+          0.764
+        ],
+        "John + lobster"
+      ],
+      [
+        [
+          0.555,
+          0.756,
+          0.586,
+          0.771
+        ],
+        "this"
+      ],
+      [
+        [
+          0.681,
+          0.748,
+          0.837,
+          0.769
+        ],
+        "- Closure of Attributes"
+      ],
+      [
+        [
+          0.036,
+          0.762,
+          0.322,
+          0.789
+        ],
+        "\\( t_i(x) = t_i(x) \\rightarrow low \\mid low \\mid low \\mid low \\)"
+      ],
+      [
+        [
+          0.358,
+          0.765,
+          0.451,
+          0.781
+        ],
+        "too fast for at"
+      ],
+      [
+        [
+          0.721,
+          0.766,
+          0.996,
+          0.789
+        ],
+        "- find all attributes dependent on \\( \\text{ID} \\)"
+      ],
+      [
+        [
+          0.358,
+          0.78,
+          0.41,
+          0.794
+        ],
+        "to object."
+      ],
+      [
+        [
+          0.044,
+          0.791,
+          0.158,
+          0.807
+        ],
+        "→ forces"
+      ],
+      [
+        [
+          0.448,
+          0.784,
+          0.602,
+          0.807
+        ],
+        "- see explanation in APP"
+      ],
+      [
+        [
+          0.716,
+          0.785,
+          0.953,
+          0.811
+        ],
+        "if I know value of atts x, what"
+      ],
+      [
+        [
+          0.033,
+          0.804,
+          0.32,
+          0.829
+        ],
+        "\\( t_i(y) = t_i(y) \\rightarrow \\) low 1 and low 2 must also have"
+      ],
+      [
+        [
+          0.722,
+          0.8,
+          0.918,
+          0.825
+        ],
+        "est. can I figure out?"
+      ],
+      [
+        [
+          0.141,
+          0.823,
+          0.245,
+          0.84
+        ],
+        "some y value."
+      ],
+      [
+        [
+          0.365,
+          0.817,
+          0.657,
+          0.843
+        ],
+        "- k = {A, A_2, A_N} is a codebook."
+      ],
+      [
+        [
+          0.724,
+          0.821,
+          0.873,
+          0.843
+        ],
+        "- ie Closure of x."
+      ],
+      [
+        [
+          0.384,
+          0.839,
+          0.511,
+          0.857
+        ],
+        "for relation R if"
+      ],
+      [
+        [
+          0.765,
+          0.837,
+          0.842,
+          0.855
+        ],
+        "AXA \\( x^+ \\)"
+      ],
+      [
+        [
+          0.024,
+          0.851,
+          0.271,
+          0.872
+        ],
+        "FO between non-less attributes is a"
+      ],
+      [
+        [
+          0.024,
+          0.862,
+          0.311,
+          0.89
+        ],
+        "RED FLAs that data x being repeatedly"
+      ],
+      [
+        [
+          0.412,
+          0.852,
+          0.627,
+          0.878
+        ],
+        "K → All dur abilities of R"
+      ],
+      [
+        [
+          0.454,
+          0.877,
+          0.492,
+          0.892
+        ],
+        "AND"
+      ],
+      [
+        [
+          0.705,
+          0.853,
+          0.902,
+          0.879
+        ],
+        "- think yourself as a detective"
+      ],
+      [
+        [
+          0.736,
+          0.865,
+          0.963,
+          0.889
+        ],
+        "- start with one clue, let it lead"
+      ],
+      [
+        [
+          0.752,
+          0.881,
+          0.85,
+          0.897
+        ],
+        "to more lines"
+      ],
+      [
+        [
+          0.024,
+          0.888,
+          0.106,
+          0.904
+        ],
+        "inconcessively"
+      ],
+      [
+        [
+          0.411,
+          0.895,
+          0.452,
+          0.909
+        ],
+        "No star"
+      ],
+      [
+        [
+          0.03,
+          0.906,
+          0.3,
+          0.93
+        ],
+        "- FD means one after's value is completely"
+      ],
+      [
+        [
+          0.411,
+          0.888,
+          0.653,
+          0.922
+        ],
+        "so best of us → all other attitudes"
+      ],
+      [
+        [
+          0.556,
+          0.905,
+          0.595,
+          0.921
+        ],
+        "of R"
+      ],
+      [
+        [
+          0.046,
+          0.923,
+          0.177,
+          0.942
+        ],
+        "controlled by order"
+      ],
+      [
+        [
+          0.049,
+          0.93,
+          0.3,
+          0.955
+        ],
+        "- when controlling after appears in multiple"
+      ],
+      [
+        [
+          0.061,
+          0.943,
+          0.302,
+          0.967
+        ],
+        "long, its dependent value gets copy"
+      ],
+      [
+        [
+          0.058,
+          0.961,
+          0.242,
+          0.984
+        ],
+        "pased → ie redundancy"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.9143,
+      "recall_at_05": 0.7357,
+      "precision": 0.7711,
+      "hmean": 0.8366,
+      "avg_iou": 0.6531,
+      "text_sim": 0.8414,
+      "avg_cer": 0.2312,
+      "bow_f1": 0.6111,
+      "char_recall": 0.9313,
+      "char_precision": 0.9378
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "seconds": 9.453
+  },
+  {
+    "document": "notes",
+    "mode": "grounded",
+    "model": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "profile": "paddle",
+    "image_size": [
+      1583,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "- fu can have null value<|LOC_40|><|LOC_23|><|LOC_446|><|LOC_23|><|LOC_446|><|LOC_52|><|LOC_40|><|LOC_52|>\n- I card modify my existing implementation of Project (1)<|LOC_40|><|LOC_63|><|LOC_944|><|LOC_63|><|LOC_944|><|LOC_108|><|LOC_40|><|LOC_108|>\nMapping Ainaly (1) Relationship Sets<|LOC_34|><|LOC_148|><|LOC_606|><|LOC_148|><|LOC_606|><|LOC_189|><|LOC_34|><|LOC_189|>\n- f.u approach<|LOC_69|><|LOC_194|><|LOC_308|><|LOC_194|><|LOC_308|><|LOC_226|><|LOC_69|><|LOC_226|>\n- Merged relation approach<|LOC_88|><|LOC_236|><|LOC_461|><|LOC_236|><|LOC_461|><|LOC_271|><|LOC_88|><|LOC_271|>\n(if tooth participations are total, merge<|LOC_194|><|LOC_263|><|LOC_831|><|LOC_263|><|LOC_831|><|LOC_304|><|LOC_194|><|LOC_304|>\n2 entity sets and relationship set in a single<|LOC_208|><|LOC_291|><|LOC_911|><|LOC_291|><|LOC_911|><|LOC_340|><|LOC_208|><|LOC_340|>\ntable)<|LOC_204|><|LOC_337|><|LOC_306|><|LOC_337|><|LOC_306|><|LOC_382|><|LOC_204|><|LOC_382|>\n① F.u approach total<|LOC_30|><|LOC_389|><|LOC_386|><|LOC_389|><|LOC_386|><|LOC_431|><|LOC_30|><|LOC_431|>\nCross Ref 950<|LOC_714|><|LOC_390|><|LOC_906|><|LOC_390|><|LOC_906|><|LOC_420|><|LOC_714|><|LOC_420|>\napplies here<|LOC_732|><|LOC_425|><|LOC_925|><|LOC_425|><|LOC_925|><|LOC_454|><|LOC_732|><|LOC_454|>\nS<|LOC_196|><|LOC_448|><|LOC_220|><|LOC_448|><|LOC_220|><|LOC_472|><|LOC_196|><|LOC_472|>\nT<|LOC_496|><|LOC_440|><|LOC_534|><|LOC_440|><|LOC_534|><|LOC_465|><|LOC_496|><|LOC_465|>\nmerge-ru een work<|LOC_675|><|LOC_471|><|LOC_914|><|LOC_471|><|LOC_914|><|LOC_498|><|LOC_675|><|LOC_498|>\nwere with P.u from.<|LOC_688|><|LOC_488|><|LOC_968|><|LOC_488|><|LOC_968|><|LOC_523|><|LOC_688|><|LOC_523|>\n\\( a_n \\)<|LOC_406|><|LOC_525|><|LOC_438|><|LOC_525|><|LOC_438|><|LOC_548|><|LOC_406|><|LOC_548|>\ntotal postfieldpotion<|LOC_679|><|LOC_518|><|LOC_935|><|LOC_518|><|LOC_935|><|LOC_554|><|LOC_679|><|LOC_554|>\n-not desiredae<|LOC_751|><|LOC_544|><|LOC_952|><|LOC_544|><|LOC_952|><|LOC_570|><|LOC_751|><|LOC_570|>\n\\( S \\mid \\underline{Pu(S)} \\mid \\ldots \\mid Pu(T) \\mid a_1 \\mid \\ldots \\mid a_n \\)<|LOC_297|><|LOC_585|><|LOC_888|><|LOC_585|><|LOC_888|><|LOC_632|><|LOC_297|><|LOC_632|>\nT [Pu(T)] ... 1<|LOC_297|><|LOC_683|><|LOC_552|><|LOC_683|><|LOC_552|><|LOC_720|><|LOC_297|><|LOC_720|>\nMerge-reaction<|LOC_99|><|LOC_709|><|LOC_278|><|LOC_709|><|LOC_278|><|LOC_754|><|LOC_99|><|LOC_754|>\n\\( S \\)<|LOC_174|><|LOC_774|><|LOC_198|><|LOC_774|><|LOC_198|><|LOC_793|><|LOC_174|><|LOC_793|>\nT<|LOC_410|><|LOC_764|><|LOC_436|><|LOC_764|><|LOC_436|><|LOC_788|><|LOC_410|><|LOC_788|>\nP.u can be other one<|LOC_554|><|LOC_788|><|LOC_891|><|LOC_788|><|LOC_891|><|LOC_819|><|LOC_554|><|LOC_819|>\nfu applies<|LOC_61|><|LOC_836|><|LOC_186|><|LOC_836|><|LOC_186|><|LOC_872|><|LOC_61|><|LOC_872|>\nto second case<|LOC_61|><|LOC_862|><|LOC_249|><|LOC_862|><|LOC_249|><|LOC_898|><|LOC_61|><|LOC_898|>\nas well<|LOC_85|><|LOC_893|><|LOC_189|><|LOC_893|><|LOC_189|><|LOC_925|><|LOC_85|><|LOC_925|>\nST | \\( P(s) \\mid P(t) \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n \\)<|LOC_351|><|LOC_886|><|LOC_888|><|LOC_886|><|LOC_888|><|LOC_935|><|LOC_351|><|LOC_935|>\nCross Ref can also<|LOC_54|><|LOC_916|><|LOC_281|><|LOC_916|><|LOC_281|><|LOC_956|><|LOC_54|><|LOC_956|>\napply were<|LOC_93|><|LOC_945|><|LOC_225|><|LOC_945|><|LOC_225|><|LOC_985|><|LOC_93|><|LOC_985|>\n(since it 1:1)<|LOC_398|><|LOC_939|><|LOC_613|><|LOC_939|><|LOC_613|><|LOC_973|><|LOC_398|><|LOC_973|></s>",
+    "blocks": [
+      [
+        [
+          0.04,
+          0.023,
+          0.446,
+          0.052
+        ],
+        "- fu can have null value"
+      ],
+      [
+        [
+          0.04,
+          0.063,
+          0.944,
+          0.108
+        ],
+        "- I card modify my existing implementation of Project (1)"
+      ],
+      [
+        [
+          0.034,
+          0.148,
+          0.606,
+          0.189
+        ],
+        "Mapping Ainaly (1) Relationship Sets"
+      ],
+      [
+        [
+          0.069,
+          0.194,
+          0.308,
+          0.226
+        ],
+        "- f.u approach"
+      ],
+      [
+        [
+          0.088,
+          0.236,
+          0.461,
+          0.271
+        ],
+        "- Merged relation approach"
+      ],
+      [
+        [
+          0.194,
+          0.263,
+          0.831,
+          0.304
+        ],
+        "(if tooth participations are total, merge"
+      ],
+      [
+        [
+          0.208,
+          0.291,
+          0.911,
+          0.34
+        ],
+        "2 entity sets and relationship set in a single"
+      ],
+      [
+        [
+          0.204,
+          0.337,
+          0.306,
+          0.382
+        ],
+        "table)"
+      ],
+      [
+        [
+          0.03,
+          0.389,
+          0.386,
+          0.431
+        ],
+        "① F.u approach total"
+      ],
+      [
+        [
+          0.714,
+          0.39,
+          0.906,
+          0.42
+        ],
+        "Cross Ref 950"
+      ],
+      [
+        [
+          0.732,
+          0.425,
+          0.925,
+          0.454
+        ],
+        "applies here"
+      ],
+      [
+        [
+          0.196,
+          0.448,
+          0.22,
+          0.472
+        ],
+        "S"
+      ],
+      [
+        [
+          0.496,
+          0.44,
+          0.534,
+          0.465
+        ],
+        "T"
+      ],
+      [
+        [
+          0.675,
+          0.471,
+          0.914,
+          0.498
+        ],
+        "merge-ru een work"
+      ],
+      [
+        [
+          0.688,
+          0.488,
+          0.968,
+          0.523
+        ],
+        "were with P.u from."
+      ],
+      [
+        [
+          0.406,
+          0.525,
+          0.438,
+          0.548
+        ],
+        "\\( a_n \\)"
+      ],
+      [
+        [
+          0.679,
+          0.518,
+          0.935,
+          0.554
+        ],
+        "total postfieldpotion"
+      ],
+      [
+        [
+          0.751,
+          0.544,
+          0.952,
+          0.57
+        ],
+        "-not desiredae"
+      ],
+      [
+        [
+          0.297,
+          0.585,
+          0.888,
+          0.632
+        ],
+        "\\( S \\mid \\underline{Pu(S)} \\mid \\ldots \\mid Pu(T) \\mid a_1 \\mid \\ldots \\mid a_n \\)"
+      ],
+      [
+        [
+          0.297,
+          0.683,
+          0.552,
+          0.72
+        ],
+        "T [Pu(T)] ... 1"
+      ],
+      [
+        [
+          0.099,
+          0.709,
+          0.278,
+          0.754
+        ],
+        "Merge-reaction"
+      ],
+      [
+        [
+          0.174,
+          0.774,
+          0.198,
+          0.793
+        ],
+        "\\( S \\)"
+      ],
+      [
+        [
+          0.41,
+          0.764,
+          0.436,
+          0.788
+        ],
+        "T"
+      ],
+      [
+        [
+          0.554,
+          0.788,
+          0.891,
+          0.819
+        ],
+        "P.u can be other one"
+      ],
+      [
+        [
+          0.061,
+          0.836,
+          0.186,
+          0.872
+        ],
+        "fu applies"
+      ],
+      [
+        [
+          0.061,
+          0.862,
+          0.249,
+          0.898
+        ],
+        "to second case"
+      ],
+      [
+        [
+          0.085,
+          0.893,
+          0.189,
+          0.925
+        ],
+        "as well"
+      ],
+      [
+        [
+          0.351,
+          0.886,
+          0.888,
+          0.935
+        ],
+        "ST | \\( P(s) \\mid P(t) \\mid \\ldots \\mid a_1 \\mid \\ldots \\mid a_n \\)"
+      ],
+      [
+        [
+          0.054,
+          0.916,
+          0.281,
+          0.956
+        ],
+        "Cross Ref can also"
+      ],
+      [
+        [
+          0.093,
+          0.945,
+          0.225,
+          0.985
+        ],
+        "apply were"
+      ],
+      [
+        [
+          0.398,
+          0.939,
+          0.613,
+          0.973
+        ],
+        "(since it 1:1)"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.7097,
+      "recall_at_05": 0.6129,
+      "precision": 0.7097,
+      "hmean": 0.7097,
+      "avg_iou": 0.6968,
+      "text_sim": 0.8154,
+      "avg_cer": 0.2852,
+      "bow_f1": 0.5242,
+      "char_recall": 0.9575,
+      "char_precision": 0.9665
+    },
+    "checks": [
+      3,
+      5,
+      [
+        "missing: 'Mapping Binary 1:1 Relationship Sets'",
+        "missing: 'FK can have null value'"
+      ]
+    ],
+    "seconds": 2.875
+  },
+  {
+    "document": "image",
+    "mode": "grounded",
+    "model": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "profile": "paddle",
+    "image_size": [
+      1520,
+      2048
+    ],
+    "max_dim": 2048,
+    "seed": 0,
+    "top_p": 1.0,
+    "temperature": null,
+    "raw": "Fr 10.4.2026<|LOC_56|><|LOC_38|><|LOC_433|><|LOC_38|><|LOC_433|><|LOC_75|><|LOC_56|><|LOC_75|>\n1000<|LOC_749|><|LOC_31|><|LOC_842|><|LOC_31|><|LOC_842|><|LOC_57|><|LOC_749|><|LOC_57|>\nNeurotiker<|LOC_54|><|LOC_139|><|LOC_277|><|LOC_139|><|LOC_277|><|LOC_172|><|LOC_54|><|LOC_172|>\nPsychiotiker<|LOC_610|><|LOC_126|><|LOC_894|><|LOC_126|><|LOC_894|><|LOC_179|><|LOC_610|><|LOC_179|>\nTypen 23<|LOC_51|><|LOC_202|><|LOC_274|><|LOC_202|><|LOC_274|><|LOC_246|><|LOC_51|><|LOC_246|>\nTypen 14<|LOC_619|><|LOC_202|><|LOC_899|><|LOC_202|><|LOC_899|><|LOC_249|><|LOC_619|><|LOC_249|>\nschwadke Grenzen<|LOC_49|><|LOC_286|><|LOC_368|><|LOC_286|><|LOC_368|><|LOC_318|><|LOC_49|><|LOC_318|>\nstarke Grenzen<|LOC_545|><|LOC_290|><|LOC_909|><|LOC_290|><|LOC_909|><|LOC_325|><|LOC_545|><|LOC_325|>\nim Kopf<|LOC_139|><|LOC_319|><|LOC_329|><|LOC_319|><|LOC_329|><|LOC_356|><|LOC_139|><|LOC_356|>\nim Kopf<|LOC_692|><|LOC_321|><|LOC_935|><|LOC_321|><|LOC_935|><|LOC_364|><|LOC_692|><|LOC_364|>\nLinke<|LOC_95|><|LOC_385|><|LOC_249|><|LOC_385|><|LOC_249|><|LOC_416|><|LOC_95|><|LOC_416|>\nRechte<|LOC_644|><|LOC_375|><|LOC_825|><|LOC_375|><|LOC_825|><|LOC_416|><|LOC_644|><|LOC_416|>\nweibid<|LOC_76|><|LOC_418|><|LOC_314|><|LOC_418|><|LOC_314|><|LOC_463|><|LOC_76|><|LOC_463|>\nmannlid<|LOC_622|><|LOC_424|><|LOC_849|><|LOC_424|><|LOC_849|><|LOC_457|><|LOC_622|><|LOC_457|>\nverwechseln viel<|LOC_36|><|LOC_506|><|LOC_395|><|LOC_506|><|LOC_395|><|LOC_550|><|LOC_36|><|LOC_550|>\nverwechseln wenig<|LOC_560|><|LOC_504|><|LOC_935|><|LOC_504|><|LOC_935|><|LOC_553|><|LOC_560|><|LOC_553|>\n\"Alles ist eins\"<|LOC_44|><|LOC_591|><|LOC_401|><|LOC_591|><|LOC_401|><|LOC_633|><|LOC_44|><|LOC_633|>\ndenken verschwommen<|LOC_54|><|LOC_670|><|LOC_467|><|LOC_670|><|LOC_467|><|LOC_706|><|LOC_54|><|LOC_706|>\ndenken scharf<|LOC_545|><|LOC_653|><|LOC_861|><|LOC_653|><|LOC_861|><|LOC_705|><|LOC_545|><|LOC_705|>\nSchwannkopf<|LOC_64|><|LOC_730|><|LOC_336|><|LOC_730|><|LOC_336|><|LOC_783|><|LOC_64|><|LOC_783|>\nSchwadkopf<|LOC_67|><|LOC_783|><|LOC_363|><|LOC_783|><|LOC_363|><|LOC_831|><|LOC_67|><|LOC_831|>\nMystiker<|LOC_76|><|LOC_841|><|LOC_325|><|LOC_841|><|LOC_325|><|LOC_888|><|LOC_76|><|LOC_888|>\nGnostiker<|LOC_563|><|LOC_837|><|LOC_847|><|LOC_837|><|LOC_847|><|LOC_876|><|LOC_563|><|LOC_876|></s>",
+    "blocks": [
+      [
+        [
+          0.056,
+          0.038,
+          0.433,
+          0.075
+        ],
+        "Fr 10.4.2026"
+      ],
+      [
+        [
+          0.749,
+          0.031,
+          0.842,
+          0.057
+        ],
+        "1000"
+      ],
+      [
+        [
+          0.054,
+          0.139,
+          0.277,
+          0.172
+        ],
+        "Neurotiker"
+      ],
+      [
+        [
+          0.61,
+          0.126,
+          0.894,
+          0.179
+        ],
+        "Psychiotiker"
+      ],
+      [
+        [
+          0.051,
+          0.202,
+          0.274,
+          0.246
+        ],
+        "Typen 23"
+      ],
+      [
+        [
+          0.619,
+          0.202,
+          0.899,
+          0.249
+        ],
+        "Typen 14"
+      ],
+      [
+        [
+          0.049,
+          0.286,
+          0.368,
+          0.318
+        ],
+        "schwadke Grenzen"
+      ],
+      [
+        [
+          0.545,
+          0.29,
+          0.909,
+          0.325
+        ],
+        "starke Grenzen"
+      ],
+      [
+        [
+          0.139,
+          0.319,
+          0.329,
+          0.356
+        ],
+        "im Kopf"
+      ],
+      [
+        [
+          0.692,
+          0.321,
+          0.935,
+          0.364
+        ],
+        "im Kopf"
+      ],
+      [
+        [
+          0.095,
+          0.385,
+          0.249,
+          0.416
+        ],
+        "Linke"
+      ],
+      [
+        [
+          0.644,
+          0.375,
+          0.825,
+          0.416
+        ],
+        "Rechte"
+      ],
+      [
+        [
+          0.076,
+          0.418,
+          0.314,
+          0.463
+        ],
+        "weibid"
+      ],
+      [
+        [
+          0.622,
+          0.424,
+          0.849,
+          0.457
+        ],
+        "mannlid"
+      ],
+      [
+        [
+          0.036,
+          0.506,
+          0.395,
+          0.55
+        ],
+        "verwechseln viel"
+      ],
+      [
+        [
+          0.56,
+          0.504,
+          0.935,
+          0.553
+        ],
+        "verwechseln wenig"
+      ],
+      [
+        [
+          0.044,
+          0.591,
+          0.401,
+          0.633
+        ],
+        "\"Alles ist eins\""
+      ],
+      [
+        [
+          0.054,
+          0.67,
+          0.467,
+          0.706
+        ],
+        "denken verschwommen"
+      ],
+      [
+        [
+          0.545,
+          0.653,
+          0.861,
+          0.705
+        ],
+        "denken scharf"
+      ],
+      [
+        [
+          0.064,
+          0.73,
+          0.336,
+          0.783
+        ],
+        "Schwannkopf"
+      ],
+      [
+        [
+          0.067,
+          0.783,
+          0.363,
+          0.831
+        ],
+        "Schwadkopf"
+      ],
+      [
+        [
+          0.076,
+          0.841,
+          0.325,
+          0.888
+        ],
+        "Mystiker"
+      ],
+      [
+        [
+          0.563,
+          0.837,
+          0.847,
+          0.876
+        ],
+        "Gnostiker"
+      ]
+    ],
+    "metrics": {
+      "recall": 0.3913,
+      "recall_at_05": 0.0435,
+      "precision": 0.3913,
+      "hmean": 0.3913,
+      "avg_iou": 0.4228,
+      "text_sim": 0.9293,
+      "avg_cer": 0.0859,
+      "bow_f1": 0.8333,
+      "char_recall": 0.3033,
+      "char_precision": 0.332
+    },
+    "seconds": 2.422
+  }
+]

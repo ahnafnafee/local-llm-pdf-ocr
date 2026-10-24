@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 3.014999999984866,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-XwJFU9TZIPK9B28Cs2e7gq0hdOWL3bGa",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](33,46,642,100) # Mapping of Specialization / Generalization\n\n![image](233,103,620,383) Hand-drawn diagram showing nodes S, G1, G2, C1, Cm with arrows and labels.\n\n![image](57,401,812,664) Hand-drawn diagram showing mapping with 'option 1' and 'mtl' annotations.\n\n![text](161,722,605,770) Redundancy with option 2",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844430,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 134,
+      "prompt_tokens": 3152,
+      "total_tokens": 3286,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1547.618,
+      "prompt_per_token_ms": 0.4909955583756345,
+      "prompt_per_second": 2036.678301751466,
+      "predicted_n": 134,
+      "predicted_ms": 1289.986,
+      "predicted_per_token_ms": 9.699142857142858,
+      "predicted_per_second": 103.10189412908356
+    }
+  }
+}

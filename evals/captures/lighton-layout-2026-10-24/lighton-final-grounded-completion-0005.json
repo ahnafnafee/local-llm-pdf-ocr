@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 40.030999999988126,
+  "max_tokens": 4096,
+  "temperature": 0.2,
+  "response": {
+    "id": "chatcmpl-Hzw4XqpnJqXhLD7YJSI7ZmXG5V89SQ1P",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](14,24,136,37) SQL in Application Code\n\n![list](14,37,136,50)\n- Two main integration approaches\n\n![list](14,50,136,62)\n- (SU) Statement level interface → embedded SQL\n\n![list](14,62,136,75)\n- embedded SQL\n\n![list](14,75,136,88)\n- (CU) Call-level interface → JDBC\n\n![list](14,87,136,100)\n- special API to → JDBC\n\n![text](14,100,136,112) SQL commands\n\n![table](14,112,136,200) <table>\n  <tr>\n    <th rowspan=\"2\">SU</th>\n    <th rowspan=\"2\">Precompiler</th>\n    <th rowspan=\"2\">Schema Info</th>\n    <th rowspan=\"2\">Adapter Info</th>\n    <th rowspan=\"2\">Multiple DB</th>\n    <th rowspan=\"2\">Efficiency</th>\n    <th rowspan=\"2\">Efficiency</th>\n  </tr>\n  <tr>\n    <th>Yes</th>\n    <th>Yes</th>\n    <th>No</th>\n    <th>Higher</th>\n    <th>Lower</th>\n  </tr>\n  <tr>\n    <td>(CU)</td>\n    <td>No</td>\n    <td>No</td>\n    <td>No</td>\n    <td>Yes</td>\n    <td>Lower</td>\n    <td>Higher</td>\n  </tr>\n</table>\n\n![text](14,200,136,212) Schema of DB must be known at\n\n![text](14,212,136,225) that program is written for embedded SQL\n\n![text](14,225,136,238) → can get info at runtime\n\n![text](14,237,136,250) instead of compile time\n\n![list](14,250,136,262)\n- SQLSTATE - common error var. defined here\n\n![text](14,262,136,275) EXEC SQL SELECT S_id, S_age\n\n![text](14,275,136,288) INTO :c_name, :c_age\n\n![text](14,288,136,301) FROM S:ids: S\n\n![text](14,301,136,314) WHERE S.id = :c-Sid\n\n![text](14,314,136,327) → in parameter\n\n![list](14,327,136,340)\n- for db, start index from 1\n\n![text](14,340,136,353) Project 2\n\n![list](14,353,136,366)\n- need to use LIKE for partial matching\n\n![list](14,366,136,379)\n- cross-check?\n\n![list](14,379,136,392)\n- program should NOT crash\n\n![list](14,392,136,405)\n- use grade for simplicity\n\n![text](14,405,136,418) (but that's what I know best)\n\n![list](14,418,136,431)\n- execute Update()\n\n![text](14,431,136,444) only returns number of rows (affected)\n\n![list](14,444,136,457)\n- see the comparison table for\n\n![text](14,457,136,470) 6 so use\n\n![text](14,470,136,483) executeQuery()\n\n![text](14,483,136,496) instead\n\n![list](14,496,136,509)\n- JDBC vs SQLS\n\n![text](14,509,136,522) 6 for managing\n\n![text](14,522,136,535) complexity\n\n![text](14,535,136,548) better\n\n![text](14,548,136,561) L13: Functional Dependencies\n\n![text](14,561,136,574) Attribute Closure\n\n![text](14,574,136,587) L14: Normal Forms\n\n![text](14,587,136,600) Normalize\n\n![text](14,600,136,613) L15: Properties of Decomposition\n\n![text](14,613,136,626) Lossless Join + DP\n\n![text](14,626,136,639) Minimal Cover\n\n![text](14,639,136,652) L16: Decomposition Algorithms\n\n![list](14,652,136,665)\n- look out for redundancies in data\n\n![text](14,665,136,678) instances\n\n![text](14,678,136,691) $t_1[X] = t_2[X] \\Rightarrow t_1[Y] = t_2[Y]$\n\n![text](14,691,136,704) $t_1$ and $t_2$ → Any two rows in year table\n\n![text](14,704,136,717) $t_1[X]$ → row at the X columns of row 1\n\n![text](14,717,136,730) $t_1[X] = t_2[X]$ → row 1 and row 2 have same X values\n\n![text](14,730,136,743) ⇒ → forces\n\n![text](14,743,136,756) $t_1(Y) = t_2(Y)$ → row 1 and row 2 must also have\n\n![text](14,756,136,769) same Y values\n\n![text](14,769,136,782) FD between non-key attributes is a\n\n![text](14,782,136,795) RED FLAG that data is being repeatedly\n\n![text](14,795,136,808) unnecessarily\n\n![list](14,808,136,821)\n- FD means one attr's value is completely\n\n![text](14,821,136,834) controlled by another\n\n![text](14,834,136,847) when controlling attr appears in multiple\n\n![text](14,847,136,860) rows, its dependent value gets copied\n\n![text](14,860,136,873) passed → i.e. redundancy\n\n![list](14,873,136,886)\n- Impedance Mismatch problem\n\n![list](14,886,136,899)\n- fixed with cursor\n\n![text](14,899,136,912) OPEN: when SQL statement is executed\n\n![text](14,912,136,925) FETCH: when it moves to the next row\n\n![text](14,925,136,938) INSSENSITIVE cursor: cannot make changes to\n\n![text](14,938,136,951) DB with cursor\n\n![text](14,951,136,964) If I want to update result:\n\n![text](14,964,136,977) then declare sensitive cursor\n\n![text](14,977,136,990) → gives issue with collecting set of tuples\n\n![text](14,990,136,1003) CLOSE: closes the cursor\n\n![text](14,1003,136,1016) Cursor can be reopened when in variable\n\n![text](14,1016,136,1029) is different\n\n![text](14,1029,136,1042) Note the poll !!\n\n![text](14,1042,136,1055) question\n\n![list](14,1055,136,1068)\n- to make any changes, I need to declare\n\n![text](14,1068,136,1081) a sensitive cursor\n\n![list](14,1081,136,1094)\n- embedded SQL recommended in systems\n\n![text](14,1094,136,1107) that require high performance without\n\n![text](14,1107,136,1120) JDBC overhead\n\n![list](14,1120,136,1133)\n- for dynamic SQL, we cannot reuse, since\n\n![text](14,1133,136,1146) we need to prepare\n\n![text](14,1146,136,1159) JDBC/JDBC\n\n![text](14,1159,136,1172) JDBC does not require knowing details of\n\n![text](14,1172,136,1185) schema info\n\n![list](14,1185,136,1198)\n- can connect to multiple DBs with multiple\n\n![text](14,1198,136,1211) separate drivers\n\n![list](14,1211,136,1224)\n- all interactions with the DB performed via\n\n![text](14,1224,136,1237) a connection object\n\n![text](14,1237,136,1250) Prepared Statement is more efficient to use\n\n![text](14,1250,136,1263) since it's made to reuse as it is precompiled\n\n![list](14,1263,136,1276)\n- ? are placeholders\n\n![list](14,1276,136,1289)\n- Keyword → Redundancy\n\n![list](14,1289,136,1302)\n- FD: most important kind of constraint\n\n![text](14,1302,136,1315) in the relational model\n\n![list](14,1315,136,1328)\n- associated with the schema, not\n\n![text](14,1328,136,1341) the instance\n\n![list](14,1341,136,1354)\n- can I represent key constraint with FD?\n\n![text](14,1354,136,1367) X → Y\n\n![text](14,1367,136,1380) X functionally determines Y\n\n![text](14,1380,136,1393) alternatively,\n\n![text](14,1393,136,1406) Y is dependent on X\n\n![text](14,1406,136,1419) PhoneBook\n\n![table](14,1419,136,1507) <table>\n  <tr>\n    <th>Phone #</th>\n    <th>Name</th>\n    <th>City</th>\n  </tr>\n  <tr>\n    <td>2055550101</td>\n    <td>Alice</td>\n    <td>Fortex</td>\n  </tr>\n  <tr>\n    <td>3055550101</td>\n    <td>Alice</td>\n    <td>Fortex</td>\n  </tr>\n</table>\n\n![text](14,1507,136,1520) if I won someone's phone no,\n\n![text](14,1520,136,1533) can I always figure out their name\n\n![text](14,1533,136,1546) Phone # → Name\n\n![list](14,1546,136,1559)\n- why repetition is problematic\n\n![list](14,1559,136,1572)\n- update anomaly\n\n![list](14,1572,136,1585)\n- insertion anomaly\n\n![list](14,1585,136,1598)\n- deletion anomaly\n\n![text](14,1598,136,1611) She is going away\n\n![text](14,1611,136,1624) too fast for me\n\n![text](14,1624,136,1637) to object...\n\n![text](14,1637,136,1650) old: + (old: +)\n\n![text](14,1650,136,1663) this\n\n![text](14,1663,136,1676) - see explanation in PRX\n\n![list](14,1676,136,1689)\n- $K = \\{A_1, A_2, \\ldots, A_n\\}$ is a candidate key\n\n![text](14,1689,136,1702) for relation R if\n\n![text](14,1702,136,1715) $K \\rightarrow$ all other attributes of R\n\n![text](14,1715,136,1728) AND\n\n![text](14,1728,136,1741) No attr\n\n![text](14,1741,136,1754) in fact of K → all other attributes\n\n![text](14,1754,136,1767) of R\n\n![list](14,1767,136,1780)\n- $X \\rightarrow Y2$\n\n![text](14,1780,136,1793) $\\sum X \\rightarrow Y$\n\n![text](14,1793,136,1806) $\\sum X \\rightarrow 2$\n\n![text](14,1806,136,1819) LHS is the\n\n![text](14,1819,136,1832) determinant\n\n![text](14,1832,136,1845) cannot decompose\n\n![text](14,1845,136,1858) LHS\n\n![text](14,1858,136,1871) $\\sum X \\rightarrow Y2$\n\n![text](14,1871,136,1884) $\\sum X \\rightarrow 2$\n\n![list](14,1884,136,1897)\n- Closure of Attributes\n\n![list](14,1897,136,1910)\n- find all attributes dependent on $X$\n\n![text](14,1910,136,1923) if I know value of attr X, what\n\n![text](14,1923,136,1936) else can I figure out?\n\n![text](14,1936,136,1949) - i.e. closure of X\n\n![text](14,1949,136,1962) AUA. $X^+$\n\n![list](14,1962,136,1975)\n- think yourself as a detective\n\n![list](14,1975,136,1988)\n- start with one clue, let it lead\n\n![text](14,1988,136,2001) to more clues",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792843944,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 4056,
+      "prompt_tokens": 2096,
+      "total_tokens": 6152,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2092
+      }
+    },
+    "timings": {
+      "cache_n": 2092,
+      "prompt_n": 4,
+      "prompt_ms": 36.121,
+      "prompt_per_token_ms": 9.03025,
+      "prompt_per_second": 110.73890534592064,
+      "predicted_n": 4056,
+      "predicted_ms": 39854.929,
+      "predicted_per_token_ms": 9.82858914919852,
+      "predicted_per_second": 101.74400260504794
+    }
+  }
+}

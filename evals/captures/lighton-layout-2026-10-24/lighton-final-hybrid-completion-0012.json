@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 2.8589999999967404,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-0Ug7b0uBej40SmGlMc2bWQbJZSsn7X99",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![title](25,14,427,66) - Mapping Aggregation\n\n![text](178,66,790,146) - must have tables for each strong entity sets\n\n![text](181,142,905,238) - primarily creating the relationship set to a separate table\n\n![image](150,431,777,833) Entity-Relationship diagram showing EMPLOYEE, DEPARTMENT, PROJECT, DEPENDENT entities and their relationships.",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844423,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 120,
+      "prompt_tokens": 3152,
+      "total_tokens": 3272,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1539.934,
+      "prompt_per_token_ms": 0.48855774111675127,
+      "prompt_per_second": 2046.84096850904,
+      "predicted_n": 120,
+      "predicted_ms": 1156.682,
+      "predicted_per_token_ms": 9.72001680672269,
+      "predicted_per_second": 102.88048054694376
+    }
+  }
+}

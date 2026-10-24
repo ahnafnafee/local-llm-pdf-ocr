@@ -1,0 +1,14 @@
+{
+  "mode": "hybrid",
+  "model": "allenai/olmocr-2-7b",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "output_pages": 2,
+  "text_characters_per_page": [
+    0,
+    701
+  ],
+  "elapsed_seconds": 6.92,
+  "output": "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\ocr-quality-20261023\\web-hybrid-selected-page.pdf",
+  "passed": true
+}

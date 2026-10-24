@@ -1,0 +1,201 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.118,
+        0.021,
+        0.256,
+        0.039
+      ],
+      "text": "FakeDoc M.D.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.35,
+        0.047,
+        0.635,
+        0.071
+      ],
+      "text": "HEALTH INTAKE FORM",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.076,
+        0.8649999999999999,
+        0.12
+      ],
+      "text": "Please fill out the questionnaire carefully. The information you provide will be used to complete",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.094,
+        0.506,
+        0.11900000000000001
+      ],
+      "text": "your health profile and will be kept confidential.",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.137,
+        0.333,
+        0.165
+      ],
+      "text": "Date: 9/14/19",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.17799999999999996,
+        0.506,
+        0.20700000000000002
+      ],
+      "text": "Name: Sally Walker",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.657,
+        0.17799999999999996,
+        0.931,
+        0.20700000000000002
+      ],
+      "text": "DOB: 09/04/1986",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.222,
+        0.921,
+        0.253
+      ],
+      "text": "Address: 24 Bancy Lane City: Towaco State: NJ Zip: 07082",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.265,
+        0.921,
+        0.302
+      ],
+      "text": "Email: Sally.walker@email.com Phone #: (906)917-3486",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.313,
+        0.931,
+        0.345
+      ],
+      "text": "Gender: F Marital Status: Single Occupation: Software Engineer",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.359,
+        0.407,
+        0.386
+      ],
+      "text": "Referred By: None",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.398,
+        0.9629999999999999,
+        0.431
+      ],
+      "text": "Emergency Contact: Eva Walker Emergency Contact Phone: (906)334-89260",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.44499999999999995,
+        0.74,
+        0.47100000000000003
+      ],
+      "text": "Describe your medical concerns (symptoms, diagnoses, etc):",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.142,
+        0.493,
+        0.8260000000000001,
+        0.527
+      ],
+      "text": "Runny nose, mucas in throat, weakness,",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.142,
+        0.527,
+        0.506,
+        0.555
+      ],
+      "text": "aches, chills, tired",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.118,
+        0.739,
+        0.796,
+        0.7670000000000001
+      ],
+      "text": "Are you currently taking any medication? (If yes, please describe):",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.142,
+        0.7759999999999999,
+        0.75,
+        0.814
+      ],
+      "text": "Vyvanse (25mg) daily for attention",
+      "page_index": 0,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      863,
+      1024
+    ]
+  ],
+  "page_indices": [
+    0
+  ],
+  "page_errors": {}
+}

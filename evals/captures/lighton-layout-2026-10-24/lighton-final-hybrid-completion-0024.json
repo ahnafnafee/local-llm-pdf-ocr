@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 4.35899999999674,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-14syYqNvobIisp7331iM5MC27rO80jDf",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](11,37,810,103) (5) $\\pi_{sname} \\left( \\left( \\sigma_{b.color = 'red'} \\text{ OR } \\sigma_{b.color = 'green'} \\right) \\cap R \\cap B \\right)$\n\n![text](19,503,897,707) (6) $\\text{red} \\rightarrow \\pi_{s.b.name} \\left( S \\cap R \\cap \\left( \\sigma_{b.color = 'red'} B \\right) \\cap S \\right)$\n\n$\\text{green} \\rightarrow \\pi_{s.b.name} \\left( S \\cap R \\cap \\left( \\sigma_{b.color = 'green'} B \\right) \\cap S \\right)$\n\n![text](107,727,687,803) $R \\cap G \\leftarrow \\pi_{sname} \\left( \\text{Red} \\cap \\text{Green} \\right)$\n\n![image](177,103,832,488) Handwritten database query formulas on a beige background with a faint light reflection.",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844498,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 268,
+      "prompt_tokens": 3152,
+      "total_tokens": 3420,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1556.058,
+      "prompt_per_token_ms": 0.4936732233502538,
+      "prompt_per_second": 2025.6314353321022,
+      "predicted_n": 268,
+      "predicted_ms": 2606.541,
+      "predicted_per_token_ms": 9.76232584269663,
+      "predicted_per_second": 102.4346058627123
+    }
+  }
+}

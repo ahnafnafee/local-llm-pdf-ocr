@@ -323,125 +323,258 @@ async def test_grounded_rejects_whitespace_only_blocks(tmp_path):
 async def test_prompted_grounded_rejects_unusable_model_output(
     monkeypatch, example_pdfs, tmp_path, raw,
 ):
-    completion = SimpleNamespace(choices=[SimpleNamespace(
-        message=SimpleNamespace(content=raw),
-    )])
-    create = AsyncMock(return_value=completion)
-    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
-    monkeypatch.setattr("openai.AsyncOpenAI", lambda **kwargs: client)
+    complete = AsyncMock(return_value=raw)
+    client = SimpleNamespace(complete=complete)
     pipe = OCRPipeline(
         pdf_handler=PDFHandler(),
-        grounded_backend=PromptedGroundedOCR(model="ovisocr2"),
+        grounded_backend=PromptedGroundedOCR(model="ovisocr2", client=client),
     )
     output = tmp_path / "out.pdf"
 
     with pytest.raises(RuntimeError, match="no text blocks"):
         await pipe.run(str(example_pdfs["digital.pdf"]), str(output))
 
-    create.assert_awaited_once()
+    assert complete.await_count == (3 if '"truncated"' in raw else 1)
     assert not output.exists()
 
 
-class TestPromptedGroundedResilience:
-    """R2 + R3: per-page failures must not tank the entire run, and progress
-    must tick per page."""
+async def test_one_failing_grounded_page_does_not_lose_others(tmp_path):
+    from types import SimpleNamespace
 
-    async def test_one_failing_page_does_not_lose_others(self, monkeypatch):
-        # Build a fake PromptedGroundedOCR that renders 3 fake pages and makes
-        # page 1 fail while pages 0 and 2 succeed.
-        from pdf_ocr.core.grounded import PromptedGroundedOCR, GroundedBlock
+    source = tmp_path / "three.pdf"
+    with fitz.open() as doc:
+        for _ in range(3):
+            doc.new_page(width=72, height=72)
+        doc.save(source)
 
-        class _FakeClient:
-            def __init__(self, *a, **kw):
-                self.chat = self
-                self.completions = self
-                self.calls = 0
-
-            async def create(self, **kwargs):
-                idx = self.calls
-                self.calls += 1
-                if idx == 1:
-                    raise RuntimeError("boom on page 1")
-
-                class _Choice:
-                    message = type("M", (), {"content": f'[{{"bbox_2d":[0,0,100,50],"content":"p{idx}"}}]'})
-                class _Resp:
-                    choices = [_Choice]
-                return _Resp
-
-        # Monkey-patch AsyncOpenAI inside grounded.py to return our fake.
-        import pdf_ocr.core.grounded as gm
-
-        class _FakeAsyncOpenAI:
-            def __init__(self, *a, **kw): pass
-            def __new__(cls, *a, **kw): return _FakeClient()
-
-        monkeypatch.setattr("openai.AsyncOpenAI", _FakeAsyncOpenAI)
-
-        backend = PromptedGroundedOCR(max_image_dim=64, concurrency=1)
-
-        # Fake the page-rasterization step by pre-seeding page_imgs via monkey-
-        # patching: replace fitz.open so we drive 3 synthetic pages.
-        import base64, io
-        from PIL import Image
-        def _tiny_b64():
-            buf = io.BytesIO()
-            Image.new("RGB", (64, 64), "white").save(buf, "JPEG")
-            return base64.b64encode(buf.getvalue()).decode()
-
-        # Reach into the backend's own loop by providing a PDF whose page count
-        # matches. Easier: subclass and override the rasterization step.
-        class _Fixed(PromptedGroundedOCR):
-            async def ocr_document(self, pdf_path, progress=None):
-                # Copy the live method but seed page_imgs directly.
-                self_ = self
-                from openai import AsyncOpenAI
-                import asyncio as _a
-                import pdf_ocr.core.grounded as _g
-
-                page_imgs = [(_tiny_b64(), 100, 100)] * 3
-                client = AsyncOpenAI(
-                    base_url=self_.api_base, api_key=self_.api_key,
-                    timeout=self_.timeout_s,
-                )
-                sem = _a.Semaphore(max(1, self_.concurrency))
-                total_pages = len(page_imgs)
-
-                async def run_one(page_idx: int):
-                    async with sem:
-                        try:
-                            resp = await client.chat.completions.create(
-                                model=self_.model, temperature=0.0,
-                                max_tokens=self_.max_tokens,
-                                messages=[{"role": "user", "content": []}],
-                            )
-                            text = (resp.choices[0].message.content or "").strip()
-                            return page_idx, _g._parse_grounded_json(
-                                text, page_idx, 100, 100,
-                            )
-                        except Exception:
-                            return page_idx, []
-
-                tasks = [_a.create_task(run_one(i)) for i in range(total_pages)]
-                blocks_by_page: dict[int, list] = {}
-                for fut in _a.as_completed(tasks):
-                    page_idx, blocks = await fut
-                    blocks_by_page[page_idx] = blocks
-
-                flat = []
-                for i in range(total_pages):
-                    flat.extend(blocks_by_page.get(i, []))
-                return _g.GroundedResponse(blocks=flat, page_sizes=[(100, 100)] * 3)
-
-        response = await _Fixed().ocr_document("ignored.pdf")
-        texts = [b.text for b in response.blocks]
-        # Pages 0 and 2 should survive; page 1 raised and returned empty.
-        assert "p0" in texts
-        assert "p2" in texts
-        assert "p1" not in texts  # page 1 failed silently
+    complete = AsyncMock(side_effect=[
+        '[{"bbox_2d":[0,0,100,50],"content":"p0"}]',
+        RuntimeError("page failed"),
+        '[{"bbox_2d":[0,0,100,50],"content":"p2"}]',
+    ])
+    backend = PromptedGroundedOCR(
+        model="vision", client=SimpleNamespace(complete=complete), concurrency=1,
+    )
+    progress = AsyncMock()
+    response = await backend.ocr_document(str(source), progress=progress)
+    assert [(b.page_index, b.text) for b in response.blocks] == [(0, "p0"), (2, "p2")]
+    assert response.page_indices == [0, 1, 2]
+    assert len(response.page_sizes) == 3
+    assert [call.args[1:3] for call in progress.await_args_list] == [
+        (0, 3), (1, 3), (2, 3), (3, 3),
+    ]
 
 
 # --- prompted grounded JSON parser (Qwen2.5-VL / Qwen3-VL response shapes) --
+
+
+async def test_truncated_page_is_retried_in_source_regions(tmp_path):
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    source = tmp_path / "two.pdf"
+    with fitz.open() as doc:
+        for _ in range(2):
+            page = doc.new_page(width=300, height=900)
+            for y in (150, 450, 750):
+                page.insert_text((30, y), "Source text")
+        doc.save(source)
+    line = '[{"bbox_2d":[100,450,900,550],"content":"recognized"}]'
+    complete = AsyncMock(side_effect=[IncompleteCompletionError("token limit"), line, line, line])
+    backend = PromptedGroundedOCR(
+        model="qwen3-vl", client=SimpleNamespace(complete=complete), max_image_dim=300,
+    )
+    response = await backend.ocr_document(str(source), pages="2")
+    assert response.page_indices == [1]
+    assert len(response.blocks) == 3
+    assert all(b.page_index == 1 for b in response.blocks)
+    assert [(b.bbox[1] + b.bbox[3]) / 2 for b in response.blocks] == pytest.approx(
+        [(1 / 3 + 0.025) / 2, 1 / 2, 1 - (1 / 3 + 0.025) / 2], abs=0.002,
+    )
+    assert complete.await_count == 4
+
+
+@pytest.mark.parametrize("horizontal", [False, True])
+@pytest.mark.parametrize("faint_pixel", [False, True])
+async def test_recovery_skips_only_white_owned_core(tmp_path, horizontal, faint_pixel):
+    from PIL import Image, ImageDraw
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    image = Image.new("RGB", (300, 900), "white")
+    draw = ImageDraw.Draw(image)
+    for y in (150, 450, 590):
+        draw.rectangle((30, y, 200, y + 5), fill="black")
+    # The y=590 mark is visible in the last band's overlap, but its owned
+    # core starts at y=600. A faint pixel inside that core must prevent a skip.
+    if faint_pixel:
+        draw.point((150, 750), fill=(254, 254, 254))
+    if horizontal:
+        image = image.transpose(Image.Transpose.TRANSPOSE)
+    source = tmp_path / "regions.png"
+    image.save(source)
+    line = '[{"bbox_2d":[450,450,550,550],"content":"recognized"}]'
+    complete = AsyncMock(side_effect=[IncompleteCompletionError("limit"), line, line, line])
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=complete))
+
+    response = await backend.ocr_document(str(source))
+
+    assert not response.page_errors
+    assert len(response.blocks) == (3 if faint_pixel else 2)
+    assert complete.await_count == (4 if faint_pixel else 3)
+
+
+async def test_blank_recovery_cannot_make_empty_page_successful(tmp_path):
+    from PIL import Image
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    source = tmp_path / "blank.png"
+    Image.new("RGB", (300, 900), "white").save(source)
+    complete = AsyncMock(side_effect=IncompleteCompletionError("limit"))
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=complete))
+
+    response = await backend.ocr_document(str(source))
+
+    assert not response.blocks
+    assert "no usable grounded text" in response.page_errors[0]
+    assert complete.await_count == 1
+
+
+@pytest.mark.parametrize("custom_prompt", [None, "Read only the header"])
+async def test_grounded_recovers_valid_but_severely_partial_page(tmp_path, custom_prompt):
+    source = tmp_path / "ink.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page(width=300, height=900)
+        page.draw_rect(fitz.Rect(30, 20, 100, 25), fill=(0, 0, 0))
+        for y in range(350, 850, 30):
+            page.draw_rect(fitz.Rect(30, y, 270, y + 10), fill=(0, 0, 0))
+        doc.save(source)
+    header = '[{"bbox_2d":[100,20,350,35],"content":"Header"}]'
+    line = '[{"bbox_2d":[100,450,900,550],"content":"More source text"}]'
+    complete = AsyncMock(side_effect=[header, line, line, line])
+    backend = PromptedGroundedOCR(
+        model="qwen3-vl", client=SimpleNamespace(complete=complete), prompt=custom_prompt,
+    )
+    response = await backend.ocr_document(str(source))
+    assert response.page_errors == {}
+    assert complete.await_count == (1 if custom_prompt else 4)
+    assert len(response.blocks) == (1 if custom_prompt else 3)
+
+
+def test_ink_coverage_accepts_sparse_headers_and_uniform_backgrounds():
+    from PIL import Image, ImageDraw
+    from pdf_ocr.core.grounded import _text_ink_coverage
+
+    header = GroundedBlock([0.1, 0.02, 0.5, 0.08], "Header", 0)
+    for color in ["white", "black", "blue", "gray"]:
+        assert _text_ink_coverage(Image.new("RGB", (300, 900), color), [header]) is None
+    image = Image.new("RGB", (300, 900), "white")
+    ImageDraw.Draw(image).rectangle((40, 30, 140, 60), fill="black")
+    assert _text_ink_coverage(image, [header]) == 1.0
+
+
+async def test_grounded_enforces_deadline_for_injected_clients(tmp_path):
+    source = tmp_path / "page.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=72, height=72)
+        doc.save(source)
+    cancelled = asyncio.Event()
+
+    async def stall(*args, **kwargs):
+        try:
+            await asyncio.sleep(1)
+        finally:
+            cancelled.set()
+
+    backend = PromptedGroundedOCR(
+        model="vision", client=SimpleNamespace(complete=stall), timeout_s=0.02,
+    )
+    started = asyncio.get_running_loop().time()
+    response = await backend.ocr_document(str(source))
+    assert not response.blocks
+    assert asyncio.get_running_loop().time() - started < 0.5
+    assert cancelled.is_set()
+    assert "deadline" in response.page_errors[0]
+
+
+@pytest.mark.parametrize("empty_band", [
+    '{\n  "blocks": [ ]\n}',
+    '```json\n[]\n```',
+    '{"blocks":[{"bbox_2d":[0,0,1000,10],"content":""}]}',
+    '[{"bbox_2d":[0,0,1000,10],"text":"  \\n"}]',
+    '{"blocks":[{"content":"","text_content":" "}]}',
+])
+async def test_grounded_recovery_accepts_formatted_empty_bands(tmp_path, empty_band):
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    source = tmp_path / "page.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page(width=300, height=900)
+        # Non-text marks prevent the source-pixel blank check from handling
+        # these bands before the model's explicit empty response is tested.
+        page.draw_line((10, 0), (10, 900))
+        doc.save(source)
+    line = '[{"bbox_2d":[100,450,900,550],"content":"recognized"}]'
+    complete = AsyncMock(side_effect=[IncompleteCompletionError("limit"), line, empty_band, line])
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=complete))
+    response = await backend.ocr_document(str(source))
+    assert len(response.blocks) == 2
+    assert not response.page_errors
+    assert complete.await_count == 4
+
+
+@pytest.mark.parametrize("response", [
+    '{"blocks":[{"content":"","text":"visible text"}]}',
+    '{"blocks":[{"bbox_2d":[0,0,1000,10]}]}',
+    '{"blocks":[{"content":null}]}',
+    '{"blocks":[null]}',
+    '{}',
+    'not JSON',
+])
+def test_empty_band_detection_rejects_nonempty_or_unrecognized_data(response):
+    from pdf_ocr.core.grounded import _is_empty_grounded_json
+
+    assert not _is_empty_grounded_json(response)
+
+
+async def test_grounded_pipeline_reports_failure_cause_on_the_source_page(tmp_path):
+    backend = SimpleNamespace(ocr_document=AsyncMock(return_value=SimpleNamespace(
+        blocks=[], page_sizes=[(100, 100)], page_indices=[2],
+        page_errors={2: "request timed out"},
+    )))
+    writer = Mock()
+    pipe = OCRPipeline(pdf_handler=PDFHandler(), grounded_backend=backend, output_writer=writer)
+    with pytest.raises(RuntimeError, match="page 3: request timed out"):
+        await pipe.run("in.pdf", str(tmp_path / "out.pdf"))
+    writer.assert_not_called()
+
+
+async def test_grounded_cancellation_drains_page_tasks(tmp_path):
+    source = tmp_path / "three.pdf"
+    with fitz.open() as doc:
+        for _ in range(3):
+            doc.new_page(width=72, height=72)
+        doc.save(source)
+    entered = asyncio.Event()
+    exited = asyncio.Event()
+    calls = 0
+
+    async def stall(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        entered.set()
+        try:
+            await asyncio.sleep(10)
+        finally:
+            exited.set()
+
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=stall))
+    task = asyncio.create_task(backend.ocr_document(str(source)))
+    await entered.wait()
+    task.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await task
+    assert exited.is_set()
+    await asyncio.sleep(0)
+    assert calls == 1
 
 
 class TestPromptedGroundedParser:

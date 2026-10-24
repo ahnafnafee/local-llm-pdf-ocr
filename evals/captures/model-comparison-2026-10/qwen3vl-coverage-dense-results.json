@@ -1,0 +1,27 @@
+[
+  {
+    "document": "dense.pdf",
+    "mode": "grounded",
+    "gt_count": 365,
+    "pipeline_count": 314,
+    "metrics": {
+      "recall": 0.3178,
+      "recall_at_05": 0.0877,
+      "precision": 0.3694,
+      "hmean": 0.3417,
+      "avg_iou": 0.4433,
+      "text_sim": 0.5601,
+      "avg_cer": 0.5505,
+      "bow_f1": 0.7415,
+      "char_recall": 0.4446,
+      "char_precision": 0.5976,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  }
+]

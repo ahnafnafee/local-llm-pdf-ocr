@@ -1,0 +1,110 @@
+[
+  {
+    "document": "hybrid",
+    "native": {
+      "recall": 0.2368,
+      "recall_at_05": 0.1316,
+      "precision": 0.6429,
+      "hmean": 0.3462,
+      "avg_iou": 0.543,
+      "text_sim": 0.8528,
+      "avg_cer": 0.3175,
+      "bow_f1": 1.0,
+      "char_recall": 0.9586,
+      "char_precision": 0.8108
+    },
+    "paddle_snapped": {
+      "recall": 0.1842,
+      "recall_at_05": 0.1316,
+      "precision": 0.5,
+      "hmean": 0.2692,
+      "avg_iou": 0.6058,
+      "text_sim": 0.9571,
+      "avg_cer": 0.1224,
+      "bow_f1": 1.0,
+      "char_recall": 0.9631,
+      "char_precision": 0.7937
+    }
+  },
+  {
+    "document": "notes",
+    "native": {
+      "recall": 0.2258,
+      "recall_at_05": 0.129,
+      "precision": 0.7,
+      "hmean": 0.3415,
+      "avg_iou": 0.5285,
+      "text_sim": 0.8139,
+      "avg_cer": 0.4801,
+      "bow_f1": 0.8075,
+      "char_recall": 0.7912,
+      "char_precision": 0.8924
+    },
+    "paddle_snapped": {
+      "recall": 0.2258,
+      "recall_at_05": 0.129,
+      "precision": 0.7,
+      "hmean": 0.3415,
+      "avg_iou": 0.5263,
+      "text_sim": 0.8139,
+      "avg_cer": 0.4801,
+      "bow_f1": 0.8075,
+      "char_recall": 0.7912,
+      "char_precision": 0.8942
+    }
+  },
+  {
+    "document": "handwritten",
+    "native": {
+      "recall": 0.8571,
+      "recall_at_05": 0.6429,
+      "precision": 1.0,
+      "hmean": 0.9231,
+      "avg_iou": 0.6229,
+      "text_sim": 0.8567,
+      "avg_cer": 0.3425,
+      "bow_f1": 0.9388,
+      "char_recall": 0.9913,
+      "char_precision": 0.9319
+    },
+    "paddle_snapped": {
+      "recall": 0.8571,
+      "recall_at_05": 0.7143,
+      "precision": 1.0,
+      "hmean": 0.9231,
+      "avg_iou": 0.6407,
+      "text_sim": 0.8567,
+      "avg_cer": 0.3425,
+      "bow_f1": 0.9388,
+      "char_recall": 0.9304,
+      "char_precision": 0.9279
+    }
+  },
+  {
+    "document": "dense",
+    "native": {
+      "recall": 0.2143,
+      "recall_at_05": 0.0357,
+      "precision": 0.3333,
+      "hmean": 0.2609,
+      "avg_iou": 0.4366,
+      "text_sim": 0.5025,
+      "avg_cer": 0.6962,
+      "bow_f1": 0.7278,
+      "char_recall": 0.6998,
+      "char_precision": 0.6792
+    },
+    "paddle_snapped": {
+      "recall": 0.2143,
+      "recall_at_05": 0.0357,
+      "precision": 0.3333,
+      "hmean": 0.2609,
+      "avg_iou": 0.4316,
+      "text_sim": 0.5025,
+      "avg_cer": 0.6962,
+      "bow_f1": 0.7278,
+      "char_recall": 0.7042,
+      "char_precision": 0.6753
+    }
+  }
+]

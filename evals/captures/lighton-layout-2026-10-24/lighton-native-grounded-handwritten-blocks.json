@@ -1,0 +1,91 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.047,
+        0.029,
+        0.222,
+        0.08500000000000002
+      ],
+      "text": "# Algorithms",
+      "page_index": 0,
+      "label": "title"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.105,
+        0.902,
+        0.22700000000000004
+      ],
+      "text": "- computational procedure\n- processes are finite, but the data does not have an upper bound.",
+      "page_index": 0,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.204,
+        0.235,
+        0.59,
+        0.296
+      ],
+      "text": "input $\\xleftarrow{\\text{mapped}}$ output",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.045,
+        0.3,
+        0.89,
+        0.6330000000000001
+      ],
+      "text": "- the input data needs to properly formatted\n- ensures a CORRECT ALGORITHM\n- post condition is a logical predicate for the input and output\n- **Halting**: the algo needs to finish in finite time\n- look into induction proofs",
+      "page_index": 0,
+      "label": "list"
+    },
+    {
+      "bbox": [
+        0.397,
+        0.6550000000000001,
+        0.567,
+        0.687
+      ],
+      "text": "Correctness",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.258,
+        0.744,
+        0.77,
+        0.837
+      ],
+      "text": "$\\swarrow$ $\\searrow$\n\nValidity $\\quad$ Halting\n\n(Conjunction of both)",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.047,
+        0.853,
+        0.9619999999999999,
+        0.937
+      ],
+      "text": "- if the algo has a strong post condition it makes it more useful",
+      "page_index": 0,
+      "label": "list"
+    }
+  ],
+  "page_sizes": [
+    [
+      1241,
+      1628
+    ]
+  ],
+  "page_indices": [
+    0
+  ],
+  "page_errors": {}
+}

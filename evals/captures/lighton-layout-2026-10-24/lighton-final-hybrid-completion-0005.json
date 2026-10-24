@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 37.5,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-viLkWVGnAahqDJWtY7zuSaNFK1h5O6E2",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](1,1,100,3) - for example:\n\n![text](1,3,100,11) $R = \\{A, B, C, D, E, G\\}$\n\n![text](1,11,100,20) FDs: $AB \\rightarrow C$ , $BC \\rightarrow AD$ , $D \\rightarrow E$ , $CE \\rightarrow B$\n\n![text](1,20,100,29) $\\therefore \\{A, B\\}^+ ?$\n\n![text](1,30,100,39) - build a snowball...\n\n![table](1,40,300,320) <table>\n  <tr>\n    <th>Round</th>\n    <th>Snowball</th>\n  </tr>\n  <tr>\n    <td>Start</td>\n    <td>A and B</td>\n    <td> $\\{A, B\\}$ </td>\n  </tr>\n  <tr>\n    <td>1</td>\n    <td> $AB \\rightarrow C$ </td>\n    <td> $\\{A, B, C\\}$ </td>\n  </tr>\n  <tr>\n    <td>2</td>\n    <td> $BC \\rightarrow AD$ </td>\n    <td> $\\{A, B, C, D\\}$ </td>\n  </tr>\n  <tr>\n    <td>3</td>\n    <td> $D \\rightarrow E$ </td>\n    <td> $\\{A, B, C, E\\}$ </td>\n  </tr>\n  <tr>\n    <td>4</td>\n    <td>X</td>\n    <td>Done</td>\n  </tr>\n</table>\n\n![text](1,320,100,331) $\\therefore \\{A, B\\}^+ = \\{A, B, C, D, E\\}$\n\n![text](1,331,100,340) $G$ -as new: redundant\n\n![text](370,1,460,20) - what about $\\{C, D\\}^+$\n\n![text](370,20,460,31) $\\{C, D\\}^+ \\Rightarrow \\{C, D\\}$\n\n![text](460,31,490,40) $D \\rightarrow E$\n\n![text](460,40,490,50) $\\Rightarrow \\{C, D, E\\}$\n\n![text](460,50,490,60) $CE \\rightarrow B$\n\n![text](460,60,490,70) $\\Rightarrow \\{C, D, E\\}$\n\n![text](460,70,490,80) $BC \\rightarrow A$\n\n![text](460,80,490,90) $\\Rightarrow \\{A, B, C, D, E\\}$\n\n![text](460,90,500,100) $G$ still missing\n\n![text](460,100,500,110) $\\therefore \\{C, D\\}$ is NOT a candidate key\n\n![text](460,110,500,120) $\\Rightarrow \\{C, D, E\\}^+ = \\{A, B, C, D, E, G\\}$\n\n![text](460,120,500,130) $L$ is a superkey since it covers all attributes in $R$\n\n![text](460,130,500,140) $L$ is a candidate key too since is minimal — removing $G$ breaks the S.U. property\n\n![text](460,140,500,150) same applies for:\n\n![text](460,150,500,160) $\\{A, B, G\\}^+$\n\n![text](720,1,800,20) Normalization\n\n![text](720,20,800,31) - 1NF: disallows multi-valued attributes, composite attrs, and over combinations\n\n![text](720,31,800,40) - Prime vs. Nonprime Attrs\n\n![text](720,40,800,50) $\\downarrow$ number of any candidate key\n\n![text](720,50,800,60) $\\downarrow$ not a prime attr (not a member of any c.k.)\n\n![text](720,60,780,70) disjoint\n\n![text](720,70,800,80) - Full FD vs. Partial FD\n\n![text](720,80,800,90) $\\downarrow$ removing a single attr breaks the dependency\n\n![text](720,90,800,100) $\\downarrow$ removing some attr and dep still holds\n\n![text](720,100,800,110) e.g. EMP-PROS(SSN, Pnum, Wages, Ename)\n\n![text](720,110,800,120) $\\{SSN, Pnum\\} \\rightarrow Wages$ : full FD\n\n![text](720,120,800,130) (need both to obtain Wages)\n\n![text](720,130,800,140) $\\{SSN, Pnum\\} \\rightarrow Ename$ : partial FD\n\n![text](720,140,800,150) (SSN alone determines Ename)\n\n![text](370,31,460,40) - 2NF (Second Normal Form)\n\n![text](370,40,460,50) $\\downarrow$ already in 1NF\n\n![text](370,50,460,60) $\\downarrow$ every nonprime attr is fully FD on primary key\n\n![text](370,60,460,70) $\\therefore$ for 1NF $\\rightarrow$ 2NF\n\n![text](370,70,460,80) - find every partial dependencies\n\n![text](370,80,460,90) - move attr and partial key to new, separate relation\n\n![text](370,90,460,100) as partial dependencies cause redundancies\n\n![text](370,100,460,110) e.g. EMP-PROS(SSN, Pnum, Wages, Ename, Pnum, Pnum)\n\n![text](370,110,460,120) FD1: $\\{SSN, Pnum\\} \\rightarrow Wages$ (full)\n\n![text](370,120,460,130) FD2: $SSN \\rightarrow Ename$ (partial)\n\n![text](370,130,460,140) - ename depends only on SSN\n\n![text](370,140,460,150) FD3: $Pnum \\rightarrow Pnum, Pnum$ (partial)\n\n![text](370,150,460,160) - key depends on Pnum\n\n![text](460,31,500,40) $\\therefore$ After 2NF $\\rightarrow$ 3 norms\n\n![text](460,40,500,50) EP1 (SSN, Pnum, Wages) - full dep\n\n![text](460,50,500,60) EP2 (SSN, Ename) - employee details\n\n![text](460,60,500,70) EP3 (Pnum, Pnum, Pnum) - project details\n\n![text](460,70,500,80) - 3NF (Third Normal Form)\n\n![text](460,80,500,90) - transitive dependency\n\n![text](460,90,500,100) e.g. $A \\rightarrow B$ , $B \\rightarrow C$\n\n![text](460,100,500,110) $\\therefore$ $C$ is transitively dependent on $A$ via $B$\n\n![text](460,110,500,120) - already 2NF\n\n![text](460,120,500,130) - no nonprime attr is transitively dependent on PK\n\n![text](460,130,500,140) for 2NF $\\rightarrow$ 3NF\n\n![text](460,140,500,150) - find transitive deps\n\n![text](460,150,500,160) - move T.D attrs to new relation along with copy of internal determinant (CD)\n\n![text](720,31,800,40) e.g.\n\n![text](720,40,800,50) EMP-DEPT (Ename, SSN, Date, Add, Dnum, Dnum, Dnum, Dnum)\n\n![text](720,50,800,60) FD chain: $SSN \\rightarrow Dnum$\n\n![text](720,60,800,70) $Dnum \\rightarrow Dnum, Dnum, SSN$\n\n![text](720,70,780,80) (creates T.D)\n\n![text](720,80,800,90) $\\therefore$ ED1 (Ename, SSN, Date, Address, Dnum)\n\n![text](720,90,800,100) ED2 (Dnum, Dnum, Dnum, SSN)\n\n![text](720,100,800,110) $\\rightarrow$ (as of F.D)\n\n![text](720,110,800,120) - determinant: look at F.D set\n\n![text](720,120,800,130) - to determine if LHS is superkey\n\n![text](720,130,800,140) - compute attribute closure\n\n![text](1,31,100,40) - BCNF (Boyce-Codd Normal Form)\n\n![text](1,40,100,50) - stricter version of 3NF\n\n![text](1,50,100,60) when I normalize to 3NF does it always normalize to BCNF?\n\n![text](1,60,100,70) - if BCNF, no redundancies\n\n![text](1,70,100,80) e.g. for $X \\rightarrow Y$\n\n![text](1,80,100,90) $X$ is the determinant\n\n![text](1,90,100,100) (the thing doing the \"determining\")\n\n![text](1,100,100,110) - for every $X \\rightarrow Y$ in $R$ , $X$ must be superkey (unique identifier)\n\n![text](1,110,100,120) every row\n\n![text](1,120,100,130) - vs. 3NF\n\n![text](1,130,100,140) - 3NF says non-superkey determinant is okay as long as what it determines (Y) is part of some c.k. (i.e. prime attr)\n\n![text](370,110,460,120) Ex. 1\n\n![text](370,120,460,130) $\\Rightarrow$ Prime Attrs\n\n![text](370,130,460,140) - Property#\n\n![text](370,140,460,150) - County-name\n\n![text](370,150,460,160) - Lot#\n\n![text](370,160,460,170) - already 1NF\n\n![text](370,170,460,180) - for 1NF $\\rightarrow$ 2NF\n\n![text](370,180,460,190) FD2: $PID \\rightarrow$ all other attr\n\n![text](370,190,460,200) FD3: County-name $\\rightarrow$ Tax-rate\n\n![text](370,200,460,210) FD4: Area $\\rightarrow$ Price\n\n![text](370,210,460,220) 2NF\n\n![text](370,220,460,230) ① $PID\\#, CN, Lot\\#, Area, Price$\n\n![text](370,230,460,240) ② $CN, Tax-rate$\n\n![text](370,240,460,250) $\\downarrow$ dependent on PID#\n\n![text](720,110,800,120) - for 2NF $\\rightarrow$ 3NF\n\n![text](720,120,800,130) - Area, Price are NP\n\n![text](720,130,800,140) ③ Area, Price\n\n![text](720,140,800,150) ① $PID\\#, County-name, Lot\\#, Area$\n\n![text](720,150,800,160) - verifying BCNF (W)\n\n![text](720,160,800,170) Ex. 2: $P\\#, Id, Lt, Pa, Co, S\\#, Sn, CR$\n\n![text](720,170,800,180) Prime Nonprime\n\n![text](720,180,800,190) - $P\\#$ - $Pa$\n\n![text](720,190,800,200) - $Id$ - $Co$\n\n![text](720,200,800,210) - $Lt$ - $S\\#$\n\n![text](720,210,800,220) - $CR$ - $Sn$\n\n![text](720,220,800,230) - already 1NF\n\n![text](720,230,800,240) $\\downarrow$ required for 1NF",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844331,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 3606,
+      "prompt_tokens": 3152,
+      "total_tokens": 6758,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1554.778,
+      "prompt_per_token_ms": 0.49326713197969546,
+      "prompt_per_second": 2027.299074208665,
+      "predicted_n": 3606,
+      "predicted_ms": 35744.187,
+      "predicted_per_token_ms": 9.915169764216365,
+      "predicted_per_second": 100.85556009428889
+    }
+  }
+}

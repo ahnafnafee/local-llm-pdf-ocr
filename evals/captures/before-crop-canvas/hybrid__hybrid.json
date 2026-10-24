@@ -1,0 +1,170 @@
+{
+  "document": "hybrid.pdf",
+  "mode": "hybrid",
+  "model": "allenai/olmocr-2-7b",
+  "max_image_dim": 1024,
+  "document_sha256": "57e8087e3e2e0c0937a2f911edd30eff9011b463fc4c8295cb4489c9f7ba860c",
+  "source_commit": "1cb795df731986fe93f0a2cc57ba290b302e4ea6",
+  "runtime": {
+    "weights_sha256": "821ed0a31450d7d265bcc05519a28ebb43eb3cd2738ca543fa11b78f35153e25",
+    "projector_sha256": "fe90b9db826810aa37a17b53bd575ee15a9947e9075d73a8f68e284a38ab5eb4",
+    "server": "llama.cpp 10735 (842b18804), CUDA",
+    "temperature": 0.1,
+    "seed": null,
+    "concurrency": 1
+  },
+  "blocks": [
+    [
+      [
+        0.10660486674391657,
+        0.01953125,
+        0.22827346465816917,
+        0.03125
+      ],
+      "FakeDoc M.D."
+    ],
+    [
+      [
+        0.10660486674391657,
+        0.0712890625,
+        0.86558516801854,
+        0.0849609375
+      ],
+      "HEALTH INTAKE FORM"
+    ],
+    [
+      [
+        0.10660486674391657,
+        0.0927734375,
+        0.4843568945538818,
+        0.107421875
+      ],
+      "Please fill out the questionnaire carefully. The information you provide will be used to complete your health profile and will be kept confidential."
+    ],
+    [
+      [
+        0.10428736964078796,
+        0.126953125,
+        0.3383545770567787,
+        0.15625
+      ],
+      "Date: 9/14/19"
+    ],
+    [
+      [
+        0.10428736964078796,
+        0.1669921875,
+        0.9281575898030128,
+        0.2060546875
+      ],
+      "Name: Sally Walker DOB: 09/04/1986"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.2138671875,
+        0.9107763615295481,
+        0.2490234375
+      ],
+      "Address: 24 Barney Lane City: Towaco State: NJ Zip: 07082"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.259765625,
+        0.8968713789107764,
+        0.2919921875
+      ],
+      "Email: sally.walker@cmail.com Phone #: (906) 917-3486"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.306640625,
+        0.9432213209733488,
+        0.33984375
+      ],
+      "Gender: F Marital Status: Single Occupation: Software Engineer"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.3564453125,
+        0.45886442641946695,
+        0.3779296875
+      ],
+      "Referred By: NONE"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.3916015625,
+        0.9733487833140209,
+        0.4287109375
+      ],
+      "Emergency Contact: Eva Walker Emergency Contact Phone: (906) 334-8926"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.447265625,
+        0.7334878331402086,
+        0.4658203125
+      ],
+      "Describe your medical concerns (symptoms, diagnoses, etc):"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.490234375,
+        0.895712630359212,
+        0.517578125
+      ],
+      "Runny nose, mucas in throat, weakness, aches, chills, tired"
+    ],
+    [
+      [
+        0.10660486674391657,
+        0.52734375,
+        0.8968713789107764,
+        0.5625
+      ],
+      "Are you currently taking any medication? (If yes, please describe):"
+    ],
+    [
+      [
+        0.10544611819235226,
+        0.759765625,
+        0.7937427578215527,
+        0.7783203125
+      ],
+      "Vyvanse (25mg) daily for attention"
+    ],
+    [
+      [
+        0.15758980301274622,
+        0.7958984375,
+        0.8968713789107764,
+        0.8310546875
+      ],
+      "Vyandec (25mg) daily for aHenHon"
+    ]
+  ],
+  "page_indices": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

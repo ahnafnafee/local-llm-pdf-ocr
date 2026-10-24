@@ -1,0 +1,133 @@
+[
+  {
+    "document": "digital.pdf",
+    "mode": "grounded",
+    "gt_count": 16,
+    "pipeline_count": 34,
+    "metrics": {
+      "recall": 0.375,
+      "recall_at_05": 0.1875,
+      "precision": 0.1765,
+      "hmean": 0.24,
+      "avg_iou": 0.4646,
+      "text_sim": 0.6855,
+      "avg_cer": 0.3711,
+      "bow_f1": 0.9863,
+      "char_recall": 0.6261,
+      "char_precision": 0.7911,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "hybrid.pdf",
+    "mode": "grounded",
+    "gt_count": 38,
+    "pipeline_count": 17,
+    "metrics": {
+      "recall": 0.2368,
+      "recall_at_05": 0.1053,
+      "precision": 0.5294,
+      "hmean": 0.3273,
+      "avg_iou": 0.5041,
+      "text_sim": 0.8303,
+      "avg_cer": 0.3557,
+      "bow_f1": 0.9417,
+      "char_recall": 0.7903,
+      "char_precision": 0.7543,
+      "checks_pass_rate": 0.9231
+    },
+    "checks": [
+      12,
+      13,
+      [
+        "missing: '24 Barney Lane'"
+      ]
+    ],
+    "regressions": []
+  },
+  {
+    "document": "handwritten.pdf",
+    "mode": "grounded",
+    "gt_count": 14,
+    "pipeline_count": 15,
+    "metrics": {
+      "recall": 0.5714,
+      "recall_at_05": 0.3571,
+      "precision": 0.5333,
+      "hmean": 0.5517,
+      "avg_iou": 0.5883,
+      "text_sim": 0.9716,
+      "avg_cer": 0.0494,
+      "bow_f1": 0.9517,
+      "char_recall": 0.4848,
+      "char_precision": 0.9468,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "dense.pdf",
+    "mode": "grounded",
+    "gt_count": 365,
+    "pipeline_count": 177,
+    "metrics": {
+      "recall": 0.2384,
+      "recall_at_05": 0.0795,
+      "precision": 0.4915,
+      "hmean": 0.321,
+      "avg_iou": 0.4645,
+      "text_sim": 0.7172,
+      "avg_cer": 0.3525,
+      "bow_f1": 0.5318,
+      "char_recall": 0.3525,
+      "char_precision": 0.7019,
+      "checks_pass_rate": 0.4
+    },
+    "checks": [
+      2,
+      5,
+      [
+        "missing: 'SQL in Application Code'",
+        "missing: 'statement level interface'",
+        "missing: 'cursor'"
+      ]
+    ],
+    "regressions": []
+  },
+  {
+    "document": "notes.pdf",
+    "mode": "grounded",
+    "gt_count": 467,
+    "pipeline_count": 306,
+    "metrics": {
+      "recall": 0.2805,
+      "recall_at_05": 0.1563,
+      "precision": 0.4281,
+      "hmean": 0.3389,
+      "avg_iou": 0.5252,
+      "text_sim": 0.7612,
+      "avg_cer": 0.3455,
+      "bow_f1": 0.7038,
+      "char_recall": 0.5468,
+      "char_precision": 0.6167,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  }
+]

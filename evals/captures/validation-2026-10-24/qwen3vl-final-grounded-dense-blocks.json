@@ -1,0 +1,1971 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        0.018,
+        0.01,
+        0.349,
+        0.036
+      ],
+      "text": "SQL - Application Code",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.034,
+        0.377,
+        0.052
+      ],
+      "text": "- Two main integration approaches",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.032,
+        0.051,
+        0.37,
+        0.069
+      ],
+      "text": "- SQL (lower level interface) -> embedded SQL",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.032,
+        0.068,
+        0.35,
+        0.08400000000000002
+      ],
+      "text": "- ODBC - special API to -> ODBC",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.037,
+        0.081,
+        0.357,
+        0.09899999999999999
+      ],
+      "text": "SQL commands",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.023,
+        0.1,
+        0.355,
+        0.116
+      ],
+      "text": "Example: SELECT SUM(grade) FROM student WHERE grade > 60",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.041,
+        0.118,
+        0.357,
+        0.132
+      ],
+      "text": "Yes No Yes No",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.037,
+        0.137,
+        0.355,
+        0.15
+      ],
+      "text": "No No Yes No",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.046,
+        0.155,
+        0.359,
+        0.16800000000000004
+      ],
+      "text": "lower lower",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.018,
+        0.174,
+        0.363,
+        0.19
+      ],
+      "text": "- Source of DB not be known at time program is written for embedded SQL",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.194,
+        0.363,
+        0.20699999999999996
+      ],
+      "text": "-> can get it at runtime instead of compile time",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.018,
+        0.217,
+        0.349,
+        0.234
+      ],
+      "text": "- SQLSTATE - common error code defined here",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.032,
+        0.236,
+        0.355,
+        0.25
+      ],
+      "text": "EXEC SQL SELECT SUM(grade) FROM student WHERE grade > 60",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.041,
+        0.251,
+        0.357,
+        0.267
+      ],
+      "text": "INTO :sum, :count, :avg;",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.048,
+        0.269,
+        0.357,
+        0.283
+      ],
+      "text": "FROM student;",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.041,
+        0.284,
+        0.35,
+        0.299
+      ],
+      "text": "WHERE grade > 60;",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.016,
+        0.302,
+        0.37,
+        0.319
+      ],
+      "text": "- for db, start index from 1",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.018,
+        0.324,
+        0.357,
+        0.34
+      ],
+      "text": "Project -",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.025,
+        0.343,
+        0.363,
+        0.35900000000000004
+      ],
+      "text": "- need to use LIKE for partial matching",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.018,
+        0.362,
+        0.357,
+        0.376
+      ],
+      "text": "- open-close ?",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.018,
+        0.38,
+        0.349,
+        0.394
+      ],
+      "text": "- program should NOT crash",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.023,
+        0.399,
+        0.357,
+        0.4139999999999999
+      ],
+      "text": "- use grade for simplicity (use that I know best)",
+      "page_index": 0,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.006805454545454545,
+        0.256,
+        0.017192727272727273
+      ],
+      "text": "- for example:",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.017192727272727273,
+        0.256,
+        0.02686363636363636
+      ],
+      "text": "R = (A,B,C,D,E,G)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.02686363636363636,
+        0.256,
+        0.03725090909090909
+      ],
+      "text": "FDs: AB\u2192C, BC\u2192AD, D\u2192E, CE\u2192B",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.03725090909090909,
+        0.256,
+        0.04763818181818182
+      ],
+      "text": "\u2234 {A,B}\u207a ?",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.06124909090909091,
+        0.229,
+        0.07163636363636364
+      ],
+      "text": "- build a snowball...",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.23,
+        0.07378545454545454,
+        0.284,
+        0.08417272727272727
+      ],
+      "text": "Snowball",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.07378545454545454,
+        0.229,
+        0.08417272727272727
+      ],
+      "text": "Round",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.08417272727272727,
+        0.229,
+        0.09456
+      ],
+      "text": "Start | A and B",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.09456,
+        0.229,
+        0.10494727272727272
+      ],
+      "text": "1 | AB\u2192C | {A,B}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.10494727272727272,
+        0.229,
+        0.11533454545454545
+      ],
+      "text": "2 | BC\u2192AD | {A,B,C,D}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.11533454545454545,
+        0.229,
+        0.12572181818181816
+      ],
+      "text": "3 | D\u2192E | {A,B,C,D,E}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.12572181818181816,
+        0.229,
+        0.13610909090909093
+      ],
+      "text": "4 | X",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.23,
+        0.13610909090909093,
+        0.284,
+        0.14649636363636362
+      ],
+      "text": "Done",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.14936181818181818,
+        0.256,
+        0.15974909090909092
+      ],
+      "text": "\u2234 {A,B}\u207a = {A,B,C,D,E}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.013,
+        0.15974909090909092,
+        0.256,
+        0.1701363636363636
+      ],
+      "text": "G not need readdude",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.006805454545454545,
+        0.584,
+        0.017192727272727273
+      ],
+      "text": "- what about: {C,D}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.017192727272727273,
+        0.584,
+        0.02686363636363636
+      ],
+      "text": "{C,D}\u207a \u2192 {C,D}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.02686363636363636,
+        0.584,
+        0.03725090909090909
+      ],
+      "text": "D\u2192E \u2192 {C,D,E}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.03725090909090909,
+        0.584,
+        0.04763818181818182
+      ],
+      "text": "(E\u2192B \u2192 {C,D,E,B}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.04763818181818182,
+        0.584,
+        0.05802545454545455
+      ],
+      "text": "BC\u2192A \u2192 {A,B,C,D,E}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.05802545454545455,
+        0.584,
+        0.06841272727272728
+      ],
+      "text": "G still missing",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.06841272727272728,
+        0.584,
+        0.07880000000000001
+      ],
+      "text": "\u2234 {C,D}\u207a is NOT a candidate key",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.07880000000000001,
+        0.584,
+        0.08918727272727273
+      ],
+      "text": "\u2192 {C,D,G}\u207a = {A,B,C,D,E,G}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.08918727272727273,
+        0.584,
+        0.09957454545454546
+      ],
+      "text": "G is a superkey since it covers all attributes in R",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.09957454545454546,
+        0.584,
+        0.10996181818181817
+      ],
+      "text": "G is a candidate key too since is minimal - removing G breaks the S.U. property",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.398,
+        0.10996181818181817,
+        0.584,
+        0.12034909090909092
+      ],
+      "text": "same applies for: {A,B,G}\u207a",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.006805454545454545,
+        0.8560000000000001,
+        0.017192727272727273
+      ],
+      "text": "Normalization",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.017192727272727273,
+        0.8560000000000001,
+        0.02686363636363636
+      ],
+      "text": "- INF: disallows multivalue attributes, composite attrs, and their combinations",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.02686363636363636,
+        0.8560000000000001,
+        0.03725090909090909
+      ],
+      "text": "- Prime vs. Nonprime Atts",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.03725090909090909,
+        0.8560000000000001,
+        0.04763818181818182
+      ],
+      "text": "Members of any candidate key \u2192 not a prime attr (not a member of any candidate key)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.04763818181818182,
+        0.8560000000000001,
+        0.05802545454545455
+      ],
+      "text": "disjoint",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.06841272727272728,
+        0.8560000000000001,
+        0.07880000000000001
+      ],
+      "text": "- Full FD vs. Partial FD",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.07880000000000001,
+        0.8560000000000001,
+        0.08918727272727273
+      ],
+      "text": "By removing a single attr breaks the dependency",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.08918727272727273,
+        0.8560000000000001,
+        0.09957454545454546
+      ],
+      "text": "By removing some attrs and dep still holds",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.09957454545454546,
+        0.8560000000000001,
+        0.10996181818181817
+      ],
+      "text": "e.g. EMP-PROJ(SSN,Phnber,Hours,Grade)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.10996181818181817,
+        0.8560000000000001,
+        0.12034909090909092
+      ],
+      "text": "{SSN,Phnber}\u2192Hours : full FD",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.12034909090909092,
+        0.8560000000000001,
+        0.13073636363636365
+      ],
+      "text": "(need both to obtain Hours value)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.13073636363636365,
+        0.8560000000000001,
+        0.14112363636363637
+      ],
+      "text": "{SSN,Phnber}\u2192Grade : partial FD",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.661,
+        0.14112363636363637,
+        0.8560000000000001,
+        0.15151090909090908
+      ],
+      "text": "(SSN alone determines Grade)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.01,
+        0.33972060606060606,
+        0.256,
+        0.3612042424242424
+      ],
+      "text": "- 2NF (Second Normal Form)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.074,
+        0.363889696969697,
+        0.227,
+        0.38230424242424244
+      ],
+      "text": "\u2192 already in 1NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.085,
+        0.38192060606060607,
+        0.303,
+        0.4026369696969697
+      ],
+      "text": "\u2192 every nonprime attr is fully FD",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.086,
+        0.3995678787878788,
+        0.223,
+        0.4160642424242424
+      ],
+      "text": "on primary key",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.041,
+        0.4172151515151515,
+        0.176,
+        0.43601333333333336
+      ],
+      "text": "\u2234 for 1NF \u2192 2NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.07,
+        0.4379315151515151,
+        0.255,
+        0.4590315151515152
+      ],
+      "text": "- find every partial dependencies",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.08,
+        0.4559624242424242,
+        0.266,
+        0.4755278787878788
+      ],
+      "text": "- move attr and partial key",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.104,
+        0.47476060606060605,
+        0.269,
+        0.49087333333333333
+      ],
+      "text": "to new, separate relation",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.058,
+        0.49087333333333333,
+        0.32,
+        0.5046842424242425
+      ],
+      "text": "as partial dependencies cause redundancies",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.5108224242424242,
+        0.346,
+        0.5257842424242424
+      ],
+      "text": "eg. EMP_PROJ(SSN, Pnum, Hours, Ena, Dname, Plocation)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.5265515151515151,
+        0.301,
+        0.5395951515151515
+      ],
+      "text": "FD1: {SSN, Pnumber} \u2192 Hours (full)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.5399787878787878,
+        0.297,
+        0.5557078787878788
+      ],
+      "text": "FD2: SSN \u2192 Ena (partial)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.076,
+        0.5564751515151515,
+        0.257,
+        0.5714369696969698
+      ],
+      "text": "- ename depends",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.1,
+        0.5699024242424243,
+        0.269,
+        0.5833296969696969
+      ],
+      "text": "only on SSN",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.074,
+        0.5825624242424243,
+        0.315,
+        0.5982915151515151
+      ],
+      "text": "FD3: Pnumber \u2192 Hours, Plocation (partial)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10600000000000001,
+        0.5979078787878788,
+        0.308,
+        0.6121024242424242
+      ],
+      "text": "- key dependency",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.174,
+        0.6109515151515151,
+        0.275,
+        0.6239951515151516
+      ],
+      "text": "on Pnumber.",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.4,
+        0.3485442424242424,
+        0.635,
+        0.3677260606060606
+      ],
+      "text": "After 2NF \u2192 3 NF above",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.397,
+        0.36849333333333334,
+        0.635,
+        0.3857569696969697
+      ],
+      "text": "EP1 (SSN, Pnumber, Hours) - full dep",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.394,
+        0.3861406060606061,
+        0.633,
+        0.40417151515151517
+      ],
+      "text": "EP2 (SSN, Ena) - employee details",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.393,
+        0.40417151515151517,
+        0.638,
+        0.42373696969696967
+      ],
+      "text": "EP3 (Pnumber, Pname, Plocation) - project details",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.4,
+        0.43332787878787876,
+        0.63,
+        0.45135878787878786
+      ],
+      "text": "- 3NF (Third Normal Form)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.408,
+        0.4517424242424242,
+        0.609,
+        0.46747151515151514
+      ],
+      "text": "- transitive dependency",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.412,
+        0.4670878787878788,
+        0.638,
+        0.4843515151515152
+      ],
+      "text": "eg. A \u2192 B, B \u2192 C",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.47,
+        0.4839678787878788,
+        0.638,
+        0.5019987878787879
+      ],
+      "text": "C is transitively dependent",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.49699999999999994,
+        0.4985460606060606,
+        0.601,
+        0.5135078787878788
+      ],
+      "text": "on A via B",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.408,
+        0.5138915151515152,
+        0.516,
+        0.5265515151515151
+      ],
+      "text": "- already 2NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.408,
+        0.5280860606060606,
+        0.635,
+        0.5453496969696969
+      ],
+      "text": "- no nonprime attr is transitively",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.408,
+        0.5434315151515152,
+        0.597,
+        0.5583933333333333
+      ],
+      "text": "dependent on PK",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.404,
+        0.562229696969697,
+        0.557,
+        0.5771915151515151
+      ],
+      "text": "For 2NF \u2192 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.4179999999999999,
+        0.5771915151515151,
+        0.598,
+        0.592920606060606
+      ],
+      "text": "- find transitive deps",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.408,
+        0.5925369696969697,
+        0.633,
+        0.608649696969697
+      ],
+      "text": "- move TD attrs to new relation,",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.415,
+        0.6071151515151515,
+        0.63,
+        0.623611515151515
+      ],
+      "text": "along with copy of internal key",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.48400000000000004,
+        0.6232278787878788,
+        0.59,
+        0.6366551515151515
+      ],
+      "text": "determinant (CD)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.711,
+        0.3485442424242424,
+        1.0,
+        0.3646569696969697
+      ],
+      "text": "eg. EMP_DEPT (Ena, SSN, Dname, Addr, Dnumber, Date, Days, Ssn)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.711,
+        0.36542424242424243,
+        0.913,
+        0.38307151515151516
+      ],
+      "text": "FD chain: SSN \u2192 Dnumber",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.718,
+        0.38230424242424244,
+        0.9269999999999999,
+        0.3995678787878788
+      ],
+      "text": "Dnumber \u2192 Dname, Dept_SSN",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.718,
+        0.39803333333333335,
+        0.8230000000000001,
+        0.41299515151515154
+      ],
+      "text": "(creates T.D.)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.711,
+        0.4175987878787879,
+        0.99,
+        0.43601333333333336
+      ],
+      "text": "ED1 (Ena, SSN, Dname, Address, Dnumber)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.715,
+        0.43447878787878785,
+        0.9480000000000001,
+        0.45135878787878786
+      ],
+      "text": "ED2 (Dnumber, Dname, Dept_SSN)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.693,
+        0.5215642424242425,
+        0.8209999999999998,
+        0.5426642424242424
+      ],
+      "text": "\u2192 loss of FD",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.704,
+        0.5614624242424242,
+        0.883,
+        0.5775751515151515
+      ],
+      "text": "- determine: look at F.D. set",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.705,
+        0.5775751515151515,
+        0.93,
+        0.5944551515151515
+      ],
+      "text": "- to determine if LHS is superkey",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.708,
+        0.5933042424242424,
+        0.9609999999999999,
+        0.6090333333333333
+      ],
+      "text": "- compute attribute closure",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.364,
+        0.6577551515151515,
+        0.415,
+        0.6692642424242424
+      ],
+      "text": "Ex. 1",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.724,
+        0.6473969696969697,
+        0.887,
+        0.6635096969696971
+      ],
+      "text": "- for 2NF \u2192 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.017,
+        0.6659684848484848,
+        0.35,
+        0.6871369696969697
+      ],
+      "text": "-BCNF. (Boyce-Codd Normal Form)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.017,
+        0.6857018181818181,
+        0.296,
+        0.7036412121212121
+      ],
+      "text": "-strict version of 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10700000000000001,
+        0.7154812121212122,
+        0.287,
+        0.7337793939393938
+      ],
+      "text": "when I normalize to 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10700000000000001,
+        0.7323442424242423,
+        0.286,
+        0.7506424242424242
+      ],
+      "text": "does it always normalize",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.10700000000000001,
+        0.7506424242424242,
+        0.276,
+        0.768940606060606
+      ],
+      "text": "to BCNF?",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.7682230303030303,
+        0.283,
+        0.7872387878787879
+      ],
+      "text": "-if BCNF, no redundancies",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.017,
+        0.7976436363636364,
+        0.155,
+        0.8145066666666666
+      ],
+      "text": "e.g. for X \u2192 Y",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.129,
+        0.813430303030303,
+        0.248,
+        0.8302933333333333
+      ],
+      "text": "X's the determinant",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.135,
+        0.8299345454545455,
+        0.287,
+        0.8467975757575757
+      ],
+      "text": "Same thing doing to",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.135,
+        0.8457212121212122,
+        0.287,
+        0.8633018181818181
+      ],
+      "text": "'determining'",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.014,
+        0.8633018181818181,
+        0.296,
+        0.8819587878787879
+      ],
+      "text": "-for every X\u2192Y in R, X must",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.014,
+        0.8790884848484849,
+        0.287,
+        0.8977454545454545
+      ],
+      "text": "be superkey (Unique identity)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.019,
+        0.8977454545454545,
+        0.10700000000000001,
+        0.9153260606060606
+      ],
+      "text": "-vs. 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.017,
+        0.9153260606060606,
+        0.347,
+        0.9339830303030302
+      ],
+      "text": "- 3NF says non-superkey determinant",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.9314715151515153,
+        0.347,
+        0.9497696969696969
+      ],
+      "text": "is okay as long as what",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.9479757575757575,
+        0.347,
+        0.9666327272727272
+      ],
+      "text": "it determines (Y) is part of",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.9641212121212123,
+        0.347,
+        0.9827781818181817
+      ],
+      "text": "some CUK (i.e. prime attr)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.6828315151515152,
+        0.582,
+        0.700770909090909
+      ],
+      "text": "Ex.1",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.6996945454545455,
+        0.52,
+        0.7169163636363637
+      ],
+      "text": "\u21d2 Prime Attrs",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.7154812121212122,
+        0.539,
+        0.7330618181818181
+      ],
+      "text": "- Property#",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.7323442424242423,
+        0.539,
+        0.7506424242424242
+      ],
+      "text": "- County-name",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.7506424242424242,
+        0.52,
+        0.768940606060606
+      ],
+      "text": "- lot#",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.6996945454545455,
+        0.704,
+        0.7169163636363637
+      ],
+      "text": "Non prime attrs",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.7154812121212122,
+        0.696,
+        0.7330618181818181
+      ],
+      "text": "- area",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.7323442424242423,
+        0.696,
+        0.7506424242424242
+      ],
+      "text": "- Price",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.587,
+        0.7506424242424242,
+        0.704,
+        0.768940606060606
+      ],
+      "text": "- Tax_rate",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.768940606060606,
+        0.594,
+        0.7872387878787879
+      ],
+      "text": "- already INF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.7872387878787879,
+        0.618,
+        0.804819393939394
+      ],
+      "text": "- for INF \u2192 2NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.804819393939394,
+        0.634,
+        0.8231175757575757
+      ],
+      "text": "FD2: PID \u2192 all other attr",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.8231175757575757,
+        0.689,
+        0.8414157575757576
+      ],
+      "text": "FD3: County-name \u2192 Tax-rate",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.8414157575757576,
+        0.569,
+        0.8589963636363637
+      ],
+      "text": "FD4: Area \u2192 Price",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.8589963636363637,
+        0.51,
+        0.8772945454545454
+      ],
+      "text": "... 2NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.8772945454545454,
+        0.611,
+        0.8948751515151514
+      ],
+      "text": "\u2460 PID#, CN, Lot#, Area, Price",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.49300000000000005,
+        0.8948751515151514,
+        0.573,
+        0.9124557575757577
+      ],
+      "text": "TD",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.411,
+        0.9124557575757577,
+        0.582,
+        0.9307539393939395
+      ],
+      "text": "\u2461 CN, Tax-rate",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.527,
+        0.9307539393939395,
+        0.634,
+        0.9479757575757575
+      ],
+      "text": "dependent on PID#",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.6839078787878788,
+        0.9019999999999999,
+        0.700770909090909
+      ],
+      "text": "- for 2NF \u2192 3NF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.700770909090909,
+        0.858,
+        0.7169163636363637
+      ],
+      "text": "- area, Price are NP",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.7169163636363637,
+        0.8459999999999999,
+        0.7344969696969698
+      ],
+      "text": "\u2462 Area, Price",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.7344969696969698,
+        0.9730000000000001,
+        0.7524363636363636
+      ],
+      "text": "\u2460 PID#, County-name, lot#, Area",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.7524363636363636,
+        0.875,
+        0.7707345454545454
+      ],
+      "text": "- verifying BCNF (\u2713)",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.7872387878787879,
+        0.931,
+        0.804819393939394
+      ],
+      "text": "Ex.2 : P#, Ld, Ct, Pa, Co, S#, Sn, CR",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.804819393939394,
+        0.802,
+        0.8231175757575757
+      ],
+      "text": "Prime",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.8231175757575757,
+        0.8459999999999999,
+        0.8414157575757576
+      ],
+      "text": "- P#",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.8414157575757576,
+        0.802,
+        0.8589963636363637
+      ],
+      "text": "- Ld",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.8589963636363637,
+        0.802,
+        0.8772945454545454
+      ],
+      "text": "- Ct",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.8772945454545454,
+        0.8459999999999999,
+        0.8948751515151514
+      ],
+      "text": "- Co",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.8948751515151514,
+        0.8459999999999999,
+        0.9124557575757577
+      ],
+      "text": "- S#",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.9124557575757577,
+        0.802,
+        0.9307539393939395
+      ],
+      "text": "- Sn",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.731,
+        0.9307539393939395,
+        0.9019999999999999,
+        0.9479757575757575
+      ],
+      "text": "- already INF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.8459999999999999,
+        0.8414157575757576,
+        0.931,
+        0.8589963636363637
+      ],
+      "text": "required for",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.8459999999999999,
+        0.8589963636363637,
+        0.931,
+        0.8772945454545454
+      ],
+      "text": "INF",
+      "page_index": 1,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.014327272727272728,
+        0.162,
+        0.026147272727272727
+      ],
+      "text": "- for INF \u2192 2NF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.038,
+        0.03402727272727273,
+        0.103,
+        0.04656363636363636
+      ],
+      "text": "FD2: P#\u2192 Pa",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.149,
+        0.05802545454545455,
+        0.27,
+        0.07378545454545454
+      ],
+      "text": "Cnot the full. S#P+, look(3)",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.196,
+        0.33665151515151515,
+        0.345,
+        0.35046242424242424
+      ],
+      "text": "needs to be ineeded for. cu",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.081,
+        0.3615878787878788,
+        0.316,
+        0.376549696969697
+      ],
+      "text": "{A,C,D}S => {A,B,C}S",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.376549696969697,
+        0.316,
+        0.3903606060606061
+      ],
+      "text": "=> {A,B,C,D,E}S",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.081,
+        0.3903606060606061,
+        0.314,
+        0.406089696969697
+      ],
+      "text": "{B,C,D}S => {B,C,D,E}S",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.406089696969697,
+        0.316,
+        0.4199006060606061
+      ],
+      "text": "=> {A,B,C,D,E}S",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.081,
+        0.4199006060606061,
+        0.204,
+        0.4348624242424243
+      ],
+      "text": "{C,D,E}S,",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.073,
+        0.4348624242424243,
+        0.251,
+        0.44867333333333337
+      ],
+      "text": "b) All atts are prime",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.13,
+        0.44867333333333337,
+        0.289,
+        0.46248424242424246
+      ],
+      "text": "already in BNF",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.073,
+        0.46248424242424246,
+        0.151,
+        0.47744606060606065
+      ],
+      "text": "c) No,",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.147,
+        0.47744606060606065,
+        0.186,
+        0.49164060606060606
+      ],
+      "text": "A -> B",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.15,
+        0.49164060606060606,
+        0.275,
+        0.5054515151515152
+      ],
+      "text": "not a superkey",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.137,
+        0.5054515151515152,
+        0.268,
+        0.5204133333333334
+      ],
+      "text": "Dc -> E",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.5204133333333334,
+        0.20899999999999996,
+        0.5346078787878789
+      ],
+      "text": "not",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.137,
+        0.5346078787878789,
+        0.268,
+        0.548418787878788
+      ],
+      "text": "ED -> A",
+      "page_index": 2,
+      "label": "text"
+    },
+    {
+      "bbox": [
+        0.159,
+        0.548418787878788,
+        0.20899999999999996,
+        0.5626133333333333
+      ],
+      "text": "not",
+      "page_index": 2,
+      "label": "text"
+    }
+  ],
+  "page_sizes": [
+    [
+      791,
+      1024
+    ],
+    [
+      791,
+      1024
+    ],
+    [
+      791,
+      1024
+    ]
+  ],
+  "page_indices": [
+    0,
+    1,
+    2
+  ],
+  "page_errors": {}
+}

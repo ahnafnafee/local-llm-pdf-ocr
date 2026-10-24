@@ -1,0 +1,50 @@
+{
+  "elapsed_s": 2.625,
+  "max_tokens": 6144,
+  "temperature": 0.0,
+  "response": {
+    "id": "chatcmpl-bbdc0QNPTeatkEQWRQuk9gVv7n9BpjiX",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "![text](67,11,829,114) Option 3: works only with disjoint  \n- single relation with one type attribute\n\n![text](306,122,742,237) Review these slides --  \nlast concertation ---\n\n![text](142,253,593,370) if total participation and disjoint,  \nall options apply --",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1792844433,
+    "model": "lightonai/LightOnOCR-3-4B",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": "b10735-842b18804",
+    "usage": {
+      "completion_tokens": 94,
+      "prompt_tokens": 3152,
+      "total_tokens": 3246,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 3152,
+      "prompt_ms": 1545.089,
+      "prompt_per_token_ms": 0.49019321065989846,
+      "prompt_per_second": 2040.011934587587,
+      "predicted_n": 94,
+      "predicted_ms": 908.832,
+      "predicted_per_token_ms": 9.772387096774194,
+      "predicted_per_second": 102.32914334002324
+    }
+  }
+}

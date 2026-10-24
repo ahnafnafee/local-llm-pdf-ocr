@@ -7,9 +7,9 @@ Usage:
     uv run scripts/confidence_eval.py                            # both paths
     uv run scripts/confidence_eval.py --path grounded            # just grounded
     uv run scripts/confidence_eval.py --path hybrid              # just hybrid
-    uv run scripts/confidence_eval.py --model allenai/olmocr-2-7b
+    uv run scripts/confidence_eval.py --hybrid-model your-served-model
 
-Assumes LM Studio / Ollama is serving the target model at --api-base.
+Requires a configured OpenAI-compatible endpoint serving the target vision model.
 Prints a per-document summary and flags the worst unmatched GT blocks.
 """
 
@@ -19,6 +19,7 @@ import argparse
 import asyncio
 import csv
 import datetime
+import hashlib
 import json
 import os
 import sys
@@ -40,11 +41,13 @@ from pdf_ocr import (  # noqa: E402
     PromptedGroundedOCR,
 )
 from pdf_ocr.evaluation import (  # noqa: E402
+    PageAwareBlocks,
     compute_report,
     load_doc_checks,
     load_ground_truth,
     run_doc_checks,
 )
+from pdf_ocr.inference import DEFAULT_MODEL, DEFAULT_GROUNDED_MODEL  # noqa: E402
 
 FIXTURES = ROOT / "tests" / "fixtures"
 EXAMPLES = ROOT / "examples"
@@ -74,14 +77,8 @@ JOBS = [
     ("digital.pdf", "ground_truth_digital.json"),
     ("hybrid.pdf", "ground_truth_hybrid.json"),
     ("handwritten.pdf", "ground_truth_handwritten.json"),
-    # Dense and notes fixtures were bootstrapped from the hybrid pipeline's
-    # own output_*.pdf via scripts/fixture_from_output.py — too dense to
-    # hand-build, and the grounded VLM hits "context size exceeded" on
-    # them so build_fixture.py couldn't be used either. Useful for
-    # *regression* testing: if a future change degrades the hybrid output
-    # against this baseline, recall drops will flag it. Less useful for
-    # absolute hybrid-vs-grounded comparison since the bar is set by the
-    # hybrid path itself.
+    # These began as OCR output; version 2 transcriptions were audited
+    # against source pixels. The original layout geometry is retained.
     ("dense.pdf", "ground_truth_dense.json"),
     ("notes.pdf", "ground_truth_notes.json"),
 ]
@@ -91,21 +88,35 @@ JOBS = [
 
 
 async def run_grounded(pdf: Path, api_base: str, model: str, max_dim: int,
-                       concurrency: int = 4):
+                       concurrency: int = 1):
     backend = PromptedGroundedOCR(
         api_base=api_base,
         model=model,
         max_image_dim=max_dim,
-        max_tokens=16384,
         concurrency=concurrency,
     )
     # Use ocr_document directly — no need to write an output PDF for scoring.
-    response = await backend.ocr_document(str(pdf))
-    return [(b.bbox, b.text) for b in response.blocks]
+    try:
+        response = await backend.ocr_document(str(pdf))
+    finally:
+        await backend.aclose()
+    selected = response.page_indices
+    if selected is None:
+        selected = list(range(len(response.page_sizes)))
+    recognized = {b.page_index for b in response.blocks if b.text.strip()}
+    missing = [i + 1 for i in selected if i not in recognized]
+    if missing:
+        errors = getattr(response, "page_errors", {})
+        details = "; ".join(f"page {p}: {errors[p - 1]}" for p in missing if p - 1 in errors)
+        raise RuntimeError(f"Grounded OCR returned no text on source page(s) {missing}. {details}")
+    return PageAwareBlocks(
+        [(b.bbox, b.text) for b in response.blocks],
+        page_indices=[b.page_index for b in response.blocks],
+    )
 
 
 async def run_hybrid(pdf: Path, api_base: str, model: str, max_dim: int,
-                     concurrency: int = 4):
+                     concurrency: int = 1):
     # Run pipeline to a throwaway file; we only need pages_structured data.
     # Smuggle the alignment result out via a custom output_writer.
     captured: dict = {}
@@ -113,22 +124,26 @@ async def run_hybrid(pdf: Path, api_base: str, model: str, max_dim: int,
     def capture_writer(_in, _out, pages_data, _dpi):
         captured["pages_data"] = pages_data
 
-    pipe = OCRPipeline(
-        aligner=HybridAligner(),
-        ocr_processor=OCRProcessor(api_base=api_base, model=model),
-        pdf_handler=PDFHandler(),
-        output_writer=capture_writer,
-    )
-    await pipe.run(
-        str(pdf), str(pdf.with_suffix(".scoring.pdf")),
-        max_image_dim=max_dim, concurrency=concurrency, refine=True,
-    )
+    processor = OCRProcessor(api_base=api_base, model=model)
+    try:
+        pipe = OCRPipeline(
+            aligner=HybridAligner(), ocr_processor=processor,
+            pdf_handler=PDFHandler(), output_writer=capture_writer,
+        )
+        await pipe.run(
+            str(pdf), str(pdf.with_suffix(".scoring.pdf")),
+            max_image_dim=max_dim, concurrency=concurrency, refine=True,
+        )
+    finally:
+        await processor.aclose()
     blocks = []
-    for _page_num, page_blocks in captured.get("pages_data", {}).items():
+    page_indices = []
+    for page_num, page_blocks in sorted(captured.get("pages_data", {}).items()):
         for bbox, text in page_blocks:
             if text.strip():
                 blocks.append((bbox, text))
-    return blocks
+                page_indices.append(page_num)
+    return PageAwareBlocks(blocks, page_indices=page_indices)
 
 
 # ---------------------------------------------------------------------------
@@ -205,14 +220,40 @@ def _baseline_path(document: str, path_label: str) -> Path:
     return BASELINES_DIR / f"{stem}__{path_label}.json"
 
 
-def compare_to_baseline(document: str, path_label: str, metrics: dict) -> list[str]:
+def evaluation_context(document, fixture, checks, *, model, max_dim=1024,
+                       iou_threshold=0.3, matching="hungarian") -> dict:
+    """Identify the inputs and scoring semantics that make scores comparable."""
+    def digest(path):
+        path = Path(path)
+        if not path.exists():
+            return None
+        data = (path.read_text(encoding="utf-8").encode("utf-8")
+                if path.suffix in {".json", ".jsonl"} else path.read_bytes())
+        return hashlib.sha256(data).hexdigest()
+    return {
+        "protocol": "page-aware-v2", "document_sha256": digest(document),
+        "fixture_sha256": digest(fixture), "checks_sha256": digest(checks),
+        "model": model, "max_image_dim": max_dim,
+        "iou_threshold": iou_threshold, "matching": matching,
+    }
+
+
+def compare_to_baseline(document: str, path_label: str, metrics: dict, *,
+                        context: dict | None = None) -> list[str]:
     """Return regression descriptions vs the committed baseline, if any."""
     bp = _baseline_path(document, path_label)
     if not bp.exists():
         return []
     baseline = json.loads(bp.read_text(encoding="utf-8"))
+    if "context" not in baseline or "metrics" not in baseline:
+        return [f"{document}/{path_label}: baseline lacks reference/scoring provenance; "
+                "replay a saved control against the current references before comparing scores"]
+    if context != baseline["context"]:
+        changed = sorted(k for k in set(context or {}) | set(baseline["context"])
+                         if (context or {}).get(k) != baseline["context"].get(k))
+        return [f"{document}/{path_label}: incompatible baseline context ({', '.join(changed)})"]
     regressions = []
-    for key, base_val in baseline.items():
+    for key, base_val in baseline["metrics"].items():
         if key not in metrics:
             continue
         cur = metrics[key]
@@ -231,10 +272,13 @@ def compare_to_baseline(document: str, path_label: str, metrics: dict) -> list[s
     return regressions
 
 
-def write_baseline(document: str, path_label: str, metrics: dict) -> Path:
+def write_baseline(document: str, path_label: str, metrics: dict, *,
+                   context: dict, provenance: dict | None = None) -> Path:
     BASELINES_DIR.mkdir(parents=True, exist_ok=True)
     bp = _baseline_path(document, path_label)
-    bp.write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
+    bp.write_text(json.dumps({"context": context, "metrics": metrics,
+                              "provenance": provenance or {"kind": "live"}}, indent=2) + "\n",
+                  encoding="utf-8")
     return bp
 
 
@@ -255,12 +299,17 @@ def append_history(rows: list[dict]) -> None:
 
 
 async def main() -> int:
+    global BASELINES_DIR
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--path", choices=["both", "grounded", "hybrid"], default="both")
-    parser.add_argument("--api-base", default="http://localhost:1234/v1")
-    parser.add_argument("--grounded-model", default="qwen/qwen3-vl-8b")
-    parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
-    parser.add_argument("--max-image-dim", type=int, default=1024)
+    parser.add_argument("--api-base", default=None,
+                        help="API base URL; defaults to LLM_API_BASE or http://localhost:1234/v1")
+    parser.add_argument("--grounded-model", default=DEFAULT_GROUNDED_MODEL)
+    parser.add_argument("--hybrid-model", default=DEFAULT_MODEL)
+    parser.add_argument("--max-image-dim", type=int, default=2048)
+    parser.add_argument("--baseline-dir", type=Path,
+                        help="Separate baseline directory for a different model/configuration. "
+                             "Missing baselines run content checks without a regression comparison.")
     parser.add_argument("--iou-threshold", type=float, default=0.3)
     parser.add_argument(
         "--matching", choices=["hungarian", "greedy"], default="hungarian",
@@ -269,7 +318,7 @@ async def main() -> int:
              "matching, for comparison against historical reports.",
     )
     parser.add_argument(
-        "--concurrency", type=int, default=4,
+        "--concurrency", type=int, default=1,
         help="Parallel LLM requests per document (crop calls dominate "
              "per-box pages; local servers queue excess requests).",
     )
@@ -280,9 +329,13 @@ async def main() -> int:
              "only through reviewed updates.",
     )
     args = parser.parse_args()
+    if args.baseline_dir is not None:
+        BASELINES_DIR = args.baseline_dir.resolve()
 
     console = Console()
     reports = []
+    contexts = {}
+    failures: list[str] = []
 
     def doc_checks(pdf_name: str, out) -> tuple[int, int, list[str]] | None:
         rules_path = CHECKS_DIR / f"{Path(pdf_name).stem}.jsonl"
@@ -291,9 +344,22 @@ async def main() -> int:
         text = "\n".join(t for _b, t in out if t.strip())
         return run_doc_checks(text, load_doc_checks(rules_path))
 
+    def add_report(mode, report, out):
+        checks = doc_checks(report.document, out)
+        reports.append((mode, report, checks))
+        if checks and checks[0] != checks[1]:
+            failures.extend(f"{report.document}/{mode}: content check failed: {reason}"
+                            for reason in checks[2])
+
     for pdf_name, fixture_name in JOBS:
         pdf = EXAMPLES / pdf_name
         fixture = FIXTURES / fixture_name
+        for mode in ("hybrid", "grounded"):
+            contexts[(pdf_name, mode)] = evaluation_context(
+                pdf, fixture, CHECKS_DIR / f"{Path(pdf_name).stem}.jsonl",
+                model=getattr(args, f"{mode}_model"), max_dim=args.max_image_dim,
+                iou_threshold=args.iou_threshold, matching=args.matching,
+            )
         gt, (fw, fh) = load_ground_truth(fixture)
         console.print(f"\n[bold]>> {pdf_name}[/]  (GT: {len(gt)} blocks, {fw}x{fh})")
 
@@ -302,11 +368,15 @@ async def main() -> int:
             try:
                 out = await run_grounded(pdf, args.api_base, args.grounded_model,
                                          args.max_image_dim, args.concurrency)
+                if not out:
+                    failures.append(f"{pdf_name}/grounded: OCR returned no text blocks")
                 report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
-                                        matching=args.matching)
-                reports.append(("grounded", report, doc_checks(pdf_name, out)))
+                                        matching=args.matching,
+                                        pipeline_page_indices=getattr(out, "page_indices", None))
+                add_report("grounded", report, out)
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
+                failures.append(f"{pdf_name}/grounded: {type(e).__name__}: {e}")
                 console.print(f"   [red]grounded failed: {type(e).__name__}: {e}[/]")
 
         if args.path in ("both", "hybrid"):
@@ -314,11 +384,15 @@ async def main() -> int:
             try:
                 out = await run_hybrid(pdf, args.api_base, args.hybrid_model,
                                        args.max_image_dim, args.concurrency)
+                if not out:
+                    failures.append(f"{pdf_name}/hybrid: OCR returned no text blocks")
                 report = compute_report(pdf_name, gt, out, iou_threshold=args.iou_threshold,
-                                        matching=args.matching)
-                reports.append(("hybrid", report, doc_checks(pdf_name, out)))
+                                        matching=args.matching,
+                                        pipeline_page_indices=getattr(out, "page_indices", None))
+                add_report("hybrid", report, out)
                 console.print(f"   {report.summary_line()}")
             except Exception as e:
+                failures.append(f"{pdf_name}/hybrid: {type(e).__name__}: {e}")
                 console.print(f"   [red]hybrid failed: {type(e).__name__}: {e}[/]")
 
     console.print()
@@ -334,22 +408,34 @@ async def main() -> int:
             {"timestamp": timestamp, "document": report.document,
              "path": path_label, **metrics}
         )
-        if args.update_baselines:
-            bp = write_baseline(report.document, path_label, metrics)
-            console.print(f"[green]baseline written:[/] {bp.relative_to(ROOT)}")
-        else:
+        if args.update_baselines and not failures:
+            bp = write_baseline(report.document, path_label, metrics,
+                                context=contexts[(report.document, path_label)])
+            display_path = bp.relative_to(ROOT) if bp.is_relative_to(ROOT) else bp
+            console.print(f"[green]baseline written:[/] {display_path}")
+        elif not args.update_baselines:
+            if not _baseline_path(report.document, path_label).exists():
+                console.print(f"[yellow]{report.document}/{path_label}: no baseline; "
+                              "content checks only, regression comparison not run.[/]")
             all_regressions.extend(
-                compare_to_baseline(report.document, path_label, metrics)
+                compare_to_baseline(report.document, path_label, metrics,
+                                     context=contexts[(report.document, path_label)])
             )
     if history_rows:
         append_history(history_rows)
 
+    if failures:
+        console.print("\n[red bold]OCR FAILURES:[/]")
+        for failure in failures:
+            console.print(f"  - {failure}", markup=False)
+        if args.update_baselines:
+            console.print("Baselines were not updated because OCR failed.")
+
     if all_regressions:
-        console.print("\n[red bold]REGRESSIONS vs committed baselines:[/]")
+        console.print("\n[red bold]REGRESSIONS vs selected baselines:[/]")
         for r in all_regressions:
             console.print(f"  [red]- {r}[/]")
-        return 1
-    return 0
+    return 1 if failures or all_regressions else 0
 
 
 if __name__ == "__main__":

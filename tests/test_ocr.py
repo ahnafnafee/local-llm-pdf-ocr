@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import base64
+import io
 from types import SimpleNamespace
 
 import pytest
+from PIL import Image, ImageDraw
 
 from pdf_ocr.core.ocr import (
     CROP_PROMPT,
@@ -16,6 +19,75 @@ from pdf_ocr.core.ocr import (
     _strip_runaway_repetition,
     _strip_yaml_front_matter,
 )
+
+
+@pytest.mark.parametrize("field", ["is_table", "is_diagram"])
+async def test_front_matter_flags_non_linear_layout(field):
+    from unittest.mock import AsyncMock
+
+    processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=AsyncMock(
+        return_value=f"---\n{field}: True\n---\nrecognized line",
+    )))
+    lines = await processor.perform_ocr("image")
+    assert lines == ["recognized line"]
+    assert lines.requires_region_ocr
+
+
+async def test_body_text_does_not_set_a_layout_hint():
+    from unittest.mock import AsyncMock
+
+    processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=AsyncMock(
+        return_value="a technical example\nis_table: True",
+    )))
+    assert not (await processor.perform_ocr("image")).requires_region_ocr
+
+
+async def test_crop_retry_discards_repeatedly_truncated_text():
+    from unittest.mock import AsyncMock
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    complete = AsyncMock(side_effect=IncompleteCompletionError("token limit"))
+    processor = OCRProcessor(model="vision", client=SimpleNamespace(complete=complete))
+    assert await processor.perform_ocr_on_crop("image") == ""
+    assert complete.await_count == 2
+
+
+def _region_page():
+    image = Image.new("RGB", (800, 800), "white")
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((100, 390, 500, 410), fill="black")
+    buffer = io.BytesIO()
+    image.save(buffer, "PNG")
+    return base64.b64encode(buffer.getvalue()).decode()
+
+
+@pytest.mark.parametrize("text,retries", [("literal text", 0), (r"\( x \)", 1)])
+async def test_native_region_retries_formatting_without_changing_ordinary_crops(text, retries):
+    from unittest.mock import AsyncMock
+
+    complete = AsyncMock(side_effect=[text, "literal text"])
+    processor = OCRProcessor(model="olmocr", client=SimpleNamespace(complete=complete))
+    assert await processor.perform_ocr_on_region(_region_page(), [0.05, 0.47, 0.95, 0.53]) == "literal text"
+    assert complete.await_count == retries + 1
+    images = [Image.open(io.BytesIO(base64.b64decode(c.args[1]))) for c in complete.call_args_list]
+    assert images[0].width > images[0].height
+    if retries:
+        assert images[1].width == images[1].height <= 1024
+
+
+async def test_region_retry_has_one_total_deadline():
+    from unittest.mock import AsyncMock
+
+    async def respond(*args, **kwargs):
+        if complete.await_count == 1:
+            return r"\( x \)"
+        await asyncio.Event().wait()
+    complete = AsyncMock(side_effect=respond)
+    processor = OCRProcessor(model="olmocr", client=SimpleNamespace(complete=complete))
+    processor.CROP_TIMEOUT_S = 0.05
+    with pytest.raises(LLMCallError, match="Region OCR exceeded"):
+        await processor.perform_ocr_on_region(_region_page(), [0.05, 0.47, 0.95, 0.53])
+    assert complete.await_count == 2
 
 
 class TestYAMLFrontMatter:
@@ -95,8 +167,7 @@ class TestHallucinationFilter:
         import asyncio
         from pdf_ocr.core.ocr import OCRProcessor
 
-        ocr = OCRProcessor.__new__(OCRProcessor)  # skip real init
-        ocr.client = None  # never used; we override _chat below
+        ocr = OCRProcessor(model="vision", client=SimpleNamespace())
 
         async def _fake_pangram(*a, **kw):
             return "The quick brown fox jumps over the lazy dog."
@@ -111,8 +182,7 @@ class TestHallucinationFilter:
         import asyncio
         from pdf_ocr.core.ocr import OCRProcessor
 
-        ocr = OCRProcessor.__new__(OCRProcessor)
-        ocr.client = None
+        ocr = OCRProcessor(model="vision", client=SimpleNamespace())
 
         async def _fake(*a, **kw):
             return "real handwritten content"
@@ -129,8 +199,7 @@ class TestHallucinationFilter:
         import asyncio
         from pdf_ocr.core.ocr import OCRProcessor
 
-        ocr = OCRProcessor.__new__(OCRProcessor)
-        ocr.client = None
+        ocr = OCRProcessor(model="vision", client=SimpleNamespace())
 
         sentence = (
             "Practice typing: The quick brown fox jumps over the lazy dog. "
@@ -161,8 +230,7 @@ class TestHallucinationFilter:
             '"The quick brown fox jumps over the lazy dog."',
             'the quick brown fox jumps over the lazy dog',
         ):
-            ocr = OCRProcessor.__new__(OCRProcessor)
-            ocr.client = None
+            ocr = OCRProcessor(model="vision", client=SimpleNamespace())
             ocr._chat = _make_fake(variant)
             ocr.CROP_TIMEOUT_S = 60.0
             ocr.CROP_MAX_TOKENS = 256
@@ -187,14 +255,13 @@ def _fake_models_client(model_ids=None, raise_exc=None):
 
 
 def _make_ocr_with_fake_client(model: str, fake_client) -> OCRProcessor:
-    """Construct an OCRProcessor without going through __init__ (which
-    would create a real AsyncOpenAI client). Same trick as
-    TestHallucinationFilter above."""
-    ocr = OCRProcessor.__new__(OCRProcessor)
-    ocr.api_base = "http://localhost:1234/v1"
-    ocr.model = model
-    ocr.client = fake_client
-    return ocr
+    """Exercise the real adapter over an injected SDK-shaped test client."""
+    from pdf_ocr.inference import LLMConfig, OpenAICompatibleClient
+
+    adapter = OpenAICompatibleClient(
+        LLMConfig("http://inference.test/v1", model), sdk_client=fake_client,
+    )
+    return OCRProcessor(model=model, client=adapter)
 
 
 class TestEnsureModelLoaded:
@@ -272,7 +339,7 @@ class TestEnsureModelLoaded:
             asyncio.run(ocr.ensure_model_loaded())
         # Must point the user at the server (where to look) and at the
         # opt-out flag (how to bypass for non-conforming servers).
-        assert "http://localhost:1234/v1" in str(exc_info.value)
+        assert "http://inference.test/v1" in str(exc_info.value)
         assert "--no-verify-model" in str(exc_info.value)
 
 

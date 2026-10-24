@@ -24,6 +24,30 @@ from pdf_ocr.evaluation import (
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
+@pytest.mark.parametrize("threshold", [0, 0.3])
+def test_page_aware_matching_cannot_credit_a_different_source_page(threshold):
+    gt = [GTBlock([0, 0, 1, 1], "first page", page_index=0)]
+    report = compute_report(
+        "two.pdf", gt, [([0, 0, 1, 1], "first page")],
+        pipeline_page_indices=[1], iou_threshold=threshold,
+    )
+    assert report.block_recall == 0
+    assert report.char_recall == 0
+    assert report.char_precision == 0
+
+
+def test_page_aware_assignment_preserves_text_and_geometry_on_repeated_layouts():
+    gt = [GTBlock([0, 0, 1, 1], "first", page_index=0),
+          GTBlock([0, 0, 1, 1], "second", page_index=1)]
+    report = compute_report(
+        "two.pdf", gt, [([0, 0, 1, 1], "second"), ([0, 0, 1, 1], "first")],
+        pipeline_page_indices=[1, 0],
+    )
+    assert report.avg_text_similarity == 1
+    assert report.char_recall == 1
+    assert report.char_precision == 1
+
+
 class TestIoU:
     def test_identical_boxes(self):
         assert iou([0, 0, 1, 1], [0, 0, 1, 1]) == 1.0
@@ -99,6 +123,27 @@ class TestTextSimilarity:
 
 
 class TestLoadGroundTruth:
+    def test_utf8_fixture_text_is_preserved_with_ansi_locale(self, tmp_path, monkeypatch):
+        import builtins
+        import json
+
+        expected_text = "\u00b7 caf\u00e9 \u2192"
+        fixture = tmp_path / "unicode.json"
+        fixture.write_text(json.dumps({"data": {
+            "layout": [{"bbox": [0, 0, 100, 10], "block_content": expected_text}],
+            "data_info": {"pages": [{"width": 100, "height": 100}]},
+        }}, ensure_ascii=False), encoding="utf-8")
+        original_open = builtins.open
+
+        def ansi_default_open(file, mode="r", *args, **kwargs):
+            if "b" not in mode and "encoding" not in kwargs:
+                kwargs["encoding"] = "cp1252"
+            return original_open(file, mode, *args, **kwargs)
+
+        monkeypatch.setattr(builtins, "open", ansi_default_open)
+        blocks, _ = load_ground_truth(fixture)
+        assert blocks[0].text == expected_text
+
     def test_handwritten_fixture_loads(self):
         blocks, (fw, fh) = load_ground_truth(FIXTURES / "ground_truth_handwritten.json")
         assert (fw, fh) == (1654, 2170)

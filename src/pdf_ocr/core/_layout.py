@@ -22,6 +22,44 @@ call them and decide how to render each sub-rect themselves.
 
 from __future__ import annotations
 
+from html.parser import HTMLParser
+import re
+
+
+def searchable_text(text: str) -> str:
+    """Use visible table cells in positioned text layers, not HTML syntax.
+
+    Markdown output retains the recognizer's original markup. Only explicit
+    HTML tables are decoded here; literal code such as `#include <stdio.h>`
+    and mathematical comparisons must survive unchanged.
+    """
+    if text.lstrip().startswith("```") or not re.search(r"<table(?:\s|>)", text, re.IGNORECASE):
+        return text
+
+    class TableText(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.parts = []
+
+        def handle_data(self, data):
+            self.parts.append(data)
+
+        def handle_starttag(self, tag, attrs):
+            if tag == "br":
+                self.parts.append("\n")
+            elif tag in {"td", "th"}:
+                self.parts.append(" ")
+
+        def handle_endtag(self, tag):
+            if tag in {"tr", "table"}:
+                self.parts.append("\n")
+
+    parser = TableText()
+    # Formatting whitespace between tags is not a visual table row.
+    parser.feed(re.sub(r">\s+<", "><", text))
+    return "\n".join(" ".join(row.split()) for row in "".join(parser.parts).splitlines()
+                     if row.strip())
+
 
 def is_full_page_fallback(rect_coords: list[float], text: str) -> bool:
     """True if `rect_coords` is the aligner's [0,0,1,1] fallback bbox.

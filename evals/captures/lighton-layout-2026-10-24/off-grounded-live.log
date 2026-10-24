@@ -1,0 +1,120 @@
+F......F.                                                                [100%]
+================================== FAILURES ===================================
+_____________ test_live_recognition_is_stable[0-grounded-hybrid] ______________
+
+mode = 'grounded', document = 'hybrid', seed = 0
+tmp_path = WindowsPath('C:/Users/ahnaf/AppData/Local/Temp/pytest-of-ahnaf/pytest-2171/test_live_recognition_is_stabl0')
+
+    @pytest.mark.parametrize("mode,document", [
+        ("hybrid", "notes"), ("hybrid", "hybrid"), ("hybrid", "handwritten"), ("grounded", "hybrid"),
+        ("grounded", "notes"), ("grounded", "handwritten"),
+    ])
+    @pytest.mark.parametrize("seed", [0, 1, 2])
+    async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
+        endpoint = os.environ.get("OCR_LIVE_API_BASE")
+        if not endpoint or os.environ.get("OCR_LIVE_MODE") != mode:
+            pytest.skip("Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference")
+        model = os.environ.get("OCR_LIVE_MODEL") or (
+            DEFAULT_MODEL if mode == "hybrid" else DEFAULT_GROUNDED_MODEL
+        )
+        max_dim = int(os.environ.get("OCR_LIVE_MAX_IMAGE_DIM", "1024"))
+        component = (OCRProcessor if mode == "hybrid" else PromptedGroundedOCR)(
+            api_base=endpoint, model=model, api_key=os.environ.get("OCR_LIVE_API_KEY"),
+            **({"max_image_dim": max_dim} if mode == "grounded" else {}),
+        )
+        component.client.generation_options["seed"] = seed
+        handler = PDFHandler()
+        output = tmp_path / ("recognized.pdf" if document == "hybrid" else "recognized.txt")
+        pipe = OCRPipeline(
+            aligner=HybridAligner() if mode == "hybrid" else None,
+            ocr_processor=component if mode == "hybrid" else None,
+            grounded_backend=component if mode == "grounded" else None,
+            pdf_handler=handler,
+            output_writer=resolve_output_writer(str(output)),
+        )
+        try:
+            await pipe.run(str(ROOT / f"examples/{document}.pdf"), str(output), pages="1",
+                           concurrency=1, max_image_dim=max_dim)
+        finally:
+            await component.aclose()
+        if output.suffix == ".pdf":
+            with fitz.open(output) as pdf:
+                text = "\n".join(page.get_text() for page in pdf)
+                if mode == "hybrid":
+                    # Source form: question at 76% page height, answer at 80%.
+                    # The former DP shift put this question over the symptoms
+                    # and the medication answer over its own question.
+                    question = pdf[0].search_for("Are you currently")
+                    answer = pdf[0].search_for("attention")
+                    assert question and all(0.74 < r.y0 / pdf[0].rect.height < 0.79 for r in question)
+                    assert answer and all(0.78 < r.y0 / pdf[0].rect.height < 0.85 for r in answer)
+        else:
+            text = output.read_text(encoding="utf-8")
+        checks = run_doc_checks(text,
+                                load_doc_checks(ROOT / f"evals/checks/{document}.jsonl"))
+>       assert checks[0] == checks[1], checks[2]
+E       AssertionError: ["missing: 'mucas in throat'"]
+E       assert 12 == 13
+
+tests\test_live_quality.py:70: AssertionError
+______________ test_live_recognition_is_stable[2-grounded-notes] ______________
+
+mode = 'grounded', document = 'notes', seed = 2
+tmp_path = WindowsPath('C:/Users/ahnaf/AppData/Local/Temp/pytest-of-ahnaf/pytest-2171/test_live_recognition_is_stabl7')
+
+    @pytest.mark.parametrize("mode,document", [
+        ("hybrid", "notes"), ("hybrid", "hybrid"), ("hybrid", "handwritten"), ("grounded", "hybrid"),
+        ("grounded", "notes"), ("grounded", "handwritten"),
+    ])
+    @pytest.mark.parametrize("seed", [0, 1, 2])
+    async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
+        endpoint = os.environ.get("OCR_LIVE_API_BASE")
+        if not endpoint or os.environ.get("OCR_LIVE_MODE") != mode:
+            pytest.skip("Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference")
+        model = os.environ.get("OCR_LIVE_MODEL") or (
+            DEFAULT_MODEL if mode == "hybrid" else DEFAULT_GROUNDED_MODEL
+        )
+        max_dim = int(os.environ.get("OCR_LIVE_MAX_IMAGE_DIM", "1024"))
+        component = (OCRProcessor if mode == "hybrid" else PromptedGroundedOCR)(
+            api_base=endpoint, model=model, api_key=os.environ.get("OCR_LIVE_API_KEY"),
+            **({"max_image_dim": max_dim} if mode == "grounded" else {}),
+        )
+        component.client.generation_options["seed"] = seed
+        handler = PDFHandler()
+        output = tmp_path / ("recognized.pdf" if document == "hybrid" else "recognized.txt")
+        pipe = OCRPipeline(
+            aligner=HybridAligner() if mode == "hybrid" else None,
+            ocr_processor=component if mode == "hybrid" else None,
+            grounded_backend=component if mode == "grounded" else None,
+            pdf_handler=handler,
+            output_writer=resolve_output_writer(str(output)),
+        )
+        try:
+            await pipe.run(str(ROOT / f"examples/{document}.pdf"), str(output), pages="1",
+                           concurrency=1, max_image_dim=max_dim)
+        finally:
+            await component.aclose()
+        if output.suffix == ".pdf":
+            with fitz.open(output) as pdf:
+                text = "\n".join(page.get_text() for page in pdf)
+                if mode == "hybrid":
+                    # Source form: question at 76% page height, answer at 80%.
+                    # The former DP shift put this question over the symptoms
+                    # and the medication answer over its own question.
+                    question = pdf[0].search_for("Are you currently")
+                    answer = pdf[0].search_for("attention")
+                    assert question and all(0.74 < r.y0 / pdf[0].rect.height < 0.79 for r in question)
+                    assert answer and all(0.78 < r.y0 / pdf[0].rect.height < 0.85 for r in answer)
+        else:
+            text = output.read_text(encoding="utf-8")
+        checks = run_doc_checks(text,
+                                load_doc_checks(ROOT / f"evals/checks/{document}.jsonl"))
+>       assert checks[0] == checks[1], checks[2]
+E       AssertionError: ["missing: 'FK can have null value'"]
+E       assert 4 == 5
+
+tests\test_live_quality.py:70: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_live_quality.py::test_live_recognition_is_stable[0-grounded-hybrid]
+FAILED tests/test_live_quality.py::test_live_recognition_is_stable[2-grounded-notes]
+2 failed, 7 passed, 9 deselected in 55.28s

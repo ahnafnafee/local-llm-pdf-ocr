@@ -4,7 +4,7 @@
     "file_type": "pdf",
     "layout": [
       {
-        "block_content": "- PK can have null value",
+        "block_content": "- FK can have null value",
         "bbox": [
           18,
           16,
@@ -43,7 +43,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- F.U approach",
+        "block_content": "- F.K approach",
         "bbox": [
           152,
           43,
@@ -95,7 +95,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(1) F.U approach",
+        "block_content": "① F.K approach",
         "bbox": [
           308,
           19,
@@ -108,7 +108,7 @@
         "score": 1.0
       },
       {
-        "block_content": "[Diagram]",
+        "block_content": "Cross Ref also",
         "bbox": [
           308,
           429,
@@ -121,7 +121,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S 1",
+        "block_content": "applies here",
         "bbox": [
           333,
           429,
@@ -134,7 +134,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|",
+        "block_content": "R; a₁",
         "bbox": [
           339,
           171,
@@ -147,7 +147,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|--- R",
+        "block_content": "merge-rel can work here with P.K from",
         "bbox": [
           362,
           409,
@@ -160,7 +160,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|     |",
+        "block_content": "a₁",
         "bbox": [
           401,
           169,
@@ -173,7 +173,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|     a_1 ... a_n",
+        "block_content": "both participations",
         "bbox": [
           409,
           413,
@@ -186,7 +186,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|     |",
+        "block_content": "- not desired",
         "bbox": [
           431,
           456,
@@ -199,7 +199,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|--- T",
+        "block_content": "PK(T) | a₁ | ... | aₙ",
         "bbox": [
           466,
           339,
@@ -212,7 +212,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Cross Ref also applies here",
+        "block_content": "S | PK(S) | ...",
         "bbox": [
           469,
           182,
@@ -225,7 +225,7 @@
         "score": 1.0
       },
       {
-        "block_content": "merge-ru can work here with F.U from both participations - not desired",
+        "block_content": "② Merge-relation",
         "bbox": [
           520,
           19,
@@ -238,7 +238,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S | PK(S) | .. | PK(T) | a_1 | .. | a_n",
+        "block_content": "S",
         "bbox": [
           599,
           86,
@@ -251,7 +251,7 @@
         "score": 1.0
       },
       {
-        "block_content": "T | PK(S) | ... | T |",
+        "block_content": "R",
         "bbox": [
           604,
           154,
@@ -264,7 +264,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(2) Merge-relation",
+        "block_content": "be either one",
         "bbox": [
           618,
           427,
@@ -277,7 +277,7 @@
         "score": 1.0
       },
       {
-        "block_content": "[Diagram]",
+        "block_content": "F.K",
         "bbox": [
           629,
           337,
@@ -290,7 +290,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S 1",
+        "block_content": "can",
         "bbox": [
           632,
           387,
@@ -303,7 +303,7 @@
         "score": 1.0
       },
       {
-        "block_content": "| |--- R",
+        "block_content": "a₁",
         "bbox": [
           656,
           152,
@@ -316,7 +316,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|     |",
+        "block_content": "F.K applies",
         "bbox": [
           665,
           37,
@@ -329,7 +329,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|     a_1 ... a_n",
+        "block_content": "to second case",
         "bbox": [
           678,
           37,
@@ -342,7 +342,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|     |",
+        "block_content": "as well",
         "bbox": [
           707,
           50,
@@ -355,7 +355,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|--- T",
+        "block_content": "ST | PK(S) | PK(T) | ... | a₁ | ... | aₙ",
         "bbox": [
           711,
           215,
@@ -368,7 +368,7 @@
         "score": 1.0
       },
       {
-        "block_content": "PK can be either one S T | PK(S) | PK(T) | ... | a_1 | ... | a_n",
+        "block_content": "Cross Ref can also",
         "bbox": [
           725,
           32,
@@ -381,7 +381,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(since it's 1:1) fu applies to second case as well",
+        "block_content": "(since its 1:1)",
         "bbox": [
           749,
           231,
@@ -394,7 +394,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Cross Ref can also apply here",
+        "block_content": "apply here",
         "bbox": [
           750,
           53,
@@ -420,7 +420,7 @@
         "score": 1.0
       },
       {
-        "block_content": "for approach can",
+        "block_content": "F.K approach can",
         "bbox": [
           60,
           400,
@@ -446,7 +446,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\frac{1}{R}\\)",
+        "block_content": "R",
         "bbox": [
           100,
           183,
@@ -459,7 +459,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( a_n \\)",
+        "block_content": "aₙ",
         "bbox": [
           153,
           229,
@@ -472,7 +472,7 @@
         "score": 1.0
       },
       {
-        "block_content": "a",
+        "block_content": "a₁",
         "bbox": [
           159,
           155,
@@ -498,7 +498,7 @@
         "score": 1.0
       },
       {
-        "block_content": "f/n approach can also apply here",
+        "block_content": "merge-relation",
         "bbox": [
           171,
           446,
@@ -511,7 +511,7 @@
         "score": 1.0
       },
       {
-        "block_content": "can't have merge-relation here, could have nul values from either S or T",
+        "block_content": "here, could have",
         "bbox": [
           200,
           446,
@@ -524,7 +524,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\frac{S}{\\operatorname{Pv}(S)} \\)",
+        "block_content": "S | PK(S)",
         "bbox": [
           226,
           191,
@@ -550,7 +550,7 @@
         "score": 1.0
       },
       {
-        "block_content": "either one can be unique.",
+        "block_content": "from either S or T",
         "bbox": [
           249,
           450,
@@ -563,7 +563,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\frac{\\rho_{K}(T)}{1} \\]",
+        "block_content": "PK(T)",
         "bbox": [
           278,
           219,
@@ -576,7 +576,7 @@
         "score": 1.0
       },
       {
-        "block_content": "if combo is unique, eNV is unique",
+        "block_content": "R | PK(S) | PK(T) | a₁ | ...",
         "bbox": [
           329,
           189,
@@ -589,7 +589,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\int a_n\\)",
+        "block_content": "aₙ",
         "bbox": [
           333,
           412,
@@ -602,7 +602,7 @@
         "score": 1.0
       },
       {
-        "block_content": "@ilks",
+        "block_content": "either",
         "bbox": [
           338,
           61,
@@ -654,7 +654,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Since 1:1",
+        "block_content": "either is unique",
         "bbox": [
           432,
           63,
@@ -667,7 +667,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Sinul Lin",
+        "block_content": "Since 1:1",
         "bbox": [
           462,
           84,
@@ -680,7 +680,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Mapping of Binary 1:N Relationship Sets",
+        "block_content": "of Binary 1:N Relationship",
         "bbox": [
           5,
           116,
@@ -693,7 +693,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Sett",
+        "block_content": "Sets",
         "bbox": [
           17,
           375,
@@ -706,7 +706,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Account #  Bname  City",
+        "block_content": "Mapping",
         "bbox": [
           26,
           30,
@@ -719,7 +719,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Brave",
+        "block_content": "Bname",
         "bbox": [
           58,
           298,
@@ -771,7 +771,7 @@
         "score": 1.0
       },
       {
-        "block_content": "suqes",
+        "block_content": "has",
         "bbox": [
           121,
           221,
@@ -797,7 +797,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Bqian e",
+        "block_content": "Bname",
         "bbox": [
           179,
           117,
@@ -810,7 +810,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Account    Branch",
+        "block_content": "Bname | Bname",
         "bbox": [
           213,
           371,
@@ -823,7 +823,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Branch",
+        "block_content": "Acct#",
         "bbox": [
           219,
           305,
@@ -836,7 +836,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Account  [Account#  Bname]  Bname",
+        "block_content": "Acct",
         "bbox": [
           231,
           251,
@@ -849,7 +849,7 @@
         "score": 1.0
       },
       {
-        "block_content": "sinc",
+        "block_content": "Since",
         "bbox": [
           265,
           88,
@@ -888,7 +888,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- always create separate table for relationship set if M:N",
+        "block_content": "- always create separate table for relationship",
         "bbox": [
           397,
           105,
@@ -901,7 +901,7 @@
         "score": 1.0
       },
       {
-        "block_content": "set if min",
+        "block_content": "set if M:N",
         "bbox": [
           442,
           124,
@@ -914,7 +914,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- relationship attr can't be shifted",
+        "block_content": "can't be shifted",
         "bbox": [
           462,
           313,
@@ -927,7 +927,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- relationships after",
+        "block_content": "- relationship attr",
         "bbox": [
           476,
           113,
@@ -940,7 +940,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\int \\sqrt{p_{\\mathcal{R}}(cs)} \\, ds \\]",
+        "block_content": "S | PK(S)",
         "bbox": [
           515,
           340,
@@ -953,7 +953,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S  [PK(S)]",
+        "block_content": "PK(T)",
         "bbox": [
           569,
           366,
@@ -966,7 +966,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\theta_n\\)",
+        "block_content": "aₙ",
         "bbox": [
           609,
           207,
@@ -979,7 +979,7 @@
         "score": 1.0
       },
       {
-        "block_content": "q_1",
+        "block_content": "a₁",
         "bbox": [
           610,
           126,
@@ -992,7 +992,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\begin{array}{|c|c|c|} \\hline p_{K}(S) & p_{K}(T) & a_1 \\\\ \\hline \\end{array} \\]",
+        "block_content": "PK(S) | PK(T) | a₁",
         "bbox": [
           626,
           357,
@@ -1018,7 +1018,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\alpha_n \\)",
+        "block_content": "aₙ",
         "bbox": [
           636,
           553,
@@ -1031,7 +1031,7 @@
         "score": 1.0
       },
       {
-        "block_content": "T  [PK(T)]",
+        "block_content": "Can't apply",
         "bbox": [
           667,
           156,
@@ -1044,7 +1044,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R  [PK(S)  PK(T)  a_1 ... a_n]",
+        "block_content": "F.K approach here since",
         "bbox": [
           695,
           152,
@@ -1057,7 +1057,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Can't apply FK approach here since it could create circular dependency",
+        "block_content": "it could create circular dependency",
         "bbox": [
           704,
           151,
@@ -1070,7 +1070,7 @@
         "score": 1.0
       },
       {
-        "block_content": "# Mapping of Multivalued Attributes",
+        "block_content": "of Multivalued Attributes",
         "bbox": [
           13,
           144,
@@ -1083,7 +1083,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Employee",
+        "block_content": "Mapping",
         "bbox": [
           22,
           50,
@@ -1109,7 +1109,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·",
+        "block_content": "Employee",
         "bbox": [
           90,
           297,
@@ -1122,7 +1122,7 @@
         "score": 1.0
       },
       {
-        "block_content": "y",
+        "block_content": "x",
         "bbox": [
           90,
           436,
@@ -1135,7 +1135,7 @@
         "score": 1.0
       },
       {
-        "block_content": "dependent",
+        "block_content": "Employee",
         "bbox": [
           115,
           108,
@@ -1161,7 +1161,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Employee",
+        "block_content": "dependent",
         "bbox": [
           176,
           108,
@@ -1200,7 +1200,7 @@
         "score": 1.0
       },
       {
-        "block_content": "SSN | · | y",
+        "block_content": "alternatively",
         "bbox": [
           229,
           253,
@@ -1213,7 +1213,7 @@
         "score": 1.0
       },
       {
-        "block_content": "p.vc",
+        "block_content": "P.K",
         "bbox": [
           247,
           515,
@@ -1239,7 +1239,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[\\int \\frac{ss}{n}\\]",
+        "block_content": "SSN",
         "bbox": [
           278,
           234,
@@ -1252,7 +1252,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Dependent",
+        "block_content": "x | y",
         "bbox": [
           274,
           290,
@@ -1265,7 +1265,7 @@
         "score": 1.0
       },
       {
-        "block_content": "ESSN | Dependent Name",
+        "block_content": "Dependent Name",
         "bbox": [
           280,
           364,
@@ -1278,7 +1278,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Combination to form P.K",
+        "block_content": "required to",
         "bbox": [
           316,
           288,
@@ -1291,7 +1291,7 @@
         "score": 1.0
       },
       {
-        "block_content": "E-D",
+        "block_content": "repeat",
         "bbox": [
           322,
           408,
@@ -1304,7 +1304,7 @@
         "score": 1.0
       },
       {
-        "block_content": "SSN | · | y | Dependent Name X",
+        "block_content": "x and y for each",
         "bbox": [
           336,
           294,
@@ -1317,7 +1317,7 @@
         "score": 1.0
       },
       {
-        "block_content": "required to repeat · and y for each dependent, not ideal",
+        "block_content": "dependent, not ideal",
         "bbox": [
           366,
           268,
@@ -1330,7 +1330,7 @@
         "score": 1.0
       },
       {
-        "block_content": "# Mapping of N-ary relationship sets",
+        "block_content": "N-ary relationship sets",
         "bbox": [
           426,
           217,
@@ -1343,7 +1343,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Supplier",
+        "block_content": "Mapping",
         "bbox": [
           430,
           83,
@@ -1356,7 +1356,7 @@
         "score": 1.0
       },
       {
-        "block_content": "m",
+        "block_content": "Supplier",
         "bbox": [
           535,
           67,
@@ -1369,7 +1369,7 @@
         "score": 1.0
       },
       {
-        "block_content": "supply m",
+        "block_content": "Supply",
         "bbox": [
           535,
           236,
@@ -1382,7 +1382,7 @@
         "score": 1.0
       },
       {
-        "block_content": "m",
+        "block_content": "Project",
         "bbox": [
           541,
           400,
@@ -1408,7 +1408,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Part Project",
+        "block_content": "Part",
         "bbox": [
           635,
           266,
@@ -1434,7 +1434,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- must have tables for each strong entity sets",
+        "block_content": "- must have tables for each strong",
         "bbox": [
           53,
           112,
@@ -1447,7 +1447,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- primarily creating the relationship set to a separate table",
+        "block_content": "entity sets",
         "bbox": [
           87,
           119,
@@ -1460,7 +1460,7 @@
         "score": 1.0
       },
       {
-        "block_content": "![Entity-Relationship diagram showing relationships between EMPLOYEE, DEPARTMENT, PROJECT, DEPENDENT, and SUPERVISION](page_320_624_704_480.png)",
+        "block_content": "- primarily creating the relationship set to a separate table",
         "bbox": [
           98,
           115,
@@ -1473,7 +1473,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Fruitmo",
+        "block_content": "Fname",
         "bbox": [
           347,
           101,
@@ -1486,7 +1486,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Hunter",
+        "block_content": "Number",
         "bbox": [
           347,
           407,
@@ -1525,7 +1525,7 @@
         "score": 1.0
       },
       {
-        "block_content": "WORKS FOR",
+        "block_content": "WORKS_FOR",
         "bbox": [
           364,
           307,
@@ -1538,7 +1538,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Home",
+        "block_content": "Name",
         "bbox": [
           367,
           385,
@@ -1642,7 +1642,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Haus",
+        "block_content": "Hours",
         "bbox": [
           459,
           295,
@@ -1746,7 +1746,7 @@
         "score": 1.0
       },
       {
-        "block_content": "EMPLOYEE FNAME  MINIT  LNAME  SSN  BOATE  ADDRESS  SEX  SALARY  SUPERSSN  DNO",
+        "block_content": "EMPLOYEE",
         "bbox": [
           80,
           99,
@@ -1759,7 +1759,7 @@
         "score": 1.0
       },
       {
-        "block_content": "DEPARTMENT",
+        "block_content": "FNAME",
         "bbox": [
           95,
           108,
@@ -1772,7 +1772,7 @@
         "score": 1.0
       },
       {
-        "block_content": "DNAME DNUMBER MGRSSN MGRSTARTDATE",
+        "block_content": "MINIT",
         "bbox": [
           95,
           148,
@@ -1785,7 +1785,7 @@
         "score": 1.0
       },
       {
-        "block_content": "DEPT_LOCATIONS",
+        "block_content": "LNAME",
         "bbox": [
           95,
           181,
@@ -1798,7 +1798,7 @@
         "score": 1.0
       },
       {
-        "block_content": "DNUMBER  DLOCATION",
+        "block_content": "BDATE",
         "bbox": [
           95,
           252,
@@ -1811,7 +1811,7 @@
         "score": 1.0
       },
       {
-        "block_content": "PROJECT",
+        "block_content": "ADDRESS",
         "bbox": [
           95,
           291,
@@ -1824,7 +1824,7 @@
         "score": 1.0
       },
       {
-        "block_content": "PNAME PNUMBER PLOCATION DNUM",
+        "block_content": "SEX",
         "bbox": [
           95,
           335,
@@ -1837,7 +1837,7 @@
         "score": 1.0
       },
       {
-        "block_content": "WORKS_ON ESSN  PNO  HOURS",
+        "block_content": "SALARY",
         "bbox": [
           95,
           361,
@@ -1850,7 +1850,7 @@
         "score": 1.0
       },
       {
-        "block_content": "DEPENDENT ESSN  DEPENDENT_NAME  SEX  BOATE  RELATIONSHIP",
+        "block_content": "SUPERSSN",
         "bbox": [
           95,
           402,
@@ -1863,7 +1863,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Customer",
+        "block_content": "DNO",
         "bbox": [
           95,
           450,
@@ -1876,7 +1876,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<table>",
+        "block_content": "SSN",
         "bbox": [
           96,
           221,
@@ -1889,7 +1889,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "DEPARTMENT",
         "bbox": [
           125,
           207,
@@ -1902,7 +1902,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>SSN</th>",
+        "block_content": "DNUMBER",
         "bbox": [
           138,
           255,
@@ -1915,7 +1915,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Name</th>",
+        "block_content": "DNAME",
         "bbox": [
           139,
           212,
@@ -1928,7 +1928,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr>",
+        "block_content": "MGRSSN",
         "bbox": [
           139,
           303,
@@ -1941,7 +1941,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</table>",
+        "block_content": "MGRSTARTDATE",
         "bbox": [
           140,
           354,
@@ -1954,7 +1954,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Loan",
+        "block_content": "DEPT_LOCATIONS",
         "bbox": [
           174,
           209,
@@ -1967,7 +1967,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<table>",
+        "block_content": "DNUMBER",
         "bbox": [
           188,
           217,
@@ -1980,7 +1980,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "DLOCATION",
         "bbox": [
           188,
           275,
@@ -1993,7 +1993,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Loan#</th>",
+        "block_content": "PROJECT",
         "bbox": [
           219,
           183,
@@ -2006,7 +2006,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Amount</th>",
+        "block_content": "PNUMBER",
         "bbox": [
           232,
           240,
@@ -2019,7 +2019,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr>",
+        "block_content": "PNAME",
         "bbox": [
           233,
           194,
@@ -2032,7 +2032,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</table>",
+        "block_content": "PLOCATION",
         "bbox": [
           233,
           300,
@@ -2045,7 +2045,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Borrows",
+        "block_content": "DNUM",
         "bbox": [
           233,
           364,
@@ -2058,7 +2058,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<table>",
+        "block_content": "WORKS_ON",
         "bbox": [
           261,
           238,
@@ -2071,7 +2071,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "HOURS",
         "bbox": [
           277,
           302,
@@ -2084,7 +2084,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>PK(C)</th>",
+        "block_content": "ESSN",
         "bbox": [
           278,
           238,
@@ -2097,7 +2097,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>PK(L)</th>",
+        "block_content": "PNO",
         "bbox": [
           278,
           270,
@@ -2110,7 +2110,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr>",
+        "block_content": "DEPENDENT",
         "bbox": [
           302,
           192,
@@ -2123,7 +2123,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</table>",
+        "block_content": "DEPENDENT_NAME",
         "bbox": [
           319,
           231,
@@ -2136,7 +2136,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Loan Office",
+        "block_content": "SEX",
         "bbox": [
           319,
           321,
@@ -2149,7 +2149,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<table>",
+        "block_content": "BDATE",
         "bbox": [
           319,
           353,
@@ -2162,7 +2162,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "RELATIONSHIP",
         "bbox": [
           319,
           406,
@@ -2175,7 +2175,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>PK(E)</th>",
+        "block_content": "ESSN",
         "bbox": [
           319,
           186,
@@ -2188,7 +2188,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>PK(D)</th>",
+        "block_content": "Customer | SSN",
         "bbox": [
           406,
           51,
@@ -2201,7 +2201,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr>",
+        "block_content": "Name",
         "bbox": [
           406,
           221,
@@ -2214,7 +2214,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</table>",
+        "block_content": "Amount",
         "bbox": [
           466,
           210,
@@ -2227,7 +2227,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Employee",
+        "block_content": "Loan#",
         "bbox": [
           474,
           151,
@@ -2240,7 +2240,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Law Ofice [PK(E) | PK(A)] If joint participation between borowers and law ofices, then can remove borowers for redundancy",
+        "block_content": "can remove borrows for redundancy",
         "bbox": [
           671,
           368,
@@ -2253,7 +2253,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<table>",
+        "block_content": "Loan",
         "bbox": [
           476,
           71,
@@ -2266,7 +2266,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "PK(L)",
         "bbox": [
           535,
           211,
@@ -2279,7 +2279,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>ESSN</th>",
+        "block_content": "PK(C)",
         "bbox": [
           536,
           152,
@@ -2292,7 +2292,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Name</th>",
+        "block_content": "Borrows",
         "bbox": [
           539,
           61,
@@ -2305,7 +2305,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Addr</th>",
+        "block_content": "Employee",
         "bbox": [
           607,
           59,
@@ -2318,7 +2318,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr>",
+        "block_content": "ESSN",
         "bbox": [
           616,
           159,
@@ -2331,7 +2331,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</table>",
+        "block_content": "Name",
         "bbox": [
           617,
           217,
@@ -2344,7 +2344,7 @@
         "score": 1.0
       },
       {
-        "block_content": "F dual participation between borows and loan ofice, then can remove borows for redundancy",
+        "block_content": "Addr",
         "bbox": [
           618,
           274,
@@ -2357,7 +2357,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Mapping of Specialization / Generalization",
+        "block_content": "Generalization",
         "bbox": [
           33,
           272,
@@ -2370,7 +2370,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S",
+        "block_content": "Mapping of",
         "bbox": [
           38,
           19,
@@ -2383,7 +2383,7 @@
         "score": 1.0
       },
       {
-        "block_content": "/   \\",
+        "block_content": "Specialization",
         "bbox": [
           38,
           123,
@@ -2396,7 +2396,7 @@
         "score": 1.0
       },
       {
-        "block_content": "C_1   C_m",
+        "block_content": "C₁",
         "bbox": [
           227,
           184,
@@ -2409,7 +2409,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Option 1",
+        "block_content": "Cₘ",
         "bbox": [
           231,
           315,
@@ -2422,7 +2422,7 @@
         "score": 1.0
       },
       {
-        "block_content": "S | (x) a_1 | ... | a_m |",
+        "block_content": "a₁",
         "bbox": [
           325,
           184,
@@ -2448,7 +2448,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|                |",
+        "block_content": "option 1",
         "bbox": [
           341,
           391,
@@ -2474,7 +2474,7 @@
         "score": 1.0
       },
       {
-        "block_content": "C_1 | x | x",
+        "block_content": "x",
         "bbox": [
           376,
           145,
@@ -2487,7 +2487,7 @@
         "score": 1.0
       },
       {
-        "block_content": "|                |",
+        "block_content": "x",
         "bbox": [
           378,
           200,
@@ -2513,7 +2513,7 @@
         "score": 1.0
       },
       {
-        "block_content": "C_m | x | z",
+        "block_content": "z",
         "bbox": [
           573,
           349,
@@ -2526,7 +2526,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Redundancy with option 2",
+        "block_content": "Redundancy",
         "bbox": [
           577,
           100,
@@ -2539,7 +2539,7 @@
         "score": 1.0
       },
       {
-        "block_content": "+3",
+        "block_content": "with",
         "bbox": [
           579,
           241,
@@ -2565,7 +2565,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Option 3: works only with disjoint",
+        "block_content": "Option 3: works only",
         "bbox": [
           19,
           32,
@@ -2578,7 +2578,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- single relation with one type attribute",
+        "block_content": "with one type attribute",
         "bbox": [
           40,
           280,
@@ -2630,7 +2630,7 @@
         "score": 1.0
       },
       {
-        "block_content": "ie total participation and disjoint,",
+        "block_content": "if total participation and disjoint, all options apply...",
         "bbox": [
           214,
           55,
@@ -2643,7 +2643,7 @@
         "score": 1.0
       },
       {
-        "block_content": "all options apply --",
+        "block_content": "",
         "bbox": [
           307,
           14,
@@ -2652,7 +2652,7 @@
         ],
         "block_id": 203,
         "page_index": 7,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
@@ -2669,7 +2669,7 @@
         "score": 1.0
       },
       {
-        "block_content": "5th about",
+        "block_content": "sth about",
         "bbox": [
           51,
           450,
@@ -2682,7 +2682,7 @@
         "score": 1.0
       },
       {
-        "block_content": "SalesPerson (Sid, None)",
+        "block_content": "SalesPerson (Sid, Name)",
         "bbox": [
           65,
           27,
@@ -2708,7 +2708,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Customer (SSN, None, Street, City, State)",
+        "block_content": "Customer (SSN, Name, Street, City, State)",
         "bbox": [
           108,
           26,
@@ -2916,7 +2916,7 @@
         "score": 1.0
       },
       {
-        "block_content": "No seats",
+        "block_content": "No_seats",
         "bbox": [
           466,
           368,
@@ -3046,7 +3046,7 @@
         "score": 1.0
       },
       {
-        "block_content": "we can convert it",
+        "block_content": "can convert it",
         "bbox": [
           622,
           106,
@@ -3059,7 +3059,7 @@
         "score": 1.0
       },
       {
-        "block_content": "ne",
+        "block_content": "we",
         "bbox": [
           628,
           58,
@@ -3072,7 +3072,7 @@
         "score": 1.0
       },
       {
-        "block_content": "to a binary relation. We can merge Vehicle and Sale since they share the same p.k",
+        "block_content": "to a binary relation. We can merge Vehicle",
         "bbox": [
           639,
           60,
@@ -3085,7 +3085,7 @@
         "score": 1.0
       },
       {
-        "block_content": "and Sole",
+        "block_content": "and Sale",
         "bbox": [
           671,
           67,
@@ -3098,7 +3098,7 @@
         "score": 1.0
       },
       {
-        "block_content": "![Entity-Relationship diagram showing Vehicle, Sale, SalesPerson, and Customer entities with relationships](page_320_624_704_384.png)",
+        "block_content": "since they share the same P.K",
         "bbox": [
           671,
           180,
@@ -3215,7 +3215,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\sigma \\) (Dno='u' AND salary>25000) OR (Dno='s' AND salary>30000) (EMPLOYEE)",
+        "block_content": "σ (Dno='4' AND Salary > 25000) OR (Dno='5' AND Salary > 30000)",
         "bbox": [
           336,
           91,
@@ -3228,7 +3228,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- NOT > AND > OR - precedence",
+        "block_content": "AND > OR",
         "bbox": [
           394,
           144,
@@ -3319,7 +3319,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\Pi_{Rid, Height}(Clerks) \\)",
+        "block_content": "π Rid,Height (Routes)",
         "bbox": [
           640,
           41,
@@ -3345,7 +3345,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- in \"pure\" relational algebra, selections should be sets, so no duplicates",
+        "block_content": "- in pure relational algebra, selections should be",
         "bbox": [
           9,
           33,
@@ -3384,7 +3384,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- it is unary, not commutative",
+        "block_content": "- π is unary, not commutative",
         "bbox": [
           128,
           15,
@@ -3397,7 +3397,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Throne, age (6 Age > 30 (Climbers))",
+        "block_content": "π name,age (σ Age > 30 Climbers)",
         "bbox": [
           195,
           91,
@@ -3410,7 +3410,7 @@
         "score": 1.0
       },
       {
-        "block_content": "SELECT name, age from CLIMBERS",
+        "block_content": "SELECT name, age from WHERE Age > 30",
         "bbox": [
           252,
           50,
@@ -3423,7 +3423,7 @@
         "score": 1.0
       },
       {
-        "block_content": "WHERE Age > 30",
+        "block_content": "CLIMBERS",
         "bbox": [
           265,
           322,
@@ -3449,7 +3449,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Do we need to check union compatibility for cartesian product?",
+        "block_content": "Do we need to check union compatibility for",
         "bbox": [
           451,
           16,
@@ -3475,7 +3475,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- No, since it already returns a list of combinations uniquely",
+        "block_content": "- No, since it always returns all list of combinations",
         "bbox": [
           511,
           39,
@@ -3514,7 +3514,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Depositor: C_Name, Account",
+        "block_content": "Depositor: C_Name, Account#",
         "bbox": [
           114,
           108,
@@ -3527,7 +3527,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Loan_B_Name, Loan_N, Amount",
+        "block_content": "Loan: B_Name, Loan_#, Amount",
         "bbox": [
           142,
           108,
@@ -3540,7 +3540,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Borrower: C_Name, LoanII.",
+        "block_content": "Borrower: C_Name, Loan#",
         "bbox": [
           165,
           108,
@@ -3553,7 +3553,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Loan: B_Name, Loan_ID, Amount",
+        "block_content": "Select tuples of the loan relation where the branch name is",
         "bbox": [
           186,
           138,
@@ -3566,7 +3566,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Borrower: C_Name, Loan_ID",
+        "block_content": "σ Bname='GMU' (Loan)",
         "bbox": [
           206,
           222,
@@ -3579,7 +3579,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Select tuples of the loan relation where the branch name is \"GMU\"",
+        "block_content": "Find all tuples in which the amount of loan is more than $12000",
         "bbox": [
           227,
           137,
@@ -3592,7 +3592,7 @@
         "score": 1.0
       },
       {
-        "block_content": "6_{\\text{per unit}} > 1.080 \\quad (10^{10})",
+        "block_content": "σ amount > 12000 (Loan)",
         "bbox": [
           248,
           168,
@@ -3605,7 +3605,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find all tuples in which the amount of loan is more than $12000.",
+        "block_content": "Find those tuples pertaining to loans of more than $12000 made by GMU branch",
         "bbox": [
           273,
           135,
@@ -3618,7 +3618,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·_{·, \\alpha+1} > 1000 \\text{ and } \\delta_{\\alpha+1, \\alpha} = (a_{\\alpha+1})^i \\quad (\\text{Luv})",
+        "block_content": "σ amount > 12000 AND Bname='GMU' (Loan)",
         "bbox": [
           295,
           166,
@@ -3631,7 +3631,7 @@
         "score": 1.0
       },
       {
-        "block_content": "····",
+        "block_content": "R₁",
         "bbox": [
           295,
           398,
@@ -3657,7 +3657,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\(\\pi_{\\text{low},\\text{pmod}}\\)",
+        "block_content": "π Loan#, Amount",
         "bbox": [
           338,
           168,
@@ -3670,7 +3670,7 @@
         "score": 1.0
       },
       {
-        "block_content": "León",
+        "block_content": "Loan",
         "bbox": [
           339,
           263,
@@ -3683,7 +3683,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find the names of all customers who live in \"airfax\".",
+        "block_content": "Find the names of all customers who live in Fairfax",
         "bbox": [
           362,
           134,
@@ -3696,7 +3696,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find those tuples pertaining to loans of more than $12000 made by \"GMU\" branch.",
+        "block_content": "π name (σ C_city='Fairfax' Customer)",
         "bbox": [
           379,
           176,
@@ -3709,7 +3709,7 @@
         "score": 1.0
       },
       {
-        "block_content": "List all loan numbers and the amount of loan.",
+        "block_content": "Find the names of all bank customers who have either an account or a loan or both",
         "bbox": [
           408,
           134,
@@ -3722,7 +3722,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find the names of all customers who live in \"airfax\".",
+        "block_content": "π C_name (Depositor) ∪ π C_name (Borrower)",
         "bbox": [
           422,
           169,
@@ -3735,7 +3735,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find the names of all bank customers who have either an account or a loan or both.",
+        "block_content": "Find the names of all customers of the bank who have an account but not a loan",
         "bbox": [
           453,
           133,
@@ -3748,7 +3748,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·_{\\text{cave}} (\\text{Exposition})",
+        "block_content": "π C_name (Depositor)",
         "bbox": [
           471,
           178,
@@ -3761,7 +3761,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- 71 Erone (Barnet)",
+        "block_content": "- π C_name (Borrower)",
         "bbox": [
           471,
           282,
@@ -3774,7 +3774,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find the names of all customers of the bank who have an account but not a loan.",
+        "block_content": "Find the names of all customers who have both a loan and an account",
         "bbox": [
           497,
           132,
@@ -3787,7 +3787,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(Duflord)",
+        "block_content": "(Borrower)",
         "bbox": [
           510,
           356,
@@ -3800,7 +3800,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find the names of all customers who have both a loan and an account.",
+        "block_content": "π C_name (Depositor) ∩ π C_name",
         "bbox": [
           514,
           181,
@@ -3839,7 +3839,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Loan: B_Name, Loan_, Amount",
+        "block_content": "Loan: B_Name, Loan_#, Amount",
         "bbox": [
           155,
           88,
@@ -3930,7 +3930,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\sigma_{\\text{amount} > 12000 \\text{ and } \\text{name} = 'GMU'} (Loan) \\)",
+        "block_content": "σ amount > 12000 AND Branch='GMU' (Loan)",
         "bbox": [
           316,
           151,
@@ -3969,7 +3969,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Lizzy, Amanda",
+        "block_content": "π Loan#, Amount",
         "bbox": [
           367,
           154,
@@ -3982,7 +3982,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Loon",
+        "block_content": "Loan",
         "bbox": [
           367,
           247,
@@ -3995,7 +3995,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\Pi_{\\text{Loan}, \\text{amount}} (Loan) \\)",
+        "block_content": "Find the names of all customers who live in Fairfax",
         "bbox": [
           394,
           118,
@@ -4008,7 +4008,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of all customers who live in \"Fairfax\".",
+        "block_content": "π name (σ C_city='Fairfax' Customer)",
         "bbox": [
           410,
           160,
@@ -4021,7 +4021,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\Pi_{\\text{name}} (\\sigma_{\\text{city} = 'Fairfax'} (Customers)) \\)",
+        "block_content": "Find the names of all bank customers who have either an account or a loan or both",
         "bbox": [
           442,
           116,
@@ -4034,7 +4034,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of all bank customers who have either an account or a loan or both.",
+        "block_content": "π C_name (Depositor) ∪ π C_name (Borrower)",
         "bbox": [
           456,
           156,
@@ -4047,7 +4047,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) \\cup \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+        "block_content": "Find the names of all customers of the bank who have an account but not a loan",
         "bbox": [
           491,
           116,
@@ -4060,7 +4060,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of all customers of the bank who have an account but not a loan.",
+        "block_content": "π C_name (Depositor) - π C_name (Borrower)",
         "bbox": [
           508,
           162,
@@ -4073,7 +4073,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) - \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+        "block_content": "Find the names of all customers who have both a loan and an account",
         "bbox": [
           538,
           115,
@@ -4086,7 +4086,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(Dollars)",
+        "block_content": "(Borrower)",
         "bbox": [
           551,
           355,
@@ -4099,7 +4099,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of all customers who have both a loan and an account.",
+        "block_content": "π C_name (Depositor) ∩ π C_name",
         "bbox": [
           557,
           166,
@@ -4112,7 +4112,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\Pi_{\\text{name}} (\\text{Depositor}) \\cap \\Pi_{\\text{name}} (\\text{Borrower}) \\)",
+        "block_content": "",
         "bbox": [
           749,
           193,
@@ -4121,7 +4121,7 @@
         ],
         "block_id": 316,
         "page_index": 12,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
@@ -4138,7 +4138,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Cartesian Product",
+        "block_content": "σ Cid.1 = Cid.2 (Climbs × Climbers)",
         "bbox": [
           65,
           64,
@@ -4151,7 +4151,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\sigma_{C_{1.1} = C_{1.2}} (Climbs \\times Climbers) \\)",
+        "block_content": "In general, very expensive...",
         "bbox": [
           108,
           52,
@@ -4164,7 +4164,7 @@
         "score": 1.0
       },
       {
-        "block_content": "In general, very expensive...",
+        "block_content": "Use JOIN instead",
         "bbox": [
           159,
           32,
@@ -4203,7 +4203,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Use Join instead",
+        "block_content": "R ⋈ C S = σ C (R × S)",
         "bbox": [
           288,
           145,
@@ -4216,7 +4216,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- (THETA) JOIN",
+        "block_content": "C is called",
         "bbox": [
           329,
           159,
@@ -4242,7 +4242,7 @@
         "score": 1.0
       },
       {
-        "block_content": "you only",
+        "block_content": "can only",
         "bbox": [
           363,
           420,
@@ -4255,7 +4255,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· usually using ju",
+        "block_content": "- usually using the",
         "bbox": [
           367,
           192,
@@ -4268,7 +4268,7 @@
         "score": 1.0
       },
       {
-        "block_content": "- Join of two relations",
+        "block_content": "F.K constraint",
         "bbox": [
           390,
           180,
@@ -4281,7 +4281,7 @@
         "score": 1.0
       },
       {
-        "block_content": "have attributed",
+        "block_content": "take attribute",
         "bbox": [
           391,
           436,
@@ -4320,7 +4320,7 @@
         "score": 1.0
       },
       {
-        "block_content": "unconditioned",
+        "block_content": "condition",
         "bbox": [
           486,
           411,
@@ -4333,7 +4333,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( R \\bowtie_C S = \\sigma_C (R \\times S) \\)",
+        "block_content": "Climbs ⋈ Cid.1 = Cid.2 Climbers",
         "bbox": [
           504,
           121,
@@ -4346,7 +4346,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\bowtie_C \\) is called a Join condition",
+        "block_content": "- there should be fewer tuples in JOIN",
         "bbox": [
           542,
           34,
@@ -4359,7 +4359,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( \\bowtie_C \\) can only take attribute name",
+        "block_content": "compared to PRODUCT",
         "bbox": [
           580,
           73,
@@ -4372,7 +4372,7 @@
         "score": 1.0
       },
       {
-        "block_content": "This is different from SELECTION condition",
+        "block_content": "",
         "bbox": [
           637,
           173,
@@ -4381,11 +4381,11 @@
         ],
         "block_id": 336,
         "page_index": 13,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "Climbs \\( \\bowtie_C \\) Climbers",
+        "block_content": "",
         "bbox": [
           672,
           32,
@@ -4394,11 +4394,11 @@
         ],
         "block_id": 337,
         "page_index": 13,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "\\( (C_{1.1} = C_{1.2}) \\)",
+        "block_content": "",
         "bbox": [
           708,
           28,
@@ -4407,11 +4407,11 @@
         ],
         "block_id": 338,
         "page_index": 13,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "- there should be fewer tuples in Join compared to PRODUCT",
+        "block_content": "",
         "bbox": [
           744,
           26,
@@ -4420,7 +4420,7 @@
         ],
         "block_id": 339,
         "page_index": 13,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
@@ -4463,7 +4463,7 @@
         "score": 1.0
       },
       {
-        "block_content": "1. Sailors x Reserves (Cockson, 6 tuples)",
+        "block_content": "",
         "bbox": [
           134,
           96,
@@ -4472,11 +4472,11 @@
         ],
         "block_id": 343,
         "page_index": 14,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "2. Sailors · Reserves (Theta Join)",
+        "block_content": "① Sailors × Reserves (Cartesian, 6 tuples)",
         "bbox": [
           177,
           32,
@@ -4489,7 +4489,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Sailor.S.Sid < Reserve.S.Sid <table> <tr>",
+        "block_content": "② Sailors ⋈ Sailors.Sid < Reserves.Sid Reserves (Theta Join)",
         "bbox": [
           223,
           19,
@@ -4502,7 +4502,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>S.Sid</th> <th>...</th>",
+        "block_content": "S.sid | ... | R.sid",
         "bbox": [
           297,
           113,
@@ -4515,7 +4515,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>R.Sid</th> <th>..</th> </tr> <tr> <td>22</td> <td></td> <td>58</td> <td></td> </tr> <tr> <td>31</td> <td></td> <td>58</td> <td></td> </tr> </table>",
+        "block_content": "...",
         "bbox": [
           299,
           347,
@@ -4528,7 +4528,7 @@
         "score": 1.0
       },
       {
-        "block_content": "3. Sailors & S.Sid = R.Sid Reserves (Equijoin) (7 columns) <table>",
+        "block_content": "22 | 58; 31 | 58",
         "bbox": [
           330,
           101,
@@ -4541,7 +4541,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "",
         "bbox": [
           350,
           443,
@@ -4550,11 +4550,11 @@
         ],
         "block_id": 349,
         "page_index": 14,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "<th>S.Sid</th> <th>...</th>",
+        "block_content": "③ Sailors ⋈ S.sid = R.sid Reserves (Equijoin)",
         "bbox": [
           388,
           26,
@@ -4567,7 +4567,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>R.Sid</th>",
+        "block_content": "(7 columns)",
         "bbox": [
           426,
           432,
@@ -4580,7 +4580,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>..</th> </tr> <tr> <td>22</td> <td></td> <td>22</td> <td></td> </tr> <tr> <td>58</td> <td></td>",
+        "block_content": "S.sid | ... | R.sid | ...\n22 | 22\n58 | 58",
         "bbox": [
           432,
           101,
@@ -4593,7 +4593,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<td>58</td> <td></td> </tr> </table>",
+        "block_content": "④ Sailors ⋈ Reserves (Natural JOIN) (6 columns)",
         "bbox": [
           535,
           37,
@@ -4606,7 +4606,7 @@
         "score": 1.0
       },
       {
-        "block_content": "4. Sailors · Reserves (Natural JOIN) (6 columns) <table> <tr> <th>Sid</th> <th>...</th> </tr> <tr> <td>22</td> <td></td>",
+        "block_content": "22",
         "bbox": [
           597,
           104,
@@ -4619,7 +4619,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr> </table>",
+        "block_content": "",
         "bbox": [
           676,
           337,
@@ -4628,11 +4628,11 @@
         ],
         "block_id": 355,
         "page_index": 14,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "·_{S,snow} / S_{r,bb} = 0.2 (Silos & SSID: 1.50 Reserves)",
+        "block_content": "π S.sname (σ r.bid = 103 (Sailors ⋈ S.sid = r.sid Reserves))",
         "bbox": [
           17,
           42,
@@ -4684,7 +4684,7 @@
         "score": 1.0
       },
       {
-        "block_content": "snamo",
+        "block_content": "sname",
         "bbox": [
           201,
           244,
@@ -4710,7 +4710,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Criminology Interlake",
+        "block_content": "Interlake",
         "bbox": [
           211,
           360,
@@ -4736,7 +4736,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Choper",
+        "block_content": "Clipper",
         "bbox": [
           233,
           361,
@@ -4814,7 +4814,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of sailors who have reserved boat 103. · Find the names of sailors who have reserved a red boat.",
+        "block_content": "Find the names of sailors who have reserved a red boat.",
         "bbox": [
           377,
           215,
@@ -4827,7 +4827,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of sailors who have reserved. · Find the colors of boats reserved by Dustin.",
+        "block_content": "Find the colors of boats reserved by Dustin.",
         "bbox": [
           388,
           215,
@@ -4879,7 +4879,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Find the tiny green boat.",
+        "block_content": "green boat.",
         "bbox": [
           431,
           224,
@@ -4905,7 +4905,7 @@
         "score": 1.0
       },
       {
-        "block_content": "I will be sailing a green boat.",
+        "block_content": "a green boat.",
         "bbox": [
           452,
           224,
@@ -4931,7 +4931,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Rosenes",
+        "block_content": "Reserves))",
         "bbox": [
           483,
           392,
@@ -4944,7 +4944,7 @@
         "score": 1.0
       },
       {
-        "block_content": "(648 - 108)",
+        "block_content": "σ bid = 103",
         "bbox": [
           486,
           265,
@@ -4957,7 +4957,7 @@
         "score": 1.0
       },
       {
-        "block_content": "[Sailors]",
+        "block_content": "Sailors ⋈",
         "bbox": [
           488,
           128,
@@ -4970,7 +4970,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Tigane",
+        "block_content": "π sname",
         "bbox": [
           490,
           48,
@@ -4983,7 +4983,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Boats & Reserves",
+        "block_content": "Boats ⋈ Reserves))",
         "bbox": [
           521,
           373,
@@ -4996,7 +4996,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[ \\int_{0}^{\\infty} e^{-\\alpha x} \\cos(\\omega x) dx \\]",
+        "block_content": "σ color='red' (Sailors",
         "bbox": [
           524,
           156,
@@ -5009,7 +5009,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Tisnor",
+        "block_content": "π sname",
         "bbox": [
           531,
           67,
@@ -5022,7 +5022,7 @@
         "score": 1.0
       },
       {
-        "block_content": "·",
+        "block_content": "⋈",
         "bbox": [
           582,
           372,
@@ -5035,7 +5035,7 @@
         "score": 1.0
       },
       {
-        "block_content": "A. Levenus",
+        "block_content": "⋈ Reserves",
         "bbox": [
           584,
           246,
@@ -5074,7 +5074,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Russell",
+        "block_content": "⋈ Reserves",
         "bbox": [
           637,
           230,
@@ -5087,7 +5087,7 @@
         "score": 1.0
       },
       {
-        "block_content": "a sane (Sailors",
+        "block_content": "π sname (Sailors",
         "bbox": [
           639,
           68,
@@ -5100,7 +5100,7 @@
         "score": 1.0
       },
       {
-        "block_content": "5 \\( \\Pi_{\\text{snare}} ((\\delta_{\\text{color}} = 'red') \\text{ OR } \\text{color} = 'green' \\text{ Boots}) \\approx (\\delta_{\\text{AB}}) \\)",
+        "block_content": "((σ color='red' OR color='green' Boats) ⋈ R ⋈ S)",
         "bbox": [
           13,
           158,
@@ -5113,7 +5113,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· · snare",
+        "block_content": "⑤ π sname",
         "bbox": [
           22,
           27,
@@ -5126,7 +5126,7 @@
         "score": 1.0
       },
       {
-        "block_content": "6  Red \\( \\rightarrow \\Pi_{S_{\\text{B, snare}}} (S \\approx R \\approx (\\delta_{\\text{color}} = 'red', B)) \\approx S \\)",
+        "block_content": "⑤ π S.sname (Sailors ⋈ S.sid = r.sid (Reserves ⋈ r.bid = b.bid (σ b.color='red' OR b.color='green' (Boats))))\n⑥ π S.sname (Sailors ⋈ (π sid (R ⋈ r.bid = b.bid (σ b.color='red' Boats))) ∪ (π sid (R ⋈ r.bid = b.bid (σ b.color='green' Boats))))",
         "bbox": [
           179,
           156,
@@ -5139,7 +5139,7 @@
         "score": 1.0
       },
       {
-        "block_content": "1. Name: Orbis 108 (Sailors) - Red Reserve 2. Name:",
+        "block_content": "① π S.sname (σ r.bid = 103 (Sailors ⋈ S.sid = r.sid Reserves))",
         "bbox": [
           217,
           157,
@@ -5152,7 +5152,7 @@
         "score": 1.0
       },
       {
-        "block_content": "2. TT's name (Sailor 2000) (2000-2002) (2 years) 3. TT's name (Boat 1000)",
+        "block_content": "② π S.sname (Sailors ⋈ S.sid = r.sid (Reserves ⋈ r.bid = b.bid (σ b.color='red' Boats)))",
         "bbox": [
           238,
           156,
@@ -5165,7 +5165,7 @@
         "score": 1.0
       },
       {
-        "block_content": "3 The color Boots and leggings (Rservable, please (to earn the 30000)) 4 The name / Satisf",
+        "block_content": "③ π b.color (Boats ⋈ b.bid = r.bid (Reserves ⋈ r.sid = s.sid (σ S.name='Dustin' Sailors)))",
         "bbox": [
           262,
           160,
@@ -5178,7 +5178,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Message (Sailors and other Reserves)",
+        "block_content": "④ π S.sname (Sailors ⋈ S.sid = r.sid Reserves)",
         "bbox": [
           287,
           158,
@@ -5191,7 +5191,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Green \\( \\rightarrow \\Pi_{S_{\\text{W, snare}}} (S \\approx R \\approx (\\delta_{\\text{color}} = 'green', B)) \\approx S \\)",
+        "block_content": "Green → π S.bid,S.name (S ⋈ R ⋈ (σ color='green' B))",
         "bbox": [
           419,
           11,
@@ -5204,7 +5204,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( R \\cap G \\in \\Pi_{\\text{snare}} (\\text{Red} \\cap \\text{Green}) \\)",
+        "block_content": "R ∩ G ← π sname (Red ∩ Green)",
         "bbox": [
           540,
           63,
@@ -5217,7 +5217,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R1 · · Sid (6ege > 20 sailors)",
+        "block_content": "R₁ ←",
         "bbox": [
           21,
           61,
@@ -5230,7 +5230,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R2 · · Sid (R & (6 case = 'red')) R · · name [(R1 - R2) · Sailors] - Division in SQL query Climbs <table>",
+        "block_content": "π sid (σ age > 20 Sailors)",
         "bbox": [
           21,
           221,
@@ -5243,7 +5243,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr>",
+        "block_content": "②",
         "bbox": [
           25,
           15,
@@ -5256,7 +5256,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Cid</th>",
+        "block_content": "π sid (R ⋈ (σ color='red' B))",
         "bbox": [
           76,
           207,
@@ -5269,7 +5269,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Rid</th> </tr> <tr> <td>1</td> <td>A</td> </tr> <tr>",
+        "block_content": "R₂ ←",
         "bbox": [
           79,
           63,
@@ -5282,7 +5282,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<td>1</td>",
+        "block_content": "R ← π sname ((R₁ - R₂) ⋈ Sailors)",
         "bbox": [
           135,
           77,
@@ -5295,7 +5295,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<td>B</td> </tr>",
+        "block_content": "- Division in SQL query",
         "bbox": [
           235,
           22,
@@ -5308,7 +5308,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr> <td>2</td> <td>A</td>",
+        "block_content": "C × R",
         "bbox": [
           306,
           231,
@@ -5321,7 +5321,7 @@
         "score": 1.0
       },
       {
-        "block_content": "</tr>",
+        "block_content": "Climbs",
         "bbox": [
           311,
           76,
@@ -5334,7 +5334,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<tr> <td>2</td>",
+        "block_content": "",
         "bbox": [
           311,
           289,
@@ -5343,11 +5343,11 @@
         ],
         "block_id": 410,
         "page_index": 17,
-        "block_label": "text",
+        "block_label": "empty_line",
         "score": 1.0
       },
       {
-        "block_content": "<td>B</td> </tr> </table> C × R <table> <tr>",
+        "block_content": "Cid | Rid\n1 | A\n1 | B",
         "bbox": [
           335,
           236,
@@ -5360,7 +5360,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Cid</th>",
+        "block_content": "Cid | rid\n1 | A\n1 | B\n2 | A",
         "bbox": [
           345,
           65,
@@ -5373,7 +5373,7 @@
         "score": 1.0
       },
       {
-        "block_content": "<th>Rid</th> </tr> <tr> <td>1</td> <td>A</td> </tr> <tr> <td>1</td> <td>B</td> </tr> <tr> <td>2</td> <td>A</td> </tr> <tr> <td>2</td> <td>B</td> </tr> </table>",
+        "block_content": "2 | A\n2 | B ✓",
         "bbox": [
           415,
           255,
@@ -5386,7 +5386,7 @@
         "score": 1.0
       },
       {
-        "block_content": "C × R - · Cid, Rid (Climbs)",
+        "block_content": "C × R - π Cid,rid Climbs",
         "bbox": [
           499,
           87,
@@ -5412,7 +5412,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Cid, Rid Climbs ÷ (· Rid Routes)",
+        "block_content": "π Cid,Rid Climbs ÷ (π rid Routes)",
         "bbox": [
           562,
           88,
@@ -5477,7 +5477,7 @@
         "score": 1.0
       },
       {
-        "block_content": "1. Find rows of sailors who have reserved all boots",
+        "block_content": "find names of sailors who all boats",
         "bbox": [
           130,
           86,
@@ -5490,7 +5490,7 @@
         "score": 1.0
       },
       {
-        "block_content": "denominator",
+        "block_content": "have reserved",
         "bbox": [
           137,
           371,
@@ -5503,7 +5503,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( R_1 \\gets \\pi_{sid, bid} (reserves) / \\pi_{sid} (Boots) \\)",
+        "block_content": "denominator",
         "bbox": [
           208,
           120,
@@ -5516,7 +5516,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\( R \\gets \\pi_{sname} (R_1 \\bowtie Sailors) \\)",
+        "block_content": "R₁ ← π sid,bid (Reserves) / π sid (Boats)",
         "bbox": [
           282,
           111,
@@ -5529,7 +5529,7 @@
         "score": 1.0
       },
       {
-        "block_content": "2. \\( R_1 \\gets (\\pi_{sid, bid} reserves) \\div \\pi_{bid} (b = '...') \\)",
+        "block_content": "R ← π sname (R₁ ⋈ Sailors)",
         "bbox": [
           352,
           110,
@@ -5542,7 +5542,7 @@
         "score": 1.0
       },
       {
-        "block_content": "Recap of Relational Algebra Operations",
+        "block_content": "R₁ ← (π sid,bid Reserves) ÷ π bid (σ bname='...' Boats)",
         "bbox": [
           444,
           77,
@@ -5555,7 +5555,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Select \\(\\sigma<selection\\ condition> R\\)",
+        "block_content": "Recap of Relational Algebra",
         "bbox": [
           532,
           169,
@@ -5568,7 +5568,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Project \\(\\pi<attribute\\ list> R\\)",
+        "block_content": "Operations",
         "bbox": [
           557,
           244,
@@ -5581,7 +5581,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Union \\(R \\cup S\\)",
+        "block_content": "σ <selection condition> R",
         "bbox": [
           596,
           264,
@@ -5607,7 +5607,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Intersection \\(R \\cap S\\)",
+        "block_content": "Project",
         "bbox": [
           613,
           152,
@@ -5620,7 +5620,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Difference \\(R - S\\)",
+        "block_content": "π <attribute list> R",
         "bbox": [
           613,
           264,
@@ -5646,7 +5646,7 @@
         "score": 1.0
       },
       {
-        "block_content": "RUS",
+        "block_content": "R ∪ S",
         "bbox": [
           630,
           265,
@@ -5659,7 +5659,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Cross product \\(R \\times S\\)",
+        "block_content": "Intersection",
         "bbox": [
           647,
           152,
@@ -5685,7 +5685,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Join \\(R \\bowtie<join\\ condition> S\\)",
+        "block_content": "Difference",
         "bbox": [
           664,
           152,
@@ -5711,7 +5711,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Natural join \\(R \\bowtie S\\)",
+        "block_content": "Cross product R × S",
         "bbox": [
           679,
           152,
@@ -5724,7 +5724,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Division \\(R \\div S\\)",
+        "block_content": "R ⋈ <join condition> S",
         "bbox": [
           695,
           264,
@@ -5763,7 +5763,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R \\otimes S",
+        "block_content": "R ⋈ S",
         "bbox": [
           715,
           265,
@@ -5802,7 +5802,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Rename \\(\\rho<new\\ schema> R\\)",
+        "block_content": "ρ <new schema> R",
         "bbox": [
           747,
           262,
@@ -5867,7 +5867,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of sailors who have reserved all boats. \\[",
+        "block_content": "Find the names of sailors who have reserved all boats",
         "bbox": [
           136,
           154,
@@ -5880,7 +5880,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\pi_{(R1, \\forall bid (Reserves \\div \\forall bid Boats))} (R1 \\bowtie Sailors) \\]",
+        "block_content": "ρ (R₁, π sid,bid Reserves ÷ π bid Boats)",
         "bbox": [
           159,
           149,
@@ -5893,7 +5893,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of sailors who have reserved all boats called Interlake.",
+        "block_content": "π (R₁ ⋈ Sailors)",
         "bbox": [
           188,
           191,
@@ -5906,7 +5906,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of sailors who have reserved at least two different boats.",
+        "block_content": "Find the names of sailors who have reserved all boats called Interlake",
         "bbox": [
           212,
           150,
@@ -5919,7 +5919,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[",
+        "block_content": "ρ (R₂, Reserves)",
         "bbox": [
           291,
           487,
@@ -5932,7 +5932,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R_1 \\bowtie R_2 \\text{Reserve} \\]",
+        "block_content": "Find the names of sailors who have reserved at least two different boats",
         "bbox": [
           292,
           160,
@@ -5945,7 +5945,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[",
+        "block_content": "R₁ ⋈ Reserves",
         "bbox": [
           312,
           185,
@@ -5958,7 +5958,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R_1.\\text{Sid} = \\text{Reserve}.\\text{Sid} \\text{ AND }",
+        "block_content": "R₁.sid = Reserves.sid AND",
         "bbox": [
           320,
           231,
@@ -5971,7 +5971,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R_1.\\text{Bid} \\neq R_2.\\text{Bid}",
+        "block_content": "R₁.bid ≠ R₂.bid",
         "bbox": [
           350,
           237,
@@ -5984,7 +5984,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\]",
+        "block_content": "Find the names of sailors",
         "bbox": [
           371,
           158,
@@ -5997,7 +5997,7 @@
         "score": 1.0
       },
       {
-        "block_content": "· Find the names of sailors who have reserved the same boat at least twice.",
+        "block_content": "who have reserved the same boat at least twice.",
         "bbox": [
           369,
           247,
@@ -6010,7 +6010,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[",
+        "block_content": "R₁ Reserves",
         "bbox": [
           384,
           164,
@@ -6023,7 +6023,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\pi_{(R1, Reserves)} \\text{ TIE } \\tau_{\\text{Sid}} (R1 \\bowtie Reserves) \\] \\[",
+        "block_content": "T₁ ← π sid (R₁ ⋈ Reserves)",
         "bbox": [
           402,
           135,
@@ -6036,7 +6036,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R1.\\text{Sid} = \\text{Reserves}.\\text{Sid} \\text{ AND }",
+        "block_content": "R₁.sid = Reserves.sid AND",
         "bbox": [
           425,
           238,
@@ -6049,7 +6049,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R1.\\text{Bid} = \\text{Reserves}.\\text{Bid} \\text{ AND }",
+        "block_content": "R₁.bid = Reserves.bid AND",
         "bbox": [
           452,
           238,
@@ -6062,7 +6062,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R1.\\text{Day} \\neq \\text{Reserves}.\\text{Day}",
+        "block_content": "R₁.day ≠",
         "bbox": [
           490,
           207,
@@ -6075,7 +6075,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\]",
+        "block_content": "Reserves.day",
         "bbox": [
           490,
           310,
@@ -6088,7 +6088,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\[",
+        "block_content": "R ← π name (T₁ ⋈ Sailors)",
         "bbox": [
           522,
           159,
@@ -6101,7 +6101,7 @@
         "score": 1.0
       },
       {
-        "block_content": "R \\in \\tau_{\\text{Sid}} (T, \\bowtie Sailors)",
+        "block_content": "multiple renames / aliases &",
         "bbox": [
           582,
           261,
@@ -6127,7 +6127,7 @@
         "score": 1.0
       },
       {
-        "block_content": "\\]",
+        "block_content": "meeting",
         "bbox": [
           599,
           166,
@@ -6140,7 +6140,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-essentially meeting multiple renames / aliases & needed",
+        "block_content": "needed",
         "bbox": [
           633,
           51,
@@ -6153,7 +6153,7 @@
         "score": 1.0
       },
       {
-        "block_content": "-PREP for QUIZ",
+        "block_content": "QUIZ",
         "bbox": [
           681,
           250,
@@ -6294,5 +6294,12 @@
       ],
       "num_pages": 21
     }
+  },
+  "reference_verification": {
+    "version": 2,
+    "source": "examples/notes.pdf",
+    "source_sha256": "9f8b51474d5a8fef1745d6754f803e5879fb81f308d741e080e3ea3441f6e442",
+    "audit": "evals/reference-corrections.json",
+    "scope": "Source-verified text corrections; original coordinates retained. Ambiguous readings not silently replaced."
   }
 }
