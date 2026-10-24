@@ -589,13 +589,16 @@ class PromptedGroundedOCR:
         )
 
     async def _detect_native_boxes(self, image_bytes):
+        return (await self._detect_native_boxes_batch([image_bytes]))[0]
+
+    async def _detect_native_boxes_batch(self, images):
         async with self._detector_lock:
             if self._layout_detector is None:
                 from pdf_ocr.core.aligner import HybridAligner
 
                 aligner = await asyncio.to_thread(HybridAligner)
                 self._layout_detector = aligner.get_detected_boxes_batch
-            return (await asyncio.to_thread(self._layout_detector, [image_bytes]))[0]
+            return await asyncio.to_thread(self._layout_detector, images)
 
     async def _ocr_images(self, page_imgs, source_imgs, progress=None, *, detected_boxes=None,
                           source_loader=None) -> GroundedResponse:
@@ -754,7 +757,7 @@ class PromptedGroundedOCR:
             async def recognize_page():
                 nonlocal source
                 if self._native_regions and min(source.size) >= 128:
-                    from pdf_ocr.core.native_regions import recover_regions, repair_targets
+                    from pdf_ocr.core.native_regions import detect_missing_lines, recover_regions, repair_targets
 
                     boxes = (detected_boxes[page_idx] if detected_boxes is not None else
                              [] if source.getextrema() == ((255, 255),) * 3 else
@@ -775,8 +778,11 @@ class PromptedGroundedOCR:
                             blocks = []
                             visual_regions.append([0, 0, 1, 1])
 
-                    if source_loader is not None and repair_targets(blocks, boxes, source, visual_regions)[1]:
+                    dense, targets = repair_targets(blocks, boxes, source, visual_regions)
+                    if source_loader is not None and targets:
                         source = await asyncio.to_thread(source_loader, page_idx)
+                    if dense:
+                        boxes = await detect_missing_lines(source, boxes, self._detect_native_boxes_batch)
 
                     async def read_crop(bounds, budget):
                         region = source.crop(tuple(round(v * source.size[i % 2])

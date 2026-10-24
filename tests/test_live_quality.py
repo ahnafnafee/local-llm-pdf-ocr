@@ -116,6 +116,9 @@ async def test_live_complex_regions_remain_searchable_at_source_positions(mode, 
             assert in_region(pdf[1], 'reachable', [.07,.18,.32,.26])
             assert in_region(pdf[2], 'BCNF', [.02,.28,.32,.34])
             assert in_region(pdf[2], 'candidate keys', [.70,.01,.98,.14])
+            assert in_region(pdf[2], 'three tuples', [.70,.01,.98,.14])
+            assert in_region(pdf[2], 'best normal form', [.70,.01,.98,.14])
+            assert not in_region(pdf[2], 'Value', [.70,.01,.98,.14])
         else:
             words = set(re.findall(r'\w+', pdf[5].get_text().casefold()))
             printed = ('EMPLOYEE FNAME MINIT LNAME SSN BDATE ADDRESS SEX SALARY SUPERSSN DNO '

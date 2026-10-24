@@ -24,6 +24,41 @@ def test_region_planner_preserves_columns_without_cutting_lines():
     assert all(len({box[0] for box in region}) == 1 for region in regions)
 
 
+async def test_zoomed_detection_recovers_small_print_and_deduplicates_tile_overlap():
+    from pdf_ocr.core.native_regions import detect_missing_lines
+
+    existing = [.10, .10, .30, .12]
+    small = [.70, .05, .95, .058]
+    repeated = [.48, .25, .51, .26]
+    source = source_with_boxes([existing, small, repeated])
+    calls = []
+
+    async def detect(images):
+        calls.extend(images)
+        regions = [[0,0,.55,.55], [.45,0,1,.55], [0,.45,.55,1], [.45,.45,1,1]]
+        return [[[((box[i]-r[i%2])/(r[2+i%2]-r[i%2])) for i in range(4)]
+                 for box in [existing, small, repeated]
+                 if r[0] <= box[0] and r[1] <= box[1] and r[2] >= box[2] and r[3] >= box[3]]
+                for r in regions]
+
+    boxes = await detect_missing_lines(source, [existing], detect)
+    assert len(calls) == 4
+    assert len(boxes) == 3
+    for expected in [existing, small, repeated]:
+        assert any(box == pytest.approx(expected) for box in boxes)
+
+
+def test_region_padding_stops_in_the_gutter_before_neighboring_text():
+    from pdf_ocr.core.native_regions import region_bounds
+
+    line = [.2, .3, .6, .31]
+    below = [.2, .314, .6, .324]
+    above = [.2, .286, .6, .296]
+    separate_column = [.8, .309, .9, .312]
+    bounds = region_bounds([line], neighbors=[line, below, above, separate_column])
+    assert bounds == pytest.approx([.192, .298, .608, .312])
+
+
 def test_visual_regions_recover_literal_labels_only():
     boxes = [[.1, .1, .3, .13], [.5, .1, .8, .13], [.1, .7, .8, .73]]
     source = source_with_boxes(boxes)

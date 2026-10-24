@@ -193,7 +193,8 @@ class OCRProcessor:
         return OCRLines(_strip_runaway_repetition(lines), requires_region_ocr=region_layout)
 
     async def perform_ocr_with_layout(self, image_base64: str, *, detected_boxes=None,
-                                      max_image_dim=None, source_loader=None) -> list[str]:
+                                      max_image_dim=None, source_loader=None,
+                                      layout_detector=None) -> list[str]:
         """Preserve native page geometry when the model supports it.
 
         Generic recognizers retain the text-only interface. Native page models
@@ -209,6 +210,7 @@ class OCRProcessor:
             profile=self.profile.name, max_image_dim=max_image_dim or self.profile.max_image_dim,
             timeout_s=self.PAGE_TIMEOUT_S,
             max_tokens=min(self.PAGE_MAX_TOKENS, self.profile.grounded_max_tokens),
+            layout_detector=layout_detector,
         )
         response = await backend.ocr_image(image_base64, detected_boxes=detected_boxes,
                                           source_loader=source_loader)

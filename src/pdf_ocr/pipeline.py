@@ -318,6 +318,7 @@ class OCRPipeline:
                     if native_layout:
                         native_options = {"detected_boxes": [b for b, _ in pages_structured[p_num]],
                                           "max_image_dim": max_image_dim}
+                        native_options["layout_detector"] = self.aligner.get_detected_boxes_batch
                         renderer = getattr(self.pdf_handler, "render_page_source", None)
                         if renderer is not None and p_num not in rect_maps and source_dim:
                             native_options["source_loader"] = lambda: renderer(

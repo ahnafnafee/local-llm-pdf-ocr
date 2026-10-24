@@ -88,7 +88,8 @@ refuses to write when any document or content check fails.
 The 28 opt-in pytest cases exercise the real pipeline on notebook, handwriting,
 form and dense-page regressions. Twenty-four repeat first-page cases with seeds
 0, 1 and 2; four inspect later dense and notebook pages, including diagram fields,
-embedded photo text, mathematical extraction and source positions in actual PDFs.
+embedded photo text, small printed exercise panels, mathematical extraction and
+source positions in actual PDFs.
 They skip without an explicit endpoint
 and mode; ordinary unit tests never start a model server.
 

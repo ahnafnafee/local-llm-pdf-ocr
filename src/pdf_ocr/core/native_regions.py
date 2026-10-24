@@ -43,9 +43,52 @@ def has_ink(source, box, minimum=.004):
     return sum(histogram[:160]) / (crop.width * crop.height) >= minimum
 
 
-def region_bounds(boxes, padding=.008):
-    return [max(0., min(b[a] for b in boxes) - padding) if a < 2
-            else min(1., max(b[a] for b in boxes) + padding) for a in range(4)]
+async def detect_missing_lines(source, boxes, detect):
+    """Supplement dense-page geometry using four overlapping source views.
+
+    Tiny embedded print can disappear when the page detector downsamples a
+    whole sheet. Zoomed detection supplies only missing geometry; existing
+    lines remain unchanged and overlapping tiles cannot duplicate a line.
+    """
+    import io
+
+    regions = [[0, 0, .55, .55], [.45, 0, 1, .55],
+               [0, .45, .55, 1], [.45, .45, 1, 1]]
+    images = []
+    for region in regions:
+        crop = source.crop(tuple(round(v * source.size[i % 2]) for i, v in enumerate(region)))
+        buffer = io.BytesIO()
+        crop.save(buffer, format='PNG')
+        images.append(buffer.getvalue())
+    result = list(boxes)
+    for region, detected in zip(regions, await detect(images)):
+        for box in detected:
+            mapped = [region[i % 2] + box[i] * (region[2 + i % 2] - region[i % 2])
+                      for i in range(4)]
+            size = area(mapped)
+            if (size > 0 and has_ink(source, mapped)
+                    and not any(intersection(mapped, old) >= size * .5 for old in result)):
+                result.append(mapped)
+    return result
+
+
+def region_bounds(boxes, padding=.008, *, neighbors=()):
+    core = [min(b[a] for b in boxes) if a < 2 else max(b[a] for b in boxes)
+            for a in range(4)]
+    margins = [padding] * 4
+    for other in neighbors:
+        for axis in (0, 1):
+            cross = 1 - axis
+            if min(core[cross+2], other[cross+2]) <= max(core[cross], other[cross]):
+                continue
+            # Padding must not include a clipped fragment of the next line.
+            # Such fragments can make a native recognizer invent its ending.
+            if other[axis+2] <= core[axis]:
+                margins[axis] = min(margins[axis], (core[axis]-other[axis+2])/2)
+            if other[axis] >= core[axis+2]:
+                margins[axis+2] = min(margins[axis+2], (other[axis]-core[axis+2])/2)
+    return [max(0., core[a]-margins[a]) if a < 2 else min(1., core[a]+margins[a])
+            for a in range(4)]
 
 
 def plan_regions(boxes, limit=12):
@@ -225,7 +268,7 @@ async def recover_regions(source, blocks, boxes, visual_regions, recognize):
     successful_boxes = []
 
     async def read(group, depth=0):
-        bounds = region_bounds(group)
+        bounds = region_bounds(group, neighbors=boxes)
         visual = []
         try:
             result = await recognize(bounds, max(512, min(2048, len(group) * 128)))
