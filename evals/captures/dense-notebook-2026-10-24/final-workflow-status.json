@@ -1,0 +1,639 @@
+{
+  "offline-final-v9": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 133.81
+  },
+  "offline-final-v11": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 88.06
+  },
+  "live-layout-hybrid-final": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-layout-hybrid-final-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 241.5
+  },
+  "live-layout-grounded-final": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-layout-grounded-final-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 254.89
+  },
+  "live-notebook-hybrid-final-v12": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and notes",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-notebook-hybrid-final-v12-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 65.11
+  },
+  "live-notebook-grounded-final-v12": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and notes",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-notebook-grounded-final-v12-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 84.42
+  },
+  "offline-final-v12": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 52.76
+  },
+  "offline-final-v13": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 53.97
+  },
+  "live-empty-tag-hybrid-v14": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and notes",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-empty-tag-hybrid-v14-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 72.2
+  },
+  "live-empty-tag-grounded-v14": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and notes",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-empty-tag-grounded-v14-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 93.64
+  },
+  "offline-final-v14": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 50.58
+  },
+  "live-overlap-grounded-v15": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-overlap-grounded-v15-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 153.7
+  },
+  "live-contrast-hybrid-v16": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-contrast-hybrid-v16-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 153.0
+  },
+  "live-contrast-grounded-v16": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-contrast-grounded-v16-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 154.51
+  },
+  "offline-final-v16": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 49.52
+  },
+  "live-rows-hybrid-v17": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-rows-hybrid-v17-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 154.58
+  },
+  "live-rows-grounded-v17": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-rows-grounded-v17-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 154.19
+  },
+  "offline-final-v17": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 53.33
+  },
+  "live-paragraphs-hybrid-v18": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-paragraphs-hybrid-v18-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 154.8
+  },
+  "live-paragraphs-grounded-v18": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-k",
+      "complex and dense",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-paragraphs-grounded-v18-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 155.67
+  },
+  "offline-final-v18": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "-m",
+      "not live_llm",
+      "-q"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 58.83
+  },
+  "final-grounded": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\run_confidence.py",
+      "--path",
+      "grounded",
+      "--api-base",
+      "http://127.0.0.1:28127/v1",
+      "--grounded-model",
+      "lightonai/LightOnOCR-3-4B",
+      "--max-image-dim",
+      "2048",
+      "--baseline-dir",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\no-baselines"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 588.91
+  },
+  "final-export-grounded-dense": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\validate_full_exports.py",
+      "--mode",
+      "grounded",
+      "--document",
+      "dense"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 7.62
+  },
+  "final-export-grounded-notes": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\validate_full_exports.py",
+      "--mode",
+      "grounded",
+      "--document",
+      "notes"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 10.38
+  },
+  "final-hybrid": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\run_confidence.py",
+      "--path",
+      "hybrid",
+      "--api-base",
+      "http://127.0.0.1:28127/v1",
+      "--hybrid-model",
+      "lightonai/LightOnOCR-3-4B",
+      "--max-image-dim",
+      "2048",
+      "--baseline-dir",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\no-baselines"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 570.16
+  },
+  "final-export-hybrid-dense": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\validate_full_exports.py",
+      "--mode",
+      "hybrid",
+      "--document",
+      "dense"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 7.69
+  },
+  "final-export-hybrid-notes": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\validate_full_exports.py",
+      "--mode",
+      "hybrid",
+      "--document",
+      "notes"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 10.27
+  },
+  "live-complete-hybrid-final": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-complete-hybrid-final-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 598.83
+  },
+  "live-complete-grounded-final": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_live_quality.py",
+      "-m",
+      "live_llm",
+      "-p",
+      "e2e_capture",
+      "-x",
+      "-q",
+      "--basetemp",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\live-complete-grounded-final-files"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 665.58
+  },
+  "final-selection-hybrid": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\page_selection_e2e.py",
+      "--mode",
+      "hybrid",
+      "--model",
+      "lightonai/LightOnOCR-3-4B",
+      "--use-default"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 55.16
+  },
+  "final-selection-text": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\page_selection_e2e.py",
+      "--mode",
+      "text",
+      "--model",
+      "lightonai/LightOnOCR-3-4B",
+      "--use-default"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 29.55
+  },
+  "final-selection-grounded": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\page_selection_e2e.py",
+      "--mode",
+      "grounded",
+      "--model",
+      "lightonai/LightOnOCR-3-4B",
+      "--use-default"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 37.62
+  },
+  "final-image-hybrid": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\image_confidence.py",
+      "--path",
+      "hybrid",
+      "--model",
+      "lightonai/LightOnOCR-3-4B"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 19.64
+  },
+  "final-image-grounded": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\image_confidence.py",
+      "--path",
+      "grounded",
+      "--model",
+      "lightonai/LightOnOCR-3-4B"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 21.39
+  },
+  "final-web-hybrid": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\web_e2e.py",
+      "--mode",
+      "hybrid",
+      "--model",
+      "lightonai/LightOnOCR-3-4B",
+      "--use-default"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 9.11
+  },
+  "final-web-grounded": {
+    "command": [
+      "D:\\GitHub\\local-llm-pdf-ocr\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\web_e2e.py",
+      "--mode",
+      "grounded",
+      "--model",
+      "lightonai/LightOnOCR-3-4B",
+      "--use-default"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 7.53
+  }
+}

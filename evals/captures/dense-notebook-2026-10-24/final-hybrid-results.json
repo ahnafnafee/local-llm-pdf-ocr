@@ -1,0 +1,127 @@
+[
+  {
+    "document": "digital.pdf",
+    "mode": "hybrid",
+    "gt_count": 16,
+    "pipeline_count": 19,
+    "metrics": {
+      "recall": 0.75,
+      "recall_at_05": 0.6875,
+      "precision": 0.6316,
+      "hmean": 0.6857,
+      "avg_iou": 0.7909,
+      "text_sim": 0.9986,
+      "avg_cer": 0.0014,
+      "bow_f1": 0.9925,
+      "char_recall": 0.9052,
+      "char_precision": 0.9836,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "hybrid.pdf",
+    "mode": "hybrid",
+    "gt_count": 38,
+    "pipeline_count": 14,
+    "metrics": {
+      "recall": 0.2105,
+      "recall_at_05": 0.1842,
+      "precision": 0.5714,
+      "hmean": 0.3077,
+      "avg_iou": 0.6334,
+      "text_sim": 0.8851,
+      "avg_cer": 0.2321,
+      "bow_f1": 1.0,
+      "char_recall": 0.9542,
+      "char_precision": 0.8051,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      13,
+      13,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "handwritten.pdf",
+    "mode": "hybrid",
+    "gt_count": 14,
+    "pipeline_count": 14,
+    "metrics": {
+      "recall": 0.9286,
+      "recall_at_05": 0.7857,
+      "precision": 0.9286,
+      "hmean": 0.9286,
+      "avg_iou": 0.5851,
+      "text_sim": 0.8871,
+      "avg_cer": 0.2394,
+      "bow_f1": 0.9324,
+      "char_recall": 0.9935,
+      "char_precision": 0.8934,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      10,
+      10,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "dense.pdf",
+    "mode": "hybrid",
+    "gt_count": 381,
+    "pipeline_count": 325,
+    "metrics": {
+      "recall": 0.6562,
+      "recall_at_05": 0.5853,
+      "precision": 0.7692,
+      "hmean": 0.7082,
+      "avg_iou": 0.7372,
+      "text_sim": 0.7097,
+      "avg_cer": 0.5188,
+      "bow_f1": 0.664,
+      "char_recall": 0.8278,
+      "char_precision": 0.8553,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  },
+  {
+    "document": "notes.pdf",
+    "mode": "hybrid",
+    "gt_count": 467,
+    "pipeline_count": 454,
+    "metrics": {
+      "recall": 0.6274,
+      "recall_at_05": 0.5182,
+      "precision": 0.6454,
+      "hmean": 0.6363,
+      "avg_iou": 0.6945,
+      "text_sim": 0.8113,
+      "avg_cer": 0.3342,
+      "bow_f1": 0.599,
+      "char_recall": 0.9354,
+      "char_precision": 0.8337,
+      "checks_pass_rate": 1.0
+    },
+    "checks": [
+      5,
+      5,
+      []
+    ],
+    "regressions": []
+  }
+]

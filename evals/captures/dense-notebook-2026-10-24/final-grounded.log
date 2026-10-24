@@ -1,0 +1,303 @@
+
+>> digital.pdf  (GT: 16 blocks, 1700x2200)
+   grounded...
+request 1: 9.95s, finish=stop, tokens=888
+request 2: 0.41s, finish=stop, tokens=26
+   digital.pdf          gt=16  pipeline=19  matched=13  recall=0.81 prec=0.68 
+hmean=0.74 iou_avg=0.75 text_sim_avg=1.00
+
+>> hybrid.pdf  (GT: 38 blocks, 1654x1962)
+   grounded...
+request 3: 5.62s, finish=stop, tokens=479
+   hybrid.pdf           gt=38  pipeline=14  matched=9   recall=0.24 prec=0.64 
+hmean=0.35 iou_avg=0.54 text_sim_avg=0.85
+
+>> handwritten.pdf  (GT: 14 blocks, 1654x2170)
+   grounded...
+request 4: 3.64s, finish=stop, tokens=257
+   handwritten.pdf      gt=14  pipeline=7   matched=6   recall=0.43 prec=0.86 
+hmean=0.57 iou_avg=0.63 text_sim_avg=0.81
+
+>> dense.pdf  (GT: 381 blocks, 612x792)
+   grounded...
+request 5: 32.61s, finish=stop, tokens=3178
+request 6: 0.94s, finish=stop, tokens=48
+request 7: 3.12s, finish=stop, tokens=306
+request 8: 3.36s, finish=stop, tokens=337
+request 9: 2.11s, finish=stop, tokens=190
+request 10: 1.31s, finish=stop, tokens=110
+request 11: 0.86s, finish=stop, tokens=58
+request 12: 3.05s, finish=stop, tokens=273
+request 13: 1.19s, finish=stop, tokens=87
+request 14: 1.30s, finish=stop, tokens=91
+request 15: 1.56s, finish=stop, tokens=132
+request 16: 1.42s, finish=stop, tokens=114
+request 17: 1.91s, finish=stop, tokens=170
+request 18: 0.86s, finish=stop, tokens=65
+request 19: 2.49s, finish=stop, tokens=209
+request 20: 2.59s, finish=stop, tokens=225
+request 21: 2.50s, finish=stop, tokens=235
+request 22: 1.61s, finish=stop, tokens=135
+request 23: 1.77s, finish=stop, tokens=156
+request 24: 2.05s, finish=stop, tokens=191
+request 25: 2.03s, finish=stop, tokens=175
+request 26: 41.69s, finish=length, tokens=4096
+request 27: 2.59s, finish=stop, tokens=211
+request 28: 2.31s, finish=stop, tokens=222
+request 29: 0.62s, finish=stop, tokens=54
+request 30: 0.84s, finish=stop, tokens=73
+request 31: 0.69s, finish=stop, tokens=49
+request 32: 1.70s, finish=stop, tokens=146
+request 33: 1.33s, finish=stop, tokens=107
+request 34: 1.30s, finish=stop, tokens=118
+request 35: 3.70s, finish=stop, tokens=334
+request 36: 1.30s, finish=stop, tokens=108
+request 37: 1.20s, finish=stop, tokens=92
+request 38: 0.80s, finish=stop, tokens=55
+request 39: 1.75s, finish=stop, tokens=149
+request 40: 0.30s, finish=stop, tokens=21
+request 41: 0.34s, finish=stop, tokens=26
+request 42: 1.81s, finish=stop, tokens=162
+request 43: 0.83s, finish=stop, tokens=71
+request 44: 2.23s, finish=stop, tokens=201
+request 45: 0.98s, finish=stop, tokens=76
+request 46: 1.27s, finish=stop, tokens=102
+request 47: 2.47s, finish=stop, tokens=216
+request 48: 1.11s, finish=stop, tokens=94
+request 49: 2.84s, finish=stop, tokens=254
+request 50: 0.98s, finish=stop, tokens=73
+request 51: 2.97s, finish=stop, tokens=285
+request 52: 0.42s, finish=stop, tokens=32
+request 53: 21.95s, finish=stop, tokens=2124
+request 54: 2.94s, finish=stop, tokens=255
+request 55: 3.22s, finish=stop, tokens=297
+request 56: 2.11s, finish=stop, tokens=194
+request 57: 1.45s, finish=stop, tokens=123
+request 58: 2.81s, finish=stop, tokens=265
+request 59: 1.52s, finish=stop, tokens=139
+request 60: 1.14s, finish=stop, tokens=102
+request 61: 1.53s, finish=stop, tokens=147
+request 62: 3.22s, finish=stop, tokens=318
+request 63: 2.73s, finish=stop, tokens=253
+   dense.pdf            gt=381 pipeline=326 matched=257 recall=0.67 prec=0.79 
+hmean=0.73 iou_avg=0.73 text_sim_avg=0.72
+
+>> notes.pdf  (GT: 467 blocks, 612x792)
+   grounded...
+request 64: 6.09s, finish=stop, tokens=492
+request 65: 5.00s, finish=stop, tokens=408
+request 66: 5.44s, finish=stop, tokens=317
+request 67: 2.11s, finish=stop, tokens=154
+request 68: 0.55s, finish=stop, tokens=47
+request 69: 4.95s, finish=stop, tokens=398
+request 70: 2.77s, finish=stop, tokens=190
+request 71: 0.92s, finish=stop, tokens=79
+request 72: 3.45s, finish=stop, tokens=241
+request 73: 4.00s, finish=stop, tokens=261
+request 74: 1.36s, finish=stop, tokens=102
+request 75: 2.70s, finish=stop, tokens=226
+request 76: 3.89s, finish=stop, tokens=285
+request 77: 1.41s, finish=stop, tokens=88
+request 78: 0.95s, finish=stop, tokens=86
+request 79: 0.31s, finish=stop, tokens=23
+request 80: 0.31s, finish=stop, tokens=21
+request 81: 0.30s, finish=stop, tokens=19
+request 82: 0.31s, finish=stop, tokens=23
+request 83: 1.91s, finish=stop, tokens=63
+request 84: 0.30s, finish=stop, tokens=19
+request 85: 0.53s, finish=stop, tokens=41
+request 86: 0.31s, finish=stop, tokens=21
+request 87: 0.72s, finish=stop, tokens=52
+request 88: 2.28s, finish=stop, tokens=120
+request 89: 0.89s, finish=stop, tokens=72
+request 90: 1.09s, finish=stop, tokens=102
+request 91: 0.61s, finish=stop, tokens=51
+request 92: 0.56s, finish=stop, tokens=47
+request 93: 0.52s, finish=stop, tokens=45
+request 94: 0.89s, finish=stop, tokens=83
+request 95: 0.53s, finish=stop, tokens=45
+request 96: 0.50s, finish=stop, tokens=44
+request 97: 0.80s, finish=stop, tokens=73
+request 98: 0.56s, finish=stop, tokens=47
+request 99: 0.55s, finish=stop, tokens=49
+request 100: 0.83s, finish=stop, tokens=76
+request 101: 0.61s, finish=stop, tokens=55
+request 102: 0.56s, finish=stop, tokens=50
+request 103: 1.66s, finish=stop, tokens=158
+request 104: 0.31s, finish=stop, tokens=22
+request 105: 0.28s, finish=stop, tokens=21
+request 106: 11.38s, finish=length, tokens=1152
+request 107: 2.95s, finish=stop, tokens=301
+request 108: 1.11s, finish=stop, tokens=103
+request 109: 0.30s, finish=stop, tokens=21
+request 110: 0.52s, finish=stop, tokens=45
+request 111: 0.62s, finish=stop, tokens=55
+request 112: 1.12s, finish=stop, tokens=85
+request 113: 0.53s, finish=stop, tokens=44
+request 114: 0.61s, finish=stop, tokens=53
+request 115: 0.28s, finish=stop, tokens=21
+request 116: 0.30s, finish=stop, tokens=21
+request 117: 0.31s, finish=stop, tokens=23
+request 118: 0.28s, finish=stop, tokens=21
+request 119: 0.81s, finish=stop, tokens=76
+request 120: 0.50s, finish=stop, tokens=43
+request 121: 0.50s, finish=stop, tokens=44
+request 122: 0.84s, finish=stop, tokens=77
+request 123: 0.30s, finish=stop, tokens=21
+request 124: 1.38s, finish=stop, tokens=127
+request 125: 0.31s, finish=stop, tokens=23
+request 126: 0.30s, finish=stop, tokens=21
+request 127: 2.33s, finish=stop, tokens=126
+request 128: 0.56s, finish=stop, tokens=22
+request 129: 0.83s, finish=stop, tokens=76
+request 130: 1.53s, finish=stop, tokens=146
+request 131: 1.09s, finish=stop, tokens=99
+request 132: 1.49s, finish=stop, tokens=129
+request 133: 0.55s, finish=stop, tokens=46
+request 134: 0.30s, finish=stop, tokens=22
+request 135: 2.52s, finish=stop, tokens=236
+request 136: 0.33s, finish=stop, tokens=23
+request 137: 2.00s, finish=stop, tokens=117
+request 138: 0.98s, finish=stop, tokens=82
+request 139: 1.42s, finish=stop, tokens=118
+request 140: 1.59s, finish=stop, tokens=87
+request 141: 2.98s, finish=stop, tokens=192
+request 142: 2.95s, finish=stop, tokens=160
+request 143: 0.44s, finish=stop, tokens=32
+request 144: 1.16s, finish=stop, tokens=105
+request 145: 0.31s, finish=stop, tokens=23
+request 146: 0.62s, finish=stop, tokens=51
+request 147: 0.31s, finish=stop, tokens=21
+request 148: 2.00s, finish=stop, tokens=91
+request 149: 4.28s, finish=stop, tokens=324
+request 150: 3.72s, finish=stop, tokens=215
+request 151: 2.41s, finish=stop, tokens=212
+request 152: 0.83s, finish=stop, tokens=75
+request 153: 0.52s, finish=stop, tokens=45
+request 154: 0.50s, finish=stop, tokens=43
+request 155: 0.66s, finish=stop, tokens=58
+request 156: 0.59s, finish=stop, tokens=52
+request 157: 0.64s, finish=stop, tokens=56
+request 158: 0.30s, finish=stop, tokens=21
+request 159: 0.30s, finish=stop, tokens=21
+request 160: 0.30s, finish=stop, tokens=21
+request 161: 1.83s, finish=stop, tokens=170
+request 162: 0.31s, finish=stop, tokens=22
+request 163: 0.83s, finish=stop, tokens=76
+request 164: 0.31s, finish=stop, tokens=23
+request 165: 2.03s, finish=stop, tokens=189
+request 166: 0.95s, finish=stop, tokens=90
+request 167: 0.55s, finish=stop, tokens=46
+request 168: 0.83s, finish=stop, tokens=76
+request 169: 0.30s, finish=stop, tokens=21
+request 170: 0.77s, finish=stop, tokens=41
+request 171: 5.30s, finish=stop, tokens=436
+request 172: 3.38s, finish=stop, tokens=237
+request 173: 3.80s, finish=stop, tokens=268
+request 174: 8.28s, finish=stop, tokens=739
+request 175: 9.31s, finish=stop, tokens=846
+request 176: 0.16s, finish=stop, tokens=1
+request 177: 0.58s, finish=stop, tokens=50
+request 178: 0.11s, finish=stop, tokens=1
+request 179: 0.03s, finish=stop, tokens=1
+request 180: 0.34s, finish=stop, tokens=25
+request 181: 0.28s, finish=stop, tokens=25
+request 182: 0.11s, finish=stop, tokens=1
+request 183: 0.03s, finish=stop, tokens=1
+request 184: 4.94s, finish=stop, tokens=387
+request 185: 6.91s, finish=stop, tokens=599
+request 186: 11.97s, finish=stop, tokens=1119
+request 187: 1.41s, finish=stop, tokens=76
+request 188: 1.08s, finish=stop, tokens=100
+request 189: 1.66s, finish=stop, tokens=163
+request 190: 1.47s, finish=stop, tokens=139
+request 191: 0.28s, finish=stop, tokens=20
+request 192: 1.78s, finish=stop, tokens=175
+request 193: 2.03s, finish=stop, tokens=199
+request 194: 1.53s, finish=stop, tokens=150
+request 195: 1.23s, finish=stop, tokens=119
+request 196: 1.86s, finish=stop, tokens=148
+request 197: 3.26s, finish=stop, tokens=272
+request 198: 9.11s, finish=stop, tokens=826
+request 199: 7.91s, finish=length, tokens=640
+request 200: 6.39s, finish=length, tokens=640
+request 201: 3.27s, finish=stop, tokens=306
+request 202: 1.67s, finish=stop, tokens=154
+request 203: 1.81s, finish=stop, tokens=167
+request 204: 1.80s, finish=stop, tokens=136
+request 205: 0.80s, finish=stop, tokens=48
+request 206: 7.73s, finish=stop, tokens=679
+request 207: 5.06s, finish=stop, tokens=404
+request 208: 7.06s, finish=stop, tokens=611
+request 209: 1.36s, finish=stop, tokens=26
+   notes.pdf            gt=467 pipeline=448 matched=290 recall=0.62 prec=0.65 
+hmean=0.63 iou_avg=0.69 text_sim_avg=0.81
+
+                             Confidence evaluation                             
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│     │     │     │     │     │     │     │     │     │     │ BoW │     │     │
+│ do… │ pa… │  GT │ Pi… │ Re… │ R@… │ Hm… │ IoU │ Sim │ CER │  F1 │ Ch… │ Ch… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ di… │ gr… │  16 │  19 │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 0.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ hy… │ gr… │  38 │  14 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 1.… │ 0.… │ 13… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ ha… │ gr… │  14 │   7 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 10… │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ de… │ gr… │ 381 │ 326 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 5/5 │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ no… │ gr… │ 467 │ 448 │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 0.… │ 5/5 │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Unmatched GT blocks in digital.pdf (grounded):
+  - 'Student e-mail address: ___________________________________'  
+(best_iou=0.25)
+  - 'Student G#: ___________________________________'  (best_iou=0.13)
+  - 'Student: CS Faculty Supervisor: PhD CS Program Director:'  (best_iou=0.22)
+
+Unmatched GT blocks in hybrid.pdf (grounded):
+  - 'Date:'  (best_iou=0.07)
+  - 'Name:'  (best_iou=0.03)
+  - 'Sally Walker'  (best_iou=0.24)
+  - 'DOB:'  (best_iou=0.03)
+  - '09/04/1986'  (best_iou=0.15)
+  - 'Address:'  (best_iou=0.05)
+  ... and 23 more.
+
+Unmatched GT blocks in handwritten.pdf (grounded):
+  - '- computational procedure'  (best_iou=0.13)
+  - '- the input data needs to properly formatted'  (best_iou=0.12)
+  - '- ensures a CORRECT ALGORITHM'  (best_iou=0.12)
+  - '- post condition is a logical predicate for   the input and output'  
+(best_iou=0.24)
+  - '- Halting: the algo needs to finish in finite   time'  (best_iou=0.25)
+  - '- look into induction proofs'  (best_iou=0.04)
+  ... and 2 more.
+
+Unmatched GT blocks in dense.pdf (grounded):
+  - '- fixed with cursor'  (best_iou=0.00)
+  - '(CU) - special API to → ODBC'  (best_iou=0.11)
+  - 'SQL commands'  (best_iou=0.08)
+  - '- for dynamic SQL, we cannot use, since'  (best_iou=0.00)
+  - 'DB with cursor'  (best_iou=0.09)
+  - 'No'  (best_iou=0.10)
+  ... and 118 more.
+
+Unmatched GT blocks in notes.pdf (grounded):
+  - '- FK can have null value'  (best_iou=0.14)
+  - '- F.K approach'  (best_iou=0.04)
+  - '- Merged relation approach'  (best_iou=0.10)
+  - 'applies here'  (best_iou=0.44)
+  - 'R; a₁'  (best_iou=0.29)
+  - 'merge-rel can work here with P.K from'  (best_iou=0.07)
+  ... and 171 more.
+digital.pdf/grounded: no baseline; content checks only, regression comparison 
+not run.
+hybrid.pdf/grounded: no baseline; content checks only, regression comparison 
+not run.
+handwritten.pdf/grounded: no baseline; content checks only, regression 
+comparison not run.
+dense.pdf/grounded: no baseline; content checks only, regression comparison not
+run.
+notes.pdf/grounded: no baseline; content checks only, regression comparison not
+run.

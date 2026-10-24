@@ -1,0 +1,15 @@
+{
+  "mode": "hybrid",
+  "model": "lightonai/LightOnOCR-3-4B",
+  "status_code": 200,
+  "explicit_model_argument": false,
+  "content_type": "application/pdf",
+  "output_pages": 2,
+  "text_characters_per_page": [
+    0,
+    718
+  ],
+  "elapsed_seconds": 8.7,
+  "output": "D:\\GitHub\\local-llm-pdf-ocr\\.cache\\dense-notes-20261024\\web-hybrid-selected-page.pdf",
+  "passed": true
+}

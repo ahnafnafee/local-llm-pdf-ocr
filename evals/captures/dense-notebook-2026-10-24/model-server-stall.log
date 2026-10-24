@@ -1,0 +1,7 @@
+83.59.729.271 I slot launch_slot_: id  0 | task 155877 | processing task, is_child = 0
+84.04.620.600 I slot print_timing: id  0 | task 155877 | n_gen =    232, tg =  76.86 t/s, tg_3s =  77.20 t/s
+84.07.786.643 I slot print_timing: id  0 | task 155877 | n_gen =    386, tg =  62.39 t/s, tg_3s =  48.64 t/s
+87.49.939.272 I slot print_timing: id  0 | task 155877 | n_gen =    387, tg =   1.69 t/s, tg_3s =   0.00 t/s
+87.59.487.980 W srv          stop: cancel task, id_task = 155877
+88.02.466.428 I slot print_timing: id  0 | task 155877 | n_gen =    389, tg =   1.61 t/s, tg_3s =   0.16 t/s
+88.02.466.442 I slot      release: id  0 | task 155877 | stop processing: n_tokens = 3540, truncated = 0
