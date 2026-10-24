@@ -39,8 +39,48 @@ The red rectangle marks the original annotation region. The notes content check 
 requires `FK can have null value`, as written on page 1; its former `PK` reading was
 false. Model text must satisfy the corrected fact without the former edit allowance.
 
-The committed historical baseline numbers and tolerances have not been lowered.
-They were produced with earlier references and pooled page matching. Comparisons
-across these changes are diagnostic, not controlled measurements of an OCR regression.
-Keep historical results separate from version 2 results and review a future baseline
-with its reference version, model weights, serving configuration and sampling settings.
+## Comparable regression controls
+
+The old numbers remain unchanged in `baselines/legacy-pooled-v1/`. They used earlier
+references and pooled page matching, so applying them to corrected references and
+page-aware scoring produced false regression failures. Active baselines now include
+source, reference and check hashes, scoring protocol, matching strategy, image limit
+and model ID. Text hashes normalize checkout line endings. Incompatible or unversioned
+baselines fail explicitly rather than comparing unrelated scores.
+
+The current hybrid controls are recomputed from the frozen real outputs of commit
+`1cb795d`, before the crop-canvas and alignment fixes, in
+`captures/before-crop-canvas/`. They are not predictions from the improved run. The
+original control still fails the FK fact; all live content checks remain mandatory
+even when a control failed one. Existing tolerances remain 0.02 for geometry/checks
+and 0.04 for transcription metrics. Model weight hashes and sampling settings are
+recorded in capture provenance; the server must use those weights for a controlled run.
+
+Replay a capture without making model calls:
+
+```powershell
+uv run scripts/replay_confidence.py evals/captures/before-crop-canvas/notes__hybrid.json
+```
+
+That example deliberately exits nonzero because it preserves the failed pre-fix
+recognition. `--write-control` explicitly migrates the comparison point from a frozen
+capture after reference/scoring changes, preserving its predictions and source hash.
+The live evaluator's `--update-baselines` remains a separate, explicit operation and
+refuses to write when any document or content check fails.
+
+## Repeated live recognition tests
+
+The opt-in pytest cases exercise the real pipeline on notebook, handwriting and
+form regressions, using seeds 0, 1 and 2. They skip without an explicit endpoint
+and mode; ordinary unit tests never start a model server.
+
+```powershell
+$env:OCR_LIVE_API_BASE = 'http://localhost:1234/v1'
+$env:OCR_LIVE_MODE = 'hybrid' # or grounded, with that model served
+uv run pytest -m live_llm tests/test_live_quality.py -q
+```
+
+Set `OCR_LIVE_MODEL` to override the mode's existing model default and
+`OCR_LIVE_API_KEY` when authentication is needed. The hybrid form cases also inspect
+the written PDF to verify that questions and answers occupy their source positions.
+Full-document quality and layout are still measured by `scripts/confidence_eval.py`.

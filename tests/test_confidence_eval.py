@@ -1,6 +1,8 @@
 """Validate the live evaluator's exit status and connection ownership offline."""
 
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, Mock
@@ -135,3 +137,71 @@ async def test_evaluator_closes_owned_clients_after_success_and_failure(
     else:
         await runner(Path("input.pdf"), "http://inference.test/v1", "vision", 1024)
     close.assert_awaited_once()
+
+
+def test_baseline_requires_matching_reference_and_scoring_protocol(evaluator):
+    evaluator.BASELINES_DIR.mkdir()
+    path = evaluator.BASELINES_DIR / "handwritten__hybrid.json"
+    context = {"protocol": "page-aware-v2", "fixture_sha256": "verified"}
+    path.write_text(json.dumps({"context": context, "metrics": {"bow_f1": 0.9}}))
+    assert evaluator.compare_to_baseline(
+        "handwritten.pdf", "hybrid", {"bow_f1": 0.9}, context=context,
+    ) == []
+    errors = evaluator.compare_to_baseline(
+        "handwritten.pdf", "hybrid", {"bow_f1": 1.0},
+        context={**context, "fixture_sha256": "different"},
+    )
+    assert len(errors) == 1 and "incompatible" in errors[0].lower()
+
+
+def test_legacy_scores_cannot_silently_gate_a_new_evaluation(evaluator):
+    evaluator.BASELINES_DIR.mkdir()
+    (evaluator.BASELINES_DIR / "handwritten__hybrid.json").write_text('{"bow_f1":0.9}')
+    errors = evaluator.compare_to_baseline(
+        "handwritten.pdf", "hybrid", {"bow_f1": 1.0}, context={"protocol": "page-aware-v2"},
+    )
+    assert len(errors) == 1 and "provenance" in errors[0].lower()
+
+
+def test_compatible_baseline_retains_existing_metric_tolerances(evaluator):
+    context = {"protocol": "page-aware-v2"}
+    evaluator.write_baseline("handwritten.pdf", "hybrid", {"bow_f1": 0.9, "recall": 0.9}, context=context)
+    errors = evaluator.compare_to_baseline(
+        "handwritten.pdf", "hybrid", {"bow_f1": 0.85, "recall": 0.87}, context=context,
+    )
+    assert len(errors) == 2
+
+
+def test_reference_hashes_are_independent_of_checkout_newlines(evaluator, tmp_path):
+    document = tmp_path / "source.pdf"
+    fixture = tmp_path / "reference.json"
+    checks = tmp_path / "checks.jsonl"
+    document.write_bytes(b"source")
+    fixture.write_bytes(b'{"text":"source"}\n')
+    checks.write_bytes(b'{"type":"present","text":"source"}\n')
+    before = evaluator.evaluation_context(document, fixture, checks, model="vision")
+    fixture.write_bytes(fixture.read_bytes().replace(b"\n", b"\r\n"))
+    checks.write_bytes(checks.read_bytes().replace(b"\n", b"\r\n"))
+    assert evaluator.evaluation_context(document, fixture, checks, model="vision") == before
+
+
+def test_shipped_controls_recompute_from_frozen_predictions(evaluator):
+    root = Path(__file__).resolve().parents[1]
+    for baseline_path in (root / "evals/baselines").glob("*__hybrid.json"):
+        baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+        raw = (root / baseline["provenance"]["capture"]).read_text(encoding="utf-8")
+        assert hashlib.sha256(raw.encode()).hexdigest() == baseline["provenance"]["capture_sha256"]
+        capture = json.loads(raw)
+        stem = Path(capture["document"]).stem
+        fixture = root / f"tests/fixtures/ground_truth_{stem}.json"
+        checks_path = root / f"evals/checks/{stem}.jsonl"
+        gt, _ = evaluator.load_ground_truth(fixture)
+        report = evaluator.compute_report(capture["document"], gt, capture["blocks"],
+                                           pipeline_page_indices=capture["page_indices"])
+        checks = evaluator.run_doc_checks("\n".join(t for _, t in capture["blocks"]),
+                                          evaluator.load_doc_checks(checks_path))
+        assert evaluator._metrics_row(report, checks) == baseline["metrics"]
+        assert evaluator.evaluation_context(root / "examples" / capture["document"], fixture,
+                                             checks_path, model=capture["model"]) == baseline["context"]
+        if stem == "notes":
+            assert checks[:2] == (4, 5)  # the control is deliberately the failed pre-fix run

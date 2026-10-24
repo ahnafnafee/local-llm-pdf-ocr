@@ -19,6 +19,7 @@ import argparse
 import asyncio
 import csv
 import datetime
+import hashlib
 import json
 import os
 import sys
@@ -75,14 +76,8 @@ JOBS = [
     ("digital.pdf", "ground_truth_digital.json"),
     ("hybrid.pdf", "ground_truth_hybrid.json"),
     ("handwritten.pdf", "ground_truth_handwritten.json"),
-    # Dense and notes fixtures were bootstrapped from the hybrid pipeline's
-    # own output_*.pdf via scripts/fixture_from_output.py — too dense to
-    # hand-build, and the grounded VLM hits "context size exceeded" on
-    # them so build_fixture.py couldn't be used either. Useful for
-    # *regression* testing: if a future change degrades the hybrid output
-    # against this baseline, recall drops will flag it. Less useful for
-    # absolute hybrid-vs-grounded comparison since the bar is set by the
-    # hybrid path itself.
+    # These began as OCR output; version 2 transcriptions were audited
+    # against source pixels. The original layout geometry is retained.
     ("dense.pdf", "ground_truth_dense.json"),
     ("notes.pdf", "ground_truth_notes.json"),
 ]
@@ -224,14 +219,40 @@ def _baseline_path(document: str, path_label: str) -> Path:
     return BASELINES_DIR / f"{stem}__{path_label}.json"
 
 
-def compare_to_baseline(document: str, path_label: str, metrics: dict) -> list[str]:
+def evaluation_context(document, fixture, checks, *, model, max_dim=1024,
+                       iou_threshold=0.3, matching="hungarian") -> dict:
+    """Identify the inputs and scoring semantics that make scores comparable."""
+    def digest(path):
+        path = Path(path)
+        if not path.exists():
+            return None
+        data = (path.read_text(encoding="utf-8").encode("utf-8")
+                if path.suffix in {".json", ".jsonl"} else path.read_bytes())
+        return hashlib.sha256(data).hexdigest()
+    return {
+        "protocol": "page-aware-v2", "document_sha256": digest(document),
+        "fixture_sha256": digest(fixture), "checks_sha256": digest(checks),
+        "model": model, "max_image_dim": max_dim,
+        "iou_threshold": iou_threshold, "matching": matching,
+    }
+
+
+def compare_to_baseline(document: str, path_label: str, metrics: dict, *,
+                        context: dict | None = None) -> list[str]:
     """Return regression descriptions vs the committed baseline, if any."""
     bp = _baseline_path(document, path_label)
     if not bp.exists():
         return []
     baseline = json.loads(bp.read_text(encoding="utf-8"))
+    if "context" not in baseline or "metrics" not in baseline:
+        return [f"{document}/{path_label}: baseline lacks reference/scoring provenance; "
+                "replay a saved control against the current references before comparing scores"]
+    if context != baseline["context"]:
+        changed = sorted(k for k in set(context or {}) | set(baseline["context"])
+                         if (context or {}).get(k) != baseline["context"].get(k))
+        return [f"{document}/{path_label}: incompatible baseline context ({', '.join(changed)})"]
     regressions = []
-    for key, base_val in baseline.items():
+    for key, base_val in baseline["metrics"].items():
         if key not in metrics:
             continue
         cur = metrics[key]
@@ -250,10 +271,13 @@ def compare_to_baseline(document: str, path_label: str, metrics: dict) -> list[s
     return regressions
 
 
-def write_baseline(document: str, path_label: str, metrics: dict) -> Path:
+def write_baseline(document: str, path_label: str, metrics: dict, *,
+                   context: dict, provenance: dict | None = None) -> Path:
     BASELINES_DIR.mkdir(parents=True, exist_ok=True)
     bp = _baseline_path(document, path_label)
-    bp.write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
+    bp.write_text(json.dumps({"context": context, "metrics": metrics,
+                              "provenance": provenance or {"kind": "live"}}, indent=2) + "\n",
+                  encoding="utf-8")
     return bp
 
 
@@ -274,6 +298,7 @@ def append_history(rows: list[dict]) -> None:
 
 
 async def main() -> int:
+    global BASELINES_DIR
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--path", choices=["both", "grounded", "hybrid"], default="both")
     parser.add_argument("--api-base", default=None,
@@ -281,6 +306,9 @@ async def main() -> int:
     parser.add_argument("--grounded-model", default="qwen/qwen3-vl-8b")
     parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
     parser.add_argument("--max-image-dim", type=int, default=1024)
+    parser.add_argument("--baseline-dir", type=Path,
+                        help="Separate baseline directory for a different model/configuration. "
+                             "Missing baselines run content checks without a regression comparison.")
     parser.add_argument("--iou-threshold", type=float, default=0.3)
     parser.add_argument(
         "--matching", choices=["hungarian", "greedy"], default="hungarian",
@@ -300,9 +328,12 @@ async def main() -> int:
              "only through reviewed updates.",
     )
     args = parser.parse_args()
+    if args.baseline_dir is not None:
+        BASELINES_DIR = args.baseline_dir.resolve()
 
     console = Console()
     reports = []
+    contexts = {}
     failures: list[str] = []
 
     def doc_checks(pdf_name: str, out) -> tuple[int, int, list[str]] | None:
@@ -322,6 +353,12 @@ async def main() -> int:
     for pdf_name, fixture_name in JOBS:
         pdf = EXAMPLES / pdf_name
         fixture = FIXTURES / fixture_name
+        for mode in ("hybrid", "grounded"):
+            contexts[(pdf_name, mode)] = evaluation_context(
+                pdf, fixture, CHECKS_DIR / f"{Path(pdf_name).stem}.jsonl",
+                model=getattr(args, f"{mode}_model"), max_dim=args.max_image_dim,
+                iou_threshold=args.iou_threshold, matching=args.matching,
+            )
         gt, (fw, fh) = load_ground_truth(fixture)
         console.print(f"\n[bold]>> {pdf_name}[/]  (GT: {len(gt)} blocks, {fw}x{fh})")
 
@@ -371,11 +408,17 @@ async def main() -> int:
              "path": path_label, **metrics}
         )
         if args.update_baselines and not failures:
-            bp = write_baseline(report.document, path_label, metrics)
-            console.print(f"[green]baseline written:[/] {bp.relative_to(ROOT)}")
+            bp = write_baseline(report.document, path_label, metrics,
+                                context=contexts[(report.document, path_label)])
+            display_path = bp.relative_to(ROOT) if bp.is_relative_to(ROOT) else bp
+            console.print(f"[green]baseline written:[/] {display_path}")
         elif not args.update_baselines:
+            if not _baseline_path(report.document, path_label).exists():
+                console.print(f"[yellow]{report.document}/{path_label}: no baseline; "
+                              "content checks only, regression comparison not run.[/]")
             all_regressions.extend(
-                compare_to_baseline(report.document, path_label, metrics)
+                compare_to_baseline(report.document, path_label, metrics,
+                                     context=contexts[(report.document, path_label)])
             )
     if history_rows:
         append_history(history_rows)
@@ -388,7 +431,7 @@ async def main() -> int:
             console.print("Baselines were not updated because OCR failed.")
 
     if all_regressions:
-        console.print("\n[red bold]REGRESSIONS vs committed baselines:[/]")
+        console.print("\n[red bold]REGRESSIONS vs selected baselines:[/]")
         for r in all_regressions:
             console.print(f"  [red]- {r}[/]")
     return 1 if failures or all_regressions else 0
