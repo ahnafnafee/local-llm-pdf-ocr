@@ -254,6 +254,14 @@ async def process_pdf(
         return JSONResponse(status_code=400, content={"error": f"invalid preprocess {preprocess!r}"})
     if html_mode not in _HTML_MODES:
         return JSONResponse(status_code=400, content={"error": f"invalid html_mode {html_mode!r}"})
+    model_profile = model_profile.strip()
+    if model_profile:
+        from pdf_ocr.core.profiles import resolve_profile
+
+        try:
+            resolve_profile(model, model_profile)
+        except ValueError as exc:
+            return JSONResponse(status_code=400, content={"error": str(exc)})
     try:
         min_conf = _parse_min_confidence(min_box_confidence)
     except _OptionError as e:

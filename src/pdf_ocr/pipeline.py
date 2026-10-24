@@ -516,7 +516,7 @@ class OCRPipeline:
                 f"Grounded OCR returned no text blocks for {location}. "
                 f"{detail_text}"
                 "No output was written. Grounded mode requires a model that "
-                "returns text with bounding boxes as JSON; the model may not "
+                "returns text with bounding boxes in its configured format; the model may not "
                 "support grounding, or the page may be blank. Use a "
                 "grounding-capable model or switch to hybrid mode "
                 "(omit --grounded in the CLI, select Hybrid in the web UI, "

@@ -133,6 +133,7 @@ const OPT_FIELDS = {
     engine: null, // handled specially (segmented control)
     format: formatSelectEl,
     model: modelInput,
+    model_profile: document.getElementById('opt-model-profile'),
     // api_base is intentionally NOT persisted: loadModels() re-fills it from
     // the server's resolved endpoint on every load so it can't go stale when
     // .env changes. It's still sent from apiBaseInput directly in processOne.
@@ -411,6 +412,7 @@ async function processOne(file) {
     formData.append('engine', engine);
     formData.append('format', format);
     formData.append('model', modelInput.value.trim());
+    formData.append('model_profile', OPT_FIELDS.model_profile.value);
     formData.append('api_base', apiBaseInput.value.trim());
     formData.append('dpi', OPT_FIELDS.dpi.value || '200');
     formData.append('pages', OPT_FIELDS.pages.value.trim());

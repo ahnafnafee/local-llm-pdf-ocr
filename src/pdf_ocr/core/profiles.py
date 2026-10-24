@@ -22,7 +22,7 @@ class ModelProfile:
 
 _PROFILES = {
     "generic": ModelProfile(),
-    "olmocr": ModelProfile(name="olmocr", crop_canvas_size=1024),
+    "olmocr": ModelProfile(name="olmocr", temperature=0.1, crop_canvas_size=1024),
     "qwen3-vl": ModelProfile(
         name="qwen3-vl", grounded_temperature=0.7,
         grounded_sampling=(("top_p", 0.8), ("presence_penalty", 1.5)),

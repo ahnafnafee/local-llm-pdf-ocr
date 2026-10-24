@@ -27,6 +27,7 @@ def test_profile_alias_override_keeps_model_identity():
 
 
 def test_profile_output_budget_preserves_explicit_limits():
+    assert OCRProcessor(model="allenai/olmocr-2-7b").temperature == 0.1
     assert PromptedGroundedOCR(model="Qwen/Qwen3.5-9B").max_tokens == 8192
     assert PromptedGroundedOCR(model="Qwen/Qwen3.5-9B", max_tokens=2000).max_tokens == 2000
     assert PromptedGroundedOCR(model="other").max_tokens == 4096

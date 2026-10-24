@@ -262,6 +262,28 @@ class TestModelsEndpoint:
 
 
 class TestProcessOptions:
+    def test_invalid_model_profile_400(self, client):
+        response = _post(client, model_profile="unknown-preset")
+        assert response.status_code == 400
+        assert "Unknown model profile" in response.json()["error"]
+
+    @pytest.mark.parametrize("engine", ["hybrid", "text", "grounded"])
+    def test_model_profile_resolves_custom_server_alias(self, client, monkeypatch, engine):
+        import pdf_ocr.server as server_mod
+
+        component = (server_mod.PromptedGroundedOCR if engine == "grounded"
+                     else server_mod.OCRProcessor)
+        seen = []
+
+        async def verify(backend):
+            seen.append((backend.model, backend.profile.name, backend.client.image_first))
+
+        monkeypatch.setattr(component, "ensure_model_available", verify)
+        response = _post(client, engine=engine, model="local-alias",
+                         model_profile=" lightonocr-3 ")
+        assert response.status_code == 200, response.text
+        assert seen == [("local-alias", "lightonocr-3", True)]
+
     def test_engine_text_dumps_txt(self, client):
         resp = _post(client, engine="text")
         assert resp.status_code == 200, resp.text

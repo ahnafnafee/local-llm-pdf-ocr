@@ -30,7 +30,8 @@
                 <p>
                     Layout detection and a vision model read every page, then an
                     invisible text layer is placed under the original image.
-                    Runs entirely on this machine — nothing is uploaded anywhere.
+                    Recognition uses your configured vision server; choose a local
+                    endpoint to keep document processing on this machine.
                 </p>
             </div>
 
@@ -153,6 +154,19 @@
                                     <label class="micro-label" for="opt-api-base">API base URL</label>
                                     <input type="text" id="opt-api-base" value="" placeholder="http://localhost:1234/v1" />
                                     <span class="opt-hint">OpenAI-compatible /v1 base · overrides .env · refreshes models on change</span>
+                                </div>
+                                <div class="opt opt-wide">
+                                    <label class="micro-label" for="opt-model-profile">Model preset</label>
+                                    <select id="opt-model-profile">
+                                        <option value="">Auto / server default</option>
+                                        <option value="generic">Generic vision model</option>
+                                        <option value="olmocr">olmOCR</option>
+                                        <option value="qwen3-vl">Qwen3-VL</option>
+                                        <option value="qwen3.5">Qwen3.5</option>
+                                        <option value="lightonocr-3">LightOnOCR-3</option>
+                                        <option value="paddleocr-vl">PaddleOCR-VL</option>
+                                    </select>
+                                    <span class="opt-hint">Choose a preset when your server gives the model a custom name.</span>
                                 </div>
                             </div>
 
