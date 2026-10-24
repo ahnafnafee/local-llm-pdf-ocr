@@ -373,8 +373,10 @@ async def test_truncated_page_is_retried_in_source_regions(tmp_path):
 
     source = tmp_path / "two.pdf"
     with fitz.open() as doc:
-        doc.new_page(width=300, height=900)
-        doc.new_page(width=300, height=900)
+        for _ in range(2):
+            page = doc.new_page(width=300, height=900)
+            for y in (150, 450, 750):
+                page.insert_text((30, y), "Source text")
         doc.save(source)
     line = '[{"bbox_2d":[100,450,900,550],"content":"recognized"}]'
     complete = AsyncMock(side_effect=[IncompleteCompletionError("token limit"), line, line, line])
@@ -389,6 +391,51 @@ async def test_truncated_page_is_retried_in_source_regions(tmp_path):
         [(1 / 3 + 0.025) / 2, 1 / 2, 1 - (1 / 3 + 0.025) / 2], abs=0.002,
     )
     assert complete.await_count == 4
+
+
+@pytest.mark.parametrize("horizontal", [False, True])
+@pytest.mark.parametrize("faint_pixel", [False, True])
+async def test_recovery_skips_only_white_owned_core(tmp_path, horizontal, faint_pixel):
+    from PIL import Image, ImageDraw
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    image = Image.new("RGB", (300, 900), "white")
+    draw = ImageDraw.Draw(image)
+    for y in (150, 450, 590):
+        draw.rectangle((30, y, 200, y + 5), fill="black")
+    # The y=590 mark is visible in the last band's overlap, but its owned
+    # core starts at y=600. A faint pixel inside that core must prevent a skip.
+    if faint_pixel:
+        draw.point((150, 750), fill=(254, 254, 254))
+    if horizontal:
+        image = image.transpose(Image.Transpose.TRANSPOSE)
+    source = tmp_path / "regions.png"
+    image.save(source)
+    line = '[{"bbox_2d":[450,450,550,550],"content":"recognized"}]'
+    complete = AsyncMock(side_effect=[IncompleteCompletionError("limit"), line, line, line])
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=complete))
+
+    response = await backend.ocr_document(str(source))
+
+    assert not response.page_errors
+    assert len(response.blocks) == (3 if faint_pixel else 2)
+    assert complete.await_count == (4 if faint_pixel else 3)
+
+
+async def test_blank_recovery_cannot_make_empty_page_successful(tmp_path):
+    from PIL import Image
+    from pdf_ocr.inference import IncompleteCompletionError
+
+    source = tmp_path / "blank.png"
+    Image.new("RGB", (300, 900), "white").save(source)
+    complete = AsyncMock(side_effect=IncompleteCompletionError("limit"))
+    backend = PromptedGroundedOCR(model="vision", client=SimpleNamespace(complete=complete))
+
+    response = await backend.ocr_document(str(source))
+
+    assert not response.blocks
+    assert "no usable grounded text" in response.page_errors[0]
+    assert complete.await_count == 1
 
 
 @pytest.mark.parametrize("custom_prompt", [None, "Read only the header"])
@@ -460,7 +507,10 @@ async def test_grounded_recovery_accepts_formatted_empty_bands(tmp_path, empty_b
 
     source = tmp_path / "page.pdf"
     with fitz.open() as doc:
-        doc.new_page(width=300, height=900)
+        page = doc.new_page(width=300, height=900)
+        # Non-text marks prevent the source-pixel blank check from handling
+        # these bands before the model's explicit empty response is tested.
+        page.draw_line((10, 0), (10, 900))
         doc.save(source)
     line = '[{"bbox_2d":[100,450,900,550],"content":"recognized"}]'
     complete = AsyncMock(side_effect=[IncompleteCompletionError("limit"), line, empty_band, line])

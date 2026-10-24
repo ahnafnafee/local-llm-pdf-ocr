@@ -637,6 +637,15 @@ class PromptedGroundedOCR:
                 for part in range(3):
                     core_start = start + part * span / 3
                     core_end = start + (part + 1) * span / 3
+                    # Only the owned core contributes output. A fragment in
+                    # its overlapping margin can make an otherwise blank band
+                    # hallucinate indefinitely. Skip an exactly white core;
+                    # even a faint nonwhite source pixel retains recognition.
+                    core = list(bounds)
+                    core[axis] = int(core_start)
+                    core[axis + 2] = min(end, int(core_end) + 1)
+                    if source.crop(tuple(core)).getextrema() == ((255, 255),) * 3:
+                        continue
                     child = list(bounds)
                     child[axis] = max(start, int(core_start - 0.025 * span))
                     child[axis + 2] = min(end, int(core_end + 0.025 * span))
