@@ -58,7 +58,7 @@ After region OCR anchors the positions, strongly agreeing crop words can identif
 
 Crop images are rendered lazily from the selected source page at up to 2048 pixels, independently of the full-page thumbnail. Custom PDF handlers may implement `render_page_for_crops(path, page_index, dpi)`; otherwise the pipeline uses their existing images. Rectified photographs keep their rectified image so crop coordinates remain in the correct frame.
 
-Page images and grounded recovery regions use lossless PNG before inference. This avoids the previous double JPEG compression, which damaged small character strokes. The image dimension cap still applies, and the transport identifies JPEG or PNG from its bytes. Output PDF background compression is independent of inference preprocessing.
+Grounded pages, recovery regions and the detailed source used for crop OCR use lossless PNG. Hybrid PDF thumbnails retain their established JPEG preprocessing: changing those pixels also changed layout detections and regressed the default model's live recognition. Source crops are rendered independently, avoiding enlargement of thumbnail compression artifacts. The image dimension cap still applies, and the transport identifies JPEG or PNG from its bytes. Output PDF background compression is independent of inference preprocessing.
 
 ## Generation limits and grounded recovery
 

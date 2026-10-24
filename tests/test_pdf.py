@@ -65,8 +65,8 @@ def test_native_crop_rendering_keeps_detail_and_renders_only_its_source_page(tmp
     assert blue > 240 and red < 10 and green < 10
 
 
-def test_inference_images_preserve_source_pixels_before_resizing(tmp_path):
-    """Thin character strokes must not pass through a lossy JPEG round trip."""
+def test_source_crops_preserve_pixels_before_resizing(tmp_path):
+    """Region OCR must use source strokes rather than a lossy thumbnail."""
     import io
     from PIL import Image, ImageChops, ImageDraw
 
@@ -83,7 +83,7 @@ def test_inference_images_preserve_source_pixels_before_resizing(tmp_path):
         doc.save(source_pdf)
     handler = PDFHandler()
     for source in [source_image, source_pdf]:
-        encoded = handler.convert_to_images(source, dpi=72, max_image_dim=1024)[0]
+        encoded = handler.render_page_for_crops(source, 0, dpi=72)
         decoded = Image.open(io.BytesIO(base64.b64decode(encoded))).convert("RGB")
         assert ImageChops.difference(image, decoded).getbbox() is None
 

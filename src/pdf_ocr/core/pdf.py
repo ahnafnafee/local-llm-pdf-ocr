@@ -34,7 +34,7 @@ class PDFHandler:
     PDF processing handler for OCR workflows.
 
     Handles:
-    - Converting PDF pages to base64 PNG images
+    - Converting selected pages to base64 images
     - Embedding an invisible text layer to produce a "sandwich" PDF
       (image background + selectable/searchable text overlay)
     """
@@ -48,7 +48,7 @@ class PDFHandler:
         pages: str | None = None,
     ) -> dict[int, str]:
         """
-        Render selected pages to base64-encoded PNGs, capped at `max_image_dim`
+        Render selected pages to base64 images, capped at `max_image_dim`
         pixels on the longest edge so the image fits the VLM's context window.
 
         Accepts either a PDF or a raw image file
@@ -65,6 +65,11 @@ class PDFHandler:
         Returns {source_page_index: base64_str}, keeping original 0-based
         indices even for noncontiguous selections. Unselected pages are
         never rasterized for OCR.
+
+        PDF thumbnails retain the established JPEG preprocessing used by
+        layout detection and full-page transcription. Region OCR has a
+        separate lossless source renderer; changing detection pixels also
+        changes its boxes and must be validated independently.
         """
         if _is_image_path(pdf_path):
             return self._images_from_image_file(pdf_path, max_image_dim, pages=pages)
@@ -75,11 +80,11 @@ class PDFHandler:
             for page_num in select_pages(pages, len(doc)):
                 page = doc[page_num]
                 pix = page.get_pixmap(dpi=dpi)
-                img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+                img = Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50)))
                 img.thumbnail((max_image_dim, max_image_dim))
 
                 buffer = io.BytesIO()
-                img.save(buffer, format="PNG")
+                img.save(buffer, format="JPEG", quality=50)
                 images[page_num] = base64.b64encode(buffer.getvalue()).decode("utf-8")
         finally:
             doc.close()
