@@ -14,6 +14,7 @@ import fitz
 from pdf_ocr import HybridAligner, OCRPipeline, OCRProcessor, PDFHandler, PromptedGroundedOCR
 from pdf_ocr.evaluation import load_doc_checks, run_doc_checks
 from pdf_ocr.output import resolve_output_writer
+from pdf_ocr.inference import DEFAULT_MODEL, DEFAULT_GROUNDED_MODEL
 
 pytestmark = pytest.mark.live_llm
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 @pytest.mark.parametrize("mode,document", [
     ("hybrid", "notes"), ("hybrid", "hybrid"), ("hybrid", "handwritten"), ("grounded", "hybrid"),
     ("grounded", "notes"), ("grounded", "handwritten"),
+    ("hybrid", "dense"), ("grounded", "dense"),
 ])
 @pytest.mark.parametrize("seed", [0, 1, 2])
 async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
@@ -29,9 +31,9 @@ async def test_live_recognition_is_stable(mode, document, seed, tmp_path):
     if not endpoint or os.environ.get("OCR_LIVE_MODE") != mode:
         pytest.skip("Set OCR_LIVE_API_BASE and OCR_LIVE_MODE to opt into real inference")
     model = os.environ.get("OCR_LIVE_MODEL") or (
-        "allenai/olmocr-2-7b" if mode == "hybrid" else "qwen/qwen3-vl-8b"
+        DEFAULT_MODEL if mode == "hybrid" else DEFAULT_GROUNDED_MODEL
     )
-    max_dim = int(os.environ.get("OCR_LIVE_MAX_IMAGE_DIM", "1024"))
+    max_dim = int(os.environ.get("OCR_LIVE_MAX_IMAGE_DIM", "2048"))
     component = (OCRProcessor if mode == "hybrid" else PromptedGroundedOCR)(
         api_base=endpoint, model=model, api_key=os.environ.get("OCR_LIVE_API_KEY"),
         **({"max_image_dim": max_dim} if mode == "grounded" else {}),

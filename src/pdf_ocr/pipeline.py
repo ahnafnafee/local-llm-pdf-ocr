@@ -109,7 +109,7 @@ class OCRPipeline:
         pages: Optional[str] = None,
         concurrency: int = 1,
         refine: bool = True,
-        max_image_dim: int = 1024,
+        max_image_dim: int | None = None,
         dense_threshold: int = 60,
         dense_mode: str = "auto",
         preprocess: str = "auto",
@@ -161,6 +161,8 @@ class OCRPipeline:
                 `refine`, `preprocess`, and `min_box_confidence` are
                 ignored; `concurrency` still bounds in-flight page calls.
         """
+        if max_image_dim is None:
+            max_image_dim = getattr(getattr(self.ocr_processor, "profile", None), "max_image_dim", 1024)
         if text_only:
             return await self._run_text_only(
                 input_path, output_path,
@@ -187,10 +189,12 @@ class OCRPipeline:
                 "Pass a `grounded_backend=...` instead to use the grounded path."
             )
 
+        native_layout = bool(getattr(self.ocr_processor, "native_layout", False))
         await _notify(progress, "convert", 0, 1, "Converting PDF to images...")
         images_dict = await asyncio.to_thread(
             self.pdf_handler.convert_to_images, input_path, dpi, max_image_dim,
             **({"pages": pages} if pages else {}),
+            **({"lossless": True} if native_layout else {}),
         )
         page_nums = sorted(images_dict.keys())
         total_pages = len(page_nums)
@@ -258,7 +262,7 @@ class OCRPipeline:
         for p_num in page_nums:
             n_boxes = len(pages_structured[p_num])
             if dense_mode == "always" or (
-                dense_mode == "auto" and n_boxes > dense_threshold
+                dense_mode == "auto" and not native_layout and n_boxes > dense_threshold
             ):
                 per_box_pages.add(p_num)
 
@@ -305,7 +309,9 @@ class OCRPipeline:
                 return await process_regions(p_num)
             try:
                 async with semaphore:
-                    llm_lines = await self.ocr_processor.perform_ocr(images_dict[p_num])
+                    recognize = (self.ocr_processor.perform_ocr_with_layout if native_layout
+                                 else self.ocr_processor.perform_ocr)
+                    llm_lines = await recognize(images_dict[p_num])
             except IncompleteCompletionError:
                 if dense_mode != "auto":
                     raise
@@ -316,6 +322,15 @@ class OCRPipeline:
                 return await process_regions(p_num)
             if not llm_lines:
                 return p_num, llm_lines, pages_structured[p_num]
+            native_blocks = getattr(llm_lines, "grounded_blocks", None)
+            if native_blocks is not None:
+                # Native geometry keeps page context and bypasses length-only
+                # DP guesses. Do not reread its words as isolated line images.
+                from pdf_ocr.core.native_layout import anchor_native_blocks
+
+                aligned = anchor_native_blocks(native_blocks, [b for b, _ in pages_structured[p_num]])
+                per_box_pages.add(p_num)  # complete page: no crop refinement
+                return p_num, llm_lines, aligned
             if (dense_mode == "auto" and pages_structured[p_num]
                     and getattr(llm_lines, "requires_region_ocr", False)):
                 logging.info("Page %d contains a table or diagram; transcribing regions.", p_num + 1)

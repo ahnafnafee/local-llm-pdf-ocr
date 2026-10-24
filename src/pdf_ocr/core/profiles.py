@@ -14,6 +14,10 @@ class ModelProfile:
     grounding_format: str = "json"
     temperature: float = 0.0
     grounded_temperature: float = 0.0
+    grounded_retry_temperature: float | None = None
+    native_layout: bool = False
+    verify_inline_identifiers: bool = False
+    max_image_dim: int = 1024
     sampling: tuple[tuple[str, float], ...] = ()
     grounded_sampling: tuple[tuple[str, float], ...] = ()
     grounded_max_tokens: int = 4096
@@ -35,7 +39,10 @@ _PROFILES = {
     "lightonocr-3": ModelProfile(
         name="lightonocr-3", image_first=True, page_prompt="", crop_prompt="",
         grounding_prompt="grounding", grounding_format="lighton",
-        temperature=0.2, grounded_temperature=0.2,
+        temperature=0.0, grounded_temperature=0.0,
+        grounded_retry_temperature=0.2, native_layout=True,
+        verify_inline_identifiers=True,
+        max_image_dim=2048,
         sampling=(("top_p", 0.9),), grounded_sampling=(("top_p", 0.9),),
     ),
     "paddleocr-vl": ModelProfile(

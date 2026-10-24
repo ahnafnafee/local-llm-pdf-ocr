@@ -44,10 +44,10 @@ def test_configuration_uses_environment_and_explicit_overrides(monkeypatch):
 
 
 @pytest.mark.parametrize("backend_type, expected_model", [
-    (OCRProcessor, "allenai/olmocr-2-7b"),
-    (PromptedGroundedOCR, "qwen/qwen3-vl-8b"),
+    (OCRProcessor, "lightonai/LightOnOCR-3-4B"),
+    (PromptedGroundedOCR, "lightonai/LightOnOCR-3-4B"),
 ])
-def test_unconfigured_backends_preserve_existing_defaults(monkeypatch, backend_type, expected_model):
+def test_unconfigured_backends_use_lighton_and_preserve_endpoint(monkeypatch, backend_type, expected_model):
     monkeypatch.delenv("LLM_API_BASE")
     monkeypatch.delenv("LLM_MODEL")
     backend = backend_type()
@@ -144,6 +144,20 @@ async def test_adapter_image_mime_matches_encoded_bytes(fmt, mime):
     await adapter.complete("read", image_base64(fmt), model="vision", timeout=1, max_tokens=10, temperature=0)
     content = create.call_args.kwargs["messages"][0]["content"]
     assert content[1]["image_url"]["url"].startswith(f"data:{mime};base64,")
+
+
+async def test_reasoning_only_response_reports_server_configuration_error():
+    completion = SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(
+        content="", reasoning_content="![text](0,0,100,100) transcribed",
+    ))])
+    create = AsyncMock(return_value=completion)
+    sdk = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+    sdk.with_options = lambda **kwargs: sdk
+    adapter = OpenAICompatibleClient(LLMConfig("http://inference.test/v1"), sdk_client=sdk)
+    with pytest.raises(LLMCallError, match="official chat template and disable thinking"):
+        await adapter.complete("grounding", image_base64(), model="vision", timeout=1,
+                               max_tokens=100, temperature=0)
+    assert create.await_count == 1
 
 
 @pytest.mark.parametrize("backend_type", [OCRProcessor, PromptedGroundedOCR])

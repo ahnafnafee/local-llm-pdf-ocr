@@ -20,8 +20,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DEFAULT_API_BASE = "http://localhost:1234/v1"
-DEFAULT_MODEL = "allenai/olmocr-2-7b"
-DEFAULT_GROUNDED_MODEL = "qwen/qwen3-vl-8b"
+DEFAULT_MODEL = "lightonai/LightOnOCR-3-4B"
+DEFAULT_GROUNDED_MODEL = DEFAULT_MODEL
 
 
 class LLMCallError(RuntimeError):
@@ -60,7 +60,7 @@ class LLMConfig:
     ) -> LLMConfig:
         """Explicit values override LLM_* environment variables and .env.
 
-        Unset values retain the existing endpoint and per-engine model defaults.
+        Unset values use the local endpoint and LightOnOCR-3 model defaults.
         Discovery needs only an endpoint; an injected VisionClient needs only
         a model. Neither the defaults nor the adapter require a particular server.
         """
@@ -225,7 +225,15 @@ class OpenAICompatibleClient:
                     f"Vision response reached the {max_tokens} token limit "
                     f"(model={model!r}); retry with smaller regions."
                 )
-            return (response.choices[0].message.content or "").strip()
+            message = response.choices[0].message
+            content = (message.content or "").strip()
+            if not content and getattr(message, "reasoning_content", None):
+                raise LLMCallError(
+                    "The server returned reasoning without OCR content. Use the model's "
+                    "official chat template and disable thinking for OCR-only models "
+                    "such as LightOnOCR-3."
+                )
+            return content
         except asyncio.TimeoutError as exc:
             raise LLMCallError(
                 f"Vision request exceeded its {timeout:g}s deadline (model={model!r})."

@@ -417,7 +417,7 @@ async function processOne(file) {
     formData.append('dpi', OPT_FIELDS.dpi.value || '200');
     formData.append('pages', OPT_FIELDS.pages.value.trim());
     formData.append('concurrency', OPT_FIELDS.concurrency.value || '0');
-    formData.append('max_image_dim', OPT_FIELDS.max_image_dim.value || '1024');
+    formData.append('max_image_dim', OPT_FIELDS.max_image_dim.value || '2048');
     formData.append('refine', OPT_FIELDS.refine.checked ? 'true' : 'false');
     formData.append('dense_mode', OPT_FIELDS.dense_mode.value);
     formData.append('dense_threshold', OPT_FIELDS.dense_threshold.value || '60');

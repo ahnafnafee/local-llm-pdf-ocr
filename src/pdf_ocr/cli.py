@@ -80,8 +80,8 @@ Examples:
         help="Skip per-box crop re-OCR for low-confidence boxes (faster, less accurate on complex layouts)",
     )
     parser.add_argument(
-        "--max-image-dim", type=int, default=1024,
-        help="Longest-edge px cap for page images sent to the LLM (default: 1024). "
+        "--max-image-dim", type=int, default=2048,
+        help="Longest-edge px cap for page images sent to the LLM (default: 2048). "
              "Drop to ~640 for small local VLMs like GLM-OCR:1.1B that crash on larger inputs.",
     )
     parser.add_argument(

@@ -8,7 +8,7 @@ license = { file = "LICENSE" }
 authors = [
     { name = "Ahnaf An Nafee", email = "ahnafnafee@gmail.com" },
 ]
-keywords = ["ocr", "pdf", "vision", "llm", "olmocr", "surya"]
+keywords = ["ocr", "pdf", "vision", "llm", "lightonocr", "surya"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",

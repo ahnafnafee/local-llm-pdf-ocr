@@ -16,6 +16,15 @@ from pdf_ocr.core._layout import (
 )
 
 
+def test_searchable_table_rows_exclude_markup_and_decode_entities():
+    from pdf_ocr.core._layout import searchable_text
+
+    source = "<table>\n<tr><th>A &amp; B</th><th>C</th></tr>\n<tr><td>5</td><td>6</td></tr>\n</table>"
+    assert searchable_text(source) == "A & B C\n5 6"
+    for literal in ["#include <stdio.h>", "x < y > z", "```html\n<table></table>\n```"]:
+        assert searchable_text(literal) == literal
+
+
 class TestIsFullPageFallback:
     def test_canonical_fallback_with_newline_is_true(self):
         # The exact aligner emission: [0,0,1,1] + multi-line text.

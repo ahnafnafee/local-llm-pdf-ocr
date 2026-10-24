@@ -202,7 +202,7 @@ async def process_pdf(
     dpi: int = Form(200),
     pages: str = Form(""),
     concurrency: int = Form(0),
-    max_image_dim: int = Form(1024),
+    max_image_dim: int = Form(2048),
     refine: bool = Form(True),
     dense_mode: str = Form("auto"),
     dense_threshold: int = Form(60),
@@ -269,7 +269,7 @@ async def process_pdf(
 
     # --- clamp numeric bounds server-side (frontend limits are courtesy only) ---
     dpi = _clamp_int(dpi, 72, 600, 200)
-    max_image_dim = _clamp_int(max_image_dim, 256, 4096, 1024)
+    max_image_dim = _clamp_int(max_image_dim, 256, 4096, 2048)
     dense_threshold = _clamp_int(dense_threshold, 1, 100000, 60)
     if concurrency and concurrency > 0:
         concurrency = max(1, min(16, concurrency))

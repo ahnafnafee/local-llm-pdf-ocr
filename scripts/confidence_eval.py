@@ -7,7 +7,7 @@ Usage:
     uv run scripts/confidence_eval.py                            # both paths
     uv run scripts/confidence_eval.py --path grounded            # just grounded
     uv run scripts/confidence_eval.py --path hybrid              # just hybrid
-    uv run scripts/confidence_eval.py --model allenai/olmocr-2-7b
+    uv run scripts/confidence_eval.py --hybrid-model your-served-model
 
 Requires a configured OpenAI-compatible endpoint serving the target vision model.
 Prints a per-document summary and flags the worst unmatched GT blocks.
@@ -47,6 +47,7 @@ from pdf_ocr.evaluation import (  # noqa: E402
     load_ground_truth,
     run_doc_checks,
 )
+from pdf_ocr.inference import DEFAULT_MODEL, DEFAULT_GROUNDED_MODEL  # noqa: E402
 
 FIXTURES = ROOT / "tests" / "fixtures"
 EXAMPLES = ROOT / "examples"
@@ -303,9 +304,9 @@ async def main() -> int:
     parser.add_argument("--path", choices=["both", "grounded", "hybrid"], default="both")
     parser.add_argument("--api-base", default=None,
                         help="API base URL; defaults to LLM_API_BASE or http://localhost:1234/v1")
-    parser.add_argument("--grounded-model", default="qwen/qwen3-vl-8b")
-    parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
-    parser.add_argument("--max-image-dim", type=int, default=1024)
+    parser.add_argument("--grounded-model", default=DEFAULT_GROUNDED_MODEL)
+    parser.add_argument("--hybrid-model", default=DEFAULT_MODEL)
+    parser.add_argument("--max-image-dim", type=int, default=2048)
     parser.add_argument("--baseline-dir", type=Path,
                         help="Separate baseline directory for a different model/configuration. "
                              "Missing baselines run content checks without a regression comparison.")

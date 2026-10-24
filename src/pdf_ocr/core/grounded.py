@@ -460,7 +460,7 @@ class PromptedGroundedOCR:
         api_base: str | None = None,
         model: str | None = None,
         api_key: str | None = None,
-        max_image_dim: int = 1024,
+        max_image_dim: int | None = None,
         dpi: int = 150,
         prompt: str | None = None,
         timeout_s: float = 240.0,
@@ -486,13 +486,14 @@ class PromptedGroundedOCR:
                 image_first=self.profile.image_first,
             )
         self.client = client
-        self.max_image_dim = max_image_dim
+        self.max_image_dim = max_image_dim if max_image_dim is not None else self.profile.max_image_dim
         self.dpi = dpi
         self.prompt = prompt if prompt is not None else (
             self.profile.grounding_prompt or DEFAULT_GROUNDING_PROMPT
         )
         self.grounding_format = self.profile.grounding_format
         self._check_full_page_coverage = prompt is None and self.grounding_format == "json"
+        self._verify_inline_identifiers = prompt is None and self.profile.verify_inline_identifiers
         self.coordinate_space = "auto" if prompt else "normalized_1000"
         self.timeout_s = timeout_s
         self.max_tokens = max_tokens if max_tokens is not None else self.profile.grounded_max_tokens
@@ -554,7 +555,28 @@ class PromptedGroundedOCR:
             finally:
                 doc.close()
 
-        # 2. Call the VLM per page, streaming progress and collecting failures
+        return await self._ocr_images(page_imgs, source_imgs, progress)
+
+    async def ocr_image(self, image_base64: str) -> GroundedResponse:
+        """Recognize an already-rendered page with the same bounded recovery.
+
+        Hybrid callers can reuse native model coordinates without rendering a
+        PDF again or losing page context through independent line crops.
+        """
+        from PIL import Image
+
+        with Image.open(io.BytesIO(base64.b64decode(image_base64))) as image:
+            source = image.convert("RGB")
+        image = source.copy()
+        image.thumbnail((self.max_image_dim, self.max_image_dim))
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+        return await self._ocr_images(
+            {0: (base64.b64encode(buffer.getvalue()).decode(), *image.size)}, {0: source},
+        )
+
+    async def _ocr_images(self, page_imgs, source_imgs, progress=None) -> GroundedResponse:
+        # Call the VLM per page, streaming progress and collecting failures
         # as empty pages. The pipeline validates all pages before writing output.
         sem = asyncio.Semaphore(max(1, self.concurrency))
         total_pages = len(page_imgs)
@@ -563,7 +585,22 @@ class PromptedGroundedOCR:
         async def run_one(page_idx: int) -> tuple[int, list[GroundedBlock]]:
             b64, w, h = page_imgs[page_idx]
 
-            async def recognize(image_b64, width, height, *, depth=0):
+            async def recognize(image_b64, width, height, *, depth=0, temperature=None):
+                if temperature is None:
+                    temperature = self.temperature
+                    if self.profile.grounded_retry_temperature is not None:
+                        try:
+                            return await recognize(image_b64, width, height, depth=depth,
+                                                   temperature=temperature)
+                        except (ValueError, IncompleteCompletionError):
+                            # Greedy decoding retains source spelling on forms,
+                            # but can collapse dense layouts or repeat table
+                            # markup. Retry this same view with native sampling
+                            # before paying for region subdivision. The outer
+                            # page deadline bounds both attempts together.
+                            logging.info("Retrying native page %d with sampled decoding.", page_idx + 1)
+                            return await recognize(image_b64, width, height, depth=depth,
+                                                   temperature=self.profile.grounded_retry_temperature)
                 complete_json = (getattr(self.client, "complete_json", None)
                                  if self.grounding_format == "json" else None)
                 # Optional capability keeps the small injectable client
@@ -573,7 +610,7 @@ class PromptedGroundedOCR:
                     (self.prompt + '\nWrap the array in an object with a "blocks" key.'
                      if complete_json else self.prompt), image_b64, model=self.model,
                     timeout=self.timeout_s, max_tokens=min(self.max_tokens, 2048) if depth == 2 else self.max_tokens,
-                    temperature=self.temperature,
+                    temperature=temperature,
                     **({"schema": _GROUNDING_SCHEMA} if complete_json else {}),
                 )
                 if self.grounding_format == "lighton":
@@ -587,6 +624,20 @@ class PromptedGroundedOCR:
                     )
                 if not blocks and not (depth and _is_empty_grounded_json(text)):
                     raise LLMCallError("model returned no usable grounded text")
+                if depth == 0 and self._verify_inline_identifiers:
+                    from pdf_ocr.core.native_layout import has_inline_identifier, restore_literal_identifiers
+
+                    if any(has_inline_identifier(block.text) for block in blocks):
+                        try:
+                            literal = await self.client.complete(
+                                self.profile.page_prompt, image_b64, model=self.model,
+                                timeout=self.timeout_s, max_tokens=self.max_tokens, temperature=0,
+                            )
+                        except LLMCallError as exc:
+                            logging.warning("Literal page verification unavailable: %s", exc)
+                        else:
+                            for block in blocks:
+                                block.text = restore_literal_identifiers(block.text, literal)
                 if depth == 0 and self._check_full_page_coverage:
                     coverage = _text_ink_coverage(source_imgs[page_idx], blocks)
                     if coverage is not None and coverage < 0.20:
@@ -738,7 +789,7 @@ def _bbox_scale_denominators(
       in BOTH axes would mean full-page text confined to the top-left
       1000px corner — implausible, treat as grid.
 
-    Images near the grid size (the default ``max_image_dim=1024``
+    Images near the grid size (for example a ``max_image_dim=1024``
     thumbnail) are inherently ambiguous, but there the two readings
     differ by under 3% so either divisor places boxes acceptably.
     """

@@ -6,8 +6,8 @@ on a single image input, scored against a hand-built ground-truth fixture.
 Usage:
     uv run scripts/confidence_image.py
     uv run scripts/confidence_image.py --image examples/image.avif
-    uv run scripts/confidence_image.py --hybrid-model allenai/olmocr-2-7b \
-        --grounded-model qwen/qwen3-vl-4b
+    uv run scripts/confidence_image.py --hybrid-model your-served-model \
+        --grounded-model your-served-model
 
 Reports per-path block recall (matched GT blocks at IoU >= threshold),
 average IoU of matched pairs, and average text similarity. Prints the
@@ -37,7 +37,7 @@ from pdf_ocr.evaluation import (  # noqa: E402
     compute_report,
     load_ground_truth,
 )
-from pdf_ocr.inference import DEFAULT_API_BASE  # noqa: E402
+from pdf_ocr.inference import DEFAULT_API_BASE, DEFAULT_MODEL, DEFAULT_GROUNDED_MODEL  # noqa: E402
 
 
 from scripts.confidence_eval import run_grounded, run_hybrid  # noqa: E402
@@ -54,9 +54,9 @@ async def main() -> int:
         "--api-base", default=None,
         help=f"API base URL; defaults to LLM_API_BASE or {DEFAULT_API_BASE}",
     )
-    parser.add_argument("--hybrid-model", default="allenai/olmocr-2-7b")
-    parser.add_argument("--grounded-model", default="qwen/qwen3-vl-4b")
-    parser.add_argument("--max-image-dim", type=int, default=1024)
+    parser.add_argument("--hybrid-model", default=DEFAULT_MODEL)
+    parser.add_argument("--grounded-model", default=DEFAULT_GROUNDED_MODEL)
+    parser.add_argument("--max-image-dim", type=int, default=2048)
     parser.add_argument("--iou-threshold", type=float, default=0.3)
     args = parser.parse_args()
 

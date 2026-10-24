@@ -15,7 +15,7 @@ from pathlib import Path
 import fitz  # PyMuPDF
 from PIL import Image, ImageSequence
 
-from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox
+from pdf_ocr.core._layout import is_full_page_fallback, split_multi_line_bbox, searchable_text
 from pdf_ocr.core.geometry import ANGLE_FLATTEN_DEG
 from pdf_ocr.utils.pages import select_pages
 
@@ -46,6 +46,7 @@ class PDFHandler:
         max_image_dim: int = 1024,
         *,
         pages: str | None = None,
+        lossless: bool = False,
     ) -> dict[int, str]:
         """
         Render selected pages to base64 images, capped at `max_image_dim`
@@ -57,7 +58,7 @@ class PDFHandler:
         is used at its native resolution, capped by `max_image_dim`.
 
         Smaller caps are required by some local VLMs:
-          - OlmOCR-2 (Qwen2.5-VL base): 1024 is fine (default)
+          - OlmOCR-2 (Qwen2.5-VL base): 1024 is sufficient
           - GLM-OCR:1.1B (Ollama): ~640 — larger images crash the runner
           - Florence-2 / MinerU: see their docs
 
@@ -66,10 +67,11 @@ class PDFHandler:
         indices even for noncontiguous selections. Unselected pages are
         never rasterized for OCR.
 
-        PDF thumbnails retain the established JPEG preprocessing used by
+        By default, PDF thumbnails retain the established JPEG preprocessing used by
         layout detection and full-page transcription. Region OCR has a
         separate lossless source renderer; changing detection pixels also
-        changes its boxes and must be validated independently.
+        changes its boxes and must be validated independently. Native page
+        recognizers can request `lossless=True` to retain fine image detail.
         """
         if _is_image_path(pdf_path):
             return self._images_from_image_file(pdf_path, max_image_dim, pages=pages)
@@ -80,11 +82,12 @@ class PDFHandler:
             for page_num in select_pages(pages, len(doc)):
                 page = doc[page_num]
                 pix = page.get_pixmap(dpi=dpi)
-                img = Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50)))
+                img = (Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+                       if lossless else Image.open(io.BytesIO(pix.tobytes("jpg", jpg_quality=50))))
                 img.thumbnail((max_image_dim, max_image_dim))
 
                 buffer = io.BytesIO()
-                img.save(buffer, format="JPEG", quality=50)
+                img.save(buffer, format="PNG" if lossless else "JPEG", quality=50)
                 images[page_num] = base64.b64encode(buffer.getvalue()).decode("utf-8")
         finally:
             doc.close()
@@ -232,7 +235,7 @@ class PDFHandler:
         the two axes: height fits, width fills, neither constraint is
         violated.
         """
-        text = (text or "").strip()
+        text = searchable_text(text or "").strip()
         if not text:
             return  # empty box — nothing to embed
 

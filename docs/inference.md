@@ -4,7 +4,7 @@ The OCR pipeline does not start, load, or manage an inference server. Run a visi
 
 ## Configuration
 
-The existing defaults remain `http://localhost:1234/v1` for the API endpoint, `allenai/olmocr-2-7b` for hybrid/text-only OCR, and `qwen/qwen3-vl-8b` for grounded OCR. These values do not require a particular server application. `LLMConfig.from_env()` uses the hybrid model default; `PromptedGroundedOCR` supplies its own model fallback.
+The defaults are `http://localhost:1234/v1` for the API endpoint and `lightonai/LightOnOCR-3-4B` for every OCR mode. These values do not require a particular server application. `LLMConfig.from_env()` resolves the same model used by `OCRProcessor` and `PromptedGroundedOCR`.
 
 To override them, set `LLM_API_BASE` and `LLM_MODEL` in the environment or a local `.env`, or pass `--api-base` and `--model`. Explicit values take precedence over environment settings, which take precedence over defaults. `LLM_MODEL`, when set, overrides the model in every mode. An endpoint includes its API prefix, such as `http://localhost:11434/v1` or `http://localhost:8000/v1`; custom prefixes are supported. The same configuration is used for full-page, crop, and grounded OCR, and for the web model picker.
 
@@ -25,11 +25,16 @@ from pdf_ocr import (
     LLMConfig, OCRPipeline, OCRProcessor, OpenAICompatibleClient, PDFHandler,
 )
 from pdf_ocr.core.text import TextHandler
+from pdf_ocr.core.profiles import resolve_profile
 
 
 async def extract_text(input_path, output_path):
     config = LLMConfig.from_env()
-    async with OpenAICompatibleClient(config) as client:
+    profile = resolve_profile(config.model)
+    async with OpenAICompatibleClient(
+        config, image_first=profile.image_first,
+        generation_options=dict(profile.sampling),
+    ) as client:
         processor = OCRProcessor(model=config.model, client=client)
         await processor.ensure_model_available()
         pipeline = OCRPipeline(
@@ -52,13 +57,13 @@ PaddleOCR-VL uses `OCR:` for transcription and `Spotting:` for grounded output. 
 
 Crop transcription requests literal text rather than page-level figure descriptions or table markup. OlmOCR first reads the ordinary strip crop. If it returns unexpected mathematics or code formatting, it retries on a square paper canvas with the source ink size retained, capped at 1024 pixels. Padding every crop lost small details, so this alternate view is limited to format failures. The model preference is exposed as `OCRProcessor.crop_canvas_size`; custom processors may supply this optional attribute. Blank detection and neighbor masking happen before canvas padding, and the region deadline includes both views and truncation retries.
 
-In automatic hybrid mode, table/diagram flags select region OCR because linear alignment cannot reliably place cells or diagram labels. For single-column pages with at least eight detected boxes, any skipped line or box also triggers region OCR: a mostly complete sequence alignment can still shift every later field. Multi-column pages keep their page context unless fewer than half their boxes match; column wrapping alone should not replace a sound transcription with isolated-word reads.
+For model profiles without native coordinates, automatic hybrid mode uses table/diagram flags to select region OCR because linear alignment cannot reliably place cells or diagram labels. For single-column pages with at least eight detected boxes, any skipped line or box also triggers region OCR: a mostly complete sequence alignment can still shift every later field. Multi-column pages keep their page context unless fewer than half their boxes match; column wrapping alone should not replace a sound transcription with isolated-word reads.
 
 After region OCR anchors the positions, strongly agreeing crop words can identify a unique span in the full-page transcription, including part of a longer line. That span retains context lost by isolated crops. Blank regions and short labels are not populated from page text, differing numbers are not substituted, and similarly plausible competing spans keep the crop reading. Agreement is a heuristic rather than a calibrated confidence probability; the live checks exercise both recognition and field placement.
 
 Crop images are rendered lazily from the selected source page at up to 2048 pixels, independently of the full-page thumbnail. Custom PDF handlers may implement `render_page_for_crops(path, page_index, dpi)`; otherwise the pipeline uses their existing images. Rectified photographs keep their rectified image so crop coordinates remain in the correct frame.
 
-Grounded pages, recovery regions and the detailed source used for crop OCR use lossless PNG. Hybrid PDF thumbnails retain their established JPEG preprocessing: changing those pixels also changed layout detections and regressed the default model's live recognition. Source crops are rendered independently, avoiding enlargement of thumbnail compression artifacts. The image dimension cap still applies, and the transport identifies JPEG or PNG from its bytes. Output PDF background compression is independent of inference preprocessing.
+Grounded pages, native-layout hybrid pages, recovery regions and detailed crop sources use lossless PNG. Other hybrid profiles retain their established JPEG preprocessing, validated with the earlier olmOCR model. Source crops render independently, avoiding enlargement of thumbnail compression artifacts. The image dimension cap applies, and the transport identifies JPEG or PNG from its bytes. Output PDF background compression is independent of inference preprocessing.
 
 ## Generation limits and grounded recovery
 
@@ -85,6 +90,12 @@ See [evaluation provenance](../evals/README.md) for page-aware scoring, source-v
 ## Page selection contracts
 
 `PDFHandler.convert_to_images(..., pages="2,4")` selects before rasterizing and returns images keyed by original zero-based source indices, here `1` and `3`. TIFF and other multi-frame image inputs use the same selection rule. Custom PDF handlers should accept the optional `pages` keyword and preserve source indices.
+
+Native-layout model profiles additionally request `lossless=True` from the PDF handler. Their hybrid path calls `OCRProcessor.perform_ocr_with_layout()`, which shares the grounded parser and bounded recovery through `PromptedGroundedOCR.ocr_image()`. It preserves native reading order and source words; an unambiguous overlap with a detected line can improve its coordinates. Dense-mode auto selection and crop refinement do not replace these page reads with isolated-word recognition. Explicit `--dense-mode always` still requests crops.
+
+LightOnOCR-3 uses image-first messages, its native empty/`grounding` prompts, a 2048-pixel page cap, and greedy decoding. If a native response is truncated or has invalid coordinates, it gets one same-image retry at temperature 0.2 before region subdivision. All retries share the existing page deadline. Serve the official LightOn chat template with thinking disabled; llama.cpp accepts `--chat-template-file path/to/chat_template.jinja --reasoning off`. A reasoning-only response raises a configuration error instead of treating internal reasoning as recognized document text. Injected clients must supply their model's image ordering and optional sampling settings, as in the example above.
+
+An inline letter/subscript expression inside prose gets a second reading of the same page through native plain transcription. A uniquely matching prose line can restore an uppercase acronym with the same length and similar letters. This addresses grounding responses that invent mathematical notation for abbreviations; it does not use reference documents, a correction dictionary, or substitutions without matching source context. Numeric subscripts, equations and conflicting alternatives retain the original read. Verification shares the page deadline, and an unavailable verification request leaves the original valid blocks intact. Explicit custom prompts disable this verification. Searchable PDF/HTML layers decode HTML table rows into cell text; Markdown retains the native table structure.
 
 Grounded backends accept the same `pages` keyword and select before rendering or inference. A `GroundedResponse` includes `page_indices`, aligned with `page_sizes`, for every selected page even when recognition fails. Its blocks use original source indices. This lets the pipeline distinguish an unselected page from a selected page with missing text; older full-document backends may leave `page_indices=None` to retain the contiguous-page contract. The experimental `ZAIHostedOCR` skeleton rejects page selections because its service-side selection API has not been implemented.
 

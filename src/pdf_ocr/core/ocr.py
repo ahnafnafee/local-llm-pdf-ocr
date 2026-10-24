@@ -85,9 +85,10 @@ def _is_fallback_response(text: str) -> bool:
 class OCRLines(list):
     """Transcribed lines with an optional layout hint for hybrid alignment."""
 
-    def __init__(self, lines, *, requires_region_ocr=False):
+    def __init__(self, lines, *, requires_region_ocr=False, grounded_blocks=None):
         super().__init__(lines)
         self.requires_region_ocr = requires_region_ocr
+        self.grounded_blocks = grounded_blocks
 
 
 class OCRProcessor:
@@ -129,6 +130,7 @@ class OCRProcessor:
         self.api_base = config.api_base
         self.model = config.model
         self.profile = resolve_profile(self.model, profile)
+        self.native_layout = self.profile.native_layout and page_prompt is None
         self.temperature = self.profile.temperature
         # A bounded page canvas is an alternate view for format failures,
         # not the primary crop: padding every region loses small details.
@@ -189,6 +191,28 @@ class OCRProcessor:
             front_matter.group(1), re.IGNORECASE | re.MULTILINE,
         ))
         return OCRLines(_strip_runaway_repetition(lines), requires_region_ocr=region_layout)
+
+    async def perform_ocr_with_layout(self, image_base64: str) -> list[str]:
+        """Preserve native page geometry when the model supports it.
+
+        Generic recognizers retain the text-only interface. Native page models
+        share the grounded backend's parsers, deadlines and region recovery.
+        The transport remains injected and owned by this processor's caller.
+        """
+        if not self.native_layout:
+            return await self.perform_ocr(image_base64)
+        from pdf_ocr.core.grounded import PromptedGroundedOCR
+
+        backend = PromptedGroundedOCR(
+            api_base=self.api_base, model=self.model, client=self.client,
+            profile=self.profile.name, max_image_dim=4096,
+            timeout_s=self.PAGE_TIMEOUT_S, max_tokens=self.PAGE_MAX_TOKENS,
+        )
+        response = await backend.ocr_image(image_base64)
+        if response.page_errors or not response.blocks:
+            raise LLMCallError("Native page OCR failed: " + "; ".join(response.page_errors.values()))
+        return OCRLines([block.text for block in response.blocks],
+                        grounded_blocks=[(block.bbox, block.text) for block in response.blocks])
 
     async def perform_ocr_on_crop(self, image_base64: str) -> str:
         """

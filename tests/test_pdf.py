@@ -291,3 +291,16 @@ def test_avif_input_round_trip(pdf_handler: PDFHandler, tmp_path: Path):
     with fitz.open(output_pdf) as doc:
         assert len(doc) == 1
         assert marker in doc[0].get_text("text")
+
+def test_native_html_table_embeds_visible_cells_at_row_positions():
+    import fitz
+    from pdf_ocr.core.pdf import PDFHandler
+
+    with fitz.open() as doc:
+        page = doc.new_page(width=600, height=800)
+        PDFHandler._draw_invisible_text(page, [.1,.2,.9,.4],
+            "<table>\n<tr><td>Alpha</td><td>Beta</td></tr>\n<tr><td>Gamma</td><td>Delta</td></tr>\n</table>", 600, 800)
+        text = page.get_text()
+        assert "Alpha Beta" in text and "Gamma Delta" in text
+        assert "<table>" not in text and "<td>" not in text
+        assert page.search_for("Alpha")[0].y0 < page.search_for("Gamma")[0].y0

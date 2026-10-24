@@ -97,6 +97,34 @@ class _StubPDF:
         self.last_pages = dict(pages)
 
 
+async def test_native_page_coordinates_bypass_dense_crops_and_dp(tmp_path):
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock, Mock
+    from pdf_ocr.core.ocr import OCRLines
+
+    boxes = [[.1,.2,.9,.3], [.1,.7,.9,.8]]
+    processor = SimpleNamespace(
+        native_layout=True,
+        perform_ocr_with_layout=AsyncMock(return_value=OCRLines(
+            ["First", "Last"], grounded_blocks=[(boxes[0], "First"), (boxes[1], "Last")],
+        )),
+        perform_ocr_on_crop=AsyncMock(side_effect=AssertionError("must retain page context")),
+    )
+    aligner = SimpleNamespace(
+        get_detected_boxes_batch=Mock(return_value=[boxes]),
+        align_text=Mock(side_effect=AssertionError("native geometry must bypass DP")),
+    )
+    handler = _StubPDF(n_pages=1)
+    handler.convert_to_images = Mock(return_value={3: _make_tiny_b64_image()})
+    pipe = OCRPipeline(aligner=aligner, ocr_processor=processor, pdf_handler=handler)
+    await pipe.run("source.pdf", str(tmp_path/"out.pdf"), pages="4", dense_threshold=1,
+                   preprocess="never")
+    assert handler.last_pages == {3: [(boxes[0], "First"), (boxes[1], "Last")]}
+    assert handler.convert_to_images.call_args.kwargs == {"pages": "4", "lossless": True}
+    assert processor.perform_ocr_with_layout.await_count == 1
+    processor.perform_ocr_on_crop.assert_not_awaited()
+
+
 class TestMinBoxConfidence:
     """Opt-in pre-alignment confidence cut. Off by default; boxes with
     no confidence attribute (plain lists, custom aligners) always pass."""

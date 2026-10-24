@@ -55,10 +55,10 @@ def test_invalid_endpoint_is_reported_even_in_quiet_mode(monkeypatch, capsys):
 
 
 @pytest.mark.parametrize("mode, expected_model, response", [
-    ("--text-only", "allenai/olmocr-2-7b", "recognized"),
-    ("--grounded", "qwen/qwen3-vl-8b", '[{"bbox_2d":[0,0,100,50],"content":"recognized"}]'),
+    ("--text-only", "lightonai/LightOnOCR-3-4B", "recognized"),
+    ("--grounded", "lightonai/LightOnOCR-3-4B", '![text](0,0,100,50)\nrecognized'),
 ])
-def test_cli_uses_existing_defaults_without_configuration(monkeypatch, tmp_path, mode, expected_model, response):
+def test_cli_uses_lighton_default_without_configuration(monkeypatch, tmp_path, mode, expected_model, response):
     import fitz
 
     from pdf_ocr.cli import main

@@ -33,6 +33,14 @@ def test_profile_output_budget_preserves_explicit_limits():
     assert PromptedGroundedOCR(model="other").max_tokens == 4096
 
 
+def test_custom_prompt_preserves_explicit_transcription_strategy():
+    ocr = OCRProcessor(model="lightonai/LightOnOCR-3-4B", page_prompt="My transcription prompt")
+    assert not ocr.native_layout
+    assert ocr.page_prompt == "My transcription prompt"
+    grounded = PromptedGroundedOCR(model="lightonai/LightOnOCR-3-4B", prompt="Custom grounding")
+    assert not grounded._verify_inline_identifiers
+
+
 def test_native_grounding_preserves_text_order_and_excludes_descriptions():
     raw = ("![title](100,20,800,90)\n# A title\n"
            "![image](100,100,800,300)\nA generated picture description\n"
@@ -75,7 +83,48 @@ async def test_native_grounding_uses_native_completion_and_source_page_index(tmp
     assert result.blocks[0].text == "Source words"
     client.complete_json.assert_not_called()
     assert client.complete.call_args.args[0] == "grounding"
-    assert client.complete.call_args.kwargs["temperature"] == 0.2
+    assert client.complete.call_args.kwargs["temperature"] == 0.0
+
+
+async def test_hybrid_native_layout_reuses_transport_and_validated_parser():
+    import base64
+    import io
+    from PIL import Image
+
+    buffer = io.BytesIO()
+    Image.new("RGB", (600, 800), "white").save(buffer, format="PNG")
+    client = SimpleNamespace(complete=AsyncMock(return_value=(
+        "![text](100,200,800,300)\nOriginal speling\n"
+        "![image](0,400,900,900)\nA generated description"
+    )), aclose=AsyncMock())
+    ocr = OCRProcessor(model="lightonai/LightOnOCR-3-4B", client=client)
+    lines = await ocr.perform_ocr_with_layout(base64.b64encode(buffer.getvalue()).decode())
+    assert lines == ["Original speling"]
+    assert lines.grounded_blocks == [([.1,.2,.8,.3], "Original speling")]
+    assert client.complete.call_args.args[0] == "grounding"
+    await ocr.aclose()
+    client.aclose.assert_not_awaited()
+
+
+async def test_native_decoding_recovers_invalid_geometry_before_cropping():
+    import base64
+    import io
+    from PIL import Image
+
+    buffer = io.BytesIO()
+    Image.new("RGB", (600, 800), "white").save(buffer, format="PNG")
+    client = SimpleNamespace(complete=AsyncMock(side_effect=[
+        "![text](10,10,140,1200)\nMalformed geometry",
+        "![text](100,200,800,300)\nSource words",
+    ]))
+    backend = PromptedGroundedOCR(model="lightonai/LightOnOCR-3-4B", client=client)
+    response = await backend.ocr_image(base64.b64encode(buffer.getvalue()).decode())
+    assert not response.page_errors
+    assert [b.text for b in response.blocks] == ["Source words"]
+    calls = client.complete.call_args_list
+    assert len(calls) == 2
+    assert calls[0].args[1] == calls[1].args[1]
+    assert [c.kwargs["temperature"] for c in calls] == [0.0, 0.2]
 
 
 def test_paddle_spotting_preserves_polygon_text_and_source_page():
