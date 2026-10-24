@@ -277,6 +277,47 @@ def _clamp(v: float) -> float:
     return max(0.0, min(1.0, v))
 
 
+def _text_ink_coverage(image, blocks: list[GroundedBlock]) -> float | None:
+    """Conservative evidence for a response confined to a small page fragment.
+
+    Count dark source pixels under the reported boxes, allowing a small margin
+    for imperfect coordinates. This is not an OCR confidence score: pictures
+    also contain ink. It is only used to request a second view after a severely
+    incomplete full-page response, never to infer words from the pixels itself.
+    Uniform backgrounds and pages with too little dark ink provide no evidence.
+    """
+    from PIL import Image, ImageChops, ImageDraw
+
+    gray = image.convert("L")
+    histogram = gray.histogram()
+    target = gray.width * gray.height * 0.9
+    count = 0
+    background = 255
+    for value, frequency in enumerate(histogram):
+        count += frequency
+        if count >= target:
+            background = value
+            break
+    threshold = min(160, background - 40)
+    if threshold <= 0:
+        return None
+    ink = gray.point(lambda value: 255 if value < threshold else 0)
+    total = ink.histogram()[255]
+    if total < max(64, gray.width * gray.height * 0.0001):
+        return None
+    covered = Image.new("L", gray.size, 0)
+    draw = ImageDraw.Draw(covered)
+    for block in blocks:
+        x0, y0, x1, y1 = block.bbox
+        draw.rectangle((
+            max(0, int((x0 - 0.01) * gray.width)),
+            max(0, int((y0 - 0.01) * gray.height)),
+            min(gray.width - 1, int((x1 + 0.01) * gray.width)),
+            min(gray.height - 1, int((y1 + 0.01) * gray.height)),
+        ), fill=255)
+    return ImageChops.multiply(ink, covered).histogram()[255] / total
+
+
 # --- reference backend: Z.AI hosted (HTTP, async task polling) -------------
 
 
@@ -451,6 +492,7 @@ class PromptedGroundedOCR:
             self.profile.grounding_prompt or DEFAULT_GROUNDING_PROMPT
         )
         self.grounding_format = self.profile.grounding_format
+        self._check_full_page_coverage = prompt is None and self.grounding_format == "json"
         self.coordinate_space = "auto" if prompt else "normalized_1000"
         self.timeout_s = timeout_s
         self.max_tokens = max_tokens if max_tokens is not None else self.profile.grounded_max_tokens
@@ -545,6 +587,13 @@ class PromptedGroundedOCR:
                     )
                 if not blocks and not (depth and _is_empty_grounded_json(text)):
                     raise LLMCallError("model returned no usable grounded text")
+                if depth == 0 and self._check_full_page_coverage:
+                    coverage = _text_ink_coverage(source_imgs[page_idx], blocks)
+                    if coverage is not None and coverage < 0.20:
+                        raise ValueError(
+                            f"Grounded boxes cover only {coverage:.1%} of source ink; "
+                            "retrying source regions to check for omitted text"
+                        )
                 return blocks
 
             source = source_imgs[page_idx]

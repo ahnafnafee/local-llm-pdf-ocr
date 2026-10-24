@@ -143,7 +143,11 @@ async def test_multiframe_images_only_convert_selected_frames(tmp_path, monkeypa
     convert = Image.Image.convert
 
     def record(image, *args, **kwargs):
-        converted.append(image.getpixel((0, 0))[0])
+        # Count source-frame conversion, not later grayscale analysis of
+        # an already selected image during grounded coverage validation.
+        mode = args[0] if args else kwargs.get("mode")
+        if mode == "RGB":
+            converted.append(image.getpixel((0, 0))[0])
         return convert(image, *args, **kwargs)
 
     monkeypatch.setattr(Image.Image, "convert", record)

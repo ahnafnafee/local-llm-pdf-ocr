@@ -391,6 +391,39 @@ async def test_truncated_page_is_retried_in_source_regions(tmp_path):
     assert complete.await_count == 4
 
 
+@pytest.mark.parametrize("custom_prompt", [None, "Read only the header"])
+async def test_grounded_recovers_valid_but_severely_partial_page(tmp_path, custom_prompt):
+    source = tmp_path / "ink.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page(width=300, height=900)
+        page.draw_rect(fitz.Rect(30, 20, 100, 25), fill=(0, 0, 0))
+        for y in range(350, 850, 30):
+            page.draw_rect(fitz.Rect(30, y, 270, y + 10), fill=(0, 0, 0))
+        doc.save(source)
+    header = '[{"bbox_2d":[100,20,350,35],"content":"Header"}]'
+    line = '[{"bbox_2d":[100,450,900,550],"content":"More source text"}]'
+    complete = AsyncMock(side_effect=[header, line, line, line])
+    backend = PromptedGroundedOCR(
+        model="qwen3-vl", client=SimpleNamespace(complete=complete), prompt=custom_prompt,
+    )
+    response = await backend.ocr_document(str(source))
+    assert response.page_errors == {}
+    assert complete.await_count == (1 if custom_prompt else 4)
+    assert len(response.blocks) == (1 if custom_prompt else 3)
+
+
+def test_ink_coverage_accepts_sparse_headers_and_uniform_backgrounds():
+    from PIL import Image, ImageDraw
+    from pdf_ocr.core.grounded import _text_ink_coverage
+
+    header = GroundedBlock([0.1, 0.02, 0.5, 0.08], "Header", 0)
+    for color in ["white", "black", "blue", "gray"]:
+        assert _text_ink_coverage(Image.new("RGB", (300, 900), color), [header]) is None
+    image = Image.new("RGB", (300, 900), "white")
+    ImageDraw.Draw(image).rectangle((40, 30, 140, 60), fill="black")
+    assert _text_ink_coverage(image, [header]) == 1.0
+
+
 async def test_grounded_enforces_deadline_for_injected_clients(tmp_path):
     source = tmp_path / "page.pdf"
     with fitz.open() as doc:
